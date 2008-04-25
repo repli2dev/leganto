@@ -1,0 +1,481 @@
+/* CTENARI.CZ */
+* {
+ font-family: "Geneva CE","Trebuchet MS", "Trebuchet CE", "Trebuchet", sans-serif;
+ margin: 0;
+ padding: 0;
+}
+body {
+ text-align: center
+}
+/* GENERAL ****************************************************************************/
+p {
+ margin: 10px 0;
+}
+h1 a, h2 a, h3 a, h4 a, h5 a, h6 a, h7 a {
+ text-decoration: none;
+}
+h1, h2, h3, h4 {
+ margin-bottom: 10px;
+ margin-top: 10px;
+}
+h1 img, h2 img {
+ vertical-align: middle;
+ margin-left: 15px;
+}
+ul,ol {
+margin-left: 30px;
+}
+a {
+ color: #801e1e;
+ text-decoration: underline;
+}
+a:focus, a:hover {
+ color: white;
+ background: #801e1e;
+ text-decoration: none;
+}
+table {
+ width: 100%;
+ margin-bottom: 10px;
+ border: none;
+}
+table a {
+ color: black;
+ text-decoration: none;
+}
+thead {
+ background: #ffb75e;
+ padding: 0 5px;
+ border: none;
+}
+tbody {
+ border: none;
+}
+tr:hover, tr:focus {
+ background: #f5ffc1;
+}
+td {
+ padding: 2px;
+ border: none;
+}
+.clear {
+ clear: both;
+ visibility: hidden;
+}
+.alert {
+ padding: 15px;
+ color: white;
+ background: #e98150;
+ margin: 10px 0;
+}
+.box {
+ background: #f5ffc1;
+ padding: 5px 15px 15px 15px;
+ margin-bottom: 10px;
+}
+.box ul {
+ margin-left: 30px;
+}
+#searchSimilarity,#addBookLink, #messageSendLink {
+ text-decoration: none;
+ font-weight: bold;
+ font-size: 1.2em;
+}
+/* FORM *******************************************************************************/
+form {
+ width: 100%;
+ margin-bottom: 10px;
+}
+fieldset {
+ background: #f5ffc1;
+ padding: 10px;
+ border: none;
+}
+legend {
+ background: url('../image/greenHead.png');
+ padding: 10px;
+}
+textarea {
+ width: 100%;
+ height: 150px;
+ border: 1px solid #a6b7b7;
+}
+input[type="text"], input[type="password"] {
+ width: 250px;
+ border: 1px solid #a6b7b7;
+}
+label {
+ margin-left: 10px;
+}
+input[type="submit"] {
+ float: right;
+}
+select {
+ width: 150px;
+}
+/* LAYOUT *****************************************************************************/
+/* LOGO *******************************************************************************/
+#logo {
+ background: url('../image/logo.jpg') no-repeat;
+ height: 52px;
+ padding-left: 220px;
+ color: #801e1e;
+}
+/* MENU *******************************************************************************/
+#container {
+ width: 98%;
+ max-width: 1250px;
+ margin: 10px auto;
+ text-align: left;
+}
+#menu {
+ margin: 0 auto;
+ background: url('../image/menuItem.png');
+ height: 50px;
+ text-align: right;
+ vertical-align: middle;
+}
+#menu ul {
+ float: left;
+ margin: 0;
+}
+#menu li {
+ display: block;
+ height: 50px;
+ vertical-align: middle;
+ width: 100px;
+ float: left;
+ border-bottom: none;	
+}
+#menu li a {
+ text-align: center;
+ display: block;
+ text-decoration: none;
+ line-height: 50px;
+ vertical-align: middle;
+ background: url('../image/menuItemBoth.png') repeat-x;
+ background-positon: left -50px;
+ color: #801e1e;
+}
+#menu li a:focus, #menu li a:hover {
+ background: url('../image/menuItemHover.png');
+ color: white;
+}
+/* SEARCH *****************************************************************************/
+#search {
+ width: auto;
+ float: right;
+ height: 50px;
+ vertical-align: middle;
+}
+#search fieldset {
+ margin: 0;
+ padding: 0;
+ border: 0;
+ padding-left: 10px;
+ padding-right: 10px;
+ background: url('../image/menuItem.png');
+}
+#search fieldset p { 
+ margin: 0;
+ text-align: right;
+ line-height: 50px;
+ vertical-align: middle;
+}
+#search fieldset input[type="text"]{
+ width: 150px;
+ margin-top: 10px;	
+ margin-right: 10px;
+ border: none;
+ height: 1.4em;
+}
+#search select {
+  width: 120px;
+  border: none;
+  height: 1.3em;
+  margin-top: 10px;
+  display: inline;
+}
+#search fieldset input {
+ margin-top: 15px;
+ float: none;
+ display: inline;
+}
+/* MIDDLE *****************************************************************************/
+#middle {
+ margin: 10px 0;
+ width: 100%;
+}
+/* CONTENT ****************************************************************************/
+#content {
+ width: 68%;
+ float: left;
+}
+/* USER LIST *************************************************************************/
+#userList {
+ background: #f5ffc1;
+ padding: 5px;
+ margin: 0 0 10px 0;
+ overflow: 
+}
+#userList h3 {
+ margin: -5px -5px 5px -5px;
+ background: url('../image/greenHead.png');
+ padding: 0 5px;
+ font-weight: normal;
+}
+#userList a {
+ text-decoration: none;
+ margin: 0 5px;	
+}
+/* COLUMN ****************************************************************************/
+#column {
+ float: right;
+ width: 30%;
+}
+#column div {
+ background: #f5ffc1;
+ padding: 5px;
+ margin: 0 0 10px 0;
+}
+#column ul {
+ margin-left: 30px;
+}
+#column h3 {
+ margin: -5px -5px 5px -5px;
+ background: url('../image/orangeHead.png');
+ padding: 0 5px;
+ font-weight: normal;
+}
+#column input[type="text"],#column input[type="password"] {
+ width: 150px;
+}
+#column input[type="submit"].loginSubmit {
+ float: left;
+}
+#column form a {
+ float: right;
+}
+/* FOOTER ****************************************************************************/
+#footer {
+ clear: both;
+ text-align: center;
+ border-top: 5px solid #ff8d00;
+ margin-top: 10px;
+ padding: 5px;
+}
+/* TAG LIST **************************************************************************/
+#tagList {
+ background: #f5ffc1;
+ padding: 5px;
+}
+#tagList a {
+ text-decoration: none;
+ margin: 0 5px;
+}
+/* LOGIN *****************************************************************************/
+#login a {
+ float: left;
+}
+#login form {
+ margin: 0;
+}
+#login fieldset {
+ padding: 2px;
+}
+/* ADD TAG FORM **********************************************************************/
+#addTagForm fieldset {
+ background: url('../image/orangeHead.png');
+ margin: 0 0 10px 0;
+}
+#addTagForm p {
+ margin: 0;		
+}
+#addTagForm input[type="text"] {
+ float: left;
+ border: none;
+}
+/* BOOK BY FAVOURITE *****************************************************************/
+.bookByFavourite {
+ padding: 5px;
+}
+.bookByFavourite a {
+ text-decoration: none;
+ margin: 0 10px 0 0;
+}
+/* BOOK BOX **************************************************************************/
+#topBook, #newBook {
+ background: #f5ffc1;
+ padding: 5px;
+ margin: 0 0 10px 0;
+}
+#topBook h3, #newBook h3 {
+ margin: -5px -5px 5px -5px;
+ vertical-align: middle;
+ background: url('../image/greenHead.png');
+ padding: 0 5px;
+ font-weight: normal;
+}
+#topBook table, #newBook table {
+ margin: 0;
+}
+#topBook td, #newBook td {
+ width: 40%;
+}
+/* OPINION LIST *********************************************************************/
+#opinionList h3 {
+ background: url('../image/greenHead.png');
+}
+#opinionList a {
+ text-decoration: none;
+ margin: 0 5px;	
+}
+/* USER INFO ***********************************************************************/
+#user .ico {
+ border: 3px double black;
+}
+#user .description {
+ border: 0;
+ overflow: auto;
+ max-height: 200px;
+ margin: -10px 0px;
+}
+#user .ico {
+ float: right;
+ margin: 10px;
+}
+.makeFavourite, .destroyFavourite {
+ text-align: right;
+}
+/* DISCUSSION **********************************************************************/
+.discussionItem {
+ margin-bottom: 10px;
+}
+
+.discussionItem img.gravatar {
+ border: 20px solid #badad9;
+ width: 40px;
+ margin-bottom: 0;
+}
+.discussionItem .info {
+ font-size: 80%;
+ float: right;
+}
+.discussionItem .author, .discussionItem .date, .discussionItem .admin {
+ margin-left: 10px; 
+}
+.discussionItem .author {
+ font-weight: bold;
+}
+.discussionItem .content {
+ clear: both;
+ margin: 0;
+ background: #bdd5eb;
+ padding: 10px;
+}
+.discussionItem ul {
+ margin-left: 30px;
+}
+.discussionItem li {
+ margin-top: 5px;
+}
+/* COMMENT, MESSAGE *******************************************************************/
+#messageReadRecieved {
+ float: left;
+ width: 49%;
+}
+#messageReadSent {
+ float: right;
+ width: 49%;
+}
+.comment,.message {
+ margin-bottom: 10px;
+}
+
+.comment img.gravatar, .message img.gravatar {
+ border: 20px solid #badad9;
+ width: 40px;
+ margin-bottom: 0;
+}
+.comment .info, .message .info {
+ font-size: 80%;
+ float: right;
+}
+.comment .number + .comment .author, .comment .date, .comment .admin , .message .author, .message .date, .message .admin, .message .arrow{
+ margin-left: 10px; 
+}
+.comment a.number {
+ font-weight: bold;
+ font-size: 1.5em;
+}
+.comment .author, .message .author {
+ font-weight: bold;
+}
+.comment .content, .message .content {
+ clear: both;
+ margin: 0;
+ background: #bdd5eb;
+ padding: 10px;
+}
+.comment ul {
+ margin-left: 30px;
+}
+/* OPINION *************************************************************************/
+#opinion .content {
+ clear: both;
+ margin: 10px 0;
+ background: #bdd5eb;
+ padding: 10px;
+}
+/* ADVERTISEMENT,ADDON *************************************************************/
+.advertisement,.addon {
+ background: #f5ffc1;
+ padding: 10px;
+ margin: 10px 0;
+}
+.addon img {
+ margin-left: 10px;
+ margin-right: 10px;
+}
+.addon p {
+ margin-left: 10px;
+ margin-right: 10px;
+}
+/* PAGE ****************************************************************************/
+#page {
+ margin: 5px 0 10px 0;
+ padding-top: 5px;
+ border-top: 1px dotted black;
+}
+#backward, #forward {
+ display: block;
+}
+#backward {
+ float: left;
+}
+#forward {
+ float: right;	
+}
+/* TAG_X ***************************************************************************/
+.tag1 {
+ font-size: 110%;
+}
+.tag2 {
+ font-size: 120%;
+}
+.tag3 {
+ font-size: 130%;
+}
+.tag4 {
+ font-size: 140%;
+}
+.tag5 {
+ font-size: 150%;
+}
+/* OTHER ***************************************************************************/
+#bookListMod input {
+ float: none;
+}
+#tagListMod input {
+ float: none;
+}
