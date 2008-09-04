@@ -1,1 +1,0 @@
-<a href="search.php?searchWord=<?php echo $urlTag ?>&amp;column=tag" title="<?php echo $tag->name ?>" class="tag<?php echo $tag->size ?>"><?php echo $tag->name ?></a> 

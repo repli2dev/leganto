@@ -1,1 +1,0 @@
-<a href="user.php?user=<?php echo $book->opinionUser ?>&amp;opinion=<?php echo $book->opinionID ?>&amp;action=opinion" title="<?php echo "$book->title - $book->writerName - $book->rating*" ?>"><?php echo $book->title ?></a> 

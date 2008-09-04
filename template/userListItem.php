@@ -1,1 +1,0 @@
-<a href="user.php?user=<?php echo $user->id ?>" title="<?php echo $user->name ?>"><?php echo $user->name ?></a> 
