@@ -1,0 +1,23 @@
+@CHARSET "UTF-8";
+.suggest {
+    margin-top:20px;
+    margin-left:-180px;
+    position: absolute;
+    background-color: #FFFFFF;
+    border: 1px solid #CCCCFF;
+    font-size: 90%;
+    width: 175px;
+}
+.suggest div {
+    display: block;
+    width: 175;
+    overflow: hidden;
+    white-space: nowrap;
+}
+.suggest div.select{ /* keydown, keyup */
+    color: #FFFFFF;
+    background-color: #3366FF;
+}
+.suggest div.over{ /* mouse over */
+    background-color: #99CCFF;
+}
