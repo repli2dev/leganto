@@ -58,47 +58,95 @@ class UserSim extends MySQLTableUserSim {
  	@return void
  	*/
  	public static function updateAll() {
+ 		//vyprazdni tabulku s podobnosti
  		$sql = "TRUNCATE TABLE ".self::getTableName();
  		MySQL::query($sql,__FILE__,__LINE__);
+ 		//kolik je uzivatelu
  		$sql = "
- 			SELECT
- 				".User::getTableName().".id AS owner
- 			FROM ".User::getTableName()."
- 			INNER JOIN ".Opinion::getTableName()." ON ".User::getTableName().".id = ".Opinion::getTableName().".user
- 			GROUP BY owner 
- 			HAVING count(".Opinion::getTableName().".id) > 9
- 			ORDER BY owner";
+ 				SELECT 
+ 				".User::getTableName().".id
+ 				FROM ".User::getTableName()."
+ 				WHERE 1";
  		$res = MySQL::query($sql,__FILE__,__LINE__);
- 		while($record = mysql_fetch_object($res)) {
-			$owner = $record->owner;
-			$sql = "
-				SELECT
-					".User::getTableName().".id AS usID,
-					(
-						SELECT
-						AVG(IF(".BookSim::getTableName().".similarity IS NULL,0,".BookSim::getTableName().".similarity))
-						FROM ".BookSim::getTableName()."
-						INNER JOIN ".Opinion::getTableName()." AS opTable1 ON ".BookSim::getTableName().".book = opTable1.book
-						INNER JOIN ".Opinion::getTableName()." AS opTable2 ON ".BookSim::getTableName().".bookFriend = opTable2.book
-						WHERE
-						opTable1.user = usID
-						AND
-						opTable2.user = $owner
-					)*1000 AS similarity
-				FROM ".User::getTableName()."
-				INNER JOIN ".Opinion::getTableName()." ON ".User::getTableName().".id = ".Opinion::getTableName().".user
-				WHERE ".User::getTableName().".id != $owner
-				GROUP BY usID
-				ORDER BY similarity DESC
-				LIMIT 0,".self::LIST_LIMIT."		 
-			";
-			$res2 = MySQL::query($sql,__FILE__,__LINE__);
-			while ($record2 = mysql_fetch_object($res2)) {
-				if ($record2->similarity) { 
-					MySQL::insert(self::getTableName(),array("owner" => $owner, "user" => $record2->usID,"similarity" => $record2->similarity));
-				}
-			}
+ 		while($record = mysql_fetch_object($res)){
+ 			//echo "<br>".$record->id.":";
+ 			$sql = "
+ 				SELECT 
+ 				".User::getTableName().".id
+ 				FROM ".User::getTableName()."
+ 				WHERE id > ".$record->id." AND (SELECT COUNT(".Opinion::getTableName().".book) FROM ".Opinion::getTableName()." WHERE user > ".$record->id." GROUP BY book LIMIT 1) > 10";
+ 			$res2 = MySQL::query($sql,__FILE__,__LINE__);
+ 			while($record2 = mysql_fetch_object($res2)){
+ 				if($record->id < $record2->id){
+ 					//echo "".$record2->id." ";
+ 					//vyber ctenarskeho deniku jednoho uzivatele
+	 				$sql_left = "
+	 						SELECT
+	 						".Opinion::getTableName().".user,
+	 						".Opinion::getTableName().".book,
+	 						".Opinion::getTableName().".rating
+	 						FROM ".Opinion::getTableName()."
+	 						WHERE
+	 						".Opinion::getTableName().".user = ".$record->id."";
+	 				$res_left = MySQL::query($sql_left,__FILE__,__LINE__);
+	 				//vyber ctenarskeho deniu druheho uzivatele
+	 				$sql_right = "
+	 						SELECT
+	 						".Opinion::getTableName().".user,
+	 						".Opinion::getTableName().".book,
+	 						".Opinion::getTableName().".rating
+	 						FROM ".Opinion::getTableName()."
+	 						WHERE
+	 						".Opinion::getTableName().".user = ".$record2->id."";
+	 				$res_right = MySQL::query($sql_right,__FILE__,__LINE__);
+	 				//vypocet podobnosti
+	 				$nums_left = mysql_num_rows($res_left);
+	 				$nums_right = mysql_num_rows($res_right);
+	 				if($nums_left > $nums_right){
+	 					$nums_all = $nums_left;
+	 				} else {
+	 					$nums_all = $nums_right;
+	 				}
+	 				if($nums_left > 10 AND $nums_right > 10){
+		 				$pole_sjednoceni = array();
+		 				for($k = 0; $k < $nums_all; $k++){
+		 					//nacist radky z obou deniku
+		 					$record_left = mysql_fetch_object($res_left);
+		 					$record_right = mysql_fetch_object($res_right);
+		 					//-1 protoze jsem pocital s <0-4>
+		 					$pole_sjednoceni[$record_left->book]["delta"] = $record_left->rating - 1;
+		 					$pole_sjednoceni[$record_left->book]["pocet"] = 1;
+		 					$pole_sjednoceni[$record_right->book]["delta"] = $pole_sjednoceni[$record_right->book]["delta"] - ($record_left->rating -1);
+		 					$pole_sjednoceni[$record_right->book]["pocet"]++;
+		 					$pole_sjednoceni[$record_right->book]["delta"] = abs($pole_sjednoceni[$record_right->book]["delta"]);
+		 				}
+		 				$skore = 0;
+		 				foreach($pole_sjednoceni as $radek){
+		 					if($radek["pocet"] == 2){
+								if($radek["delta"] == 0) $prirustek = 10; else
+								if($radek["delta"] == 1) $prirustek = 8; else
+								if($radek["delta"] == 2) $prirustek = 6; else
+								if($radek["delta"] == 3) $prirustek = 4; else
+								if($radek["delta"] == 4) $prirustek = 2; else
+								$prirustek = 0;
+			 						
+			 					$skore = $skore + $prirustek; 
+		 					}
+		 				}
+		 				//pro levou stranu
+		 				$podobnost1 = ($skore/$nums_left)*10;
+		 				//pro pravous tranu
+		 				$podobnost2 = ($skore/$nums_right)*10;
+		 				//zapis podobnosti
+		 				if($podobnost1 != 0)
+	 						MySQL::insert(self::getTableName(),array("owner" => $record->id, "user" => $record2->id,"similarity" => $podobnost1));
+	 					if($podobnost2 != 0)
+	 						MySQL::insert(self::getTableName(),array("owner" => $record2->id, "user" => $record->id,"similarity" => $podobnost2));
+	 				}
+ 				}
+	 		}
  		}
+ 		echo "DONE";
  	}	
 	
 }
