@@ -214,5 +214,31 @@ class HTMLTag extends Object {
 			echo "<$this->tag $atribut $evt />\n";
 		}
 	}	
+	/**
+	* Vrátí tag.
+	* @return string
+	*/
+	public function getWholeTag() {
+		$evt = "";
+		$wholeTag = "";
+		foreach ($this->event AS $key => $value) {
+			$evt .= " $key = \"$value\"";
+		}
+		$atribut = "";
+		foreach ($this->atribut AS $key => $value) {
+			$atribut .= " $key=\"$value\"";
+		}
+		if ($this->pair) {
+			$wholeTag = "\n<" . $this->tag . $atribut . $evt . ">";
+			foreach($this->value AS $item) {
+				$item->getWholeTag(); //snad bude fungovat, nevim na cem otestovat
+			}
+			$wholeTag = "</$this->tag>";
+		}
+		else {
+			$wholeTag = "<$this->tag $atribut $evt />\n";
+		}
+		return $wholeTag;
+	}
 }
 ?>

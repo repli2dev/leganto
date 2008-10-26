@@ -23,22 +23,22 @@ class MySQL {
 	/**
 	* @var string Server, na kterem bezi databaze.
 	*/
-	private static $server = "localhost:3306";
+	private static $server = "localhost";
 	
 	/**
 	* @var string Nazev databaze, se kterou pracuji.
 	*/
-	private static $database = "reader";
+	private static $database = "ctenari";
 
 	/**
 	* @var string Jmeno uzivatele databaze.
 	*/
-	private static $user = "reader_cz";
+	private static $user = "root";
 
 	/**
 	* @var string Heslo k databazi.
 	*/
-	private static $password = "terka90";
+	private static $password = "";
 
 	/**
 	* @var string Porovnavani spojeni.

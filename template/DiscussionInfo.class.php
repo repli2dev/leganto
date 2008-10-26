@@ -35,6 +35,7 @@ class DiscussionInfo extends Div {
 		}
 		$this->addValue($info);
 		unset($info);
+		
 		$content = new Div(new String($dis->text,TRUE));
 		$content->setClass("content");
 		$this->addValue($content);

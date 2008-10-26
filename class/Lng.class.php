@@ -11,6 +11,13 @@
 * @package reader
 */
 class Lng {
+ const S1 = "(štastný)";
+ const S2 = "(vysmátý)";
+ const S3 = "(šibalský)";
+ const S4 = "(smutný)";
+ const S5 = "(plačící)";
+ const S6 = "(vyplazující jazyk)";
+ const S7 = "(naštvaný)";
  const ID = "ID";
  const ABOUT = "O projektu";
  const ACCESS = "Přístup";

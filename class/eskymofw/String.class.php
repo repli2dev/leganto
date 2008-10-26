@@ -74,7 +74,8 @@ class String extends Object {
 	public function view() {
 		if ($this->switcherTexy) {
 			$texy = new Texy();
-			echo $texy->process($this->getValue());
+			$temp = $texy->process($this->getValue());
+			echo $this->smiles($temp);
 		}
 		else {
 			echo $this->getValue();
@@ -98,6 +99,38 @@ class String extends Object {
 	*/
 	public static function utf2lowerAscii($string) {
 		return strToLower(self::utf2ascii($string));
+	}
+	/**
+	* Prevede textove smajliky na obrazky
+	* @param string Retezec v kodovani UTF-8
+	* @return string
+	*/
+	public static function smiles($string){
+		//vytvoreni ukazkovych smajliku vcetne tridy
+		$a = new Img("/image/01.png",Lng::S1);
+		$a->setClass("smile");
+		$b = new Img("/image/02.png",Lng::S2);
+		$b->setClass("smile");
+		$c = new Img("/image/03.png",Lng::S3);
+		$c->setClass("smile");
+		$d = new Img("/image/04.png",Lng::S4);
+		$d->setClass("smile");
+		$e = new Img("/image/05.png",Lng::S5);
+		$e->setClass("smile");
+		$f = new Img("/image/06.png",Lng::S6);
+		$f->setClass("smile");
+		$g = new Img("/image/07.png",Lng::S7);
+		$g->setClass("smile");
+		//jejich náhrada v textu
+		$string = str_replace(":-)",$a->getWholeTag(),$string);
+		$string = str_replace(":-D",$b->getWholeTag(),$string);
+		$string = str_replace(";-)",$c->getWholeTag(),$string);
+		$string = str_replace(":-(",$d->getWholeTag(),$string);
+		$string = str_replace(":,–(",$e->getWholeTag(),$string);
+		$string = str_replace(":-P",$f->getWholeTag(),$string);
+		$string = str_replace("&gt;:(",$g->getWholeTag(),$string);
+		//navraceni retezcu se smajliky
+		return $string;
 	}
 }
 ?>
