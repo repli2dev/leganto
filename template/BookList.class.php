@@ -1,14 +1,13 @@
 <?php
 /**
-* @package reader
+* @package readerTemplate
 * @author Jan Papousek
 * @copyright Jan Papousek 2007
-* @link http://papi.chytry.cz
+* @link http://ctenar.cz
 */
-
 /**
-* Tato trida slouzi jako predek pro zobrazovane tabulky s knihami.
-* @package reader
+* Tabulka s vyhledanymi knihami.
+* @package readerTemplate
 */
 abstract class BookList extends Table {
 	
@@ -41,13 +40,17 @@ abstract class BookList extends Table {
 			$item = array(
 				new A($book->title,"book.php?book=".$book->id),
 				new A($book->writerName,"search.php?searchWord=".$book->writerName."&amp;column=writer&amp;order=writer"),
-				new Img("image/rating_".$book->rating.".png","")
+				new Img("image/rating_".$book->rating.".png",$book>-rating)
 			);
 			if ($this->switcherRead) {
 				$item[] = $book->countRead;
 			}
 			$this->addRow($item);
 		}
+	}
+	
+	public function view() {
+		die ("AAA");
 	}
 }
 ?>

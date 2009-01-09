@@ -1,4 +1,14 @@
 <?php
+/**
+* @package readerTemplate
+* @author Jan Papousek
+* @copyright Jan Papousek 2007
+* @link http://ctenar.cz
+*/
+/**
+* Tabulka s knihami, ktere precetl dany uzivatel.
+* @package readerTemplate
+*/
 class BookListUser extends BookList {
 	
 	public function __construct($user) {

@@ -34,7 +34,7 @@ class String extends Object {
 	} 
 
 	/**
-	 * Prevede strojovy format data do ceskeho (kratkeho).
+	 * Prevede strojovy format data do ceskeho.
 	 * @param string
 	 * @return string
 	 */
@@ -44,6 +44,16 @@ class String extends Object {
 	}
 
 	/**
+	 * Prevede strojovy kratky format do ceskeho.
+	 * @param string
+	 * @return string
+	 */
+	public static function dateFormatFromShortToShort($date) {
+		$date = preg_replace("/(\d{4})-0?([1-9]{1,2}0?)-0?([1-9]{1,2}0?)/","\\3. \\2. \\1",$date);
+		return $date;
+	}
+		
+	/**
 	 * Prevede strojovy format data do ceskeho (kratkeho).
 	 * @param string
 	 * @return string
@@ -52,7 +62,29 @@ class String extends Object {
 		$date = preg_replace("/(\d{4})-0?([1-9]{1,2}0?)-0?([1-9]{1,2}0?) 0?([0-9]{1,2}0?):(\d{2}):(\d{2})/","\\3.&nbsp;\\2.&nbsp;\\1",$date);
 		return $date;
  	}
-	
+
+ 	/**
+ 	 * Vrati informaci, ktera se ma vytisknout na obrazovku.
+ 	 */
+ 	public function getValue() {
+ 		if ($this->switcherTexy) {
+			$texy = new Texy();
+			return self::wikiLinks(self::smiles($texy->process(parent::getValue())));
+		}
+		else {
+			return parent::getValue();
+		}
+ 	}
+ 	
+ 	/**
+ 	 * 			Zjisti, zda je dany retezec ve formatu data (YYYY-MM-DD).
+ 	 * @param 	string	Kontrolovany retezec
+ 	 * @return 	boolean 
+ 	 */
+ 	public static function isDate ($string) {
+ 		return ereg("[0-9]{1,2}\.[ ]?[0-9]{1,2}\.[ ]?[0-9]{4}",$string);
+ 	}
+ 	
  	/**
  	 * Vrati nahodny retezec o dane delce.
  	 * @param int Delka vraceneho retezce.
@@ -66,22 +98,22 @@ class String extends Object {
  		}
  		return $result;
  	}
- 	
-	/**
-	* Vytiskne retezec na obrazovku.
-	* @return void
-	*/
-	public function view() {
-		if ($this->switcherTexy) {
-			$texy = new Texy();
-			$temp = $texy->process($this->getValue());
-			echo $this->smiles($temp);
-		}
-		else {
-			echo $this->getValue();
-		}
-	}
 
+	/**
+	 * 			Zkrati text na zadaný počet znaků - zkrati v mezere
+	 * @param 	string 	vkladany reteze
+	 * @param 	int 	pozadovana delka
+	 * @return 	string 	zkrácený řetězec
+	 */
+	function trimText($input,$length){
+		if (strlen($input) <= $length) {
+                return $input;
+        }
+		$last_space = strrpos(substr($input, 0, $length), ' ');
+		$trim_text = substr($input, 0, $last_space);
+		return $trim_text."...";
+	}
+ 	
 	/**
 	* Odstrani diakritiku z retezce
 	* @param string Retezec v kodovani UTF-8
@@ -100,6 +132,7 @@ class String extends Object {
 	public static function utf2lowerAscii($string) {
 		return strToLower(self::utf2ascii($string));
 	}
+	
 	/**
 	* Prevede textove smajliky na obrazky
 	* @param string Retezec v kodovani UTF-8
@@ -107,29 +140,44 @@ class String extends Object {
 	*/
 	public static function smiles($string){
 		//vytvoreni ukazkovych smajliku vcetne tridy
-		$a = new Img("/image/01.png",Lng::S1);
+		$a = new Img("image/smiles/01.png",Lng::SMILE_1);
 		$a->setClass("smile");
-		$b = new Img("/image/02.png",Lng::S2);
+		$b = new Img("image/smiles/02.png",Lng::SMILE_2);
 		$b->setClass("smile");
-		$c = new Img("/image/03.png",Lng::S3);
+		$c = new Img("image/smiles/03.png",Lng::SMILE_3);
 		$c->setClass("smile");
-		$d = new Img("/image/04.png",Lng::S4);
+		$d = new Img("image/smiles/04.png",Lng::SMILE_4);
 		$d->setClass("smile");
-		$e = new Img("/image/05.png",Lng::S5);
+		$e = new Img("image/smiles/05.png",Lng::SMILE_5);
 		$e->setClass("smile");
-		$f = new Img("/image/06.png",Lng::S6);
+		$f = new Img("image/smiles/06.png",Lng::SMILE_6);
 		$f->setClass("smile");
-		$g = new Img("/image/07.png",Lng::S7);
+		$g = new Img("image/smiles/07.png",Lng::SMILE_7);
 		$g->setClass("smile");
 		//jejich náhrada v textu
-		$string = str_replace(":-)",$a->getWholeTag(),$string);
-		$string = str_replace(":-D",$b->getWholeTag(),$string);
-		$string = str_replace(";-)",$c->getWholeTag(),$string);
-		$string = str_replace(":-(",$d->getWholeTag(),$string);
-		$string = str_replace(":,–(",$e->getWholeTag(),$string);
-		$string = str_replace(":-P",$f->getWholeTag(),$string);
-		$string = str_replace("&gt;:(",$g->getWholeTag(),$string);
+		$changes = array(	
+			":-)" => $a->getValue(),
+			":-D" => $b->getValue(),
+			";-)" => $c->getValue(),
+			":–(" => $d->getValue(),
+			":,–(" => $e->getValue(),
+			":-P" => $f->getValue(),
+			"&gt;:(" => $g->getValue()
+		);
 		//navraceni retezcu se smajliky
+		return strTr($string,$changes);
+	}
+	/**
+	 * Prevede wiki-like odkazy na skutečné odkazy
+	 * @param string Retezec v kodovani UTF8
+	 * @return string
+	 */
+	public static function wikiLinks($string){
+		$patterns[0] = '/\[([^)^\]\|]+)\]/';
+		$patterns[1] = '/\[([\S ^\]]+)\|([\S ^\]]+)\]/';
+		$replacement[0] = '<a href="search.php?searchWord=\\1&searchSubmitButton=Hledat">\\1</a>';
+		$replacement[1] = '<a href="search.php?searchWord=\\1&searchSubmitButton=Hledat">\\2</a>';
+		$string = preg_replace($patterns,$replacement,$string);
 		return $string;
 	}
 }

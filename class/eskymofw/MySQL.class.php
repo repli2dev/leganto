@@ -23,22 +23,22 @@ class MySQL {
 	/**
 	* @var string Server, na kterem bezi databaze.
 	*/
-	private static $server = "localhost";
+	private static $server = "mysql5";
 	
 	/**
 	* @var string Nazev databaze, se kterou pracuji.
 	*/
-	private static $database = "ctenari";
+	private static $database = "reader";
 
 	/**
 	* @var string Jmeno uzivatele databaze.
 	*/
-	private static $user = "root";
+	private static $user = "reader";
 
 	/**
 	* @var string Heslo k databazi.
 	*/
-	private static $password = "";
+	private static $password = "terka90";
 
 	/**
 	* @var string Porovnavani spojeni.
@@ -288,7 +288,7 @@ class MySQL {
 	*/
 	public static function formatValue($value) {
 		if ((gettype($value) != "integer") and (gettype($value) != "double") and ($value != "now()")) {
-			$value = "'$value'";
+			$value = "'".$value."'";
 		}
 		return $value;
 	}
@@ -328,7 +328,8 @@ class MySQL {
 			$value .= self::formatValue($item);
 		}
 		$sql = "INSERT INTO $tableName ($column) VALUES($value)";
-		MySQL::query($sql,__FILE__,__LINE__);		
+		MySQL::query($sql,__FILE__,__LINE__);
+		return mysql_insert_id();		
 	}
 
 	/**
@@ -357,4 +358,5 @@ class MySQL {
 		MySQL::query($sql,__FILE__,__LINE__);
 	}
 }
+//
 ?>

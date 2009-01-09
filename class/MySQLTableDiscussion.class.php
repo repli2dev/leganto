@@ -24,7 +24,7 @@ abstract class MySQLTableDiscussion {
 	/**
 	* @var array_string Nazvy poli tabulku v databazi, ktera se vzdy musi vyplnit.
 	*/
-	private static $importantColumns = array("user","text","date");
+	private static $importantColumns = array("user","text","date","follow", "type");
 	
 	/**
 	* Vrati nazev tabulky (i s prefixem).
@@ -105,7 +105,7 @@ abstract class MySQLTableDiscussion {
 			$condition .= $item;
 		}
 		$sql = "DELETE FROM ".self::getTableName()." WHERE $condition";
-		MySQL::query($sql);
+		MySQL::query($sql,__FILE__,__LINE__);
 	}
 
 	/**
@@ -151,14 +151,15 @@ abstract class MySQLTableDiscussion {
 	*/	
  	protected static function getCommonItems() {
  		return "
-	    		".self::getTableName().".id,
-	    		".self::getTableName().".topic,
-	    		".self::getTableName().".title,
-	    		".self::getTableName().".text,
-	    		".self::getTableName().".date,
+	    		".self::getTableName().".id AS id,
+	    		".self::getTableName().".follow AS follow,
+	    		".self::getTableName().".title AS title,
+	    		".self::getTableName().".text AS text,
+	    		".self::getTableName().".date AS date,
+	    		".self::getTableName().".parent AS parent,
 	    		".User::getTableName().".id AS userID,
 	    		".User::getTableName().".name AS userName,
-	    		".Topic::getTableName().".name
+	    		(SELECT MAX(help.date) FROM ".self::getTableName()." AS help WHERE help.id = id) AS lastDate
  		";
  	}
  	
@@ -168,8 +169,8 @@ abstract class MySQLTableDiscussion {
 	*/
 	protected static function getCommonJoins() {
 		return "
-			LEFT JOIN ".User::getTableName()." ON ".self::getTableName().".user = ".User::getTableName().".id
-			INNER JOIN ".Topic::getTableName()." ON ".self::getTableName().".topic = ".Topic::getTableName().".id
+			INNER JOIN ".User::getTableName()." ON ".self::getTableName().".user = ".User::getTableName().".id
+			
 		";
 	}
         

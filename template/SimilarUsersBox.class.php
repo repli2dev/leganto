@@ -1,4 +1,14 @@
 <?php
+/**
+* @package readerTemplate
+* @author Jan Papousek
+* @copyright Jan Papousek 2007
+* @link http://ctenar.cz
+*/
+/**
+* Seznam podobnym uzivatelu k prihlasenemu uzivateli.
+* @package readerTemplate
+*/
 class SimilarUsersBox extends Column {
 
 	private $switcherView = FALSE;

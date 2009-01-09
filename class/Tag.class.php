@@ -65,19 +65,44 @@ class Tag extends MySQLTableTag {
         * @param int ID knihy.
         * @return mysql_result
         */
-        public function getByBook($bookID) {
+        public static function getByBook($bookID) {
+			return self::getByType($bookID,"book");
+        }
+
+        /**
+         * 			Vrati ID klicovych slov k dane polozce.
+         *
+         * @param 	int 	ID polozky.
+         * @param 	string	Typ polozky.
+         * @return 	mysql_result
+         */
+        public static function getByType($id,$type) {
+        	try {
+        		if (empty($type) || empty($id)) {
+        			throw new Error(Lng::WITHOUT_ARGUMENT." ".$id.", ".$type);
+        		}
                 $sql = "
                         SELECT
                                 ".self::getCommonItems()."
                         FROM ".TagReference::getTableName()."
                         LEFT JOIN ".self::getTableName()." ON ".TagReference::getTableName().".tag = ".self::getTableName().".id
-                        WHERE ".TagReference::getTableName().".book = $bookID
+                        WHERE 
+                        	".TagReference::getTableName().".target = $id
+                		AND
+                			".TagReference::getTableName().".type = '$type'
                         GROUP BY ".self::getTableName().".id
                         ORDER BY ".self::getTableName().".name
                 ";
-                return MySQL::query($sql,__FILE__,__LINE__);
+        	    if ($type == "writing") {
+                	//die ($sql);
+                }
+                return MySQL::query($sql,__FILE__,__LINE__);        		
+        	}
+        	catch(Error $e) {
+        		$e->scream();
+        	}
         }
-
+        
         /**
         * Vrati bezne pozadovane polozky pro SQL dotaz.
         * @return string
@@ -86,13 +111,24 @@ class Tag extends MySQLTableTag {
                 return "
                         ".self::getTableName().".id,
                         ".self::getTableName().".name,
+                        ".TagReference::getTableName().".type,
                         ROUND((
-                                (SELECT COUNT(id) AS thisCount FROM ".TagReference::getTableName()." WHERE tag = ".self::getTableName().".id)/
-                                (SELECT COUNT(id) AS tagCount FROM ".TagReference::getTableName().")
+                                (SELECT COUNT(help.id) AS thisCount FROM ".TagReference::getTableName()." AS help WHERE help.tag = ".self::getTableName().".id AND help.type = ".TagReference::getTableName().".type)/
+                                (SELECT COUNT(help.id) AS tagCount FROM ".TagReference::getTableName()." AS help WHERE help.type = ".TagReference::getTableName().".type)
                         )*100) AS size
                 ";
         }
 
+		/**
+		* Vrati bezne pripojovani tabulek v SQL dotazech.
+		* @return string
+		*/
+		protected static function getCommonJoins() {
+			return "
+				INNER JOIN ".TagReference::getTableName()." ON ".self::getTableName().".id = ".TagReference::getTableName().".tag
+			";
+		}        
+        
         /**
         * Vrati ID daneho klicoveho slova.
         * @param string Klicove slovo
@@ -106,36 +142,48 @@ class Tag extends MySQLTableTag {
         }
 
         /**
-        * Vrati nejpouzivanejsi klicova slova.
-        * @return mysql_result
+        * 			Vrati nejpouzivanejsi klicova slova.
+        * @param 	string		Typ polozek, kterych se maji klicova slova tykat.	
+        * @return 	mysql_result
         */
-        public function getListTop() { 
+        public function getListTop($type = 0) { 
+        		if ($type) {
+        			$cond = "
+        				INNER JOIN ".TagReference::getTableName()." ON ".self::getTableName().".id = ".TagReference::getTableName().".tag
+        				WHERE ".TagReference::getTableName().".type = '$type'
+        			";
+        			$cond2 = " AND type != '$type'";
+        		}
                 $sql = "
-                        SELECT ".self::getTableName().".id 
+                        SELECT ".self::getTableName().".id AS helpID,
+                        COUNT(".TagReference::getTableName().".id) AS count
                         FROM ".self::getTableName()."
-                        ORDER BY
-                        (SELECT COUNT(id) AS thisCount FROM ".TagReference::getTableName()." WHERE tag = ".self::getTableName().".id)
-                        DESC
+                        $cond
+                        GROUP BY ".self::getTableName().".id
+                        ORDER BY count DESC
                         LIMIT 0,".self::LIST_LIMIT."
                 ";
+				//die($sql);
                 $res = MySQL::query($sql,__FILE__,__LINE__);
                 $help = "";
                 while ($record = mysql_fetch_object($res)) {
                         if ($help != "") {
                                 $help .= ", ";
                         }
-                        $help .= $record->id;
+                        $help .= $record->helpID;
                 }
                 if ($help) {
 	                $sql = "
 	                        SELECT
 	                                ".self::getCommonItems()."
 	                        FROM ".self::getTableName()."
+	                        ".self::getCommonJoins()."
 	                        WHERE
 	                        ".self::getTableName().".id IN ($help) 
 	                        GROUP BY ".self::getTableName().".id
 	                        ORDER BY ".self::getTableName().".name
 	                ";
+	                //die($sql);
 	                return MySQL::query($sql,__FILE__,__LINE__);
                 }
         } 
@@ -191,7 +239,7 @@ class Tag extends MySQLTableTag {
                                 ".self::getCommonItems().",
                                 COUNT(".TagReference::getTableName().".id) AS tagged
                         FROM ".self::getTableName()."
-                        LEFT JOIN ".TagReference::getTableName()." ON ".self::getTableName().".id = ".TagReference::getTableName().".tag
+                        INNER JOIN ".TagReference::getTableName()." ON ".self::getTableName().".id = ".TagReference::getTableName().".tag
                         WHERE $condition
                         GROUP BY ".self::getTableName().".id
                         $order
@@ -199,6 +247,26 @@ class Tag extends MySQLTableTag {
                 ;
                 return MySQL::query($sql,__FILE__,__LINE__);
         }
+		/**
+		 *
+		 * Vrati vsechny v systemu
+		 * @return array vsechny tagy
+		 */
+		public static function getTags(){
+				$sql = "
+                        SELECT ".self::getTableName().".id,
+						".self::getTableName().".name
+                        FROM ".self::getTableName()."
+                        ORDER BY
+                        ".self::getTableName().".id
+                        DESC
+                ";
+                $res = MySQL::query($sql,__FILE__,__LINE__);
+				while ($row = mysql_fetch_object($res)) {
+						$result[] = $row->name;
+				}
+				return $result;
+		}
 
 }
 ?>

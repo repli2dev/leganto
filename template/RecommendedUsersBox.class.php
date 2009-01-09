@@ -1,4 +1,14 @@
 <?php
+/**
+* @package readerTemplate
+* @author Jan Papousek
+* @copyright Jan Papousek 2007
+* @link http://ctenar.cz
+*/
+/**
+* Box s oblibenymi uzivateli prihlaseneho uzivatele.
+* @package readerTemplate
+*/
 class RecommendedUsersBox extends Column {
 	
 	private $switcherView = FALSE;
@@ -20,9 +30,9 @@ class RecommendedUsersBox extends Column {
 		unset($ul);
 	}
 	
-	public function view() {
+	public function getValue() {
 		if ($this->switcherView) {
-			parent::view();
+			return parent::getValue();
 		}
 	}
 }

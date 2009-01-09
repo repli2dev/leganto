@@ -1,4 +1,14 @@
 <?php
+/**
+* @package readerTemplate
+* @author Jan Papousek
+* @copyright Jan Papousek 2007
+* @link http://ctenar.cz
+*/
+/**
+* Formular pro pridani wiki informace o knize.
+* @package readerTemplate
+*/
 class FormWiki extends Form {
 	
 	public function __construct($bookID = NULL) {

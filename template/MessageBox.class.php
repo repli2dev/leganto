@@ -1,4 +1,14 @@
 <?php
+/**
+* @package readerTemplate
+* @author Jan Papousek
+* @copyright Jan Papousek 2007
+* @link http://ctenar.cz
+*/
+/**
+* Zobrazi soukrome zpravy.
+* @package readerTemplate
+*/
 class MessageBox extends Div {
 	
 	public function __construct() {

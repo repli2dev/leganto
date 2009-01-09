@@ -1,4 +1,15 @@
 <?php
+/**
+* @package readerTemplate
+* @author Jan Papousek
+* @copyright Jan Papousek 2007
+* @link http://ctenar.cz
+*/
+/**
+* Knihy, ktere precetli v nedavne dobe oblibeni uzivateli.
+* @package readerTemplate
+*/
+
 class BookByFavourite extends Column {
 	
 	public function __construct() {
@@ -15,6 +26,12 @@ class BookByFavourite extends Column {
 		}
 		$this->addValue($ul);
 		unset($ul);
+	}
+	
+	public function view() {
+		if (count($this->value[2]->value) > 0) {
+			parent::view(); 
+		}
 	}
 }
 ?>

@@ -292,6 +292,15 @@ class Page extends Object {
 		return self::$numCSS;
 	}
 	
+	
+	/**
+	 * Vynuluje css soubory.
+	 * @return void
+	 */
+	public static function clearStyleSheet() {
+		self::$styleSheet = array();
+	}
+	
 	/**
 	 * Prida na stranku chybovou hlasku.
 	 * @param string
@@ -322,12 +331,10 @@ class Page extends Object {
 	* @return void
 	*/
 	public function view() {
-		echo "
-		<?xml version=\"1.0\" encoding=\"UTF-8\"?><!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\">
+		echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?><!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\">
 		<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"cs\" lang=\"cs\">
   			<head>
-	 			<script src=\"http://www.google-analytics.com/urchin.js\" type=\"text/javascript\">
-    			</script>
+	 			
     			<script type=\"text/javascript\">
       			_uacct = \"UA-2881824-1\";
       			urchinTracker();
@@ -377,20 +384,23 @@ class Page extends Object {
   		unset($script);
   		if (isset($_SESSION["eskymoSuggest"])) {
 			echo "<script type=\"text/javascript\">";
-			echo "var list = [ 'Java', 'JavaScript', 'Perl', 'Ruby', 'PHP', 'Python', 'C', 'C++', '.NET', 'MySQL', 'Oracle', 'PostgreSQL'];";
 			foreach($_SESSION["eskymoSuggest"] AS $name => $value) {
 				$temp = "[ ";
 				foreach($value AS $item){
 					if ($temp != "[ ") {
-						$temp .= ", ";
+						$temp .= ",\n";
 					}
 					$temp .= "'".addSlashes($item)."'";
 				}
 				$temp .= " ]";
-				echo "var ".$name." = function(){new Suggest.Local(\"".$name."\", \"suggest_".$name."\", $temp);};
-					window.addEventListener ?
-					window.addEventListener('load', ".$name.", false) :
-					window.attachEvent('onload', ".$name.");\n\n";
+				if($_SESSION["eskymoSuggest"][$name]["multiple"] == TRUE){
+					echo "var ".$name." = function(){new Suggest.LocalMulti(\"".$name."\", \"suggest_".$name."\", $temp);};";
+				} else {
+					echo "var ".$name." = function(){new Suggest.Local(\"".$name."\", \"suggest_".$name."\", $temp);};";
+				}
+					echo "window.addEventListener ?";
+					echo "window.addEventListener('load', ".$name.", false) :";
+					echo "window.attachEvent('onload', ".$name.");\n\n";
 			}
 			echo "</script>";  		
   		}
@@ -407,6 +417,16 @@ class Page extends Object {
 		foreach($this->value as $item) {
 			$item->view();
 		}
+?>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+var pageTracker = _gat._getTracker("UA-2881824-1");
+pageTracker._trackPageview();
+</script>
+<?php
 		echo "</body>";
 		echo "</html>";
 	} 

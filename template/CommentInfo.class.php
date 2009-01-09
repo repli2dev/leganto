@@ -1,11 +1,22 @@
 <?php
+/**
+* @package readerTemplate
+* @author Jan Papousek
+* @copyright Jan Papousek 2007
+* @link http://ctenar.cz
+*/
+/**
+* Komentar.
+* @package readerTemplate
+*/
 class CommentInfo extends Div {
 	
 	/**
-	 * @param record Zobrazovany komentar.
-	 * @param int Cislo oznacujici poradi komentare v diskusi.
+	 * @param 	record 	Zobrazovany komentar.
+	 * @param	string	Typ komentovane polozky.
+	 * @param 	int 	Cislo oznacujici poradi komentare v diskusi.
 	 */
-	public function __construct($comment,$n) {
+	public function __construct($comment,$type,$n) {
 		parent::__construct();
 		$this->setClass("comment");
 		$this->setID("com".$n);
@@ -16,12 +27,21 @@ class CommentInfo extends Div {
 		$info->addValue($date);
 		unset($date);
 		$owner = Page::session("login");
-		if ($owner->level > User::LEVEL_COMMON) {
+		if (($owner->level > User::LEVEL_COMMON) || ($owner->id == $comment->userID)) {
+			switch($type) {
+				case "book":
+					$link = "book.php?action=commentDestroy&amp;comment=".$comment->id."&amp;book=".$comment->follow;
+					break;
+				case "competition":
+					$link = "competition.php?action=commentDestroy&amp;comment=".$comment->id."&amp;comp=".$comment->follow;
+					break;
+			}
 			$admin = new A(
 				Lng::DELETE,
-				"book.php?action=commentDestroy&amp;comment=".$comment->id."&amp;book=".$comment->bookID
+				$link
 			);
 			$admin->setClass("admin");
+			$admin->addEvent("onclick","return confirm('".Lng::ASSURANCE_COMMENT."');");
 			$info->addValue($admin);
 			unset($admin);
 		}

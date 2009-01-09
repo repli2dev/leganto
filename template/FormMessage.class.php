@@ -1,4 +1,14 @@
 <?php
+/**
+* @package readerTemplate
+* @author Jan Papousek
+* @copyright Jan Papousek 2007
+* @link http://ctenar.cz
+*/
+/**
+* Formular pro odeslani soukrome zpravy.
+* @package readerTemplate
+*/
 class FormMessage extends Form {
 	
 	public function __construct() {
@@ -8,6 +18,11 @@ class FormMessage extends Form {
 	public function renderForm($name,$action,$method,$enctype) {
 		parent::renderForm($name,$action,$method,$enctype);
 		$this->addFieldset(Lng::SEND_MESSAGE);
+		//nacitani prezdivky z $_GET
+		$this->data['userName'] = page::get("userName");
+		if(empty($this->data['userName'])){
+			$userName = NULL;
+		}
 		$this->addTextInput(TRUE,"userName",Lng::USER_NAME.":",NULL,NULL,User::getAllName());
 		$this->addTextarea(TRUE,"message",Lng::MESSAGE.":");
 		$this->addSubmitButton("formMessageSubmitButton",Lng::SEND_MESSAGE);

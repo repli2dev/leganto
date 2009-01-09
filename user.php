@@ -7,7 +7,6 @@ class UserPage extends CommonPage {
 		parent::__construct();
 		$this->rightColumn->clean();
 		$this->addRightColumn(new UserSubMenu());
-		$this->addRightColumn(new LastCommentedBooks());
 		$this->addRightColumn(new LastDiscussion());
 		$this->addRightColumn(new TagBox());
 		switch(Page::get("action")) {
@@ -25,11 +24,12 @@ class UserPage extends CommonPage {
 					}
 					$this->addContent(new BookListTop(Page::get("user")));
 					$this->addContent(new BookListLast(Page::get("user")));
+					$this->addContent(new WritingListLast(Page::get("user")));
 				}
 				else {
 					$owner = Page::session("login");
 					if (!$owner->id) {
-						$this->addContent(Lng::REGISTRATION);
+						$this->addContent(new H(2,Lng::REGISTRATION));
 						$this->addContent(new FormUser());
 					}
 					else {
@@ -45,6 +45,7 @@ class UserPage extends CommonPage {
 				if ($owner->id) {
 					$this->setTitle(Lng::CHANGE_USER_INFO);
 					$this->addContent(new FormChangeIco());
+					$this->addContent(new FormLibraryMenu());
 				}
 				else {
 					$this->setTitle(Lng::REGISTRATION);
@@ -58,8 +59,10 @@ class UserPage extends CommonPage {
 				if (Page::get("user") != $owner->id) {
 					$this->addContent(new UserInfo(Page::get("user")));					
 				}
+				$this->addContent(new H("2",Lng::ALL_USER_BOOKS));
 				$this->addContent(new BookListUser(Page::get("user")));
 				$this->addContent(new Paging(__FILE__));
+				$this->setTitle(Lng::ALL_USER_BOOKS);
 				break;
 			case "search":
 				$this->setTitle(Lng::USERS." - ".Lng::SEARCH);
@@ -75,6 +78,16 @@ class UserPage extends CommonPage {
 				$owner = Page::session("login");
 				Recommend::destroyMine(Page::get("user"));
 				Header ("Location: user.php?user=".Page::get("user"));
+				break;
+			case "userReadlist":
+				$owner = Page::session("login");
+				if (Page::get("user") != $owner->id) {
+					$this->addContent(new UserInfo(Page::get("user")));					
+				}
+				$this->addContent(new H("2",Lng::BOOKS_TO_READ));
+				$this->addContent(new BookReadlistUser(Page::get("user")));
+				$this->addContent(new Paging(__FILE__));
+				$this->setTitle(Lng::BOOKS_TO_READ);
 				break;
 		}
 	}

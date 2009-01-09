@@ -122,10 +122,10 @@ class Table extends HTMLTag {
 	}
 
 	/**
-	 * Vytiskne tabulku.
+	 * Vrati hodnotu, ktera se ma vytisknout na obrazovku.
 	 * @retrun void
 	 */
-	public function view() {
+	public function getValue() {
 		if ($this->caption) {
 			$caption = new HTMLTag;
 			$caption->setTag("caption");
@@ -175,7 +175,7 @@ class Table extends HTMLTag {
 			unset($tr);
 			$this->addValue($foot);
 		}
-		parent::view();
+		return parent::getValue();
 	}
 }
 

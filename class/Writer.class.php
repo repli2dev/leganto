@@ -83,19 +83,8 @@ class Writer extends MySQLTableWriter {
         * @return record autor (id,name)
         */
         public static function getDuplicity($writer) {
-                $writer = String::utf2lowerAscii($writer);
-                $writerList = explode(" ",$writer);
-                $condition = "WHERE ";
-                $help = false;
-                foreach($writerList as $writerItem) {
-                        if ($help) $condition .= " AND ";
-                                $condition .= "asciiName LIKE '%$writerItem%'";
-                                $help = true;
-                        }
-                $sql = "SELECT id,name FROM ".self::getTableName()." $condition";
-                $res = MySQL::query($sql,__FILE__,__LINE__);
-                $record = mysql_fetch_object($res);
-                return $record;
+			$writer = String::utf2ascii($writer);
+			return self::getInfoByItem(self::getTableName().".asciiName",$writer);
         } 
 
         /**

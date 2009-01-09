@@ -1,4 +1,14 @@
 <?php
+/**
+* @package readerTemplate
+* @author Jan Papousek
+* @copyright Jan Papousek 2007
+* @link http://ctenar.cz
+*/
+/**
+* Box s podobnymi knihami k dane knize.
+* @package readerTemplate
+*/
 class SimilarBooksBox extends Div {
 
 	private $switcherView = FALSE;

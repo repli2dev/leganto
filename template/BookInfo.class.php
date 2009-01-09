@@ -1,4 +1,14 @@
 <?php
+/**
+* @package readerTemplate
+* @author Jan Papousek
+* @copyright Jan Papousek 2007
+* @link http://ctenar.cz
+*/
+/**
+* Informace o knize.
+* @package readerTemplate
+*/
 class BookInfo extends Div {
 	
 	public function __construct($book) {
@@ -31,7 +41,7 @@ class BookInfo extends Div {
 			$this->addValue($wikiInfo);
 			unset($wikiInfo);
 		}
-		$this->addValue(new TagBox($book->id));	
+		$this->addValue(new TagBox("book",$book->id));	
 		$this->addValue(new FormTag());
 		$res = Opinion::getListByBook($book->id);
 		while ($opinion = mysql_fetch_object($res)) {
@@ -39,15 +49,7 @@ class BookInfo extends Div {
 				$this->addValue(new OpinionInfo($opinion));
 			}
 		}
-		$h = new H(2,new String(Lng::COMMENTS.":"));
-		$h->setID("comment");
-		$this->addValue($h);
-		$n = 0;
-		$res = Comment::read($book->id);
-		while ($comment = mysql_fetch_object($res)) {
-			$n++;
-			$this->addValue(new CommentInfo($comment,$n));
-		}
+		$this->addValue(new Comments($book->id,"book"));
 		$this->addValue(new FormComment());
 	}
 }

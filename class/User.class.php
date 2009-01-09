@@ -78,7 +78,7 @@ class User extends MySQLTableUser {
        * Zmeni informace o uzivateli.
        * @param int ID uzivatele.
        * @param mixed Pole zmen (pokud bude obsahovat polozku 'password', musi obsahovat i polozku 'password_control').
-       * @return void
+       * @return boolean
        */
        public static function change($id,$changes) {
                try {
@@ -90,6 +90,7 @@ class User extends MySQLTableUser {
                                unset($changes["password_control"]);
                        }
                        parent::change($id,$changes);
+                       return TRUE;
                }
                catch (Error $exception) {
                        $exception->scream();
@@ -142,6 +143,7 @@ class User extends MySQLTableUser {
                        if ($user->id) {
                                throw new Error(Lng::USER_EXISTS);
                        }
+					   $input["name"] = strTr($input["name"],"\n","");
                        $input["login"] = "now()";
                        $input["level"] = 2;
                        parent::create($input);
@@ -200,6 +202,7 @@ class User extends MySQLTableUser {
                        ".self::getTableName().".level,
                        ".self::getTableName().".login,        
                        ".self::getTableName().".remember,
+                       COUNT(".Opinion::getTableName().".id) AS opinionCount,
                        (((SELECT COUNT(".Recommend::getTableName().".id) FROM ".Recommend::getTableName()." WHERE ".Recommend::getTableName().".recommend = ".self::getTableName().".id) + 1)*(COUNT(".Opinion::getTableName().".id))) AS recommend
                ";
        }
@@ -410,6 +413,20 @@ class User extends MySQLTableUser {
                }
                return MySQL::query($sql,__FILE__,__LINE__);
        }
+	   /**
+	    * Vrati jmeno uzivatele
+	    * @param id id uzivatele
+	    * @return string jmeno uzivatele
+	    */
+	   public function userName($id){
+		   $sql = "
+				  SELECT
+							".self::getTableName().".name
+				  FROM ".self::getTableName()."
+				  WHERE ".self::getTableName().".id = ".$id."
+			";
+		   return MySQL::query($sql,__FILE__,__LINE__);
+	   }
 
 }
 ?>

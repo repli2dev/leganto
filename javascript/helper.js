@@ -33,7 +33,6 @@ function ajaxCall(adresa) {
     http_request.send(null);
     
   }
-
 function alertContents() {
   var writerName;
 
@@ -42,7 +41,7 @@ function alertContents() {
         	writerName = http_request.responseText;  	  
 			var temp = writerName.split(" ");
 			//secondName
-			if(temp[0] != 0){ 
+			if(temp[0] != 0){
 				document.getElementById("writerNameSecond").value = temp[0];
 			}
 			var help = '';
@@ -63,6 +62,29 @@ function alertContents() {
       }
     }
 }
+
 function empty( mixed_var ){
     	return ( mixed_var === "" || mixed_var === 0   || mixed_var === "0" || mixed_var === null  || mixed_var === false  ||  ( is_array(mixed_var) && mixed_var.length === 0 ) );
+}
+function onClick_fillin_title(new_title){
+	document.getElementsByName("title")[0].value = new_title;
+	document.getElementsByName("disContent")[0].focus();
+	window.scrollBy(0,-300);	
+}
+function onClick_fillin_username(new_username){
+	document.getElementsByName("userName")[0].value = new_username;
+	document.getElementsByName("message")[0].focus();
+	window.scrollBy(0,-300);
+}
+function onClick_fillin_parent(parent,old_title){
+	document.getElementsByName("parent")[0].value = parent;
+	document.getElementsByName("parent_title")[0].value = old_title;
+	document.getElementsByName("title")[0].focus();
+	//odjet na konec stranky, kde je formular
+	window.scrollBy(0,document.body.scrollHeight);
+}
+function onClick_remove_parent(){
+	document.getElementsByName("parent")[0].value = "";
+	document.getElementsByName("parent_title")[0].value = "";
+	document.getElementsByName("title")[0].focus();
 }

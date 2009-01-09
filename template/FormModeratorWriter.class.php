@@ -1,4 +1,14 @@
 <?php
+/**
+* @package readerTemplate
+* @author Jan Papousek
+* @copyright Jan Papousek 2007
+* @link http://ctenar.cz
+*/
+/**
+* Moderatorsky formular pro spisovatele.
+* @package readerTemplate
+*/
 class FormModeratorWriter extends Form {
 
 	public function __construct($id = NULL) {

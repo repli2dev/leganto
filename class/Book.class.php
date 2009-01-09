@@ -268,7 +268,7 @@ class Book extends MySQLTableBook {
                         asciiTitle VARCHAR(250),
                         writer INT(25),
                         date DATETIME default '0000-00-00 00:00:00',
-                        FOREIGN KEY (writer) REFERENCES ".self::getTableName()." (id)
+                        FOREIGN KEY (writer) REFERENCES ".Writer::getTableName()." (id)
                 )";
                 MySQL::query($sql,__FILE__,__LINE__);             
         }
@@ -321,5 +321,15 @@ class Book extends MySQLTableBook {
         	}
         	return self::makeCommonQuery($cond,"rating DESC, countRead DESC",0,self::SMALL_LIST_LIMIT);
         }
+		/**
+		 * Vrati ID nahodne vybrane knihy z databaze.
+		 * @return int id knihy
+		 */
+		public static function getRandom(){
+			$cond[] = "1";
+			$result = self::makeCommonQuery($cond, "rand()", 0, 1);
+			$row = mysql_fetch_object($result);
+			return $row->id;
+		}
 }
 ?>

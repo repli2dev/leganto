@@ -165,7 +165,9 @@ abstract class MySQLTableTag {
 	* @return string
 	*/
 	protected static function getCommonJoins() {
-		return "";
+		return "
+			INNER JOIN ".TagReference::getTableName()." ON ".self::getTableName().".id = ".TagReference::getTableName().".tag
+		";
 	}
 	
 	/**

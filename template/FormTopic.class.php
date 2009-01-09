@@ -1,4 +1,14 @@
 <?php
+/**
+* @package readerTemplate
+* @author Jan Papousek
+* @copyright Jan Papousek 2007
+* @link http://ctenar.cz
+*/
+/**
+* Formular pro pridani tematu.
+* @package readerTemplate
+*/
 class FormTopic extends Form {
 	
 	public function __construct() {

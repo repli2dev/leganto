@@ -74,7 +74,12 @@ class HTMLTag extends Object {
 	* @return void
 	*/
 	public function addAtribut($name,$value) {
-		$this->atribut[$name] = $value;
+		//jestlize jiz atribut existuje pak pridame novou hodnotu jako druhou napr. class="trida1 trida2"
+		if(!empty($this->atribut[$name])){
+			$this->atribut[$name] .= " ".$value;
+		} else {
+			$this->atribut[$name] = $value;
+		}
 	}	
 	
 	/**
@@ -157,13 +162,6 @@ class HTMLTag extends Object {
 		return $this->event($event);
 	}
 	
-	/**
-	 * Cislo 
-	 * @param unknown_type $num
-	 */
-	public function getValue($num) {
-		 
-	}
 	
 	/**
 	* Nastavi hodnotu znacky Tag::$tag.
@@ -189,36 +187,12 @@ class HTMLTag extends Object {
 	public function clean() {
 		$this->value = array();
 	}
-	
-	/**
-	* Vytiskne tag.
-	* @return void
-	*/
-	public function view() {
-		$evt = "";
-		foreach ($this->event AS $key => $value) {
-			$evt .= " $key = \"$value\"";
-		}
-		$atribut = "";
-		foreach ($this->atribut AS $key => $value) {
-			$atribut .= " $key=\"$value\"";
-		}
-		if ($this->pair) {
-			echo "\n<" . $this->tag . $atribut . $evt . ">";
-			foreach($this->value AS $item) {
-				$item->view();
-			}
-			echo "</$this->tag>";
-		}
-		else {
-			echo "<$this->tag $atribut $evt />\n";
-		}
-	}	
+
 	/**
 	* Vrátí tag.
 	* @return string
 	*/
-	public function getWholeTag() {
+	public function getValue() {
 		$evt = "";
 		$wholeTag = "";
 		foreach ($this->event AS $key => $value) {
@@ -231,9 +205,9 @@ class HTMLTag extends Object {
 		if ($this->pair) {
 			$wholeTag = "\n<" . $this->tag . $atribut . $evt . ">";
 			foreach($this->value AS $item) {
-				$item->getWholeTag(); //snad bude fungovat, nevim na cem otestovat
+				$wholeTag .= $item->getValue();
 			}
-			$wholeTag = "</$this->tag>";
+			$wholeTag .= "</$this->tag>";
 		}
 		else {
 			$wholeTag = "<$this->tag $atribut $evt />\n";

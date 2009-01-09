@@ -1,8 +1,32 @@
 <?php
+/**
+* @package readerTemplate
+* @author Jan Papousek
+* @copyright Jan Papousek 2007
+* @link http://ctenar.cz
+*/
+/**
+* Formular pro vyhledavani (v hlavicce).
+* @package readerTemplate
+*/
 class FormSearch extends Form {
 	
-	public function __construct() {
-		parent::__construct("search","search.php","get",FALSE);
+	private $type = "book";
+	
+	public function __construct($type = "book") {
+		$this->type = $type;
+		switch($type) {
+			default:
+				$action = "search.php";
+				break;
+			case "competition":
+				$action = "competition.php";
+				break;
+			case "writing":
+				$action = "writing.php";
+				break;
+		}
+		parent::__construct("search",$action,"get",TRUE);
 	}
 	
 	public function renderForm($name,$action,$method,$enctype) {
@@ -10,6 +34,7 @@ class FormSearch extends Form {
 		$this->setID("search");
 		$this->addFieldset();
 		$this->addTextInput(FALSE,"searchWord");
+		$this->addHiddenInput(FALSE,"action");
 		$this->addSubmitButton("searchSubmitButton",Lng::SEARCH);
 	}
 	
@@ -18,7 +43,7 @@ class FormSearch extends Form {
 	}
 	
 	protected function getDataToFill($id) {
-		return array();
+		return array("action" => "search");
 	}
 	
 	protected function execute() {

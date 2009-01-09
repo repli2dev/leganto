@@ -1,14 +1,13 @@
 <?php
 /**
-* @package reader
+* @package readerTemplate
 * @author Jan Papousek
 * @copyright Jan Papousek 2007
-* @link http://papi.chytry.cz
+* @link http://ctenar.cz
 */
-
 /**
-* Tato trida slouzi jako predek pro zobrazovane stranky.
-* @package reader
+* Bezna stranka. Tato trida slouzi jako predek pro dalsi stranky tohoto projektu.
+* @package readerTemplate
 */
 class CommonPage extends Page {
 	
@@ -23,6 +22,11 @@ class CommonPage extends Page {
 	protected $leftColumn;
 	
 	/**
+	 * @var Div Hlavicka stranky.
+	 */
+	protected $header;
+	
+	/**
 	 * @var Div Pravy sloupec.
 	 */
 	protected $rightColumn;
@@ -30,6 +34,17 @@ class CommonPage extends Page {
 	public function __construct() {
 		parent::__construct();
 	
+		User::logInIfRemebered();
+		
+		//overeni jestli neexistuji nove zpravy
+		new Message;
+		$owner = Page::session("login");
+		if(!empty($owner->id) && Message::notRead() > 0){
+			Page::addSystemMessage("Máte nové zprávy, <a href=\"/message.php\">přečíst</a>.");
+		}
+		
+		$this->header = new Header();
+		
 		$this->setTitle(Lng::THIS_SITE);
 		
 		$this->addStyleSheet("main.css");
@@ -44,7 +59,7 @@ class CommonPage extends Page {
 		$this->content->setID("content");
 		
 		$owner = Page::session("login");
-		if (empty($owner->id) && (!User::logInIfRemebered())) {
+		if (empty($owner->id)) {
 			$this->addLeftColumn(new Column(new FormLogIn()));	
 		}
 		else {
@@ -52,10 +67,11 @@ class CommonPage extends Page {
 			$this->addLeftColumn(new RecommendedUsersBox());
 			$this->addLeftColumn(new BookByFavourite());
 			$this->addLeftColumn(new SimilarUsersBox());
+			$this->addLeftColumn(new MeInOtherFavouritesBox());
 		}
-		$this->addRightColumn(new LastCommentedBooks());
+		$this->addRightColumn(new ActionSubMenu());
 		$this->addRightColumn(new LastDiscussion());
-		$this->addRightColumn(new TagBox());
+		$this->addRightColumn(new TagBox("book"));
 	}
 	
 	/**
@@ -95,7 +111,8 @@ class CommonPage extends Page {
 	public function view() {
 		$background = new Div;
 		$background->setID("background");
-		$background->addValue(new Header());
+		$background->addValue($this->header);
+		//unset($this->haeder);
 		$body = new Div();
 		$body->setID("body");
 		$body->addValue($this->leftColumn);

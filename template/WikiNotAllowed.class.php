@@ -1,4 +1,14 @@
 <?php
+/**
+* @package readerTemplate
+* @author Jan Papousek
+* @copyright Jan Papousek 2007
+* @link http://ctenar.cz
+*/
+/**
+* Neschvalene wiki informace o knihach.
+* @package readerTemplate
+*/
 class WikiNotAllowed extends Div {
 	
 	public function __construct() {

@@ -55,7 +55,7 @@ class Topic extends MySQLTableTopic {
 		return "
 			".self::getTableName().".id AS id,
 			".self::getTableName().".name AS name,
-			(SELECT COUNT(".Discussion::getTableName().".id) FROM ".Discussion::getTableName()." WHERE ".Discussion::getTableName().".follow = 0 AND ".Discussion::getTableName().".topic = ".self::getTableName().".id) AS numDis
+			(SELECT COUNT(".Discussion::getTableName().".id) FROM ".Discussion::getTableName()." WHERE ".Discussion::getTableName().".type = 'topic' AND ".Discussion::getTableName().".follow = ".self::getTableName().".id) AS numDis
 		";
 	}
 
@@ -65,7 +65,7 @@ class Topic extends MySQLTableTopic {
 	*/
 	protected static function getCommonJoins() {
 		return "
-			LEFT JOIN ".Discussion::getTableName()." ON ".self::getTableName().".id = ".Discussion::getTableName().".topic
+			LEFT JOIN ".Discussion::getTableName()." ON ".self::getTableName().".id = ".Discussion::getTableName().".follow
 		";
 	}
 	/**

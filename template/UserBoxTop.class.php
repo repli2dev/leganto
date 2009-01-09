@@ -1,4 +1,14 @@
 <?php
+/**
+* @package readerTemplate
+* @author Jan Papousek
+* @copyright Jan Papousek 2007
+* @link http://ctenar.cz
+*/
+/**
+* Box s uzivateli s nejvetsi karmou.
+* @package readerTemplate
+*/
 class UserBoxTop extends Column {
 	
 	public function __construct() {

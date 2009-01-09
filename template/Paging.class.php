@@ -1,4 +1,14 @@
 <?php
+/**
+* @package readerTemplate
+* @author Jan Papousek
+* @copyright Jan Papousek 2007
+* @link http://ctenar.cz
+*/
+/**
+* Strankovani.
+* @package readerTemplate
+*/
 class Paging extends Div {
 	
 	/**

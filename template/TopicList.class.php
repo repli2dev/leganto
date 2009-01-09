@@ -1,4 +1,14 @@
 <?php
+/**
+* @package readerTemplate
+* @author Jan Papousek
+* @copyright Jan Papousek 2007
+* @link http://ctenar.cz
+*/
+/**
+* Tabulka s diskusnimi tematy.
+* @package readerTemplate
+*/
 class TopicList extends Table {
 	
 	public function __construct() {
@@ -21,7 +31,7 @@ class TopicList extends Table {
 		));
 		while ($topic = mysql_fetch_object($res)) {
 			$this->addRow(array(
-				new A($topic->name,"discussion.php?topic=".$topic->id."&amp;order=lastDate DESC"),
+				new A($topic->name,"discussion.php?action=readTopic&amp;follow=".$topic->id."&amp;type=topic"),
 				new String($topic->numDis)
 			));
 		}

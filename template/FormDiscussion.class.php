@@ -1,27 +1,25 @@
 <?php
 /**
-* @package reader
+* @package readerTemplate
 * @author Jan Papousek
 * @copyright Jan Papousek 2007
-* @link http://papi.chytry.cz
+* @link http://ctenar.cz
 */
-
 /**
 * Formular pro pridani diskusniho prispevku.
-* @package reader
+* @package readerTemplate
 */
 class FormDiscussion extends Form {
 	
 	public function __construct() {
-		parent::__construct("formDiscussion","?topic=".Page::get("topic")."&amp;follow=".Page::get("follow"),"post",FALSE);
+		parent::__construct("formDiscussion","?action=".Page::get("action")."&amp;follow=".Page::get("follow")."&type=".Page::get("type"),"post",FALSE);
 	}
 	
 	public function renderForm($name,$action,$method,$enctype) {
 		parent::renderForm($name,$action,$method,$enctype);
 		$this->setID("formDiscussion");
 		$this->addFieldset(Lng::ADD_DISCUSS);
-		$follow = Page::get("follow");
-		if (empty($follow)) {
+		if (Page::get("type") == "topic") {
 			$titleImportant = TRUE;
 		}
 		else {
@@ -46,23 +44,19 @@ class FormDiscussion extends Form {
 	}
 	
 	protected function execute() {
-		$dis = Discussion::create(Page::get("topic"),Page::post("disContent"),Page::get("follow"),Page::post("title"));
-		if (Page::get("follow")) {
-			$follow = Page::get("follow");
+		$dis = Discussion::create(Page::post("disContent"),Page::get("follow"),Page::get("type"),Page::post("title"));
+		if($dis) {
+			Header("Location: discussion.php?action=readDis&follow=".Page::get("follow")."&type=".Page::get("type"));	
 		}
-		else {
-			$follow = $dis->id;
-		}
-		Header("Location: discussion.php?topic=".Page::get("topic")."&follow=$follow");
 	}
 	
-	public function view() {
+	public function getValue() {
 		$owner = Page::session("login");
 		if ($owner->level > User::LEVEL_BAN) {
-			parent::view();
 			$string = new String(Lng::TEXT_FORMAT_TEXT,FALSE);
-			$string->view();
+			$this->addValue($string);
 			unset($string);
+			return parent::getValue();
 		}
 	}
 	

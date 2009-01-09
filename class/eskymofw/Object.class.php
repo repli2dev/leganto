@@ -45,6 +45,8 @@ abstract class Object {
 	* Vytiskne objekt.
 	* @return void
 	*/
-	abstract public function view();
+	public function view() {
+		echo $this->getValue();
+	}
 }
 ?>

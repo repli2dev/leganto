@@ -1,4 +1,14 @@
 <?php
+/**
+* @package readerTemplate
+* @author Jan Papousek
+* @copyright Jan Papousek 2007
+* @link http://ctenar.cz
+*/
+/**
+* Tabulka s vyhledanymi uzivateli.
+* @package readerTemplate
+*/
 class UserTable extends Table {
 	
 	public function __construct() {

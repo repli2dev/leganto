@@ -158,6 +158,7 @@ abstract class MySQLTableUser {
                        ".self::getTableName().".level,
                        ".self::getTableName().".login,    
                        ".self::getTableName().".remember,    
+                       COUNT(".Opinion::getTableName().".id) AS opinionCount,
                        (((SELECT COUNT(".Recommend::getTableName().".id) FROM ".Recommend::getTableName()." WHERE ".Recommend::getTableName().".recommend = ".self::getTableName().".id) + 1)*(COUNT(".Opinion::getTableName().".id))) AS recommend
                ";
        }

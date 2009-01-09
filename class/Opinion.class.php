@@ -71,6 +71,10 @@ class Opinion extends MySQLTableOpinion {
                                 "rating" => $rating,
                         		"date" => "now()"
                         );
+                        //podivat se jestli je kniha v toReadListu a pokud ano, pak smazat
+						if($toread = ReadList::isToRead($book->id)){
+							ReadList::destroy($book->id);
+						}
                         parent::create($input);
                 }
                 catch(Error $e) {

@@ -24,7 +24,7 @@ abstract class MySQLTableTagReference {
 	/**
 	* @var array_string Nazvy poli tabulku v databazi, ktera se vzdy musi vyplnit.
 	*/
-	public static $importantColumns = array("tag","book");
+	public static $importantColumns = array("tag","target","type");
 
 	/**
 	* Vrati nazev tabulky (i s prefixem).

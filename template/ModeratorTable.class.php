@@ -1,4 +1,14 @@
 <?php
+/**
+* @package readerTemplate
+* @author Jan Papousek
+* @copyright Jan Papousek 2007
+* @link http://ctenar.cz
+*/
+/**
+* Moderatorska tabulka (s knihami, autory, nebo klicovymi slovy).
+* @package readerTemplate
+*/
 class ModeratorTable extends Table {
 	
 	public function __construct($action) {
@@ -6,7 +16,7 @@ class ModeratorTable extends Table {
 		switch($action) {
 			default:
 			case "book":
-				$res = Search::search("bookTitle",Page::get("searchWord"),Page::get("order"),Page::get("page"));
+				$res = Search::search("bookTitle",Page::get("searchWord"),Page::get("order"),Page::get("page"),FALSE);
 				$orderWriter = "writerName";
 				$orderBook = "title";
 				$orderRead = "countRead";

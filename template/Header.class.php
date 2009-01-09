@@ -1,25 +1,61 @@
 <?php
 /**
-* @package reader
+* @package readerTemplate
 * @author Jan Papousek
 * @copyright Jan Papousek 2007
-* @link http://papi.chytry.cz
+* @link http://ctenar.cz
 */
-
 /**
 * Hlavicka stranky.
-* @package reader
+* @package readerTemplate
 */
 class Header extends Div {
 	
-	public function __construct() {
+	/**
+	 * @param string
+	 */
+	public function __construct($pageType = NULL) {
 		parent::__construct();
+		
+		if ($pageType == "competition") {
+			$commonLink = new A(Lng::ADD_COMPETITION,"competition.php?action=formCompetition");
+			$sectionName = Lng::COMPETITIONS;
+			$sectionURL = "competition.php";
+		}
+		else
+		if($pageType == "writing"){
+			$commonLink = new A(Lng::ADD_WRITING,"writing.php?action=addWriting");
+			$sectionName = Lng::WRITINGS;
+			$sectionURL = "writing.php";
+		}
+		else {
+			$commonLink = new A(Lng::ADD_BOOK,"book.php?action=formBook");
+			$sectionName = Lng::READER_BOOK;
+			$sectionURL = "index.php";
+		}
 		
 		$this->setID("header");
 		
 		// Logo v hlavicce obsahujici nadpis (url stranky).
 		$logo = new Div();
 		$logo->setID("head");
+		$section = new Div();
+		$section->setID("section-links");
+		//Ctenarsky denik
+		$link = new A(Lng::READER_BOOK,"/");
+		$link->setClass("main-link");
+		$section->addValue($link);
+		//Literarni souteze
+		$link = new A(Lng::COMPETITIONS,"competition.php");
+		$link->setClass("competition-link");
+		$section->addValue($link);
+		//Vlastní tvorba
+		$link = new A(Lng::WRITINGS,"writing.php");
+		$link->setClass("writing-link");
+		$section->addValue($link);
+		unset($link);
+		$logo->addValue($section);
+		unset($section);
 		$this->addValue($logo);
 		unset($logo);
 		
@@ -35,8 +71,8 @@ class Header extends Div {
 		$menu->addValue($right);
 		unset($right);
 		$section = new H(1,new A(
-			Lng::READER_BOOK,
-			"index.php"
+			$sectionName,
+			$sectionURL
 		));
 		$section->setID("section");
 		$menu->addValue($section);
@@ -50,7 +86,8 @@ class Header extends Div {
 			case User::LEVEL_MODERATOR:
 				$menuUl->addLi(new A(Lng::MANAGMENT,"moderator.php"));
 			case User::LEVEL_COMMON:
-				$menuUl->addLi(new A(Lng::ADD_BOOK,"book.php?action=formBook"));
+				$menuUl->addLi($commonLink);
+				unset($commonLink);
 			break;
 			default:
 				$menuUl->addLi(new A(Lng::REGISTRATE,"user.php?action=userForm"));
@@ -59,7 +96,7 @@ class Header extends Div {
 		$menuUl->addLi(new A(Lng::DISCUSSION,"discussion.php"));
 		$menuUl->addLi(new A(Lng::ABOUT,"about.php"));
 		$menu->addValue($menuUl);
-		$menu->addValue(new FormSearch());
+		$menu->addValue(new FormSearch($pageType));
 		unset($form);
 		$this->addValue($menu);
 		

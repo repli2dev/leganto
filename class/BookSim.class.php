@@ -51,7 +51,7 @@ class BookSim extends MySQLTableBookSim {
 			$sql = "
 				SELECT
 					".Book::getTableName().".id,
-	           		(SELECT COUNT(id) FROM ".TagReference::getTableName()." WHERE tag IN (SELECT tag FROM ".TagReference::getTableName()." WHERE book = $record->id) AND book = ".Book::getTableName().".id)
+	           		(SELECT COUNT(id) FROM ".TagReference::getTableName()." WHERE tag IN (SELECT tag FROM ".TagReference::getTableName()." WHERE target = $record->id AND type='book') AND target = ".Book::getTableName().".id AND type='book')
 					AS similarity
 				FROM
 					".Book::getTableName()."

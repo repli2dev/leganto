@@ -1,32 +1,48 @@
 <?php
 /**
-* @package reader
-* @author Jan Papousek
-* @copyright Jan Papousek 2007
-* @link http://papi.chytry.cz
+* @package		readerTemplate
+* @author		Jan Papousek
+* @copyright	Jan Papousek 2007
+* @link			http://ctenari.cz
 */
-
 /**
-* Tato trida slouzi jako predek pro zobrazeni boxu s klicovymi slovy.
-* @package reader
+*			Box s klicovymi slovy k dane polozce, pripadne s nejcasteji pouzivanymi klicovymi slovy.
+* @package	readerTemplate
 */
 class TagBox extends Div {
 	
-	public function __construct($book = 0) {
+	/**
+	 *			Box s klicovymi slovy. Pokud je vyplnena polozka, jedna se o box s klicovymi slovy k dane polozce.
+	 *
+	 * @param	int		ID polozky 
+	 * @param 	string	Typ polozky
+	 */
+	public function __construct($type = "book",$item = 0) {
 		parent::__construct();
 		$this->setClass("column");
+		switch($type) {
+			default:
+				$action = "search.php?";
+				break;
+			case "writing":
+				$action = "writing.php?action=search&amp;";
+				break;
+			case "competition":
+				$action = "competition.php?action=search&amp;";
+				break;				
+		}
 		$this->addValue(new H("2",Lng::TAGS));
-		if (!$book) {
-			$res = Tag::getListTop();
+		if (!$item) {
+			$res = Tag::getListTop($type);
 		}
 		else {
-			$res = Tag::getByBook($book);
+			$res = Tag::getByType($item, $type);
 		}
 		$p = new P;
 		while($tag = mysql_fetch_object($res)) {
 			$a = new A(
 				$tag->name,
-				"search.php?searchWord=".$tag->name."&amp;column=tag"
+				$action."searchWord=".$tag->name
 			);
 			$a->setClass("tag".$tag->size);
 			$p->addValue($a);

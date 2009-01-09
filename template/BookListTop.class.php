@@ -1,14 +1,13 @@
 <?php
 /**
-* @package reader
+* @package readerTemplate
 * @author Jan Papousek
 * @copyright Jan Papousek 2007
-* @link http://papi.chytry.cz
+* @link http://ctenar.cz
 */
-
 /**
-* Tato trida slouzi jako predek pro zobrazeni tabulky s naposled pridanymi knihami.
-* @package reader
+* Nejlepe hodnocene knihy.
+* @package readerTemplate
 */
 class BookListTop extends BookList {
 	

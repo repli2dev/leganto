@@ -1,4 +1,14 @@
 <?php
+/**
+* @package readerTemplate
+* @author Jan Papousek
+* @copyright Jan Papousek 2007
+* @link http://ctenar.cz
+*/
+/**
+* Formular pro vyhledavani mezi uzivateli.
+* @package readerTemplate
+*/
 class FormUserSearch extends Form {
 	
 	public function __construct() {

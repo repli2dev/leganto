@@ -1,14 +1,13 @@
 <?php
 /**
-* @package reader
+* @package readerTemplate
 * @author Jan Papousek
 * @copyright Jan Papousek 2007
-* @link http://papi.chytry.cz
+* @link http://ctenar.cz
 */
-
 /**
 * Formular pro prihlaseni.
-* @package reader
+* @package readerTemplate
 */
 class FormLogIn extends Form {
 	

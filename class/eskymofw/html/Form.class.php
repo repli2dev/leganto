@@ -71,7 +71,7 @@ abstract class Form extends HTMLTag {
 		}
 		//pridani generickeho stylopisu
 		Page::addStyleSheet("form.css");
-		$this->addAtribut("onSubmit","return checkForm(this)");
+		$this->addAtribut("onsubmit","return checkForm(this)");
 		Page::addJsFile("checkForm()");
 		if (getType($_SESSION["eskymoImpProp"]) != "array") {
 			 $_SESSION["eskymoImpProp"] = array();
@@ -168,7 +168,7 @@ abstract class Form extends HTMLTag {
 	 * @param mixed Zdroj pro naseptavani.
 	 * @return void
 	 */
-	public function addTextInput($important,$name, $label = NULL, $disabled = NULL, $readonly = NULL, $suggest = NULL, $JSaction = NULL){
+	public function addTextInput($important,$name, $label = NULL, $disabled = NULL, $readonly = NULL, $suggest = NULL, $JSaction = NULL, $suggestMultiple = NULL){
 		if ($important) {
 			$this->setImportant($name);
 		}
@@ -184,6 +184,7 @@ abstract class Form extends HTMLTag {
 		}
 		if(isset($suggest) && (getType($suggest) == "array")) {
 			$_SESSION["eskymoSuggest"][$name] = $suggest;
+			$_SESSION["eskymoSuggest"][$name]["multiple"] = $suggestMultiple;
 			Page::reload();
 			Page::addStyleSheet("suggest.css");
 			Page::addJsFile("suggest()");
@@ -193,6 +194,29 @@ abstract class Form extends HTMLTag {
 			$span->setID("suggest_".$name."");
 			$span->setClass("suggest");
 		}
+		$p->addValue($input);
+		$this->addToFieldset($p);
+		unset($p);
+	}
+	/**
+	 * Přidá skryté textove policko
+	 * @param boolean Pokud je nastaveno na TRUE, oznaci polozku ve formulari za povinnou.
+	 * @param string name
+	 * @param string Popiska.
+	 * @param string value
+	 * @param boolean disabled
+	 * @param boolean readonly
+	 * @return void
+	 */
+	public function addHiddenInput($important,$name, $label = NULL, $disabled = NULL, $readonly = NULL){
+		if ($important) {
+			$this->setImportant($name);
+		}
+		$p = new P();
+		if ($label) {
+			$p->addValue(new Label($label,$name));
+		}
+		$input = new Input($name, $this->data[$name], "hidden", $disabled, $readonly);
 		$p->addValue($input);
 		$this->addToFieldset($p);
 		unset($p);
@@ -316,6 +340,13 @@ abstract class Form extends HTMLTag {
 		$p = new P();
 		if ($label) {
 			$p->addValue(new Label($label,$name));
+		}
+		//xhtml vyzaduje rows a cols
+		if(empty($rows)){
+			$rows = 8;
+		}
+		if(empty($cols)){
+			$cols = 35;
 		}
 		$p->addValue(new Textarea($name,$this->data[$name],$cols,$rows,$disabled,$readonly,$wrap));
 		$this->addToFieldset($p);

@@ -1,5 +1,14 @@
 <?php
-
+/**
+* @package readerTemplate
+* @author Jan Papousek
+* @copyright Jan Papousek 2007
+* @link http://ctenar.cz
+*/
+/**
+* Formular pro zmenu osobni ikonky uzivatele.
+* @package readerTemplate
+*/
 class FormChangeIco extends Form {
 	
 	public function __construct() {
@@ -31,6 +40,9 @@ class FormChangeIco extends Form {
 		if ($_FILES["ico"]) {
 			if (User::changeIco($_FILES["ico"])) {
 				Header("Location: user.php");
+			}
+			else {
+				$this->renderForm("formChangeIco","","post",FALSE,"multipart/form-data");
 			}
 		}
 	}

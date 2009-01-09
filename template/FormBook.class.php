@@ -1,4 +1,14 @@
 <?php
+/**
+* @package readerTemplate
+* @author Jan Papousek
+* @copyright Jan Papousek 2007
+* @link http://ctenar.cz
+*/
+/**
+* Formular pro pridani knihy (nazoru na knihu).
+* @package readerTemplate
+*/
 class FormBook extends Form {
 	
 	/**
@@ -40,11 +50,11 @@ class FormBook extends Form {
 		}
 		$this->addFieldset($action);
 		Page::addJsFile("helper()");
-		$this->addTextInput(TRUE,"bookTitle",Lng::BOOK_TITLE.":"	,NULL,$titleDisabled,Book::getAll(),array("onBlur" => "null"));
+		$this->addTextInput(TRUE,"bookTitle",Lng::BOOK_TITLE.":"	,NULL,$titleDisabled,Book::getAll(),array("onblur" => "null"));
 		$this->addTextInput(TRUE,"writerNameFirst",Lng::WRITER_NAME_FIRST.":",NULL,$writerNameFirstDisabled,Writer::getNameListFirst());
 		$this->addTextInput(TRUE,"writerNameSecond",Lng::WRITER_NAME_SECOND.":",NULL,$writerNameSecondDisabled,Writer::getNameListSecond());
 		if (!$this->updating) {
-			$this->addTextInput(TRUE,"tag",Lng::TAGS.":");
+			$this->addTextInput(TRUE,"tag",Lng::TAGS.":",NULL,NULL,Tag::getTags(),NULL,TRUE);
 		}
 		$this->addSelect(TRUE,"rating",array(
 			Lng::RATING_1 => 1,
@@ -53,7 +63,7 @@ class FormBook extends Form {
 			Lng::RATING_4 => 4,
 			Lng::RATING_5 => 5
 		),Lng::RATING.":");
-		$this->addTextarea(FALSE,"opinion",Lng::OPINION.":");
+		$this->addTextarea(TRUE,"opinion",Lng::OPINION.":");
 		$this->addSubmitButton("formBookSubmitButton",$action);
 	}
 	
@@ -108,11 +118,11 @@ class FormBook extends Form {
 		}
 	}
 	
-	public function view() {
-		parent::view();
+	public function getValue() {
 		$string = new String(Lng::TEXT_FORMAT_TEXT,FALSE);
-		$string->view();
+		$this->addValue($string);
 		unset($string);
+		return parent::getValue();
 	}
 }
 ?>

@@ -1,8 +1,32 @@
 <?php
+/**
+* @package readerTemplate
+* @author Jan Papousek
+* @copyright Jan Papousek 2007
+* @link http://ctenar.cz
+*/
+/**
+* Formular pro pridani komentare.
+* @package readerTemplate
+*/
 class FormComment extends Form {
 	
-	public function __construct() {
-		parent::__construct("formComment","book.php?book=".Page::get("book"),"post",FALSE);
+	private $type;
+	
+	/**			
+	 * 			Konstruktor
+	 * @param	string	Typ polozky, ktera ma byt komentovana.
+	 */
+	public function __construct($type = "book") {
+		$this->type = $type;
+		switch($type) {
+			case "book":
+				parent::__construct("formComment","book.php?book=".Page::get("book"),"post",NULL);
+				break;
+			case "competition":
+				parent::__construct("formComment","competition.php?action=readOne&amp;comp=".Page::get("comp"),"post",NULL);
+				break;
+		}
 	}
 	
 	public function renderForm($name,$action,$method,$enctype) {
@@ -26,17 +50,27 @@ class FormComment extends Form {
 	}
 	
 	protected function execute() {
-		Comment::create(Page::get("book"),Page::post("commentContent"));
-		Header("Location: book.php?book=".Page::get("book")."#comment");
+		switch($this->type) {
+			case "book":
+				$follow = Page::get("book");
+				$location = "book.php?book=".Page::get("book")."#comment";
+				break;
+			case "competition":
+				$follow = Page::get("comp");
+				$location = "competition.php?action=readOne&comp=".Page::get("comp")."#comment";
+				break;
+		}
+		Discussion::create(Page::post("commentContent"),$follow,$this->type);
+		Header("Location: $location");
 	}
 	
-	public function view() {
+	public function getValue() {
 		$owner = Page::session("login");
 		if ($owner->id) {
-			parent::view();
 			$string = new String(Lng::TEXT_FORMAT_TEXT,FALSE);
-			$string->view();
+			$this->addValue($string);
 			unset($string);
+			return parent::getValue();
 		}
 	}
 }

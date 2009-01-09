@@ -1,14 +1,13 @@
 <?php
 /**
-* @package reader
+* @package readerTemplate
 * @author Jan Papousek
 * @copyright Jan Papousek 2007
-* @link http://papi.chytry.cz
+* @link http://ctenar.cz
 */
-
 /**
-* Par uvodnich slov.
-* @package reader
+* Uvod.
+* @package readerTemplate
 */
 class Introduction extends Div {
 	
@@ -27,6 +26,7 @@ class Introduction extends Div {
 		<li>Podívejte se, co čtou ostatní</li>
 		<li>Najděte knihu, kterou znáte, a vyhledejte jí podobnou</li>	
 		<li><strong>Řekněte o stránkách svým známým</strong></li>
+		<li>Dejte vědět na svých stránkách o tom, <a href=\"about.php#6b\" title=\"Ikonka čtenáře\">co čtete</a>.
 	</ul>
 </div>
 		"));

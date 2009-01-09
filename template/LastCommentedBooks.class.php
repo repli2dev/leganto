@@ -1,4 +1,14 @@
 <?php
+/**
+* @package readerTemplate
+* @author Jan Papousek
+* @copyright Jan Papousek 2007
+* @link http://ctenar.cz
+*/
+/**
+* Naposledy komentovane knihy.
+* @package readerTemplate
+*/
 class LastCommentedBooks extends Div {
 	
 	public function __construct() {

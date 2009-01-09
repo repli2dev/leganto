@@ -406,7 +406,7 @@ Suggest.LocalMulti = function() {
 };
 Suggest.copyProperties(Suggest.LocalMulti.prototype, Suggest.Local.prototype);
 
-Suggest.LocalMulti.prototype.delim = ' '; // delimiter
+Suggest.LocalMulti.prototype.delim = ', '; // delimiter
 
 Suggest.LocalMulti.prototype.keyEventReturn = function() {
 
@@ -456,7 +456,7 @@ Suggest.LocalMulti.prototype.getInputText = function() {
  if (pos == -1) {
    return this.input.value;
  } else {
-   return this.input.value.substr(pos + 1);
+   return this.input.value.substr(pos + 2);
  }
 };
 
@@ -467,7 +467,7 @@ Suggest.LocalMulti.prototype.setInputText = function(text) {
  if (pos == -1) {
    this.input.value = text;
  } else {
-   this.input.value = this.input.value.substr(0 , pos + 1) + text;
+   this.input.value = this.input.value.substr(0 , pos + 2) + text;
  }
 };
 

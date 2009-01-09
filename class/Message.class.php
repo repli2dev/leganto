@@ -64,6 +64,7 @@ class Message extends MySQLTableMessage {
 			".self::getTableName().".id AS mesID,
 			".self::getTableName().".date,
 			".self::getTableName().".content,
+			".self::getTableName().".isRead,
 			".self::getTableName().".usFrom AS userIDFrom,
 			".User::getTableName().".name AS userNameFrom,
 			".self::getTableName().".usTo AS userIDTo,
@@ -121,7 +122,6 @@ class Message extends MySQLTableMessage {
 	 */
 	public static function readAll($page) {
 		$owner = Page::session("login");
-		MySQL::update(self::getTableName(),array("isRead" => 2),array(0 => "usTo = $owner->id"));
 		$sql = "
 			SELECT
 				".self::getCommonItems()."
@@ -144,7 +144,11 @@ class Message extends MySQLTableMessage {
 			ORDER BY ".self::getTableName().".date DESC
 			LIMIT ".($page*self::LIST_LIMIT).", ".self::LIST_LIMIT."
 		";
-		return MySQL::query($sql,__FILE__,__LINE__);
+		//nacteni vysledku
+		$res = MySQL::query($sql,__FILE__,__LINE__);
+		//updatovani tabulky a nastaveni zprav jako prectenych
+		MySQL::update(self::getTableName(),array("isRead" => 2),array(0 => "usTo = $owner->id"));
+		return $res;
 	}
 	
 	/**

@@ -14,7 +14,10 @@
 	c) "Hodnocení":about.php#4c
 	d) "Diskuse o knize":about.php#4d
 5) **"Nejčastější problémy":about.php#5**
-	a) "Nemohu změnit název knihy a autora u knížky ve svém čtenářském deníku.":about.php#5a 
+	a) "Nemohu změnit název knihy a autora u knížky ve svém čtenářském deníku.":about.php#5a
+6) **"Ikonky pro Vaše stránky":about.php#6**
+    a) "Univerzální ikonky":about.php#6a
+    b) "Ikonka čtenáře":about.php#6b
 
 <h3 id="1">1. Slovo úvodem</h3>
 
@@ -81,3 +84,33 @@ Pokud se u knihy nalezne téma, o kterém byste se rádi pobavili s ostatními, 
 <h4 id="5a">5a. Nemohu změnit název knihy a autora u knížky ve svém čtenářském deníku.</h4>
 
 Možnost editovat knihu ve svém čtenářském deníku máte pouze v případě, že jste jediní, kteří tuto knihu četli. Jakmile existuje více uživatelů, kteří mají jednu knihu ve svých čtenářských denících, editaci může provést pouze někdo z moderátorské skupiny.
+
+<h3 id="6">6. Ikonky pro Vaše stránky</h3>
+
+Pokud chcete propagovat naši stránku, můžete pro to použít ikonky, které jsme pro Vás připravili.
+
+<h4 id="6a">6a. Univerzální ikonky</h4>
+
+Univerzální ikonky se hodí především na komunitní stránky (stránky které nemají jednoho autora). Máte na výběr ze dvou formátů.
+
+<h5>Formát 88x15</h5>
+
+[* /image/propag_tiny.png .(Formát 88x15)*] *** Pro tuto ikonku vložte do své stránky kód:
+
+''<a href="http://www.ctenari.cz" title="Čtenáři &ndash; ctenari.cz"><img src="http://www.ctenari.cz/image/propag_tiny.png" alt="Čtenáři &ndash; tiny" /></a>'' .[code]
+
+<h5>Formát 88x31</h5>
+
+[* /image/propag_small.png .(Formát 88x31)*] *** pro tuto ikonku vložte do své stránky kód:
+
+''<a href="http://www.ctenari.cz" title="Čtenáři &ndash; ctenari.cz"><img src="http://www.ctenari.cz/image/propag_small.png" alt="Čtenáři &ndash; small" /></a>'' .[code]
+
+<h4 id="6b">6b. Ikonka čtenáře</h4>
+
+V ikonce čtenáře se ukáže vaše jméno (nebo přezdívka) a dvě Vaše poslední přečtené knihy. Tedy tato ikonka se hodí do Vaše blogu popřípadě do Vašich osobních stránek.
+
+[* /image/propag_normal_example.png .(Formát 125x125)*] *** Pro ikonku s Vašimi nejnovějšími knihami vložte do své stránky kód:
+
+''<a href="http://www.ctenari.cz/user.php?user=<<ID>>" title="Čtenáři &ndash; ctenari.cz"><img src="http://www.ctenari.cz/helper.php?what=userIcon&amp;id=<<ID>>" alt="Čtenáři &ndash; normal" /></a>'' .[code]
+
+(Aby byl kód správný musíte být zaregistrováni a přihlášeni, pokud vložíte špatný kód uvidíte prázdnou ikonku nebo ji neuvidíte vůbec).

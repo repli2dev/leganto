@@ -1,20 +1,19 @@
 <?php
 /**
-* @package reader
+* @package readerTemplate
 * @author Jan Papousek
 * @copyright Jan Papousek 2007
-* @link http://papi.chytry.cz
+* @link http://ctenar.cz
 */
-
 /**
-* Tato trida slouzi pro zobrazeni tabulky ve vyhledavani.
-* @package reader
+* Tabulka s vyhledanymi knihami.
+* @package readerTemplate
 */
 class BookListSearch extends BookList {
 	
 	public function __construct() {
 		$this->switcherRead = TRUE;
-		$this->data = Search::search(Page::get("column"),Page::get("searchWord"),Page::get("order"),Page::get("page"));
+		$this->data = Search::search("book",Page::get("searchWord"),Page::get("order"),Page::get("page"), TRUE);
 		$orderWriter = "writerName";
 		$orderBook = "title";
 		$orderRating = "rating DESC";

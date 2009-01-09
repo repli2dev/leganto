@@ -31,8 +31,48 @@ class HelperPage extends BlankPage{
 		}
 	}
 	function writerName($argv){
+		header("Content-Type: text/html; charset=utf-8");
 		$book = new BookWriter($argv['bookTitle']);
 		return $book->get();
+	}
+	/**
+	 * Vytvori ikonku uzivatele
+	 */
+	function userIcon($argv){
+		//ziskani udaju
+		//jmeno uzivatele
+		new User;
+		$row = mysql_fetch_object(User::userName($this->get('id')));
+		$userName = $row->name;
+		//posledni 2 knihy
+		$res = Book::last($this->get('id'));
+		$row1 = mysql_fetch_object($res);
+		$row2 = mysql_fetch_object($res);
+
+		//vykresleni obrazku
+		header('Content-Type: image/png');
+		$image = imagecreatefrompng("image/propag_normal.png");
+		$font = "image/DejaVuSans.ttf";
+		//barvy
+		$black = imagecolorallocate($image,0,0,0);
+		$brown = imagecolorallocate($image,153,102,51);
+		//vypsani jmena ctenare
+		imagettftext($image, 10, 0, 27, 29, $black, $font, $userName);
+		//prvni kniha
+		imagettftext($image, 8, 0, 4, 46, $brown, $font, wordwrap($row1->title,21));
+		$size = imagettfbbox(8,0, $font, wordwrap($row1->title,21));
+		$next_pos = abs($size[3] - $size[5])+46;
+		imagettftext($image, 8, 0, 4, $next_pos+2, $black, $font, $row1->writerName);
+		$size = imagettfbbox(8,0, $font, $row1->writerName);
+		$next_pos = $next_pos + abs($size[3] - $size[5])+10;
+		//druha kniha
+		imagettftext($image, 8, 0, 4, $next_pos, $brown, $font, wordwrap($row2->title,21));
+		$size = imagettfbbox(8,0, $font, wordwrap($row2->title,21));
+		$next_pos = $next_pos + abs($size[3] - $size[5]);
+		imagettftext($image, 8, 0, 4, $next_pos+2, $black, $font, $row2->writerName);
+		//vykresleni a zniceni objektu
+		imagepng($image);
+		imagedestroy($image);
 	}
 }
 

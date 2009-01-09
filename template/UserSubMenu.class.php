@@ -1,7 +1,17 @@
 <?php
+/**
+* @package readerTemplate
+* @author Jan Papousek
+* @copyright Jan Papousek 2007
+* @link http://ctenar.cz
+*/
+/**
+* Podmenu na strane uzivatele.
+* @package readerTemplate
+*/
 class UserSubMenu extends Div {
 	
-	public function view() {
+	public function getValue() {
 		$owner = Page::session("login");
 		if (($owner->id) && (Page::get("user")) && (Page::get("user") != $owner->id)) {
 			$ul = new Ul;
@@ -20,8 +30,8 @@ class UserSubMenu extends Div {
 			}
 			$this->addValue($ul);
 			unset($ul);
-			parent::view();
 		}
+		return parent::getValue();
 	}
 }
 ?>

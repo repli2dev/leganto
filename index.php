@@ -23,6 +23,8 @@ class IndexPage extends CommonPage {
 		$this->addContent(new BookListTop());
 		$this->addContent(new BookListLast());
 		$this->addContent(new UserBoxTop());
+		$this->addRightColumn(new CompetitionLastBox());
+		$this->addRightColumn(new WritingLastBox());
 	}
 }
 

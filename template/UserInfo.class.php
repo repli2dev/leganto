@@ -1,4 +1,14 @@
 <?php
+/**
+* @package readerTemplate
+* @author Jan Papousek
+* @copyright Jan Papousek 2007
+* @link http://ctenar.cz
+*/
+/**
+* Informace o uzivateli.
+* @package readerTemplate
+*/
 class UserInfo extends Div {
 
 	private $user = NULL;
@@ -16,6 +26,14 @@ class UserInfo extends Div {
 			// Zobrazi informace o uzivateli.
 			$this->user = User::getInfo($user);
 			$this->sharedPart();
+			$this->addValue(new P(new A(Lng::WRITING_USER, "writing.php?action=userWriting&amp;user=".$this->user->id)));
+			//odkaz na odeslani soukrome zpravy danemu uzivateli
+			if(!empty($owner)){
+				$this->addValue(new P(new A(
+				Lng::SEND_MESSAGE_TO_THIS_USER,
+				"message.php?userName=".$this->user->name
+				)));
+			}
 		}
 		elseif($owner->id) {
 			// Zobrazi informace o prihlasenem uzivateli.
@@ -38,15 +56,17 @@ class UserInfo extends Div {
 			));
 			$this->addValue($p);
 			unset($p);
-			$control = new P();
-			$control->addValue(new P(new A(
+			
+			$control = new P(new A(
 				Lng::CHANGE_USER_INFO,
 				"user.php?action=userForm&amp;user=".$owner->id
-			)));
-			$control->addValue(new P(new A(
+			));
+			$this->addValue($control);
+			unset($control);
+			$control = new P(new A(
 				Lng::LOG_OUT,
 				"user.php?action=logOut"
-			)));
+			));
 			$this->addValue($control);
 		}
 	}
@@ -65,7 +85,11 @@ class UserInfo extends Div {
 		$this->addValue($ico);
 		$this->addValue(new P(new String(Lng::CARMA.": ".$this->user->recommend)));
 		$this->addValue(new P(new A(
-			Lng::ALL_USER_BOOKS,
+			Lng::BOOKS_TO_READ." (".ReadList::count($this->user->id).")",
+			"user.php?action=userReadlist&amp;user=".$this->user->id
+		)));
+		$this->addValue(new P(new A(
+			Lng::ALL_USER_BOOKS . " (" . $this->user->opinionCount .")",
 			"user.php?action=allUserBooks&amp;user=".$this->user->id
 		)));
 		$desc = new P(new String($this->user->description));

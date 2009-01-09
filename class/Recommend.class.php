@@ -140,4 +140,24 @@ class Recommend extends MySQLTableRecommend {
 		";
 		return MySQL::query($sql,__FILE__,__LINE__);
 	}
+	
+	/**
+	 * Vrati uzivatele, kteri maji daneho uzivatele v oblibenych.
+	 * @var int ID uzivatele
+	 * @return mysql_result
+	 */
+	public static function meInOthers($usID) {
+		//if (gettype($usID) == "integer") {
+			$sql = "
+				SELECT
+				".self::getCommonItems()."
+				FROM ".self::getTableName()."
+				LEFT JOIN ".User::getTableName()." ON ".self::getTableName().".user = ".User::getTableName().".id
+				WHERE ".self::getTableName().".recommend = $usID
+				GROUP BY ".User::getTableName().".id
+				ORDER BY ".User::getTableName().".name			
+			";
+			return MySQL::query($sql,__FILE__,__LINE__); 
+		//}
+	}
 }

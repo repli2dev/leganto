@@ -1,4 +1,14 @@
 <?php
+/**
+* @package readerTemplate
+* @author Jan Papousek
+* @copyright Jan Papousek 2007
+* @link http://ctenar.cz
+*/
+/**
+* Formular pro registraci/zmenu informaci o uzivateli.
+* @package readerTemplate
+*/
 class FormUser extends Form {
 
 	protected $isUpdating = FALSE;
@@ -73,11 +83,16 @@ class FormUser extends Form {
 				$change["password"] = Page::post("password");
 				$change["password_control"] = Page::post("password_control");
 			}
-			User::change(Page::get("user"),$change);
-			$owner = Page::session("login");
-			Page::setSession("login",User::getInfo($owner->id));
-			Page::loadSession();
-			Header("Location: user.php");
+			if (User::change(Page::get("user"),$change)) {
+				$owner = Page::session("login");
+				Page::setSession("login",User::getInfo($owner->id));
+				Page::loadSession();
+				Header("Location: user.php");
+			}
+			else {
+				$this->getData(Page::get("user"));
+				$this->renderForm("userForm","user.php?action=userForm&amp;user=".Page::get("user"),"post",NULL);
+			}
 		}
 		else {
 			User::create(array(

@@ -77,11 +77,18 @@ class Comment extends MySQLTableComment {
  	 * @return void
  	 */
  	public static function destroy($id) {
- 		$owner = Page::session("login");
+ 	 	$owner = Page::session("login");
  		$com = self::getInfo($id);
- 		if (($owner->level > User::LEVEL_COMMON) or ($com->user == $owner->id)) {
- 			parent::destroy($id);
- 		}
+		try {
+	 		if (($owner->level <= User::LEVEL_COMMON) && ($com->userID != $owner->id)) {
+	 			throw new Error(Lng::ACCESS_DENIED);
+	 		}
+	 		parent::destroy($id);
+	 		return TRUE;
+		}
+		catch (Error $e) {
+			$e->scream();
+		}
  	}
         
         /**

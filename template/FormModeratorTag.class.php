@@ -1,4 +1,14 @@
 <?php
+/**
+* @package readerTemplate
+* @author Jan Papousek
+* @copyright Jan Papousek 2007
+* @link http://ctenar.cz
+*/
+/**
+* Moderatorsky formular pro klicova slova.
+* @package readerTemplate
+*/
 class FormModeratorTag extends Form {
 
 	public function __construct($id = NULL) {

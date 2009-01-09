@@ -1,16 +1,17 @@
 @CHARSET "UTF-8";
 .suggest {
     margin-top:20px;
-    margin-left:-180px;
     position: absolute;
+    display:block;
     background-color: #FFFFFF;
     border: 1px solid #CCCCFF;
     font-size: 90%;
     width: 175px;
+    padding:2px;
 }
 .suggest div {
     display: block;
-    width: 175;
+    width: 175px;
     overflow: hidden;
     white-space: nowrap;
 }
