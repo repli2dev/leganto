@@ -20,7 +20,7 @@ class Expresion extends ATableModel
 	}
 
 	/**
-	 * It return prepared query containing columns described
+	 * It returns prepared query containing columns described
 	 * id doc to MySQL table 'expresion'.
 	 *
 	 * @return DibiDataSource
