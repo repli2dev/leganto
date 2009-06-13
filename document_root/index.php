@@ -12,5 +12,8 @@ define('LIBS_DIR', WWW_DIR . '/../libs');
 // absolute filesystem path to the models
 define('MODELS_DIR', APP_DIR . '/models');
 
+// absolute filesystem path to te locales
+define('LOCALES_DIR', APP_DIR . '/locales');
+
 // load bootstrap file
 require APP_DIR . '/bootstrap.php';

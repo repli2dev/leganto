@@ -9,11 +9,32 @@ class Language extends ATableModel
 {
 
 	/**
-	 *			It return prepared query containing columns described
-	 *			id doc to MySQL table 'language'.
+	 * The identificator column name.
 	 *
-	 * @return	DibiDataSource
-	 * @throws	DibiException if there is a problem to work with database.
+	 * @var string
+	 */
+	const DATA_ID = "id_language";
+
+	/**
+	 * The name column name.
+	 *
+	 * @var string
+	 */
+	const DATA_NAME = "name";
+
+	/**
+	 * The locale column name.
+	 *
+	 * @var string
+	 */
+	const DATA_LOCALE = "locale";
+
+	/**
+	 * It returns prepared query containing columns described
+	 * id doc to MySQL table 'language'.
+	 *
+	 * @return DibiDataSource
+	 * @throws DibiException if there is a problem to work with database.
 	 */
 	public function get() {
 		return dibi::dataSource(
@@ -26,12 +47,12 @@ class Language extends ATableModel
 	}
 
 	public function getIdentificator() {
-		return "id_language";
+		return self::DATA_ID;
 	}
 
 	public function getTable() {
 		$tables = Environment::getConfig('tables');
-		return ($tables->language ? $tables->language : 'language');
+		return (!empty($tables->language) ? $tables->language : 'language');
 	}
 
 	public function insert($input) {

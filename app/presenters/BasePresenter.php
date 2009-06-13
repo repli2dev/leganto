@@ -6,6 +6,14 @@
  */
 abstract class BasePresenter extends Presenter
 {
-    
+    protected function createTemplate() {
+		$this->oldLayoutMode = false;
+
+		$template = parent::createTemplate();
+
+		$template->registerFilter('CurlyBracketsFilter::invoke');
+
+		return $template;
+	}
 }
 ?>

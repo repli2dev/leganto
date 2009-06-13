@@ -20,14 +20,15 @@ CREATE TABLE expression (
 ) ENGINE = InnoDB COMMENT = 'Lokalizovane vyrazy pouzite na strance.';
 
 
-DROP TABLE IF EXISTS site;
-CREATE TABLE site (
-	id_domain INT (25) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'identifikator',
-	id_language INT (25) UNSIGNED NOT NULL COMMENT 'jazyk, ve kterem je domena vedena',
-	domain VARCHAR (50) NOT NULL COMMENT 'domena, na ktere web bezi',
-	email VARCHAR(100) NOT NULL COMMENT 'e-mail webu',
+DROP TABLE IF EXISTS `domain`;
+CREATE TABLE `domain` (
+	`id_domain` INT (25) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'identifikator',
+	`id_language` INT (25) UNSIGNED NOT NULL COMMENT 'jazyk, ve kterem je domena vedena',
+	`id_role` INT (25) UNSIGNED NULL COMMENT 'defaultni role, ktera se dava uzivatelum pri registraci',
+	`uri` VARCHAR (50) NOT NULL COMMENT 'domena, na ktere web bezi',
+	`email` VARCHAR(100) NOT NULL COMMENT 'e-mail webu',
 	FOREIGN KEY (id_language) REFERENCES language(id_language) ON UPDATE CASCADE ON DELETE CASCADE,
-	UNIQUE (domain)
+	UNIQUE (`uri`)
 ) ENGINE = InnoDB COMMENT = 'Jednotlive instance webu.';
 
 -- TABULKY TYKAJICI SE KNIH

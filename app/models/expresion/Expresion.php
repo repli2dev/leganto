@@ -8,6 +8,33 @@
 class Expresion extends ATableModel
 {
 
+	/**
+	 * The identificator column name.
+	 *
+	 * @var string
+	 */
+	const DATA_ID = "id_expression";
+
+	/**
+	 * The language identificator column name.
+	 *
+	 * @var string
+	 */
+	const DATA_LANGUAGE = "id_language";
+
+	/**
+	 * The key column name.
+	 *
+	 * @var string
+	 */
+	const DATA_KEY = "key";
+
+	/**
+	 * The value column name.
+	 *
+	 * @var string
+	 */
+
 	public function delete($id) {
 		if (empty($id)) {
 			throw new NullPointerException("id");
@@ -28,17 +55,18 @@ class Expresion extends ATableModel
 	 */
 	public function get() {
 		return dibi::dataSource(
-			"SELECT
-				[id_expresion],
-				[key],
-				[value]
+			"SELECT *	
 			 FROM [".$this->getTable()."]"
 		);
 	}
 
+	public function getIdentificator() {
+		return self::DATA_ID;
+	}
+
 	public function getTable() {
 		$tables = Environment::getConfig('tables');
-		return ($tables->expresion ? $tables->expresion : 'expresion');
+		return ($tables->expresion ? $tables->expresion : 'expression');
 	}
 
 	public function insert($input) {

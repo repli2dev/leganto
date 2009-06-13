@@ -29,7 +29,11 @@ class Site extends Object implements ISingleton
 	 */
 	private function  __construct() {
 		$domain = new Domain();
-		$rows = $domain->get()->where("[uri] = %s", @$_SERVER['HTTP_HOST']);
+		$rows = $domain->get()->where(
+			"%n = %s",
+			Domain::DATA_URI,
+			@$_SERVER['HTTP_HOST']
+		);
 		if ($rows->count() == 0) {
 			throw new DataNotFoundException("domain");
 		}
@@ -68,12 +72,12 @@ class Site extends Object implements ISingleton
 	 * @return array|mixed The site descriptor.
 	 */
 	public function getDomain() {
-		return $this->site;
+		return $this->domain;
 	}
 
 	public function __clone() {}
 
-	public function __wakeup();
+	public function __wakeup() {}
 
 }
 ?>
