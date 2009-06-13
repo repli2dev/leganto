@@ -1,9 +1,9 @@
 <?php
 /**
- *				Abstract class designed to be extended by classes
- *				representing model on the MySQL tables.
+ * Abstract class designed to be extended by classes
+ * representing model on the MySQL tables.
  *
- * @author		Jan Papousek
+ * @author Jan Papousek
  */
 abstract class ATableModel extends Object implements ITableModel
 {

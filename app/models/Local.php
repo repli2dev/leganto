@@ -1,28 +1,29 @@
 <?php
 /**
- *				This class looks after text expressions used on the site,
- *				which have to be localized.
+ * This class looks after text expressions used on the site,
+ * which have to be localized.
  *
- * @author		Jan Papousek
+ * @author Jan Papousek
  */
 class Local extends Object implements ISingleton
 {
 
 	/**
-	 *			The singleton instance
-	 * @var		Site
+	 * The singleton instance
+	 *
+	 * @var Site
 	 */
 	private static $singleton;
 
 	/**
-	 *			Localized texts.
+	 * Localized texts.
 	 *
-	 * @var		array|(array|string)
+	 * @var array|(array|string)
 	 */
 	private $texts;
 
 	/**
-	 *			The construct has to be private becouse the class is singleton
+	 * The construct has to be private becouse the class is singleton
 	 */
 	private function  __construct() {
 		$currentLanguage = Site::getInstance()->getLanguage();
@@ -34,8 +35,9 @@ class Local extends Object implements ISingleton
 	}
 
 	/**
-	 *			It return the instance of this singleton class.
-	 * @return	Site
+	 * It return the instance of this singleton class.
+	 *
+	 * @return Site
 	 */
 	public static function getInstance() {
 		if (empty(self::$singleton)) {

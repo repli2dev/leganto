@@ -1,9 +1,9 @@
 <?php
 /**
- *			Model based on MySQL table 'expresion' containing text
- *			used on the site, which has to be localized.
+ * Model based on MySQL table 'expresion' containing text
+ * used on the site, which has to be localized.
  *
- * @author	Jan Papousek
+ * @author Jan Papousek
  */
 class Expresion extends ATableModel
 {
@@ -20,11 +20,11 @@ class Expresion extends ATableModel
 	}
 
 	/**
-	 *			It return prepared query containing columns described
-	 *			id doc to MySQL table 'expresion'.
+	 * It return prepared query containing columns described
+	 * id doc to MySQL table 'expresion'.
 	 *
-	 * @return	DibiDataSource
-	 * @throws	DibiException if there is a problem to work with database.
+	 * @return DibiDataSource
+	 * @throws DibiException if there is a problem to work with database.
 	 */
 	public function get() {
 		return dibi::dataSource(
