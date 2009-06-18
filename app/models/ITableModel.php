@@ -9,7 +9,7 @@ interface ITableModel
 {
 
 	/**
-	 * It delete an entity from database.
+	 * It deletes an entity from database.
 	 *
 	 * @param int $id The identificator of the entity.
 	 * @throws NullPointerException if the $id is empty.
@@ -26,21 +26,6 @@ interface ITableModel
 	 * @throws DibiException if there is a problem to work with database.
 	 */
 	function get();
-
-	/**
-	 * It returns a name of column which represents an identificator
-	 * of the entity.
-	 *
-	 * @return string The identificator column name.
-	 */
-	function getIdentificator();
-
-	/**
-	 * It returns table name
-	 * 
-	 * @return string
-	 */
-	function getTable();
 
 	/**
 	 * It insert an entity to the database.
