@@ -17,7 +17,6 @@ abstract class ATableModel extends Object implements ITableModel
 	 * @throws NullPointerException if the $id is empty.
 	 * @throws DataNotFoundException if the entity does not exist.
 	 * @throws DibiException if there is a problem to work with database.
-	 * @throws DibiException if there is a problem to work with database.
 	 */
 	public function delete($id) {
 		if (empty($id)) {
@@ -58,15 +57,11 @@ abstract class ATableModel extends Object implements ITableModel
 	 *		and values are content.
 	 * @return int Identificator of the new entity in database
 	 *		or '-1' if the entity has already existed.
-	 * @throws InvalidArgumentException if the input is not an array.
 	 * @throws NullPointerException if the input is empty or does not contain
 	 *		all necessary columns.
 	 * @throws DibiException if there is a problem to work with database.
 	 */
-	public function insert($input) {
-		if (!is_array($input)) {
-			throw new InvalidArgumentException("input");
-		}
+	public function insert(array $input) {
 		$required = $this->requiredColumns();
 		foreach ($required AS $key) {
 			if (empty($input[$key])) {
@@ -107,7 +102,7 @@ abstract class ATableModel extends Object implements ITableModel
 	 * @throws NullPointerException if $id is empty.
 	 * @throws DibiException if there is a problem to work with database.
 	 */
-	public function update($id, $input) {
+	public function update($id, array $input) {
 		if (empty($id)) {
 			throw new NullPointerException("id");
 		}

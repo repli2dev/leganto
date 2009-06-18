@@ -15,7 +15,6 @@ interface ITableModel
 	 * @throws NullPointerException if the $id is empty.
 	 * @throws DataNotFoundException if the entity does not exist.
 	 * @throws DibiException if there is a problem to work with database.
-	 * @throws DibiException if there is a problem to work with database.
 	 */
 	function delete($id);
 
@@ -38,7 +37,7 @@ interface ITableModel
 	 *		all necessary columns.
 	 * @throws DibiException if there is a problem to work with database.
 	 */
-	function insert($input);
+	function insert(array $input);
 
 	/**
 	 * It updates en entity in the database.
@@ -51,6 +50,6 @@ interface ITableModel
 	 * @throws NullPointerException if $id is empty.
 	 * @throws DibiException if there is a problem to work with database.
 	 */
-	function update($id, $input);
+	function update($id, array $input);
 }
 ?>

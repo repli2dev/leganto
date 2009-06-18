@@ -45,14 +45,13 @@ class Expresion extends ATableModel
 	 *		and values are content.
 	 * @return int Identificator of the new entity in database
 	 *		or '-1' if the entity has already existed.
-	 * @throws InvalidArgumentException if the input is not an array.
 	 * @throws NullPointerException if the input is empty or does not contain
 	 *		all necessary columns.
 	 * @throws DataNotFoundException if the language specified by input[id_language]
 	 *		does not exist.
 	 * @throws DibiException if there is a problem to work with database.
 	 */
-	public function insert($input) {
+	public function insert(array $input) {
 		if (!is_array($input)) {
 			throw new InvalidArgumentException("input");
 		}
@@ -74,6 +73,8 @@ class Expresion extends ATableModel
 	}
 
 	protected function requiredColumns() {
+		$users = new Users();
+		Users::
 		return array(self::DATA_KEY,self::DATA_VALUE);
 	}
 
