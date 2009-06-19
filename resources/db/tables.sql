@@ -31,6 +31,22 @@ CREATE TABLE `domain` (
 	UNIQUE (`uri`)
 ) ENGINE = InnoDB COMMENT = 'Jednotlive instance webu.';
 
+DROP TABLE IF EXISTS `resource`;
+CREATE TABLE `resource` (
+	`id_resource` INT(25) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'identifikator',
+	`name` VARCHAR(100) NOT NULL UNIQUE
+) ENGINE = InnoDB COMMENT = 'zdroj';
+
+DROP TABLE IF EXISTS `target_resource`;
+CREATE TABLE `target_resource` (
+	`id_target_resource` INT(25) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'identifikator',
+	`id_resource` INT (25) UNSIGNED NOT NULL COMMENT 'zdroj, ktery tato entita rozsiruje',
+	`table` VARCHAR(100) NOT NULL COMMENT 'nazev tabulky, ktera zdroj reprezentuje',
+	`name_column` VARCHAR(100) NOT NULL COMMENT 'nazev sloupce, ktery obsahuje nazev entity',
+	`identificator_column` VARCHAR(100) NOT NULL COMMENT 'nazev sloupce, ktery obsahuje identifikator entity',
+	UNIQUE(`table`)
+) ENGINE = InnoDB COMMENT = 'Zdroj, ktery je reprezentovan tabulkou, a tudiz na nej mohou odkazovat dalsi entity.';
+
 -- TABULKY TYKAJICI SE KNIH
 -- ------------------------------------
 
@@ -130,12 +146,6 @@ CREATE TABLE `role` (
 	`id_role` INT(25) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'identifikator',
 	`name` VARCHAR(100) NOT NULL UNIQUE
 ) ENGINE = InnoDB COMMENT = 'role uzivatelu v systemu';
-
-DROP TABLE IF EXISTS `resource`;
-CREATE TABLE `resource` (
-	`id_resource` INT(25) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'identifikator',
-	`name` VARCHAR(100) NOT NULL UNIQUE
-) ENGINE = InnoDB COMMENT = 'zdroj, ke kteremu se hlida pristup';
 
 DROP TABLE IF EXISTS `permission`;
 CREATE TABLE `permission` (
@@ -262,23 +272,14 @@ CREATE TABLE `opinion` (
 
 -- TABULKY TYKAJICI SE DISKUSI
 -- ------------------------------------
-DROP TABLE IF EXISTS `discussable`;
-CREATE TABLE `discussable` (
-	`id_discussable` INT(25) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'identifikator',
-	`table` VARCHAR(100) NOT NULL COMMENT 'nazev tabulku, k jejimz enitam mohou uzivatele vest diskuse',
-	`name_column` VARCHAR(100) NOT NULL COMMENT 'nazev sloupce, ktery obsahuje nazev entity',
-	`identificator_column` VARCHAR(100) NOT NULL COMMENT 'nazev sloupce, ktery obsahuje identifikator entity',
-	UNIQUE(`table`)
-) ENGINE = InnoDB COMMENT = 'tabulky v databazi, ktere obsahuji diskutovatelne entity';
-
 DROP TABLE IF EXISTS discussed;
 CREATE TABLE discussed (
 	`id_discussed` INT(25) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'identifikator',
-	`id_discussable` INT(25) UNSIGNED NOT NULL COMMENT 'typ entity, k niz se diskuse vede',
+	`id_target_resource` INT(25) UNSIGNED NOT NULL COMMENT 'typ entity, k niz se diskuse vede',
 	`name` VARCHAR(255) NOT NULL COMMENT 'nazev diskuse',
 	`inserted` DATETIME NOT NULL COMMENT 'cas, kdy byla polozka vlozena do systemu',
 	`updated` TIMESTAMP COMMENT 'cas, kdy byla polozka naposledy zmenena',
-	FOREIGN KEY (id_discussable) REFERENCES discussable(id_discussable) ON UPDATE CASCADE ON DELETE CASCADE
+	FOREIGN KEY (id_target_resource) REFERENCES target_resource(id_target_resource) ON UPDATE CASCADE ON DELETE CASCADE
 ) ENGINE = InnoDB COMMENT = 'odkazy na diskutovane entity, tvori vlakno diskuse';
 
 DROP TABLE IF EXISTS `discussion`;
