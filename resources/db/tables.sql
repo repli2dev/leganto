@@ -31,21 +31,21 @@ CREATE TABLE `domain` (
 	UNIQUE (`uri`)
 ) ENGINE = InnoDB COMMENT = 'Jednotlive instance webu.';
 
-DROP TABLE IF EXISTS `resource`;
-CREATE TABLE `resource` (
-	`id_resource` INT(25) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'identifikator',
-	`name` VARCHAR(100) NOT NULL UNIQUE
-) ENGINE = InnoDB COMMENT = 'zdroj';
+DROP TABLE IF EXISTS `module`;
+CREATE TABLE `module` (
+	`id_module` INT(25) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'identifikator',
+	`name` VARCHAR(100) NOT NULL UNIQUE COMMENT 'nazev modulu'
+) ENGINE = InnoDB COMMENT = 'moduly pouzite v systemu';
 
-DROP TABLE IF EXISTS `target_resource`;
-CREATE TABLE `target_resource` (
-	`id_target_resource` INT(25) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'identifikator',
-	`id_resource` INT (25) UNSIGNED NOT NULL COMMENT 'zdroj, ktery tato entita rozsiruje',
-	`table` VARCHAR(100) NOT NULL COMMENT 'nazev tabulky, ktera zdroj reprezentuje',
+DROP TABLE IF EXISTS `module_table`;
+CREATE TABLE `module_table` (
+	`id_module_table` INT(25) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'identifikator',
+	`id_module` INT (25) UNSIGNED NOT NULL COMMENT 'modul, ke kteremu tabulka patri',
+	`table` VARCHAR(100) NOT NULL UNIQUE COMMENT 'nazev tabulky',
 	`name_column` VARCHAR(100) NOT NULL COMMENT 'nazev sloupce, ktery obsahuje nazev entity',
 	`identificator_column` VARCHAR(100) NOT NULL COMMENT 'nazev sloupce, ktery obsahuje identifikator entity',
-	UNIQUE(`table`)
-) ENGINE = InnoDB COMMENT = 'Zdroj, ktery je reprezentovan tabulkou, a tudiz na nej mohou odkazovat dalsi entity.';
+	FOREIGN KEY (`id_module`) REFERENCES `module`(`id_module`) ON UPDATE CASCADE ON DELETE CASCADE
+) ENGINE = InnoDB COMMENT = 'Tabulky, ktere jsou nalezi jednotlivym modulum.';
 
 -- TABULKY TYKAJICI SE KNIH
 -- ------------------------------------
@@ -151,11 +151,11 @@ DROP TABLE IF EXISTS `permission`;
 CREATE TABLE `permission` (
 	`id_permission` INT(25) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'identifikator',
 	`id_role` INT(25) UNSIGNED NOT NULL COMMENT 'role, ke ktere se pristupova prava vztahuji',
-	`id_resource` INT(25) UNSIGNED NOT NULL COMMENT 'zdroj, ke ktere se pristupova prava vztahuji',
+	`id_module` INT(25) UNSIGNED NOT NULL COMMENT 'modul, ke ktere se pristupova prava vztahuji',
 	`action` ENUM('read','read_all','edit','edit_all','insert') NULL COMMENT 'typ pristupne akce na danem zdroji, pokud je NULL, jsou na danem zdroji pristupne vsechny akce',
 	FOREIGN KEY (`id_role`) REFERENCES `role` (`id_role`) ON UPDATE CASCADE ON DELETE CASCADE,
-	FOREIGN KEY (`id_resource`) REFERENCES `resource` (`id_resource`) ON UPDATE CASCADE ON DELETE CASCADE,
-	UNIQUE(`id_role`,`id_resource`)
+	FOREIGN KEY (`id_module`) REFERENCES `module`(`id_module`) ON UPDATE CASCADE ON DELETE CASCADE,
+	UNIQUE(`id_role`,`id_module`)
 ) ENGINE = InnoDB COMMENT = 'pristupova prava roli ke zdrojum';
 
 DROP TABLE IF EXISTS `user`;
@@ -203,8 +203,8 @@ CREATE TABLE `status` (
 DROP TABLE IF EXISTS `restriction`;
 CREATE TABLE `restriction` (
 	`id_restriction` INT(25) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'identifikator',
-	`id_resource` INT (25) UNSIGNED NOT NULL COMMENT 'zdroj data, nad kterym je omezeni definovano',
-	FOREIGN KEY (`id_resource`) REFERENCES `resource` (`id_resource`) ON UPDATE CASCADE ON DELETE CASCADE
+	`id_module` INT (25) UNSIGNED NOT NULL COMMENT 'modul, nad kterym je omezeni definovano',
+	FOREIGN KEY (`id_module`) REFERENCES `module` (`id_module`) ON UPDATE CASCADE ON DELETE CASCADE
 ) ENGINE = InnoDB COMMENT = 'jednotliva omezeni pouzita ve filtrech';
 
 DROP TABLE IF EXISTS `filter`;
@@ -275,11 +275,11 @@ CREATE TABLE `opinion` (
 DROP TABLE IF EXISTS discussed;
 CREATE TABLE discussed (
 	`id_discussed` INT(25) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'identifikator',
-	`id_target_resource` INT(25) UNSIGNED NOT NULL COMMENT 'typ entity, k niz se diskuse vede',
+	`id_module_table` INT(25) UNSIGNED NOT NULL COMMENT 'typ entity, k niz se diskuse vede',
 	`name` VARCHAR(255) NOT NULL COMMENT 'nazev diskuse',
 	`inserted` DATETIME NOT NULL COMMENT 'cas, kdy byla polozka vlozena do systemu',
 	`updated` TIMESTAMP COMMENT 'cas, kdy byla polozka naposledy zmenena',
-	FOREIGN KEY (id_target_resource) REFERENCES target_resource(id_target_resource) ON UPDATE CASCADE ON DELETE CASCADE
+	FOREIGN KEY (id_module_table) REFERENCES module_table(id_module_table) ON UPDATE CASCADE ON DELETE CASCADE
 ) ENGINE = InnoDB COMMENT = 'odkazy na diskutovane entity, tvori vlakno diskuse';
 
 DROP TABLE IF EXISTS `discussion`;
