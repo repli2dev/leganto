@@ -9,8 +9,8 @@ class Frontend_DefaultPresenter extends Frontend_BasePresenter
 
 	public function renderDefault() {
 		$template = $this->getTemplate();
-		$template->introduction = Local::getInstance()->get("introduction");
-		$template->type = Local::getInstance()->get("frontend");
+		$template->introduction = Locales::get()->get("introduction");
+		$template->type = Locales::get()->get("frontend");
 	}
 
 }

@@ -7,5 +7,9 @@
 abstract class Backend_BasePresenter extends BasePresenter
 {
 
+	public function beforeRender() {
+		$this->template->title = Locales::get()->get("administration");
+	}
+
 }
 ?>

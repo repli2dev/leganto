@@ -43,28 +43,6 @@ class Language extends ATableModel
 		return (!empty($tables->language) ? $tables->language : 'language');
 	}
 
-	/**
-	 * It insert an entity to the database.
-	 *
-	 * @param array|mixed $input The input data, keys are names of the columns
-	 *		and values are content.
-	 * @return int Identificator of the new entity in database
-	 *		or '-1' if the entity has already existed.
-	 * @throws NullPointerException if the input is empty or does not contain
-	 *		all necessary columns.
-	 * @throws DibiException if there is a problem to work with database.
-	 */
-	public function insert(array $input) {
-		$existence = new LanguageExistence(
-			Tools::arrayGet($input, "locale"),
-			Tools::arrayGet($input, "name")
-		);
-		if ($existence->exists()) {
-			return (-1);
-		}
-		parent::insert($input);
-	}
-
 	protected function requiredColumns() {
 		return array(
 			self::DATA_LOCALE,

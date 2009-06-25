@@ -1,19 +1,15 @@
 <?php
 /**
- * This class looks after text expressions used on the site,
- * which have to be localized.
+ * The basic implentation of the ILocal interface.
+ *
+ * This class loads ini files which are called {$moduleName}.{$local}.ini
+ * and are located in LOCALES_DIR
  *
  * @author Jan Papousek
  */
-class Local extends Object implements ISingleton
-{
 
-	/**
-	 * The singleton instance
-	 *
-	 * @var Site
-	 */
-	private static $singleton;
+class Local extends Object implements ILocal
+{
 
 	/**
 	 * Default texts.
@@ -30,21 +26,46 @@ class Local extends Object implements ISingleton
 	private $localizedTexts;
 
 	/**
-	 * The construct has to be private becouse the class is singleton
+	 * Module name.
+	 *
+	 * @var string
 	 */
-	private function  __construct() {
-		$useDatabase = Environment::getConfig("locales")->database;
-		if ($useDatabase) {
-			$this->loadDataFromDatabase();
+	private $moduleName;
+
+	/**
+	 * It creates a new instance of this class.
+	 *
+	 * @param string $directory The directory path to the locales.
+	 * @param string $name The name of the module which is localized.
+	 * @throws NullPointerException if the $directory or $name is empty.
+	 * @throws IOException if the default file is not found.
+	 */
+	public function  __construct($directory, $name = "base") {
+		if (empty($directory)) {
+			throw new NullPointerException("directory");
+		}
+		if (empty($name)) {
+			throw new NullPointerException("name");
+		}
+		$this->moduleName = $name;
+		$currentLanguage = Site::getInstance()->getLanguage();
+		// Localized texts
+		$localizedFile = LOCALES_DIR . "/" . $name . "." . $currentLanguage[Language::DATA_LOCALE] . ".ini";
+		if (file_exists($localizedFile)) {
+			$this->localizedTexts = Config::fromFile($localizedFile)->getArrayCopy();
+		}
+		// Default texts
+		$defaultFile =  LOCALES_DIR . "/" . $name . ".default.ini";
+		if (file_exists($defaultFile)) {
+			$this->defaultTexts = Config::fromFile($defaultFile)->getArrayCopy();
 		}
 		else {
-			$this->loadDataFromProperties();
+			throw new IOException($defaultFile);
 		}
-		
 	}
 
 	/**
-	 * Ii returns a localized string or its default value.
+	 * It returns a localized string or its default value.
 	 *
 	 * @param string $key The key name of the text.
 	 * @throws NullPointerException if the $key is empty.
@@ -64,58 +85,12 @@ class Local extends Object implements ISingleton
 	}
 
 	/**
-	 * It return the instance of this singleton class.
+	 * It returns a module name.
 	 *
-	 * @return Local
+	 * @return string
 	 */
-	public static function getInstance() {
-		if (empty(self::$singleton)) {
-			self::$singleton = new Local();
-		}
-		return self::$singleton;
+	public function getModule() {
+		return $this->moduleName;
 	}
-
-	/**
-	 * It loads data from database.
-	 */
-	private function loadDataFromDatabase() {
-		$currentLanguage = Site::getInstance()->getLanguage();
-		$expresion = new Expresion();
-		$this->localizedTexts = $expresion->get()->where(
-			"%n = %i",
-			Expresion::DATA_LANGUAGE,
-			$currentLanguage[Language::DATA_ID]
-		)->fetchAll();
-		$this->defaultTexts = $expresion->get()->where(
-			"%n = %sql",
-			Expresion::DATA_LANGUAGE,
-			"NULL"
-		)->fetchAll();
-	}
-
-	/**
-	 * It loads data from properties.
-	 *
-	 * @throws DataNotFoundException if there is no file with locales to load.
-	 */
-	private function loadDataFromProperties() {
-		$currentLanguage = Site::getInstance()->getLanguage();
-		// Localized texts
-		$localizedFile = LOCALES_DIR . "/" . $currentLanguage[Language::DATA_LOCALE] . ".ini";
-		if (file_exists($localizedFile)) {
-			$this->localizedTexts = Config::fromFile($localizedFile)->getArrayCopy();
-		}
-		// Default texts
-		$defaultFile =  LOCALES_DIR . "/default.ini";
-		if (file_exists($defaultFile)) {
-			$this->defaultTexts = Config::fromFile($defaultFile)->getArrayCopy();
-		}
-		else {
-			throw new DataNotFoundException($defaultFile);
-		}
-	}
-
-	public function __clone() {}
-
-	public function __wakeup() {}
 }
+?>

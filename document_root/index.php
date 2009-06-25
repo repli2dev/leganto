@@ -15,5 +15,11 @@ define('MODELS_DIR', APP_DIR . '/models');
 // absolute filesystem path to te locales
 define('LOCALES_DIR', APP_DIR . '/locales');
 
+// absolute filesystem path to the module config files
+define("MODULES_DIR", APP_DIR . "/modules");
+
+// absolute filesystem path to the components
+define("COMPONENTS_DIR", APP_DIR . "/components");
+
 // load bootstrap file
 require APP_DIR . '/bootstrap.php';

@@ -16,7 +16,7 @@ abstract class ATableModel extends Object implements ITableModel
 	 * @param int $id The identificator of the entity.
 	 * @throws NullPointerException if the $id is empty.
 	 * @throws DataNotFoundException if the entity does not exist.
-	 * @throws DibiException if there is a problem to work with database.
+	 * @throws DibiDriverException if there is a problem to work with database.
 	 */
 	public function delete($id) {
 		if (empty($id)) {
@@ -34,7 +34,7 @@ abstract class ATableModel extends Object implements ITableModel
 	 * It returns the basic expression used to get data from database.
 	 *
 	 * @return DibiDataSource
-	 * @throws DibiException if there is a problem to work with database.
+	 * @throws DibiDriverException if there is a problem to work with database.
 	 */
 	public function get() {
 		return dibi::dataSource("SELECT * FROM %n", $this->tableName());
@@ -57,9 +57,11 @@ abstract class ATableModel extends Object implements ITableModel
 	 *		and values are content.
 	 * @return int Identificator of the new entity in database
 	 *		or '-1' if the entity has already existed.
+	 * @return InvalidArgumentException if the $input is not an array.
 	 * @throws NullPointerException if the input is empty or does not contain
 	 *		all necessary columns.
-	 * @throws DibiException if there is a problem to work with database.
+	 * @throws DataNotFoundException if there is a foreign key on not existing entity.
+	 * @throws DibiDriverException if there is a problem to work with database.
 	 */
 	public function insert(array $input) {
 		$required = $this->requiredColumns();
@@ -68,8 +70,25 @@ abstract class ATableModel extends Object implements ITableModel
 				throw new NullPointerException("input[$key]");
 			}
 		}
-		dibi::insert($this->tableName(), $input)->execute();
-		return dibi::insertId();
+		try {
+			dibi::insert($this->tableName(), $input)->execute();
+			return dibi::insertId();
+		}
+		catch(DibiDriverException $e) {
+			Debug::processException($e);
+			switch ($e->getCode()) {
+				case DibiMySqlDriver::ERROR_DUPLICATE_ENTRY:
+					return (-1);
+					break;
+				// FIXME: hardcoded
+				case 1216:
+					throw new DataNotFoundException($e);
+					break;
+				default:
+					throw new DibiDriverException($e);
+					break;
+			}
+		}
 	}
 
 	/**
@@ -98,9 +117,13 @@ abstract class ATableModel extends Object implements ITableModel
 	 * @param array|mixed $input	The new data describig entity,
 	 *		array keys are columns name of the table in database
 	 *		and values are the content.
-	 * @throws DataNotFoundException if the entity does not exist.
+	 * @return boolean It return TRUE if the entity was changed,
+	 *		otherwise FALSE.
+	 * @throws InvalidArgumentException if the $input is not an array.
 	 * @throws NullPointerException if $id is empty.
-	 * @throws DibiException if there is a problem to work with database.
+	 * @throws DataNotFoundException if the entity does not exist
+	 *		or there is the foreign key on the intity which does not exist.
+	 * @throws DibiDriverException if there is a problem to work with database.
 	 */
 	public function update($id, array $input) {
 		if (empty($id)) {
@@ -110,7 +133,25 @@ abstract class ATableModel extends Object implements ITableModel
 		if ($rows->count() == 0) {
 			throw new DataNotFoundException("id");
 		}
-		dibi::update($this->tableName(), $input)->execute();
+		try {
+			dibi::update($this->tableName(), $input)->execute();
+			return TRUE;
+		}
+		catch (DibiDriverException $e) {
+			Debug::processException($e);
+			switch ($e->getCode()) {
+				case DibiMySqlDriver::ERROR_DUPLICATE_ENTRY:
+					return FALSE;
+					break;
+				// FIXME: hardcoded
+				case 1216:
+					throw new DataNotFoundException($e);
+					break;
+				default:
+					throw new DibiDriverException($e);
+					break;
+			}
+		}
 	}
 
 }
