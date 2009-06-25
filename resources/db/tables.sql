@@ -9,17 +9,6 @@ CREATE TABLE `language` (
 	UNIQUE (`name`), UNIQUE (`locale`)
 ) ENGINE = InnoDB COMMENT = 'Obsahuje pouzivane jazyky';
 
-DROP TABLE IF EXISTS `expression`;
-CREATE TABLE `expression` (
-	`id_expression` INT (25) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'identifikator',
-	`id_language` INT (25) UNSIGNED NULL COMMENT 'jazyk, ve kterem je vyraz napsan - pokud je NULL, pak je jazyk tzv. default',
-	`key` VARCHAR (100) NOT NULL COMMENT 'nazev vyrazu',
-	`value` TEXT NOT NULL COMMENT 'samotny vyraz, ktery se na strankach zobrazi',
-	FOREIGN KEY (`id_language`) REFERENCES `language`(`id_language`) ON UPDATE CASCADE ON DELETE CASCADE,
-	UNIQUE (`key`, `id_language`)
-) ENGINE = InnoDB COMMENT = 'Lokalizovane vyrazy pouzite na strance.';
-
-
 DROP TABLE IF EXISTS `domain`;
 CREATE TABLE `domain` (
 	`id_domain` INT (25) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'identifikator',
@@ -50,40 +39,40 @@ CREATE TABLE `module_table` (
 -- TABULKY TYKAJICI SE KNIH
 -- ------------------------------------
 
-DROP TABLE IF EXISTS `serie`;
-CREATE TABLE `serie` (
-	`id_serie` INT(25) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'identifikator',
+DROP TABLE IF EXISTS `set`;
+CREATE TABLE `set` (
+	`id_set` INT(25) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'identifikator',
 	`inserted` DATETIME NOT NULL COMMENT 'cas, kdy byla polozka vlozena do systemu',
 	`updated` TIMESTAMP COMMENT 'cas, kdy byla polozka naposledy zmenena'
-) ENGINE = InnoDB COMMENT = 'knizni serie';
+) ENGINE = InnoDB COMMENT = 'knizni set';
 
-DROP TABLE IF EXISTS `serie_name`;
-CREATE TABLE `serie_name` (
-	id_serie_name INT(25) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'identifikator',
-	id_serie INT(25) UNSIGNED NOT NULL COMMENT 'serie, k niz se nazev vztahuje',
+DROP TABLE IF EXISTS `set_name`;
+CREATE TABLE `set_name` (
+	id_set_name INT(25) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'identifikator',
+	id_set INT(25) UNSIGNED NOT NULL COMMENT 'set, k niz se nazev vztahuje',
 	id_language INT(25) UNSIGNED NOT NULL COMMENT 'jazyk lokalizovaneho nazvu',
-	name VARCHAR(255) NOT NULL COMMENT 'lokalizovany nazev serie',
+	name VARCHAR(255) NOT NULL COMMENT 'lokalizovany nazev set',
 	`inserted` DATETIME NOT NULL COMMENT 'cas, kdy byla polozka vlozena do systemu',
 	`updated` TIMESTAMP COMMENT 'cas, kdy byla polozka naposledy zmenena',
 	FOREIGN KEY (`id_language`) REFERENCES `language` (`id_language`) ON UPDATE CASCADE ON DELETE CASCADE,
-	FOREIGN KEY (`id_serie`) REFERENCES `serie` (`id_serie`) ON UPDATE CASCADE ON DELETE CASCADE
+	FOREIGN KEY (`id_set`) REFERENCES `set` (`id_set`) ON UPDATE CASCADE ON DELETE CASCADE
 ) ENGINE = InnoDB COMMENT = 'lokalizovane nazvy kniznich serii';
 
 DROP TABLE IF EXISTS `book`;
 CREATE TABLE `book` (
 	`id_book` INT(25) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'identifikator',
-	`id_serie` INT(25) UNSIGNED NULL COMMENT 'serie k niz kniha prislusi (jen pokud k nejake prislusi, jinak NULL)',
+	`id_set` INT(25) UNSIGNED NULL COMMENT 'set k niz kniha prislusi (jen pokud k nejake prislusi, jinak NULL)',
 	`inserted` DATETIME NOT NULL COMMENT 'cas, kdy byla polozka vlozena do systemu',
 	`updated` TIMESTAMP COMMENT 'cas, kdy byla polozka naposledy zmenena'
 ) ENGINE = InnoDB COMMENT = 'knihy nezavisle na lokalizaci';
 
-DROP TABLE IF EXISTS `in_serie`;
-CREATE TABLE `in_serie` (
-	`id_in_serie` INT(25) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'identifikator',
+DROP TABLE IF EXISTS `in_set`;
+CREATE TABLE `in_set` (
+	`id_in_set` INT(25) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'identifikator',
 	`id_book` INT(25) UNSIGNED NOT NULL COMMENT 'kniha',
-	`id_serie` INT(25) UNSIGNED NOT NULL COMMENT 'serie',
+	`id_set` INT(25) UNSIGNED NOT NULL COMMENT 'set',
 	FOREIGN KEY (`id_book`) REFERENCES `book` (`id_book`) ON UPDATE CASCADE ON DELETE CASCADE,
-	FOREIGN KEY (`id_serie`) REFERENCES `serie` (`id_serie`) ON UPDATE CASCADE ON DELETE CASCADE
+	FOREIGN KEY (`id_set`) REFERENCES `set` (`id_set`) ON UPDATE CASCADE ON DELETE CASCADE
 ) ENGINE = InnoDB COMMENT = 'zavislost knih a serii - byt v serii';
 
 DROP TABLE IF EXISTS `book_title`;
