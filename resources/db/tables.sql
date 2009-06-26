@@ -187,23 +187,40 @@ CREATE TABLE `status` (
 	FOREIGN KEY (`id_language`) REFERENCES `language` (`id_language`) ON UPDATE CASCADE ON DELETE CASCADE
 ) ENGINE = InnoDB COMMENT = 'statusy uzivatelu';
 
--- TODO: CHCE TO JESTE VYMYSLET, JAK BUDEME OMEZENI DEFINOVAT
+DROP TABLE IF EXISTS `filter`;
+CREATE TABLE `filter` (
+	`id_filter` INT(25) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT
+'identifikator',
+	`id_user` INT (25) UNSIGNED NOT NULL COMMENT 'uzivatel, jemuz filter patri',
+	`enabled` TINYINT (1) UNSIGNED NOT NULL COMMENT 'stav filtru',
+	FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`) ON UPDATE CASCADE ON DELETE
+CASCADE, DELETE CASCADE
+) ENGINE = InnoDB COMMENT = 'fitry, ktere uzivatele pouzivaji na sve domovske strance';
+
+DROP TABLE IF EXISTS `rule`;
+CREATE TABLE `rules` (
+	`id_rules` INT(25) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'identifikator',
+	`id_filter` INT (25) UNSIGNED NOT NULL COMMENT 'filter, ke kteremu pravidlo patri',
+	`id_restriction` INT (25) UNSIGNED NOT NULL COMMENT 'typ omezeni, ktery uplatnuje
+toto pravidlo',
+	FOREIGN KEY (`id_filter`) REFERENCES `filter` (`id_filter`) ON UPDATE CASCADE ON
+DELETE CASCADE,
+	FOREIGN KEY (`id_restriction`) REFERENCES `restriction` (`id_restriction`) ON UPDATE
+CASCADE ON DELETE CASCADE, DELETE
+) ENGINE = InnoDB COMMENT = 'pravidla, ktera uzivatel uplatnuje ve svych filtrech';
 
 DROP TABLE IF EXISTS `restriction`;
 CREATE TABLE `restriction` (
-	`id_restriction` INT(25) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'identifikator',
-	`id_module` INT (25) UNSIGNED NOT NULL COMMENT 'modul, nad kterym je omezeni definovano',
-	FOREIGN KEY (`id_module`) REFERENCES `module` (`id_module`) ON UPDATE CASCADE ON DELETE CASCADE
-) ENGINE = InnoDB COMMENT = 'jednotliva omezeni pouzita ve filtrech';
+	`id_restriction` INT(25) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT
+'identifikator',
+	`id_module` INT (25) UNSIGNED NOT NULL COMMENT 'modul, nad kterym je omezeni
+definovano',
+	`class` TEXT NOT NULL COMMENT 'model, komponenta, ktera bude akci zarizovat',
+	`method` TEXT NOT NULL COMMENT 'metoda, ktera provadi akci, ci vrati cast dotazu',
+	FOREIGN KEY (`id_module`) REFERENCES `module` (`id_module`) ON UPDATE CASCADE ON
+DELETE CASCADE
+) ENGINE = InnoDB COMMENT = 'jednotlive typy omezeni - jsou dane moduly samotnymi';
 
-DROP TABLE IF EXISTS `filter`;
-CREATE TABLE `filter` (
-	`id_filter` INT(25) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'identifikator',
-	`id_restriction` INT (25) UNSIGNED NOT NULL COMMENT 'omezeni, ktere filter pouziva',
-	`id_user` INT (25) UNSIGNED NOT NULL COMMENT 'uzivatel, jemuz filter patri',
-	FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`) ON UPDATE CASCADE ON DELETE CASCADE,
-	FOREIGN KEY (`id_restriction`) REFERENCES `restriction` (`id_restriction`) ON UPDATE CASCADE ON DELETE CASCADE
-) ENGINE = InnoDB COMMENT = 'fitry, ktere uzivatele pouzivaji na sve domovske strance';
 
 DROP TABLE IF EXISTS `message`;
 CREATE TABLE `message` (
