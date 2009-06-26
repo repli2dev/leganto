@@ -74,7 +74,54 @@ class Users extends ATableModel implements IAuthenticator
 	const TYPE_ROOT = "root";
 
 	public function authenticate(array $credentials) {
-		throw new NotSupportedException();
+		/// Loading data from database
+		$rows = $this->get()->where(
+			"%n = %s",
+			self::DATA_EMAIL,
+			$credentials[IAuthenticator::USERNAME]
+		);
+		// Does the user exist?
+		if ($rows->count() == 0) {
+			throw new AuthenticationException(
+				"Username not found.",
+				AuthenticationException::IDENTITY_NOT_FOUND
+			);
+		}
+		$user = $rows->fetch();
+		// Is there a valid password
+		$password = self::passwordHash(
+			$credentials[IAuthenticator::PASSWORD],
+			$user[self::DATA_EMAIL]
+		);
+		if ($user[self::DATA_PASSWORD] !== $password) {
+			throw new AuthenticationException(
+				"Inavalid password.",
+				AuthenticationException::INVALID_CREDENTIAL
+			);
+		}
+		// Last logged
+		$this->update($id, array(self::DATA_LAST_LOGGED => new DibiVariable("NULL","sql")));
+		// Logged user
+		unset($user[self::DATA_PASSWORD]);
+		return new Identity(
+			$user[self::DATA_NICKNAME],
+			$user[Role::DATA_NAME],
+			$user
+		);
+	}
+
+	/**
+	 * It returns the basic expression used to get data from database.
+	 *
+	 * @return DibiDataSource
+	 * @throws DibiDriverException if there is a problem to work with database.
+	 */
+	public function get() {
+		return dibi::dataSource(
+			"SELECT *
+			 FROM %n", self::getTable(),
+			"LEFT JOIN %n ON %n", Role::getTable(), self::DATA_ROLE
+		);
 	}
 
 	/**
@@ -85,6 +132,33 @@ class Users extends ATableModel implements IAuthenticator
 	public static function getTable() {
 		$tables = Environment::getConfig('tables');
 		return (!empty($tables->user) ? $tables->user : 'user');
+	}
+
+	/**
+	 * It inserts an entity to the database.
+	 *
+	 * @param array|mixed $input The input data, keys are names of the columns
+	 *		and values are content.
+	 * @return int Identificator of the new entity in database
+	 *		or '-1' if the entity has already existed.
+	 * @return InvalidArgumentException if the $input is not an array.
+	 * @throws NullPointerException if the input is empty or does not contain
+	 *		all necessary columns.
+	 * @throws DataNotFoundException if there is a foreign key on not existing entity.
+	 * @throws DibiDriverException if there is a problem to work with database.
+	 */
+	public function insert(array $input) {
+		if (empty($input[self::DATA_PASSWORD])) {
+			throw new NullPointerException("input[" . self::DATA_PASSWORD . "]");
+		}
+		if (empty($input[self::DATA_EMAIL])) {
+			throw new NullPointerException("input[" . self::DATA_EMAIL . "]");
+		}
+		$input[self::DATA_PASSWORD] = self::passwordHash(
+			$input[self::DATA_PASSWORD],
+			$input[self::DATA_EMAIL]
+		);
+		return parent::insert($input);
 	}
 
 	/**
@@ -113,6 +187,39 @@ class Users extends ATableModel implements IAuthenticator
 
 	protected function tableName() {
 		return self::getTable();
+	}
+
+	/**
+	 * It updates en entity in the database.
+	 *
+	 * @param int $id The identificator of the entity.
+	 * @param array|mixed $input	The new data describig entity,
+	 *		array keys are columns name of the table in database
+	 *		and values are the content.
+	 * @return boolean It return TRUE if the entity was changed,
+	 *		otherwise FALSE.
+	 * @throws InvalidArgumentException if the $input is not an array.
+	 * @throws NullPointerException if $id is empty.
+	 * @throws DataNotFoundException if the entity does not exist
+	 *		or there is the foreign key on the intity which does not exist.
+	 * @throws DibiDriverException if there is a problem to work with database.
+	 */
+	public function update($id, $input) {
+		if (empty($id)) {
+			throw new NullPointerException("id");
+		}
+		$rows = $this->get()->where("%n = %i", self::DATA_ID, $id);
+		if ($rows->count() == 0) {
+			throw new DataNotFoundException("id");
+		}
+		$user = $rows->fetch();
+		if (isset($input[self::DATA_PASSWORD])) {
+			$input[self::DATA_PASSWORD] = self::passwordHash(
+				$input[self::DATA_PASSWORD],
+				$user[self::DATA_EMAIL]
+			);
+		}
+		return parent::update($id, $input);
 	}
 }
 

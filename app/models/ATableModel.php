@@ -51,7 +51,7 @@ abstract class ATableModel extends Object implements ITableModel
 	abstract protected function identificator();
 
 	/**
-	 * It insert an entity to the database.
+	 * It inserts an entity to the database.
 	 *
 	 * @param array|mixed $input The input data, keys are names of the columns
 	 *		and values are content.
