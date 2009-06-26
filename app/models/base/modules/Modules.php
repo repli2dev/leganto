@@ -55,6 +55,7 @@ class Modules
 			foreach ($this->installedModules AS $module) {
 				$this->uninstall($module);
 			}
+			$this->installedModules = array();
 		}
 		// Dependence checking
 		// FIXME: It should be more effective.
@@ -65,6 +66,23 @@ class Modules
 						throw new DependenceException($module . " -> " . $dependence);
 					}
 				}
+			}
+		}
+		
+	}
+
+	/**
+	 * It removes all MySQL tables which are not installed.
+	 *
+	 * @throws DibiDriverExcpetion if there is a problem to work with database.
+	 */
+	private function clearDatabase() {
+		$moduleTable = new ModuleTable();
+		$installedTables = $moduleTable->get();
+		$dbTables = dibi::getDatabaseInfo()->getTableNames();
+		foreach($dbTables AS $table) {
+			if (!in_array($table, $installedTables)) {
+				dibi::query("DROP TABLE %n", $table);
 			}
 		}
 	}
@@ -150,15 +168,6 @@ class Modules
 		$this->installedModules = NULL;
 		$moduleId = dibi::insertId();
 		$tables = new ModuleTable();
-		// Tables register
-		foreach ($this->get($module)->getTables() AS $name => $columns) {
-			$tables->insert(array(
-				ModuleTable::DATA_ID_COLUMN => $columns["id"],
-				ModuleTable::DATA_MODULE => $moduleId,
-				ModuleTable::DATA_NAME_COLUMN => $columns["name"],
-				ModuleTable::DATA_TABLE => $name
-			));
-		}
 		// Tables installation
 		$dir = $this->get($module)->getDirectoryWithDatabase();
 		if (!empty ($dir)) {
@@ -166,6 +175,7 @@ class Modules
 				dibi::loadFile($file);
 			}
 		}
+		$this->synchronizeDatabase($module);
 		return TRUE;
 	}
 
@@ -186,6 +196,54 @@ class Modules
 			}
 		}
 		return $this->installedModules;
+	}
+
+	/**
+	 * It installes all unistalled MySQL tables to specified module.
+	 *
+	 * @param string $module Module name
+	 * @throws NullPointerException if the $module is empty.
+	 * @throws IOException if there is no definition of id columns.
+	 * @throws DataNotFoundException if the module does not exist
+	 */
+	private function synchronizeDatabase($module) {
+		$loadedTables = $this->get($module)->getTables();
+		$id = dibi::dataSource("SELECT * FROM %n", self::getTable())
+			->where("[name] = %s", $module)
+			->fetch()->id_module;
+		$moduleTable = new ModuleTable();
+		$installedTables = array_keys($moduleTable->get()->fetchAssoc(ModuleTable::DATA_TABLE));
+		$dbTables = dibi::getDatabaseInfo()->getTables();
+		foreach($dbTables AS $table) {
+			// If the table is already installed, skyp this cycle.
+			if (in_array($table->getName(), $installedTables)) {
+				continue;
+			}
+			// Installation
+			$input = array();
+			// ID column name
+			if (!empty($loadedTables[$table->getName()]) && !empty($loadedTables[$table->getName()]["id"])) {
+				$input[ModuleTable::DATA_ID_COLUMN] = $loadedTables[$table->getName()]["id"];
+			}
+			else {
+				foreach ($table->getColumnNames() AS $column) {
+					if (substr_count($column, "id_") > 0) {
+						$input[ModuleTable::DATA_ID_COLUMN] = $column;
+						break;
+					}
+				}
+				if (empty($input[ModuleTable::DATA_ID_COLUMN])) {
+					throw new IOException("id_column_name");
+				}
+			}
+			// Name of column which contains an entity name
+			if (!empty($loadedTables[$table->getName()]) && !empty($loadedTables[$table->getName()]["name"])) {
+				$input[ModuleTable::DATA_NAME_COLUMN] = $loadedTables[$table->getName()]["name"];
+			}
+			$input[ModuleTable::DATA_MODULE] = $id;
+			$input[ModuleTable::DATA_TABLE] = $table->getName();
+			$moduleTable->insert($input);
+		}
 	}
 
 	/**

@@ -48,7 +48,6 @@ class ModuleTable extends ATableModel
 		return array(
 			"id_module",
 			"table",
-			"name_column",
 			"identificator_column"
 		);
 	}

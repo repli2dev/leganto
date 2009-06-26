@@ -28,7 +28,7 @@ CREATE TABLE `module_table` (
 	`id_module_table` INT(25) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'identifikator',
 	`id_module` INT (25) UNSIGNED NOT NULL COMMENT 'modul, ke kteremu tabulka patri',
 	`table` VARCHAR(100) NOT NULL UNIQUE COMMENT 'nazev tabulky',
-	`name_column` VARCHAR(100) NOT NULL COMMENT 'nazev sloupce, ktery obsahuje nazev entity',
+	`name_column` VARCHAR(100) NULL COMMENT 'nazev sloupce, ktery obsahuje nazev entity',
 	`identificator_column` VARCHAR(100) NOT NULL COMMENT 'nazev sloupce, ktery obsahuje identifikator entity',
 	FOREIGN KEY (`id_module`) REFERENCES `module`(`id_module`) ON UPDATE CASCADE ON DELETE CASCADE
 ) ENGINE = InnoDB COMMENT = 'Tabulky, ktere jsou nalezi jednotlivym modulum.';
