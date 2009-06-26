@@ -211,7 +211,7 @@ class Module
 		if (empty($section)) {
 			throw new NullPointerException("section");
 		}
-		if (empty($this->componentsDir[$section])) {
+		if (!isset($this->componentsDir[$section])) {
 			throw new DataNotFoundException("section");
 		}
 		return $this->componentsDir[$section];
@@ -283,7 +283,7 @@ class Module
 		if (empty($section)) {
 			throw new NullPointerException("section");
 		}
-		if (empty($this->links[$section])) {
+		if (!isset($this->links[$section])) {
 			throw new DataNotFoundException("section");
 		}
 		return $this->links[$section];
@@ -310,7 +310,7 @@ class Module
 		if (empty($section)) {
 			throw new NullPointerException("section");
 		}
-		if (empty($this->sublinks[$section])) {
+		if (!isset($this->sublinks[$section])) {
 			throw new DataNotFoundException("section");
 		}
 		return $this->sublinks[$section];

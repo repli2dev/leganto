@@ -1,3 +1,7 @@
 <ul id="menu">
-	{block #menu}{/block}
+	{block #menu}
+		{foreach $menu AS $name => $url}
+			<li><a href="{plink $url}" title="{$name}">{$name}</a></li>
+		{/foreach}
+	{/block}
 </ul>

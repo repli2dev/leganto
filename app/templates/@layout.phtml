@@ -5,13 +5,15 @@
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<meta http-equiv="content-language" content="cs" />
 	<meta name="copyright" content="&copy; 2009 Jan Drabek, Jan Papousek" />
+	{foreach $rss AS $name => $url}
+		<link rel="alternative" type="application/rss+xml" title="{$name}" href="{plink $url}" />
+	{/foreach}
 	<title>{if isset($title)} {$title} {/if} {if isset($subtitle)} {$subtitle} {/if}</title>
 
 </head>
 	<div id="container">
 		{include @header.phtml}
-		
+		{include @menu.phtml}
 		{include @content.phtml}
-		
 	</div>
 </html>
