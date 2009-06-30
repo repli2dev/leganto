@@ -4,7 +4,7 @@
  *
  * @author Jan Papousek
  */
-class UserComponent extends Control
+class UserComponent extends BaseControl
 {
 
     public function render() {
@@ -13,15 +13,20 @@ class UserComponent extends Control
 		$template->registerFilter(/*Nette\Templates\*/'CurlyBracketsFilter::invoke');
 
 		if (!Environment::getUser()->isAuthenticated()) {
-			$template->form = $this->getLoginForm();
+			$template->form = $this->getComponent("loginForm");
 		}
 		else {
 			$template->user = Environment::getUser()->getIdentity();
+			$template->logout = Locales::get("users")->get("logout");
 		}
 
 		$template->render();
 	}
 
+
+	public function handleLogout() {
+		Environment::getUser()->signOut();
+	}
 
 	public function loginSubmitted(Form $form) {
 		$values = $form->getValues();
@@ -31,6 +36,7 @@ class UserComponent extends Control
 				$values[IAuthenticator::USERNAME],
 				$values[IAuthenticator::PASSWORD]
 			);
+
 		}
 		catch (AuthenticationException $e) {
 			switch ($e->getCode()) {
@@ -51,8 +57,8 @@ class UserComponent extends Control
 		}
 	}
 
-	protected function getLoginForm() {
-		$form = new Form("loginForm",$this->getPresenter());
+	protected function createLoginForm($name) {
+		$form = new AppForm($this,"loginForm");
 
 		$form->addText(IAuthenticator::USERNAME, Locales::get("users")->get("email") . ":")
 			->addRule(Form::FILLED, Locales::get("users")->get("email_not_filled"));

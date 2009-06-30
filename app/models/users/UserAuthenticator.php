@@ -13,7 +13,7 @@ class UserAuthenticator implements IAuthenticator
 		// Loading data from database
 		$rows = $users->get()->where(
 			"%n = %s",
-			self::DATA_EMAIL,
+			Users::DATA_EMAIL,
 			$credentials[IAuthenticator::USERNAME]
 		);
 		// Does the user exist?
@@ -25,22 +25,22 @@ class UserAuthenticator implements IAuthenticator
 		}
 		$user = $rows->fetch();
 		// Is there a valid password
-		$password = self::passwordHash(
+		$password = Users::passwordHash(
 			$credentials[IAuthenticator::PASSWORD],
-			$user[self::DATA_EMAIL]
+			$user[Users::DATA_EMAIL]
 		);
-		if ($user[self::DATA_PASSWORD] !== $password) {
+		if ($user[Users::DATA_PASSWORD] !== $password) {
 			throw new AuthenticationException(
 				"Inavalid password.",
 				AuthenticationException::INVALID_CREDENTIAL
 			);
 		}
 		// Last logged
-		$users->update($id, array(self::DATA_LAST_LOGGED => new DibiVariable("now()","sql")));
+		$users->update($user[Users::DATA_ID], array(Users::DATA_LAST_LOGGED => new DibiVariable("now()","sql")));
 		// Logged user
-		unset($user[self::DATA_PASSWORD]);
+		unset($user[Users::DATA_PASSWORD]);
 		return new Identity(
-			$user[self::DATA_NICKNAME],
+			$user[Users::DATA_NICKNAME],
 			$user[Role::DATA_NAME],
 			$user
 		);

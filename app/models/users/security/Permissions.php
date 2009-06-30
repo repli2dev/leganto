@@ -26,7 +26,7 @@ class Permissions extends ATableModel
 	 */
 	public static function getTable() {
 		$tables = Environment::getConfig('tables');
-		return (!empty($tables->permission) ? $tables->permission : 'permisson');
+		return (!empty($tables->permission) ? $tables->permission : 'permission');
 	}
 
 	protected function requiredColumns() {

@@ -17,13 +17,13 @@ class UserAuthorizator implements IAuthorizator
 			return FALSE;
 		}
 		$moduleId = Modules::getInstance()->getId($resource);
-		if (empty ($this->roles[$role])) {
+		$roles = $this->getRoles();
+		if (empty ($roles[$role])) {
 			return FALSE;
 		}
-		foreach ($this->roles[$role] AS $row) {
+		foreach ($roles[$role] AS $row) {
 			if ($row[Permissions::DATA_MODULE] == $moduleId) {
 				if ($row[Permissions::DATA_ACTION] == NULL || $row[Permissions::DATA_ACTION] == $privilege) {
-					Debug::dump($row);
 					return TRUE;
 				}
 			}
@@ -34,7 +34,8 @@ class UserAuthorizator implements IAuthorizator
 	private function getRoles() {
 		if ($this->roles === NULL) {
 			$roles = new Role();
-			$this->roles = $roles->getWithPrivileges()->fetchAssoc(Role::DATA_NAME);
+			$this->roles = $roles->getWithPrivileges()
+				->fetchAssoc(Role::DATA_NAME . "," . Permissions::DATA_ID);
 		}
 		return $this->roles;
 	}	

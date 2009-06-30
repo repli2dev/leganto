@@ -7,7 +7,6 @@ require_once LIBS_DIR . '/Nette/loader.php';
 
 // Loader
 $loader = new RobotLoader();
-$loader->addDirectory(MODELS_DIR);
 $loader->addDirectory(APP_DIR);
 $loader->addDirectory(LIBS_DIR);
 $loader->register();

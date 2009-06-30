@@ -23,6 +23,9 @@ abstract class BasePresenter extends Presenter
 			return;
 		}
 		$user = Environment::getUser();
+		if (!empty($user->getIdentity()->type) && $user->getIdentity()->type == "root") {
+			return;
+		}
 		$actions = $this->getActions();
 		$action = empty($actions[$this->getAction()]) ? NULL : $actions[$this->getAction()];
 		if (!$user->isAllowed($this->getModule()->getName(),$action)) {
@@ -48,9 +51,6 @@ abstract class BasePresenter extends Presenter
 
 	public function renderPermissionDenied() {
 		$this->template->setFile(TEMPLATES_DIR . "/denied.phtml");
-		if (!Environment::getUser()->isAuthenticated()) {
-			$this->template->userComponent = $this->getComponent("userComponent");
-		}
 		$this->flashMessage(Locales::get("users")->get("permission_denied"),"error");
 	}
 

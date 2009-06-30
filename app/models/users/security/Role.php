@@ -34,7 +34,7 @@ class Role extends ATableModel
 	public function getWithPrivileges() {
 		return dibi::dataSource(
 			"SELECT * FROM %n", self::getTable(),
-			"LEFT JOIN %n ON %n", Permissions::getTable(), self::DATA_ID
+			"LEFT JOIN %n USING(%n)", Permissions::getTable(), self::DATA_ID
 		);
 	}
 

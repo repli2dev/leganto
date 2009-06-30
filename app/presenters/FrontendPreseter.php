@@ -25,6 +25,8 @@ abstract class FrontendPresenter extends BasePresenter
 				$this->template->rss[$name] = $url;
 			}
 		}
+
+		$this->template->userComponent = $this->getComponent("userComponent");
 	}
 }
 ?>

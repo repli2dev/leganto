@@ -77,16 +77,19 @@ class Users_FrontendPresenter extends FrontendPresenter
 		$values = $form->getValues();
 		$users = new Users();
 		try {
-			if (!empty($values[Users::DATA_PASSWORD]) && $values[Users::DATA_PASSWORD] != $values["paswored_check"]) {
+			if (!empty($values[Users::DATA_PASSWORD]) && $values[Users::DATA_PASSWORD] != $values["password_check"]) {
 				$form->addError(Locales::get("users")->get("wrong_check_password"));
 				return;
 			}
-			unset($values["pasword_check"]);
+			unset($values["password_check"]);
 			$id = Environment::getUser()->getIdentity()->id_user;
 			if (!$users->update($id, $values)) {
 				$form->addError(Locales::get("users")->get("user_exists"));
 				return;
 			}
+			$this->flashMessage(Locales::get("users")->get("user_successfully_updated"));
+			// TODO: refresh identity
+			// TODO: redirect
 		}
 		catch (InvalidArgumentException $e) {
 			$form->addError(Locales::get("users")->get("invalid_email"));
@@ -105,22 +108,20 @@ class Users_FrontendPresenter extends FrontendPresenter
 
 		if ($this->userFormType == "new") {
 			$form->addGroup(Locales::get("users")->get("registration"));
-			// E-mail address.
-			$form->addText(Users::DATA_EMAIL, Locales::get("users")->get("email"))
-				->addRule(Form::FILLED, Locales::get("users")->get("email_not_filled"));
+			// Nickname
+			$form->addText(Users::DATA_NICKNAME, Locales::get("users")->get("nickname"))
+				->addRule(Form::FILLED, Locales::get("users")->get("nickname"));
 		}
 		else {
 			$form->addGroup(Locales::get("users")->get("edit_personal_info"));
 		}
+		// E-mail address.
+		$form->addText(Users::DATA_EMAIL, Locales::get("users")->get("email"))
+			->addRule(Form::FILLED, Locales::get("users")->get("email_not_filled"));
 		// Password
-		$form->addPassword(Users::DATA_PASSWORD, Locales::get("users")->get("password"))
-			->addRule(Form::FILLED, Locales::get("users")->get("password_not_filled"));
+		$form->addPassword(Users::DATA_PASSWORD, Locales::get("users")->get("password"));
 		// Password check
-		$form->addPassword("password_check", Locales::get("users")->get("password_check"))
-			->addRule(Form::FILLED, Locales::get("users")->get("password_check_not_filled"));
-		// Nickname
-		$form->addText(Users::DATA_NICKNAME, Locales::get("users")->get("nickname"))
-			->addRule(Form::FILLED, Locales::get("users")->get("nickname"));
+		$form->addPassword("password_check", Locales::get("users")->get("password_check"));
 		// Sex
 		$options = array(
 			NULL => Locales::get()->get("not_chosen"),
@@ -137,6 +138,10 @@ class Users_FrontendPresenter extends FrontendPresenter
 		
 		// Form process etc.
 		if ($this->userFormType == "new") {
+			$form->getComponent(Users::DATA_PASSWORD)
+				->addRule(Form::FILLED, Locales::get("users")->get("password_not_filled"));
+			$form->getComponent("pasword_check")
+				->addRule(Form::FILLED, Locales::get("users")->get("password_check_not_filled"));
 			$defaults = array(
 				Users::DATA_LANGUAGE => Site::getInstance()->getLanguage()->id_language
 			);
@@ -146,7 +151,14 @@ class Users_FrontendPresenter extends FrontendPresenter
 		}
 		else {
 			if (Environment::getUser()->isAuthenticated()) {
-				$defaults = Environment::getUser()->getIdentity()->getData();
+				$identity = Environment::getUser()->getIdentity();
+				$defaults = array(
+					Users::DATA_LANGUAGE => $identity->id_language,
+					Users::DATA_EMAIL => $identity->email,
+					Users::DATA_SEX => $identity->sex,
+					Users::DATA_YEAR_OF_BIRTH => $identity->birth_year
+				);
+				$form->setDefaults($defaults);
 			}
 			$form->addSubmit("userInfoSubmit", Locales::get()->get("edit"));
 			$form->onSubmit[] = array($this, "editSubmitted");

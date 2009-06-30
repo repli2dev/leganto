@@ -129,7 +129,7 @@ abstract class ATableModel extends Object implements ITableModel
 		if (empty($id)) {
 			throw new NullPointerException("id");
 		}
-		$rows = $this->get()->where("[".$this->getIdentificator()."] = %i", $id);
+		$rows = $this->get()->where("[".$this->identificator()."] = %i", $id);
 		if ($rows->count() == 0) {
 			throw new DataNotFoundException("id");
 		}

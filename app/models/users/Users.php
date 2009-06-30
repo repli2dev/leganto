@@ -96,7 +96,8 @@ class Users extends ATableModel
 	public function get() {
 		return dibi::dataSource(
 			"SELECT *
-			 FROM %n", self::getTable()
+			 FROM %n", self::getTable(),
+			"LEFT JOIN %n USING (%n)", Role::getTable(), Role::DATA_ID
 		);
 	}
 
@@ -147,9 +148,9 @@ class Users extends ATableModel
 	 * @param string Password in plain text.
 	 * @param string E-mail address.
 	 *
-	 * @return <type>
+	 * @return string
 	 */
-	protected static function passwordHash($password, $email) {
+	public static function passwordHash($password, $email) {
 		// TODO: Zamyslet se nad hashovaci fci
 		return sha1($password);
 	}
