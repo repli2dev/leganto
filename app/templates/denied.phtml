@@ -1,0 +1,10 @@
+{extends @layout.phtml}
+
+{block #left}{/block}
+{block #right}{/block}
+{block #menu}{/block}
+{block #content}
+{if isset($userComponent)}
+{$userComponent->render()}
+{/if}
+{/block}
