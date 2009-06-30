@@ -28,7 +28,7 @@ abstract class ATableModel extends Object implements ITableModel
 	/**
 	 * Names of the required columns of the table which is represeted by this model.
 	 *
-	 * @var array|string
+	 * @var array|DibiColumnInfo
 	 */
 	private $required;
 
@@ -101,8 +101,8 @@ abstract class ATableModel extends Object implements ITableModel
 	public function insert(array $input) {
 		$required = $this->requiredColumns();
 		foreach ($required AS $key) {
-			if (empty($input[$key])) {
-				throw new NullPointerException("input[$key]");
+			if (empty($input[$key->getName()])) {
+				throw new NullPointerException("input[". $key->getName() ."]");
 			}
 		}
 		try {
@@ -140,7 +140,7 @@ abstract class ATableModel extends Object implements ITableModel
 			$columns = dibi::getDatabaseInfo()->getTable($this->tableName())->getColumns();
 			foreach ($columns AS $column) {
 				if (!$column->isNullable() && $column->getName() != $this->identificator()) {
-					$this->required[] = $column->getName();
+					$this->required[] = $column;
 				}
 			}
 		}
