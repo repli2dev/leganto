@@ -5,7 +5,7 @@
  *
  * @author Jan Papousek
  */
-class Users extends ATableModel implements IAuthenticator
+class Users extends ATableModel
 {
 
 	/**
@@ -51,7 +51,12 @@ class Users extends ATableModel implements IAuthenticator
 	/**
 	 * The role column name.
 	 */
-	const DATA_ROLE = "role";
+	const DATA_ROLE = "id_role";
+
+	/**
+	 * The name of column which contains user's sex.
+	 */
+	const DATA_SEX = "sex";
 
 	/**
 	 * The type column name.
@@ -64,6 +69,11 @@ class Users extends ATableModel implements IAuthenticator
 	const DATA_UPDATED = "updated";
 
 	/**
+	 * The name of column which contains year of user's birth.
+	 */
+	const DATA_YEAR_OF_BIRTH = "birth_year";
+
+	/**
 	 * The common type.
 	 */
 	const TYPE_COMMON = "common";
@@ -73,41 +83,8 @@ class Users extends ATableModel implements IAuthenticator
 	 */
 	const TYPE_ROOT = "root";
 
-	public function authenticate(array $credentials) {
-		/// Loading data from database
-		$rows = $this->get()->where(
-			"%n = %s",
-			self::DATA_EMAIL,
-			$credentials[IAuthenticator::USERNAME]
-		);
-		// Does the user exist?
-		if ($rows->count() == 0) {
-			throw new AuthenticationException(
-				"Username not found.",
-				AuthenticationException::IDENTITY_NOT_FOUND
-			);
-		}
-		$user = $rows->fetch();
-		// Is there a valid password
-		$password = self::passwordHash(
-			$credentials[IAuthenticator::PASSWORD],
-			$user[self::DATA_EMAIL]
-		);
-		if ($user[self::DATA_PASSWORD] !== $password) {
-			throw new AuthenticationException(
-				"Inavalid password.",
-				AuthenticationException::INVALID_CREDENTIAL
-			);
-		}
-		// Last logged
-		$this->update($id, array(self::DATA_LAST_LOGGED => new DibiVariable("NULL","sql")));
-		// Logged user
-		unset($user[self::DATA_PASSWORD]);
-		return new Identity(
-			$user[self::DATA_NICKNAME],
-			$user[Role::DATA_NAME],
-			$user
-		);
+	protected function identificator() {
+		return self::DATA_ID;
 	}
 
 	/**
@@ -119,8 +96,7 @@ class Users extends ATableModel implements IAuthenticator
 	public function get() {
 		return dibi::dataSource(
 			"SELECT *
-			 FROM %n", self::getTable(),
-			"LEFT JOIN %n ON %n", Role::getTable(), self::DATA_ROLE
+			 FROM %n", self::getTable()
 		);
 	}
 
@@ -141,7 +117,7 @@ class Users extends ATableModel implements IAuthenticator
 	 *		and values are content.
 	 * @return int Identificator of the new entity in database
 	 *		or '-1' if the entity has already existed.
-	 * @return InvalidArgumentException if the $input is not an array.
+	 * @return InvalidArgumentException if the $input[email] is not valid.
 	 * @throws NullPointerException if the input is empty or does not contain
 	 *		all necessary columns.
 	 * @throws DataNotFoundException if there is a foreign key on not existing entity.
@@ -153,6 +129,10 @@ class Users extends ATableModel implements IAuthenticator
 		}
 		if (empty($input[self::DATA_EMAIL])) {
 			throw new NullPointerException("input[" . self::DATA_EMAIL . "]");
+		}
+		$validator = new EmailValidator();
+		if (!$validator->isValid($input[self::DATA_EMAIL])) {
+			throw new InvalidArgumentException("input[email]");
 		}
 		$input[self::DATA_PASSWORD] = self::passwordHash(
 			$input[self::DATA_PASSWORD],
@@ -171,14 +151,12 @@ class Users extends ATableModel implements IAuthenticator
 	 */
 	protected static function passwordHash($password, $email) {
 		// TODO: Zamyslet se nad hashovaci fci
-		throw new NotSupportedException();
+		return sha1($password);
 	}
 
 	protected function requiredColumns() {
 		return array(
-			self::DATA_ID,
 			self::DATA_EMAIL,
-			self::DATA_LANGUAGE,
 			self::DATA_NICKNAME,
 			self::DATA_PASSWORD,
 			self::DATA_TYPE
@@ -204,7 +182,7 @@ class Users extends ATableModel implements IAuthenticator
 	 *		or there is the foreign key on the intity which does not exist.
 	 * @throws DibiDriverException if there is a problem to work with database.
 	 */
-	public function update($id, $input) {
+	public function update($id, array $input) {
 		if (empty($id)) {
 			throw new NullPointerException("id");
 		}

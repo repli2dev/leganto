@@ -25,6 +25,19 @@ class Role extends ATableModel
 		return (!empty($tables->role) ? $tables->role : 'role');
 	}
 
+
+	/**
+	 * It returns roles with they permission privileges.
+	 *
+	 * @return DibiDataSource
+	 */
+	public function getWithPrivileges() {
+		return dibi::dataSource(
+			"SELECT * FROM %n", self::getTable(),
+			"LEFT JOIN %n ON %n", Permissions::getTable(), self::DATA_ID
+		);
+	}
+
 	protected function requiredColumns() {
 		return array(self::DATA_NAME);
 	}

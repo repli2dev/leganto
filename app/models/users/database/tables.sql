@@ -19,17 +19,21 @@ DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
 	`id_user` INT(25) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'identifikator',
 	`id_language` INT(25) UNSIGNED NOT NULL COMMENT 'preferovany jazyk uzivatele',
-	`id_role` INT(25) UNSIGNED NULL COMMENT 'role, kterou uzivatel zastava v systemu',
+	`id_role` INT(25) UNSIGNED NOT NULL COMMENT 'role, kterou uzivatel zastava v systemu',
 	`email` VARCHAR(255) NOT NULL COMMENT 'e-mail',
 	`password` VARCHAR(255) NOT NULL COMMENT 'hash hesla',
 	`type` ENUM('root','common') NOT NULL DEFAULT 'common',
 	`nick` VARCHAR(255) NOT NULL COMMENT 'prezdivka, pod kterou uzivatel vystupuje',
+	`sex` ENUM('male','female') NULL COMMENT 'pohlavi',
+	`birth_year` INT(3) NULL COMMENT 'vek',
 	`autologin_ticket` VARCHAR(255) NULL COMMENT 'autorizacni retezec pro automaticke prihlaseni',
 	`last_logged` DATETIME NULL COMMENT 'cas, kdy byl uzivatel naposled prihlasen',
 	`inserted` DATETIME NOT NULL COMMENT 'cas, kdy byla polozka vlozena do systemu',
 	`updated` TIMESTAMP COMMENT 'cas, kdy byla polozka naposledy zmenena',
 	FOREIGN KEY (`id_language`) REFERENCES `language` (`id_language`) ON UPDATE CASCADE ON DELETE CASCADE,
-	FOREIGN KEY (`id_role`) REFERENCES `role` (`id_role`) ON UPDATE CASCADE ON DELETE CASCADE
+	FOREIGN KEY (`id_role`) REFERENCES `role` (`id_role`) ON UPDATE CASCADE ON DELETE CASCADE,
+	UNIQUE(`email`),
+	UNIQUE(`nick`)
 ) ENGINE = InnoDB COMMENT = 'uzivatele';
 
 DROP TABLE IF EXISTS `friendship`;

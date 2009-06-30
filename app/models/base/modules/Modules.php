@@ -1,4 +1,9 @@
 <?php
+
+//TODO:
+//		* Create stylesheets of the modules
+//		* Create actions of the module - they are important to authorization
+
 /**
  * This class represents all avaiable modules.
  *
@@ -68,7 +73,7 @@ class Modules
 				}
 			}
 		}
-		
+
 	}
 
 	/**
@@ -103,6 +108,26 @@ class Modules
 			throw new DataNotFoundException($name);
 		}
 		return $this->loadedModules[$name];
+	}
+
+	/**
+	 * It returns module ID
+	 * 
+	 * @param string $module Module name
+	 * @throws NullPointerException if the $module is empty.
+	 * @throws DataNotFoundException if the module does not exist.
+	 */
+	public function getId($module) {
+		if (empty($module)) {
+			throw new NullPointerException("module");
+		}
+		// FIXME: More effective
+		foreach ($this->installedModules() AS $id => $name) {
+			if ($name == $module) {
+				return $id;
+			}
+		}
+		throw new DataNotFoundException("module: $module");
 	}
 
 	/**
@@ -189,11 +214,9 @@ class Modules
 		if (empty($this->installedModules)) {
 			$this->installedModules = array();
 			$rows = dibi::query(
-				"SELECT [name] FROM %n", self::getTable()
+				"SELECT [id_module], [name] FROM %n", self::getTable()
 			);
-			while ($row = $rows->fetch()) {
-				$this->installedModules[] = $row->name;
-			}
+			$this->installedModules = $rows->fetchPairs("id_module", "name");
 		}
 		return $this->installedModules;
 	}

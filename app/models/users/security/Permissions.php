@@ -4,7 +4,7 @@
  *
  * @author Jan Papousek
  */
-class Permission extends ATableModel
+class Permissions extends ATableModel
 {
 
 	const DATA_ACTION = "action";

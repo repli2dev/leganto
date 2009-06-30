@@ -21,5 +21,8 @@ define("MODULES_DIR", APP_DIR . "/modules");
 // absolute filesystem path to the components
 define("COMPONENTS_DIR", APP_DIR . "/components");
 
+// absolute filesystem path to the templates
+define("TEMPLATES_DIR", APP_DIR . "/templates");
+
 // load bootstrap file
 require APP_DIR . '/bootstrap.php';

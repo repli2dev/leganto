@@ -4,9 +4,10 @@
  *
  * @author Jan Papousek
  */
-abstract class Frontend_BasePresenter extends BasePresenter
+abstract class FrontendPresenter extends BasePresenter
 {
 	public function beforeRender() {
+		parent::beforeRender();
 		$this->template->title = NULL;
 
 		$this->template->menu = array();

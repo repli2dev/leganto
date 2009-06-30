@@ -44,9 +44,8 @@ $router[] = new Route(
 );
 
 $router[] = new Route(
-	'<presenter>/<action>',
+	'<module>/<presenter>/<action>',
 	array(
-		'module' => 'Frontend',
 		'presenter' => 'Default',
 		'action' => 'default'
 	)

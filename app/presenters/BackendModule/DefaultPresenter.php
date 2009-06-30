@@ -4,7 +4,7 @@
  *
  * @author Jan Papousek
  */
-class Backend_DefaultPresenter extends Backend_BasePresenter
+class Backend_DefaultPresenter extends BackendPresenter
 {
 
 	public function renderDefault() {

@@ -77,7 +77,7 @@ abstract class ATableModel extends Object implements ITableModel
 		catch(DibiDriverException $e) {
 			Debug::processException($e);
 			switch ($e->getCode()) {
-				case DibiMySqlDriver::ERROR_DUPLICATE_ENTRY:
+				case 1062:
 					return (-1);
 					break;
 				// FIXME: hardcoded
@@ -140,7 +140,7 @@ abstract class ATableModel extends Object implements ITableModel
 		catch (DibiDriverException $e) {
 			Debug::processException($e);
 			switch ($e->getCode()) {
-				case DibiMySqlDriver::ERROR_DUPLICATE_ENTRY:
+				case 1062:
 					return FALSE;
 					break;
 				// FIXME: hardcoded
