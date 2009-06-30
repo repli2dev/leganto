@@ -3,13 +3,36 @@
  * Abstract class designed to be extended by classes
  * representing model on the MySQL tables.
  *
+ * The MySQL table which is represented by model extending this abstract class
+ * has to have just one (numeric) primary key and all required columns
+ * has to be marked as "NOT NULL".
+ *
+ * If the MySQL table does not use this schema, you should not extend this class,
+ * nut you should implement interface 'ITableModel'.
+ *
  * All classes which extend this abstract class should declare
  * static method 'getTable()' which is used by other classes.
  *
  * @author Jan Papousek
+ * @uses ITableModel
  */
 abstract class ATableModel extends Object implements ITableModel
 {
+	/**
+	 * The primary key of the table which is represented by this model.
+	 *
+	 * @var DibiColumnInfo
+	 */
+	private $identificator;
+
+	/**
+	 * Names of the required columns of the table which is represeted by this model.
+	 *
+	 * @var array|string
+	 */
+	private $required;
+
+
 	/**
 	 * It deletes an entity from database.
 	 *
@@ -48,7 +71,19 @@ abstract class ATableModel extends Object implements ITableModel
 	 *
 	 * @return string The identificator column name.
 	 */
-	abstract protected function identificator();
+	protected function identificator() {
+		if (empty($this->identificator)) {
+			$primaries = dibi::getDatabaseInfo()
+				->getTable($this->tableName())
+				->getPrimaryKey()
+				->getColumns();
+			foreach ($primaries AS $primary) {
+				$this->identificator = $primary;
+				break;
+			}
+		}
+		return $this->identificator->getName();
+	}
 
 	/**
 	 * It inserts an entity to the database.
@@ -99,7 +134,18 @@ abstract class ATableModel extends Object implements ITableModel
 	 *
 	 * @return array|string Names of required columns
 	 */
-	abstract protected function requiredColumns();
+	protected function requiredColumns() {
+		if (empty($this->required)) {
+			$this->required = array();
+			$columns = dibi::getDatabaseInfo()->getTable($this->tableName())->getColumns();
+			foreach ($columns AS $column) {
+				if (!$column->isNullable() && $column->getName() != $this->identificator()) {
+					$this->required[] = $column->getName();
+				}
+			}
+		}
+		return $this->required;
+	}
 
 	/**
 	 * It returns a name of the MySQL table which the model work on.
