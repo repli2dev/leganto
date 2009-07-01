@@ -11,14 +11,20 @@ class Users_FrontendPresenter extends FrontendPresenter
 	public $userFormType = "new"; // = 'new'/'edit'
 
 	public function startup() {
-		$this->setActions(array("edit" => "edit"));
 		$this->setModule(Modules::getInstance()->get("users"));
+	}
+
+	/**
+	 * It renders an user's page.
+	 */
+	public function renderDefault() {
+		$this->template->userStatus = $this->getComponent("userStatus");
 	}
 
 	/**
 	 * It renders a users list.
 	 */
-	public function renderDefault() {
+	public function renderAll() {
 		$this->template->users = $this->getComponent("usersDataGrid");
 	}
 
@@ -32,10 +38,15 @@ class Users_FrontendPresenter extends FrontendPresenter
 
 	/**
 	 * It renders a form to edit personal info of the logged user.
+	 *
+	 * @Secured(action=edit)
 	 */
 	public function renderEdit() {
 		$this->userFormType = "edit";
 		$this->template->form = $this->getComponent("userInfoForm");
+
+		$this->template->iconForm = $this->getComponent("iconForm");
+		$this->template->iconInfo = Locales::get("users")->get("icon_info");
 	}
 
 	/**
@@ -71,7 +82,30 @@ class Users_FrontendPresenter extends FrontendPresenter
 	}
 
 	/**
+	 * @Secured(action=edit)
+	 */
+	public function iconSubmitted(Form $form) {
+		$values = $form->getValues();
+		try {
+			if (!empty($values["delete"])) {
+				Icon::delete(Environment::getUser()->getIdentity()->id_user);
+				$this->flashMessage(Locales::get("users")->get("icon_successfully_deleted"), "success");
+			}
+			else {
+				Icon::loadIcon(Environment::getUser()->getIdentity()->id_user, $form["icon"]->getValue());
+				$this->flashMessage(Locales::get("users")->get("icon_successfully_loaded"), "success");
+			}
+		}
+		//TODO: Process exceptions.
+		catch(IOException $e) {
+			Debug::processException($e);
+		}
+	}
+
+	/**
 	 * It processes an editation form.
+	 * 
+	 * @Secured(action=edit)
 	 */
 	public function editSubmitted(Form $form) {
 		$values = $form->getValues();
@@ -80,6 +114,9 @@ class Users_FrontendPresenter extends FrontendPresenter
 			if (!empty($values[Users::DATA_PASSWORD]) && $values[Users::DATA_PASSWORD] != $values["password_check"]) {
 				$form->addError(Locales::get("users")->get("wrong_check_password"));
 				return;
+			}
+			if (empty($values[Users::DATA_PASSWORD])) {
+				unset($values[Users::DATA_PASSWORD]);
 			}
 			unset($values["password_check"]);
 			$id = Environment::getUser()->getIdentity()->id_user;
@@ -140,7 +177,7 @@ class Users_FrontendPresenter extends FrontendPresenter
 		if ($this->userFormType == "new") {
 			$form->getComponent(Users::DATA_PASSWORD)
 				->addRule(Form::FILLED, Locales::get("users")->get("password_not_filled"));
-			$form->getComponent("pasword_check")
+			$form->getComponent("password_check")
 				->addRule(Form::FILLED, Locales::get("users")->get("password_check_not_filled"));
 			$defaults = array(
 				Users::DATA_LANGUAGE => Site::getInstance()->getLanguage()->id_language
@@ -180,6 +217,23 @@ class Users_FrontendPresenter extends FrontendPresenter
 			->addFilter();
 
 		return $dataGrid;
+	}
+
+	protected function createIconForm($name) {
+		$form = new AppForm($this,$name);
+
+		$form->addGroup(Locales::get("users")->get("load_icon"));
+		$form->addFile("icon", Locales::get("users")->get("icon"));
+		$form->addCheckbox("delete", Locales::get()->get("delete"));
+		
+		$form->addSubmit("iconSubmit", Locales::get("users")->get("load_icon"));
+		$form->onSubmit[] = array($this, "iconSubmitted");
+
+		return $form;
+	}
+
+	protected function createUserStatus($name) {
+		return new UserStatusComponent();
 	}
 
 }

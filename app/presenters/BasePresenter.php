@@ -7,8 +7,6 @@
 abstract class BasePresenter extends Presenter
 {
 
-	private $actions = array();
-
 	/**
 	 * Module which uses this presenter.
 	 *
@@ -26,12 +24,18 @@ abstract class BasePresenter extends Presenter
 		if (!empty($user->getIdentity()->type) && $user->getIdentity()->type == "root") {
 			return;
 		}
-		$actions = $this->getActions();
-		$action = empty($actions[$this->getAction()]) ? NULL : $actions[$this->getAction()];
-		if (!$user->isAllowed($this->getModule()->getName(),$action)) {
-			$this->permissionDenied();
+
+		// Is the logged user allowed to the action.
+		$method = $this->formatRenderMethod($this->view);
+		if ($this->reflection->hasMethod($method)) {
+			$reflection = $this->reflection->getMethod($method);
+			if (Annotations::has($reflection, "Secured")) {
+				$action = Annotations::get($reflection, "Secured")->action;
+				if (!$user->isAllowed($this->getModule()->getName(),$action)) {
+					$this->permissionDenied();
+				}
+			}
 		}
-		
 	}
 
     protected function createTemplate() {
@@ -45,6 +49,19 @@ abstract class BasePresenter extends Presenter
 		// register custom helpers
 		$template->registerHelper("date", Helpers::getHelper('date'));
 		$template->registerHelper("time", Helpers::getHelper('time'));
+
+		if (empty($this->module)) {
+			$template->section = array(
+				"name" => Locales::get()->get("module_name"),
+				"url" => "/"
+			);
+		}
+		else {
+			$template->section = array(
+				"name" => Locales::get($this->module->getName())->get("module_name"),
+				"url" => "/"
+			);
+		}
 
 		return $template;
 	}
@@ -148,24 +165,6 @@ abstract class BasePresenter extends Presenter
 
 	public function permissionDenied() {
 		$this->redirect("permissionDenied");
-	}
-
-	/**
-	 * It sets action types (this is important to check permission).
-	 *
-	 * @param array|string $actions Array in format 'action name' => 'type'
-	 */
-	public function setActions(array $actions) {
-		$this->actions = $actions;
-	}
-
-	/**
-	 * It returns action types in the asscociative array.
-	 *
-	 * @return array|string Array in format 'action name' => 'type'.
-	 */
-	public function getActions() {
-		return $this->actions;
 	}
 
 	/**
