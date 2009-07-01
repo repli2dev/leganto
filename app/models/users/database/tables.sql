@@ -54,7 +54,7 @@ CREATE TABLE `status` (
 	`id_language` INT (25) UNSIGNED NOT NULL COMMENT 'jazyk, kterym je status napsany',
 	`content` TINYTEXT NOT NULL COMMENT 'status uzivatele',
 	`inserted` DATETIME NOT NULL COMMENT 'cas, kdy byla polozka vlozena do systemu',
-	`updated` TIMESTAMP COMMENT 'cas, kdy byla polozka naposledy zmenena',
+	`updated` TIMESTAMP NULL COMMENT 'cas, kdy byla polozka naposledy zmenena',
 	FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`) ON UPDATE CASCADE ON DELETE CASCADE,
 	FOREIGN KEY (`id_language`) REFERENCES `language` (`id_language`) ON UPDATE CASCADE ON DELETE CASCADE
 ) ENGINE = InnoDB COMMENT = 'statusy uzivatelu';

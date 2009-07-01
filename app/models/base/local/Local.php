@@ -81,7 +81,8 @@ class Local extends Object implements ILocal
 		if (!empty ($this->defaultTexts[$key])) {
 			return $this->defaultTexts[$key];
 		}
-		throw new DataNotFoundException("key");
+		//foreach ($this->defaultTexts AS $key => $value);
+		throw new DataNotFoundException("The lokalized key '$key' not found in module '$this->moduleName'.");
 	}
 
 	/**

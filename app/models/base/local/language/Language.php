@@ -29,10 +29,6 @@ class Language extends ATableModel
 	 */
 	const DATA_LOCALE = "locale";
 
-	protected function identificator() {
-		return self::DATA_ID;
-	}
-
 	/**
 	 * It returns a name of MySQL table which the model work with.
 	 *
@@ -41,13 +37,6 @@ class Language extends ATableModel
 	public static function getTable() {
 		$tables = Environment::getConfig('tables');
 		return (!empty($tables->language) ? $tables->language : 'language');
-	}
-
-	protected function requiredColumns() {
-		return array(
-			self::DATA_LOCALE,
-			self::DATA_NAME
-		);
 	}
 
 	protected function tableName() {

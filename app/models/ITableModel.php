@@ -3,7 +3,11 @@
  * This interface is designed to be implemented by classes,
  * which represents model on the table in database.
  *
+ * All classes which implement this interface should declare
+ * static method 'getTable()' and declare all avaiable columns in constants.
+ *
  * @author Jan Papousek
+ * @see ATableModel
  */
 interface ITableModel
 {

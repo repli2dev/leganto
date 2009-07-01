@@ -40,18 +40,6 @@ class ModuleTable extends ATableModel
 		return (!empty($tables->module_table) ? $tables->module_table : 'module_table');
 	}
 
-	protected function identificator() {
-		return self::DATA_ID;
-	}
-
-	protected function requiredColumns() {
-		return array(
-			"id_module",
-			"table",
-			"identificator_column"
-		);
-	}
-
 	protected function tableName() {
 		return self::getTable();
 	}

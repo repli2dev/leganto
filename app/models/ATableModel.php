@@ -46,7 +46,7 @@ abstract class ATableModel extends Object implements ITableModel
 			throw new NullPointerException("id");
 		}
 		$deleted = dibi::delete($this->tableName())
-			->where("[".$this->getIdentificator()."] = %i",$id)
+			->where("[".$this->identificator()."] = %i",$id)
 			->execute();
 		if ($deleted < 1) {
 			throw new DataNotFoundException("id");
@@ -180,7 +180,9 @@ abstract class ATableModel extends Object implements ITableModel
 			throw new DataNotFoundException("id");
 		}
 		try {
-			dibi::update($this->tableName(), $input)->execute();
+			dibi::update($this->tableName(), $input)
+				->where("%n = %i", $this->identificator(), $id)
+				->execute();
 			return TRUE;
 		}
 		catch (DibiDriverException $e) {

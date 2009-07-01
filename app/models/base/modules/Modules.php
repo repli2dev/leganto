@@ -9,7 +9,7 @@
  *
  * @author Jan Papousek
  */
-class Modules
+class Modules extends Object
 {
 
 	/**
@@ -249,6 +249,7 @@ class Modules
 				$input[ModuleTable::DATA_ID_COLUMN] = $loadedTables[$table->getName()]["id"];
 			}
 			else {
+				// FIXME: Detect primary key by using dibi::getDatabaseInfo().
 				foreach ($table->getColumnNames() AS $column) {
 					if (substr_count($column, "id_") > 0) {
 						$input[ModuleTable::DATA_ID_COLUMN] = $column;

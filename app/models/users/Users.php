@@ -83,10 +83,6 @@ class Users extends ATableModel
 	 */
 	const TYPE_ROOT = "root";
 
-	protected function identificator() {
-		return self::DATA_ID;
-	}
-
 	/**
 	 * It returns the basic expression used to get data from database.
 	 *
@@ -139,6 +135,7 @@ class Users extends ATableModel
 			$input[self::DATA_PASSWORD],
 			$input[self::DATA_EMAIL]
 		);
+		$input[self::DATA_INSERTED] = new DibiVariable("now()", "sql");
 		return parent::insert($input);
 	}
 
@@ -153,15 +150,6 @@ class Users extends ATableModel
 	public static function passwordHash($password, $email) {
 		// TODO: Zamyslet se nad hashovaci fci
 		return sha1($password);
-	}
-
-	protected function requiredColumns() {
-		return array(
-			self::DATA_EMAIL,
-			self::DATA_NICKNAME,
-			self::DATA_PASSWORD,
-			self::DATA_TYPE
-		);
 	}
 
 	protected function tableName() {
