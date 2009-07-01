@@ -50,6 +50,15 @@ $router[] = new Route(
 	)
 );
 
+$router[] = new Route(
+	'/',
+	array(
+		'module' => 'Frontend',
+		'presenter' => 'Default',
+		'action' => 'default'
+	)
+);
+
 
 // Step 5: Database connection
 // lazy connect should be enabled in config.ini
