@@ -9,8 +9,8 @@ class UserComponent extends BaseControl
 
     public function render() {
 		$template = $this->createTemplate();
+		
 		$template->setFile(TEMPLATES_DIR . '/UsersModule/components/user.phtml');
-		$template->registerFilter(/*Nette\Templates\*/'CurlyBracketsFilter::invoke');
 
 		if (!Environment::getUser()->isAuthenticated()) {
 			$template->form = $this->getComponent("loginForm");
@@ -55,10 +55,16 @@ class UserComponent extends BaseControl
 			}
 			Debug::processException($e);
 		}
+		catch (DibiDriverException $e) {
+			$form->addError(Locales::get()->get("database_error"));
+			Debug::processException($e);
+		}
 	}
 
 	protected function createLoginForm($name) {
 		$form = new AppForm($this,"loginForm");
+
+		$form->getElementPrototype()->id("loginForm");
 
 		$form->addText(IAuthenticator::USERNAME, Locales::get("users")->get("email") . ":")
 			->addRule(Form::FILLED, Locales::get("users")->get("email_not_filled"));
@@ -67,6 +73,7 @@ class UserComponent extends BaseControl
 			->addRule(Form::FILLED, Locales::get("users")->get("password_not_filled"));
 
 		$form->addSubmit("loginSubmit", Locales::get("users")->get("login"));
+
 		$form->onSubmit[] = array($this,"loginSubmitted");
 
 		return $form;

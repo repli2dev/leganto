@@ -7,6 +7,19 @@
 abstract class BaseControl extends Control
 {
 
+	public function createTemplate() {
+		$template = parent::createTemplate();
+
+		// register filters
+		$template->registerFilter('CurlyBracketsFilter::invoke');
+
+		// register custom helpers
+		$template->registerHelper("date", Helpers::getHelper('date'));
+		$template->registerHelper("time", Helpers::getHelper('time'));
+
+		return $template;
+	}
+
 	/**
 	 * Creates a component - calls an method $this->create{Name}
 	 * @param string $name the name of the compoenent to create
