@@ -23,7 +23,6 @@ class Users_BackendPresenter extends BackendPresenter
 		$this->template->users = $this->getComponent("usersDataGrid");
 	}
 
-	/** @Secured(action=edit_all) */
 	public function renderEdit($id_user) {
 		$users = new Users();
 		$this->updatedUser = $users->get()
@@ -32,7 +31,6 @@ class Users_BackendPresenter extends BackendPresenter
 		$this->template->user = $this->updatedUser;
 	}
 
-	/** @Secured(action=edit_all) */
 	public function editUserSubmitted(Form $form) {
 		$values = $form->getValues();
 		$users = new Users();
