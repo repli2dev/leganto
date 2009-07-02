@@ -226,7 +226,6 @@ class Modules extends Object
 	 *
 	 * @param string $module Module name
 	 * @throws NullPointerException if the $module is empty.
-	 * @throws IOException if there is no definition of id columns.
 	 * @throws DataNotFoundException if the module does not exist
 	 */
 	private function synchronizeDatabase($module) {
@@ -249,15 +248,9 @@ class Modules extends Object
 				$input[ModuleTable::DATA_ID_COLUMN] = $loadedTables[$table->getName()]["id"];
 			}
 			else {
-				// FIXME: Detect primary key by using dibi::getDatabaseInfo().
-				foreach ($table->getColumnNames() AS $column) {
-					if (substr_count($column, "id_") > 0) {
-						$input[ModuleTable::DATA_ID_COLUMN] = $column;
-						break;
-					}
-				}
-				if (empty($input[ModuleTable::DATA_ID_COLUMN])) {
-					throw new IOException("id_column_name");
+				foreach ($table->getPrimaryKey()->getColumns() AS $key) {
+					$input[ModuleTable::DATA_ID_COLUMN] = $key->getName();
+					break;
 				}
 			}
 			// Name of column which contains an entity name
