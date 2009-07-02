@@ -25,6 +25,8 @@ final class Helpers
 				break;
 			case "time": return array(get_class(), 'timeFormatHelper');
 				break;
+			case "texy": return array(get_class(), 'texyHelper');
+				break;
 			default:
 				throw new DataNotFoundException("helper: $helper");
 		}
@@ -42,6 +44,17 @@ final class Helpers
 			"\\3. \\2. \\1",
 			$date
 		);
+	}
+
+	/**
+	 * It returns string which is processed by Texy! processor
+	 *
+	 * @param string $input
+	 * @return string The processed string
+	 */
+	public static function texyHelper($input) {
+		// TODO: Process by Texy!
+		return $input;
 	}
 
 	/**

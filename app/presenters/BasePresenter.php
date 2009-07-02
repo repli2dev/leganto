@@ -49,6 +49,7 @@ abstract class BasePresenter extends Presenter
 		// register custom helpers
 		$template->registerHelper("date", Helpers::getHelper('date'));
 		$template->registerHelper("time", Helpers::getHelper('time'));
+		$template->registerHelper("texy", Helpers::getHelper('texy'));
 
 		if (empty($this->module)) {
 			$template->section = array(

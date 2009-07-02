@@ -16,6 +16,7 @@ abstract class BaseControl extends Control
 		// register custom helpers
 		$template->registerHelper("date", Helpers::getHelper('date'));
 		$template->registerHelper("time", Helpers::getHelper('time'));
+		$template->registerHelper("texy", Helpers::getHelper("texy"));
 
 		return $template;
 	}
