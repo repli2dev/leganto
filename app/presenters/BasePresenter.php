@@ -20,8 +20,10 @@ abstract class BasePresenter extends Presenter
 		if (empty($this->module)) {
 			return;
 		}
+
+		//Is this user root?
 		$user = Environment::getUser();
-		if (!empty($user->getIdentity()->type) && $user->getIdentity()->type == "root") {
+		if ($user->isAuthenticated() && $user->getIdentity()->type == Users::TYPE_ROOT) {
 			return;
 		}
 
