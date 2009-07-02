@@ -12,7 +12,6 @@ $loader->addDirectory(LIBS_DIR);
 $loader->register();
 
 Environment::loadConfig(APP_DIR . '/config.ini');
-
 // Step 2: Enable Nette\Debug
 // for better exception and error visualisation
 //Debug::enable();
@@ -54,6 +53,15 @@ $router[] = new Route(
 	'/',
 	array(
 		'module' => 'Frontend',
+		'presenter' => 'Default',
+		'action' => 'default'
+	)
+);
+
+$router[] = new Route(
+	"/admin",
+	array(
+		"module" => "Backend",
 		'presenter' => 'Default',
 		'action' => 'default'
 	)
