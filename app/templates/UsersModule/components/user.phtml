@@ -1,5 +1,8 @@
 {if empty($user)}
 {$form}
+<p>
+	<a href="{plink ':Users:Frontend:register'}" title="{$register}">{$register}</a>
+</p>
 {else}
 	{!$user->email} - <a href="{link 'logout'}">{$logout}</a>
 {/if}

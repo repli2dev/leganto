@@ -14,6 +14,7 @@ class UserComponent extends BaseControl
 
 		if (!Environment::getUser()->isAuthenticated()) {
 			$template->form = $this->getComponent("loginForm");
+			$template->register = Locales::get("users")->get("register");
 		}
 		else {
 			$template->user = Environment::getUser()->getIdentity();
