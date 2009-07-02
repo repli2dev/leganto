@@ -1,0 +1,5 @@
+{if empty($user)}
+{$form}
+{else}
+	{!$user->email} - <a href="{link 'logout'}">{$logout}</a>
+{/if}

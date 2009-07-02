@@ -1,0 +1,7 @@
+{extends @layout.phtml}
+
+{block #subcontent}
+	{if !empty($userStatus)}
+		{!$userStatus->render()}
+	{/if}
+{/block}

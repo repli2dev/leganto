@@ -1,0 +1,8 @@
+<div id="left">
+	{if isset($userComponent)}
+		<div class="column">
+			{!$userComponent->render()}
+		</div>
+	{/if}
+	{block #left}{/block}
+</div>

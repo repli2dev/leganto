@@ -1,0 +1,8 @@
+{extends @layout.phtml}
+
+{block #subcontent}
+	<h2>{$user["nick"]}</h2>
+	{if !empty($form)}
+		{!$form}
+	{/if}
+{/block}
