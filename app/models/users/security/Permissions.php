@@ -7,6 +7,18 @@
 class Permissions extends ATableModel
 {
 
+	const ACTION_ALL = NULL;
+
+	const ACTION_EDIT = "edit";
+
+	const ACTION_EDIT_ALL = "edit_all";
+
+	const ACTION_INSERT = "insert";
+
+	const ACTION_READ = "read";
+
+	const ACTION_READ_ALL = "read_all";
+
 	const DATA_ACTION = "action";
 
 	const DATA_ID = "id_permission";

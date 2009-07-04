@@ -35,4 +35,3 @@ abstract class FrontendPresenter extends BasePresenter
 		$this->template->userComponent = $this->getComponent("userComponent");
 	}
 }
-?>
