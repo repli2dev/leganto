@@ -4,7 +4,7 @@
  *
  * @author Jan Papousek
  */
-class FileNameFilter extends Object
+class FileNameFilter extends Object implements IFileFilter
 {
 
 	/**

@@ -7,15 +7,8 @@
  * @author Jan Papousek
  * @see IFileArchive
  */
-class AFileArchive extends Object implements IFileArchive, IFileTemplate
+abstract class AFileArchive extends Object implements IFileArchive
 {
-
-	/**
-	 * Filter of supported file types.
-	 *
-	 * @var FileTypeFilter
-	 */
-	private $filter;
 
 	/**
 	 * It deletes files which are accepted by the filter.
@@ -43,26 +36,11 @@ class AFileArchive extends Object implements IFileArchive, IFileTemplate
 	}
 
 	/**
-	 * It returns absolute filesystem path to the archive directory.
-	 *
-	 * @return string
-	 */
-	abstract function getAbsolutePath();
-
-	/**
 	 * It returns array of files which are defaultly supported.
 	 *
 	 * @return FileTypeFilter
 	 */
-	abstract public function getFileTypeFilter();
-
-	/**
-	 * It returns an URL of the archive,
-	 * which the users can use to access through the web.
-	 *
-	 * @return string
-	 */
-	abstract function getURL();
+	abstract protected function getFileTypeFilter();
 
 	/**
 	 * It uploades a file on the server. If there is nonempty attribute $prefix,
@@ -73,7 +51,7 @@ class AFileArchive extends Object implements IFileArchive, IFileTemplate
 	 * @throws NullPointerException if the $file is empty
 	 * @throws IOException if there is an I/O problem with uploading.
 	 */
-	function upload(HttpUploadedFile $file, $prefix = NULL) {
+	public function upload(HttpUploadedFile $file, $prefix = NULL) {
 		if (empty ($file)) {
 			throw new NullPointerException("file");
 		}
@@ -81,7 +59,7 @@ class AFileArchive extends Object implements IFileArchive, IFileTemplate
 			throw new IOException("The file is invalid.", IFileArchive::ERROR_INVALID_FILE);
 		}
 		$newFile = new File($file->getTemporaryFile());
-		if ($this->filter->accepts($newFile)) {
+		if (!$this->getFileTypeFilter()->accepts($newFile)) {
 			throw new IOException("The file type is not supported.", IFileArchive::ERROR_NOT_SUPPORTED_FILE_TYPE);
 		}
 		$name = $file->getName();
@@ -100,7 +78,7 @@ class AFileArchive extends Object implements IFileArchive, IFileTemplate
 	 * @return array|File Uploaded files.
 	 * @throws IOException if there is an I/O problem.
 	 */
-	function view(IFileFilter $filter) {
+	public function view(IFileFilter $filter) {
 		if (empty($filter)) {
 			throw new NullPointerException("filter");
 		}

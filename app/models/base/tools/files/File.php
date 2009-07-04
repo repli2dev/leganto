@@ -1,5 +1,6 @@
 <?php
 // TODO: Create other methods such as methods in class File in Java 6 api
+// TODO: Write a method 'getParentFile()'
 
 /**
  * The file descriptor
@@ -58,8 +59,10 @@ class File extends Object
 	 * @throws NullPointerException if the $path is empty.
 	 */
 	public function  __construct($path) {
+		if (empty($path)) {
+			throw new NullPointerException("path");
+		}
 		$this->path = $path;
-		// TODO: seperate the file name and parent file
 	}
 
 	/**
@@ -150,6 +153,9 @@ class File extends Object
 	 * @return string
 	 */
 	public function getName() {
+		if (empty($this->name)) {
+			$this->name = basename($this->path);
+		}
 		return $this->name;
 	}
 
@@ -160,6 +166,13 @@ class File extends Object
 	 * @return File
 	 */
 	public function getParentFile() {
+		if (empty($this->parent)) {
+			$dirname = dirname($this->path);
+			if ($dirname != $this->path) {
+				$this->parent = new File($dirname);
+			}
+			// TODO: Make other possibilities.
+		}
 		return $this->parent;
 	}
 
@@ -170,6 +183,19 @@ class File extends Object
 	 */
 	public function getPath() {
 		return $this->path;
+	}
+
+	/**
+	 * It returns file size id bytes.
+	 *
+	 * @return int
+	 * @throws FileNotFoundException if the file does not exist.
+	 */
+	public function getSize() {
+		if (!$this->exists()) {
+			throw new FileNotFoundException($this->path);
+		}
+		return filesize($this->path);
 	}
 
 	/**

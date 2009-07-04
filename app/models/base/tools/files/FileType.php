@@ -28,15 +28,15 @@ class FileType
 
 	const FLW = 1010;
 
-	const PNG = IMAGEPNG;
+	const PNG = IMAGETYPE_PNG;
 
-	const JPEG = IMAGEJPEG;
+	const JPEG = IMAGETYPE_JPEG;
 
-	const GIF = IMAGEGIF;
+	const GIF = IMAGETYPE_GIF;
 
-	const BMP = IMAGEBMP;
+	const BMP = IMAGETYPE_BMP;
 
-	const TIFF = IMAGETIFF_II; // FIXME: Check.
+	const TIFF = IMAGETYPE_TIFF_II; // FIXME: Check.
 
 	const ICO = 1002;
 
@@ -124,7 +124,7 @@ class FileType
 
 		// ms office
 		'application/msword'				=> self::DOC,
-		'application/rtf'					=> self::RDF,
+		'application/rtf'					=> self::RTF,
 		'application/vnd.ms-excel'			=> self::XLS,
 		'application/vnd.ms-powerpoint'		=> self::PPT,
 
@@ -149,6 +149,7 @@ class FileType
 			throw new NotSupportedException("This mime type is not supported: $mimeType.");
 		}
 		$this->mimeType = $mimeType;
+//		Debug::dump($this);
 	}
 
 	/**
@@ -166,6 +167,6 @@ class FileType
 	 * @return int
 	 */
 	public function getTypeCode() {
-		return self::$supported[$mimeType];
+		return self::$supported[$this->mimeType];
 	}
 }
