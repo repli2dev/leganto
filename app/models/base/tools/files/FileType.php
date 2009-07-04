@@ -1,0 +1,171 @@
+<?php
+
+// TODO: Support more mime types
+
+/**
+ * This class represents file type
+ *
+ * @author Jan Papousek
+ */
+class FileType
+{
+
+	const TXT = 1001;
+
+	const HTML = 1003;
+
+	const PHP = 1004;
+
+	const CSS = 1005;
+
+	const JS = 1006;
+
+	const JSON = 1007;
+
+	const XML = 1008;
+
+	const SWF = 1009;
+
+	const FLW = 1010;
+
+	const PNG = IMAGEPNG;
+
+	const JPEG = IMAGEJPEG;
+
+	const GIF = IMAGEGIF;
+
+	const BMP = IMAGEBMP;
+
+	const TIFF = IMAGETIFF_II; // FIXME: Check.
+
+	const ICO = 1002;
+
+	const SVG = 1028;
+
+	const ZIP = 1011;
+
+	const RAR = 1012;
+
+	const EXE = 1013;
+
+	const MSI = 1014;
+
+	const CAB = 1015;
+
+	const MP3 = 1016;
+
+	const QUICKTIME = 1018;
+
+	const PDF = 1019;
+
+	const PSD = 1020;
+
+	const POSTSCRIPT = 1021;
+
+	const DOC = 1022;
+
+	const RTF = 1023;
+
+	const XLS = 1024;
+
+	const PPT = 1025;
+
+	const ODT = 1026;
+
+	const ODS = 1027;
+
+	/**
+	 * Mime type.
+	 *
+	 * @var string
+	 */
+	private $mimeType;
+
+	/**
+	 * Supported mime types. 'type number' => 'mime type'
+	 *
+	 * @var array|int
+	 */
+	private static $supported = array(
+		'text/plain'						=> self::TXT,
+		'text/html'							=> self::HTML,
+		'text/php'							=> self::PHP,
+		'text/css'							=> self::CSS,
+		'application/javascript'			=> self::JS,
+		'application/json'					=> self::JSON,
+		'application/xml'					=> self::XML,
+		'application/x-shockwave-flash'		=> self::SWF,
+		'video/x-flv'						=> self::FLW,
+
+		// images
+		'image/png'							=> self::PNG,
+		'image/jpeg'						=> self::JPEG,
+		'image/gif'							=> self::GIF,
+		'image/bmp'							=> self::BMP,
+		'image/vnd.microsoft.icon'			=> self::ICO,
+		'image/tiff'						=> self::TIFF,
+		'image/svg+xml'						=> self::SVG,
+
+		// archives
+		'application/zip'					=> self::ZIP,
+		'application/x-rar-compressed'		=> self::RAR,
+		'application/x-msdownload'			=> self::EXE,
+		'application/x-msdownload'			=> self::MSI,
+		'application/vnd.ms-cab-compressed'	=> self::CAB,
+
+		// audio/video
+		'audio/mpeg'						=> self::MP3,
+		'video/quicktime'					=> self::QUICKTIME,
+
+		// adobe
+		'application/pdf'					=> self::PDF,
+		'image/vnd.adobe.photoshop'			=> self::PSD,
+		'application/postscript'			=> self::POSTSCRIPT,
+
+		// ms office
+		'application/msword'				=> self::DOC,
+		'application/rtf'					=> self::RDF,
+		'application/vnd.ms-excel'			=> self::XLS,
+		'application/vnd.ms-powerpoint'		=> self::PPT,
+
+		// open office
+		'application/vnd.oasis.opendocument.text'			=> self::ODT,
+		'application/vnd.oasis.opendocument.spreadsheet'	=>self::ODS
+	);
+
+	/**
+	 * It creates a new instance of filetype.
+	 * 
+	 * @param string $mimeType Mime type.
+	 * @throws NullPointerException if the $mimeTye is empty.
+	 * @throws NotSupportedException if the Mime type is not supported.
+	 */
+	public function  __construct($mimeType) {
+		if (empty($mimeType)) {
+			throw new NullPointerException("mimeType");
+		}
+		$mimeType = String::lower($mimeType);
+		if (empty(self::$supported[$mimeType])) {
+			throw new NotSupportedException("This mime type is not supported: $mimeType.");
+		}
+		$this->mimeType = $mimeType;
+	}
+
+	/**
+	 * It returns mime type.
+	 *
+	 * @return string
+	 */
+	public function getMimeType() {
+		return $this->mimeType;
+	}
+
+	/**
+	 * It returns code of the file type.
+	 *
+	 * @return int
+	 */
+	public function getTypeCode() {
+		return self::$supported[$mimeType];
+	}
+}
