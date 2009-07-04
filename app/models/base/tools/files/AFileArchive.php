@@ -67,7 +67,7 @@ abstract class AFileArchive extends /*Nette\*/Object implements IFileArchive
 	 * @throws NullPointerException if the $file is empty
 	 * @throws IOException if there is an I/O problem with uploading.
 	 */
-	public function upload(HttpUploadedFile $file, $prefix = NULL) {
+	public function upload(/*Nette\Web\*/HttpUploadedFile $file, $prefix = NULL) {
 		if (empty ($file)) {
 			throw new NullPointerException("file");
 		}

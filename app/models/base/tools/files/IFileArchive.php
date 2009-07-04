@@ -72,7 +72,7 @@ interface IFileArchive
 	 * @throws NullPointerException if the $file is empty
 	 * @throws IOException if there is an I/O problem with uploading.
 	 */
-	function upload(HttpUploadedFile $file, $prefix = NULL);
+	function upload(/*Nette\Web\*/HttpUploadedFile $file, $prefix = NULL);
 
 	/**
 	 * It returns the upladed files which are accepted by the filter.
