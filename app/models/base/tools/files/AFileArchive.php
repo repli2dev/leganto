@@ -1,17 +1,29 @@
 <?php
+/**
+ * Reader's book
+ *
+ * @copyright   Copyright (c) 2004, 2009 Jan Papousek, Jan Drabek
+ * @link        http://code.google.com/p/preader/
+ * @category    Reader
+ * @package     Reader\Base\Files
+ * @version     2009-07-04
+ */
 
-// TODO: Think about implentation of more filters in methods delete() and view(),
-//			for example: all images with prefix
+/*namespace Reader\Base\Files;*/
 
 /**
  * This abstract class is designed to be extended by classes
  * representing an file archive. This is the base implementation
  * of IFileArchive interface.
  *
- * @author Jan Papousek
- * @see IFileArchive
+ * @author      Jan Papousek
+ * @version     2009-07-04
+ * @package     Reader\Base\Files
+ * @see         IFileArchive
+ * @see         File
+ * @see         IFileFilter
  */
-abstract class AFileArchive extends Object implements IFileArchive
+abstract class AFileArchive extends /*Nette\*/Object implements IFileArchive
 {
 
 	/**

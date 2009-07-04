@@ -1,13 +1,27 @@
 <?php
 // TODO: Create other methods such as methods in class File in Java 6 api
-// TODO: Write a method 'getParentFile()'
+// TOD: Tests
 
 /**
- * The file descriptor
+ * Reader's book
  *
- * @author Jan Papousek
+ * @copyright   Copyright (c) 2004, 2009 Jan Papousek, Jan Drabek
+ * @link        http://code.google.com/p/preader/
+ * @category    Reader
+ * @package     Reader\Base\Files
+ * @version     2009-07-04
  */
-class File extends Object
+
+/*namespace Reader\Base\Files;*/
+
+/**
+ * The file descriptor, which provides all manipulation with files.
+ *
+ * @author      Jan Papousek
+ * @version     2009-07-04
+ * @package     Reader\Base\Files
+ */
+class File extends /*Nette\*/Object
 {
 
 	/**

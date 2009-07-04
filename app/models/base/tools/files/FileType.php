@@ -1,14 +1,28 @@
 <?php
+/**
+ * Reader's book
+ *
+ * @copyright   Copyright (c) 2004, 2009 Jan Papousek, Jan Drabek
+ * @link        http://code.google.com/p/preader/
+ * @category    Reader
+ * @package     Reader\Base\Files
+ * @version     2009-07-04
+ */
 
-// TODO: Support more mime types
+/*namespace Reader\Base\Files;*/
 
 /**
- * This class represents file type
+ * This class represents file type.
  *
- * @author Jan Papousek
+ * @author      Jan Papousek
+ * @version     2009-07-04
+ * @package     Reader\Base\Files
+ * @see         IFileFilter
  */
-class FileType
+class FileType extends /*Nette\*/Object
 {
+
+	// TODO: Support more mime types
 
 	const TXT = 1001;
 
@@ -167,5 +181,9 @@ class FileType
 	 */
 	public function getTypeCode() {
 		return self::$supported[$this->mimeType];
+	}
+
+	public function  __toString() {
+		return $this->mimeType;
 	}
 }
