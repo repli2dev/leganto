@@ -53,7 +53,7 @@ class File extends Object
 	private $type;
 
 	/**
-	 * It creates new file descriptor
+	 * It creates new file descriptor.
 	 *
 	 * @param string $path The asbtract path to the file.
 	 * @throws NullPointerException if the $path is empty.
@@ -110,15 +110,18 @@ class File extends Object
 	 *
 	 * @return boolean It returns TRUE, if the file does not exist
 	 *		and was successfully created, otherwise FALSE.
-	 *
+	 * @throws IOException if there is an I/O problem.
 	 */
 	public function createNewFile() {
 		if ($this->exists()) {
-			return;
+			return FALSE;
 		}
-		// FIXME: Check, if it works.
+		if ($this->getParentFile() != NULL && !$this->getParentFile()->canWrite()) {
+			throw new IOException("The file can not be created.", self::ERROR_SECURITY);
+		}
 		$file = fopen($this->getPath(), "w+");
 		fclose($file);
+		return TRUE;
 	}
 
 	/**
@@ -148,6 +151,19 @@ class File extends Object
 	}
 
 	/**
+	 * It returns abosolute file system path to the file.
+	 *
+	 * @return string
+	 * @throws FileNotFoundException if the file does not exist.
+	 */
+	public function getAbsolutePath() {
+		if (!$this->exists()) {
+			throw new FileNotFoundException($this->getPath());
+		}
+		return realpath($this->getPath());
+	}
+
+	/**
 	 * It returns file name.
 	 *
 	 * @return string
@@ -168,10 +184,10 @@ class File extends Object
 	public function getParentFile() {
 		if (empty($this->parent)) {
 			$dirname = dirname($this->path);
-			if ($dirname != $this->path) {
+			// FIXME: UNIX dependent
+			if ($dirname != $this->path && $dirname != "/") {
 				$this->parent = new File($dirname);
 			}
-			// TODO: Make other possibilities.
 		}
 		return $this->parent;
 	}
@@ -253,6 +269,90 @@ class File extends Object
 
 	public function __toString() {
 		return $this->getPath();
+	}
+
+	/**
+	 * It returns files located in this directory.
+	 *
+	 * @param IFileFilter $filter The file filter.
+	 * @return array|File
+	 * @throws FileNotFoundException if the file does not exist.
+	 * @throws NotSupportedException if this file is not a directory.
+	 */
+	public function listFiles(IFileFilter $filter = NULL) {
+		if (!empty($filter) && ($filter instanceof FileNameFilter)) {
+			$fileNameFilter = $filter;
+		}
+		else {
+			$fileNameFilter = NULL;
+		}
+		$result = array();
+		$files = $this->listPaths($fileNameFilter);
+		foreach ($files AS $filename) {
+			$file = new File($filename);
+			if (!empty($filter) && !($filter instanceof FileNameFilter)) {
+				if (!$filter->accepts($file)) {
+					continue;
+				}
+			}
+			$result[] = $file;
+		}
+		return $result;
+	}
+
+	/**
+	 * It returns paths to the files located in this directory.
+	 *
+	 * @param FileNameFilter $filter The file name filter.
+	 * @return array|string
+	 * @throws FileNotFoundException if the file does not exist.
+	 * @throws NotSupportedException if this file is not a directory.
+	 */
+	public function listPaths(FileNameFilter $filter = NULL) {
+		if (!$this->isDirectory()) {
+			throw new NotSupportedException();
+		}
+		if (!empty ($filter)) {
+			$rule = $filter->getRule();
+		}
+		else {
+			$rule = "*";
+		}
+		return glob($this->getPath() . "/" . $rule);
+	}
+
+	/**
+	 * It makes a directory describing by this abstract path, if it does not exist.
+	 *
+	 * @return boolean It returns TRUE, if the directory was created, otherwise FALSE.
+	 * @throws IOException if there is a problem to create directory.
+	 */
+	public function mkdir() {
+		if ($this->exists()) {
+			return FALSE;
+		}
+		if ($this->getParentFile() != NULL && !$this->getParentFile()->canWrite()) {
+			throw new IOException("The directory can not be created.", self::ERROR_SECURITY);
+		}
+		mkdir($this->getPath(), "0777");
+		return TRUE;
+	}
+
+	/**
+	 * It makes a directory and all parent directories which do not already exist.
+	 *
+	 * @return boolean It returns TRUE, if the directory was created, otherwise FALSE.
+	 * @throws IOException if there is a problem to create directory.
+	 */
+	public function mkdirs() {
+		if ($this->exists()) {
+			return FALSE;
+		}
+		if ($this->parent != NULL && !$this->parent->canWrite()) {
+			throw new IOException("The directory can not be created.", self::ERROR_SECURITY);
+		}
+		mkdir($this->getPath(), "0777", TRUE);
+		return TRUE;
 	}
 }
 

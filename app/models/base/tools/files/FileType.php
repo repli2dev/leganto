@@ -149,7 +149,6 @@ class FileType
 			throw new NotSupportedException("This mime type is not supported: $mimeType.");
 		}
 		$this->mimeType = $mimeType;
-//		Debug::dump($this);
 	}
 
 	/**
