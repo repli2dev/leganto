@@ -1,4 +1,8 @@
 <?php
+
+// TODO: Think about implentation of more filters in methods delete() and view(),
+//			for example: all images with prefix
+
 /**
  * This abstract class is designed to be extended by classes
  * representing an file archive. This is the base implementation
