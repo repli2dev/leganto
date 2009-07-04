@@ -8,19 +8,11 @@ class Icon
 {
 
 	/**
-	 * The error code for the invalid uploaded file.
+	 * The archive where the icons are situated.
+	 * 
+	 * @var IFileArchive
 	 */
-	const ERROR_INVALID_FILE = 2;
-
-	/**
-	 * The error code for the not supported file type.
-	 */
-	const ERROR_NOT_SUPPORTED_FILE_TYPE = 1;
-
-	/**
-	 * The error code for the error in the file saving.
-	 */
-	const ERROR_SAVING = 3;
+	private static $archive;
 
 	/**
 	 * The file name of the default icon.
@@ -39,9 +31,20 @@ class Icon
 		if (empty($user)) {
 			throw new NullPointerException("user");
 		}
-		foreach (glob(self::getDirToIcons() . "/$user.*") AS $file) {
-			@unlink($file);
+		$filter = new FileNameFilter($user . "_*");
+		self::getArchive()->delete($filter);
+	}
+
+	/**
+	 * It returns used file archive.
+	 *
+	 * @return IFileArchive
+	 */
+	private static function getArchive() {
+		if (empty(self::$archive)) {
+			self::$archive = new IconFileArchive();
 		}
+		return self::$archive;
 	}
 
 	/**
@@ -51,27 +54,30 @@ class Icon
 	 * @return string
 	 */
 	public static function getDirToIcons() {
-		return WWW_DIR . "/images/icons";
+		return self::getArchive()->getAbsolutePath();
 	}
 
 	/**
-	 * It returns an URL to user's icon.
+	 * It returns an user's icon file.
 	 *
-	 * If the user has no icon, it returns an URL to the default icon.
+	 * If the user has no icon, it returns a default icon file.
 	 *
 	 * @param int $user User's ID.
-	 * @return string
+	 * @return File
 	 * @throws NullPointerException if the $user is empty.
 	 */
-	public static function getIconURL($user) {
+	public static function getIcon($user) {
 		if (empty($user)) {
 			throw new NullPointerException("user");
 		}
-		foreach (glob(self::getDirToIcons() . "/$user.*") AS $file) {
-			$imageSize = getimagesize($file);
-			return self::getURLToIcons() . "/" . $user . "." . $imageSize[2];
+		$filter = new FileNameFilter($user . "_*");
+		$files = self::getArchive()->view($filter);
+		if (!empty($files)) {
+			return $files[0];
 		}
-		return self::getURLToIcons() . "/" . self::DEFAULT_ICON;
+		else {
+			return new File(self::getDirToIcons() . "/" .self::DEFAULT_ICON);
+		}
 	}
 
 	/**
@@ -80,8 +86,7 @@ class Icon
 	 * @return string
 	 */
 	public static function getURLToIcons() {
-		$domain = Site::getInstance()->getDomain();
-		return $domain[Domain::DATA_URI] . "/images/icons";
+		self::getArchive()->getURL();
 	}
 
 	/**
@@ -104,33 +109,8 @@ class Icon
 		if ($users->get()->where("%n = %i",Users::DATA_ID, $user)->count() == 0) {
 			throw new DataNotFoundException("user");
 		}
-		if (!$file->isOK()) {
-			throw new IOException("file", self::ERROR_INVALID_FILE);
-		}
-		// Image type
-		$imageSize = getimagesize($file->getTemporaryFile());
-	        switch($imageSize[2]) {
-            default:
-                throw new IOException("Not supported file type: $imageSize[2].", self::ERROR_NOT_SUPPORTED_FILE_TYPE);
-                break;
-            case IMAGETYPE_BMP:
-				$end = "bmp";
-				break;
-            case IMAGETYPE_JPEG:
-				$end = "jpeg";
-				break;
-            case IMAGETYPE_GIF:
-				$end = "gif";
-				break;
-            case IMAGETYPE_PNG:
-				$end = "png";
-				break;
-        }
 		self::delete($user);
-		$newFile = self::getDirToIcons() . "/$user.$end";
-		if (!$file->move($newFile)) {
-			throw new IOException("There is a problem to save file '$newFile'.", self::ERROR_SAVING);
-		}
+		self::getArchive()->upload($file, $user . "_");
 	}
 
 }

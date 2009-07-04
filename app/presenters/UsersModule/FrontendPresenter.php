@@ -86,6 +86,7 @@ class Users_FrontendPresenter extends FrontendPresenter
 	 */
 	public function iconSubmitted(Form $form) {
 		$values = $form->getValues();
+		//Debug::dump("AA");
 		try {
 			if (!empty($values["delete"])) {
 				Icon::delete(Environment::getUser()->getIdentity()->id_user);
@@ -96,10 +97,11 @@ class Users_FrontendPresenter extends FrontendPresenter
 				$this->flashMessage(Locales::get("users")->get("icon_successfully_loaded"), "success");
 			}
 		}
-		//TODO: Process exceptions.
-		catch(IOException $e) {
-			Debug::processException($e);
-		}
+		catch(InvalidArgumentException $e) {}
+//		//TODO: Process exceptions.
+//		catch(IOException $e) {
+//			Debug::processException($e);
+//		}
 	}
 
 	/**
