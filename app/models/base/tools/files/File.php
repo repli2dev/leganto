@@ -1,6 +1,7 @@
 <?php
 // TODO: Create other methods such as methods in class File in Java 6 api
-// TOD: Tests
+// TODO: Tests
+// TODO: Create exception throwing more effective
 
 /**
  * Reader's book
@@ -37,6 +38,13 @@ class File extends /*Nette\*/Object
 	 * @var int
 	 */
 	const ERROR_FILE_INFO = 20;
+
+	/**
+	 * The error code for IOException if there is a general problem.
+	 *
+	 * @var int
+	 */
+	const ERROR_GENERAL = 30;
 
 	/**
 	 * The file path
@@ -133,9 +141,18 @@ class File extends /*Nette\*/Object
 		if ($this->getParentFile() != NULL && !$this->getParentFile()->canWrite()) {
 			throw new IOException("The file can not be created.", self::ERROR_SECURITY);
 		}
-		$file = fopen($this->getPath(), "w+");
-		fclose($file);
-		return TRUE;
+//		ErrorHandler::setErrorHandler();
+//		try {
+			$file = fopen($this->getPath(), "w+");
+			fclose($file);
+//			ErrorHandler::unsetErrorHandler();
+//			return TRUE;
+//		}
+//		catch (ErrorException $e) {
+//			ErrorHandler::unsetErrorHandler();
+//			Debug::processException($e);
+//			throw new IOException("The file can not be created. " . $e->getMessage(), self::ERROR_GENERAL);
+//		}
 	}
 
 	/**
@@ -152,7 +169,17 @@ class File extends /*Nette\*/Object
 		if (!empty($parent) && !$parent->canWrite()) {
 			throw new IOException("The file cannot be deleted.", self::ERROR_SECURITY);
 		}
-		unlink($this->getPath());
+//		ErrorHandler::setErrorHandler();
+//		try {
+			unlink($this->getPath());
+//			ErrorHandler::unsetErrorHandler();
+//			return TRUE;
+//		}
+//		catch (ErrorException $e) {
+//			ErrorHandler::unsetErrorHandler();
+//			Debug::processException($e);
+//			throw new IOException("The file can not be deleted. " . $e->getMessage(), self::ERROR_GENERAL);
+//		}
 	}
 
 	/**
