@@ -1,3 +1,14 @@
 <div id="right">
+	{if !empty($submenu)}
+	<div class="submenu">
+		<ul>
+			{foreach $submenu AS $name => $url}
+			<li>
+				<a href="{link $url}" title="{$name}">{$name}</a>
+			</li>
+			{/foreach}
+		</ul>
+	</div>
+	{/if}
 	{block #right}{/block}
 </div>
