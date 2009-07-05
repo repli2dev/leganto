@@ -66,6 +66,10 @@ abstract class BasePresenter extends Presenter
 			);
 		}
 
+		$template->menu = array();
+		$template->submenu = array();
+		$template->rss = array();
+
 		return $template;
 	}
 
@@ -77,14 +81,18 @@ abstract class BasePresenter extends Presenter
 	/**
 	 * It adds a RSS channel to page header.
 	 *
+	 * @param string $name The name of the RSS channel.
 	 * @param string $url The url of the RSS channel
-	 * @throws NullPointerException if the $url is empty.
+	 * @throws NullPointerException if the $url or $name is empty.
 	 */
-	public function addRss($url) {
+	public function addRss($name, $url) {
 		if (empty($url)) {
 			throw new NullPointerException("url");
 		}
-		$this->template->stylesheets[] = $url;
+		if (empty($name)) {
+			throw new NullPointerException("name");
+		}
+		$this->template->rss[$url] = $name;
 	}
 
 	/**
@@ -115,6 +123,39 @@ abstract class BasePresenter extends Presenter
 		$this->template->stylesheets[$url] = $media;
 	}
 
+	/**
+	 * It adds a link to the menu.
+	 *
+	 * @param string $name The link name.
+	 * @param string $url The Nette address.
+	 * @throws NullPointerException if some of the attributes does not exist.
+	 */
+	public function addMenu($name, $url) {
+		if (empty($name)) {
+			throw new NullPointerException("name");
+		}
+		if (empty($url)) {
+			throw new NullPointerException("url");
+		}
+		$this->template->menu[$name] = $url;
+	}
+
+	/**
+	 * It adds a link to the submenu.
+	 *
+	 * @param string $name The link name.
+	 * @param string $url The Nette address.
+	 * @throws NullPointerException if some of the attributes does not exist.
+	 */
+	public function addSubMenu($name, $url) {
+		if (empty($name)) {
+			throw new NullPointerException("name");
+		}
+		if (empty($url)) {
+			throw new NullPointerException("url");
+		}
+		$this->template->submenu[$name] = $url;
+	}
 
 	/**
 	 * Creates a component - calls an method $this->create{Name}

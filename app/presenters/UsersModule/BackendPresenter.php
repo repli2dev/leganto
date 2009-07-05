@@ -19,6 +19,18 @@ class Users_BackendPresenter extends BackendPresenter
 		$this->setModule(Modules::getInstance()->get("users"));
 	}
 
+	public function beforeRender() {
+		parent::beforeRender();
+		$this->addSubMenu(
+			Locales::get("users")->get("roles"),
+			"RoleBackend:roles"
+		);
+		$this->addSubMenu(
+			Locales::get("users")->get("insert_role"),
+			"RoleBackend:insertRole"
+		);
+	}
+
 	/**
 	 * @Secured(action=edit_all)
 	 */
