@@ -153,7 +153,6 @@ class Users_FrontendPresenter extends FrontendPresenter
 
 	/* COMPONENTS */
 	protected function createUserInfoForm($name) {
-		// TODO: Dodelat editaci udaju o uzivateli.
 		$form = new AppForm($this,$name);
 
 		if ($this->userFormType == "new") {
