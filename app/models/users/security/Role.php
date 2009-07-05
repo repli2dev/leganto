@@ -11,10 +11,6 @@ class Role extends ATableModel
 
 	const DATA_NAME = "name";
 
-	protected function identificator() {
-		return self::DATA_ID;
-	}
-
 	/**
 	 * It returns a name of MySQL table which the model work with.
 	 *
@@ -36,10 +32,6 @@ class Role extends ATableModel
 			"SELECT * FROM %n", self::getTable(),
 			"LEFT JOIN %n USING(%n)", Permissions::getTable(), self::DATA_ID
 		);
-	}
-
-	protected function requiredColumns() {
-		return array(self::DATA_NAME);
 	}
 
 	protected function tableName() {

@@ -117,10 +117,10 @@ abstract class ATableModel extends Object implements ITableModel
 					break;
 				// FIXME: hardcoded
 				case 1216:
-					throw new DataNotFoundException($e);
+					throw new DataNotFoundException($e->getMessage());
 					break;
 				default:
-					throw new DibiDriverException($e);
+					throw new DibiDriverException($e->getMessage());
 					break;
 			}
 		}
@@ -193,10 +193,10 @@ abstract class ATableModel extends Object implements ITableModel
 					break;
 				// FIXME: hardcoded
 				case 1216:
-					throw new DataNotFoundException($e);
+					throw new DataNotFoundException($e->getMessage());
 					break;
 				default:
-					throw new DibiDriverException($e);
+					throw new DibiDriverException($e->getMessage());
 					break;
 			}
 		}
