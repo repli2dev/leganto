@@ -98,10 +98,21 @@ class Users_FrontendPresenter extends FrontendPresenter
 			}
 		}
 		catch(InvalidArgumentException $e) {}
-//		//TODO: Process exceptions.
-//		catch(IOException $e) {
-//			Debug::processException($e);
-//		}
+		//TODO: Process exceptions.
+		catch(IOException $e) {
+			switch ($e->getCode()) {
+				case IFileArchive::ERROR_INVALID_FILE:
+					$form->addError(Locales::get()->get("invalid_file"));
+					break;
+				case IFileArchive::ERROR_NOT_SUPPORTED_FILE_TYPE:
+					$form->addError(Locales::get()->get("not_supported_file_type"));
+					break;
+				case IFileArchive::ERROR_SAVING:
+					$form->addError(Locales::get()->get("saving_error"));
+					break;
+			}
+			Debug::processException($e);
+		}
 	}
 
 	/**
