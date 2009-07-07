@@ -95,22 +95,7 @@ abstract class AFileArchive extends /*Nette\*/Object implements IFileArchive
 	 * @throws IOException if there is an I/O problem.
 	 */
 	public function view(IFileFilter $filter) {
-		if (empty($filter)) {
-			throw new NullPointerException("filter");
-		}
-		if ($filter instanceof FileNameFilter) {
-			$rule = $filter->getRule();
-		}
-		else {
-			$rule = "*";
-		}
-		$result = array();
-		foreach (glob($this->getAbsolutePath() . "/" . $rule) AS $filename) {
-			$file = new File($filename);
-			if ($filter->accepts($file)) {
-				$result[] = $file;
-			}
-		}
-		return $result;
+		$archive = new File($this->getAbsolutePath());
+		return $archive->listFiles($filter);
 	}
 }
