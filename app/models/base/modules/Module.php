@@ -24,34 +24,6 @@ class Module extends /*Nette\*/Object
 {
 
 	/**
-	 * Backend section - this section is avaiable for admins.
-	 *
-	 * @var string
-	 */
-	const SECTION_BACKEND = "backend";
-
-	/**
-	 * Frontend section - this section is avaiable for common users.
-	 *
-	 * @var string
-	 */
-	const SECTION_FRONTEND = "frontend";
-
-	/**
-	 * RSS section - the RSS channels which should be avaible on whole site.
-	 *
-	 * @var string
-	 */
-	const SECTION_RSS = "rss";
-
-	/**
-	 * Names of avaiable components in specified sections.
-	 *
-	 * @var array|(array|string)
-	 */
-	private $componets = array();
-
-	/**
 	 * Components directory
 	 *
 	 * @var string
@@ -78,13 +50,6 @@ class Module extends /*Nette\*/Object
 	 * @var boolean
 	 */
 	private $enabled;
-
-	/**
-	 * Avaiable links in specified sections
-	 *
-	 * @var array|(array|string)
-	 */
-	private $links = array();
 
 	/**
 	 * Locales directory
@@ -115,11 +80,11 @@ class Module extends /*Nette\*/Object
 	private $name;
 
 	/**
-	 * Avaiable sublinks in specified sections
+	 * Sections
 	 *
-	 * @var array|(array|string)
+	 * @var array|ModuleSection
 	 */
-	private $sublinks = array();
+	private $sections = array();
 
 	/**
 	 * Used MySQL tables.
@@ -191,46 +156,8 @@ class Module extends /*Nette\*/Object
 			if ($section === "description" || $section === "directories" || $section === "tables") {
 				continue;
 			}
-			// Links
-			$this->links[$section] = array();
-			if (isset ($content->links)) {
-				foreach ($content->links AS $name => $url) {
-					$this->links[$section][$name] = $url;
-				}
-			}
-			// Sublinks
-			$this->sublinks[$section] = array();
-			if (isset ($content->sublinks)) {
-				foreach ($content->sublinks AS $name => $url) {
-					$this->sublinks[$section][$name] = $url;
-				}
-			}
-			// Components
-			$this->componets[$section] = array();
-			if (isset ($content->components)) {
-				foreach ($content->components AS $component) {
-					$this->components[$section][] = $component;
-				}
-			}
+			$this->sections[$section] = new ModuleSection($section, $content);
 		}
-	}
-
-	/**
-	 * It returns names of components which are avaiable for the specified section.
-	 *
-	 * @param string $section The section name.
-	 * @return array|string
-	 * @throws NullPointerException if the $section is empty.
-	 * @throws DataNotFoundException if the section does not exist.
-	 */
-	public function getComponents($section) {
-		if (empty($section)) {
-			throw new NullPointerException("section");
-		}
-		if (!isset($this->componentsDir[$section])) {
-			throw new DataNotFoundException("section");
-		}
-		return $this->componentsDir[$section];
 	}
 
 	/**
@@ -288,24 +215,6 @@ class Module extends /*Nette\*/Object
 	}
 
 	/**
-	 * It returns avaiable links for the specified section.
-	 *
-	 * @param string $section The section name.
-	 * @return array|string The keys mean names and values mean URLs of links.
-	 * @throws NullPointerException if the $section is empty.
-	 * @throws DataNotFoundException if the section does not exist.
-	 */
-	public function getLinks($section) {
-		if (empty($section)) {
-			throw new NullPointerException("section");
-		}
-		if (!isset($this->links[$section])) {
-			throw new DataNotFoundException("section");
-		}
-		return $this->links[$section];
-	}
-
-	/**
 	 * It returns a module name.
 	 *
 	 * @return string
@@ -315,21 +224,21 @@ class Module extends /*Nette\*/Object
 	}
 
 	/**
-	 * It returns avaiable sublinks for the specified section.
+	 * It returns a section of config file.
 	 *
-	 * @param string $section The section name.
-	 * @return array|string The keys mean names and values mean URLs of sublinks.
+	 * @param string $section Section name.
+	 * @return ModuleSection
 	 * @throws NullPointerException if the $section is empty.
 	 * @throws DataNotFoundException if the section does not exist.
 	 */
-	public function getSublinks($section) {
+	public function getSection($section) {
 		if (empty($section)) {
 			throw new NullPointerException("section");
 		}
-		if (!isset($this->sublinks[$section])) {
+		if (empty($this->sections[$section])) {
 			throw new DataNotFoundException("section");
 		}
-		return $this->sublinks[$section];
+		return $this->sections[$section];
 	}
 
 	/**

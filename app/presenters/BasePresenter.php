@@ -128,9 +128,10 @@ abstract class BasePresenter extends Presenter
 	 *
 	 * @param string $name The link name.
 	 * @param string $url The Nette address.
+	 * @param int $priority The priority of the menu item.
 	 * @throws NullPointerException if some of the attributes does not exist.
 	 */
-	public function addMenu($name, $url) {
+	public function addMenu($name, $url, $priority = NULL) {
 		if (empty($name)) {
 			throw new NullPointerException("name");
 		}
@@ -145,9 +146,10 @@ abstract class BasePresenter extends Presenter
 	 *
 	 * @param string $name The link name.
 	 * @param string $url The Nette address.
+	 * @param int $priority The priority of the menu item.
 	 * @throws NullPointerException if some of the attributes does not exist.
 	 */
-	public function addSubMenu($name, $url) {
+	public function addSubMenu($name, $url, $priority = NULL) {
 		if (empty($name)) {
 			throw new NullPointerException("name");
 		}

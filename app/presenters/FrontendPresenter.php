@@ -11,20 +11,20 @@ abstract class FrontendPresenter extends BasePresenter
 		$this->template->title = Locales::get()->get("module_name");
 
 		foreach(Modules::getInstance()->installedModules() AS $moduleName) {
-			$links = Modules::getInstance()->get($moduleName)->getLinks(Module::SECTION_FRONTEND);
-			foreach ($links AS $name => $url) {
+			$links = Modules::getInstance()->get($moduleName)->getSection(ModuleSection::FRONTEND)->getLinks();
+			foreach ($links AS $name => $descriptor) {
 				$name = Locales::get($moduleName)->get($name);
-				$this->addMenu($name, $url);
+				$this->addMenu($name, $descriptor["url"], $descriptor["priority"]);
 			}
-			$sublinks = Modules::getInstance()->get($moduleName)->getSublinks(Module::SECTION_FRONTEND);
-			foreach ($sublinks AS $name => $url) {
+			$sublinks = Modules::getInstance()->get($moduleName)->getSection(ModuleSection::FRONTEND)->getSublinks();
+			foreach ($sublinks AS $name => $descriptor) {
 				$name = Locales::get($moduleName)->get($name);
 				$this->addSubMenu($name, $url);
 			}
-			$rss = Modules::getInstance()->get($moduleName)->getLinks(Module::SECTION_RSS);
+			$rss = Modules::getInstance()->get($moduleName)->getSection(ModuleSection::FRONTEND)->getRSS();
 			foreach ($rss AS $name => $url) {
 				$name = Locales::get($moduleName)->get($name);
-				$this->addRss($name, $url);
+				$this->addSubMenu($name, $descriptor["url"], $descriptor["priority"]);
 			}
 		}
 

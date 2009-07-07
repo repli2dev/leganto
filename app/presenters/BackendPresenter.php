@@ -18,10 +18,15 @@ abstract class BackendPresenter extends BasePresenter
 
 		// Menu
 		foreach(Modules::getInstance()->installedModules() AS $moduleName) {
-			$links = Modules::getInstance()->get($moduleName)->getLinks(Module::SECTION_BACKEND);
-			foreach ($links AS $name => $url) {
+			$links = Modules::getInstance()->get($moduleName)->getSection(ModuleSection::BACKEND)->getLinks();
+			foreach ($links AS $name => $descriptor) {
 				$name = Locales::get($moduleName)->get($name);
-				$this->addMenu($name, $url);
+				$this->addMenu($name, $descriptor["url"], $descriptor["priority"]);
+			}
+			$sublinks = Modules::getInstance()->get($moduleName)->getSection(ModuleSection::BACKEND)->getSublinks();
+			foreach ($sublinks AS $name => $descriptor) {
+				$name = Locales::get($moduleName)->get($name);
+				$this->addSubMenu($name, $url);
 			}
 		}
 	}
