@@ -43,6 +43,26 @@ class Message extends ATableModel
 
 	const IS_READ_NO = 0;
 
+	const VIEW_ID = "id_message";
+
+	const VIEW_SUBJECT  = "subject";
+
+	const VIEW_CONTENT = "content";
+
+	const VIEW_INSERTED = "inserted";
+
+	const VIEW_TO_DESTROYED = "to_destroyed";
+
+	const VIEW_TO_ID	= "to_id_user";
+
+	const VIEW_TO_NICKNAME = "to_nick";
+
+	const VIEW_FROM_DESTROYED = "from_destroyed";
+
+	const VIEW_FROM_ID = "from_id_user";
+
+	const VIEW_FROM_NICKNAME = "from_nick";
+
 	/**
 	 * It returns the basic expression used to get data from database.
 	 *
@@ -50,11 +70,7 @@ class Message extends ATableModel
 	 * @throws DibiDriverException if there is a problem to work with database.
 	 */
 	public function get() {
-		return dibi::dataSource(
-			"SELECT * FROM %n", self::getTable(),
-			"INNER JOIN %n ON %n.%n = %n.%n", Users::getTable(), self::getTable(), self::DATA_USER_FROM, Users::getTable(), Users::DATA_ID,
-			"INNER JOIN %n ON %n.%n = %n.%n", Users::getTable(), self::getTable(), self::DATA_USER_TO	, Users::getTable(), Users::DATA_ID
-		);
+		return dibi::dataSource("SELECT * FROM %n", self::getView());
 	}
 
 	/**
@@ -83,6 +99,16 @@ class Message extends ATableModel
 	public static function getTable() {
 		$tables = Environment::getConfig('tables');
 		return (!empty($tables->message) ? $tables->message : 'message');
+	}
+
+	/**
+	 * It retursn a name of MySQL view which the model work with.
+	 *
+	 * @return string
+	 */
+	public static function getView() {
+		$views = Environment::getConfig('views');
+		return (!empty($tables->message) ? $tables->message : 'view_message');
 	}
 
 	protected function tableName() {

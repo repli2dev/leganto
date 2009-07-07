@@ -2,4 +2,20 @@
 {$form}
 {/if}
 {if !empty($messages)}
+	{foreach $messages AS $message}
+		<div class="message">
+			<div class="info">
+				<span class="date">{$message['inserted']|date}</span>
+				<a href="">{$reply}</a>
+				<a href="" class="control">{$delete}</a>
+				<span class="author">
+					<a href="">{$message['from_nick']}</a>
+					»
+					<a href="">{$message['to_nick']}</a>
+				</span>
+			</div>
+			<span class="subject">{$message['subject']}</span>
+			{$message['content']|texy}
+		</div>
+	{/foreach}
 {/if}

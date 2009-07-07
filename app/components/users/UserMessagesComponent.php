@@ -25,11 +25,21 @@ class UserMessagesComponent extends BaseControl
 
 	public function renderAll() {
 		$template = $this->createTemplate();
-
 		$template->setFile(TEMPLATES_DIR . '/UsersModule/components/userMessages.phtml');
 
+		$msg = new Message();
+
 		$template->form = $this->getComponent("messageForm");
-		$template->messages = array();
+		$template->messages = $msg->get()->where(
+			"%n = %i OR %n = %i",
+			Message::VIEW_FROM_ID,
+			Environment::getUser()->getIdentity()->id_user,
+			Message::VIEW_TO_ID,
+			Environment::getUser()->getIdentity()->id_user
+		)->fetchAll();
+
+		$template->reply = Locales::get()->get("reply");
+		$template->delete = Locales::get()->get("delete");
 
 		$template->render();
 	}
