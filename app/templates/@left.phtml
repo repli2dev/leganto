@@ -1,8 +1,10 @@
 <div id="left">
-	{if isset($userComponent)}
+	{foreach $components AS $componentsP}
+		{foreach $componentsP AS $component}
 		<div class="column">
-			{!$userComponent->render()}
+			{!$presenter->getComponent($component)->render()}
 		</div>
-	{/if}
+		{/foreach}
+	{/foreach}
 	{block #left}{/block}
 </div>

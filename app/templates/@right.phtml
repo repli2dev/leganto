@@ -2,10 +2,12 @@
 	{if !empty($submenu)}
 	<div class="submenu">
 		<ul>
-			{foreach $submenu AS $name => $url}
-			<li>
-				<a href="{link $url}" title="{$name}">{$name}</a>
-			</li>
+			{foreach $submenu AS $links}
+				{foreach $links AS $link}
+				<li>
+					<a href="{link $link['url']}" title="{$link['name']}">{$link['name']}</a>
+				</li>
+				{/foreach}
 			{/foreach}
 		</ul>
 	</div>
