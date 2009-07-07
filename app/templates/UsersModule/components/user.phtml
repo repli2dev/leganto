@@ -4,5 +4,13 @@
 	<a href="{plink ':Users:Frontend:register'}" title="{$register}">{$register}</a>
 </p>
 {else}
-	{!$user->email} - <a href="{link 'logout'}">{$logout}</a>
+	<p>
+		<a href="{plink :Users:Frontend:default}">{!$user->nick}</a>
+	</p>
+	<ul>
+		<li><a href="{plink :Users:Frontend:messages}">{$messages}</a></li>
+		<li><a href="{plink :Users:Frontend:edit}">{$edit}</a></li>
+		<li><a href="{link 'logout'}">{$logout}</a></li>
+	</ul>
+
 {/if}

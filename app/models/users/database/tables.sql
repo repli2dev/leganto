@@ -58,3 +58,18 @@ CREATE TABLE `status` (
 	FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`) ON UPDATE CASCADE ON DELETE CASCADE,
 	FOREIGN KEY (`id_language`) REFERENCES `language` (`id_language`) ON UPDATE CASCADE ON DELETE CASCADE
 ) ENGINE = InnoDB COMMENT = 'statusy uzivatelu';
+
+DROP TABLE IF EXISTS `message`;
+CREATE TABLE `message` (
+	`id_message` INT(25) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'identifikator',
+	`id_user_from` INT (25) UNSIGNED NOT NULL COMMENT 'uzivatel, ktery zpravu poslal',
+	`id_user_to` INT (25) UNSIGNED NOT NULL COMMENT 'uzivatel, kteremu byla zprava poslana',
+	`from_destroyed` INT(1) DEFAULT 0 UNSIGNED COMMENT 'info o tom, zda uzivetel, ktery poslal zpravu, zpravu smazal (0 - ne/1 -ano)',
+	`to_destroyed` INT(1) DEFAULT 0 UNSIGNED COMMENT 'to same, akorat u prijemce',
+	`is_read` INT(1) UNSIGNED DEFAULT 0 COMMENT 'info o tom, zda prijemce precetl zpravu (0 - ne/1 - ano)',
+	`subject` VARCHAR(255) NULL COMMENT 'predmet zpravy',
+	`content` TEXT NOT NULL COMMENT 'telo zpravy',
+	`inserted` DATETIME NOT NULL COMMENT 'cas, kdy byla polozka vlozena do systemu',
+	FOREIGN KEY (`id_user_from`) REFERENCES `user` (`id_user`) ON UPDATE CASCADE ON DELETE CASCADE,
+	FOREIGN KEY (`id_user_to`) REFERENCES `user` (`id_user`) ON UPDATE CASCADE ON DELETE CASCADE
+) ENGINE = InnoDB COMMENT = 'soukrome zpravy mezi uzivateli';

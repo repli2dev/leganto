@@ -50,6 +50,15 @@ class Users_FrontendPresenter extends FrontendPresenter
 	}
 
 	/**
+	 * It renders a form to send a message.
+	 *
+	 * @Secured(action=insert)
+	 */
+	public function renderMessages() {
+		$this->template->messages = $this->getComponent("userMessages");
+	}
+
+	/**
 	 * It processes a registration form
 	 */
 	public function registerSubmitted(Form $form) {
@@ -246,6 +255,10 @@ class Users_FrontendPresenter extends FrontendPresenter
 
 	protected function createUserStatus($name) {
 		return new UserStatusComponent();
+	}
+
+	protected function createUserMessages($name) {
+		return new UserMessagesComponent();
 	}
 
 }

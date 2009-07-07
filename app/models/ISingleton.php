@@ -7,4 +7,3 @@
 interface ISingleton
 {
 }
-?>
