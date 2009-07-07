@@ -7,7 +7,7 @@
 			<div class="info">
 				<span class="date">{$message['inserted']|date}</span>
 				<a href="">{$reply}</a>
-				<a href="" class="control">{$delete}</a>
+				<a href="{link delete, $message['id_message']}" class="control">{$delete}</a>
 				<span class="author">
 					<a href="">{$message['from_nick']}</a>
 					»

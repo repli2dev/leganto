@@ -44,6 +44,24 @@ class UserMessagesComponent extends BaseControl
 		$template->render();
 	}
 
+	public function handleDelete($id_message) {
+		if (!Environment::getUser()->isAuthenticated()) {
+			return;
+		}
+		$msg = new Message();
+		try {
+			$msg->markAsDeleted(
+				$id_message,
+				Environment::getUser()->getIdentity()->id_user
+			);
+			$this->getPresenter()->flashMessage(Locales::get("users")->get("msg_successfully_deleted"));
+		}
+		catch (DibiDriverException $e) {
+			$form->addError(Locales::get()->get("database_error"));
+			Debug::processException($e);
+		}
+	}
+
 	public function messageSubmitted(Form $form) {
 		$values = $form->getValues();
 		$msg = new Message();

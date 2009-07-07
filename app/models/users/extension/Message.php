@@ -116,6 +116,54 @@ class Message extends ATableModel
 	}
 
 	/**
+	 * It marks the user's message as deleted. If the both users marked the message,
+	 * the message will be really deleted.
+	 *
+	 * @param int $message Message ID.
+	 * @param int $user ID of user, who sent the message or whom the message was sent.
+	 * @throws NullPointerException if the $message or $user is empty.
+	 * @throws DataNotFoundException if the message does not exist.
+	 * @throws DibiDriverException if there is a problem to work with database.
+	 * @throws InvalidArgumentException if the user is not the user who sent the message,
+	 *		or whom the message was sent. Or the message was already marked.
+	 */
+	public function markAsDeleted($message, $user) {
+		if (empty($message)) {
+			throw new NullPointerException("message");
+		}
+		if (empty($user)) {
+			throw new NullPointerException("user");
+		}
+		$msgRows = $this->get()->where("%n = %i", self::VIEW_ID, $message);
+		if ($msgRows->count() == 0) {
+			throw new DataNotFoundException("message");
+		}
+		$msg = $msgRows->fetch();
+		if ($msg[self::VIEW_FROM_ID] == $user && !($msg[self::VIEW_FROM_DESTROYED] == self::IS_READ_YES)) {
+			if ($msg[self::VIEW_TO_DESTROYED] == self::IS_READ_YES) {
+				$this->delete($message);
+				return;
+			}
+			$update = array(self::DATA_DESTROYED_FROM => self::IS_READ_YES);
+		}
+		else if ($msg[self::VIEW_TO_ID] == $user && !($msg[self::VIEW_TO_DESTROYED] == self::IS_READ_YES)) {
+			if ($msg[self::VIEW_FROM_DESTROYED] == self::IS_READ_YES) {
+				$this->delete($message);
+				return;
+			}
+			$update = array(self::DATA_DESTROYED_TO => self::IS_READ_YES);
+		}
+		else {
+			throw new InvalidArgumentException("user");
+		}
+		if (!empty($update)) {
+			dibi::update(self::getTable(), $update)
+				->where("%n = %i", self::DATA_ID, $message)
+				->execute();
+		}
+	}
+
+	/**
 	 * It marks the user's messages as read
 	 *
 	 * @param int $user User's ID.
