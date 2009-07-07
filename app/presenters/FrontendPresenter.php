@@ -26,8 +26,10 @@ abstract class FrontendPresenter extends BasePresenter
 				$name = Locales::get($moduleName)->get($name);
 				$this->addSubMenu($name, $descriptor["url"], $descriptor["priority"]);
 			}
+			$components = Modules::getInstance()->get($moduleName)->getSection(ModuleSection::FRONTEND)->getComponents();
+			foreach ($components AS $name => $priority) {
+				$this->addModuleComponent($name, $priority);
+			}
 		}
-
-		$this->template->userComponent = $this->getComponent("userComponent");
 	}
 }

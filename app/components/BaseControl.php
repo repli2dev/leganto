@@ -7,6 +7,11 @@
 abstract class BaseControl extends Control
 {
 
+	/**
+	 * It renders a component.
+	 */
+	abstract public function render();
+
 	public function createTemplate() {
 		$template = parent::createTemplate();
 

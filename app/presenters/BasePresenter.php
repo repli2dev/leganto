@@ -69,6 +69,7 @@ abstract class BasePresenter extends Presenter
 		$template->menu = array();
 		$template->submenu = array();
 		$template->rss = array();
+		$template->components = array();
 
 		return $template;
 	}
@@ -131,14 +132,23 @@ abstract class BasePresenter extends Presenter
 	 * @param int $priority The priority of the menu item.
 	 * @throws NullPointerException if some of the attributes does not exist.
 	 */
-	public function addMenu($name, $url, $priority = NULL) {
+	public function addMenu($name, $url, $priority = 100000) {
 		if (empty($name)) {
 			throw new NullPointerException("name");
 		}
 		if (empty($url)) {
 			throw new NullPointerException("url");
 		}
-		$this->template->menu[$name] = $url;
+		if (empty($priority)) {
+			throw new NullPointerException("priority");
+		}
+		if (empty($this->template->menu[$priority])) {
+			$this->template->menu[$priority] = array();
+		}
+		$this->template->menu[$priority][] = array(
+			"name" => $name,
+			"url" => $url
+		);
 	}
 
 	/**
@@ -149,14 +159,59 @@ abstract class BasePresenter extends Presenter
 	 * @param int $priority The priority of the menu item.
 	 * @throws NullPointerException if some of the attributes does not exist.
 	 */
-	public function addSubMenu($name, $url, $priority = NULL) {
+	public function addSubMenu($name, $url, $priority = 100000) {
 		if (empty($name)) {
 			throw new NullPointerException("name");
 		}
 		if (empty($url)) {
 			throw new NullPointerException("url");
 		}
-		$this->template->submenu[$name] = $url;
+		if (empty($priority)) {
+			throw new NullPointerException("priority");
+		}
+		if (empty($this->template->submenu[$priority])) {
+			$this->template->submenu[$priority] = array();
+		}
+		$this->template->submenu[$priority][] = array(
+			"name" => $name,
+			"url" => $url
+		);
+	}
+
+	/**
+	 * It adds component of a module..
+	 *
+	 * @param string $component Component name.
+	 * @param int $priority The priority.
+	 * @throws NullPointerException if the $component or $priority is empty.
+	 * @throws DataNotFoundException if the component does not exist.
+	 * @throws InvalidArgumentException if the components does not implement IComponent.
+	 */
+	protected function addModuleComponent($component, $priority = 100000) {
+		if (empty($component)) {
+			throw new NullPointerException("component");
+		}
+		if (!class_exists($component, $autoload = TRUE)) {
+			throw new DataNotFoundException("The class '$component' not found.");
+		}
+		if (!empty($this->template->components[$priority][$component])) {
+			return;
+		}
+		$instance = new $component();
+		if (!($instance instanceof  BaseControl)) {
+			throw new InvalidArgumentException("The class '$component' does not extend abstract class 'BaseControl'.");
+		}
+		// FIXME: Odstranit tuhle prasarnu a promyslet, jak to udelat bez vyvolani vyjimky.
+		try {
+			$this->addComponent($instance, $component);
+		}
+		catch (InvalidStateException $e) {
+			Debug::processException($e);
+		}
+		if (empty($this->template->components[$priority])) {
+			$this->template->components[$priority] = array();
+		}
+		$this->template->components[$priority][] = $component;
 	}
 
 	/**

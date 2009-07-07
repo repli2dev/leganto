@@ -28,6 +28,10 @@ abstract class BackendPresenter extends BasePresenter
 				$name = Locales::get($moduleName)->get($name);
 				$this->addSubMenu($name, $url);
 			}
+			$components = Modules::getInstance()->get($moduleName)->getSection(ModuleSection::BACKEND)->getComponents();
+			foreach ($components AS $name => $priority) {
+				$this->addModuleComponent($name, $priority);
+			}
 		}
 	}
 

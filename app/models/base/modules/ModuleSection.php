@@ -95,7 +95,7 @@ class ModuleSection
 			}
 		}
 		// Components
-		$this->componets = array();
+		$this->components = array();
 		if (isset ($section->components)) {
 			foreach ($section->components AS $name => $priority) {
 				$this->components[$name] = $priority;
