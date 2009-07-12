@@ -45,7 +45,7 @@ class UserComponent extends BaseControl
 			switch ($e->getCode()) {
 				case AuthenticationException::IDENTITY_NOT_FOUND:
 					$this->getPresenter()->flashMessage(
-						Locales::get("users")->get("identity_not_found"),
+						Locales::get("users")->get("user_not_found"),
 						"error"
 					);
 					break;
