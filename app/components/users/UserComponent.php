@@ -51,7 +51,7 @@ class UserComponent extends BaseControl
 					break;
 				case AuthenticationException::INVALID_CREDENTIAL:
 					$this->getPresenter()->flashMessage(
-						Locales::get("users")->get("invalid_credential"),
+						Locales::get("users")->get("wrong_password"),
 						"error"
 					);
 					break;
