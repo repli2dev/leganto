@@ -92,6 +92,8 @@ class UserMessagesComponent extends BaseControl
 	protected function createMessageForm($name) {
 		$form = new AppForm($this, $name);
 
+		$form->addGroup(Locales::get("users")->get("send_message"));
+
 		$form->addText(Message::DATA_USER_TO, Locales::get("users")->get("msg_user_to"))
 			->addRule(Form::FILLED, Locales::get("users")->get("msg_user_to_not_filled"));
 

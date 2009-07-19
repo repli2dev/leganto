@@ -65,7 +65,8 @@ class UserComponent extends BaseControl
 	protected function createLoginForm($name) {
 		$form = new AppForm($this,"loginForm");
 
-		$form->getElementPrototype()->id("loginForm");
+		$form->addGroup(Locales::get("users")->get("login"))
+			->setOption("container", Html::el("fieldset")->class("login"));
 
 		$form->addText(IAuthenticator::USERNAME, Locales::get("users")->get("email") . ":")
 			->addRule(Form::FILLED, Locales::get("users")->get("email_not_filled"));
@@ -76,6 +77,13 @@ class UserComponent extends BaseControl
 		$form->addSubmit("loginSubmit", Locales::get("users")->get("login"));
 
 		$form->onSubmit[] = array($this,"loginSubmitted");
+
+		$renderer = $form->getRenderer();
+		$renderer->wrappers['controls']['container'] = NULL;
+		$renderer->wrappers['pair']['container'] = "p";
+		$renderer->wrappers['label']['container'] = NULL;
+		$renderer->wrappers['control']['container'] = NULL;
+
 
 		return $form;
 	}

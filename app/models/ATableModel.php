@@ -79,7 +79,7 @@ abstract class ATableModel extends /*Nette\*/Object implements ITableModel
 		if (empty($id)) {
 			throw new NullPointerException("id");
 		}
-		$deleted = dibi::deleteAll(array($this->identificator() => $id));
+		$deleted = $this->deleteAll(array($this->identificator() => $id));
 		if ($deleted < 1) {
 			throw new DataNotFoundException("id");
 		}

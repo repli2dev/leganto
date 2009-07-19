@@ -18,6 +18,7 @@ class Users_FrontendPresenter extends FrontendPresenter
 	 * It renders an user's page.
 	 */
 	public function renderDefault() {
+		$this->template->subtitle = Locales::get("users")->get("profile");
 		$this->template->userStatus = $this->getComponent("userStatus");
 	}
 
@@ -25,6 +26,7 @@ class Users_FrontendPresenter extends FrontendPresenter
 	 * It renders a users list.
 	 */
 	public function renderAll() {
+		$this->template->subtitle = Locales::get("users")->get("users");
 		$this->template->users = $this->getComponent("usersDataGrid");
 	}
 
@@ -32,6 +34,7 @@ class Users_FrontendPresenter extends FrontendPresenter
 	 * It renders a registration form.
 	 */
 	public function renderRegister() {
+		$this->template->subtitle = Locales::get("users")->get("registration");
 		$this->userFormType = "new";
 		$this->template->form = $this->getComponent("userInfoForm");
 	}
@@ -42,6 +45,7 @@ class Users_FrontendPresenter extends FrontendPresenter
 	 * @Secured(action=edit)
 	 */
 	public function renderEdit() {
+		$this->template->subtitle = Locales::get("users")->get("edit_personal_info");
 		$this->userFormType = "edit";
 		$this->template->form = $this->getComponent("userInfoForm");
 
@@ -55,6 +59,7 @@ class Users_FrontendPresenter extends FrontendPresenter
 	 * @Secured(action=insert)
 	 */
 	public function renderMessages() {
+		$this->template->subtitle = Locales::get("users")->get("messages");
 		$this->template->messages = $this->getComponent("userMessages");
 	}
 

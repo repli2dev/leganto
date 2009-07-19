@@ -117,7 +117,7 @@ class UserStatusComponent extends BaseControl
 			
 			$status = new Status();
 			$form->setDefaults(
-				$status->get()->where("%n = %i",Status::DATA_ID,$this->updatedId)->fetch()
+				$status->findAll()->where("%n = %i",Status::DATA_ID,$this->updatedId)->fetch()
 			);
 		}
 

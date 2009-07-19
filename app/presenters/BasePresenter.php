@@ -283,6 +283,9 @@ abstract class BasePresenter extends Presenter
 
 		// link additional styles
 		$this->addStylesheet('/datagrid.css');
+		
+		$renderer = $dataGrid->getRenderer();
+		$renderer->wrappers['datagrid']['container'] = 'table class="datagrid w100"';
 
 		return $dataGrid;
 	}
