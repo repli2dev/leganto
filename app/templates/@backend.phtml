@@ -1,6 +1,60 @@
-{extends @layout.phtml}
-{block #content}
-	<h1>{$title}</h1>
-	{block #subcontent}
-	{/block}
-{/block}
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="cs">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta http-equiv="content-language" content="cs" />
+	<meta name="copyright" content="&copy; 2009 Jan Drabek, Jan Papousek" />
+	<link rel="stylesheet" type="text/css" href="{$baseUri}css/reset.css" />
+	<link rel="stylesheet" type="text/css" href="{$baseUri}css/admin.css" />
+	<title>{if isset($title)} {$title} {/if} {if isset($subtitle)} - {$subtitle} {/if}</title>
+
+</head>
+<body>
+	<div id="playground">
+		<div id="header_background">
+			<div id="header">
+				<div id="heading">
+					<h1>{if isset($title)} {$title} {/if} {if isset($subtitle)} - {$subtitle} {/if}</h1> | <a href="{$baseUri}">{$domain}</a>
+				</div>
+				<div id="user">
+					{$currentUser}: {$user->nick}<br />
+					<a href="{$baseUri}">{$back}</a> | <a href="{$presenter->getComponent('UserComponent')->link('logout')}">{$logout}</a>
+				</div>
+			</div>
+		</div>
+		<div id="background">
+			<div id="body">
+				<div id="content">
+					<div id="modules"><div class="inside">
+						<h2>{$modules}</h2>
+                        
+					</div></div>
+					<div id="settings"><div class="inside">
+						<h2>{$settings}</h2>
+					</div></div>
+					<div id="options"><div class="inside">
+						{include @content.phtml}
+					</div></div>
+					&nbsp;
+				</div>
+			</div>
+			<hr class="cleaner" />
+		</div>
+		<div id="footer_background">
+			&nbsp;
+		</div>
+		<div id="footer">
+			<div id="copyright">
+				&copy; 2007 - 2009
+				<a href="mailto:jan.papousek@gmail.com" title="Jan Papoušek">Jan Papoušek</a>,
+				<a href="mailto:repli2dev@gmail.com" title="Jan Drábek">Jan Drábek</a>;
+				<a href="mailto:richard.sefr@gmail.com" title="Richard Šefr">Richard Šefr</a>
+			</div>
+			<div id="time">
+				{$date}
+			</div>
+		</div>
+	</div>
+</body>
+</html>
