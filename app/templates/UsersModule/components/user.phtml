@@ -1,16 +1,16 @@
 {if empty($user)}
 {$form}
 <p>
-	<a href="{plink ':Users:Frontend:register'}" title="{$register}">{$register}</a>
+	<a href="{plink ':Users:Frontend:register'}" title="{='register','users'|translate}">{='register','users'|translate}</a>
 </p>
 {else}
 	<p>
 		<a href="{plink :Users:Frontend:default}">{!$user->nick}</a>
 	</p>
 	<ul>
-		<li><a href="{plink :Users:Frontend:messages}">{$messages}</a></li>
-		<li><a href="{plink :Users:Frontend:edit}">{$edit}</a></li>
-		<li><a href="{link 'logout'}">{$logout}</a></li>
+		<li><a href="{plink :Users:Frontend:messages}">{='messages','users'|translate}</a></li>
+		<li><a href="{plink :Users:Frontend:edit}">{='edit_personal_info','users'|translate}</a></li>
+		<li><a href="{link 'logout'}">{='logout','users'|translate}</a></li>
 	</ul>
 
 {/if}

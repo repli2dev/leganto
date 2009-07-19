@@ -18,9 +18,6 @@ class UserComponent extends BaseControl
 		}
 		else {
 			$template->user = Environment::getUser()->getIdentity();
-			$template->edit = Locales::get("users")->get("edit_personal_info");
-			$template->messages = Locales::get("users")->get("messages");
-			$template->logout = Locales::get("users")->get("logout");
 		}
 
 		$template->render();
