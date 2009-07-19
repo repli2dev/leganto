@@ -11,7 +11,7 @@ class UserAuthenticator implements IAuthenticator
 	public function authenticate(array $credentials) {
 		$users = new Users();
 		// Loading data from database
-		$rows = $users->get()->where(
+		$rows = $users->findAll()->where(
 			"%n = %s",
 			Users::DATA_EMAIL,
 			$credentials[IAuthenticator::USERNAME]

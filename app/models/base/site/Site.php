@@ -1,6 +1,25 @@
 <?php
+/*
+ * The web basis called Eskymo.
+ *
+ * @copyright   Copyright (c) 2004, 2009 Jan Papousek, Jan Drabek
+ * @link        [--- ESKYMO REPOSITORY LINK ---]
+ * @category    Eskymo
+ * @package     Eskymo\Site
+ * @version     2009-07-04
+ */
 
-class Site extends Object implements ISingleton
+/*namespace Eskymo\Locales;*/
+
+/**
+ * This class provides information about current instance of web
+ * represented by domain and its used language.
+ *
+ * @author      Jan Papousek
+ * @version     2009-07-08
+ * @package     Eskymo\Site
+ */
+class Site extends /*Nette\*/Object implements /*Eskymo\*/ISingleton
 {
 
 	/**
@@ -29,7 +48,7 @@ class Site extends Object implements ISingleton
 	 */
 	private function  __construct() {
 		$domain = new Domain();
-		$rows = $domain->get()->where(
+		$rows = $domain->findAll()->where(
 			"%n = %s",
 			Domain::DATA_URI,
 			@$_SERVER['HTTP_HOST']
@@ -39,7 +58,7 @@ class Site extends Object implements ISingleton
 		}
 		$this->domain = $rows->fetch();
 		$language = new Language();
-		$this->language = $language->get()
+		$this->language = $language->findAll()
 				->where("[id_language] = %i", $this->domain["id_language"])
 				->fetch();
 	}

@@ -1,11 +1,11 @@
 <?php
 /*
- * Reader's book
+ * The web basis called Eskymo.
  *
  * @copyright   Copyright (c) 2004, 2009 Jan Papousek, Jan Drabek
- * @link        http://code.google.com/p/preader/
- * @category    Reader
- * @package     Reader\Base\Modules
+ * @link        [--- ESKYMO REPOSITORY LINK ---]
+ * @category    Eskymo
+ * @package     Eskymo\Modules
  * @version     2009-07-04
  */
 
@@ -16,9 +16,9 @@
  *
  * @author      Jan Papousek
  * @version     2009-07-04
- * @package     Reader\Base\Modules
+ * @package     Eskymo\Modules
  */
-class ModuleTable extends /*Reader\*/ATableModel
+class ModuleTable extends /*Eskymo\*/ATableModel
 {
 
 	const DATA_ID = "id_module_table";
@@ -52,10 +52,6 @@ class ModuleTable extends /*Reader\*/ATableModel
 	public static function getTable() {
 		$tables = Environment::getConfig('tables');
 		return (!empty($tables->module_table) ? $tables->module_table : 'module_table');
-	}
-
-	protected function tableName() {
-		return self::getTable();
 	}
 
 }

@@ -30,7 +30,7 @@ class UserStatusComponent extends BaseControl
 		}
 
 		$status = new Status();
-		$template->states = $status->get()
+		$template->states = $status->findAll()
 			->orderBy(Status::DATA_INSERTED, "desc")
 			->applyLimit($this->limit, 0);
 

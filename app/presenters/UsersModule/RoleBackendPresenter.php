@@ -42,7 +42,7 @@ class Users_RoleBackendPresenter extends BackendPresenter
 
 	public function renderEditRole($id_role) {
 		$roles = new Role();
-		$this->role = $roles->get()->where("%n = %i", Role::DATA_ID, $id_role)->fetch();
+		$this->role = $roles->findAll()->where("%n = %i", Role::DATA_ID, $id_role)->fetch();
 
 		$this->formType = "edit";
 		$this->template->form = $this->getComponent("roleForm");
@@ -62,7 +62,7 @@ class Users_RoleBackendPresenter extends BackendPresenter
 
 	public function renderDetail($id_role) {
 		$roles = new Role();
-		$this->role = $roles->get()->where("%n = %i", Role::DATA_ID, $id_role)->fetch();
+		$this->role = $roles->findAll()->where("%n = %i", Role::DATA_ID, $id_role)->fetch();
 		$this->template->permissions = $this->getComponent("permissionDataGrid");
 		$this->template->role = $this->role;
 	}
@@ -159,7 +159,7 @@ class Users_RoleBackendPresenter extends BackendPresenter
 
 		$roles = new Role();
 
-		$dataGrid->bindDataTable($roles->get());
+		$dataGrid->bindDataTable($roles->findAll());
 		$dataGrid->setKeyName(Role::DATA_ID);
 
 		// columns
@@ -196,7 +196,7 @@ class Users_RoleBackendPresenter extends BackendPresenter
 		$permission = new Permissions();
 
 		$dataGrid->bindDataTable(
-			$permission->get()->where("%n = %i", Permissions::DATA_ROLE, $this->role[Role::DATA_ID])
+			$permission->findAll()->where("%n = %i", Permissions::DATA_ROLE, $this->role[Role::DATA_ID])
 		);
 		$dataGrid->setKeyName(Permissions::DATA_ID);
 

@@ -76,7 +76,7 @@ class Users_BackendPresenter extends BackendPresenter
 		$roles = new Role();
 		$lng = new Language();
 
-		$dataGrid->bindDataTable($users->get());
+		$dataGrid->bindDataTable($users->findAll());
 		$dataGrid->keyName = Users::DATA_ID;
 
 		// setup columns
@@ -85,12 +85,12 @@ class Users_BackendPresenter extends BackendPresenter
 		$dataGrid->addColumn(Users::DATA_NICKNAME, Locales::get("users")->get("nickname"))
 			->addFilter();
 
-		$rolesReplacement = $roles->get()->fetchPairs(Role::DATA_ID, Role::DATA_NAME);
+		$rolesReplacement = $roles->findAll()->fetchPairs(Role::DATA_ID, Role::DATA_NAME);
 		$dataGrid->addColumn(Users::DATA_ROLE, Locales::get("users")->get("role"))
 			->addSelectboxFilter($rolesReplacement);
 		$dataGrid[Users::DATA_ROLE]->replacement = $rolesReplacement;
 
-		$lngReplacement = $lng->get()->fetchPairs(Language::DATA_ID, Language::DATA_NAME);
+		$lngReplacement = $lng->findAll()->fetchPairs(Language::DATA_ID, Language::DATA_NAME);
 		$dataGrid->addColumn(Users::DATA_LANGUAGE, Locales::get()->get("language"))
 			->addSelectboxFilter($lngReplacement);
 		$dataGrid[Users::DATA_LANGUAGE]->replacement = $lngReplacement;
@@ -123,7 +123,7 @@ class Users_BackendPresenter extends BackendPresenter
 		$form->addSelect(
 			Users::DATA_ROLE,
 			Locales::get("users")->get("role"),
-			$roles->get()->fetchPairs(Role::DATA_ID, Role::DATA_NAME)
+			$roles->findAll()->fetchPairs(Role::DATA_ID, Role::DATA_NAME)
 		);
 
 		$form->addSelect(

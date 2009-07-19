@@ -37,9 +37,4 @@ class Permissions extends ATableModel
 		return (!empty($tables->permission) ? $tables->permission : 'permission');
 	}
 
-	protected function tableName() {
-		return self::getTable();
-	}
-
 }
-?>

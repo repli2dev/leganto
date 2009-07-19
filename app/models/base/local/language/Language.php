@@ -38,9 +38,4 @@ class Language extends ATableModel
 		$tables = Environment::getConfig('tables');
 		return (!empty($tables->language) ? $tables->language : 'language');
 	}
-
-	protected function tableName() {
-		return self::getTable();
-	}
 }
-?>

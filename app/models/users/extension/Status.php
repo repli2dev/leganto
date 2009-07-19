@@ -77,8 +77,4 @@ class Status extends ATableModel
 		return (!empty($tables->status) ? $tables->status : 'status');
 	}
 
-	protected function tableName() {
-		return self::getTable();
-	}
-
 }

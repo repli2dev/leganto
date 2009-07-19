@@ -89,7 +89,7 @@ class Users extends ATableModel
 	 * @return DibiDataSource
 	 * @throws DibiDriverException if there is a problem to work with database.
 	 */
-	public function get() {
+	public function findAll() {
 		return dibi::dataSource(
 			"SELECT *
 			 FROM %n", self::getTable(),
@@ -151,11 +151,6 @@ class Users extends ATableModel
 		// TODO: Zamyslet se nad hashovaci fci
 		return sha1($password);
 	}
-
-	protected function tableName() {
-		return self::getTable();
-	}
-
 	/**
 	 * It updates en entity in the database.
 	 *
@@ -175,7 +170,7 @@ class Users extends ATableModel
 		if (empty($id)) {
 			throw new NullPointerException("id");
 		}
-		$rows = $this->get()->where("%n = %i", self::DATA_ID, $id);
+		$rows = $this->findAll()->where("%n = %i", self::DATA_ID, $id);
 		if ($rows->count() == 0) {
 			throw new DataNotFoundException("id");
 		}

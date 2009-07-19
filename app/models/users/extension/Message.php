@@ -69,7 +69,7 @@ class Message extends ATableModel
 	 * @return DibiDataSource
 	 * @throws DibiDriverException if there is a problem to work with database.
 	 */
-	public function get() {
+	public function findAll() {
 		return dibi::dataSource("SELECT * FROM %n", self::getView());
 	}
 
@@ -109,10 +109,6 @@ class Message extends ATableModel
 	public static function getView() {
 		$views = Environment::getConfig('views');
 		return (!empty($tables->message) ? $tables->message : 'view_message');
-	}
-
-	protected function tableName() {
-		return self::getTable();
 	}
 
 	/**

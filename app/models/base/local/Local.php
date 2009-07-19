@@ -1,14 +1,29 @@
 <?php
+// TODO: Implement interface ITranslator.
+
+/*
+ * The web basis called Eskymo
+ *
+ * @copyright   Copyright (c) 2004, 2009 Jan Papousek, Jan Drabek
+ * @link        [--- ESKYMO REPOSITORY LINK ---]
+ * @category    Eskymo
+ * @package     Eskymo\Locales
+ * @version     2009-07-04
+ */
+
+/*namespace Eskymo\Locales;*/
+
 /**
  * The basic implentation of the ILocal interface.
  *
  * This class loads ini files which are called {$moduleName}.{$local}.ini
  * and are located in LOCALES_DIR
  *
- * @author Jan Papousek
+ * @author      Jan Papousek
+ * @version     2009-07-08
+ * @package     Eskymo\Locales
  */
-
-class Local extends Object implements ILocal
+class Local extends /*Nette\*/Object implements ILocal
 {
 
 	/**

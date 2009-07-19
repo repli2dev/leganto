@@ -1,11 +1,25 @@
 <?php
+/*
+ * The web basis called Eskymo
+ *
+ * @copyright   Copyright (c) 2004, 2009 Jan Papousek, Jan Drabek
+ * @link        [--- ESKYMO REPOSITORY LINK ---]
+ * @category    Eskymo
+ * @package     Eskymo\Locales
+ * @version     2009-07-04
+ */
+
+/*namespace Eskymo\Locales;*/
+
 /**
  * This class looks after text expressions used on the site,
  * which have to be localized.
  *
- * @author Jan Papousek
+ * @author      Jan Papousek
+ * @version     2009-07-08
+ * @package     Eskymo\Locales
  */
-class Locales extends Object
+class Locales extends /*Nette\*/Object
 {
 
 	/**

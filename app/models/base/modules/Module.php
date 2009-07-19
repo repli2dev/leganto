@@ -1,15 +1,15 @@
 <?php
 /*
- * Reader's book
+ * The web basis called Eskymo.
  *
  * @copyright   Copyright (c) 2004, 2009 Jan Papousek, Jan Drabek
- * @link        http://code.google.com/p/preader/
- * @category    Reader
- * @package     Reader\Base\Modules
+ * @link        [--- ESKYMO REPOSITORY LINK ---]
+ * @category    Eskymo
+ * @package     Eskymo\Modules
  * @version     2009-07-04
  */
 
-/*namespace Reader\Base\Modules;*/
+/*namespace Eskymo\Modules;*/
 
 
 /**
@@ -17,7 +17,7 @@
  *
  * @author      Jan Papousek
  * @version     2009-07-04
- * @package     Reader\Base\Modules
+ * @package     Eskymo\Modules
  * @see         Modules
  */
 class Module extends /*Nette\*/Object

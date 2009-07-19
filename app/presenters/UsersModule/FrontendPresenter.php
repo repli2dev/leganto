@@ -142,16 +142,17 @@ class Users_FrontendPresenter extends FrontendPresenter
 			}
 			unset($values["password_check"]);
 			$id = Environment::getUser()->getIdentity()->id_user;
-			if (!$users->update($id, $values)) {
-				$form->addError(Locales::get("users")->get("user_exists"));
-				return;
-			}
+			$users->update($id, $values);
 			$this->flashMessage(Locales::get("users")->get("user_successfully_updated"));
 			// TODO: refresh identity
 			// TODO: redirect
 		}
 		catch (InvalidArgumentException $e) {
 			$form->addError(Locales::get("users")->get("invalid_email"));
+			Debug::processException($e);
+		}
+		catch(DuplicityException $e) {
+			$form->addError(Locales::get("users")->get("user_exists"));
 			Debug::processException($e);
 		}
 		catch (DibiDriverException $e) {
@@ -191,7 +192,7 @@ class Users_FrontendPresenter extends FrontendPresenter
 		$form->addText(Users::DATA_YEAR_OF_BIRTH, Locales::get("users")->get("year_of_birth"));
 		// Preferred language
 		$languages = new Language();
-		$options = $languages->get()->fetchPairs(Language::DATA_ID, Language::DATA_NAME);
+		$options = $languages->findAll()->fetchPairs(Language::DATA_ID, Language::DATA_NAME);
 		$form->addSelect(Users::DATA_LANGUAGE, Locales::get("users")->get("preferred_language"), $options);
 		
 		// Form process etc.
@@ -230,7 +231,7 @@ class Users_FrontendPresenter extends FrontendPresenter
 
 		$users = new Users();
 
-		$dataGrid->bindDataTable($users->get());
+		$dataGrid->bindDataTable($users->findAll());
 
 		// setup columns
 		$dataGrid->addColumn(Users::DATA_ID, "#");

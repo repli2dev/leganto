@@ -30,7 +30,7 @@ class UserMessagesComponent extends BaseControl
 		$msg = new Message();
 
 		$template->form = $this->getComponent("messageForm");
-		$template->messages = $msg->get()->where(
+		$template->messages = $msg->findAll()->where(
 			"%n = %i OR %n = %i",
 			Message::VIEW_FROM_ID,
 			Environment::getUser()->getIdentity()->id_user,
@@ -67,7 +67,7 @@ class UserMessagesComponent extends BaseControl
 		$msg = new Message();
 		$users = new Users();
 		try {
-			$toRows = $users->get()
+			$toRows = $users->findAll()
 				->where("%n = %s", Users::DATA_NICKNAME, $values[Message::DATA_USER_TO]);
 			if ($toRows->count() == 0) {
 				$this->presenter->flashMessage(Locales::get("users")->get("user_not_found"), "error");

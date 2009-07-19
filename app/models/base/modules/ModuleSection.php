@@ -1,4 +1,16 @@
 <?php
+/*
+ * The web basis called Eskymo
+ *
+ * @copyright   Copyright (c) 2004, 2009 Jan Papousek, Jan Drabek
+ * @link        [--- ESKYMO REPOSITORY LINK ---]
+ * @category    Eskymo
+ * @package     Eskymo\Modules
+ * @version     2009-07-04
+ */
+
+/*namespace Eskymo\Modules;*/
+
 /**
  * This class provides reading of data from sections in config file.
  *

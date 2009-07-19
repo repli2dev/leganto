@@ -23,12 +23,34 @@ interface ITableModel
 	function delete($id);
 
 	/**
+	 * It deletes entities based on specified condition.
+	 *
+	 * @param array $condition The list of columns and their values
+	 * @return int Number of deleted entities.
+	 * @throws InvalidArgumentException if there is a column in condition
+	 *		which does not exist in MySQL table.
+	 * @throws DibiDriverException if there is a problem to work with database.
+	 */
+	public function deleteAll(array $condition);
+
+	/**
+	 * It returns an entity based on its ID.
+	 *
+	 * @param int $id ID of the entity.
+	 * @return DibiRow
+	 * @throws NullPointerException if the $id is empty.
+	 * @throws DataNotFoundException if the entity does not exist.
+	 * @throws DibiException if there is a problem to work with database.
+	 */
+	function find($id);
+
+	/**
 	 * It returns the basic expression used to get data from database.
 	 *
 	 * @return DibiDataSource
 	 * @throws DibiException if there is a problem to work with database.
 	 */
-	function get();
+	function findAll();
 
 	/**
 	 * It insert an entity to the database.
@@ -55,5 +77,16 @@ interface ITableModel
 	 * @throws DibiException if there is a problem to work with database.
 	 */
 	function update($id, array $input);
+
+	/**
+	 * It updates entities based on condition.
+	 *
+	 * @param array $condition The list of columns and their values
+	 * @param array|mixed $input	The new data describig entities,
+	 *		array keys are columns name of the table in database
+	 *		and values are the content.
+	 * @return int Number of updated entities.
+	 * @throws DibiDriverException if there is a problem to work with database.
+	 */
+	function updateAll(array $condition, array $input);
 }
-?>

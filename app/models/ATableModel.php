@@ -1,4 +1,16 @@
 <?php
+/*
+ * The web basis called Eskymo.
+ *
+ * @copyright   Copyright (c) 2004, 2009 Jan Papousek, Jan Drabek
+ * @link        [--- ESKYMO REPOSITORY LINK ---]
+ * @category    Eskymo
+ * @package     Eskymo\Site
+ * @version     2009-07-04
+ */
+
+/*namespace Eskymo;*/
+
 /**
  * Abstract class designed to be extended by classes
  * representing model on the MySQL tables.
@@ -16,8 +28,24 @@
  * @author Jan Papousek
  * @uses ITableModel
  */
-abstract class ATableModel extends Object implements ITableModel
+abstract class ATableModel extends /*Nette\*/Object implements ITableModel
 {
+
+	/**
+	 * This attribute contains relationship between MySQL data native types
+	 * and dibi modifier types.
+	 *
+	 * @var array
+	 */
+	// TODO: More types
+	private static $types = array(
+		"int"		=> "%i",
+		"text"		=> "%s",
+		"varchar"	=> "%s",
+		"date"		=> "%d",
+		"enum"		=> "%s"
+	);
+
 	/**
 	 * The primary key of the table which is represented by this model.
 	 *
@@ -32,6 +60,12 @@ abstract class ATableModel extends Object implements ITableModel
 	 */
 	private $required;
 
+	/**
+	 * The info about this MySQL table
+	 *
+	 * @var DibiTableInfo
+	 */
+	private $tableInfo;
 
 	/**
 	 * It deletes an entity from database.
@@ -45,13 +79,54 @@ abstract class ATableModel extends Object implements ITableModel
 		if (empty($id)) {
 			throw new NullPointerException("id");
 		}
-		$deleted = dibi::delete($this->tableName())
-			->where("[".$this->identificator()."] = %i",$id)
-			->execute();
+		$deleted = dibi::deleteAll(array($this->identificator() => $id));
 		if ($deleted < 1) {
 			throw new DataNotFoundException("id");
 		}
 	}
+
+	/**
+	 * It deletes entities based on specified condition.
+	 *
+	 * @param array $condition The list of columns and their values
+	 * @return int Number of deleted entities.
+	 * @throws InvalidArgumentException if there is a column in condition
+	 *		which does not exist in MySQL table.
+	 * @throws DibiDriverException if there is a problem to work with database.
+	 */
+	public function deleteAll(array $condition) {
+		$coumns = $this->getTableInfo()->getColumns();
+		$query = dibi::delete($this->tableName());
+		foreach ($coumns AS $column) {
+			if (isset($condition[$column->getName()])) {
+				$query->where(
+					"%n = ". Tools::arrayGet(self::$types, $column->getNativeType()),
+					$column->getName(),
+					$condition[$column->getName()]
+				);
+			}
+		}
+		return $query->execute();
+	}
+
+	/**
+	 * It returns an entity based on its ID.
+	 *
+	 * @return DibiRow
+	 * @throws NullPointerException if the $id is empty.
+	 * @throws DataNotFoundException if the entity does not exist.
+	 * @throws DibiException if there is a problem to work with database.
+	 */
+	 public function find($id) {
+		 if (empty($id)) {
+			 throw new NullPointerException("id");
+		 }
+		 $rows = $this->findAll()->where("%n = %i", $this->identificator(), $id);
+		 if ($rows->count() == 0) {
+			 throw new DataNotFoundException("id [$id]");
+		 }
+		 return $rows->fetch();
+	 }
 
 	/**
 	 * It returns the basic expression used to get data from database.
@@ -59,8 +134,21 @@ abstract class ATableModel extends Object implements ITableModel
 	 * @return DibiDataSource
 	 * @throws DibiDriverException if there is a problem to work with database.
 	 */
-	public function get() {
+	public function findAll() {
 		return dibi::dataSource("SELECT * FROM %n", $this->tableName());
+	}
+
+	/**
+	 * It returns a table info.
+	 *
+	 * @return DibiTableInfo
+	 * @throws DibiDriverException if there is a problem to work with database.
+	 */
+	protected function getTableInfo() {
+		if (empty($this->tableInfo)) {
+			$this->tableInfo = dibi::getDatabaseInfo()->getTable($this->tableName());
+		}
+		return $this->tableInfo;
 	}
 
 	/**
@@ -73,10 +161,13 @@ abstract class ATableModel extends Object implements ITableModel
 	 */
 	protected function identificator() {
 		if (empty($this->identificator)) {
-			$primaries = dibi::getDatabaseInfo()
-				->getTable($this->tableName())
+			$primaries = $this->getTableInfo()
 				->getPrimaryKey()
 				->getColumns();
+			// This is the situation when the table has no primary key
+			if (empty($primaries)) {
+				throw new NotSupportedException();
+			}
 			foreach ($primaries AS $primary) {
 				$this->identificator = $primary;
 				break;
@@ -101,26 +192,45 @@ abstract class ATableModel extends Object implements ITableModel
 	public function insert(array $input) {
 		$required = $this->requiredColumns();
 		foreach ($required AS $key) {
-			if (empty($input[$key->getName()])) {
-				throw new NullPointerException("input[". $key->getName() ."]");
+			if (empty($input[$key])) {
+				throw new NullPointerException("input[". $key ."]");
 			}
 		}
 		try {
-			dibi::insert($this->tableName(), $input)->execute();
+			$this->processQuery(dibi::insert($this->tableName(), $input));
 			return dibi::insertId();
 		}
-		catch(DibiDriverException $e) {
+		catch (DuplicityException $e) {
+			return -1;
+		}
+	}
+
+	/**
+	 * It executes a query and process the exceptions.
+	 *
+	 * @param DibiFluent
+	 * @return mixed
+	 * @throws DataNotFoundException if the entity does not exist
+	 *		or there is the foreign key on the intity which does not exist.
+	 * @throws DuplicityException if there is already the same entity in database.
+	 * @throws DibiDriverException if there is a problem to work with database.
+	 */
+	protected function processQuery(DibiFluent $query) {
+		try {
+			$query->execute();
+		}
+		catch (DibiDriverException $e) {
 			Debug::processException($e);
 			switch ($e->getCode()) {
 				case 1062:
-					return (-1);
+					throw new DuplicityException();
 					break;
 				// FIXME: hardcoded
 				case 1216:
 					throw new DataNotFoundException($e->getMessage());
 					break;
 				default:
-					throw new DibiDriverException($e->getMessage());
+					throw new DibiDriverException($e->getMessage(), $e->getCode());
 					break;
 			}
 		}
@@ -140,7 +250,7 @@ abstract class ATableModel extends Object implements ITableModel
 			$columns = dibi::getDatabaseInfo()->getTable($this->tableName())->getColumns();
 			foreach ($columns AS $column) {
 				if (!$column->isNullable() && $column->getName() != $this->identificator()) {
-					$this->required[] = $column;
+					$this->required[] = $column->getName();
 				}
 			}
 		}
@@ -154,7 +264,12 @@ abstract class ATableModel extends Object implements ITableModel
 	 *
 	 * @return string Table name
 	 */
-	abstract protected function tableName();
+	protected function tableName() {
+		if (!method_exists($this->getClass(), "getTable")) {
+			throw new NotImplementedException("The class '".$this->getClass()."' extends 'ATableModel' and has to implement static method 'getTable()'.");
+		}
+		return call_user_func_array(array($this->getClass(), "getTable"), $args = array());
+	}
 
 	/**
 	 * It updates en entity in the database.
@@ -163,43 +278,48 @@ abstract class ATableModel extends Object implements ITableModel
 	 * @param array|mixed $input	The new data describig entity,
 	 *		array keys are columns name of the table in database
 	 *		and values are the content.
-	 * @return boolean It return TRUE if the entity was changed,
-	 *		otherwise FALSE.
-	 * @throws InvalidArgumentException if the $input is not an array.
 	 * @throws NullPointerException if $id is empty.
 	 * @throws DataNotFoundException if the entity does not exist
 	 *		or there is the foreign key on the intity which does not exist.
+	 * @throws DuplicityException if there is already the same entity in database.
 	 * @throws DibiDriverException if there is a problem to work with database.
 	 */
 	public function update($id, array $input) {
 		if (empty($id)) {
 			throw new NullPointerException("id");
 		}
-		$rows = $this->get()->where("[".$this->identificator()."] = %i", $id);
+		$rows = $this->findAll()->where("%n = %i", $this->identificator(), $id);
 		if ($rows->count() == 0) {
 			throw new DataNotFoundException("id");
 		}
-		try {
-			dibi::update($this->tableName(), $input)
-				->where("%n = %i", $this->identificator(), $id)
-				->execute();
-			return TRUE;
-		}
-		catch (DibiDriverException $e) {
-			Debug::processException($e);
-			switch ($e->getCode()) {
-				case 1062:
-					return FALSE;
-					break;
-				// FIXME: hardcoded
-				case 1216:
-					throw new DataNotFoundException($e->getMessage());
-					break;
-				default:
-					throw new DibiDriverException($e->getMessage());
-					break;
+		$result = $this->updateAll(array($this->identificator() => $id), $input);
+		return ($result == 0) ? FALSE : TRUE;
+	}
+
+	/**
+	 * It updates entities based on condition.
+	 *
+	 * @param array $condition The list of columns and their values
+	 * @param array|mixed $input	The new data describig entities,
+	 *		array keys are columns name of the table in database
+	 *		and values are the content.
+	 * @return int Number of updated entities.
+	 * @throws DuplicityException if there is already the same entity in database.
+	 * @throws DibiDriverException if there is a problem to work with database.
+	 */
+	public function updateAll(array $condition, array $input) {
+		$coumns = $this->getTableInfo()->getColumns();
+		$query = dibi::update($this->tableName(), $input);
+		foreach ($coumns AS $column) {
+			if (isset($condition[$column->getName()])) {
+				$query->where(
+					"%n = ". Tools::arrayGet(self::$types, $column->getNativeType()),
+					$column->getName(),
+					$condition[$column->getName()]
+				);
 			}
 		}
+		return $this->processQuery($query);
 	}
 
 }

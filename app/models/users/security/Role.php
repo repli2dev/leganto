@@ -33,9 +33,4 @@ class Role extends ATableModel
 			"LEFT JOIN %n USING(%n)", Permissions::getTable(), self::DATA_ID
 		);
 	}
-
-	protected function tableName() {
-		return self::getTable();
-	}
-	
 }
