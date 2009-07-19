@@ -2,8 +2,8 @@
 	{!$form}
 {/if}
 {while $status = $states->fetch()}
-	<div class="status">
-		<span class="date">{$status["inserted"]|time}</span>
+	<div class="box">
+		<h2 class="date">{$status["inserted"]|time}</h2>
 		{if Environment::getUser()->isAuthenticated() && Environment::getUser()->getIdentity()->id_user = $status["id_user"]}
 			<a href="{link 'update', $status['id_status']}"><?php echo Locales::get()->get("edit") ?></a>
 		{/if}

@@ -1,16 +1,21 @@
 {if empty($user)}
+<h2><a href="">{="login_form","users"|translate}</a></h2>
+<div class="block">
 {$form}
+</div>
+<div class="block">
 <p>
 	<a href="{plink ':Users:Frontend:register'}" title="{='register','users'|translate}">{='register','users'|translate}</a>
 </p>
+</div>
 {else}
-	<p>
-		<a href="{plink :Users:Frontend:default}">{!$user->nick}</a>
-	</p>
-	<ul>
-		<li><a href="{plink :Users:Frontend:messages}">{='messages','users'|translate}</a></li>
-		<li><a href="{plink :Users:Frontend:edit}">{='edit_personal_info','users'|translate}</a></li>
-		<li><a href="{link 'logout'}">{='logout','users'|translate}</a></li>
-	</ul>
-
+	<h2><a href="">{!$user->nick}</a></h2>
+	<div class="block">
+		<ul class="menu">
+			<li><a href="{plink :Users:Frontend:default}">{="profile","users"|translate}</a></li>
+			<li><a href="{plink :Users:Frontend:messages}">{='messages','users'|translate}</a></li>
+			<li><a href="{plink :Users:Frontend:edit}">{='edit_personal_info','users'|translate}</a></li>
+			<li><a href="{link 'logout'}">{='logout','users'|translate}</a></li>
+		</ul>
+	</div>
 {/if}
