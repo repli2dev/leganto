@@ -43,7 +43,7 @@ class Users_BackendPresenter extends BackendPresenter
 	 */
 	public function renderEdit($id_user) {
 		$users = new Users();
-		$this->updatedUser = $users->get()
+		$this->updatedUser = $users->findAll()
 			->where("%n = %i", Users::DATA_ID, $id_user)->fetch();
 		$this->template->form = $this->getComponent("userInfoForm");
 		$this->template->user = $this->updatedUser;

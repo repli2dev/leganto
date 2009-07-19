@@ -26,6 +26,7 @@ class UserComponent extends BaseControl
 
 	public function handleLogout() {
 		Environment::getUser()->signOut();
+		$this->getPresenter()->redirect(":Frontend:Default:default");
 	}
 
 	public function loginSubmitted(Form $form) {

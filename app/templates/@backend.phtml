@@ -28,10 +28,23 @@
 				<div id="content">
 					<div id="modules"><div class="inside">
 						<h2>{="modules"|translate}</h2>
-                        
+						<ul class="menu">
+						{foreach $menu AS $links}
+							{foreach $links AS $link}
+								<li><a href="{plink $link['url']}" title="{$link['name']}">{$link['name']}</a></li>
+							{/foreach}
+						{/foreach}
+						</ul>
 					</div></div>
 					<div id="settings"><div class="inside">
 						<h2>{="settings"|translate}</h2>
+						<ul class="menu">
+						{foreach $submenu AS $links}
+							{foreach $links AS $link}
+								<li><a href="{plink $link['url']}" title="{$link['name']}">{$link['name']}</a></li>
+							{/foreach}
+						{/foreach}
+						</ul>
 					</div></div>
 					<div id="options"><div class="inside">
 						{include @content.phtml}
