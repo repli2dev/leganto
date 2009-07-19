@@ -18,8 +18,8 @@
 					<h1>{if isset($title)} {$title} {/if} {if isset($subtitle)} - {$subtitle} {/if}</h1> | <a href="{$baseUri}">{$domain}</a>
 				</div>
 				<div id="user">
-					{$currentUser}: {$user->nick}<br />
-					<a href="{$baseUri}">{$back}</a> | <a href="{$presenter->getComponent('UserComponent')->link('logout')}">{$logout}</a>
+					{$key = "current_user", $module = "users"|translate}: {$user->nick}<br />
+					<a href="{$baseUri}">{$key = "back"|translate}</a> | <a href="{$presenter->getComponent('UserComponent')->link('logout')}">{$key = "logout", $module = "users"|translate}</a>
 				</div>
 			</div>
 		</div>
@@ -27,11 +27,11 @@
 			<div id="body">
 				<div id="content">
 					<div id="modules"><div class="inside">
-						<h2>{$modules}</h2>
+						<h2>{$key = "modules"|translate}</h2>
                         
 					</div></div>
 					<div id="settings"><div class="inside">
-						<h2>{$settings}</h2>
+						<h2>{$key = "settings"|translate}</h2>
 					</div></div>
 					<div id="options"><div class="inside">
 						{include @content.phtml}
@@ -52,7 +52,7 @@
 				<a href="mailto:richard.sefr@gmail.com" title="Richard Šefr">Richard Šefr</a>
 			</div>
 			<div id="time">
-				{$date}
+				{$date|time}
 			</div>
 		</div>
 	</div>

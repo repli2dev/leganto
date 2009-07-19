@@ -15,11 +15,6 @@ abstract class BackendPresenter extends BasePresenter
 		parent::beforeRender();
 		// Basic template
 		$this->template->title = Locales::get()->get("administration");
-        $this->template->currentUser = Locales::get('users')->get("current_user");
-        $this->template->back= Locales::get()->get("back");
-        $this->template->settings= Locales::get()->get("settings");
-        $this->template->modules= Locales::get()->get("modules");
-        $this->template->logout= Locales::get('users')->get("logout");
         $domain = Site::getInstance()->getDomain();
         $this->template->domain = $domain[Domain::DATA_URI];
         $this->template->date = date("Y-m-d H:i:s");
@@ -27,7 +22,7 @@ abstract class BackendPresenter extends BasePresenter
         $this->template->link_logout  = NULL;
 
 		// Menu
-		foreach($modules  AS $moduleName) {
+		foreach(Modules::getInstance()->installedModules()  AS $moduleName) {
 			$links = Modules::getInstance()->get($moduleName)->getSection(ModuleSection::BACKEND)->getLinks();
 			foreach ($links AS $name => $descriptor) {
 				$name = Locales::get($moduleName)->get($name);
