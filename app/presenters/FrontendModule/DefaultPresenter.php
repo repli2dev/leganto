@@ -14,7 +14,6 @@ class Frontend_DefaultPresenter extends FrontendPresenter
 	public function renderDefault() {
 		$template = $this->getTemplate();
 		$template->subtitle = Locales::get()->get("introduction");
-		$template->type = Locales::get()->get("frontend");
 	}
 
 }

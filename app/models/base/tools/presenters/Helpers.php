@@ -39,6 +39,7 @@ final class Helpers
 				break;
 			case "texy": return array(get_class(), 'texyHelper');
 				break;
+			case "translate": return array(get_class(), 'translateHelper');
 			default:
 				throw new DataNotFoundException("helper: $helper");
 		}
@@ -81,6 +82,16 @@ final class Helpers
 			"\\3. \\2. \\1, \\4:\\5",
 			$time
 		);
+	}
+
+	/**
+	 * It return localized key.
+	 *
+	 * @param string $module The module name.
+	 * @param string $key The key.
+	 */
+	public static function translateHelper($key, $module = "base") {
+		return Locales::get($module)->get($key);
 	}
 
 }
