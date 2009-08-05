@@ -44,26 +44,24 @@ class UsersTest extends TableModelTest
 		Environment::getUser()->signOut(TRUE);
 		$this->assertFalse(Environment::getUser()->isAuthenticated());
 		$this->getInstance()->insert($this->getEntity());
-		try {
-			Environment::getUser()->authenticate("lskhvjskcbgnkwecgneck gkhc kcsgj sc", "aaa");
-			$this->fail();
-		}
-		catch (AuthenticationException $e) {
-			if ($e->getCode() != IAuthenticator::IDENTITY_NOT_FOUND) {
-				$this->fail();
-			}
-		}
-		try {
-			Environment::getUser()->authenticate("aaa@aaa.aaa", "ksjd");
-			$this->fail();
-		}
-		catch(AuthenticationException $e) {
-			if ($e->getCode() != IAuthenticator::INVALID_CREDENTIAL) {
-				$this->fail();
-			}
-		}
 		Environment::getUser()->authenticate("aaa@aaa.aaa", "aaa");
 		$this->assertTrue(Environment::getUser()->isAuthenticated());
 		Environment::getUser()->signOut(TRUE);
+	}
+
+	/**
+	 * @Skip
+	 * @TestThrow(AuthenticationException)
+	 */
+	protected function testAuthenticationBadUsername() {
+		Environment::getUser()->authenticate("aaa@aaa.aaa", "ksjd");
+	}
+
+	/**
+	 * @Skip
+	 * @TestThrow(AuthenticationException)
+	 */
+	protected function testAuthenticationBadPassword() {
+		Environment::getUser()->authenticate("lskhvjskcbgnkwecgneck gkhc kcsgj sc", "aaa");
 	}
 }
