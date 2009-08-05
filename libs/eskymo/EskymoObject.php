@@ -7,6 +7,8 @@
 class EskymoObject extends Object
 {
 
+	public function  __construct() {}
+
 	/**
 	 * It returns objects methods
 	 *

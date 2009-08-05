@@ -37,6 +37,16 @@ $application = Environment::getApplication();
 $router = $application->getRouter();
 
 $router[] = new Route(
+	"test/<action>/<class>/<method>",
+	array(
+		"presenter" => "Test",
+		"action" => "default",
+		"class" => NULL,
+		"method" => NULL
+	)
+);
+
+$router[] = new Route(
 	"admin/<presenter>/<action>",
 	array(
 		'module' => 'Backend',

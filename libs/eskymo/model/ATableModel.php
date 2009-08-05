@@ -207,6 +207,7 @@ abstract class ATableModel extends /*Nette\*/Object implements ITableModel
 	protected function processQuery(DibiFluent $query) {
 		try {
 			//$query->test();
+			//die();
 			return $query->execute();
 		}
 		catch (DibiDriverException $e) {
@@ -268,7 +269,7 @@ abstract class ATableModel extends /*Nette\*/Object implements ITableModel
 	 * @param array|mixed $input	The new data describig entity,
 	 *		array keys are columns name of the table in database
 	 *		and values are the content.
-	 * @throws NullPointerException if $id is empty.
+	 * @throws NullPointerException if $id or $input is empty.
 	 * @throws DataNotFoundException if the entity does not exist
 	 *		or there is the foreign key on the intity which does not exist.
 	 * @throws DuplicityException if there is already the same entity in database.
@@ -303,7 +304,7 @@ abstract class ATableModel extends /*Nette\*/Object implements ITableModel
 		$query = dibi::update($this->tableName(), $input);
 		// Check validity
 		foreach ($this->requiredColumns() AS $column) {
-			if (isset($input[$column]) && empty($input[$column])) {
+			if (key_exists($column, $input) && empty($input[$column])) {
 				throw new NullPointerException("input[$column]");
 			}
 		}
