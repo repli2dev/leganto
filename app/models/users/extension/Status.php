@@ -19,10 +19,24 @@ class Status extends ATableModel
 
 	const DATA_USER  = "id_user";
 
+	const VIEW_CONTENT = "content";
+
+	const VIEW_ID = "id_status";
+
+	const VIEW_INSERTED = "inserted";
+
+	const VIEW_LANGUAGE = "id_language";
+
+	const VIEW_UPDATED = "updated";
+
+	const VIEW_USER_ID = "id_user";
+
+	const VIEW_USER_NICKNAME = "user_nickname";
 
 	/**
 	 * It returns current status of specified user.
-	 * @return int $user User's ID.
+	 * @param int $user User's ID.
+	 * @return DibiRow
 	 * @throws NullPointerException if the $user is empty.
 	 * @throws DibiDriverException if there is a problem to work with database.
 	 */
@@ -30,10 +44,11 @@ class Status extends ATableModel
 		if (empty($user)) {
 			throw new NullPointerException("user");
 		}
-		return $this->getWith()
-			->where("%n = %i", self::DATA_USER, $user)
-			->orderBy(self::DATA_INSERTED, "desc")
-			->applyLimit(0, 1);
+		return $this->findAllFromView()
+			->where("%n = %i", self::VIEW_USER_ID, $user)
+			->orderBy(self::VIEW_INSERTED, "desc")
+			->applyLimit(1,0)
+			->fetch();
 	}
 
 	/**
@@ -42,11 +57,8 @@ class Status extends ATableModel
 	 * @return DibiDataSource
 	 * @throws DibiDriverException if there is a problem to work with database.
 	 */
-	public function getWithUser() {
-		return dibi::dataSource(
-			"SELET * FROM %n", self::getTable(),
-			"INNER JOIN %n USING(%n)",Users::getTable(), self::DATA_USER
-		);
+	public function findAllFromView() {
+		return dibi::dataSource("SELECT * FROM %n", self::getView());
 	}
 
 	/**
@@ -64,7 +76,7 @@ class Status extends ATableModel
 	 */
 	public function insert(array $input) {
 		$input[self::DATA_INSERTED] = new DibiVariable("now()", "sql");
-		parent::insert($input);
+		return parent::insert($input);
 	}
 
 	/**
@@ -73,8 +85,16 @@ class Status extends ATableModel
 	 * @return string
 	 */
 	public static function getTable() {
-		$tables = Environment::getConfig('tables');
-		return (!empty($tables->status) ? $tables->status : 'status');
+		return 'status';
+	}
+
+	/**
+	 * It returns a name of MySQL view which the model work with.
+	 *
+	 * @return string
+	 */
+	public static function getView() {
+		return 'view_status';
 	}
 
 }

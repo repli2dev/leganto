@@ -1,3 +1,14 @@
+CREATE VIEW `view_status` AS
+	SELECT
+		`status`.`id_status` AS `id_status`,
+		`status`.`content` AS `content`,
+		`status`.`inserted` AS `inserted`,
+		`status`.`updated` AS `updated`,
+		`status`.`id_user` AS `id_user`,
+		`user`.`nick` AS `user_nickname`
+	FROM `status`
+	INNER JOIN `user` USING(`id_user`)
+
 CREATE VIEW `view_message` AS
 	SELECT
 		`message`.`id_message` AS `id_message`,

@@ -69,7 +69,7 @@ class Message extends ATableModel
 	 * @return DibiDataSource
 	 * @throws DibiDriverException if there is a problem to work with database.
 	 */
-	public function findAll() {
+	public function findAllFromView() {
 		return dibi::dataSource("SELECT * FROM %n", self::getView());
 	}
 

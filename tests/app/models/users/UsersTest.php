@@ -18,7 +18,7 @@ class UsersTest extends TableModelTest
 
 	public function  __destruct() {
 		dibi::query("TRUNCATE TABLE %n", Language::getTable());
-		dibi::query("TRUNCATE TABLE %n", Language::getTable());
+		dibi::query("TRUNCATE TABLE %n", Role::getTable());
 	}
 
 	protected function createInstance() {
@@ -48,6 +48,9 @@ class UsersTest extends TableModelTest
 		$this->assertTrue(Environment::getUser()->isAuthenticated());
 		Environment::getUser()->signOut(TRUE);
 	}
+
+	/** @Skip */
+	protected function testAuthorization() {}
 
 	/**
 	 * @Skip

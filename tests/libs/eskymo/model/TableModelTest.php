@@ -117,7 +117,15 @@ abstract class TableModelTest extends EskymoTestCase
 	 * It tries to insert an entity
 	 */
 	protected function testInsert() {
+		try {
 		$id = $this->getInstance()->insert($this->getEntity());
+
+		if (empty($id)) {
+			$this->fail("The returned id of inserted entity is empty.");
+		}
+		if ($id == -1) {
+			$this->fail("The returned id of inserted entity is -1, expected positive number.");
+		}
 		$row = $this->getInstance()->find($id);
 		if (empty($row)) {
 			$this->fail("The inserted entity does not exist");
@@ -126,6 +134,10 @@ abstract class TableModelTest extends EskymoTestCase
 			if (!isset($row[$key])) {
 				$this->fail("The inserted entity is different from the original, key '$key' does not exist.");
 			}
+		}
+		}
+		catch (Exception $e) {
+			Debug::paintBlueScreen($e);
 		}
 	}
 
