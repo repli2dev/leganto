@@ -1,16 +1,4 @@
 <?php
-/*
- * The web basis called Eskymo.
- *
- * @copyright   Copyright (c) 2004, 2009 Jan Papousek, Jan Drabek
- * @link        [--- ESKYMO REPOSITORY LINK ---]
- * @category    Eskymo
- * @package     Eskymo\Site
- * @version     2009-07-04
- */
-
-/*namespace Eskymo;*/
-
 /**
  * Abstract class designed to be extended by classes
  * representing model on the MySQL tables.
@@ -20,32 +8,14 @@
  * has to be marked as "NOT NULL".
  *
  * If the MySQL table does not use this schema, you should not extend this class,
- * nut you should implement interface 'ITableModel'.
+ * but you should implement interface 'ITableModel'.
  *
- * All classes which extend this abstract class should declare
- * static method 'getTable()' which is used by other classes.
  *
  * @author Jan Papousek
  * @uses ITableModel
  */
 abstract class ATableModel extends /*Nette\*/Object implements ITableModel
 {
-
-	/**
-	 * This attribute contains relationship between MySQL data native types
-	 * and dibi modifier types.
-	 *
-	 * @var array
-	 */
-	// TODO: More types
-	private static $types = array(
-		"int"		=> "%i",
-		"text"		=> "%s",
-		"varchar"	=> "%s",
-		"date"		=> "%d",
-		"enum"		=> "%s"
-	);
-
 	/**
 	 * The primary key of the table which is represented by this model.
 	 *
@@ -66,6 +36,21 @@ abstract class ATableModel extends /*Nette\*/Object implements ITableModel
 	 * @var DibiTableInfo
 	 */
 	private $tableInfo;
+
+	/**
+	 * This attribute contains relationship between MySQL data native types
+	 * and dibi modifier types.
+	 *
+	 * @var array
+	 */
+	// TODO: More types
+	private static $types = array(
+		"int"		=> "%i",
+		"text"		=> "%s",
+		"varchar"	=> "%s",
+		"date"		=> "%d",
+		"enum"		=> "%s"
+	);
 
 	/**
 	 * It deletes an entity from database.
@@ -110,22 +95,22 @@ abstract class ATableModel extends /*Nette\*/Object implements ITableModel
 	}
 
 	/**
-	 * It returns an entity based on its ID.
+	 * It returns the entity from model base on its ID.
 	 *
 	 * @return DibiRow
-	 * @throws NullPointerException if the $id is empty.
-	 * @throws DataNotFoundException if the entity does not exist.
 	 * @throws DibiException if there is a problem to work with database.
 	 */
 	 public function find($id) {
 		 if (empty($id)) {
 			 throw new NullPointerException("id");
 		 }
-		 $rows = $this->findAll()->where("%n = %i", $this->identificator(), $id);
-		 if ($rows->count() == 0) {
-			 throw new DataNotFoundException("id [$id]");
+		 $result = $this->findAll()->where("%n = %i", $this->identificator(), $id)->fetch();
+		 if (empty($result)) {
+			 throw new DataNotFoundException(
+				"The entity with ID '$id' does not exist in table '".$this->tableName()."'"
+			 );
 		 }
-		 return $rows->fetch();
+		 return $result;
 	 }
 
 	/**
@@ -162,12 +147,11 @@ abstract class ATableModel extends /*Nette\*/Object implements ITableModel
 	protected function identificator() {
 		if (empty($this->identificator)) {
 			$primaries = $this->getTableInfo()
-				->getPrimaryKey()
-				->getColumns();
-			// This is the situation when the table has no primary key
+				->getPrimaryKey();
 			if (empty($primaries)) {
 				throw new NotSupportedException();
 			}
+			$primaries = $primaries->getColumns();
 			foreach ($primaries AS $primary) {
 				$this->identificator = $primary;
 				break;
@@ -181,9 +165,8 @@ abstract class ATableModel extends /*Nette\*/Object implements ITableModel
 	 *
 	 * @param array|mixed $input The input data, keys are names of the columns
 	 *		and values are content.
-	 * @return int Identificator of the new entity in database
+	 * @return int Identificator of the new entity in database (or NULL if the table has not primary key)
 	 *		or '-1' if the entity has already existed.
-	 * @return InvalidArgumentException if the $input is not an array.
 	 * @throws NullPointerException if the input is empty or does not contain
 	 *		all necessary columns.
 	 * @throws DataNotFoundException if there is a foreign key on not existing entity.
@@ -198,7 +181,13 @@ abstract class ATableModel extends /*Nette\*/Object implements ITableModel
 		}
 		try {
 			$this->processQuery(dibi::insert($this->tableName(), $input));
-			return dibi::insertId();
+			// FIXME: Bleee
+			try {
+				return dibi::insertId();
+			}
+			catch (DibiException $e) {
+				return NULL;
+			}
 		}
 		catch (DuplicityException $e) {
 			return -1;
@@ -217,7 +206,8 @@ abstract class ATableModel extends /*Nette\*/Object implements ITableModel
 	 */
 	protected function processQuery(DibiFluent $query) {
 		try {
-			$query->execute();
+			//$query->test();
+			return $query->execute();
 		}
 		catch (DibiDriverException $e) {
 			Debug::processException($e);
@@ -247,7 +237,7 @@ abstract class ATableModel extends /*Nette\*/Object implements ITableModel
 	protected function requiredColumns() {
 		if (empty($this->required)) {
 			$this->required = array();
-			$columns = dibi::getDatabaseInfo()->getTable($this->tableName())->getColumns();
+			$columns = $this->getTableInfo()->getColumns();
 			foreach ($columns AS $column) {
 				if (!$column->isNullable() && $column->getName() != $this->identificator()) {
 					$this->required[] = $column->getName();
@@ -304,12 +294,20 @@ abstract class ATableModel extends /*Nette\*/Object implements ITableModel
 	 *		array keys are columns name of the table in database
 	 *		and values are the content.
 	 * @return int Number of updated entities.
+	 * @throws NullPointerException if some of the required columns is set, but empty.
 	 * @throws DuplicityException if there is already the same entity in database.
 	 * @throws DibiDriverException if there is a problem to work with database.
 	 */
 	public function updateAll(array $condition, array $input) {
 		$coumns = $this->getTableInfo()->getColumns();
 		$query = dibi::update($this->tableName(), $input);
+		// Check validity
+		foreach ($this->requiredColumns() AS $column) {
+			if (isset($input[$column]) && empty($input[$column])) {
+				throw new NullPointerException("input[$column]");
+			}
+		}
+		// Create condition
 		foreach ($coumns AS $column) {
 			if (isset($condition[$column->getName()])) {
 				$query->where(
@@ -319,6 +317,7 @@ abstract class ATableModel extends /*Nette\*/Object implements ITableModel
 				);
 			}
 		}
+
 		return $this->processQuery($query);
 	}
 

@@ -1,36 +1,30 @@
 <?php
-// TODO: Create other methods such as methods in class File in Java 6 api
-// TODO: Tests
-// TODO: Create exception throwing more effective
-
 /**
- * Reader's book
+ * This source file is subject to the "New BSD License".
  *
- * @copyright   Copyright (c) 2004, 2009 Jan Papousek, Jan Drabek
- * @link        http://code.google.com/p/preader/
- * @category    Reader
- * @package     Reader\Base\Files
- * @version     2009-07-04
+ * For more information please see http://code.google.com/p/eskymofw/
+ *
+ * @copyright	Copyright (c) 2009 Jan Papoušek (jan.papousek@gmail.com),
+ *				Jan Drábek (repli2dev@gmail.com)
+ * @license		http://www.opensource.org/licenses/bsd-license.php
+ * @link		http://code.google.com/p/eskymofw/
  */
-
-/*namespace Reader\Base\Files;*/
 
 /**
  * The file descriptor, which provides all manipulation with files.
  *
- * @author      Jan Papousek
- * @version     2009-07-04
- * @package     Reader\Base\Files
+ * @author Jan Papousek
+ * @version		$Id$
  */
 class File extends /*Nette\*/Object
 {
 
 	/**
-	 * The error code for IOException if there is a security problem.
+	 * The error code for IOException if there is a problem to close the file.
 	 *
 	 * @var int
 	 */
-	const ERROR_SECURITY = 10;
+	const ERROR_CLOSE = 40;
 
 	/**
 	 * The error code for IOException if there is a problem to detect file info
@@ -45,6 +39,34 @@ class File extends /*Nette\*/Object
 	 * @var int
 	 */
 	const ERROR_GENERAL = 30;
+
+	/**
+	 * The error code for IOException if there is a problem to open the file.
+	 *
+	 * @var int
+	 */
+	const ERROR_OPEN = 50;
+
+	/**
+	 * The error code for IOException if there is a security problem.
+	 *
+	 * @var int
+	 */
+	const ERROR_SECURITY = 10;
+
+	/**
+	 * The filesystem seperator
+	 *
+	 * @var string
+	 */
+	const SEPARATOR = "/";
+
+	/**
+	 * File extension
+	 *
+	 * @var string
+	 */
+	private $extension;
 
 	/**
 	 * The file path
@@ -84,6 +106,9 @@ class File extends /*Nette\*/Object
 		if (empty($path)) {
 			throw new NullPointerException("path");
 		}
+		if (String::endsWith($path, self::SEPARATOR)) {
+			$path = substr($path, 0, strlen($path) -1);
+		}
 		$this->path = $path;
 	}
 
@@ -92,12 +117,18 @@ class File extends /*Nette\*/Object
 	 *
 	 * @return boolean
 	 * @throws FileNotFoundException if the file does not exist.
+	 * @throws IOException if there is an I/O problem.
 	 */
 	public function canExecute() {
 		if (!$this->exists()) {
 			throw new FileNotFoundException($this->getPath());
 		}
-		return is_executable($this->getPath());
+		Tools::tryError();
+		$check = is_executable($this->getPath());
+		if  (Tools::catchError($msg)) {
+			throw new IOException($msg, self::ERROR_GENERAL);
+		}
+		return $check;
 	}
 
 	/**
@@ -110,7 +141,12 @@ class File extends /*Nette\*/Object
 		if (!$this->exists()) {
 			throw new FileNotFoundException($this->getPath());
 		}
-		return is_readable($this->getPath());
+		Tools::tryError();
+		$check = is_readable($this->getPath());
+		if  (Tools::catchError($msg)) {
+			throw new IOException($msg, self::ERROR_GENERAL);
+		}
+		return $check;
 	}
 
 	/**
@@ -123,7 +159,38 @@ class File extends /*Nette\*/Object
 		if (!$this->exists()) {
 			throw new FileNotFoundException($this->getPath());
 		}
-		return is_writable($this->getPath());
+		Tools::tryError();
+		$check = is_writable($this->getPath());
+		if  (Tools::catchError($msg)) {
+			throw new IOException($msg, self::ERROR_GENERAL);
+		}
+		return $check;
+	}
+
+	/**
+	 * It copies a file
+	 *
+	 * @return File Copy of this file
+	 * @throws FileNotFoundException if the file does not exist.
+	 * @throws IOException if there is an I/O problem.
+	 */
+	public function copy($destination) {
+		if (empty($destination)) {
+			throw new NullPointerException("destination");
+		}
+		if (!$this->exists()) {
+			throw new FileNotFoundException($this->path);
+		}
+		$destFile = new File($destination);
+		if (!$destFile->getParentFile()->canWrite()) {
+			throw new IOException("The file cannot be copied.", self::ERROR_SECURITY);
+		}
+		Tools::tryError();
+		$check = copy($this->getAbsolutePath(), $destination);
+		if  (Tools::catchError($msg)) {
+			throw new IOException($msg, self::ERROR_GENERAL);
+		}
+		return $destFile;
 	}
 
 	/**
@@ -141,18 +208,18 @@ class File extends /*Nette\*/Object
 		if ($this->getParentFile() != NULL && !$this->getParentFile()->canWrite()) {
 			throw new IOException("The file can not be created.", self::ERROR_SECURITY);
 		}
-//		ErrorHandler::setErrorHandler();
-//		try {
-			$file = fopen($this->getPath(), "w+");
-			fclose($file);
-//			ErrorHandler::unsetErrorHandler();
-//			return TRUE;
-//		}
-//		catch (ErrorException $e) {
-//			ErrorHandler::unsetErrorHandler();
-//			Debug::processException($e);
-//			throw new IOException("The file can not be created. " . $e->getMessage(), self::ERROR_GENERAL);
-//		}
+		// Create a new file
+		Tools::tryError();
+		$file = fopen($this->getPath(), "w+");
+		if  (Tools::catchError($msg)) {
+			throw new IOException($msg, self::ERROR_OPEN);
+		}
+		// Close the file
+		Tools::tryError();
+		fclose($file);
+		if  (Tools::catchError($msg)) {
+			throw new IOException($msg, self::ERROR_OPEN);
+		}
 	}
 
 	/**
@@ -167,19 +234,13 @@ class File extends /*Nette\*/Object
 		}
 		$parent = $this->getParentFile();
 		if (!empty($parent) && !$parent->canWrite()) {
-			throw new IOException("The file cannot be deleted.", self::ERROR_SECURITY);
+			throw new IOException("The file '".$this->getPath()."' cannot be deleted.", self::ERROR_SECURITY);
 		}
-//		ErrorHandler::setErrorHandler();
-//		try {
-			unlink($this->getPath());
-//			ErrorHandler::unsetErrorHandler();
-//			return TRUE;
-//		}
-//		catch (ErrorException $e) {
-//			ErrorHandler::unsetErrorHandler();
-//			Debug::processException($e);
-//			throw new IOException("The file can not be deleted. " . $e->getMessage(), self::ERROR_GENERAL);
-//		}
+		Tools::tryError();
+		unlink($this->getPath());
+		if  (Tools::catchError($msg)) {
+			throw new IOException($msg, self::ERROR_GENERAL);
+		}
 	}
 
 	/**
@@ -205,6 +266,40 @@ class File extends /*Nette\*/Object
 	}
 
 	/**
+	 * It returns a file extension
+	 *
+	 * @return string|NULL
+	 */
+	public function getExtension() {
+		if (empty($this->extension)) {
+			$this->extension = pathinfo($this->getPath(), PATHINFO_EXTENSION);
+		}
+		return $this->extension;
+	}
+
+	/**
+	 * It returns time of last modifying (Unix timestamp)
+	 *
+	 * @return int
+	 * @throws FileNotFoundException if the file does not exist.
+	 * @throws IOException if there is an I/O problem.
+	 */
+	public function getLastModified() {
+		if (!$this->exists()) {
+			throw new FileNotFoundException($this->getPath());
+		}
+		Tools::tryError();
+		$time = filectime($this->getPath());
+		if (empty($time)) {
+			throw new IOException("There is a problem to get time when the file was last modified.", self::ERROR_GENERAL);
+		}
+		if  (Tools::catchError($msg)) {
+			throw new IOException($msg, self::ERROR_GENERAL);
+		}
+		return $time;
+	}
+
+	/**
 	 * It returns file name.
 	 *
 	 * @return string
@@ -221,13 +316,17 @@ class File extends /*Nette\*/Object
 	 * or null if this pathname does not name a parent directory.
 	 *
 	 * @return File
+	 * @throws IOException if the file has no parent file
 	 */
 	public function getParentFile() {
 		if (empty($this->parent)) {
 			$dirname = dirname($this->path);
 			// FIXME: UNIX dependent
-			if ($dirname != $this->path && $dirname != "/") {
+			if ($dirname != $this->path && $dirname != self::SEPARATOR) {
 				$this->parent = new File($dirname);
+			}
+			else {
+				throw new IOException("The file '".$this->getPath()."' has no parent file.", self::ERROR_GENERAL);
 			}
 		}
 		return $this->parent;
@@ -247,14 +346,19 @@ class File extends /*Nette\*/Object
 	 *
 	 * @return int
 	 * @throws FileNotFoundException if the file does not exist.
+	 * @throws IOException if there is an I/O problem
 	 */
 	public function getSize() {
 		if (!$this->exists()) {
 			throw new FileNotFoundException($this->path);
 		}
-		return filesize($this->path);
+		Tools::tryError();
+		$size = filesize($this->path);
+		if (Tools::catchError($msg)) {
+			throw new IOException($msg, self::ERROR_GENERAL);
+		}
+		return $size;
 	}
-
 	/**
 	 * It returns file type.
 	 *
@@ -269,7 +373,7 @@ class File extends /*Nette\*/Object
 			if (class_exists("finfo")) {
 				$finfo = new finfo(FILEINFO_MIME,$this->getPath());
 				if (!$fi) {
-					throw new IOException("There is a problem to detect file type.", self::ERROR_FILE_INFO);
+					throw new IOException("There is a problem to detect type of file '".$this->getPath()."'.", self::ERROR_FILE_INFO);
 				}
 				$mimeType = $info->file($this->getPath());
 				$finfo->close();
@@ -321,6 +425,9 @@ class File extends /*Nette\*/Object
 	 * @throws NotSupportedException if this file is not a directory.
 	 */
 	public function listFiles(IFileFilter $filter = NULL) {
+		if (!$this->exists()) {
+			throw new FileNotFoundException($this->path);
+		}
 		if (!empty($filter) && ($filter instanceof FileNameFilter)) {
 			$fileNameFilter = $filter;
 		}
@@ -359,41 +466,64 @@ class File extends /*Nette\*/Object
 		else {
 			$rule = "*";
 		}
-		return glob($this->getPath() . "/" . $rule);
+		Tools::tryError();
+		$list = glob($this->getPath() . "/" . $rule);
+		if (Tools::catchError($msg)) {
+			throw new IOException($msg, self::ERROR_GENERAL);
+		}
+		return $list;
 	}
 
 	/**
 	 * It makes a directory describing by this abstract path, if it does not exist.
 	 *
+	 * @param string $access Access rights
 	 * @return boolean It returns TRUE, if the directory was created, otherwise FALSE.
+	 * @throws NullPointerException if the $access is empty
 	 * @throws IOException if there is a problem to create directory.
 	 */
-	public function mkdir() {
+	public function mkdir($access = "0777") {
+		if (empty($access)) {
+			throw new NullPointerException("access");
+		}
 		if ($this->exists()) {
 			return FALSE;
 		}
 		if ($this->getParentFile() != NULL && !$this->getParentFile()->canWrite()) {
 			throw new IOException("The directory can not be created.", self::ERROR_SECURITY);
 		}
-		mkdir($this->getPath(), "0777");
-		return TRUE;
+		Tools::tryError();
+		$check = mkdir($this->getPath(), $access);
+		if (Tools::catchError($msg)) {
+			throw new IOException($msg, self::ERROR_GENERAL);
+		}
+		return $check;
 	}
 
 	/**
 	 * It makes a directory and all parent directories which do not already exist.
 	 *
+	 * @param string $access Access rights
 	 * @return boolean It returns TRUE, if the directory was created, otherwise FALSE.
+	 * @throws NullPointerException if the $access is empty
 	 * @throws IOException if there is a problem to create directory.
 	 */
-	public function mkdirs() {
+	public function mkdirs($access = "0777") {
+		if (empty($access)) {
+			throw new NullPointerException("access");
+		}
 		if ($this->exists()) {
 			return FALSE;
 		}
 		if ($this->parent != NULL && !$this->parent->canWrite()) {
 			throw new IOException("The directory can not be created.", self::ERROR_SECURITY);
 		}
-		mkdir($this->getPath(), "0777", TRUE);
-		return TRUE;
+		Tools::tryError();
+		$check = mkdir($this->getPath(), $access, TRUE);
+		if (Tools::catchError($msg)) {
+			throw new IOException($msg, self::ERROR_GENERAL);
+		}
+		return $check;
 	}
 }
 

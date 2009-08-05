@@ -6,6 +6,14 @@
  * All classes which implement this interface should declare
  * static method 'getTable()' and declare all avaiable columns in constants.
  *
+ * The names of columns which the MySQL table of the model contains should
+ * be declared by constants started by "DATA_"
+ * (for example const DATA_ID = 'entity_id')/
+ *
+ * If the model works with MySQL view, the names of its columns should be
+ * declared similary way in constants started by "VIEW_" and the class should
+ * declare the static method 'getView()'.
+ *
  * @author Jan Papousek
  * @see ATableModel
  */
@@ -57,7 +65,7 @@ interface ITableModel
 	 *
 	 * @param array|mixed $input The input data, keys are names of the columns
 	 *		and values are content.
-	 * @return int Identificator of the new entity in database
+	 * @return int Identificator of the new entity in database (or NULL if the MySQL table has no primary key)
 	 *		or '-1' if the entity has already existed.
 	 * @throws NullPointerException if the input is empty or does not contain
 	 *		all necessary columns.
@@ -90,3 +98,4 @@ interface ITableModel
 	 */
 	function updateAll(array $condition, array $input);
 }
+

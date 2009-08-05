@@ -1,22 +1,20 @@
 <?php
 /**
- * Reader's book
+ * This source file is subject to the "New BSD License".
  *
- * @copyright   Copyright (c) 2004, 2009 Jan Papousek, Jan Drabek
- * @link        http://code.google.com/p/preader/
- * @category    Reader
- * @package     Reader\Base\Files
- * @version     2009-07-04
+ * For more information please see http://code.google.com/p/eskymofw/
+ *
+ * @copyright	Copyright (c) 2009 Jan Papoušek (jan.papousek@gmail.com),
+ *				Jan Drábek (repli2dev@gmail.com)
+ * @license		http://www.opensource.org/licenses/bsd-license.php
+ * @link		http://code.google.com/p/eskymofw/
  */
-
-/*namespace Reader\Base\Files;*/
 
 /**
  * This interface is designed to be implementde by file filters.
  *
  * @author      Jan Papousek
- * @version     2009-07-04
- * @package     Reader\Base\Files
+ * @version		$Id$
  * @see         FileTypeFilter
  * @see         FileNameFilter
  */
