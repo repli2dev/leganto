@@ -17,8 +17,7 @@ class Role extends ATableModel
 	 * @return string
 	 */
 	public static function getTable() {
-		$tables = Environment::getConfig('tables');
-		return (!empty($tables->role) ? $tables->role : 'role');
+		return 'role';
 	}
 
 

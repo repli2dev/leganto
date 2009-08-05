@@ -1,20 +1,20 @@
 <?php
 /**
- * This interface should be implemented by classes which check a validity.
+ * This interface should be implemented by filters.
  *
  * @author Jan Papousek
  */
-interface IValidator
+interface IFilter
 {
 
 	/**
-	 * It checks a validity of an entity.
+	 * It checks if the entitty is accepted
 	 *
 	 * @param mixed	$entity The entity which is checked.
 	 * @return boolean
 	 * @throws NullPointerException if the $entity is empty.
 	 */
-	function isValid($entity);
+	function accepts($entity);
 
 }
 

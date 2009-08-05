@@ -33,8 +33,7 @@ class Permissions extends ATableModel
 	 * @return string
 	 */
 	public static function getTable() {
-		$tables = Environment::getConfig('tables');
-		return (!empty($tables->permission) ? $tables->permission : 'permission');
+		return 'permission';
 	}
 
 }

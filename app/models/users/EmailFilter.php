@@ -4,7 +4,7 @@
  *
  * @author Jan Papousek
  */
-class EmailValidator implements IValidator
+class EmailFilter implements IFilter
 {
 
 	/**
@@ -14,7 +14,7 @@ class EmailValidator implements IValidator
 	 * @return boolean
 	 * @throws NullPointerException if the $email is empty.
 	 */
-	public function isValid($email) {
+	public function accepts($email) {
 		if (empty($email)) {
 			throw new NullPointerException("email");
 		}

@@ -103,40 +103,7 @@ class Users extends ATableModel
 	 * @return string
 	 */
 	public static function getTable() {
-		$tables = Environment::getConfig('tables');
-		return (!empty($tables->user) ? $tables->user : 'user');
-	}
-
-	/**
-	 * It inserts an entity to the database.
-	 *
-	 * @param array|mixed $input The input data, keys are names of the columns
-	 *		and values are content.
-	 * @return int Identificator of the new entity in database
-	 *		or '-1' if the entity has already existed.
-	 * @return InvalidArgumentException if the $input[email] is not valid.
-	 * @throws NullPointerException if the input is empty or does not contain
-	 *		all necessary columns.
-	 * @throws DataNotFoundException if there is a foreign key on not existing entity.
-	 * @throws DibiDriverException if there is a problem to work with database.
-	 */
-	public function insert(array $input) {
-		if (empty($input[self::DATA_PASSWORD])) {
-			throw new NullPointerException("input[" . self::DATA_PASSWORD . "]");
-		}
-		if (empty($input[self::DATA_EMAIL])) {
-			throw new NullPointerException("input[" . self::DATA_EMAIL . "]");
-		}
-		$validator = new EmailValidator();
-		if (!$validator->isValid($input[self::DATA_EMAIL])) {
-			throw new InvalidArgumentException("input[email]");
-		}
-		$input[self::DATA_PASSWORD] = self::passwordHash(
-			$input[self::DATA_PASSWORD],
-			$input[self::DATA_EMAIL]
-		);
-		$input[self::DATA_INSERTED] = new DibiVariable("now()", "sql");
-		return parent::insert($input);
+		return 'user';
 	}
 
 	/**
@@ -150,38 +117,6 @@ class Users extends ATableModel
 	public static function passwordHash($password, $email) {
 		// TODO: Zamyslet se nad hashovaci fci
 		return sha1($password);
-	}
-	/**
-	 * It updates en entity in the database.
-	 *
-	 * @param int $id The identificator of the entity.
-	 * @param array|mixed $input	The new data describig entity,
-	 *		array keys are columns name of the table in database
-	 *		and values are the content.
-	 * @return boolean It return TRUE if the entity was changed,
-	 *		otherwise FALSE.
-	 * @throws InvalidArgumentException if the $input is not an array.
-	 * @throws NullPointerException if $id is empty.
-	 * @throws DataNotFoundException if the entity does not exist
-	 *		or there is the foreign key on the intity which does not exist.
-	 * @throws DibiDriverException if there is a problem to work with database.
-	 */
-	public function update($id, array $input) {
-		if (empty($id)) {
-			throw new NullPointerException("id");
-		}
-		$rows = $this->findAll()->where("%n = %i", self::DATA_ID, $id);
-		if ($rows->count() == 0) {
-			throw new DataNotFoundException("id");
-		}
-		$user = $rows->fetch();
-		if (isset($input[self::DATA_PASSWORD])) {
-			$input[self::DATA_PASSWORD] = self::passwordHash(
-				$input[self::DATA_PASSWORD],
-				$user[self::DATA_EMAIL]
-			);
-		}
-		return parent::update($id, $input);
 	}
 }
 
