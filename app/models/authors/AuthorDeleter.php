@@ -2,7 +2,7 @@
 /**
  * @author Jan Drabek
  */
-class AuthorInserter extends Worker implements IDeleter
+class AuthorDeleter extends Worker implements IDeleter
 {
 
 	/* PUBLIC METHODS */
