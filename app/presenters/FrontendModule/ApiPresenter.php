@@ -12,12 +12,12 @@ class Frontend_ApiPresenter extends Presenter
 			$this->forward("404");
 		}
 		try {
-			$author = Leganto::authors()->one($id);
+			$author = Leganto::authors()->getSelector()->findOne($id);
 			if (empty($author)) {
 				$this->forward("404");
 			}
 
-			$rows = Leganto::books()->findAllByAuthor($author);
+			$rows = Leganto::books()->getSelector()->findAllByAuthor($author);
 			$this->getTemplate()->books = array();
 			while ($book = Leganto::books()->fetchAndCreate($rows)) {
 				$this->getTemplate()->books[$book->bookNode][] = $book;
@@ -39,6 +39,7 @@ class Frontend_ApiPresenter extends Presenter
 	public function renderAvaiable() {}
 
 	public function renderBook($id) {
+		echo "A";
 		if (empty($id)) {
 			$this->forward("404");
 		}

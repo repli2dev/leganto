@@ -4,7 +4,6 @@
  */
 class AuthorFactory extends AEntityFactory
 {
-
 	/** @return AuthorEntity */
 	public function createEmpty() {
 		return new AuthorEntity();

@@ -23,7 +23,8 @@ class AuthorSelector extends Worker implements IAuthorSelector
 	/** @return AuthorEntity */
 	public function findOne($id) {
 		$row = dibi::dataSource("SELECT * FROM [author] WHERE [id_author] = %i", $id)->fetch();
-		return empty($row) ? NULL : $this->createEmpty()->loadDataFromRow($row);
+		$entity = new AuthorEntity;
+		return empty($row) ? NULL : $entity->loadDataFromRow($row);
 	}
 
 	/* PROTECTED METHODS */
