@@ -6,11 +6,6 @@ interface IEntityFactory
 {
 
 	/**
-	 * @return DataSource
-	 */
-	function all();
-
-	/**
 	 * @return IEntity
 	 */
 	function createEmpty();
@@ -19,10 +14,5 @@ interface IEntityFactory
 	 * @return IEntity
 	 */
 	function fetchAndCreate(IDataSource $source);
-
-	/**
-	 * @return IEntity
-	 */
-	function one($id);
 
 }
