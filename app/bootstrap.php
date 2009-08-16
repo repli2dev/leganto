@@ -37,6 +37,15 @@ $application = Environment::getApplication();
 $router = $application->getRouter();
 
 $router[] = new Route(
+	"/api/<action>",
+	array(
+		"module"	=> "Frontend",
+		"presenter" => "Api",
+		"action"	=> "avaiable"
+	)
+);
+
+$router[] = new Route(
 	"test/<action>/<class>/<method>",
 	array(
 		"presenter" => "Test",
