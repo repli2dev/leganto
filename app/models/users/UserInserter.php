@@ -1,12 +1,12 @@
 <?php
 /**
- * @author Jan Papousek
+ * @author Jan Drabek
  */
-class UserWorker extends Worker implements IInserter, IUpdater
+class UserInserter extends Worker implements IInserter
 {
 
 	/* PUBLIC METHODS */
-
+	
 	public function insert(UserEntity $entity) {
 		if (!$entity->isReadyToInsert()) {
 			throw new InvalidArgumentException("The entity is not ready to be inserted.");
@@ -14,14 +14,6 @@ class UserWorker extends Worker implements IInserter, IUpdater
 		$input = $this->getArrayFromEntity($entity, "Save");
 		return $this->getModel()->insert($input);
 
-	}
-
-	public function update(UserEntity $entity) {
-		if (!$entity->isReadyToUpdate()) {
-			throw new InvalidArgumentException("The entity is not ready to be updated.");
-		}
-		$input = $this->getArrayFromEntity($entity, "Save");
-		return $this->getModel()->update($entity->getId(), $input);
 	}
 
 	/* PROTECTED METHODS */
