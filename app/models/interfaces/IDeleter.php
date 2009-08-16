@@ -3,7 +3,7 @@
  * Interface for basic delete operations
  * @author Jan Drabek
  */
-interface IDeletable
+interface IDeleter
 {
 	
     /**
