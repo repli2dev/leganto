@@ -12,7 +12,7 @@ class BookInserter extends Worker implements IInserter
 			throw new InvalidArgumentException("The entity is not ready to be inserted.");
 		}
 		// First I try to find the book
-		$books = Leganto::books()->all()
+		$books = Leganto::books()->getInserter()->findAll()
 			->where("[title] = %s", $entity->title)
 			->where("[id_language] = %s", $entity->languageId)
 			->fetchAll();

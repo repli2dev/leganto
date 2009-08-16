@@ -12,8 +12,7 @@ class TagInserter extends Worker implements IInserter
 			throw new InvalidArgumentException("The entity is not ready to be inserted.");
 		}
 		// I try to find the tag
-		$tag = Leganto::Tags()
-			->all()
+		$tag = Leganto::Tags()->getInserter()->findAll()
 			->where("[name] = %s", trim($entity->name))
 			->where("[id_language] = %i", $entity->languageId)
 			->fetch();

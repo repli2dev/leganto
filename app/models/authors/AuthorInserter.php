@@ -12,8 +12,7 @@ class AuthorInserter extends Worker implements IInserter
 			throw new InvalidArgumentException("The entity is not ready to be inserted.");
 		}
 		// I try to find the author
-		$source = Leganto::authors()
-			->all()
+		$source = Leganto::authors()->getInserter()->all()
 			->where("[type] = %s", $entity->type);
 		if ($entity->type == AuthorEntity::GROUP) {
 			$source->where("[groupname] = %s", $entity->groupname);
