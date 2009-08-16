@@ -1,0 +1,59 @@
+<?php echo '<?xml version="1.0" encoding="UTF-8"?>' ?>
+
+<book xmlns="http://leganto.com/api">
+
+	<id>{$book->getId()}</id>
+
+	<language>{$book->language}</language>
+
+	<title>{$book->title}</title>
+
+	{if !empty($book->subtitle)}
+	<subtitle>{$book->subtitle}</subtitle>
+	{/if}
+
+	<authors>
+		{foreach $authors AS $author}
+		<author>
+			<id>{$author->getId()}</id>
+			<type>{$author->type}</type>
+			{if !empty($author->groupname)}
+			<groupname>{$author->groupname}</groupname>
+			{/if}
+			{if !empty($author->firstname)}
+			<firstname>{$author->firstname}</firstname>
+			{/if}
+			{if !empty($author->lastname)}
+			<lastname>{$author->lastname}</lastname>
+			{/if}
+		</author>
+		{/foreach}
+	</authors>
+
+	<rating>{$book->rating}</rating>
+
+	<tags>
+		{foreach $tags AS $tag}
+		<tag>{$tag->name}</tag>
+		{/foreach}
+	</tags>
+
+	{if !empty($other)}
+	<other-titles>
+		{foreach $other AS $otherBook}
+		<book>
+			<id>{$book->getId}</id>
+
+			<language>{$book->language}</language>
+
+			<title>{$book->title}</title>
+
+			{if !empty($book->subtitle)}
+			<subtitle>{$book->subtitle}</subtitle>
+			{/if}
+		</book>
+		{/foreach}
+	</other>
+	{/if}
+
+</book>
