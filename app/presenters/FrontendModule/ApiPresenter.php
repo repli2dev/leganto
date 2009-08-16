@@ -39,33 +39,32 @@ class Frontend_ApiPresenter extends Presenter
 	public function renderAvaiable() {}
 
 	public function renderBook($id) {
-		echo "A";
 		if (empty($id)) {
 			$this->forward("404");
 		}
 		try {
-			$book = Leganto::books()->one($id);
+			$book = Leganto::books()->getSelector()->findOne($id);
 			if ($book === NULL)  {
 				$this->forward("404");
 			}
 			$this->getTemplate()->book = $book;
 
 			// Other titles
-			$rows = Leganto::books()->findOthers($book);
+			$rows = Leganto::books()->getSelector()->findOthers($book);
 			$this->getTemplate()->other = array();
 			while($entity = Leganto::books()->fetchAndCreate($rows)) {
 				$this->getTemplate()->other[] = $entity;
 			}
 
 			// Authors
-			$rows = Leganto::authors()->findAllByBook($book);
+			$rows = Leganto::authors()->getSelector()->findAllByBook($book);
 			$this->getTemplate()->authors = array();
 			while($entity = Leganto::authors()->fetchAndCreate($rows)) {
 				$this->getTemplate()->authors[] = $entity;
 			}
 
 			// Tags
-			$rows = Leganto::tags()->findAllByBook($book);
+			$rows = Leganto::tags()->getSelector()->findAllByBook($book);
 			$this->getTemplate()->tags = array();
 			while($entity = Leganto::tags()->fetchAndCreate($rows)) {
 				$this->getTemplate()->tags[] = $entity;
