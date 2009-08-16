@@ -1,13 +1,9 @@
 <?php
 /**
- * @author Jan Papousek
+ * @author Jan Papousek, Jan Drabek
  */
 class AuthorFactory extends AEntityFactory
 {
-
-	public function all() {
-		return dibi::dataSource("SELECT * FROM [author]");
-	}
 
 	/** @return AuthorEntity */
 	public function createEmpty() {
@@ -15,26 +11,19 @@ class AuthorFactory extends AEntityFactory
 	}
 
 	protected function createInserter() {
-		return new AuthorWorker();
+		return new AuthorInserter();
 	}
 
 	protected function createUpdater() {
-		return new AuthorWorker();
+		return new AuthorUpdater();
 	}
-
-	/** @return DataSource */
-	public function findAllByBook(BookEntity $book) {
-		if (empty($book)) {
-			throw new NullPointerException("book");
-		}
-		return dibi::dataSource("SELECT * FROM [view_book_author]")
-			->where("[id_book] = %i", $book->bookNode);
+	
+	protected function createSelector() {
+		return new AuthorSelector();
 	}
-
-	/** @return AuthorEntity */
-	public function one($id) {
-		$row = dibi::dataSource("SELECT * FROM [author] WHERE [id_author] = %i", $id)->fetch();
-		return empty($row) ? NULL : $this->createEmpty()->loadDataFromRow($row);
+	
+	protected function createDeleter() {
+		return new AuthorDeleter();
 	}
 
 }
