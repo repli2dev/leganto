@@ -6,8 +6,8 @@ interface IDeletable
 {
 
 	/**
-	 * @return IDeletable
+	 * @return IDeleter
 	 */
-	function getDeletable();
+	function getDeleter();
 
 }
