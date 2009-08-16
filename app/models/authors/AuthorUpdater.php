@@ -2,7 +2,7 @@
 /**
  * @author Jan Drabek
  */
-class AuthorInserter extends Worker implements IUpdater
+class AuthorUpdater extends Worker implements IUpdater
 {
 
 	/* PUBLIC METHODS */
