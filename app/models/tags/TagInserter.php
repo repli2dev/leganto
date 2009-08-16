@@ -1,12 +1,12 @@
 <?php
 /**
- * @Tag Jan Papousek
+ * @author Jan Drabek
  */
-class TagWorker extends Worker implements IInserter, IUpdater
+class TagInserter extends Worker implements IInserter
 {
 
 	/* PUBLIC METHODS */
-
+	
 	public function insert(TagEntity $entity) {
 		if (!$entity->isReadyToInsert()) {
 			throw new InvalidArgumentException("The entity is not ready to be inserted.");
@@ -27,14 +27,6 @@ class TagWorker extends Worker implements IInserter, IUpdater
 		}
 
 
-	}
-
-	public function update(TagEntity $entity) {
-		if (!$entity->isReadyToUpdate()) {
-			throw new InvalidArgumentException("The entity is not ready to be updated.");
-		}
-		$input = $this->getArrayFromEntity($entity, "Save");
-		$this->getModel()->update($entity->getId(), $input);
 	}
 
 	/* PROTECTED METHODS */

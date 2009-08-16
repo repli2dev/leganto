@@ -1,12 +1,12 @@
 <?php
 /**
- * @author Jan Papousek
+ * @author Jan Drabek
  */
-class BookWorker extends Worker implements IInserter, IUpdater
+class BookInserter extends Worker implements IInserter
 {
 
 	/* PUBLIC METHODS */
-
+	
 	public function insert(BookEntity $entity) {
 		if (!$entity->isReadyToInsert()) {
 			throw new InvalidArgumentException("The entity is not ready to be inserted.");
@@ -32,14 +32,6 @@ class BookWorker extends Worker implements IInserter, IUpdater
 			$tagId = Leganto::tags()->getInserter()->insert($tag);
 			Leganto::tags()->setTagged($bookId, $tagId);
 		}
-	}
-
-	public function update(BookEntity $entity) {
-		if (!$entity->isReadyToUpdate()) {
-			throw new InvalidArgumentException("The entity is not ready to be updated.");
-		}
-		$input = $this->getArrayFromEntity($entity, "Save");
-		SimpleTableModel::createTableModel("book_title")->update($entity->getId(), $input);
 	}
 
 	/* PROTECTED METHODS */
