@@ -18,16 +18,36 @@ abstract class AEntityFactory implements IEntityFactory, IInsertable, IUpdateabl
 	private $deleter;
 
 	/** @return IInserter */
-	abstract protected function createInserter();
+	protected function createInserter(){
+		return $this->getEntity($this->getThisEntityName().'Inserter');
+	}
 
 	/** @return IUpdater */
-	abstract protected function createUpdater();
+	protected function createUpdater(){
+		return $this->getEntity($this->getThisEntityName().'Updater');
+	}
 	
 	/** @return ISelector */
-	abstract protected function createSelector();
+	protected function createSelector(){
+		return $this->getEntity($this->getThisEntityName().'Selector');
+	}
 	
 	/** @return IDeleter */
-	abstract protected function createDeleter();
+	protected function createDeleter(){
+		return $this->getEntity($this->getThisEntityName().'Deleter');
+	}
+
+	/** @return string */
+	protected function getThisEntityName(){
+		return substr(get_class($this), 0, -7);
+	}
+
+	protected function getEntity($name){
+		if(!class_exists($name)){
+			throw new InvalidArgumentException("The entity is not ready to be created.");
+		}
+		return new $name;
+	}
 	
 	public function fetchAndCreate(IDataSource $source) {
 		$row = $source->fetch();

@@ -9,20 +9,4 @@ class AuthorFactory extends AEntityFactory
 		return new AuthorEntity();
 	}
 
-	protected function createInserter() {
-		return new AuthorInserter();
-	}
-
-	protected function createUpdater() {
-		return new AuthorUpdater();
-	}
-	
-	protected function createSelector() {
-		return new AuthorSelector();
-	}
-	
-	protected function createDeleter() {
-		return new AuthorDeleter();
-	}
-
 }

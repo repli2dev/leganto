@@ -11,20 +11,4 @@ class BookFactory extends AEntityFactory
 		return new BookEntity();
 	}
 
-	protected function createInserter() {
-		return new BookInserter();
-	}
-
-	protected function createUpdater() {
-		return new BookUpdater();
-	}
-	
-	protected function createSelector() {
-		return new BookSelector();
-	}
-	
-	protected function createDeleter() {
-		return new BookDeleter();
-	}
-
 }
