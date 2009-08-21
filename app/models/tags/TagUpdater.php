@@ -1,23 +1,30 @@
 <?php
 /**
- * @author Jan Drabek
+ * The source file is subject to the license located on web
+ * "http://code.google.com/p/preader/".
+ *
+ * @copyright	Copyright (c) 2009 Jan Papoušek (jan.papousek@gmail.com),
+ *				Jan Drábek (repli2dev@gmail.com)
+ * @link		http://code.google.com/p/preader/
+ * @license		http://code.google.com/p/preader/
+ */
+
+/**
+ * @author		Jan Papousek
+ * @author		Jan Drabek
+ * @version		$Id$
  */
 class TagUpdater extends Worker implements IUpdater
 {
 
 	/* PUBLIC METHODS */
 	
-	public function update(AuthorEntity $entity) {
+	public function update(TagEntity $entity) {
 		if (!$entity->isReadyToUpdate()) {
 			throw new InvalidArgumentException("The entity is not ready to be updated.");
 		}
 		$input = $this->getArrayFromEntity($entity, "Save");
-		$this->getModel()->update($entity->getId(), $input);
+		SimpleTableModel::createTableModel("tag")->update($entity->getId(), $input);
 	}
 
-	/* PROTECTED METHODS */
-
-	protected function createModel() {
-		return SimpleTableModel::createTableModel("tag");
-	}
 }

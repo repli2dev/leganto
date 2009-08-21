@@ -1,6 +1,18 @@
 <?php
 /**
- * @author Jan Drabek
+ * The source file is subject to the license located on web
+ * "http://code.google.com/p/preader/".
+ *
+ * @copyright	Copyright (c) 2009 Jan Papoušek (jan.papousek@gmail.com),
+ *				Jan Drábek (repli2dev@gmail.com)
+ * @link		http://code.google.com/p/preader/
+ * @license		http://code.google.com/p/preader/
+ */
+
+/**
+ * @author		Jan Papousek
+ * @author		Jan Drabek
+ * @version		$Id$
  */
 class BookSelector extends Worker implements IBookSelector
 {
@@ -37,9 +49,4 @@ class BookSelector extends Worker implements IBookSelector
 		return empty($row) ? NULL : $entity->loadDataFromRow($row);
 	}
 
-	/* PROTECTED METHODS */
-
-	protected function createModel() {
-		throw new NotSupportedException();
-	}
 }

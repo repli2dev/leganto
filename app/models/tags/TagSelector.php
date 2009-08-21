@@ -1,8 +1,20 @@
 <?php
 /**
- * @author Jan Drabek
+ * The source file is subject to the license located on web
+ * "http://code.google.com/p/preader/".
+ *
+ * @copyright	Copyright (c) 2009 Jan Papoušek (jan.papousek@gmail.com),
+ *				Jan Drábek (repli2dev@gmail.com)
+ * @link		http://code.google.com/p/preader/
+ * @license		http://code.google.com/p/preader/
  */
-class TagSelector extends Worker implements ITagSelector
+
+/**
+ * @author		Jan Papousek
+ * @author		Jan Drabek
+ * @version		$Id$
+ */
+class TagSelector implements ITagSelector
 {
 
 	/* PUBLIC METHODS */
@@ -34,6 +46,7 @@ class TagSelector extends Worker implements ITagSelector
 	 * @param int $book Book ID
 	 * @param int $tag Tag ID
 	 */
+	// FIXME: move into updater
 	public function setTagged($book, $tag) {
 		$rows = SimpleTableModel::createTableModel("tagged")
 			->findAll()
@@ -46,10 +59,5 @@ class TagSelector extends Worker implements ITagSelector
 			));
 		}
 	}
-
-	/* PROTECTED METHODS */
-
-	protected function createModel() {
-		return SimpleTableModel::createTableModel("tag");
-	}
+	
 }

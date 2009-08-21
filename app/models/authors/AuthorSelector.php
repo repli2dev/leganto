@@ -1,8 +1,20 @@
 <?php
 /**
- * @author Jan Drabek
+ * The source file is subject to the license located on web
+ * "http://code.google.com/p/preader/".
+ *
+ * @copyright	Copyright (c) 2009 Jan Papoušek (jan.papousek@gmail.com),
+ *				Jan Drábek (repli2dev@gmail.com)
+ * @link		http://code.google.com/p/preader/
+ * @license		http://code.google.com/p/preader/
  */
-class AuthorSelector extends Worker implements IAuthorSelector
+
+/**
+ * @author		Jan Papousek
+ * @author		Jan Drabek
+ * @version		$Id$
+ */
+class AuthorSelector implements IAuthorSelector
 {
 
 	/* PUBLIC METHODS */
@@ -27,9 +39,4 @@ class AuthorSelector extends Worker implements IAuthorSelector
 		return empty($row) ? NULL : $entity->loadDataFromRow($row);
 	}
 
-	/* PROTECTED METHODS */
-
-	protected function createModel() {
-		return SimpleTableModel::createTableModel("author");
-	}
 }

@@ -1,6 +1,18 @@
 <?php
 /**
- * @author Jan Drabek
+ * The source file is subject to the license located on web
+ * "http://code.google.com/p/preader/".
+ *
+ * @copyright	Copyright (c) 2009 Jan Papoušek (jan.papousek@gmail.com),
+ *				Jan Drábek (repli2dev@gmail.com)
+ * @link		http://code.google.com/p/preader/
+ * @license		http://code.google.com/p/preader/
+ */
+
+/**
+ * @author		Jan Papousek
+ * @author		Jan Drabek
+ * @version		$Id$
  */
 class BookUpdater extends Worker implements IUpdater
 {
@@ -15,9 +27,4 @@ class BookUpdater extends Worker implements IUpdater
 		SimpleTableModel::createTableModel("book_title")->update($entity->getId(), $input);
 	}
 
-	/* PROTECTED METHODS */
-
-	protected function createModel() {
-		throw new NotSupportedException();
-	}
 }

@@ -1,29 +1,21 @@
 <?php
 /**
- * @author Jan Papousek
+ * The source file is subject to the license located on web
+ * "http://code.google.com/p/preader/".
+ *
+ * @copyright	Copyright (c) 2009 Jan Papoušek (jan.papousek@gmail.com),
+ *				Jan Drábek (repli2dev@gmail.com)
+ * @link		http://code.google.com/p/preader/
+ * @license		http://code.google.com/p/preader/
+ */
+
+/**
+ * @author		Jan Papousek
+ * @author		Jan Drabek
+ * @version		$Id$
  */
 abstract class Worker extends EskymoObject
 {
-
-	/**
-	 * @var ITableModel
-	 */
-	private $model;
-
-	/**
-	 * @return ITableModel
-	 */
-	abstract protected function createModel();
-
-	/**
-	 * @return ITableModel
-	 */
-	protected function getModel() {
-		if (empty($this->model)) {
-			$this->model = $this->createModel();
-		}
-		return $this->model;
-	}
 
 	/**
 	 * It returns an array exctracted from entity
