@@ -31,22 +31,29 @@ abstract class AEntityFactory implements IEntityFactory, IInsertable, IUpdateabl
 
 	/** @return IInserter */
 	protected function createInserter(){
-		return $this->getEntity($this->getThisEntityName().'Inserter');
+		return $this->getInstanceOfClassByName($this->getThisEntityName().'Inserter');
 	}
 
 	/** @return IUpdater */
 	protected function createUpdater(){
-		return $this->getEntity($this->getThisEntityName().'Updater');
+		return $this->getInstanceOfClassByName($this->getThisEntityName().'Updater');
 	}
 	
 	/** @return ISelector */
 	protected function createSelector(){
-		return $this->getEntity($this->getThisEntityName().'Selector');
+		return $this->getInstanceOfClassByName($this->getThisEntityName().'Selector');
 	}
 	
 	/** @return IDeleter */
-	protected function createDeleter(){
-		return $this->getEntity($this->getThisEntityName().'Deleter');
+	protected function createDeleter() {
+		$deleter = $this->getThisEntityName().'Deleter';
+		if (class_exists($deleter)) {
+			return $this->getInstanceOfClassByName($deleter);
+		}
+		else {
+			// TODO: discuss
+			return SimpleDeleter::createSimpleDeleter(String::lower($this->getThisEntityName()));
+		}
 	}
 
 	/** @return string */
@@ -54,13 +61,18 @@ abstract class AEntityFactory implements IEntityFactory, IInsertable, IUpdateabl
 		return substr(get_class($this), 0, -7);
 	}
 
-	protected function getEntity($name){
+	private function getInstanceOfClassByName($name){
 		if(!class_exists($name)){
 			throw new InvalidArgumentException("The entity is not ready to be created.");
 		}
 		return new $name;
 	}
-	
+
+	/** @return IEntity */
+	public function createEmpty() {
+		return $this->getInstanceOfClassByName($this->getThisEntityName() . "Entity");
+	}
+
 	public function fetchAndCreate(IDataSource $source) {
 		$row = $source->fetch();
 		return empty($row) ? NULL : $this->createEmpty()->loadDataFromRow($row);
