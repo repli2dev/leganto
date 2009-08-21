@@ -16,9 +16,13 @@
  * @author		Jan Drabek
  * @version		$Id$
  */
-
-interface ITagSelector extends ISelector
+interface ITagUpdater extends IUpdater
 {
-	/** @return DataSource */
-	public function findAllByBook(BookEntity $book);
+	/**
+	 * It sets a book as tagged by the tag
+	 *
+	 * @param int $book
+	 * @param int $tag
+	 */
+	public function setTagged($book, $tag);
 }

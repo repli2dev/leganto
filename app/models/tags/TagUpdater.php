@@ -14,7 +14,7 @@
  * @author		Jan Drabek
  * @version		$Id$
  */
-class TagUpdater extends Worker implements IUpdater
+class TagUpdater extends Worker implements ITagUpdater
 {
 
 	/* PUBLIC METHODS */
@@ -25,6 +25,25 @@ class TagUpdater extends Worker implements IUpdater
 		}
 		$input = $this->getArrayFromEntity($entity, "Save");
 		SimpleTableModel::createTableModel("tag")->update($entity->getId(), $input);
+	}
+
+	/**
+	 * It tags a book
+	 *
+	 * @param int $book Book ID
+	 * @param int $tag Tag ID
+	 */
+	public function setTagged($book, $tag) {
+		$rows = SimpleTableModel::createTableModel("tagged")
+			->findAll()
+			->where("[id_book] = %i", $book)
+			->where("[id_tag] = %i", $tag);
+		if ($rows->count() == 0) {
+			SimpleTableModel::createTableModel("tagged")->insert(array(
+				"id_book" => $book,
+				"id_tag" => $tag
+			));
+		}
 	}
 
 }

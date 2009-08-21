@@ -39,25 +39,5 @@ class TagSelector implements ITagSelector
 		$entity = new TagEntity;
 		return empty($row) ? NULL : $entity->loadDataFromRow($row);
 	}
-
-	/**
-	 * It tags a book
-	 *
-	 * @param int $book Book ID
-	 * @param int $tag Tag ID
-	 */
-	// FIXME: move into updater
-	public function setTagged($book, $tag) {
-		$rows = SimpleTableModel::createTableModel("tagged")
-			->findAll()
-			->where("[id_book] = %i", $book)
-			->where("[id_tag] = %i", $tag);
-		if ($rows->count() == 0) {
-			SimpleTableModel::createTableModel("tagged")->insert(array(
-				"id_book" => $book,
-				"id_tag" => $tag
-			));
-		}
-	}
 	
 }
