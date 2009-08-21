@@ -35,14 +35,14 @@ class Leganto
 	 * @return TagFactory
 	 */
 	public static function tags() {
-		return SimpleEntityFactory::createEntityFactory("tags");
+		return SimpleEntityFactory::createEntityFactory("tag");
 	}
 
 	/**
 	 * @return UserFactory
 	 */
 	public static function users() {
-		return SimpleEntityFactory::createEntityFactory("users");
+		return SimpleEntityFactory::createEntityFactory("user");
 	}
 
 }
