@@ -80,7 +80,27 @@ class Frontend_ApiPresenter extends Presenter
 			$this->forward("500");
 		}
 	}
-	
+
+	public function renderUser($id) {
+		if (empty($id)) {
+			$this->forward("404");
+		}
+		try {
+			$user = Leganto::users()->getSelector()->findOne($id);
+			if ($user == NULL) {
+				$this->forward("404");
+			}
+		}
+		catch (DataNotFoundException $e) {
+			Debug::processException($e);
+			$this->forward("404");
+		}
+		catch(DibiDriverException $e) {
+			Debug::processException($e);
+			$this->forward("500");
+		}
+	}
+
 	/* ERRORS */
 
 	public function render500() {

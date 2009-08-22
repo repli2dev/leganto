@@ -62,7 +62,6 @@ CREATE TABLE `user` (
 	`nick` VARCHAR(255) NOT NULL COMMENT 'prezdivka, pod kterou uzivatel vystupuje',
 	`sex` ENUM('male','female') NULL COMMENT 'pohlavi',
 	`birth_year` INT(3) NULL COMMENT 'vek',
-	`autologin_ticket` VARCHAR(255) NULL COMMENT 'autorizacni retezec pro automaticke prihlaseni',
 	`last_logged` DATETIME NULL COMMENT 'cas, kdy byl uzivatel naposled prihlasen',
 	`inserted` DATETIME NOT NULL COMMENT 'cas, kdy byla polozka vlozena do systemu',
 	`updated` TIMESTAMP NULL COMMENT 'cas, kdy byla polozka naposledy zmenena',
