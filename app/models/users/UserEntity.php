@@ -58,4 +58,7 @@ class UserEntity extends AEntity
 
 	public $updated;
 
+	protected function loadIdFromRow(DibiRow $row) {
+		$this->setId($row["id_user"]);
+	}
 }

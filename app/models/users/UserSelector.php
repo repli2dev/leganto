@@ -20,12 +20,12 @@ class UserSelector extends Worker implements ISelector
 	/* PUBLIC METHODS */
 	
 	public function findAll() {
-		return dibi::dataSource("SELECT * FROM [view_user]");
+		return dibi::dataSource("SELECT * FROM [user]");
 	}
 	
 	/** @return UserEntity */
 	public function findOne($id) {
-		$row = dibi::dataSource("SELECT * FROM [view_user] WHERE [id_user] = %i", $id)->fetch();
+		$row = dibi::dataSource("SELECT * FROM [user] WHERE [id_user] = %i", $id)->fetch();
 		$entity = new UserEntity;
 		return empty($row) ? NULL : $entity->loadDataFromRow($row);
 	}
