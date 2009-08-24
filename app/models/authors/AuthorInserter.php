@@ -19,26 +19,26 @@ class AuthorInserter extends Worker implements IInserter
 
 	/* PUBLIC METHODS */
 	
-	public function insert(AuthorEntity $entity) {
+	public function insert(IEntity $entity) {
 		if (!$entity->isReadyToInsert()) {
 			throw new InvalidArgumentException("The entity is not ready to be inserted.");
 		}
 		// I try to find the author
-		$source = Leganto::authors()->getInserter()->all()
+		$source = Leganto::authors()->getSelector()->findAll()
 			->where("[type] = %s", $entity->type);
 		if ($entity->type == AuthorEntity::GROUP) {
-			$source->where("[groupname] = %s", $entity->groupname);
+			$source->where("[group_name] = %s", $entity->groupname);
 		}
 		elseif ($entity->type == AuthorEntity::PERSON) {
 			if (!empty($entity->firstname)) {
-				$source->where("[firstname] = %s", $entity->firstname);
+				$source->where("[first_name] = %s", $entity->firstname);
 			}
 			if (!empty($entity->lastname)) {
-				$source->where("[lastname] = %s", $entity->lastname);
+				$source->where("[last_name] = %s", $entity->lastname);
 			}
 		}
 		$author = $source->fetch();
-		if (empty($author)) {
+		if (!empty($author)) {
 			return $author["id_author"];
 		}
 		// It the author does not exists, insert it

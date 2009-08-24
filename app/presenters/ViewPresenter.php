@@ -2,7 +2,7 @@
 /**
  * @author Jan Papousek
  */
-class Frontend_ApiPresenter extends Presenter
+class ViewPresenter extends Presenter
 {
 
 	/* VIEWS */
@@ -12,7 +12,7 @@ class Frontend_ApiPresenter extends Presenter
 			$this->forward("404");
 		}
 		try {
-			$author = Leganto::authors()->getSelector()->findOne($id);
+			$author = Leganto::authors()->getSelector()->find($id);
 			if (empty($author)) {
 				$this->forward("404");
 			}
@@ -43,7 +43,7 @@ class Frontend_ApiPresenter extends Presenter
 			$this->forward("404");
 		}
 		try {
-			$book = Leganto::books()->getSelector()->findOne($id);
+			$book = Leganto::books()->getSelector()->find($id);
 			if ($book === NULL)  {
 				$this->forward("404");
 			}
@@ -87,7 +87,7 @@ class Frontend_ApiPresenter extends Presenter
 		}
 		try {
 			// User's info
-			$user = Leganto::users()->getSelector()->findOne($id);
+			$user = Leganto::users()->getSelector()->find($id);
 			$this->getTemplate()->user = &$user;
 			// User's shelfs
 			if ($this->getTemplate()->user == NULL) {

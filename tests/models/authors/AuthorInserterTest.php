@@ -7,7 +7,8 @@ class AuthorInserterTest extends EskymoTestCase
 
 	private $author = array(
 		"type"			=> AuthorEntity::GROUP,
-		"group_name"		=> "sejuvhsidfgvsidfgv"
+		"group_name"	=> "sejuvhsidfgvsidfgv",
+		"inserted"		=> "2010-10-10 10:10:10"
 	);
 
 	public function  __destruct() {
@@ -19,10 +20,11 @@ class AuthorInserterTest extends EskymoTestCase
 	}
 
 	protected function testInsert() {
-		$author = Leganto::authors()->getEmpty();
+		$author = Leganto::authors()->createEmpty();
 		$author->type		= $this->author["type"];
 		$author->groupname	= $this->author["group_name"];
-		$id = $inserter->insert($author);
+		$author->inserted	= $this->author["inserted"];
+		$id = Leganto::authors()->getInserter()->insert($author);
 		if (empty($id)) {
 			$this->fail();
 		}

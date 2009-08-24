@@ -43,7 +43,7 @@ class BookSelector extends Worker implements IBookSelector
 	}
 
 	/** @return BookEntity */
-	public function findOne($id) {
+	public function find($id) {
 		$row = dibi::dataSource("SELECT * FROM [view_book] WHERE [id_book_title] = %i", $id)->fetch();
 		$entity = new BookEntity;
 		return empty($row) ? NULL : $entity->loadDataFromRow($row);

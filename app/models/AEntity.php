@@ -36,7 +36,7 @@ abstract class AEntity extends EskymoObject implements IEntity
 		}
 		// Check if all required columns are set
 		foreach ($this->getVars() AS $var) {
-			$reflection = $this->getReflection()->getProperty();
+			$reflection = $this->getReflection()->getProperty($var);
 			if (Annotations::has($reflection, "Required") && !isset($this->$var)) {
 				return FALSE;
 			}

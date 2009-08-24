@@ -24,7 +24,7 @@ interface ISelector
      * @param integer $id 
 	 * @return IEntity
 	 */
-	function findOne($id);
+	function find($id);
 	
 	/**
 	 * @return DataSource

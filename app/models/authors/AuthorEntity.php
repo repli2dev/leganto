@@ -42,6 +42,11 @@ class AuthorEntity extends AEntity
 	public $groupname;
 
 	/**
+	 * @Required
+	 */
+	public $inserted;
+
+	/**
 	 * @Load(last_name)
 	 * @Save(last_name)
 	 */

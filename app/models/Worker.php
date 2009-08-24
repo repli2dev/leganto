@@ -24,14 +24,14 @@ abstract class Worker extends EskymoObject
 	 * @param string $annotation Annotation which is used to replace the variable name to key name
 	 * @return array
 	 */
-	protected function getArrayFromEntity(AEntity $entity, string $annotation) {
+	protected function getArrayFromEntity(AEntity $entity, $annotation) {
 		$result = array();
 		// Foreach variable try to load data from a row
 		foreach($entity->getVars() AS $var) {
-			if (!iseet($entity->$var)) {
+			if (!isset($entity->$var)) {
 				continue;
 			}
-			$reflection = $entity->getReflection()->getProperty();
+			$reflection = $entity->getReflection()->getProperty($var);
 			// The variables which has 'Skip' annotation will be skipped
 			if (Annotations::has($reflection, "Skip")) {
 				$toSkip = Annotations::get($reflection, $annotation);

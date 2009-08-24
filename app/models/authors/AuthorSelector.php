@@ -33,7 +33,7 @@ class AuthorSelector implements IAuthorSelector
 	}
 
 	/** @return AuthorEntity */
-	public function findOne($id) {
+	public function find($id) {
 		$row = dibi::dataSource("SELECT * FROM [author] WHERE [id_author] = %i", $id)->fetch();
 		$entity = new AuthorEntity;
 		return empty($row) ? NULL : $entity->loadDataFromRow($row);

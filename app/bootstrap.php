@@ -36,15 +36,6 @@ $application = Environment::getApplication();
 $router = $application->getRouter();
 
 $router[] = new Route(
-	"/api/<action>",
-	array(
-		"module"	=> "Frontend",
-		"presenter" => "Api",
-		"action"	=> "avaiable"
-	)
-);
-
-$router[] = new Route(
 	"test/<action>/<class>/<method>",
 	array(
 		"presenter" => "Test",
@@ -55,40 +46,12 @@ $router[] = new Route(
 );
 
 $router[] = new Route(
-	"admin/<presenter>/<action>",
+	"/<presenter>/<action>",
 	array(
-		'module' => 'Backend',
-		'presenter' => 'Default',
-		'action' => 'default'
+		"presenter" => "View",
+		"action"	=> "avaiable"
 	)
 );
-
-$router[] = new Route(
-	'<module>/<presenter>/<action>',
-	array(
-		'presenter' => 'Default',
-		'action' => 'default'
-	)
-);
-
-$router[] = new Route(
-	'/',
-	array(
-		'module' => 'Frontend',
-		'presenter' => 'Default',
-		'action' => 'default'
-	)
-);
-
-$router[] = new Route(
-	"/admin",
-	array(
-		"module" => "Backend",
-		'presenter' => 'Default',
-		'action' => 'default'
-	)
-);
-
 
 // Step 5: Database connection
 // lazy connect should be enabled in config.ini

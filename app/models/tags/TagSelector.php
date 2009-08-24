@@ -34,7 +34,7 @@ class TagSelector implements ITagSelector
 	}
 
 	/** @return TagEntity */
-	public function findOne($id) {
+	public function find($id) {
 		$row = dibi::dataSource("SELECT * FROM [tag] WHERE [id_tag] = %i", $id)->fetch();
 		$entity = new TagEntity;
 		return empty($row) ? NULL : $entity->loadDataFromRow($row);
