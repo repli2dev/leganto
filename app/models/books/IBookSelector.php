@@ -20,7 +20,9 @@ interface IBookSelector extends ISelector
 {
 	
 	public function findAllByAuthor(IEntity $author);
-	
+
 	public function findOthers(BookEntity $book);
-	
+
+	public function search($query);
+
 }

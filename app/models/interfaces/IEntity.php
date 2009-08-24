@@ -39,9 +39,10 @@ interface IEntity
 	 * It loads the data from DibiRow
 	 *
 	 * WARNING: It deletes old data!
+	 * @param array Source data
 	 * @return IEntity This method is fluent.
 	 */
-	function loadDataFromRow(DibiRow $row);
+	function loadDataFromArray(array $resource);
 
 }
 

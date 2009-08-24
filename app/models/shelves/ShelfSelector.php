@@ -17,9 +17,10 @@ class ShelfSelector implements IShelfSelector
 	}
 
 	public function find($id) {
-		$row = dibi::dataSource("SELECT * FROM [view_shelf] where [id_shelf] = %i", $id)->fetch();
-		$entity = new AuthorEntity;
-		return empty($row) ? NULL : $entity->loadDataFromRow($row);
+		return Leganto::shelves()
+			->fetchAndCreate(
+				dibi::dataSource("SELECT * FROM [view_shelf] where [id_shelf] = %i", $id)
+			);
 	}
 
 }

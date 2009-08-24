@@ -25,8 +25,9 @@ class UserSelector extends Worker implements ISelector
 	
 	/** @return UserEntity */
 	public function find($id) {
-		$row = dibi::dataSource("SELECT * FROM [user] WHERE [id_user] = %i", $id)->fetch();
-		$entity = new UserEntity;
-		return empty($row) ? NULL : $entity->loadDataFromRow($row);
+		return Leganto::users()
+			->fetchAndCreate(
+				dibi::dataSource("SELECT * FROM [user] WHERE [id_user] = %i", $id)
+			);
 	}
 }

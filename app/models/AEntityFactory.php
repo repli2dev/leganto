@@ -75,7 +75,7 @@ abstract class AEntityFactory implements IEntityFactory, IInsertable, IUpdateabl
 
 	public function fetchAndCreate(IDataSource $source) {
 		$row = $source->fetch();
-		return empty($row) ? NULL : $this->createEmpty()->loadDataFromRow($row);
+		return empty($row) ? NULL : $this->createEmpty()->loadDataFromArray($row->getArrayCopy());
 	}
 
 	public function getInserter() {
