@@ -81,6 +81,19 @@ class ViewPresenter extends Presenter
 		}
 	}
 
+	public function renderBookOpinions($book) {
+		if (empty($book)) {
+			$this->forward("404");
+		}
+		try {
+			
+		}
+		catch(DibiDriverException $e) {
+			Debug::processException($e);
+			$this->forward("500");
+		}
+	}
+
 	public function renderUser($id) {
 		if (empty($id)) {
 			$this->forward("404");
@@ -88,13 +101,15 @@ class ViewPresenter extends Presenter
 		try {
 			// User's info
 			$user = Leganto::users()->getSelector()->find($id);
-			$this->getTemplate()->user = &$user;
-			// User's shelfs
-			if ($this->getTemplate()->user == NULL) {
+			if ($user == NULL) {
 				$this->forward("404");
 			}
-			while($entity = Leganto::shelfs()->fetchAndCreate($rows)) {
-				$this->getTemplate()->shelfs[] = $entity;
+			$this->getTemplate()->user = $user;
+			// User's shelfs
+			$rows = Leganto::shelves()->getSelector()->findByUser($user);
+			$this->getTemplate()->shelves = array();
+			while($entity = Leganto::shelves()->fetchAndCreate($rows)) {
+				$this->getTemplate()->shelves[] = $entity;
 			}
 		}
 		catch (DataNotFoundException $e) {

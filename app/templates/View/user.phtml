@@ -8,7 +8,9 @@
 
 	<registrated>{$user->inserted}</registrated>
 
+	{if !empty($user->lastLogged)}
 	<last-logged>{$user->lastLogged}</last-logged>
+	{/if}
 
 	{if !empty($user->birthyear)}
 	<birth-year>{$user->birthyear}</birth-year>
@@ -18,16 +20,17 @@
 	<sex>{$user->sex}</sex>
 	{/if}
 
-	{if !empty($shelfs)}
-		<shelfs>
-		{foreach $shelfs AS $shelf}
+	{if !empty($shelves)}
+		<shelves>
+		{foreach $shelves AS $shelf}
 			<shelf>
-				<id>{$shelf->getId()</id>
+				<id>{$shelf->getId()}</id>
+				<type>{$shelf->type}</type>
 				<name>{$shelf->name}</name>
 				<number-of-books>{$shelf->numberOfBooks}</number-of-books>
 			</shelf>
 		{/foreach}
-		</shelfs>
+		</shelves>
 	{/if}
 
 </user>

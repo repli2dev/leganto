@@ -48,3 +48,14 @@ CREATE VIEW `view_author_book` AS
 		`view_book`.*
 	FROM `written_by`
 	INNER JOIN `view_book` USING(`id_book`);
+
+CREATE VIEW `view_shelf` AS
+	SELECT
+		`shelf`.`id_shelf`				AS `id_shelf`,
+		`shelf`.`name`					AS `name`,
+		`shelf`.`type`					AS `type`,
+		`shelf`.`id_user`				AS `id_user`,
+		COUNT(`in_shelf`.`id_in_shelf`)	AS `number_of_books`
+	FROM `shelf`
+	LEFT JOIN `in_shelf` USING (`id_shelf`)
+	GROUP BY `shelf`.`id_shelf`

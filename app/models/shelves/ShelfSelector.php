@@ -10,7 +10,7 @@ class ShelfSelector implements IShelfSelector
 	}
 
 	public function findByUser(UserEntity $user) {
-		if (empty($user->getId())) {
+		if ($user->getId() == NULL) {
 			throw new NullPointerException("The user has no ID");
 		}
 		return $this->findAll()->where("[id_user] = %i", $user->getId());

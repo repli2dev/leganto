@@ -33,4 +33,10 @@ class ShelfEntity extends AEntity
 	 */
 	public $user;
 
+	/* PROTECTED METHODS */
+
+	protected function loadIdFromRow(DibiRow $row) {
+		$this->setId($row["id_shelf"]);
+	}
+
 }

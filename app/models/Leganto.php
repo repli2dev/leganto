@@ -18,28 +18,35 @@ class Leganto
 {
 
 	/**
-	 * @return AuthorFactory
+	 * @return IEntitykFactory
 	 */
 	public static function authors() {
 		return SimpleEntityFactory::createEntityFactory("author");
 	}
 
 	/**
-	 * @return BookFactory
+	 * @return IEntitykFactory
 	 */
 	public static function books() {
 		return SimpleEntityFactory::createEntityFactory("book");
 	}
 
 	/**
-	 * @return TagFactory
+	 * @return IEntitykFactory
+	 */
+	public static function shelves() {
+		return SimpleEntityFactory::createEntityFactory("shelf");
+	}
+
+	/**
+	 * @return IEntitykFactory
 	 */
 	public static function tags() {
 		return SimpleEntityFactory::createEntityFactory("tag");
 	}
 
 	/**
-	 * @return UserFactory
+	 * @return IEntitykFactory
 	 */
 	public static function users() {
 		return SimpleEntityFactory::createEntityFactory("user");
