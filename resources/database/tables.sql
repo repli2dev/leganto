@@ -167,7 +167,7 @@ CREATE TABLE `author` (
 	`last_name` VARCHAR(255) NULL COMMENT 'prijmeni autora, vyplneno v pripade, ze type = person',
 	`group_name` VARCHAR(255) NULL COMMENT 'nazev skupiny, vyplneno v pripade, ze type = group',
 	`inserted` DATETIME NOT NULL COMMENT 'cas, kdy byla polozka vlozena do systemu',
-	`updated` TIMESTAMP COMMENT 'cas, kdy byla polozka naposledy zmenena'
+	`updated` TIMESTAMP NULL COMMENT 'cas, kdy byla polozka naposledy zmenena'
 ) ENGINE = InnoDB COMMENT = 'spisovatele - lide, skupiny';
 
 DROP TABLE IF EXISTS `written_by`;

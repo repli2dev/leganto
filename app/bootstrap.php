@@ -15,6 +15,7 @@ if (@$_SERVER['HTTP_HOST'] == "devel.ctenari.cz") {
 	Environment::setName("devel-ctenari");
 }
 
+Environment::getApplication()->catchExceptions = false;
 Environment::loadConfig(APP_DIR . '/config.ini');
 // Step 2: Enable Nette\Debug
 // for better exception and error visualisation

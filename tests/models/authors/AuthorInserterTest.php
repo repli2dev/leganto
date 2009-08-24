@@ -12,7 +12,7 @@ class AuthorInserterTest extends EskymoTestCase
 	);
 
 	public function  __destruct() {
-		$this->startUp();
+		// TODO: Clear database
 	}
 
 	protected function startUp() {
@@ -32,8 +32,8 @@ class AuthorInserterTest extends EskymoTestCase
 			$this->fail();
 		}
 		$inserted = Leganto::authors()->getSelector()->find($id);
-		$this->assertEquals($author["type"], $inserted->type);
-		$this->assertEquals($author["group_name"], $inserted->groupname);
+		$this->assertEquals($this->author["type"], $inserted->type);
+		$this->assertEquals($this->author["group_name"], $inserted->groupname);
 	}
 
 }
