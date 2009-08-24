@@ -86,9 +86,15 @@ class Frontend_ApiPresenter extends Presenter
 			$this->forward("404");
 		}
 		try {
+			// User's info
 			$user = Leganto::users()->getSelector()->findOne($id);
-			if ($user == NULL) {
+			$this->getTemplate()->user = &$user;
+			// User's shelfs
+			if ($this->getTemplate()->user == NULL) {
 				$this->forward("404");
+			}
+			while($entity = Leganto::shelfs()->fetchAndCreate($rows)) {
+				$this->getTemplate()->shelfs[] = $entity;
 			}
 		}
 		catch (DataNotFoundException $e) {
@@ -120,7 +126,7 @@ class Frontend_ApiPresenter extends Presenter
 	/* PROTECTED METHODS */
 
 	protected function beforeRender() {
-		Header("Content-type: text/xml");
+//		Header("Content-type: text/xml");
 	}
 
 	protected function createTemplate() {

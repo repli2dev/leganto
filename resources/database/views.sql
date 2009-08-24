@@ -11,7 +11,7 @@ CREATE VIEW `view_book` AS
 	INNER JOIN `book_title` USING(`id_book`)
 	INNER JOIN `language` USING(`id_language`)
 	LEFT JOIN `opinion` USING(`id_book`)
-	GROUP BY `book_title`.`id_book_title`
+	GROUP BY `book_title`.`id_book_title`;
 
 CREATE VIEW `view_book_author` AS
 	SELECT
@@ -22,7 +22,7 @@ CREATE VIEW `view_book_author` AS
 		`author`.`first_name`			AS `first_name`,
 		`author`.`last_name`			AS `last_name`
 	FROM `written_by`
-	INNER JOIN `author` USING(`id_author`)
+	INNER JOIN `author` USING(`id_author`);
 
 CREATE VIEW `view_book_tag` AS
 	SELECT
@@ -31,7 +31,7 @@ CREATE VIEW `view_book_tag` AS
 		`tag`.`id_tag`					AS `id_tag`,
 		`tag`.`name`					AS `name`
 	FROM `tagged`
-	INNER JOIN `tag` USING(`id_tag`)
+	INNER JOIN `tag` USING(`id_tag`);
 
 CREATE VIEW `view_shelf_book` AS
 	SELECT
@@ -40,11 +40,11 @@ CREATE VIEW `view_shelf_book` AS
 		`view_book`.*
 	FROM `in_shelf`
 	INNER JOIN `shelf` USING (`id_shelf`)
-	INNER JOIN `view_book` USING (`id_book`)
+	INNER JOIN `view_book` USING (`id_book`);
 
 CREATE VIEW `view_author_book` AS
 	SELECT
 		`written_by`.`id_author`		AS `id_author`,
 		`view_book`.*
 	FROM `written_by`
-	INNER JOIN `view_book` USING(`id_book`)
+	INNER JOIN `view_book` USING(`id_book`);

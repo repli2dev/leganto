@@ -26,7 +26,6 @@ if ($debug->enable) {
 	Debug::enable(null, $debug->log, $debug->email);
 	if ($debug->profiler) {
 		Debug::enableProfiler();
-		RoutingDebugger::enable();
 	}
 }
 
