@@ -36,7 +36,7 @@ class ShelfEntity extends AEntity
 	/* PROTECTED METHODS */
 
 	protected function loadId(array $source) {
-		$this->setId($row["id_shelf"]);
+		$this->setId($source["id_shelf"]);
 	}
 
 }

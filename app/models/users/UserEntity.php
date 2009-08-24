@@ -59,6 +59,6 @@ class UserEntity extends AEntity
 	public $updated;
 
 	protected function loadId(array $source) {
-		$this->setId($row["id_user"]);
+		$this->setId($source["id_user"]);
 	}
 }

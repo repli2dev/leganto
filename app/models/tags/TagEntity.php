@@ -34,7 +34,7 @@ class TagEntity extends AEntity
 	/* PROTETED METHODS */
 
 	protected function loadId(array $source) {
-		$this->setId($row["id_tag"]);
+		$this->setId($source["id_tag"]);
 	}
 
 }

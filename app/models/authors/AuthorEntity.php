@@ -63,7 +63,7 @@ class AuthorEntity extends AEntity
 	/* PROTETED METHODS */
 
 	protected function loadId(array $source) {
-		$this->setId($row["id_author"]);
+		$this->setId($source["id_author"]);
 	}
 
 }
