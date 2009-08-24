@@ -36,7 +36,7 @@ class AuthorSelector implements IAuthorSelector
 	public function find($id) {
 		return Leganto::authors()
 			->fetchAndCreate(
-				Legantdibi::dataSource("SELECT * FROM [author] WHERE [id_author] = %i", $id)
+				dibi::dataSource("SELECT * FROM [author] WHERE [id_author] = %i", $id)
 			);
 	}
 

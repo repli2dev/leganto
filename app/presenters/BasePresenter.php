@@ -2,7 +2,7 @@
 /**
  * @author Jan Papousek
  */
-class BasePresenter
+class BasePresenter extends Presenter
 {
 
 	/* ERRORS */

@@ -83,7 +83,7 @@ class BookEntity extends AEntity
 
 	/* PROTECTED METHODS */
 
-	protected function loadIdFromRow(DibiRow $row) {
+	protected function loadId(array $source) {
 		$this->setId($row["id_book_title"]);
 	}
 

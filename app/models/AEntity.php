@@ -45,7 +45,7 @@ abstract class AEntity extends EskymoObject implements IEntity
 		return TRUE;
 	}
 
-	public function  loadDataFromRow(DibiRow $row) {
+	public function  loadDataFromArray(array $source) {
 		// Foreach variable try to load data from a row
 		foreach($this->getVars() AS $var) {
 			$reflection = $this->getReflection()->getProperty($var);
@@ -64,17 +64,17 @@ abstract class AEntity extends EskymoObject implements IEntity
 			else {
 				$column = $var;
 			}
-			if (isset($row[$column])) {
-				$this->$var = $row[$column];
+			if (isset($source[$column])) {
+				$this->$var = $source[$column];
 			}
 		}
-		$this->loadIdFromRow($row);
+		$this->loadId($source);
 		return $this;
 	}
 
 	/* PROTECTED METHODS */
 
-	abstract protected function loadIdFromRow(DibiRow $row);
+	abstract protected function loadId(array $source);
 
 	protected function setId($id) {
 		$this->id = $id;
