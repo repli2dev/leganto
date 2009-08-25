@@ -81,7 +81,7 @@ class ViewPresenter extends BasePresenter
 		}
 	}
 
-	public function renderBookOpinions($book, $offset = 0, $limit = 10) {
+	public function renderOpinions($book, $offset = 0, $limit = 10) {
 		if (empty($book)) {
 			$this->forward("404");
 		}
@@ -129,7 +129,12 @@ class ViewPresenter extends BasePresenter
 				$this->forward("404");
 			}
 
-			// 
+			// Books
+			$rows = Leganto::books()->getSelector()->findAllByShelf($this->getTemplate()->shelf)->applyLimit($limit, $offset);;
+			$this->getTemplate()->books = array();
+			while($book = Leganto::books()->fetchAndCreate($rows)) {
+				$this->getTemplate()->books[] = $book;
+			}
 		}
 		catch(DibiDriverException $e) {
 			Debug::processException($e);
