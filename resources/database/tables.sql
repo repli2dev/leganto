@@ -77,28 +77,11 @@ CREATE TABLE `status` (
 	FOREIGN KEY (`id_language`) REFERENCES `language` (`id_language`) ON UPDATE CASCADE ON DELETE CASCADE
 ) ENGINE = InnoDB COMMENT = 'statusy uzivatelu';
 
-DROP TABLE IF EXISTS `message`;
-CREATE TABLE `message` (
-	`id_message` INT(25) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'identifikator',
-	`id_user_from` INT (25) UNSIGNED NOT NULL COMMENT 'uzivatel, ktery zpravu poslal',
-	`id_user_to` INT (25) UNSIGNED NOT NULL COMMENT 'uzivatel, kteremu byla zprava poslana',
-	`from_destroyed` INT(1) DEFAULT 0 COMMENT 'info o tom, zda uzivetel, ktery poslal zpravu, zpravu smazal (0 - ne/1 -ano)',
-	`to_destroyed` INT(1) DEFAULT 0 COMMENT 'to same, akorat u prijemce',
-	`is_read` INT(1) UNSIGNED DEFAULT 0 COMMENT 'info o tom, zda prijemce precetl zpravu (0 - ne/1 - ano)',
-	`subject` VARCHAR(255) NULL COMMENT 'predmet zpravy',
-	`content` TEXT NOT NULL COMMENT 'telo zpravy',
-	`inserted` DATETIME NOT NULL COMMENT 'cas, kdy byla polozka vlozena do systemu',
-	FOREIGN KEY (`id_user_from`) REFERENCES `user` (`id_user`) ON UPDATE CASCADE ON DELETE CASCADE,
-	FOREIGN KEY (`id_user_to`) REFERENCES `user` (`id_user`) ON UPDATE CASCADE ON DELETE CASCADE
-) ENGINE = InnoDB COMMENT = 'soukrome zpravy mezi uzivateli';
-
-
-
 DROP TABLE IF EXISTS `set`;
 CREATE TABLE `set` (
 	`id_set` INT(25) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'identifikator',
 	`inserted` DATETIME NOT NULL COMMENT 'cas, kdy byla polozka vlozena do systemu',
-	`updated` TIMESTAMP COMMENT 'cas, kdy byla polozka naposledy zmenena'
+	`updated` TIMESTAMP NULL COMMENT 'cas, kdy byla polozka naposledy zmenena'
 ) ENGINE = InnoDB COMMENT = 'knizni set';
 
 DROP TABLE IF EXISTS `set_name`;
@@ -108,7 +91,7 @@ CREATE TABLE `set_name` (
 	id_language INT(25) UNSIGNED NOT NULL COMMENT 'jazyk lokalizovaneho nazvu',
 	`name` VARCHAR(255) NOT NULL COMMENT 'lokalizovany nazev set',
 	`inserted` DATETIME NOT NULL COMMENT 'cas, kdy byla polozka vlozena do systemu',
-	`updated` TIMESTAMP COMMENT 'cas, kdy byla polozka naposledy zmenena',
+	`updated` TIMESTAMP NULL COMMENT 'cas, kdy byla polozka naposledy zmenena',
 	FOREIGN KEY (`id_language`) REFERENCES `language` (`id_language`) ON UPDATE CASCADE ON DELETE CASCADE,
 	FOREIGN KEY (`id_set`) REFERENCES `set` (`id_set`) ON UPDATE CASCADE ON DELETE CASCADE
 ) ENGINE = InnoDB COMMENT = 'lokalizovane nazvy kniznich serii';
@@ -117,7 +100,7 @@ DROP TABLE IF EXISTS `book`;
 CREATE TABLE `book` (
 	`id_book` INT(25) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'identifikator',
 	`inserted` DATETIME NOT NULL COMMENT 'cas, kdy byla polozka vlozena do systemu',
-	`updated` TIMESTAMP COMMENT 'cas, kdy byla polozka naposledy zmenena'
+	`updated` TIMESTAMP NULL COMMENT 'cas, kdy byla polozka naposledy zmenena'
 ) ENGINE = InnoDB COMMENT = 'knihy nezavisle na lokalizaci';
 
 DROP TABLE IF EXISTS `in_set`;
@@ -137,7 +120,7 @@ CREATE TABLE `book_title` (
 	`title` VARCHAR(255) NOT NULL COMMENT 'titul knihy',
 	`subtitle` VARCHAR(255) NULL COMMENT 'podtitul knihy',
 	`inserted` DATETIME NOT NULL COMMENT 'cas, kdy byla polozka vlozena do systemu',
-	`updated` TIMESTAMP COMMENT 'cas, kdy byla polozka naposledy zmenena',
+	`updated` TIMESTAMP NULL COMMENT 'cas, kdy byla polozka naposledy zmenena',
 	FOREIGN KEY (`id_language`) REFERENCES `language` (`id_language`) ON UPDATE CASCADE ON DELETE CASCADE,
 	FOREIGN KEY (`id_book`) REFERENCES `book` (`id_book`) ON UPDATE CASCADE ON DELETE CASCADE
 ) ENGINE = InnoDB COMMENT = 'knizni tituly v jiz lokalizovanych nazvech';
@@ -167,7 +150,7 @@ CREATE TABLE `publisher` (
 	`id_publisher` INT(25) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'identifikator',
 	`name` VARCHAR(255) NOT NULL COMMENT 'nazev nakladatelstvi',
 	`inserted` DATETIME NOT NULL COMMENT 'cas, kdy byla polozka vlozena do systemu',
-	`updated` TIMESTAMP COMMENT 'cas, kdy byla polozka naposledy zmenena'
+	`updated` TIMESTAMP NULL COMMENT 'cas, kdy byla polozka naposledy zmenena'
 ) ENGINE = InnoDB COMMENT = 'vydavatelstvi';
 
 DROP TABLE IF EXISTS `edition`;
@@ -177,7 +160,7 @@ CREATE TABLE `edition` (
 	`id_publisher` INT(25) UNSIGNED NOT NULL COMMENT 'vydavatelstvi',
 	`isbn` VARCHAR(30) NOT NULL COMMENT 'ISBN vydani',
 	`inserted` DATETIME NOT NULL COMMENT 'cas, kdy byla polozka vlozena do systemu',
-	`updated` TIMESTAMP COMMENT 'cas, kdy byla polozka naposledy zmenena',
+	`updated` TIMESTAMP NULL COMMENT 'cas, kdy byla polozka naposledy zmenena',
 	FOREIGN KEY (`id_book`) REFERENCES `book` (`id_book`) ON UPDATE CASCADE ON DELETE CASCADE,
 	FOREIGN KEY (`id_publisher`) REFERENCES `publisher` (`id_publisher`) ON UPDATE CASCADE ON DELETE CASCADE
 ) ENGINE = InnoDB COMMENT = 'knizni vydani';
@@ -189,7 +172,7 @@ CREATE TABLE `shelf` (
 	`type` ENUM('general','read','wanted','owned') NOT NULL DEFAULT 'general' COMMENT 'typ policky - obecna, precteno, poptavano, vlastneno',
 	`name` VARCHAR(255) NULL COMMENT 'nazev policky',
 	`inserted` DATETIME NOT NULL COMMENT 'cas, kdy byla polozka vlozena do systemu',
-	`updated` TIMESTAMP COMMENT 'cas, kdy byla polozka naposledy zmenena',
+	`updated` TIMESTAMP NULL COMMENT 'cas, kdy byla polozka naposledy zmenena',
 	FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`) ON UPDATE CASCADE ON DELETE CASCADE
 ) ENGINE = InnoDB COMMENT = 'uzivatelovi policky, do kterych si pridava knihy';
 
@@ -212,49 +195,50 @@ CREATE TABLE `opinion` (
 	`rating` ENUM('1','2','3','4','5') NOT NULL DEFAULT '1' COMMENT 'hodnoceni',
 	`content` TEXT NOT NULL COMMENT 'slovni vyjadreni nazoru na knihu',
 	`inserted` DATETIME NOT NULL COMMENT 'cas, kdy byla polozka vlozena do systemu',
-	`updated` TIMESTAMP COMMENT 'cas, kdy byla polozka naposledy zmenena',
+	`updated` TIMESTAMP NULL COMMENT 'cas, kdy byla polozka naposledy zmenena',
 	FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`) ON UPDATE CASCADE ON DELETE CASCADE,
 	FOREIGN KEY (`id_language`) REFERENCES `language` (`id_language`) ON UPDATE CASCADE ON DELETE CASCADE,
 	FOREIGN KEY (`id_book`) REFERENCES `book` (`id_book`) ON UPDATE CASCADE ON DELETE CASCADE,
 	UNIQUE (`id_user`,`id_book`)
 ) ENGINE = InnoDB COMMENT = 'hodnocene nazory uzivatelu na knihy';
 
-DROP TABLE IF EXISTS discussionable;
-CREATE TABLE discussionable (
-	`id_discussionable` INT(25) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'identifikator',
+DROP TABLE IF EXISTS discussable;
+CREATE TABLE discussable (
+	`id_discussable` INT(25) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'identifikator',
 	`table` INT(25) UNSIGNED NOT NULL COMMENT 'nazev tabulky, ktera obsahuje entity, ktere mohou byt diskutovany',
 	`column_id` VARCHAR(100) NOT NULL COMMENT 'nazev sloupce, ktery obsahuje ID entity',
 	`column_name` VARCHAR(255) NOT NULL COMMENT 'nazev sloupce, ze ktereho se bere nazev diskuse',
 	`inserted` DATETIME NOT NULL COMMENT 'cas, kdy byla polozka vlozena do systemu',
-	`updated` TIMESTAMP COMMENT 'cas, kdy byla polozka naposledy zmenena',
-	FOREIGN KEY (id_module_table) REFERENCES module_table(id_module_table) ON UPDATE CASCADE ON DELETE CASCADE
+	`updated` TIMESTAMP NULL COMMENT 'cas, kdy byla polozka naposledy zmenena'
 ) ENGINE = InnoDB COMMENT = 'typy entit, ke kterym mohou byt vedeny diskuse';
 
-DROP TABLE IF EXISTS discussed;
-CREATE TABLE discussed (
-	`id_discussed` INT(25) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'identifikator',
-	`id_discussionable` INT(25) UNSIGNED NOT NULL COMMENT 'typ entity, k niz se diskuse vede',
+DROP TABLE IF EXISTS discussion;
+CREATE TABLE discussion (
+	`id_discussion` INT(25) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'identifikator',
+	`id_discussable` INT(25) UNSIGNED NOT NULL COMMENT 'typ entity, k niz se diskuse vede',
+	`id_discussed` INT(25) UNSIGNED NOT NULL COMMENT 'ID entity, ke ktere se diskuse vede',
 	`name` VARCHAR(255) NOT NULL COMMENT 'nazev diskuse',
 	`inserted` DATETIME NOT NULL COMMENT 'cas, kdy byla polozka vlozena do systemu',
-	`updated` TIMESTAMP COMMENT 'cas, kdy byla polozka naposledy zmenena',
-	FOREIGN KEY (id_discussionable) REFERENCES discussionable(id_discussionable) ON UPDATE CASCADE ON DELETE CASCADE
+	`updated` TIMESTAMP NULL COMMENT 'cas, kdy byla polozka naposledy zmenena',
+	FOREIGN KEY (`id_discussable`) REFERENCES `discussable`(`id_discussable`) ON UPDATE CASCADE ON DELETE CASCADE
 ) ENGINE = InnoDB COMMENT = 'odkazy na diskutovane entity, tvori vlakno diskuse';
 
-DROP TABLE IF EXISTS `discussion`;
-CREATE TABLE `discussion` (
-	`id_discussion` INT(25) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'identifikator',
-	`id_discussed` INT(25) UNSIGNED NOT NULL COMMENT 'odkaz na entitu, ke ktere je vedena diskuse',
+DROP TABLE IF EXISTS `post`;
+CREATE TABLE `post` (
+	`id_post` INT(25) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'identifikator',
+	`id_discussion` INT(25) UNSIGNED NOT NULL COMMENT 'odkaz na entitu, ke ktere je vedena diskuse',
 	`id_user` INT(25) UNSIGNED NOT NULL COMMENT 'uzivatel, kteremu patri diskusni prispevek',
+	`id_language` INT(25) UNSIGNED NOT NULL COMMENT 'jazyk, ve kterem je prispevek napsan',
 	`reply` INT(25) UNSIGNED NULL COMMENT 'diskusni prispevek, na ktery tento prispevek reaguje',
 	`subject` VARCHAR(255) NULL COMMENT 'predmet diskusniho prispevku',
 	`content` TEXT NOT NULL COMMENT 'obsah diskusniho prispevku',
 	`inserted` DATETIME NOT NULL COMMENT 'cas, kdy byla polozka vlozena do systemu',
-	`updated` TIMESTAMP COMMENT 'cas, kdy byla polozka naposledy zmenena',
-	FOREIGN KEY (`id_discussed`) REFERENCES `discussed` (`id_discussed`) ON UPDATE CASCADE ON DELETE CASCADE,
+	`updated` TIMESTAMP NULL COMMENT 'cas, kdy byla polozka naposledy zmenena',
+	FOREIGN KEY (`id_discussion`) REFERENCES `discussion` (`id_discussion`) ON UPDATE CASCADE ON DELETE CASCADE,
 	FOREIGN KEY (`reply`) REFERENCES `discussion` (`id_discussion`) ON UPDATE CASCADE ON DELETE CASCADE,
-	FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`) ON UPDATE CASCADE ON DELETE CASCADE
+	FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`) ON UPDATE CASCADE ON DELETE CASCADE,
+	FOREIGN KEY (`id_language`) REFERENCES `language` (`id_language`) ON UPDATE CASCADE ON DELETE CASCADE
 ) ENGINE = InnoDB COMMENT = 'diskusni prispevky';
-
 
 DROP TABLE IF EXISTS `tag`;
 CREATE TABLE `tag` (

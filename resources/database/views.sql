@@ -85,3 +85,22 @@ CREATE VIEW `view_opinion` AS
 	FROM `opinion`
 	INNER JOIN `language` USING(`id_language`)
 	INNER JOIN `user` USING(`id_user`)
+
+DROP VIEW IF EXISTS `view_post`;
+CREATE VIEW `view_post` AS
+	SELECT
+		`post`.`id_post`				AS `id_post`,
+		`post`.`reply`					AS `reply`,
+		`post`.`subject`				AS `subject`,
+		`post`.`content`				AS `content`,
+		`post`.`inserted`				AS `inserted`,
+		`user`.`id_user`				AS `id_user`,
+		`user`.`nick`					AS `user_nick`,
+		`discussion`.`id_discussion`	AS `id_discussion`,
+		`discussion`.`name`				AS `discussion_name`,
+		`language`.`id_language`		AS `id_language`,
+		`language`.`locale`				AS `locale`
+	FROM `post`
+	INNER JOIN `language` USING (`id_language`)
+	INNER JOIN `user` USING (`id_user`)
+	INNER JOIN `discussion` USING (`id_discussion`)
