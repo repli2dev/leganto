@@ -2,7 +2,7 @@
 /**
  * @author Jan Papousek
  */
-class ShelfSelector implements IShelfSelector
+class ShelfSelector implements ISelector
 {
 
 	public function findAll() {

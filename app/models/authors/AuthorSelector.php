@@ -14,7 +14,7 @@
  * @author		Jan Drabek
  * @version		$Id$
  */
-class AuthorSelector implements IAuthorSelector
+class AuthorSelector implements ISelector
 {
 
 	/* PUBLIC METHODS */

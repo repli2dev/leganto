@@ -14,7 +14,7 @@
  * @author		Jan Drabek
  * @version		$Id$
  */
-class TagSelector implements ITagSelector
+class TagSelector implements ISelector
 {
 
 	/* PUBLIC METHODS */
@@ -30,7 +30,8 @@ class TagSelector implements ITagSelector
 		}
 		return dibi::dataSource("SELECT * FROM [view_book_tag]")
 			->where("[id_book] = %i", $book->getId())
-			->where("[id_language] = %i", $book->languageId);
+			->where("[id_language] = %i", $book->languageId)
+			->orderBy("name");
 	}
 
 	/** @return TagEntity */

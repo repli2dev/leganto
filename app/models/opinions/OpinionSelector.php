@@ -2,7 +2,7 @@
 /**
  * @author Jan Papousek
  */
-class OpinionSelector implements IOpinionSelector
+class OpinionSelector implements ISelector
 {
 
 	/* PUBLIC METHODS */
@@ -11,12 +11,17 @@ class OpinionSelector implements IOpinionSelector
 		return dibi::dataSource("SELECT * FROM [view_opinion]");
 	}
 
-	public function findAllByBook(IEntity $book) {
+	/**
+	 * @param BookEntity $book
+	 * @return DibiDataSource
+	 */
+	public function findAllByBook(BookEntity $book) {
 		if (empty($book)) {
 			throw new NullPointerException("book");
 		}
-		return dibi::dataSource("SELECT * FROM [view_opinion] WHERE [id_book] = %i", $book->bookNode, " AND [id_language] = %i", $book->language)
-				->orderBy(array("id_book","title"));
+		return dibi::dataSource("SELECT * FROM [view_opinion] WHERE [id_book] = %i", $book->bookNode, " AND [id_language] = %i", $book->languageId)
+				->orderBy("inserted", "desc");
+
 	}
 
 

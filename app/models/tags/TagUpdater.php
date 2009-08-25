@@ -14,11 +14,11 @@
  * @author		Jan Drabek
  * @version		$Id$
  */
-class TagUpdater extends Worker implements ITagUpdater
+class TagUpdater extends Worker implements IUpdater
 {
 
 	/* PUBLIC METHODS */
-	
+
 	public function update(TagEntity $entity) {
 		if (!$entity->isReadyToUpdate()) {
 			throw new InvalidArgumentException("The entity is not ready to be updated.");

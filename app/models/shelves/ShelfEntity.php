@@ -33,6 +33,12 @@ class ShelfEntity extends AEntity
 	 */
 	public $user;
 
+	/**
+	 * @Skip(Save)
+	 * @Load(user_nick)
+	 */
+	public $userName;
+
 	/* PROTECTED METHODS */
 
 	protected function loadId(array $source) {

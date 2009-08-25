@@ -17,23 +17,6 @@ CREATE TABLE `domain` (
 	UNIQUE (`uri`)
 ) ENGINE = InnoDB COMMENT = 'Jednotlive instance webu.';
 
-DROP TABLE IF EXISTS `module`;
-CREATE TABLE `module` (
-	`id_module` INT(25) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'identifikator',
-	`name` VARCHAR(100) NOT NULL UNIQUE COMMENT 'nazev modulu'
-) ENGINE = InnoDB COMMENT = 'moduly pouzite v systemu';
-
-DROP TABLE IF EXISTS `module_table`;
-CREATE TABLE `module_table` (
-	`id_module_table` INT(25) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'identifikator',
-	`id_module` INT (25) UNSIGNED NOT NULL COMMENT 'modul, ke kteremu tabulka patri',
-	`table` VARCHAR(100) NOT NULL UNIQUE COMMENT 'nazev tabulky',
-	`name_column` VARCHAR(100) NULL COMMENT 'nazev sloupce, ktery obsahuje nazev entity',
-	`identificator_column` VARCHAR(100) NOT NULL COMMENT 'nazev sloupce, ktery obsahuje identifikator entity',
-	FOREIGN KEY (`id_module`) REFERENCES `module`(`id_module`) ON UPDATE CASCADE ON DELETE CASCADE
-) ENGINE = InnoDB COMMENT = 'Tabulky, ktere jsou nalezi jednotlivym modulum.';
-
-
 DROP TABLE IF EXISTS `role`;
 CREATE TABLE `role` (
 	`id_role` INT(25) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'identifikator',
@@ -232,18 +215,29 @@ CREATE TABLE `opinion` (
 	`updated` TIMESTAMP COMMENT 'cas, kdy byla polozka naposledy zmenena',
 	FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`) ON UPDATE CASCADE ON DELETE CASCADE,
 	FOREIGN KEY (`id_language`) REFERENCES `language` (`id_language`) ON UPDATE CASCADE ON DELETE CASCADE,
-	FOREIGN KEY (`id_book`) REFERENCES `book` (`id_book`) ON UPDATE CASCADE ON DELETE CASCADE
+	FOREIGN KEY (`id_book`) REFERENCES `book` (`id_book`) ON UPDATE CASCADE ON DELETE CASCADE,
+	UNIQUE (`id_user`,`id_book`)
 ) ENGINE = InnoDB COMMENT = 'hodnocene nazory uzivatelu na knihy';
 
+DROP TABLE IF EXISTS discussionable;
+CREATE TABLE discussionable (
+	`id_discussionable` INT(25) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'identifikator',
+	`table` INT(25) UNSIGNED NOT NULL COMMENT 'nazev tabulky, ktera obsahuje entity, ktere mohou byt diskutovany',
+	`column_id` VARCHAR(100) NOT NULL COMMENT 'nazev sloupce, ktery obsahuje ID entity',
+	`column_name` VARCHAR(255) NOT NULL COMMENT 'nazev sloupce, ze ktereho se bere nazev diskuse',
+	`inserted` DATETIME NOT NULL COMMENT 'cas, kdy byla polozka vlozena do systemu',
+	`updated` TIMESTAMP COMMENT 'cas, kdy byla polozka naposledy zmenena',
+	FOREIGN KEY (id_module_table) REFERENCES module_table(id_module_table) ON UPDATE CASCADE ON DELETE CASCADE
+) ENGINE = InnoDB COMMENT = 'typy entit, ke kterym mohou byt vedeny diskuse';
 
 DROP TABLE IF EXISTS discussed;
 CREATE TABLE discussed (
 	`id_discussed` INT(25) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'identifikator',
-	`id_module_table` INT(25) UNSIGNED NOT NULL COMMENT 'typ entity, k niz se diskuse vede',
+	`id_discussionable` INT(25) UNSIGNED NOT NULL COMMENT 'typ entity, k niz se diskuse vede',
 	`name` VARCHAR(255) NOT NULL COMMENT 'nazev diskuse',
 	`inserted` DATETIME NOT NULL COMMENT 'cas, kdy byla polozka vlozena do systemu',
 	`updated` TIMESTAMP COMMENT 'cas, kdy byla polozka naposledy zmenena',
-	FOREIGN KEY (id_module_table) REFERENCES module_table(id_module_table) ON UPDATE CASCADE ON DELETE CASCADE
+	FOREIGN KEY (id_discussionable) REFERENCES discussionable(id_discussionable) ON UPDATE CASCADE ON DELETE CASCADE
 ) ENGINE = InnoDB COMMENT = 'odkazy na diskutovane entity, tvori vlakno diskuse';
 
 DROP TABLE IF EXISTS `discussion`;

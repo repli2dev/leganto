@@ -14,7 +14,7 @@
  * @author		Jan Drabek
  * @version		$Id$
  */
-class BookSelector extends Worker implements IBookSelector
+class BookSelector implements ISelector
 {
 
 	/* PUBLIC METHODS */
@@ -23,12 +23,20 @@ class BookSelector extends Worker implements IBookSelector
 		return dibi::dataSource("SELECT * FROM [view_book]");
 	}
 	
-	public function findAllByAuthor(IEntity $author) {
+	public function findAllByAuthor(AuthorEntity $author) {
 		if (empty($author)) {
 			throw new NullPointerException("author");
 		}
 		return dibi::dataSource("SELECT * FROM [view_author_book] WHERE [id_author] = %i", $author->getId())
 				->orderBy(array("id_book","title"));
+	}
+
+	public function findAllByShelf(ShelfEntity $shelf) {
+		if (empty($shelf)) {
+			throw new NullPointerException("shelf");
+		}
+		return dibi::dataSource("SELECT * FROM [view_shelf_book] WHERE [id_shelf] = %i", $shelf->getId())
+				->orderBy(array("id_shelf","title"));
 	}
 
 	public function findOthers(BookEntity $book) {

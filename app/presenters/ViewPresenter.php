@@ -81,12 +81,55 @@ class ViewPresenter extends BasePresenter
 		}
 	}
 
-	public function renderBookOpinions($book) {
+	public function renderBookOpinions($book, $offset = 0, $limit = 10) {
 		if (empty($book)) {
 			$this->forward("404");
 		}
+		if ($limit > 100) {
+			$limit = 100;
+		}
 		try {
-			
+			// Book
+			$this->getTemplate()->book = Leganto::books()->getSelector()->find($book);
+			if ($this->getTemplate()->book === NULL)  {
+				$this->forward("404");
+			}
+
+			// Authors
+			$rows = Leganto::authors()->getSelector()->findAllByBook($this->getTemplate()->book);
+			$this->getTemplate()->authors = array();
+			while($entity = Leganto::authors()->fetchAndCreate($rows)) {
+				$this->getTemplate()->authors[] = $entity;
+			}
+
+			// Opinions
+			$rows = Leganto::opinions()->getSelector()->findAllByBook($this->getTemplate()->book)->applyLimit($limit, $offset);
+			$this->getTemplate()->opinions = array();
+			while ($opinion = Leganto::opinions()->fetchAndCreate($rows)) {
+				$this->getTemplate()->opinions[] = $opinion;
+			}
+		}
+		catch(DibiDriverException $e) {
+			Debug::processException($e);
+			$this->forward("500");
+		}
+	}
+
+	public function renderShelf($shelf, $offset = 0, $limit = 100) {
+		if (empty($shelf)) {
+			$this->forward("404");
+		}
+		if ($limit > 100) {
+			$limit = 100;
+		}
+		try {
+			// Shelf
+			$this->getTemplate()->shelf = Leganto::shelves()->getSelector()->find($shelf);
+			if ($this->getTemplate()->shelf === NULL)  {
+				$this->forward("404");
+			}
+
+			// 
 		}
 		catch(DibiDriverException $e) {
 			Debug::processException($e);
