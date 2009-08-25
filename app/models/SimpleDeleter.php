@@ -53,10 +53,10 @@ class SimpleDeleter implements IDeleter
 		if (empty($table)) {
 			throw new NullPointerException("table");
 		}
-		if (empty($this->instances[$table])) {
-			$this->instances[$table] = new SimpleDeleter($table);
+		if (empty(self::$instances[$table])) {
+			self::$instances[$table] = new SimpleDeleter($table);
 		}
-		return $this->instances[$table];
+		return self::$instances[$table];
 	}
 
 	public function delete($id) {

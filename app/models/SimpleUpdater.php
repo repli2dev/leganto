@@ -54,10 +54,10 @@ class SimpleUpdater extends Worker implements IUpdater
 		if (empty($table)) {
 			throw new NullPointerException("table");
 		}
-		if (empty($this->instances[$table])) {
-			$this->instances[$table] = new SimpleUpdater($table);
+		if (empty(self::$instances[$table])) {
+			self::$instances[$table] = new SimpleUpdater($table);
 		}
-		return $this->instances[$table];
+		return self::$instances[$table];
 	}
 
 	public function update(IEntity $entity) {

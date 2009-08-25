@@ -32,7 +32,7 @@ abstract class AEntityFactory implements IEntityFactory, IInsertable, IUpdateabl
 	/** @return IInserter */
 	protected function createInserter() {
 		$inserter = $this->getThisEntityName().'Inserter';
-		if (class_exists($updater)) {
+		if (class_exists($inserter)) {
 			return $this->getInstanceOfClassByName($inserter);
 		}
 		else {

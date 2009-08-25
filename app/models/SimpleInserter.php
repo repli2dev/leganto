@@ -54,10 +54,10 @@ class SimpleInserter extends Worker implements IInserter
 		if (empty($table)) {
 			throw new NullPointerException("table");
 		}
-		if (empty($this->instances[$table])) {
-			$this->instances[$table] = new SimpleInserter($table);
+		if (empty(self::$instances[$table])) {
+			self::$instances[$table] = new SimpleInserter($table);
 		}
-		return $this->instances[$table];
+		return self::$instances[$table];
 	}
 
 	public function insert(IEntity $entity) {
