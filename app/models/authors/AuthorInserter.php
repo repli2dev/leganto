@@ -46,8 +46,7 @@ class AuthorInserter extends Worker implements IInserter
 			$input = $this->getArrayFromEntity($entity, "Save");
 			return SimpleTableModel::createTableModel("author")->insert($input);
 		}
-
-
+		
 	}
 	
 }

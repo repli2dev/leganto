@@ -10,23 +10,24 @@
  */
 
 /**
- * This class provides creating of simple deleters
+ * This class provides creating of simple inserters
  *
  * @author		Jan Papousek
  * @author		Jan Drabek
  * @version		$Id$
  */
-class SimpleDeleter implements IDeleter
+class SimpleInserter extends Worker implements IInserter
 {
+
 	/**
 	 * Avaiable instances
 	 *
-	 * @var array of SimpleDeleter
+	 * @var array of SimpleInserter
 	 */
 	private static $instances = array();
 
 	/**
-	 * Table which the deleter works with
+	 * Table which the inserter works with
 	 *
 	 * @var string
 	 */
@@ -42,25 +43,28 @@ class SimpleDeleter implements IDeleter
 	}
 
 	/**
-	 * It returns an instance of IDeleter which deletes entities
-	 * from the specified table.
+	 * It returns an instance of IInserter which inserts entities
+	 * into the specified table.
 	 *
 	 * @param string $table
-	 * @return IDeleter
+	 * @return IInserter
 	 * @throws NullPointerException if the $table is empty
 	 */
-    public static function createDeleter($table) {
+    public static function createInserter($table) {
 		if (empty($table)) {
 			throw new NullPointerException("table");
 		}
 		if (empty($this->instances[$table])) {
-			$this->instances[$table] = new SimpleDeleter($table);
+			$this->instances[$table] = new SimpleInserter($table);
 		}
 		return $this->instances[$table];
 	}
 
-	public function delete($id) {
-		SimpleTableModel::createTableModel($this->table)->delete($id);
+	public function insert(IEntity $entity) {
+		if (!$entity->isReadyToInsert()) {
+			throw new InvalidArgumentException("The entity is not ready to be inserted.");
+		}
+		return SimpleTableModel::createTableModel($this->table)
+			->insert($this->getArrayFromEntity($entity, "Save"));
 	}
-
 }

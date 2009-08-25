@@ -10,23 +10,24 @@
  */
 
 /**
- * This class provides creating of simple deleters
+ * This class provides creating of simple updaters
  *
  * @author		Jan Papousek
  * @author		Jan Drabek
  * @version		$Id$
  */
-class SimpleDeleter implements IDeleter
+class SimpleUpdater extends Worker implements IUpdater
 {
+
 	/**
 	 * Avaiable instances
 	 *
-	 * @var array of SimpleDeleter
+	 * @var array of SimpleUpdater
 	 */
 	private static $instances = array();
 
 	/**
-	 * Table which the deleter works with
+	 * Table which the updater works with
 	 *
 	 * @var string
 	 */
@@ -42,25 +43,29 @@ class SimpleDeleter implements IDeleter
 	}
 
 	/**
-	 * It returns an instance of IDeleter which deletes entities
-	 * from the specified table.
+	 * It returns an instance of IUpdater which updates entities
+	 * in the specified table.
 	 *
 	 * @param string $table
-	 * @return IDeleter
+	 * @return IUpdater
 	 * @throws NullPointerException if the $table is empty
 	 */
-    public static function createDeleter($table) {
+    public static function createUpdater($table) {
 		if (empty($table)) {
 			throw new NullPointerException("table");
 		}
 		if (empty($this->instances[$table])) {
-			$this->instances[$table] = new SimpleDeleter($table);
+			$this->instances[$table] = new SimpleUpdater($table);
 		}
 		return $this->instances[$table];
 	}
 
-	public function delete($id) {
-		SimpleTableModel::createTableModel($this->table)->delete($id);
+	public function update(IEntity $entity) {
+		if (!$entity->isReadyToUpdate()) {
+			throw new InvalidArgumentException("The entity is not ready to be updated.");
+		}
+		return SimpleTableModel::createTableModel($this->table)
+			->update($this->getArrayFromEntity($entity, "Save"));
 	}
 
 }

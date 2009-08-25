@@ -30,13 +30,25 @@ abstract class AEntityFactory implements IEntityFactory, IInsertable, IUpdateabl
 	private $deleter;
 
 	/** @return IInserter */
-	protected function createInserter(){
-		return $this->getInstanceOfClassByName($this->getThisEntityName().'Inserter');
+	protected function createInserter() {
+		$inserter = $this->getThisEntityName().'Inserter';
+		if (class_exists($updater)) {
+			return $this->getInstanceOfClassByName($inserter);
+		}
+		else {
+			return SimpleInserter::createInserter(String::lower($this->getThisEntityName()));
+		}
 	}
 
 	/** @return IUpdater */
 	protected function createUpdater(){
-		return $this->getInstanceOfClassByName($this->getThisEntityName().'Updater');
+		$updater = $this->getThisEntityName().'Updater';
+		if (class_exists($updater)) {
+			return $this->getInstanceOfClassByName($updater);
+		}
+		else {
+			return SimpleUpdater::createUpdater(String::lower($this->getThisEntityName()));
+		}
 	}
 	
 	/** @return ISelector */
@@ -51,8 +63,7 @@ abstract class AEntityFactory implements IEntityFactory, IInsertable, IUpdateabl
 			return $this->getInstanceOfClassByName($deleter);
 		}
 		else {
-			// TODO: discuss
-			return SimpleDeleter::createSimpleDeleter(String::lower($this->getThisEntityName()));
+			return SimpleDeleter::createDeleter(String::lower($this->getThisEntityName()));
 		}
 	}
 
@@ -62,9 +73,6 @@ abstract class AEntityFactory implements IEntityFactory, IInsertable, IUpdateabl
 	}
 
 	private function getInstanceOfClassByName($name){
-		if(!class_exists($name)){
-			throw new InvalidArgumentException("The entity is not ready to be created.");
-		}
 		return new $name;
 	}
 

@@ -51,7 +51,7 @@ class BookSelector extends Worker implements IBookSelector
 	}
 
 	public function search($query) {
-		
+		// TODO
 	}
 
 }
