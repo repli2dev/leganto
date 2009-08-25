@@ -7,6 +7,7 @@ CREATE VIEW `view_book` AS
 		`book_title`.`id_book_title`		AS `id_book_title`,
 		`book_title`.`title`				AS `title`,
 		`book_title`.`subtitle`				AS `subtitle`,
+		`book_title`.`inserted`				AS `inserted`,
 		IFNULL(AVG(`opinion`.`rating`),0)	AS `rating`,
 		COUNT(`opinion`.`id_opinion`)		AS `number_of_opinions`
 	FROM `book`

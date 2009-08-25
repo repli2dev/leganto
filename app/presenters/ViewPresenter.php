@@ -115,8 +115,8 @@ class ViewPresenter extends BasePresenter
 		}
 	}
 
-	public function renderShelf($shelf, $offset = 0, $limit = 100) {
-		if (empty($shelf)) {
+	public function renderShelf($id, $offset = 0, $limit = 10) {
+		if (empty($id)) {
 			$this->forward("404");
 		}
 		if ($limit > 100) {
@@ -124,7 +124,7 @@ class ViewPresenter extends BasePresenter
 		}
 		try {
 			// Shelf
-			$this->getTemplate()->shelf = Leganto::shelves()->getSelector()->find($shelf);
+			$this->getTemplate()->shelf = Leganto::shelves()->getSelector()->find($id);
 			if ($this->getTemplate()->shelf === NULL)  {
 				$this->forward("404");
 			}
