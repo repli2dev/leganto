@@ -5,7 +5,7 @@
 class PostSelector implements ISelector
 {
 
-	const OPINION = 1;
+	const OPINION = 2;
 
 	public function findAll() {
 		return dibi::DataSource("SELECT * FROM [view_post]");
