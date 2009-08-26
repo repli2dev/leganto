@@ -202,6 +202,17 @@ CREATE TABLE `opinion` (
 	UNIQUE (`id_user`,`id_book`)
 ) ENGINE = InnoDB COMMENT = 'hodnocene nazory uzivatelu na knihy';
 
+DROP TABLE IF EXISTS topic;
+CREATE TABLE topic (
+	`id_topic` INT(25) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'identifikator',
+	`id_user` INT(25) UNSIGNED NOT NULL COMMENT 'uzivatel, kteremu patri diskusni prispevek',
+	`name` VARCHAR(255) NOT NULL COMMENT 'nazev diskusniho tematu',
+	`inserted` DATETIME NOT NULL COMMENT 'cas, kdy byla polozka vlozena do systemu',
+	`updated` TIMESTAMP NULL COMMENT 'cas, kdy byla polozka naposledy zmenena',
+	FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`) ON UPDATE CASCADE ON DELETE CASCADE
+) ENGINE = InnoDB COMMENT = 'diskusni temata';
+
+
 DROP TABLE IF EXISTS discussable;
 CREATE TABLE discussable (
 	`id_discussable` INT(25) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'identifikator',

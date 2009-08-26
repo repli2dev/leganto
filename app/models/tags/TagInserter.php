@@ -28,7 +28,7 @@ class TagInserter extends Worker implements IInserter
 			->where("[name] = %s", trim($entity->name))
 			->where("[id_language] = %i", $entity->languageId)
 			->fetch();
-		if (empty($tag)) {
+		if (!empty($tag)) {
 			return $tag["id_tag"];
 		}
 		// It the tag does not exists, insert it

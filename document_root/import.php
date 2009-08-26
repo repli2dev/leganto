@@ -31,9 +31,10 @@ class Import extends EskymoObject
 		"books"			=> FALSE,
 		"tags"			=> FALSE,
 		"tagged"		=> FALSE,
-		"users"			=> TRUE,
-		"opinions"		=> TRUE,
-		"wanted"		=> TRUE
+		"users"			=> FALSE,
+		"opinions"		=> FALSE,
+		"wanted"		=> FALSE,
+		"discussion"	=> TRUE
 	);
 
 	private $language = 1;
@@ -129,6 +130,17 @@ class Import extends EskymoObject
 			echo ".";
 		}
 		dibi::commit();
+	}
+
+	private function importDiscussion() {
+		dibi::activate("source");
+
+		dibi::activate("destination");
+		dibi::begin();
+		$topic = SimpleTableModel::createTableModel("discussable")->insert(array("table" => "topic", "column_id" => "id_topic", "column_name" => "name"));
+		$opinion = SimpleTableModel::createTableModel("discussable")->insert(array("table" => "view_opinion", "column_id" => "id_opinion", "column_name" => "user_nick"));
+		$author = SimpleTableModel::createTableModel("discussable")->insert(array("table" => "view_author", "column_id" => "id_author", "column_name" => "full_name"));
+		
 	}
 
 	private function importLanguage() {

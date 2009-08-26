@@ -20,7 +20,7 @@ class AuthorSelector implements ISelector
 	/* PUBLIC METHODS */
 	
 	public function findAll() {
-		return dibi::dataSource("SELECT * FROM [author]");
+		return dibi::dataSource("SELECT * FROM [view_author]");
 	}
 	
 	/** @return DataSource */
@@ -36,7 +36,7 @@ class AuthorSelector implements ISelector
 	public function find($id) {
 		return Leganto::authors()
 			->fetchAndCreate(
-				dibi::dataSource("SELECT * FROM [author] WHERE [id_author] = %i", $id)
+				dibi::dataSource("SELECT * FROM [view_author] WHERE [id_author] = %i", $id)
 			);
 	}
 

@@ -115,6 +115,27 @@ class ViewPresenter extends BasePresenter
 		}
 	}
 
+	public function renderPosts($id, $type, $offset = 0, $limit = 10) {
+		if ($limit > 100) {
+			$limit = 100;
+		}
+		try {
+			$rows = Leganto::posts()->getSelector()->findAllByIdAndType($id, $type);
+			$this->getTemplate()->posts = array();
+			while($post = Leganto::posts()->fetchAndCreate($rows)) {
+				$this->getTemplate()->posts[] = $post;
+			}
+		}
+		catch(NullPointerException $e) {
+			Debug::processException($e);
+			$this->forward("404");
+		}
+		catch(DibiDriverException $e) {
+			Debug::processException($e);
+			$this->forward("500");
+		}
+	}
+
 	public function renderShelf($id, $offset = 0, $limit = 10) {
 		if (empty($id)) {
 			$this->forward("404");

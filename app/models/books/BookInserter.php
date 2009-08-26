@@ -44,6 +44,7 @@ class BookInserter extends Worker implements IInserter
 			$tagId = Leganto::tags()->getInserter()->insert($tag);
 			Leganto::tags()->setTagged($bookId, $tagId);
 		}
+		// TODO
 	}
 	
 }

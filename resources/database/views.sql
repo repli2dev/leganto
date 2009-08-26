@@ -17,16 +17,19 @@ CREATE VIEW `view_book` AS
 	GROUP BY `book_title`.`id_book_title`;
 
 DROP VIEW IF EXISTS `view_author`;
+CREATE VIEW `view_author` AS
+	SELECT
+		`author`.*,
+		IF (`author`.`type` = 'person', CONCAT(`author`.`first_name`, CONCAT(' ', `author`.`last_name`)), `group_name`) AS `full_name`
+	FROM `author`
+
+DROP VIEW IF EXISTS `view_book_author`;
 CREATE VIEW `view_book_author` AS
 	SELECT
 		`written_by`.`id_book`			AS `id_book`,
-		`author`.`id_author`			AS `id_author`,
-		`author`.`type`					AS `type`,
-		`author`.`group_name`			AS `group_name`,
-		`author`.`first_name`			AS `first_name`,
-		`author`.`last_name`			AS `last_name`
+		`view_author`.*
 	FROM `written_by`
-	INNER JOIN `author` USING(`id_author`);
+	INNER JOIN `view_author` USING(`id_author`);
 
 DROP VIEW IF EXISTS `view_book_tag`;
 CREATE VIEW `view_book_tag` AS
@@ -98,9 +101,18 @@ CREATE VIEW `view_post` AS
 		`user`.`nick`					AS `user_nick`,
 		`discussion`.`id_discussion`	AS `id_discussion`,
 		`discussion`.`name`				AS `discussion_name`,
+		`discussion`.`id_discussable`	AS `id_discussable`,
 		`language`.`id_language`		AS `id_language`,
 		`language`.`locale`				AS `locale`
 	FROM `post`
 	INNER JOIN `language` USING (`id_language`)
 	INNER JOIN `user` USING (`id_user`)
 	INNER JOIN `discussion` USING (`id_discussion`)
+
+DROP VIEW IF EXISTS `view_topic`;
+CREATE VIEW `view_topic` AS
+	SELECT
+		`topic`.*,
+		`user`.`nick`					AS `user_name`
+	FROM `topic`
+	INNER JOIN `user` USING (`id_user`)

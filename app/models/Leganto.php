@@ -41,6 +41,13 @@ class Leganto
 	/**
 	 * @return IEntitykFactory
 	 */
+	public static function posts() {
+		return SimpleEntityFactory::createEntityFactory("post");
+	}
+
+	/**
+	 * @return IEntitykFactory
+	 */
 	public static function shelves() {
 		return SimpleEntityFactory::createEntityFactory("shelf");
 	}
@@ -50,6 +57,13 @@ class Leganto
 	 */
 	public static function tags() {
 		return SimpleEntityFactory::createEntityFactory("tag");
+	}
+
+	/**
+	 * @return IEntitykFactory
+	 */
+	public static function topics() {
+		return SimpleEntityFactory::createEntityFactory("topic");
 	}
 
 	/**
