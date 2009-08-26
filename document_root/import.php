@@ -60,6 +60,9 @@ class Import extends EskymoObject
 
 		dibi::activate("destination");
 		dibi::query("SET CHARACTER SET utf8");
+		
+		dibi::activate("source");
+		dibi::query("SET CHARACTER SET utf8");
 	}
 
 	public function import() {
@@ -134,13 +137,37 @@ class Import extends EskymoObject
 
 	private function importDiscussion() {
 		dibi::activate("source");
-
+		$rows = dibi::query("SELECT * FROM [reader_discussion] ORDER BY type, follow, date")->fetchAll();
 		dibi::activate("destination");
+		$opinions = dibi::query("SELECT * FROM [view_opinion] GROUP BY id_book ORDER BY inserted ")->fetchAssoc("id_book,id_opinion");
 		dibi::begin();
-		$topic = SimpleTableModel::createTableModel("discussable")->insert(array("table" => "topic", "column_id" => "id_topic", "column_name" => "name"));
-		$opinion = SimpleTableModel::createTableModel("discussable")->insert(array("table" => "view_opinion", "column_id" => "id_opinion", "column_name" => "user_nick"));
-		$author = SimpleTableModel::createTableModel("discussable")->insert(array("table" => "view_author", "column_id" => "id_author", "column_name" => "full_name"));
-		
+		$topic = SimpleTableModel::createTableModel("discussable")->insert(array("table" => "topic", "column_id" => "id_topic", "column_name" => "name","inserted" => "now()"));
+		$opinion = SimpleTableModel::createTableModel("discussable")->insert(array("table" => "view_opinion", "column_id" => "id_opinion", "column_name" => "user_nick","inserted" => "now()"));
+		$author = SimpleTableModel::createTableModel("discussable")->insert(array("table" => "view_author", "column_id" => "id_author", "column_name" => "full_name","inserted" => "now()"));
+		$previous = 0;
+		$idDiscussion = 0;
+		foreach($rows as $row){
+			if($row['type'] != "book"){ //TODO: dokončit pro ostatní typy.
+				continue;
+			}
+			if($row['follow'] != $previous){
+				$previous = $row['follow'];
+				Tools::tryError();
+				$opinionRow = ExtraArray::firstValue($opinions[$row['follow']]);
+				if(Tools::catchError($message)){
+					Debug::dump($row);
+					$previous = 0;
+					continue;
+				} 
+				dibi::insert("discussion",array("id_discussable" => $opinion, "id_discussed" => $opinionRow['id_opinion'],"name" => $opinionRow['user_nick'],'inserted' => $row['date']))->execute();
+				$idDiscussion = dibi::insertId();	
+			}
+			if(empty($row['parent']) OR $row['parent'] == '0'){
+				$row['parent'] = NULL;
+			}
+			dibi::insert("post",array("id_post" => $row['id'],"id_discussion" => $idDiscussion, "id_user" => $row['user'], "id_language" => $this->language,"reply" => $row['parent'],"subject" => $row["title"], "content" => $row["text"], "inserted" => $row["date"]))->execute();
+		}
+		dibi::commit();
 	}
 
 	private function importLanguage() {

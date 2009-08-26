@@ -4,14 +4,14 @@
 	{foreach $posts AS $post}
 	<post>
 		<id>{$post->getId()}</id>
-		<language>{$post->language}</language>
+		<language>{$post->locale}</language>
 		<user>
 			<id>{$post->user}</id>
 			<name>{$post->userName}</name>
 		</user>
 		<inserted>{$post->inserted}</inserted>
-		<subject>{$post->subject}</subject>
-		<reply-to>{$post->reply}</reply-to>
+		{if $post->subject}<subject>{$post->subject}</subject>{/if}
+		{if $post->reply}<reply-to>{$post->reply}</reply-to>{/if}
 		<content>{$post->content}</content>
 	</post>
 	{/foreach}

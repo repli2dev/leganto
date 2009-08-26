@@ -20,6 +20,12 @@ abstract class AEntity extends EskymoObject implements IEntity
 	private $id;
 
 	/* PUBLIC METHODS */
+	
+	public function __construct(array $array = NULL){
+		if(!empty($array)){
+			$this->loadDataFromArray($array);
+		}
+	}
 
 	public function getId() {
 		return $this->id;

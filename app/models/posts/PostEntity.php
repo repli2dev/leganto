@@ -49,6 +49,8 @@ class PostEntity extends AEntity
 
 	/**
 	 * @Required
+	 * @Load(id_language)
+	 * @Save(id_language)
 	 */
 	public $language;
 

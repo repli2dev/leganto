@@ -56,6 +56,27 @@ class AuthorEntity extends AEntity
 	 * @Required
 	 */
 	public $type;
+	
+	/* PUBLIC METHODS */
+	
+	public function equals(EskymoObject $object){
+		if(!($object instanceof AuthorEntity)){
+			return FALSE;
+		}
+				
+		if($this->type != $object->type){
+			return FALSE;
+		}
+		
+		if($this->type == self::GROUP && $this->groupname == $object->groupname){
+			return TRUE;
+		}
+		
+		if($this->type == self::PERSON && $this->firstname == $object->firstname && $this->lastname == $object->lastname){
+			return TRUE;
+		}
+		return FALSE;
+	}
 
 	/* PRIVATE ATTRIBUTES */
 	private $books;

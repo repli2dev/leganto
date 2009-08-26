@@ -23,13 +23,25 @@ class AuthorSelector implements ISelector
 		return dibi::dataSource("SELECT * FROM [view_author]");
 	}
 	
-	/** @return DataSource */
 	public function findAllByBook(BookEntity $book) {
 		if (empty($book)) {
 			throw new NullPointerException("book");
 		}
 		return dibi::dataSource("SELECT * FROM [view_book_author]")
 			->where("[id_book] = %i", $book->bookNode);
+	}
+	
+	/**
+	 * 
+	 * @param object $books books ids
+	 * @return DibiDataSource
+	 */
+	public function findAllByBooks(array $books) {
+		if (empty($books)) {
+			throw new NullPointerException("book");
+		}
+		return dibi::dataSource("SELECT * FROM [view_book_author]")
+			->where("[id_book] IN %l", $books);
 	}
 
 	/** @return AuthorEntity */

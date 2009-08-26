@@ -24,7 +24,7 @@ class BasePresenter extends Presenter
 	/* PROTECTED METHODS */
 
 	protected function beforeRender() {
-//		Header("Content-type: text/xml");
+		//Header("Content-type: text/xml");
 	}
 
 	protected function createTemplate() {

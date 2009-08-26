@@ -72,6 +72,14 @@ class BookEntity extends AEntity
 	public function addTag(TagEntity $tag) {
 		$this->tags[] = trim($tag);
 	}
+	
+	public function getAuthors(){
+		return $this->authors;
+	}
+	
+	public function getTags(){
+		return $this->tags;
+	}
 
 	public function isReadyToInsert() {
 		foreach ($this->authors AS $author) {
