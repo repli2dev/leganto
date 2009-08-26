@@ -54,6 +54,11 @@ class BookEntity extends AEntity
 	 */
 	public $rating;
 
+	/**
+	 * @Skip(Save)
+	 */
+	public $similarity;
+
 	public $subtitle;
 
 	/**

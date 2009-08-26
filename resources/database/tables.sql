@@ -257,6 +257,7 @@ CREATE TABLE `tag` (
 	`id_tag` INT(25) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'identifikator',
 	`id_language` INT(25) UNSIGNED NOT NULL COMMENT 'jazyk, do nehoz klicove slovo patri',
 	`name` VARCHAR(255) NOT NULL COMMENT 'samotne klicove slovo',
+	`updated` TIMESTAMP NULL COMMENT 'cas, kdy byla polozka naposledy zmenena',
 	FOREIGN KEY (`id_language`) REFERENCES `language` (`id_language`) ON UPDATE CASCADE ON DELETE CASCADE
 ) ENGINE = InnoDB COMMENT = 'klicova slova pouzita k oznaceni knih';
 
@@ -265,6 +266,7 @@ CREATE TABLE `tagged` (
 	`id_tagged` INT(25) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'identifikator',
 	`id_tag` INT(25) UNSIGNED NOT NULL COMMENT 'klicove slovo',
 	`id_book` INT(25) UNSIGNED NOT NULL COMMENT 'oznacena kniha',
+	`updated` TIMESTAMP NULL COMMENT 'cas, kdy byla polozka naposledy zmenena',
 	FOREIGN KEY (`id_tag`) REFERENCES `tag` (`id_tag`) ON UPDATE CASCADE ON DELETE CASCADE,
 	FOREIGN KEY (`id_book`) REFERENCES `book` (`id_book`) ON UPDATE CASCADE ON DELETE CASCADE
 ) ENGINE = InnoDB COMMENT = 'vztah mezi knihami a klicovymi slovy'
@@ -275,6 +277,7 @@ CREATE TABLE `book_similarity` (
 	`id_book_from` INT(25) UNSIGNED NOT NULL COMMENT 'kniha, u ktere hledam podobnost',
 	`id_book_to` INT(25) UNSIGNED NOT NULL COMMENT 'kniha, u ktere je zavedena podobnost',
 	`value` DECIMAL(5,2) NOT NULL COMMENT 'hodnota podobnosti',
+	`updated` TIMESTAMP NULL COMMENT 'cas, kdy byla polozka naposledy zmenena',
 	FOREIGN KEY (`id_book_from`) REFERENCES `book` (`id_book`) ON UPDATE CASCADE ON DELETE CASCADE,
 	FOREIGN KEY (`id_book_to`) REFERENCES `book` (`id_book`) ON UPDATE CASCADE ON DELETE CASCADE
 ) ENGINE = InnoDB COMMENT = 'podobnost knih'

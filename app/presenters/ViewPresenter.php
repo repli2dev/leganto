@@ -151,11 +151,32 @@ class ViewPresenter extends BasePresenter
 			}
 
 			// Books
-			$rows = Leganto::books()->getSelector()->findAllByShelf($this->getTemplate()->shelf)->applyLimit($limit, $offset);;
-			$this->getTemplate()->books = array();
-			while($book = Leganto::books()->fetchAndCreate($rows)) {
-				$this->getTemplate()->books[] = $book;
+			$rows = Leganto::books()->getSelector()->findAllByShelf($this->getTemplate()->shelf)->applyLimit($limit, $offset);
+			$this->getTemplate()->books = Leganto::books()->fetchAndCreateAll($rows);
+		}
+		catch(DibiDriverException $e) {
+			Debug::processException($e);
+			$this->forward("500");
+		}
+	}
+
+	public function similarBooks($book, $limit = 0, $offset = 10) {
+		if (empty($book)) {
+			$this->forward("404");
+		}
+		if ($limit > 100) {
+			$limit = 100;
+		}
+		try {
+			// Book
+			$this->getTemplate()->book = Leganto::books()->getSelector()->find($book);
+			if ($this->getTemplate()->book === NULL)  {
+				$this->forward("404");
 			}
+
+			// Similar books
+			$rows = Leganto::books()->getSelector()->findAllSimilar($this->getTemplate()->book);
+			$this->getTemplate->similar = Leganto::books()->fetchAndCreateAll();
 		}
 		catch(DibiDriverException $e) {
 			Debug::processException($e);

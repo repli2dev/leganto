@@ -24,12 +24,6 @@ class AuthorEntity extends AEntity
 	/* PUBLIC ATTRIBUTES */
 
 	/**
-	 * @Skip(Save)
-	 * @Load(id_author)
-	 */
-	public $authorId;
-
-	/**
 	 * @Load(first_name)
 	 * @Save(first_name)
 	 */

@@ -27,6 +27,9 @@ class BookSelector implements ISelector
 		if (empty($author)) {
 			throw new NullPointerException("author");
 		}
+		if ($author->getId() == NULL) {
+			throw new NullPointerException("author::id");
+		}
 		return dibi::dataSource("SELECT * FROM [view_author_book] WHERE [id_author] = %i", $author->getId())
 				->orderBy(array("id_book","title"));
 	}
@@ -37,6 +40,16 @@ class BookSelector implements ISelector
 		}
 		return dibi::dataSource("SELECT * FROM [view_shelf_book] WHERE [id_shelf] = %i", $shelf->getId())
 				->orderBy(array("id_shelf","title"));
+	}
+
+	public function findAllSimilar(BookEntity $book) {
+		if (empty($book)) {
+			throw new NullPointerException("book");
+		}
+		if (empty($book->bookNode)) {
+			throw new NullPointerException("book::bookNode");
+		}
+		return dibi::dataSource("SELECT * FROM [view_similar_book] WHERE [id_book_from] = %i", $book->bookNode);
 	}
 
 	public function findOthers(BookEntity $book) {
