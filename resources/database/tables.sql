@@ -216,7 +216,7 @@ CREATE TABLE topic (
 DROP TABLE IF EXISTS discussable;
 CREATE TABLE discussable (
 	`id_discussable` INT(25) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'identifikator',
-	`table` INT(25) UNSIGNED NOT NULL COMMENT 'nazev tabulky, ktera obsahuje entity, ktere mohou byt diskutovany',
+	`table` VARCHAR(100) NOT NULL COMMENT 'nazev tabulky, ktera obsahuje entity, ktere mohou byt diskutovany',
 	`column_id` VARCHAR(100) NOT NULL COMMENT 'nazev sloupce, ktery obsahuje ID entity',
 	`column_name` VARCHAR(255) NOT NULL COMMENT 'nazev sloupce, ze ktereho se bere nazev diskuse',
 	`inserted` DATETIME NOT NULL COMMENT 'cas, kdy byla polozka vlozena do systemu',
