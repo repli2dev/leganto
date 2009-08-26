@@ -20,7 +20,7 @@ class BookEntity extends AEntity
 	/* PUBLIC ATTRIBUTES */
 
 	/**
-	 * @Skip(Save)
+	 * @Save(id_book)
 	 * @Load(id_book)
 	 */
 	public $bookNode;
@@ -80,7 +80,7 @@ class BookEntity extends AEntity
 	}
 
 	public function addTagToInsert(TagEntity $tag) {
-		$this->tagsToInsert[] = trim($tag);
+		$this->tagsToInsert[] = $tag;
 	}
 	
 	public function getAuthorsToInsert(){
@@ -92,17 +92,17 @@ class BookEntity extends AEntity
 	}
 
 	public function isReadyToInsert() {
-		foreach ($this->authors AS $author) {
+		foreach ($this->authorsToInsert AS $author) {
 			if (!$author->isReadyToInsert()) {
 				return FALSE;
 			}
 		}
-		foreach ($this->tags AS $tag) {
+		foreach ($this->tagsToInsert AS $tag) {
 			if (!$tag->isReadyToInsert()) {
 				return FALSE;
 			}
 		}
-		return parent::isReadyToInsert() && !empty($this->authors) && !empty($this->tags);
+		return parent::isReadyToInsert() && !empty($this->authorsToInsert) && !empty($this->tagsToInsert);
 	}
 
 	/* PROTECTED METHODS */

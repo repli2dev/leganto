@@ -30,6 +30,15 @@ class TagEntity extends AEntity
 	 * @Required
 	 */
 	public $name;
+	
+	/* PUBLIC METHODS */
+	
+	public function equals(EskymoObject &$object){
+		if(!($object instanceof TagEntity)){
+			return FALSE;
+		}
+		return ($this->name == $object->name && $this->languageId == $object->languageId);
+	}
 
 	/* PROTETED METHODS */
 

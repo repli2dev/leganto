@@ -29,7 +29,7 @@ class TagSelector implements ISelector
 			throw new NullPointerException("book");
 		}
 		return dibi::dataSource("SELECT * FROM [view_book_tag]")
-			->where("[id_book] = %i", $book->getId())
+			->where("[id_book] = %i", $book->bookNode)
 			->where("[id_language] = %i", $book->languageId)
 			->orderBy("name");
 	}

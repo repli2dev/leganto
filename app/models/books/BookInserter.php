@@ -27,42 +27,45 @@ class BookInserter extends Worker implements IInserter
 			throw new InvalidArgumentException("The entity is not ready to be inserted.");
 		}
 		// First I try to find the book
-		$source = Leganto::books()->getInserter()->findAll()
+		$source = Leganto::books()->getSelector()->findAll()
 			->where("[title] = %s", $entity->title)
 			->where("[id_language] = %s", $entity->languageId);
 		if(isset($entity->subtitle)){
 			$source->where("[subtitle] = %s",$entity->subtitle);
 		}	
 		$books = $source->fetchAll();
-		// Check for duplicity
-		$bookIds = array();
-		foreach($books as $book){
-			$bookIds[] = $book['id_book'];
-		}
-		$bookAuthors = Leganto::authors()->getSelector()->findAllByBooks($bookIds)
-			->fetchAssoc("id_book,id_author");
-		foreach($bookAuthors as $bookId => $authors){
-			$realBook = NULL;
-			// FIXME: je naprosto korektni? Neexistuje kniha, u ktere by to selhalo?
-			foreach($authors as $author){
-				foreach($entity->getAuthors() as $newAuthor){
-					if($newAuthor->equals(new AuthorEntity($author))){
-						$realBook = $bookId;
-					} 
-					break;
+		if(!empty($books)){
+			// Check for duplicity
+			$bookIds = array();
+			foreach($books as $book){
+				$bookIds[] = $book['id_book'];
+			}
+			$bookAuthors = Leganto::authors()->getSelector()->findAllByBooks($bookIds)
+				->fetchAssoc("id_book,id_author");
+			foreach($bookAuthors as $bookId => $authors){
+				$realBook = NULL;
+				// FIXME: je naprosto korektni? Neexistuje kniha, u ktere by to selhalo?
+				foreach($authors as $author){
+					foreach($entity->getAuthorsToInsert() as $newAuthor){
+						if($newAuthor->equals(new AuthorEntity($author->getArrayCopy()))){
+							$realBook = $bookId;
+						} 
+						break;
+					}
+					if(!empty($realBook)){
+						break;
+					}
 				}
 				if(!empty($realBook)){
 					break;
 				}
 			}
-			if(!empty($realBook)){
-				break;
-			}
 		}
 		
 		// Save the general book entity and title
 		if(empty($realBook)){
-			$bookId = SimpleTableModel::createTableModel("book")->insert(array("inserted" => new DibiVariable("now()")));
+			$bookId = SimpleTableModel::createTableModel("book")->insert(array("inserted" => new DibiVariable("now()",'sql')));
+			$entity->bookNode = $bookId;
 			$bookTitleId = SimpleTableModel::createTableModel("book_title")->insert($this->getArrayFromEntity($entity, "Save"));
 		} else {
 			$bookId = $realBook;
@@ -75,7 +78,7 @@ class BookInserter extends Worker implements IInserter
 			
 		}
 		// Save book author
-		foreach ($entity->getAuthors() AS $author) {
+		foreach ($entity->getAuthorsToInsert() AS $author) {
 			$authodId = Leganto::authors()->getInserter()->insert($author);
 			SimpleTableModel::createTableModel("written_by")->insert(array(
 				"id_book"	=> $bookId,
@@ -83,9 +86,9 @@ class BookInserter extends Worker implements IInserter
 			));
 		}
 		// Save tags
-		foreach($entity->getTags() AS $tag) {
+		foreach($entity->getTagsToInsert() AS $tag) {
 			$tagId = Leganto::tags()->getInserter()->insert($tag);
-			Leganto::tags()->setTagged($bookId, $tagId);
+			Leganto::tags()->getUpdater()->setTagged($bookId, $tagId);
 		}
 		
 		return $bookTitleId;

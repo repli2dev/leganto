@@ -26,5 +26,11 @@ interface IEntityFactory
 	 * @return IEntity
 	 */
 	function fetchAndCreate(IDataSource $source);
+	
+	/**
+	 * 
+	 * @return array 
+	 */
+	function fetchAndCreateAll(IDataSource $source);
 
 }
