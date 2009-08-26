@@ -142,7 +142,8 @@ CREATE TABLE `written_by` (
 	`id_book` INT(25) UNSIGNED NOT NULL COMMENT 'napsana kniha',
 	`id_author` INT(25) UNSIGNED NOT NULL COMMENT 'spisovatel, ktery knihu napsal',
 	FOREIGN KEY (`id_book`) REFERENCES `book` (`id_book`) ON UPDATE CASCADE ON DELETE CASCADE,
-	FOREIGN KEY (`id_author`) REFERENCES `author` (`id_author`) ON UPDATE CASCADE ON DELETE CASCADE
+	FOREIGN KEY (`id_author`) REFERENCES `author` (`id_author`) ON UPDATE CASCADE ON DELETE CASCADE,
+	UNIQUE (`id_book`, `id_author`)
 ) ENGINE = InnoDB COMMENT = 'vztah mezi spisovateli a knihami';
 
 DROP TABLE IF EXISTS `publisher`;
