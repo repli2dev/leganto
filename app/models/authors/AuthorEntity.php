@@ -59,7 +59,7 @@ class AuthorEntity extends AEntity
 	
 	/* PUBLIC METHODS */
 	
-	public function equals(EskymoObject $object){
+	public function equals(EskymoObject &$object){
 		if(!($object instanceof AuthorEntity)){
 			return FALSE;
 		}

@@ -62,23 +62,33 @@ class BookEntity extends AEntity
 	public $title;
 
 	public $updated;
+	
+	/**
+	 * @Skip
+	 */
+	private $authorsToInsert = array();
+	
+	/**
+	 * @Skip
+	 */
+	private $tagsToInsert = array();
 
 	/* PUBLIC METHODS */
 
-	public function addAuthor(AuthorEntity $author) {
-		$this->authors[] = $author;
+	public function addAuthorToInsert(AuthorEntity $author) {
+		$this->authorsToInsert[] = $author;
 	}
 
-	public function addTag(TagEntity $tag) {
-		$this->tags[] = trim($tag);
+	public function addTagToInsert(TagEntity $tag) {
+		$this->tagsToInsert[] = trim($tag);
 	}
 	
-	public function getAuthors(){
-		return $this->authors;
+	public function getAuthorsToInsert(){
+		return $this->authorsToInsert;
 	}
 	
-	public function getTags(){
-		return $this->tags;
+	public function getTagsToInsert(){
+		return $this->tagsToInsert;
 	}
 
 	public function isReadyToInsert() {
