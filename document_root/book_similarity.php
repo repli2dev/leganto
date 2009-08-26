@@ -1,4 +1,16 @@
 <?php
+require_once(dirname(__FILE__) . "/constants.php");
+
+define("LIMIT_OF_TAGS", 5);
+define("LIMIT_OF_RELATIVE_VALUE", 0.25);
+define("LIMIT_OF_ABSOLUTE_VALUE", 3);
+
+echo "\nLIMIT OF TAGS: " . LIMIT_OF_TAGS;
+echo "\nLIMIT OF ABSOLUTE VALUE: " . LIMIT_OF_ABSOLUTE_VALUE;
+echo "\nLIMIT OF RELATIVE VALUE: " . LIMIT_OF_RELATIVE_VALUE;
+
+echo "\n";
+
 function key_compare_func($key1, $key2)
 {
     if ($key1 == $key2)
@@ -8,16 +20,6 @@ function key_compare_func($key1, $key2)
     else
         return -1;
 }
-
-
-// absolute filesystem path to the web root
-define('WWW_DIR', dirname(__FILE__));
-
-// absolute filesystem path to the application root
-define('APP_DIR', WWW_DIR . '/../app');
-
-// absolute filesystem path to the libraries
-define('LIBS_DIR', WWW_DIR . '/../libs');
 
 require_once LIBS_DIR . '/Nette/loader.php';
 
@@ -29,32 +31,59 @@ $loader->register();
 
 Debug::enable(Debug::DEVELOPMENT);
 
-$config = new Config();
-$config->add("host", "databases.savana.cz:13307");
-$config->add("database", "preader_devel");
-$config->add("username", "preader_devel");
-$config->add("password", "Hublu.Mer");
+Environment::loadConfig(APP_DIR . '/config.ini');
 
-dibi::connect($config);
+dibi::connect(Environment::getConfig("database"));
 
-$books = dibi::query("SELECT * FROM [book] LIMIT 0, 100")->fetchPairs("id_book","id_book");
-$tags = dibi::query("SELECT * FROM [view_book_tag]")->fetchAssoc("id_book,id_tag");
+$books = dibi::query("SELECT * FROM [tagged] GROUP BY [id_book] HAVING COUNT([id_tag]) >= %i", LIMIT_OF_TAGS)->fetchPairs("id_book","id_book");
+$tags = dibi::query("SELECT [id_book], [id_tag] FROM [tagged] WHERE [id_book] IN %l", $books)->fetchAssoc("id_book,id_tag");
+
+echo "\nNUMBER OF SELECTED BOOKS: ".count($books);
+echo "\n\n";
 
 dibi::query("TRUNCATE TABLE [book_similarity]");
 
+$together = 0;
+$insertedBooks = 0;
+$maximum = 0;
+$minimum = 0;
+
 foreach ($books AS $from) {
+	echo ".";
+	$fromTags = $tags[$from];
+	$inserted = 0;
 	foreach($books AS $to) {
-		$fromTags = $tags[$from];
-		$toTags = empty($tags[$to]) ? array() : $tags[$to]; 
-		if (empty($fromTags)) {
-			$value = 0;
+		if ($from == $to) {
+			continue;
 		}
-		else {
-			$value = count(array_intersect_ukey($fromTags, $toTags,'key_compare_func'))/count($fromTags);
+		$toTags = $tags[$to];
+		$intersect = array_intersect_ukey($fromTags, $toTags,'key_compare_func');
+		if ($intersect < LIMIT_OF_ABSOLUTE_VALUE) {
+			continue;
+		}
+		$value = count($intersect)/count($fromTags);
+		if ($value < LIMIT_OF_RELATIVE_VALUE) {
+			continue;
 		}
 		dibi::insert("book_similarity", array("id_book_from" => $from, "id_book_to" => $to, "value" => $value))->execute();
+		$inserted++;
 	}
+	if ($inserted > $maximum) {
+		$maximum = $inserted;
+	}
+	if ($inserted < $minimum) {
+		$minimum = $inserted;
+	}
+	if ($inserted > 0) {
+		$insertedBooks++;
+	}
+	$together += $inserted;
 }
 
-die("DONE\n");
+echo "\nNUMBER OF INSERTED ROWS: ".$together;
+echo "\nNUMBER OF INSERTED BOOKS: ".$insertedBooks;
+echo "\nMAXIMUM OF SIMILAR BOOKS: ". $maximum;
+echo "\nMINUMUM OF SIMILAR BOOKS: ". $minimum;
+
+die("\nDONE\n");
 ?>
