@@ -175,7 +175,7 @@ class ViewPresenter extends BasePresenter
 			}
 
 			// Similar books
-			$rows = Leganto::books()->getSelector()->findAllSimilar($this->getTemplate()->book);
+			$rows = Leganto::books()->getSelector()->findAllSimilar($this->getTemplate()->book)->applyLimit($limit, $offset);
 			$this->getTemplate->similar = Leganto::books()->fetchAndCreateAll();
 		}
 		catch(DibiDriverException $e) {
