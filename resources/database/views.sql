@@ -117,8 +117,8 @@ CREATE VIEW `view_topic` AS
 	FROM `topic`
 	INNER JOIN `user` USING (`id_user`)
 
-DROP VIEW IF EXISTS `view_similar_books`;
-CREATE VIEW `view_similar_books` AS
+DROP VIEW IF EXISTS `view_similar_book`;
+CREATE VIEW `view_similar_book` AS
 	SELECT
 		`view_book`.*,
 		`book_similarity`.`id_book_from`,

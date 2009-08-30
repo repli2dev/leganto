@@ -35,13 +35,23 @@ Environment::loadConfig(APP_DIR . '/config.ini');
 
 dibi::connect(Environment::getConfig("database"));
 
+$last = dibi::query("SELECT MAX([updated]) AS [last] FROM [book_similarity]")->fetch();
+
+echo "\nLAST UPDATED: ".(empty($last["last"]) ? "NEVER" : $last["last"]);
+
 $books = dibi::query("SELECT * FROM [tagged] GROUP BY [id_book] HAVING COUNT([id_tag]) >= %i", LIMIT_OF_TAGS)->fetchPairs("id_book","id_book");
+$source = dibi::dataSource("SELECT * FROM [tagged] GROUP BY [id_book] HAVING COUNT([id_tag]) >= %i ORDER BY [updated] DESC", LIMIT_OF_TAGS);
+if (!empty($last["last"])) {
+	$source->where("[updated] > %t", $last["last"]);
+}
+$updatedBooks = $source->fetchPairs("id_book","id_book");
 $tags = dibi::query("SELECT [id_book], [id_tag] FROM [tagged] WHERE [id_book] IN %l", $books)->fetchAssoc("id_book,id_tag");
 
 echo "\nNUMBER OF SELECTED BOOKS: ".count($books);
+echo "\nNUMBER OF BOOKS TO UPDATE: ".count($updatedBooks);
 echo "\n\n";
 
-dibi::query("TRUNCATE TABLE [book_similarity]");
+dibi::query("DELETE FROM [book_similarity] WHERE [id_book_to] IN %l", $updatedBooks, " OR [id_book_from] IN %l", $updatedBooks);
 
 $together = 0;
 $insertedBooks = 0;
@@ -49,11 +59,13 @@ $maximum = 0;
 $minimum = 0;
 
 foreach ($books AS $from) {
-	echo ".";
 	$fromTags = $tags[$from];
 	$inserted = 0;
 	foreach($books AS $to) {
 		if ($from == $to) {
+			continue;
+		}
+		if (!in_array($from, $updatedBooks) && !in_array($to, $updatedBooks)) {
 			continue;
 		}
 		$toTags = $tags[$to];

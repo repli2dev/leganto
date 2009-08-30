@@ -1,12 +1,5 @@
 <?php
-// absolute filesystem path to the web root
-define('WWW_DIR', dirname(__FILE__));
-
-// absolute filesystem path to the application root
-define('APP_DIR', WWW_DIR . '/../app');
-
-// absolute filesystem path to the libraries
-define('LIBS_DIR', WWW_DIR . '/../libs');
+require_once(dirname(__FILE__) . "/constants.php");
 
 require_once LIBS_DIR . '/Nette/loader.php';
 
@@ -29,12 +22,12 @@ class Import extends EskymoObject
 		"role"			=> FALSE,
 		"authors"		=> FALSE,
 		"books"			=> FALSE,
-		"tags"			=> FALSE,
-		"tagged"		=> FALSE,
+		"tags"			=> TRUE,
+		"tagged"		=> TRUE,
 		"users"			=> FALSE,
 		"opinions"		=> FALSE,
 		"wanted"		=> FALSE,
-		"discussion"	=> TRUE
+		"discussion"	=> FALSE
 	);
 
 	private $language = 1;
@@ -50,7 +43,7 @@ class Import extends EskymoObject
 		$source->add("password", "terka90");
 
 		$destination = new Config();
-		$destination->add("host", "databases.savana.cz:13307");
+		$destination->add("host", "mysql5-innodb");
 		$destination->add("database", "preader_devel");
 		$destination->add("username", "preader_devel");
 		$destination->add("password", "Hublu.Mer");
@@ -60,7 +53,7 @@ class Import extends EskymoObject
 
 		dibi::activate("destination");
 		dibi::query("SET CHARACTER SET utf8");
-		
+
 		dibi::activate("source");
 		dibi::query("SET CHARACTER SET utf8");
 	}
