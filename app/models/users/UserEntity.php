@@ -53,6 +53,11 @@ class UserEntity extends AEntity
 
 	public $sex;
 
+	/**
+	 * @Skip(Save)
+	 */
+	public $similarity;
+
 	/** @Required */
 	public $type;
 

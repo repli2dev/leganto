@@ -22,7 +22,14 @@ class UserSelector extends Worker implements ISelector
 	public function findAll() {
 		return dibi::dataSource("SELECT * FROM [user]");
 	}
-	
+
+	public function findAllSimilar(UserEntity $user) {
+		if ($user->getId() == NULL) {
+			throw new NullPointerException("user:id");
+		}
+		return dibi::dataSource("SELECT * FROM [view_similar_user] WHERE [id_user_from] = %i", $user->getId());
+	}
+
 	/** @return UserEntity */
 	public function find($id) {
 		return Leganto::users()

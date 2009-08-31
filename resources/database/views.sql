@@ -97,8 +97,8 @@ CREATE VIEW `view_similar_opinion` AS
 		`user_similarity`.`id_user_from`	AS `id_user_from`,
 		`view_opinion`.*
 	FROM `view_opinion`
-	LEFT JOIN `user_similarity` ON `view_opinion`.`id_user` = `user_similarity`.`id_user_from`
-	ORDER BY `user_similarity`.`value`, `inserted` DESC;
+	LEFT JOIN `user_similarity` ON `view_opinion`.`id_user` = `user_similarity`.`id_user_to`
+	ORDER BY `user_similarity`.`value` DESC, `inserted` DESC;
 
 DROP VIEW IF EXISTS `view_post`;
 CREATE VIEW `view_post` AS
@@ -141,9 +141,9 @@ CREATE VIEW `view_similar_book` AS
 DROP VIEW IF EXISTS `view_similar_user`;
 CREATE VIEW `view_similar_user` AS
 	SELECT
-		`view_user`.*,
+		`user`.*,
 		`user_similarity`.`id_user_from`,
 		`user_similarity`.`value`	AS `similarity`
 	FROM `user_similarity`
-	INNER JOIN `view_user` ON `user_similarity`.`id_user_to` = `view_user`.`id_user`
+	INNER JOIN `user` ON `user_similarity`.`id_user_to` = `user`.`id_user`
 	ORDER BY `similarity` DESC

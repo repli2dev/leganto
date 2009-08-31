@@ -107,7 +107,7 @@ class ViewPresenter extends BasePresenter
 				$rows = Leganto::opinions()->getSelector()->findAllByBook($this->getTemplate()->book)->applyLimit($limit, $offset);
 			}
 			else {
-				$userEntity = Leganto::users()->findOne($user);
+				$userEntity = Leganto::users()->getSelector()->find($user);
 				if ($userEntity == NULL) {
 					$this->forward("404");
 				}
@@ -170,6 +170,7 @@ class ViewPresenter extends BasePresenter
 	}
 
 	public function renderSimilarBooks($book, $limit = 0, $offset = 10) {
+		// TODO
 		if (empty($book)) {
 			$this->forward("404");
 		}
@@ -186,6 +187,29 @@ class ViewPresenter extends BasePresenter
 			// Similar books
 			$rows = Leganto::books()->getSelector()->findAllSimilar($this->getTemplate()->book)->applyLimit($offset,$limit);
 			$this->getTemplate()->similar = Leganto::books()->fetchAndCreateAll($rows);
+//		}
+//		catch(DibiDriverException $e) {
+//			Debug::processException($e);
+//			$this->forward("500");
+//		}
+	}
+
+	public function renderSimilarUsers($user, $limit = 0, $offset = 10) {
+		if (empty($user)) {
+			throw new Exception();
+			$this->forward("404");
+		}
+		if ($limit > 100) {
+			$limit = 100;
+		}
+//		try {
+			$this->getTemplate()->user = Leganto::users()->getSelector()->find($user);
+			if ($user == NULL) {
+				throw new Exception();
+				$this->forward("404");
+			}
+			$rows = Leganto::users()->getSelector()->findAllSimilar($this->getTemplate()->user)->applyLimit($offset,$limit);
+			$this->getTemplate()->users = Leganto::users()->fetchAndCreateAll($rows);
 //		}
 //		catch(DibiDriverException $e) {
 //			Debug::processException($e);
