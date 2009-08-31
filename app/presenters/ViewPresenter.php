@@ -81,7 +81,7 @@ class ViewPresenter extends BasePresenter
 		}
 	}
 
-	public function renderOpinions($book, $offset = 0, $limit = 10) {
+	public function renderOpinions($book, $user = NULL, $offset = 0, $limit = 10) {
 		if (empty($book)) {
 			$this->forward("404");
 		}
@@ -103,7 +103,16 @@ class ViewPresenter extends BasePresenter
 			}
 
 			// Opinions
-			$rows = Leganto::opinions()->getSelector()->findAllByBook($this->getTemplate()->book)->applyLimit($limit, $offset);
+			if (empty($user)) {
+				$rows = Leganto::opinions()->getSelector()->findAllByBook($this->getTemplate()->book)->applyLimit($limit, $offset);
+			}
+			else {
+				$userEntity = Leganto::users()->findOne($user);
+				if ($userEntity == NULL) {
+					$this->forward("404");
+				}
+				$rows = Leganto::opinions()->getSelector()->findAllByBook($this->getTemplate()->book, $userEntity)->applyLimit($limit, $offset);
+			}
 			$this->getTemplate()->opinions = array();
 			while ($opinion = Leganto::opinions()->fetchAndCreate($rows)) {
 				$this->getTemplate()->opinions[] = $opinion;
