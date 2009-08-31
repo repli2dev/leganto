@@ -16,11 +16,19 @@ Environment::loadConfig(APP_DIR . '/config.ini');
 dibi::connect(Environment::getConfig("database"));
 
 echo "\n Dropping table with similarity... ";
-dibi::query("DROP TABLE book_similarity");
+dibi::query("DROP TABLE IF EXISTS [book_similarity]");
 echo dibi::$elapsedTime;
 
-echo "\n Copying similarity view... ";
-dibi::query("CREATE TABLE book_similarity SELECT * FROM view_book_similarity WHERE 1");
+echo "\n Create table with similarity... ";
+dibi::query("CREATE TABLE [book_similarity] SELECT
+                `from`.`id_book` AS `id_book_from`,
+                `to`.`id_book`  AS `id_book_to`,
+                2 * COUNT(*) /(SELECT COUNT(`id_tag`) FROM `tagged` WHERE `id_book` = `from`.`id_book` OR `id_book` = `to`.`id_book`) AS `value`
+        FROM `tagged` AS `from`
+        INNER JOIN `tagged` AS `to` ON `to`.`id_tag` = `from`.`id_tag`
+        WHERE `from`.`id_book` != `to`.`id_book`
+        GROUP BY `from`.`id_book`, `to`.`id_book`;
+");
 echo dibi::$elapsedTime;
  
 die("\nDONE\n");
