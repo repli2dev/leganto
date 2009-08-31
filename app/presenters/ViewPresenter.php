@@ -104,14 +104,14 @@ class ViewPresenter extends BasePresenter
 
 			// Opinions
 			if (empty($user)) {
-				$rows = Leganto::opinions()->getSelector()->findAllByBook($this->getTemplate()->book)->applyLimit($limit, $offset);
+				$rows = Leganto::opinions()->getSelector()->findAllByBook($this->getTemplate()->book)->applyLimit($offset,$limit);
 			}
 			else {
 				$userEntity = Leganto::users()->getSelector()->find($user);
 				if ($userEntity == NULL) {
 					$this->forward("404");
 				}
-				$rows = Leganto::opinions()->getSelector()->findAllByBook($this->getTemplate()->book, $userEntity)->applyLimit($limit, $offset);
+				$rows = Leganto::opinions()->getSelector()->findAllByBook($this->getTemplate()->book, $userEntity)->applyLimit($offset,$limit);
 			}
 			$this->getTemplate()->opinions = array();
 			while ($opinion = Leganto::opinions()->fetchAndCreate($rows)) {
@@ -160,7 +160,7 @@ class ViewPresenter extends BasePresenter
 			}
 
 			// Books
-			$rows = Leganto::books()->getSelector()->findAllByShelf($this->getTemplate()->shelf)->applyLimit($limit, $offset);
+			$rows = Leganto::books()->getSelector()->findAllByShelf($this->getTemplate()->shelf)->applyLimit($offset,$limit);
 			$this->getTemplate()->books = Leganto::books()->fetchAndCreateAll($rows);
 		}
 		catch(DibiDriverException $e) {
