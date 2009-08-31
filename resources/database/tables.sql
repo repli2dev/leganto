@@ -200,7 +200,9 @@ CREATE TABLE `opinion` (
 	FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`) ON UPDATE CASCADE ON DELETE CASCADE,
 	FOREIGN KEY (`id_language`) REFERENCES `language` (`id_language`) ON UPDATE CASCADE ON DELETE CASCADE,
 	FOREIGN KEY (`id_book`) REFERENCES `book` (`id_book`) ON UPDATE CASCADE ON DELETE CASCADE,
-	UNIQUE (`id_user`,`id_book`)
+	UNIQUE (`id_user`,`id_book`),
+	INDEX(`id_user`),
+	INDEX(`id_book`)
 ) ENGINE = InnoDB COMMENT = 'hodnocene nazory uzivatelu na knihy';
 
 DROP TABLE IF EXISTS topic;
@@ -268,7 +270,10 @@ CREATE TABLE `tagged` (
 	`id_book` INT(25) UNSIGNED NOT NULL COMMENT 'oznacena kniha',
 	`updated` TIMESTAMP COMMENT 'cas, kdy byla polozka naposledy zmenena',
 	FOREIGN KEY (`id_tag`) REFERENCES `tag` (`id_tag`) ON UPDATE CASCADE ON DELETE CASCADE,
-	FOREIGN KEY (`id_book`) REFERENCES `book` (`id_book`) ON UPDATE CASCADE ON DELETE CASCADE
+	FOREIGN KEY (`id_book`) REFERENCES `book` (`id_book`) ON UPDATE CASCADE ON DELETE CASCADE,
+	UNIQUE(`id_tag`, `id_book`),
+	INDEX(`id_tag`),
+	INDEX(`id_book`)
 ) ENGINE = InnoDB COMMENT = 'vztah mezi knihami a klicovymi slovy';
 
 DROP TABLE IF EXISTS `book_similarity`;
