@@ -20,7 +20,7 @@ dibi::query("DROP TABLE IF EXISTS [user_similarity]");
 echo dibi::$elapsedTime;
 
 echo "\n Creating table user_similarity... ";
-dibi::query("CREATE TABLE [user_similarity] SELECT
+dibi::query("CREATE TABLE [user_similarity] (INDEX([id_user_to]), INDEX([id_user_from])) SELECT
                 `from`.`id_user` AS `id_user_from`,
                 SUM(
                         CASE ABS(`from`.`rating` - `to`.`rating`)
@@ -30,14 +30,12 @@ dibi::query("CREATE TABLE [user_similarity] SELECT
                                 WHEN 3 THEN 2
                                 WHEN 4 THEN 0
                         END
-                )
-                /
-                ((SELECT COUNT(*) FROM `opinion` WHERE `opinion`.`id_user` = `from`.`id_user`)*16) AS `value`,
+                ) / (SELECT COUNT(*)*16 FROM [opinion] WHERE [id_user] = [id_user_from]) AS `value`,
                 `to`.`id_user`  AS `id_user_to`
         FROM `opinion` AS `from`
         INNER JOIN opinion AS `to` ON `to`.id_book = `from`.id_book
         WHERE `from`.`id_user` != `to`.`id_user`
-        GROUP BY `from`.id_user, `to`.id_user;
+        GROUP BY `from`.id_user, `to`.id_user
 ");
 echo dibi::$elapsedTime;
  
