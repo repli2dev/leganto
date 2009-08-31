@@ -117,6 +117,38 @@ CREATE VIEW `view_topic` AS
 	FROM `topic`
 	INNER JOIN `user` USING (`id_user`)
 
+DROP VIEW IF EXISTS `view_book_similarity`;
+CREATE VIEW `view_book_similarity` AS
+	SELECT
+		`from`.`id_book` AS `from_id_book`,
+		`to`.`id_book`  AS `to_id_book`,
+		2 * COUNT(*) /(SELECT COUNT(`id_tag`) FROM `tagged` WHERE `id_book` = `from`.`id_book` OR `id_book` = `to`.`id_book`) AS `value`
+	FROM `tagged` AS `from`
+	INNER JOIN `tagged` AS `to` ON `to`.`id_tag` = `from`.`id_tag`
+	WHERE `from`.`id_book` != `to`.`id_book`
+	GROUP BY `from`.`id_book`, `to`.`id_book`;
+
+DROP VIEW IF EXISTS `view_user_similarity`;
+CREATE VIEW `view_user_similarity` AS
+	SELECT
+		`from`.`id_user` AS `from_id_user`,
+		SUM(
+			CASE ABS(`from`.`rating` - `to`.`rating`)
+				WHEN 0 THEN 16
+				WHEN 1 THEN 9
+				WHEN 2 THEN 4
+				WHEN 3 THEN 2
+				WHEN 4 THEN 0
+			END
+		)
+		/
+		((SELECT COUNT(*) FROM `opinion` WHERE `opinion`.`id_user` = `from`.`id_user`)*16) AS `value`,
+		`to`.`id_user`  AS `to_id_user`
+	FROM `opinion` AS `from`
+	INNER JOIN opinion AS `to` ON `to`.id_book = `from`.id_book
+	WHERE `from`.`id_user` != `to`.`id_user`
+	GROUP BY `from`.id_user, `to`.id_user;
+
 DROP VIEW IF EXISTS `view_similar_book`;
 CREATE VIEW `view_similar_book` AS
 	SELECT
@@ -125,4 +157,14 @@ CREATE VIEW `view_similar_book` AS
 		`book_similarity`.`value`		AS `similarity`
 	FROM `book_similarity`
 	INNER JOIN `view_book` ON `book_similarity`.`id_book_to` = `view_book`.`id_book`
+	ORDER BY `similarity` DESC
+
+DROP VIEW IF EXISTS `view_similar_user`;
+CREATE VIEW `view_similar_user` AS
+	SELECT
+		`view_user`.*,
+		`user_similarity`.`id_user_from`,
+		`user_similarity`.`value`	AS `similarity`
+	FROM `user_similarity`
+	INNER JOIN `view_user` ON `user_similarity`.`id_user_to` = `view_user`.`id_user`
 	ORDER BY `similarity` DESC
