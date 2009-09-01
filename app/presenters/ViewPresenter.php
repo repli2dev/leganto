@@ -81,6 +81,23 @@ class ViewPresenter extends BasePresenter
 		}
 	}
 
+	public function renderDiscussions($type = NULL, $offset = 0, $limit = 10) {
+		if ($limit > 100) {
+			$limit = 100;
+		}
+		try {
+			$rows = Leganto::discussions()->getSelector()->findAll();
+			if (!empty($type)) {
+				$rows->where("[id_discussable] = %i", $type);
+			}
+			$this->getTemplate()->discussions = Leganto::discussions()->fetchAndCreateAll($rows->applyLimit($limit, $offset));
+		}
+		catch(DibiDriverException $e) {
+			Debug::processException($e);
+			$this->forward("500");
+		}
+	}
+
 	public function renderOpinions($book, $user = NULL, $offset = 0, $limit = 10) {
 		if (empty($book)) {
 			$this->forward("404");
@@ -104,14 +121,14 @@ class ViewPresenter extends BasePresenter
 
 			// Opinions
 			if (empty($user)) {
-				$rows = Leganto::opinions()->getSelector()->findAllByBook($this->getTemplate()->book)->applyLimit($offset,$limit);
+				$rows = Leganto::opinions()->getSelector()->findAllByBook($this->getTemplate()->book)->applyLimit($limit,$offset);
 			}
 			else {
 				$userEntity = Leganto::users()->getSelector()->find($user);
 				if ($userEntity == NULL) {
 					$this->forward("404");
 				}
-				$rows = Leganto::opinions()->getSelector()->findAllByBook($this->getTemplate()->book, $userEntity)->applyLimit($offset,$limit);
+				$rows = Leganto::opinions()->getSelector()->findAllByBook($this->getTemplate()->book, $userEntity)->applyLimit($limit,$offset);
 			}
 			$this->getTemplate()->opinions = array();
 			while ($opinion = Leganto::opinions()->fetchAndCreate($rows)) {
@@ -160,7 +177,7 @@ class ViewPresenter extends BasePresenter
 			}
 
 			// Books
-			$rows = Leganto::books()->getSelector()->findAllByShelf($this->getTemplate()->shelf)->applyLimit($offset,$limit);
+			$rows = Leganto::books()->getSelector()->findAllByShelf($this->getTemplate()->shelf)->applyLimit($limit, $offset);
 			$this->getTemplate()->books = Leganto::books()->fetchAndCreateAll($rows);
 		}
 		catch(DibiDriverException $e) {
@@ -169,7 +186,7 @@ class ViewPresenter extends BasePresenter
 		}
 	}
 
-	public function renderSimilarBooks($book, $limit = 0, $offset = 10) {
+	public function renderSimilarBooks($book, $offset = 0, $limit = 10) {
 		// TODO
 		if (empty($book)) {
 			$this->forward("404");
@@ -185,7 +202,7 @@ class ViewPresenter extends BasePresenter
 			}
 
 			// Similar books
-			$rows = Leganto::books()->getSelector()->findAllSimilar($this->getTemplate()->book)->applyLimit($offset,$limit);
+			$rows = Leganto::books()->getSelector()->findAllSimilar($this->getTemplate()->book)->applyLimit($limit, $offset);
 			$this->getTemplate()->similar = Leganto::books()->fetchAndCreateAll($rows);
 //		}
 //		catch(DibiDriverException $e) {
@@ -194,7 +211,7 @@ class ViewPresenter extends BasePresenter
 //		}
 	}
 
-	public function renderSimilarUsers($user, $limit = 0, $offset = 10) {
+	public function renderSimilarUsers($user, $offset = 0, $limit = 10) {
 		if (empty($user)) {
 			throw new Exception();
 			$this->forward("404");
@@ -208,7 +225,7 @@ class ViewPresenter extends BasePresenter
 				throw new Exception();
 				$this->forward("404");
 			}
-			$rows = Leganto::users()->getSelector()->findAllSimilar($this->getTemplate()->user)->applyLimit($offset,$limit);
+			$rows = Leganto::users()->getSelector()->findAllSimilar($this->getTemplate()->user)->applyLimit($limit, $offset);
 			$this->getTemplate()->users = Leganto::users()->fetchAndCreateAll($rows);
 //		}
 //		catch(DibiDriverException $e) {
@@ -245,13 +262,13 @@ class ViewPresenter extends BasePresenter
 		}
 	}
 	
-	public function renderBookSearch($query, $limit = 0, $offset = 10){
+	public function renderBookSearch($query, $offset = 0, $limit = 10){
 		if (empty($query)) {
 			$this->forward("404");
 		}
 		try {
 			// Book search
-			$rows = Leganto::books()->getSelector()->search($query)->applyLimit($offset,$limit);
+			$rows = Leganto::books()->getSelector()->search($query)->applyLimit($limit, $offset);
 			$books = $rows->fetchAssoc("id_book_title");
 			$authors = $rows->where("[id_book_title] IN %l", array_keys($books))->fetchAssoc("id_book_title,id_author");
 			$this->getTemplate()->books = array();

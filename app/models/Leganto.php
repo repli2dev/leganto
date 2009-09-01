@@ -34,6 +34,13 @@ class Leganto
 	/**
 	 * @return IEntitykFactory
 	 */
+	public static function discussions() {
+		return SimpleEntityFactory::createEntityFactory("discussion");
+	}
+
+	/**
+	 * @return IEntitykFactory
+	 */
 	public static function opinions() {
 		return SimpleEntityFactory::createEntityFactory("opinion");
 	}

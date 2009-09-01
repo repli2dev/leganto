@@ -128,6 +128,17 @@ CREATE VIEW `view_topic` AS
 	FROM `topic`
 	INNER JOIN `user` USING (`id_user`)
 
+DROP VIEW IF EXISTS `view_discussion`;
+CREATE VIEW `view_discussion` AS
+	SELECT
+		`discussion`.*,
+		COUNT(`post`.`id_post`)			AS `number_of_posts`,
+		MAX(`post`.`inserted`)			AS `last_post_inserted`
+	FROM `discussion`
+	INNER JOIN `post` USING(`id_discussion`)
+	GROUP BY `id_discussion`
+	ORDER BY `last_post_inserted` DESC;
+
 DROP VIEW IF EXISTS `view_similar_book`;
 CREATE VIEW `view_similar_book` AS
 	SELECT

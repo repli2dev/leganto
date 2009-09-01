@@ -1,0 +1,15 @@
+<?php echo '<?xml version="1.0" encoding="UTF-8"?>' ?>
+
+<discussions xmlns="http://leganto.com/api">
+
+	{foreach $discussions AS $discussion}
+	<discussion>
+		<id>{$discussion->getId()}</id>
+		<name>{$discussion->name}</name>
+		<inserted>{$discussion->inserted}</inserted>
+		<number-of-posts>{$discussion->numberOfPosts}</number-of-posts>
+		<last-post-inserted>{$discussion->lastPostInserted}</last-post-inserted>
+	</discussion>
+	{/foreach}
+
+</discussions>
