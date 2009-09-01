@@ -20,7 +20,9 @@ dibi::query("DROP TABLE IF EXISTS [user_similarity]");
 echo dibi::$elapsedTime;
 
 echo "\n Creating table user_similarity... ";
-dibi::query("CREATE TABLE [user_similarity] (INDEX([id_user_to]), INDEX([id_user_from])) SELECT
+dibi::query("CREATE TABLE [user_similarity]
+			(INDEX([id_user_to]), INDEX([id_user_from]))
+			SELECT
                 `from`.`id_user` AS `id_user_from`,
                 SUM(
                         CASE ABS(`from`.`rating` - `to`.`rating`)
