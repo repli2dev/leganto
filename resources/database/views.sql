@@ -151,16 +151,14 @@ CREATE VIEW `view_similar_user` AS
 DROP VIEW IF EXISTS `view_book_search`;
 CREATE VIEW `view_book_search` AS
 	SELECT
-		`book_title`.`id_book_title`,
-		`book_title`.`title`,
-		`book_title`.`subtitle`,
+		`view_book`.*,
 		`tag`.`name`,
 		`author`.`id_author`,
 		`author`.`type`,
 		`author`.`first_name`,
 		`author`.`last_name`,
 		`author`.`group_name`
-	FROM `book_title`
+	FROM `view_book`
 	INNER JOIN `tagged` USING (`id_book`)
 	INNER JOIN `tag` USING (`id_tag`)
 	INNER JOIN `written_by` USING (`id_book`)

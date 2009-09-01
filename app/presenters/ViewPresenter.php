@@ -244,5 +244,41 @@ class ViewPresenter extends BasePresenter
 			$this->forward("500");
 		}
 	}
+	
+	public function renderBookSearch($query, $limit = 0, $offset = 10){
+		if (empty($query)) {
+			$this->forward("404");
+		}
+		try {
+			// Book search
+			$rows = Leganto::books()->getSelector()->search($query)->applyLimit($offset,$limit);
+			$books = $rows->fetchAssoc("id_book_title");
+			$authors = $rows->where("[id_book_title] IN %l", array_keys($books))->fetchAssoc("id_book_title,id_author");
+			$this->getTemplate()->books = array();
+			foreach($books as $book){
+				$entity = Leganto::books()->createEmpty()->loadDataFromArray($book->getArrayCopy());
+				$this->getTemplate()->books[] = $entity;
+			}
+			$this->getTemplate()->authors = array();
+			foreach($authors as $bookTitleId => $authorGroup){
+				$this->getTemplate()->authors[$bookTitleId] = array();
+				foreach ($authorGroup AS $author) {
+					$entity = Leganto::authors()->createEmpty()->loadDataFromArray($author->getArrayCopy());
+					$this->getTemplate()->authors[$bookTitleId][] = $entity;
+				}
+				
+			}
+			
+		}
+		catch (DataNotFoundException $e) {
+			throw new Exception;
+			Debug::processException($e);
+			$this->forward("404");
+		}
+/*		catch(DibiDriverException $e) {
+			Debug::processException($e);
+			$this->forward("500");
+		}*/
+	}
 
 }

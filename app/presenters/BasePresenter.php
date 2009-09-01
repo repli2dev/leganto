@@ -8,14 +8,14 @@ class BasePresenter extends Presenter
 	/* ERRORS */
 
 	public function render500() {
-		ob_clean();
+		@ob_clean();
 		Header("Content-type: text/plain");
 		Header("HTTP/1.0 500 Internal server error");
 		die();
 	}
 
 	public function render404() {
-		ob_clean();
+		@ob_clean();
 		Header("Content-type: text/plain");
 		Header("HTTP/1.0 404 Not Found");
 		die();
@@ -24,7 +24,7 @@ class BasePresenter extends Presenter
 	/* PROTECTED METHODS */
 
 	protected function beforeRender() {
-		Header("Content-type: text/xml");
+		//Header("Content-type: text/xml");
 	}
 
 	protected function createTemplate() {
