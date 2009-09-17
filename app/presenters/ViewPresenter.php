@@ -211,6 +211,24 @@ class ViewPresenter extends BasePresenter
 //		}
 	}
 
+	public function renderSearchUsers($query, $offset = 0, $limit = 10){
+	    if(empty($query)){
+		    $this->forward("404");
+	    }
+	    if($limit > 100){
+		    $limit = 100;
+	    }
+	    try {
+		$rows = Leganto::users()->getSelector()->search($query)->applyLimit($limit,$offset);
+		$this->getTemplate()->users = Leganto::users()->fetchAndCreateAll($rows);
+	    }
+	    catch(DibiDriverException $e) {
+		Debug::processException($e);
+		$this->forward("500");
+	    }
+	    
+	}
+	
 	public function renderSimilarUsers($user, $offset = 0, $limit = 10) {
 		if (empty($user)) {
 			throw new Exception();

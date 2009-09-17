@@ -37,4 +37,16 @@ class UserSelector extends Worker implements ISelector
 				dibi::dataSource("SELECT * FROM [user] WHERE [id_user] = %i", $id)
 			);
 	}
+	/** @return DibiDataSource */
+	public function search($keyword){
+		if (empty($keyword)) {
+			throw new NullPointerException("keyword");
+		}
+		$keyword = "%".$keyword."%";
+
+		return dibi::dataSource("SELECT * FROM [user] WHERE
+				[email] LIKE %s", $keyword," OR
+				[nick] LIKE %s", $keyword,"
+		");
+	}
 }
