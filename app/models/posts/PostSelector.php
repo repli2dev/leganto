@@ -30,4 +30,17 @@ class PostSelector implements ISelector
 		}
 		return Leganto::posts()->fetchAndCreate(dibi::DataSource("SELECT * FROM [view_post] WHERE [id_post] = %i", $id));
 	}
+
+	public function search($keyword) {
+		if (empty($keyword)) {
+			throw new NullPointerException("keyword");
+		}
+		$keyword = "%" . $keyword . "%";
+		return dibi::dataSource("
+			 SELECT * FROM [view_post]
+			 WHERE [content] LIKE %s ", $keyword,
+			"OR [user_nick] LIKE %s ", $keyword,
+			"OR [discussion_name] %s ", $keyword
+		);
+	}
 }
