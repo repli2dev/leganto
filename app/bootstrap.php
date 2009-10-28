@@ -43,15 +43,17 @@ $router[] = new Route(
 		"action" => "default",
 		"class" => NULL,
 		"method" => NULL
-	)
+	),
+	IRouter::SECURED
 );
 
 $router[] = new Route(
 	"/<presenter>/<action>",
 	array(
 		"presenter" => "View",
-		"action"	=> "avaiable"
-	)
+		"action"	=> "avaiable",
+	),
+	IRouter::SECURED
 );
 
 // Step 5: Database connection
