@@ -165,6 +165,7 @@ CREATE TABLE `in_shelf` (
 	`id_in_shelf` INT(25) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'identifikator',
 	`id_shelf` INT(25) UNSIGNED NOT NULL COMMENT 'police, ve ktere je kniha ulozena',
 	`id_book` INT(25) UNSIGNED NOT NULL COMMENT 'kniha v polici',
+	`order` INT(25) UNSIGNED NULL COMMENT 'poradi knihy v policce; pokud je NULL, je nezarazena',
 	`inserted` DATETIME NOT NULL COMMENT 'cas, kdy byla polozka vlozena do systemu',
 	FOREIGN KEY (`id_book`) REFERENCES `book` (`id_book`) ON UPDATE CASCADE ON DELETE CASCADE,
 	FOREIGN KEY (`id_shelf`) REFERENCES `shelf` (`id_shelf`) ON UPDATE CASCADE ON DELETE CASCADE
