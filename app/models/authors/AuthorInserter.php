@@ -19,7 +19,7 @@ class AuthorInserter extends Worker implements IInserter
 
 	/* PUBLIC METHODS */
 	
-	public function insert(IEntity $entity) {
+	public function insert(IEntity &$entity) {
 		if (!$entity->isReadyToInsert()) {
 			throw new InvalidArgumentException("The entity is not ready to be inserted.");
 		}
@@ -39,13 +39,17 @@ class AuthorInserter extends Worker implements IInserter
 		}
 		$author = $source->fetch();
 		if (!empty($author)) {
-			return $author["id_author"];
+			$authorId = $author["id_author"];
 		}
 		// It the author does not exists, insert it
 		else {
 			$input = $this->getArrayFromEntity($entity, "Save");
-			return SimpleTableModel::createTableModel("author")->insert($input);
+			$authorId = SimpleTableModel::createTableModel("author")->insert($input);
 		}
+		if(!empty($authorId) && $authorId != -1) {
+			$entity->setId($authorId);
+		}
+		return $authorId;
 		
 	}
 	

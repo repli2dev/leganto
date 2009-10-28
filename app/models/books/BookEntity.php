@@ -67,48 +67,6 @@ class BookEntity extends AEntity
 	public $title;
 
 	public $updated;
-	
-	/**
-	 * @Skip
-	 */
-	private $authorsToInsert = array();
-	
-	/**
-	 * @Skip
-	 */
-	private $tagsToInsert = array();
-
-	/* PUBLIC METHODS */
-
-	public function addAuthorToInsert(AuthorEntity $author) {
-		$this->authorsToInsert[] = $author;
-	}
-
-	public function addTagToInsert(TagEntity $tag) {
-		$this->tagsToInsert[] = $tag;
-	}
-	
-	public function getAuthorsToInsert(){
-		return $this->authorsToInsert;
-	}
-	
-	public function getTagsToInsert(){
-		return $this->tagsToInsert;
-	}
-
-	public function isReadyToInsert() {
-		foreach ($this->authorsToInsert AS $author) {
-			if (!$author->isReadyToInsert()) {
-				return FALSE;
-			}
-		}
-		foreach ($this->tagsToInsert AS $tag) {
-			if (!$tag->isReadyToInsert()) {
-				return FALSE;
-			}
-		}
-		return parent::isReadyToInsert() && !empty($this->authorsToInsert) && !empty($this->tagsToInsert);
-	}
 
 	/* PROTECTED METHODS */
 

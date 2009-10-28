@@ -19,7 +19,7 @@ class TagInserter extends Worker implements IInserter
 
 	/* PUBLIC METHODS */
 	
-	public function insert(IEntity $entity) {
+	public function insert(IEntity &$entity) {
 		if (!$entity->isReadyToInsert()) {
 			throw new InvalidArgumentException("The entity is not ready to be inserted.");
 		}
@@ -29,13 +29,17 @@ class TagInserter extends Worker implements IInserter
 			->where("[id_language] = %i", $entity->languageId)
 			->fetch();
 		if (!empty($tag)) {
-			return $tag["id_tag"];
+			$tagId = $tag["id_tag"];
 		}
 		// It the tag does not exists, insert it
 		else {
 			$input = $this->getArrayFromEntity($entity, "Save");
-			return SimpleTableModel::createTableModel("tag")->insert($input);
+			$tagId = SimpleTableModel::createTableModel("tag")->insert($input);
 		}
+		if(!empty($tagId) && $tagId != -1) {
+			$entity->setId($tagId);
+		}
+		return $tagId;
 
 
 	}

@@ -5,7 +5,7 @@
 class PostInserter extends Worker implements IInserter
 {
 
-	public function insert(IEntity $entity) {
+	public function insert(IEntity &$entity) {
 		if (!$entity->isReadyToInsert()) {
 			throw new InvalidArgumentException("The entity is not ready to be inserted.");
 		}
@@ -36,7 +36,11 @@ class PostInserter extends Worker implements IInserter
 			$entity->discussion = $discussion["id_discussion"];
 		}
 		// Insert the discussion post
-		return SimpleTableModel::createTableModel("post")->insert($this->getArrayFromEntity($entity, "Save"));
+		$postId = SimpleTableModel::createTableModel("post")->insert($this->getArrayFromEntity($entity, "Save"));
+		if(!empty($postId) && $postId != -1) {
+			$entity->setId($postId);
+		}
+		return $postId;
 	}
 
 }
