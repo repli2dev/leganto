@@ -72,9 +72,6 @@ class AuthorEntity extends AEntity
 		return FALSE;
 	}
 
-	/* PRIVATE ATTRIBUTES */
-	private $books;
-
 	/* PROTETED METHODS */
 
 	protected function loadId(array $source) {
