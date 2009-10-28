@@ -26,7 +26,7 @@ class BookInserter extends Worker implements IInserter
 		if (!$entity->isReadyToInsert()) {
 			throw new InvalidArgumentException("The entity is not ready to be inserted.");
 		}
-		// First I try to find the book
+		// First I try to find the book with the same title (and subtitle)
 		$source = Leganto::books()->getSelector()->findAll()
 			->where("[title] = %s", $entity->title)
 			->where("[id_language] = %s", $entity->languageId);
@@ -34,17 +34,21 @@ class BookInserter extends Worker implements IInserter
 			$source->where("[subtitle] = %s",$entity->subtitle);
 		}	
 		$books = $source->fetchAll();
+		// If there are same books check for duplicity
 		if(!empty($books)){
-			// Check for duplicity
+			// Load book IDs
 			$bookIds = array();
 			foreach($books as $book){
 				$bookIds[] = $book['id_book'];
 			}
+			// Load authors: id_book => id_author[]
 			$bookAuthors = Leganto::authors()->getSelector()->findAllByBooks($bookIds)
 				->fetchAssoc("id_book,id_author");
+			// Foreach book I look at the array of authors
 			foreach($bookAuthors as $bookId => $authors){
 				$realBook = NULL;
 				// FIXME: je naprosto korektni? Neexistuje kniha, u ktere by to selhalo?
+				// If there is an intersect of authors, the books are same.
 				foreach($authors as $author){
 					foreach($entity->getAuthorsToInsert() as $newAuthor){
 						if($newAuthor->equals(new AuthorEntity($author->getArrayCopy()))){
