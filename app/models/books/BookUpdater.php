@@ -45,10 +45,37 @@ class BookUpdater extends Worker implements IUpdater
 			->where("[id_book] = %i", $inferior->bookNode)
 			->execute();
 		// Set the inferior book in shelves as superior book
-		dibi::update("in_shelf", array("id_book" => $superior->bookNode))
+		dibi::query("
+			UPDATE [in_shelf] SET
+				[id_book] = %i", $superior->bookNode ,"
+			WHERE
+				[id_book] = %i", $inferior->bookNode ,"
+			AND
+				[id_shelf] NOT IN (SELECT [id_shelf] FROM [in_shelf] WHERE [id_book] = %i",$superior->bookNode,")
+		");
+		// Delete books in shelf which overlapped
+		dibi::delete("in_shelf")
 			->where("[id_book] = %i", $inferior->bookNode)
 			->execute();
-		// Move infer
+		// Move opinions from inferior to superior book
+		dibi::query("
+			UPDATE [opinion] SET
+				[id_book] = %i", $superior->bookNode ,"
+			WHERE
+				[id_book] = %i", $inferior->bookNode ,"
+			AND
+				[id_user] NOT IN (SELECT [id_user] FROM [opinion] WHERE [id_book] = %i",$superior->bookNode,")
+		");
+		// Delete opinions which overlapped
+		dibi::delete("opinion")
+			->where("[id_book] = %i", $inferior->bookNode)
+			->execute();
+
+		// Delete book similarity entries
+		dibi::delete("book_similarity")
+			->where("[id_book_from] = %i", $inferior->bookNode, " OR [id_book_to] = %i",  $inferior->bookNode)
+			->execute();
+		// TODO: iniciovat novy vypocet podobnosti u knizky
 		// Delete inferior book
 		dibi::delete("book")
 			->where("[id_book] = %i", $inferior->bookNode)
