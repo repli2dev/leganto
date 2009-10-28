@@ -18,13 +18,75 @@ class BookUpdater extends Worker implements IUpdater
 {
 
 	/* PUBLIC METHODS */
-	
-	public function update(IEntity $entity) {
-		if (!$entity->isReadyToUpdate()) {
-			throw new InvalidArgumentException("The entity is not ready to be updated.");
+
+	public function merge(BookEntity $superior, BookEntity $inferior) {
+		// Smazat vztahy s autory s podrizenou knihou
+		// book_title, tagged, in_shelf, opinion, book_similarity
+		dibi::begin();
+		// Delete relations between authors and inferior book
+		dibi::delete("written_by")
+			->where("[id_book] = %i", $inferior->bookNode)
+			->execute();
+		// Move inferior book titles to superior book
+		dibi::update("book_title", array("id_book" => $superior->bookNode))
+			->where("[id_book] = %i", $inferior->bookNode)
+			->execute();
+		// Move inferior book tags to superior book
+		dibi::query("
+			UPDATE [tagged] SET
+				[id_book] = %i", $superior->bookNode ,"
+			WHERE
+				[id_book] = %i", $inferior->bookNode ,"
+			AND
+				[id_tag] NOT IN (SELECT [id_tag] FROM [tagged] WHERE [id_book] = %i",$superior->bookNode,")
+		");
+		// Delete tags which overlapped
+		dibi::delete("tagged")
+			->where("[id_book] = %i", $inferior->bookNode)
+			->execute();
+		// Set the inferior book in shelves as superior book
+		dibi::update("in_shelf", array("id_book" => $superior->bookNode))
+			->where("[id_book] = %i", $inferior->bookNode)
+			->execute();
+		// Move infer
+		// Delete inferior book
+		dibi::delete("book")
+			->where("[id_book] = %i", $inferior->bookNode)
+			->execute();
+		dibi::commit();
+	}
+
+	/**
+	 * It tags a book
+	 *
+	 * @param BookEntity $book
+	 * @param array|TagEntity $tag
+	 */
+	public function setTagged(BookEntity $book, $tagged) {
+		if (is_array($tagged)) {
+			dibi::begin();
+			// Delete old relations between tags and books
+			dibi::delete("tagged")
+				->where("[id_book] = %i", $book->bookNode)
+				->execute();
+			// Add new relations
+			foreach($tagged AS $tag) {
+				dibi::insert("tagged", array(
+					"id_tag"	=> $tag->getId(),
+					"id_book"	=> $book->getId()
+				))->execute();
+			}
+			dibi::commit();
 		}
-		$input = $this->getArrayFromEntity($entity, "Save");
-		SimpleTableModel::createTableModel("book_title")->update($entity->getId(), $input);
+		else if ($tagged instanceof TagEntity) {
+			SimpleTableModel::createTableModel("tagged")->insert(array(
+				"id_book" => $book,
+				"id_tag" => $tag
+			));
+		}
+		else {
+			throw new InvalidArgumentException("The argument [tagged] has to be array or TagEntity.");
+		}
 	}
 
 	/**
@@ -69,37 +131,12 @@ class BookUpdater extends Worker implements IUpdater
 	
 	}
 
-	/**
-	 * It tags a book
-	 *
-	 * @param BookEntity $book 
-	 * @param array|TagEntity $tag
-	 */
-	public function setTagged(BookEntity $book, $tagged) {
-		if (is_array($tagged)) {
-			dibi::begin();
-			// Delete old relations between tags and books
-			dibi::delete("tagged")
-				->where("[id_book] = %i", $book->bookNode)
-				->execute();
-			// Add new relations
-			foreach($tagged AS $tag) {
-				dibi::insert("tagged", array(
-					"id_tag"	=> $tag->getId(),
-					"id_book"	=> $book->getId()
-				))->execute();
-			}
-			dibi::commit();
+	public function update(IEntity $entity) {
+		if (!$entity->isReadyToUpdate()) {
+			throw new InvalidArgumentException("The entity is not ready to be updated.");
 		}
-		else if ($tagged instanceof TagEntity) {
-			SimpleTableModel::createTableModel("tagged")->insert(array(
-				"id_book" => $book,
-				"id_tag" => $tag
-			));
-		}
-		else {
-			throw new InvalidArgumentException("The argument [tagged] has to be array or TagEntity.");
-		}
+		$input = $this->getArrayFromEntity($entity, "Save");
+		SimpleTableModel::createTableModel("book_title")->update($entity->getId(), $input);
 	}
 
 }
