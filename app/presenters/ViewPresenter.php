@@ -187,14 +187,13 @@ class ViewPresenter extends BasePresenter
 	}
 
 	public function renderSimilarBooks($book, $offset = 0, $limit = 10) {
-		// TODO
 		if (empty($book)) {
 			$this->forward("404");
 		}
 		if ($limit > 100) {
 			$limit = 100;
 		}
-//		try {
+		try {
 			// Book
 			$this->getTemplate()->book = Leganto::books()->getSelector()->find($book);
 			if ($this->getTemplate()->book === NULL)  {
@@ -204,11 +203,11 @@ class ViewPresenter extends BasePresenter
 			// Similar books
 			$rows = Leganto::books()->getSelector()->findAllSimilar($this->getTemplate()->book)->applyLimit($limit, $offset);
 			$this->getTemplate()->similar = Leganto::books()->fetchAndCreateAll($rows);
-//		}
-//		catch(DibiDriverException $e) {
-//			Debug::processException($e);
-//			$this->forward("500");
-//		}
+		}
+		catch(DibiDriverException $e) {
+			Debug::processException($e);
+			$this->forward("500");
+		}
 	}
 
 	public function renderSearchUsers($query, $offset = 0, $limit = 10){
