@@ -34,7 +34,7 @@ class UserUpdater implements IUpdater {
 				"new_pass_key" => $hash,
 				"new_pass_time" => new DibiVariable("NOW()", "sql")
 			)
-		);
+		)->execute();
 		return $hash;
 	}
 
@@ -49,7 +49,7 @@ class UserUpdater implements IUpdater {
 						"new_pass_time" => new DibiVariable("NULL","sql"),
 						"password" => UserAuthenticator::passwordHash($newPassword)
 					)
-				);
+				)->execute();
 				return $newPassword;
 			} else {
 				throw new InvalidStateException("The hash is wrong.",self::ERROR_WRONG_HASH);
