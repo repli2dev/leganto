@@ -38,8 +38,7 @@ class BookSelector implements ISelector
 		if (empty($shelf)) {
 			throw new NullPointerException("shelf");
 		}
-		return dibi::dataSource("SELECT * FROM [view_shelf_book] WHERE [id_shelf] = %i", $shelf->getId())
-				->orderBy(array("id_shelf","title"));
+		return dibi::dataSource("SELECT * FROM [view_shelf_book] WHERE [id_shelf] = %i", $shelf->getId());
 	}
 
 	public function findAllSimilar(BookEntity $book) {
