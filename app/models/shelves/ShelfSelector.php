@@ -9,6 +9,13 @@ class ShelfSelector implements ISelector
 		return dibi::dataSource("SELECT * FROM [view_shelf]");
 	}
 
+	public function findByBook(BookEntity $book) {
+		if ($book->getId() == NULL) {
+			throw new NullPointerException("The book has no ID");
+		}
+		return $this->findAll()->where("[id_book] = %i", $book->getId());
+	}
+
 	public function findByUser(UserEntity $user) {
 		if ($user->getId() == NULL) {
 			throw new NullPointerException("The user has no ID");
