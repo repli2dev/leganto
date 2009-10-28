@@ -236,7 +236,7 @@ class ViewPresenter extends BasePresenter
 		if ($limit > 100) {
 			$limit = 100;
 		}
-//		try {
+		try {
 			$this->getTemplate()->user = Leganto::users()->getSelector()->find($user);
 			if ($user == NULL) {
 				throw new Exception();
@@ -244,11 +244,11 @@ class ViewPresenter extends BasePresenter
 			}
 			$rows = Leganto::users()->getSelector()->findAllSimilar($this->getTemplate()->user)->applyLimit($limit, $offset);
 			$this->getTemplate()->users = Leganto::users()->fetchAndCreateAll($rows);
-//		}
-//		catch(DibiDriverException $e) {
-//			Debug::processException($e);
-//			$this->forward("500");
-//		}
+		}
+		catch(DibiDriverException $e) {
+			Debug::processException($e);
+			$this->forward("500");
+		}
 	}
 
 	public function renderUser($id) {
@@ -279,7 +279,7 @@ class ViewPresenter extends BasePresenter
 		}
 	}
 	
-	public function renderBookSearch($query, $offset = 0, $limit = 10){
+	public function renderSearchBooks($query, $offset = 0, $limit = 10){
 		if (empty($query)) {
 			$this->forward("404");
 		}
@@ -309,10 +309,10 @@ class ViewPresenter extends BasePresenter
 			Debug::processException($e);
 			$this->forward("404");
 		}
-/*		catch(DibiDriverException $e) {
+		catch(DibiDriverException $e) {
 			Debug::processException($e);
 			$this->forward("500");
-		}*/
+		}
 	}
 
 }
