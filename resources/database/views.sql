@@ -49,7 +49,8 @@ CREATE VIEW `view_shelf_book` AS
 		`view_book`.*
 	FROM `in_shelf`
 	INNER JOIN `shelf` USING (`id_shelf`)
-	INNER JOIN `view_book` USING (`id_book`);
+	INNER JOIN `view_book` USING (`id_book`)
+	ORDER BY `in_shelf`.`order`;
 
 DROP VIEW IF EXISTS `view_author_book`;
 CREATE VIEW `view_author_book` AS
