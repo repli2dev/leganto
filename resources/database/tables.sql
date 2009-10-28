@@ -10,35 +10,17 @@ DROP TABLE IF EXISTS `domain`;
 CREATE TABLE `domain` (
 	`id_domain` INT (25) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'identifikator',
 	`id_language` INT (25) UNSIGNED NOT NULL COMMENT 'jazyk, ve kterem je domena vedena',
-	`id_role` INT (25) UNSIGNED NOT NULL COMMENT 'defaultni role, ktera se dava uzivatelum pri registraci',
 	`uri` VARCHAR (50) NOT NULL COMMENT 'domena, na ktere web bezi',
 	`email` VARCHAR(100) NOT NULL COMMENT 'e-mail webu',
 	FOREIGN KEY (`id_language`) REFERENCES `language`(`id_language`) ON UPDATE CASCADE ON DELETE CASCADE,
 	UNIQUE (`uri`)
 ) ENGINE = InnoDB COMMENT = 'Jednotlive instance webu.';
 
-DROP TABLE IF EXISTS `role`;
-CREATE TABLE `role` (
-	`id_role` INT(25) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'identifikator',
-	`name` VARCHAR(100) NOT NULL UNIQUE
-) ENGINE = InnoDB COMMENT = 'role uzivatelu v systemu';
-
-DROP TABLE IF EXISTS `permission`;
-CREATE TABLE `permission` (
-	`id_permission` INT(25) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'identifikator',
-	`id_role` INT(25) UNSIGNED NOT NULL COMMENT 'role, ke ktere se pristupova prava vztahuji',
-	`id_module` INT(25) UNSIGNED NOT NULL COMMENT 'modul, ke ktere se pristupova prava vztahuji',
-	`action` ENUM('read','read_all','edit','edit_all','insert') NULL COMMENT 'typ pristupne akce na danem zdroji, pokud je NULL, jsou na danem zdroji pristupne vsechny akce',
-	FOREIGN KEY (`id_role`) REFERENCES `role` (`id_role`) ON UPDATE CASCADE ON DELETE CASCADE,
-	FOREIGN KEY (`id_module`) REFERENCES `module`(`id_module`) ON UPDATE CASCADE ON DELETE CASCADE,
-	UNIQUE(`id_role`,`id_module`)
-) ENGINE = InnoDB COMMENT = 'pristupova prava roli ke zdrojum';
-
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
 	`id_user` INT(25) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'identifikator',
 	`id_language` INT(25) UNSIGNED NOT NULL COMMENT 'preferovany jazyk uzivatele',
-	`id_role` INT(25) UNSIGNED NOT NULL COMMENT 'role, kterou uzivatel zastava v systemu',
+	`role` ENUM('common', 'moderator', 'admin') NOT NULL DEFAULT 'common' COMMENT 'role',
 	`email` VARCHAR(255) NOT NULL COMMENT 'e-mail',
 	`password` VARCHAR(255) NOT NULL COMMENT 'hash hesla',
 	`type` ENUM('root','common') NULL DEFAULT 'common' COMMENT 'typ uzivatele; common - kontroluji se pristupova prava, root - nekontroluji ',
@@ -49,7 +31,6 @@ CREATE TABLE `user` (
 	`inserted` DATETIME NOT NULL COMMENT 'cas, kdy byla polozka vlozena do systemu',
 	`updated` TIMESTAMP COMMENT 'cas, kdy byla polozka naposledy zmenena',
 	FOREIGN KEY (`id_language`) REFERENCES `language` (`id_language`) ON UPDATE CASCADE ON DELETE CASCADE,
-	FOREIGN KEY (`id_role`) REFERENCES `role` (`id_role`) ON UPDATE CASCADE ON DELETE CASCADE,
 	UNIQUE(`email`),
 	UNIQUE(`nick`)
 ) ENGINE = InnoDB COMMENT = 'uzivatele';
