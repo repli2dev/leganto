@@ -56,7 +56,9 @@ class OpinionEntity extends AEntity
 	/* PROTECTED METHODS */
 
 	protected function loadId(array $source) {
-		$this->setId($source["id_opinion"]);
+		if (isset($source["id_opinion"])) {
+			$this->setId($source["id_opinion"]);
+		}
 	}
 
 }

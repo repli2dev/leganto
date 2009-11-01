@@ -58,7 +58,9 @@ class DiscussionEntity extends AEntity
 	/* PROTECTED METHODS */
 
 	protected function loadId(array $source) {
-		$this->setId($source["id_discussion"]);
+		if (isset($source["id_discussion"])) {
+			$this->setId($source["id_discussion"]);
+		}
 	}
 
 }

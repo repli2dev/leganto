@@ -42,7 +42,9 @@ class HelpEntity extends AEntity
 	/* PROTETED METHODS */
 
 	protected function loadId(array $source) {
-		$this->setId($source["id_help"]);
+		if (isset($source["id_help"])) {
+			$this->setId($source["id_help"]);
+		}
 	}
 
 }

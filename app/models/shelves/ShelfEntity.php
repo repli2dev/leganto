@@ -42,7 +42,9 @@ class ShelfEntity extends AEntity
 	/* PROTECTED METHODS */
 
 	protected function loadId(array $source) {
-		$this->setId($source["id_shelf"]);
+		if (isset($source["id_shelf"])) {
+			$this->setId($source["id_shelf"]);
+		}
 	}
 
 }

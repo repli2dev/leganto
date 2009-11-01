@@ -39,7 +39,9 @@ class TopicEntity extends AEntity
 	public $userName;
 
 	protected function loadId(array $source) {
-		$this->setId($source["id_topic"]);
+		if (isset($source["id_topic"])) {
+			$this->setId($source["id_topic"]);
+		}
 	}
 
 }

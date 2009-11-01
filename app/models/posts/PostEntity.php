@@ -81,7 +81,9 @@ class PostEntity extends AEntity
 	public $userName;
 
 	protected function loadId(array $source) {
-		$this->setId($source["id_post"]);
+		if (isset($source["id_post"])) {
+			$this->setId($source["id_post"]);
+		}
 	}
 
 }
