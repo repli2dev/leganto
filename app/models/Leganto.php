@@ -18,70 +18,70 @@ class Leganto
 {
 
 	/**
-	 * @return IEntityFactory
+	 * @return AEntityFactory
 	 */
 	public static function authors() {
 		return SimpleEntityFactory::createEntityFactory("author");
 	}
 
 	/**
-	 * @return IEntityFactory
+	 * @return AEntityFactory
 	 */
 	public static function books() {
 		return SimpleEntityFactory::createEntityFactory("book");
 	}
 
 	/**
-	 * @return IEntityFactory
+	 * @return AEntityFactory
 	 */
 	public static function discussions() {
 		return SimpleEntityFactory::createEntityFactory("discussion");
 	}
 
 	/**
-	 * @return IEntityFactory
+	 * @return AEntityFactory
 	 */
 	public static function help() {
 		return SimpleEntityFactory::createEntityFactory("help");
 	}
 
 	/**
-	 * @return IEntityFactory
+	 * @return AEntityFactory
 	 */
 	public static function opinions() {
 		return SimpleEntityFactory::createEntityFactory("opinion");
 	}
 
 	/**
-	 * @return IEntityFactory
+	 * @return AEntityFactory
 	 */
 	public static function posts() {
 		return SimpleEntityFactory::createEntityFactory("post");
 	}
 
 	/**
-	 * @return IEntityFactory
+	 * @return AEntityFactory
 	 */
 	public static function shelves() {
 		return SimpleEntityFactory::createEntityFactory("shelf");
 	}
 
 	/**
-	 * @return IEntityFactory
+	 * @return AEntityFactory
 	 */
 	public static function tags() {
 		return SimpleEntityFactory::createEntityFactory("tag");
 	}
 
 	/**
-	 * @return IEntityFactory
+	 * @return AEntityFactory
 	 */
 	public static function topics() {
 		return SimpleEntityFactory::createEntityFactory("topic");
 	}
 
 	/**
-	 * @return IEntityFactory
+	 * @return AEntityFactory
 	 */
 	public static function users() {
 		return SimpleEntityFactory::createEntityFactory("user");

@@ -37,29 +37,44 @@ $application = Environment::getApplication();
 $router = $application->getRouter();
 
 $router[] = new Route(
+	"/",
+	array(
+		"presenter"	=> "View",
+		"action"	=> "avaiable"
+	)
+);
+
+$router[] = new Route(
+	"/view/<action>",
+	array(
+		"presenter" => "View",
+		"action"	=> "avaiable",
+	)
+);
+
+$router[] = new Route(
+	"/<presenter>/<view>",
+	array(
+		"presenter"	=> "View",
+		"action"	=> "avaiable"
+	),
+	IRouter::SECURED
+);
+
+$router[] = new Route(
 	"test/<action>/<class>/<method>",
 	array(
 		"presenter" => "Test",
 		"action" => "default",
 		"class" => NULL,
 		"method" => NULL
-	),
-	IRouter::SECURED
-);
-
-$router[] = new Route(
-	"/<presenter>/<action>",
-	array(
-		"presenter" => "View",
-		"action"	=> "avaiable",
-	),
-	IRouter::SECURED
+	)
 );
 
 // Step 5: Database connection
 // lazy connect should be enabled in config.ini
 dibi::connect(Environment::getConfig('database'));
-dibi::query("SET CHARACTER SET utf8");
+//dibi::query("SET CHARACTER SET utf8");
 
 // Step 6: Run the application!
 $application->run();
