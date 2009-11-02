@@ -29,9 +29,9 @@ class InsertPresenter extends BasePresenter
 		$entity = $factory->createEmpty();
 		$entity->loadDataFromArray($data);
 		// Insert the entity
-		$factory->getInserter()->insert($entity);
+		$insertedId = $factory->getInserter()->insert($entity);
 		// Return '200 OK'
-		$this->code(200);
+		$this->code(200, $insertedId);
 	}
 
 	// PROTECTED METHODS
