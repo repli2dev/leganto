@@ -17,39 +17,25 @@
 class BasePresenter extends Presenter
 {
 
-	/* ERRORS */
-
-	public function render500() {
-		@ob_clean();
-		Header("Content-type: text/plain");
-		Header("HTTP/1.0 500 Internal server error");
-		die();
-	}
-
-	public function render401() {
-		@ob_clean();
-		Header('HTTP/1.1 401 Unauthorized');
-		die();
-	}
-
-	public function render404() {
-		@ob_clean();
-		Header("Content-type: text/plain");
-		Header("HTTP/1.0 404 Not Found");
-		die();
-	}
-
-	/* OK */
-	public function render200() {
-		@ob_clean();
-		Header("HTTP/1.0 200 OK");
-		die();
-	}
-
 	/* PROTECTED METHODS */
 
 	protected function beforeRender() {
-		Header("Content-type: text/xml");
+		//Header("Content-type: text/xml");
+	}
+
+	protected function code($code, $msg = NULL) {
+		$headers = array(
+			200		=> "OK",
+			401		=> "Unauthorized",
+			403		=> "Forbidden",
+			404		=> "Not found",
+			500		=> "Internal server error",
+		);
+		@ob_clean();
+		Header("Content-type: text/plain");
+		Header("HTTP/1.0 " . $code . " " . (isset($headers[$code]) ? $headers[$code] : ""));
+		echo $msg;
+		die();
 	}
 
 	protected function createTemplate() {
@@ -85,9 +71,7 @@ class BasePresenter extends Presenter
 			Environment::getUser()->authenticate($_SERVER["PHP_AUTH_USER"], $_SERVER["PHP_AUTH_PASS"]);
 		}
 		catch (AuthenticationException $e) {
-			Debug::dump("AAA"); die();
 			Debug::processException($e);
-			return;
 			$this->permissionDenied();
 		}
 	}

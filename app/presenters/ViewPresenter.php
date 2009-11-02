@@ -21,12 +21,12 @@ class ViewPresenter extends BasePresenter
 
 	public function renderAuthor($id) {
 		if (empty($id)) {
-			$this->forward("404");
+			$this->code(404, "Author's ID expected.");
 		}
 		try {
 			$author = Leganto::authors()->getSelector()->find($id);
 			if (empty($author)) {
-				$this->forward("404");
+				$this->code(404);
 			}
 
 			$rows = Leganto::books()->getSelector()->findAllByAuthor($author);
@@ -40,11 +40,11 @@ class ViewPresenter extends BasePresenter
 		}
 		catch (DataNotFoundException $e) {
 			Debug::processException($e);
-			$this->forward("404");
+			$this->code(404, "The author does not exist.");
 		}
 		catch(DibiDriverException $e) {
 			Debug::processException($e);
-			$this->forward("500");
+			$this->code(500, "Database error.");
 		}
 	}
 
@@ -52,12 +52,12 @@ class ViewPresenter extends BasePresenter
 
 	public function renderBook($id) {
 		if (empty($id)) {
-			$this->forward("404");
+			$this->code(404, "Book ID expected.");
 		}
 		try {
 			$book = Leganto::books()->getSelector()->find($id);
 			if ($book === NULL)  {
-				$this->forward("404");
+				$this->code(404, "The book does not exist.");
 			}
 			$this->getTemplate()->book = $book;
 
@@ -85,11 +85,11 @@ class ViewPresenter extends BasePresenter
 		}
 		catch (DataNotFoundException $e) {
 			Debug::processException($e);
-			$this->forward("404");
+			$this->code(404);
 		}
 		catch(DibiDriverException $e) {
 			Debug::processException($e);
-			$this->forward("500");
+			$this->code(500, "Database error.");
 		}
 	}
 
@@ -106,13 +106,13 @@ class ViewPresenter extends BasePresenter
 		}
 		catch(DibiDriverException $e) {
 			Debug::processException($e);
-			$this->forward("500");
+			$this->code(500, "Database error.");
 		}
 	}
 
 	public function renderOpinions($book, $user = NULL, $offset = 0, $limit = 10) {
 		if (empty($book)) {
-			$this->forward("404");
+			$this->code(404);
 		}
 		if ($limit > 100) {
 			$limit = 100;
@@ -121,7 +121,7 @@ class ViewPresenter extends BasePresenter
 			// Book
 			$this->getTemplate()->book = Leganto::books()->getSelector()->find($book);
 			if ($this->getTemplate()->book === NULL)  {
-				$this->forward("404");
+				$this->code(404);
 			}
 
 			// Authors
@@ -138,7 +138,7 @@ class ViewPresenter extends BasePresenter
 			else {
 				$userEntity = Leganto::users()->getSelector()->find($user);
 				if ($userEntity == NULL) {
-					$this->forward("404");
+					$this->code(404);
 				}
 				$rows = Leganto::opinions()->getSelector()->findAllByBook($this->getTemplate()->book, $userEntity)->applyLimit($limit,$offset);
 			}
@@ -149,7 +149,7 @@ class ViewPresenter extends BasePresenter
 		}
 		catch(DibiDriverException $e) {
 			Debug::processException($e);
-			$this->forward("500");
+			$this->code(500, "Database error.");
 		}
 	}
 
@@ -166,17 +166,17 @@ class ViewPresenter extends BasePresenter
 		}
 		catch(NullPointerException $e) {
 			Debug::processException($e);
-			$this->forward("404");
+			$this->code(404);
 		}
 		catch(DibiDriverException $e) {
 			Debug::processException($e);
-			$this->forward("500");
+			$this->code(500, "Database error.");
 		}
 	}
 
 	public function renderShelf($id, $offset = 0, $limit = 10) {
 		if (empty($id)) {
-			$this->forward("404");
+			$this->code(404);
 		}
 		if ($limit > 100) {
 			$limit = 100;
@@ -185,7 +185,7 @@ class ViewPresenter extends BasePresenter
 			// Shelf
 			$this->getTemplate()->shelf = Leganto::shelves()->getSelector()->find($id);
 			if ($this->getTemplate()->shelf === NULL)  {
-				$this->forward("404");
+				$this->code(404);
 			}
 
 			// Books
@@ -194,13 +194,13 @@ class ViewPresenter extends BasePresenter
 		}
 		catch(DibiDriverException $e) {
 			Debug::processException($e);
-			$this->forward("500");
+			$this->code(500, "Database error.");
 		}
 	}
 
 	public function renderSimilarBooks($book, $offset = 0, $limit = 10) {
 		if (empty($book)) {
-			$this->forward("404");
+			$this->code(404);
 		}
 		if ($limit > 100) {
 			$limit = 100;
@@ -209,7 +209,7 @@ class ViewPresenter extends BasePresenter
 			// Book
 			$this->getTemplate()->book = Leganto::books()->getSelector()->find($book);
 			if ($this->getTemplate()->book === NULL)  {
-				$this->forward("404");
+				$this->code(404);
 			}
 
 			// Similar books
@@ -218,24 +218,24 @@ class ViewPresenter extends BasePresenter
 		}
 		catch(DibiDriverException $e) {
 			Debug::processException($e);
-			$this->forward("500");
+			$this->code(500, "Database error.");
 		}
 	}
 
 	public function renderSearchUsers($query, $offset = 0, $limit = 10){
 	    if(empty($query)){
-		    $this->forward("404");
+		    $this->code(404);
 	    }
 	    if($limit > 100){
 		    $limit = 100;
 	    }
 	    try {
-		$rows = Leganto::users()->getSelector()->search($query)->applyLimit($limit,$offset);
-		$this->getTemplate()->users = Leganto::users()->fetchAndCreateAll($rows);
+			$rows = Leganto::users()->getSelector()->search($query)->applyLimit($limit,$offset);
+			$this->getTemplate()->users = Leganto::users()->fetchAndCreateAll($rows);
 	    }
 	    catch(DibiDriverException $e) {
-		Debug::processException($e);
-		$this->forward("500");
+			Debug::processException($e);
+			$this->code(500, "Database error.");
 	    }
 	    
 	}
@@ -243,7 +243,7 @@ class ViewPresenter extends BasePresenter
 	public function renderSimilarUsers($user, $offset = 0, $limit = 10) {
 		if (empty($user)) {
 			throw new Exception();
-			$this->forward("404");
+			$this->code(404);
 		}
 		if ($limit > 100) {
 			$limit = 100;
@@ -252,26 +252,26 @@ class ViewPresenter extends BasePresenter
 			$this->getTemplate()->user = Leganto::users()->getSelector()->find($user);
 			if ($user == NULL) {
 				throw new Exception();
-				$this->forward("404");
+				$this->code(404);
 			}
 			$rows = Leganto::users()->getSelector()->findAllSimilar($this->getTemplate()->user)->applyLimit($limit, $offset);
 			$this->getTemplate()->users = Leganto::users()->fetchAndCreateAll($rows);
 		}
 		catch(DibiDriverException $e) {
 			Debug::processException($e);
-			$this->forward("500");
+			$this->code(500, "Database error.");
 		}
 	}
 
 	public function renderUser($id) {
 		if (empty($id)) {
-			$this->forward("404");
+			$this->code(404);
 		}
 		try {
 			// User's info
 			$user = Leganto::users()->getSelector()->find($id);
 			if ($user == NULL) {
-				$this->forward("404");
+				$this->code(404);
 			}
 			$this->getTemplate()->user = $user;
 			// User's shelfs
@@ -283,17 +283,17 @@ class ViewPresenter extends BasePresenter
 		}
 		catch (DataNotFoundException $e) {
 			Debug::processException($e);
-			$this->forward("404");
+			$this->code(404);
 		}
 		catch(DibiDriverException $e) {
 			Debug::processException($e);
-			$this->forward("500");
+			$this->code(500, "Database error.");
 		}
 	}
 	
 	public function renderSearchBooks($query, $offset = 0, $limit = 10){
 		if (empty($query)) {
-			$this->forward("404");
+			$this->code(404);
 		}
 		try {
 			// Book search
@@ -319,11 +319,11 @@ class ViewPresenter extends BasePresenter
 		catch (DataNotFoundException $e) {
 			throw new Exception;
 			Debug::processException($e);
-			$this->forward("404");
+			$this->code(404);
 		}
 		catch(DibiDriverException $e) {
 			Debug::processException($e);
-			$this->forward("500");
+			$this->code(500, "Database error.");
 		}
 	}
 

@@ -17,10 +17,10 @@
 class InsertPresenter extends BasePresenter
 {
 
-	/**
-	 * @Secured(action=insert)
-	 */
 	public function actionInsert($type) {
+		if (!$this->getRequest()->isPost()) {
+			$this->code(403);
+		}
 		// Load data from the POST array
 		$data = $this->getRequest()->getPost();
 		// Try to find the entity factory by given type
@@ -31,16 +31,13 @@ class InsertPresenter extends BasePresenter
 		// Insert the entity
 		$factory->getInserter()->insert($entity);
 		// Return '200 OK'
-		$this->forward("200");
+		$this->code(200);
 	}
 
 	// PROTECTED METHODS
 
 	protected function startUp() {
 		// Check if the method is POST method
-		if (!$this->getRequest()->isPost()) {
-			$this->forward("403");
-		}
 		parent::startUp();
 		// TODO:	HTTP autantizace pravdepodobne nebude fungovat,
 		//			proto bude potreba kontrolovat pristup jinak
