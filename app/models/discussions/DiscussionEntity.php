@@ -14,6 +14,9 @@
  * @author		Jan Drabek
  * @version		$Id$
  */
+/**
+ * @Id(translate=id_discussion)
+ */
 class DiscussionEntity extends AEntity
 {
 
@@ -54,13 +57,4 @@ class DiscussionEntity extends AEntity
 	 * @Load(number_of_posts)
 	 */
 	public $numberOfPosts;
-
-	/* PROTECTED METHODS */
-
-	protected function loadId(array $source) {
-		if (isset($source["id_discussion"])) {
-			$this->setId($source["id_discussion"]);
-		}
-	}
-
 }

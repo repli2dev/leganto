@@ -14,6 +14,10 @@
  * @author		Jan Drabek
  * @version		$Id$
  */
+
+/**
+ * @Id(translate=id_tag)
+ */
 class TagEntity extends AEntity
 {
 
@@ -38,14 +42,6 @@ class TagEntity extends AEntity
 			return FALSE;
 		}
 		return ($this->name == $object->name && $this->languageId == $object->languageId);
-	}
-
-	/* PROTETED METHODS */
-
-	protected function loadId(array $source) {
-		if (isset($source["id_tag"])) {
-			$this->setId($source["id_tag"]);
-		}
 	}
 
 }

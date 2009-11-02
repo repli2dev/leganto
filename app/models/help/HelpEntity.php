@@ -14,6 +14,9 @@
  * @author		Jan Drabek
  * @version		$Id$
  */
+/**
+ * @Id(translate=id_help)
+ */
 class HelpEntity extends AEntity
 {
 
@@ -38,13 +41,5 @@ class HelpEntity extends AEntity
 	public $text;
 
 	public $image;
-	
-	/* PROTETED METHODS */
-
-	protected function loadId(array $source) {
-		if (isset($source["id_help"])) {
-			$this->setId($source["id_help"]);
-		}
-	}
 
 }

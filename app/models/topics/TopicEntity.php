@@ -14,6 +14,10 @@
  * @author		Jan Drabek
  * @version		$Id$
  */
+
+/**
+ * @Id(translate=id_topic)
+ */
 class TopicEntity extends AEntity
 {
 
@@ -37,11 +41,5 @@ class TopicEntity extends AEntity
 	 * @Load(user_name)
 	 */
 	public $userName;
-
-	protected function loadId(array $source) {
-		if (isset($source["id_topic"])) {
-			$this->setId($source["id_topic"]);
-		}
-	}
 
 }

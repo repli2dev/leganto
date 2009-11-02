@@ -14,6 +14,10 @@
  * @author		Jan Drabek
  * @version		$Id$
  */
+
+/**
+ * @Id(translate=id_user)
+ */
 class UserEntity extends AEntity
 {
 	
@@ -62,10 +66,4 @@ class UserEntity extends AEntity
 	public $type;
 
 	public $updated;
-
-	protected function loadId(array $source) {
-		if (isset($source["id_user"])) {
-			$this->setId($source["id_user"]);
-		}
-	}
 }

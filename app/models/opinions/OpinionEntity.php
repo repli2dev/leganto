@@ -1,6 +1,22 @@
 <?php
 /**
- * @author Jan Papousek
+ * The source file is subject to the license located on web
+ * "http://code.google.com/p/preader/".
+ *
+ * @copyright	Copyright (c) 2009 Jan Papoušek (jan.papousek@gmail.com),
+ *				Jan Drábek (repli2dev@gmail.com)
+ * @link		http://code.google.com/p/preader/
+ * @license		http://code.google.com/p/preader/
+ */
+
+/**
+ * @author		Jan Papousek
+ * @author		Jan Drabek
+ * @version		$Id$
+ */
+
+/**
+ * @Id(translate=id_opinion)
  */
 class OpinionEntity extends AEntity
 {
@@ -52,13 +68,5 @@ class OpinionEntity extends AEntity
 	 * @Skip(Save)
 	 */
 	public $userName;
-
-	/* PROTECTED METHODS */
-
-	protected function loadId(array $source) {
-		if (isset($source["id_opinion"])) {
-			$this->setId($source["id_opinion"]);
-		}
-	}
 
 }

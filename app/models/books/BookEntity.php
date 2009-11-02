@@ -14,6 +14,9 @@
  * @author		Jan Drabek
  * @version		$Id$
  */
+/**
+ * @Id(translate=id_book_title)
+ */
 class BookEntity extends AEntity
 {
 
@@ -67,13 +70,5 @@ class BookEntity extends AEntity
 	public $title;
 
 	public $updated;
-
-	/* PROTECTED METHODS */
-
-	protected function loadId(array $source) {
-		if (isset($source["id_book_title"])) {
-			$this->setId($source["id_book_title"]);
-		}
-	}
 
 }

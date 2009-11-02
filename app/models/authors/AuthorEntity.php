@@ -14,6 +14,9 @@
  * @author		Jan Drabek
  * @version		$Id$
  */
+/**
+ * @Id(translate=id_author)
+ */
 class AuthorEntity extends AEntity
 {
 
@@ -71,13 +74,4 @@ class AuthorEntity extends AEntity
 		}
 		return FALSE;
 	}
-
-	/* PROTETED METHODS */
-
-	protected function loadId(array $source) {
-		if (isset($source["id_author"])) {
-			$this->setId($source["id_author"]);
-		}
-	}
-
 }
