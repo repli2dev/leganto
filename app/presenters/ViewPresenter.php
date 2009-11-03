@@ -327,4 +327,12 @@ class ViewPresenter extends BasePresenter
 		}
 	}
 
+	public function actionBookCover($id) {
+		$book = Leganto::books()->getSelector()->find($id);
+		Debug::dump($book);
+		$images = new BarvicBookImageFinder();
+		Debug::dump($images->getImage($book));
+		die();
+	}
+
 }

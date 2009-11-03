@@ -27,8 +27,10 @@ class AuthorSelector implements ISelector
 		if (empty($book)) {
 			throw new NullPointerException("book");
 		}
-		return dibi::dataSource("SELECT * FROM [view_book_author]")
-			->where("[id_book] = %i", $book->bookNode);
+		return dibi::dataSource("
+			SELECT * FROM [view_book_author]
+			WHERE [id_book] = %i", $book->bookNode
+		);
 	}
 	
 	/**
