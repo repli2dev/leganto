@@ -335,4 +335,12 @@ class ViewPresenter extends BasePresenter
 		die();
 	}
 
+	public function actionBookISBN($id) {
+		$book = Leganto::books()->getSelector()->find($id);
+		Debug::dump($book);
+		$isbn = new GoogleBooksFinder();
+		Debug::dump($isbn->getISBN($book));
+		die();
+	}
+
 }
