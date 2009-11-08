@@ -40,7 +40,7 @@ $router[] = new Route(
 	"/",
 	array(
 		"presenter"	=> "View",
-		"action"	=> "avaiable"
+		"action"	=> "available"
 	)
 );
 
@@ -48,7 +48,7 @@ $router[] = new Route(
 	"/view/<action>",
 	array(
 		"presenter" => "View",
-		"action"	=> "avaiable",
+		"action"	=> "available",
 	)
 );
 
@@ -56,7 +56,7 @@ $router[] = new Route(
 	"/<presenter>/<view>",
 	array(
 		"presenter"	=> "View",
-		"action"	=> "avaiable"
+		"action"	=> "available"
 	),
 	IRouter::SECURED
 );

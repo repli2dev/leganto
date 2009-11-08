@@ -58,7 +58,7 @@ class BasePresenter extends Presenter
 
 	// HTTP Authentication
 	protected function httpAuthentication() {
-		// Authentication is avaiable only via HTTPS
+		// Authentication is available only via HTTPS
 		if (!$this->getHttpRequest()->isSecured()) {
 			return;
 		}

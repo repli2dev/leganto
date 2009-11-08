@@ -8,7 +8,7 @@ class BarvicBookImageFinder implements IBookImageFinder
 	 * It tries to find an cover image of the book
 	 *
 	 * @param BookEntity $book The specified book
-	 * @return File or NULL if there is no image avaiable
+	 * @return File or NULL if there is no image available
 	 */
 	public function getImage(BookEntity $book) {
 		if (($imageURL = $this->findImageURL($book)) == NULL) {

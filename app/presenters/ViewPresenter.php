@@ -48,7 +48,7 @@ class ViewPresenter extends BasePresenter
 		}
 	}
 
-	public function renderAvaiable() {}
+	public function renderAvailable() {}
 
 	public function renderBook($id) {
 		if (empty($id)) {
@@ -305,6 +305,7 @@ class ViewPresenter extends BasePresenter
 				$entity = Leganto::books()->createEmpty()->loadDataFromArray($book->getArrayCopy());
 				$this->getTemplate()->books[] = $entity;
 			}
+			
 			$this->getTemplate()->authors = array();
 			foreach($authors as $bookTitleId => $authorGroup){
 				$this->getTemplate()->authors[$bookTitleId] = array();
