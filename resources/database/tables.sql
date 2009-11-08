@@ -219,12 +219,3 @@ CREATE TABLE `help` (
 	`text` TEXT NOT NULL,
 	`image` TEXT NULL
 ) ENGINE = InnoDB COMMENT = 'vestavena napoveda';
-
-DROP TABLE IF EXISTS `access`;
-CREATE TABLE `access` (
-	`id_access` INT(25) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'identifikator',
-	`id_user` INT(25) UNSIGNED NOT NULL COMMENT 'uzivatel daneho klice',
-	`token` CHAR(40) COMMENT 'klic',
-	`updated` TIMESTAMP COMMENT 'cas, kdy byla polozka naposledy zmenena',
-	FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`) ON UPDATE CASCADE ON DELETE CASCADE
-) ENGINE = InnoDB COMMENT = 'Tabulka pro uzivatelske pristupove klice';

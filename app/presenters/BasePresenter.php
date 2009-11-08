@@ -56,17 +56,36 @@ class BasePresenter extends Presenter
 	}
 
 
+	// HTTP Authentication
+	protected function httpAuthentication() {
+		// Authentication is avaiable only via HTTPS
+		if (!$this->getHttpRequest()->isSecured()) {
+			return;
+		}
+		// Try to load [USER] and [PASSWORD] from header
+		if (empty($_SERVER["PHP_AUTH_USER"]) || empty($_SERVER["PHP_AUTH_PASS"])) {
+			$this->permissionDenied();
+		}
+		try {
+			Environment::getUser()->authenticate($_SERVER["PHP_AUTH_USER"], $_SERVER["PHP_AUTH_PASS"]);
+		}
+		catch (AuthenticationException $e) {
+			Debug::processException($e);
+			$this->permissionDenied();
+		}
+	}
+
 	protected function permissionDenied() {
-		$this->redirect(401);
+			Header('HTTP/1.1 401 Unauthorized');
+			Header('WWW-Authenticate: Basic realm="Leganto API"');
+			exit;
 	}
 
 	protected function startUp() {
 		parent::startup();
-		// Authenticate user by token
-		$token = Environment::getHttpRequest()->getQuery("token");
+		$this->httpAuthentication();
 		// Is the logged user allowed to the action?
 		$user = Environment::getUser();
-		// $user->setIdentity(Environment::getUser()->getAuthenticationHandler()->authenticateByToken($token)); // FIXME: Je potreba vyresit prihlaseni dle tokenu, e.g. nelze pridat novou identitu
 		// The requested action.
 		$method = $this->formatRenderMethod($this->view);
 		if ($this->reflection->hasMethod($method)) {
