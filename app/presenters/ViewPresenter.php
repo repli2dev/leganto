@@ -343,4 +343,16 @@ class ViewPresenter extends BasePresenter
 		die();
 	}
 
+	/**
+	 * Dummy page for "login", although it is possible on all pages
+	 * Show identity
+	 */
+	public function actionLogin() {
+		$this->getTemplate()->identity = Environment::getUser()->getIdentity();
+	}
+
+	public function actionLogout() {
+		Environment::getUser()->signOut(TRUE);
+	}
+
 }

@@ -63,11 +63,11 @@ class BasePresenter extends Presenter
 			return;
 		}
 		// Try to load [USER] and [PASSWORD] from header
-		if (empty($_SERVER["PHP_AUTH_USER"]) || empty($_SERVER["PHP_AUTH_PASS"])) {
+		if (empty($_SERVER["PHP_AUTH_USER"]) || empty($_SERVER["PHP_AUTH_PW"])) {
 			$this->permissionDenied();
 		}
 		try {
-			Environment::getUser()->authenticate($_SERVER["PHP_AUTH_USER"], $_SERVER["PHP_AUTH_PASS"]);
+			Environment::getUser()->authenticate($_SERVER["PHP_AUTH_USER"], $_SERVER["PHP_AUTH_PW"]);
 		}
 		catch (AuthenticationException $e) {
 			Debug::processException($e);
