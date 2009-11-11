@@ -1,6 +1,6 @@
 <?php
 // FIXME: nefunguje treba na Krakatitu
-class GoogleBooksFinder implements IBookFinder
+class GoogleBooksFinder implements IBookISBNFinder
 {
 
 	// TODO: dynamicky volit jazyk
