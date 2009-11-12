@@ -23,38 +23,33 @@ class DiscussionEntity extends AEntity
 	/**
 	 * ID of the entity which is discussed
 	 *
-	 * @Required
-	 * @Load(id_discussed)
+	 * @Translate(id_discussed)
 	 */
-	public $discussed;
+	protected $discussed;
 
 	/**
 	 * ID of the discussion type
 	 *
-	 * @Required
-	 * @Load(id_discussable)
+	 * @Translate(id_discussable)
 	 */
-	public $discussionType;
+	protected $discussionType;
 
-	/**
-	 * @Required
-	 */
-	public $inserted;
+	protected $inserted;
 
 	/**
 	 * @Skip(Save)
-	 * @Load(last_post_inserted)
+	 * @Translate(last_post_inserted)
 	 */
-	public $lastPostInserted;
+	protected $lastPostInserted;
 
 	/**
 	 * @Skip(Save)
 	 */
-	public $name;
+	protected $name;
 
 	/**
 	 * @Skip(Save)
-	 * @Load(number_of_posts)
+	 * @Translate(number_of_posts)
 	 */
-	public $numberOfPosts;
+	protected $numberOfPosts;
 }

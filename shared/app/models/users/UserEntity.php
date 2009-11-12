@@ -22,48 +22,36 @@ class UserEntity extends AEntity
 {
 	
 	/**
-	 * @Load(birth_year)
+	 * @Translate(birth_year)
 	 */
-	public $birthyear;
+	protected $birthyear;
+
+	protected $email;
+
+	protected $inserted;
 
 	/**
-	 * @Required
+	 * @Translate(last_logged)
 	 */
-	public $email;
+	protected $lastLogged;
 
 	/**
-	 * @Required
+	 * @Translate(nick)
 	 */
-	public $inserted;
+	protected $nickname;
+
+	protected $password;
+
+	protected $role;
+
+	protected $sex;
 
 	/**
-	 * @Load(last_logged)
-	 * @Save(last_logged)
+	 * @Translate(Save)
 	 */
-	public $lastLogged;
+	protected $similarity;
 
-	/**
-	 * @Load(nick)
-	 * @Required
-	 */
-	public $nickname;
+	protected $type;
 
-	/**
-	 * @Requiered
-	 */
-	public $password;
-
-	public $role;
-
-	public $sex;
-
-	/**
-	 * @Skip(Save)
-	 */
-	public $similarity;
-
-	/** @Required */
-	public $type;
-
-	public $updated;
+	protected $updated;
 }

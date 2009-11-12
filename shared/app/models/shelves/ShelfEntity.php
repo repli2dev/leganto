@@ -21,38 +21,27 @@
 class ShelfEntity extends AEntity
 {
 
-	/**
-	 * @Required
-	 */
-	public $inserted;
+	protected $inserted;
 
-	/**
-	 * @Required
-	 */
-	public $name;
+	protected $name;
 
 	/**
 	 * @Skip(Save)
-	 * @Load(number_of_books)
+	 * @Translate(number_of_books)
 	 */
-	public $numberOfBooks;
+	protected $numberOfBooks;
+
+	protected $type;
 
 	/**
-	 * @Required
+	 * @Translate(id_user)
 	 */
-	public $type;
-
-	/**
-	 * @Required
-	 * @Load(id_user)
-	 * @Save(id_user)
-	 */
-	public $user;
+	protected $user;
 
 	/**
 	 * @Skip(Save)
-	 * @Load(user_nick)
+	 * @Translate(user_nick)
 	 */
-	public $userName;
+	protected $userName;
 
 }

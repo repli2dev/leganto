@@ -27,32 +27,23 @@ class AuthorEntity extends AEntity
 	/* PUBLIC ATTRIBUTES */
 
 	/**
-	 * @Load(first_name)
-	 * @Save(first_name)
+	 * @Translate(first_name)
 	 */
-	public $firstname;
+	protected $firstname;
 
 	/**
-	 * @Load(group_name)
-	 * @Save(group_name)
+	 * @Translate(group_name)
 	 */
-	public $groupname;
+	protected $groupname;
+
+	protected $inserted;
 
 	/**
-	 * @Required
+	 * @Translate(last_name)
 	 */
-	public $inserted;
+	protected $lastname;
 
-	/**
-	 * @Load(last_name)
-	 * @Save(last_name)
-	 */
-	public $lastname;
-
-	/**
-	 * @Required
-	 */
-	public $type;
+	protected $type;
 	
 	/* PUBLIC METHODS */
 	

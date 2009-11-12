@@ -14,7 +14,7 @@
  * @author		Jan Drabek
  * @version		$Id$
  */
-class UserSelector extends Worker implements ISelector
+class UserSelector implements ISelector
 {
 
 	/* PUBLIC METHODS */

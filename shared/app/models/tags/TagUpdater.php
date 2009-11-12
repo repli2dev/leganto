@@ -20,11 +20,10 @@ class TagUpdater extends Worker implements IUpdater
 	/* PUBLIC METHODS */
 
 	public function update(IEntity $entity) {
-		if (!$entity->isReadyToUpdate()) {
-			throw new InvalidArgumentException("The entity is not ready to be updated.");
+		if ($entity->getState() != IEntity::STATE_MODIFIED) {
+			throw new InvalidArgumentException("The entity can not be inserted because it is not in state [MODIFIED].");
 		}
-		$input = $this->getArrayFromEntity($entity, "Save");
-		SimpleTableModel::createTableModel("tag")->update($entity->getId(), $input);
+		SimpleTableModel::createTableModel("tag")->update($entity->getId(), $entity->getData("Save"));
 	}
 
 }

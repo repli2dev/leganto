@@ -24,16 +24,11 @@ class TagEntity extends AEntity
 	/* PUBLIC ATTRIBUTES */
 
 	/**
-	 * @Required
-	 * @Save(id_language)
-	 * @Load(id_language)
+	 * @Translate(id_language)
 	 */
-	public $languageId;
+	protected $languageId;
 
-	/*
-	 * @Required
-	 */
-	public $name;
+	protected $name;
 	
 	/* PUBLIC METHODS */
 	

@@ -159,8 +159,8 @@ class BookUpdater extends Worker implements IUpdater
 	}
 
 	public function update(IEntity $entity) {
-		if (!$entity->isReadyToUpdate()) {
-			throw new InvalidArgumentException("The entity is not ready to be updated.");
+		if ($entity->getState() != IEntity::STATE_MODIFIED) {
+			throw new InvalidArgumentException("The entity can not be inserted because it is not in state [MODIFIED].");
 		}
 		$input = $this->getArrayFromEntity($entity, "Save");
 		SimpleTableModel::createTableModel("book_title")->update($entity->getId(), $input);

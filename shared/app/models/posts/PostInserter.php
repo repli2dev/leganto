@@ -2,12 +2,12 @@
 /**
  * @author Jan Papousek
  */
-class PostInserter extends Worker implements IInserter
+class PostInserter implements IInserter
 {
 
 	public function insert(IEntity &$entity) {
-		if (!$entity->isReadyToInsert()) {
-			throw new InvalidArgumentException("The entity is not ready to be inserted.");
+		if ($entity->getState() != IEntity::STATE_NEW) {
+			throw new InvalidArgumentException("The entity can not be inserted because it is not in state [NEW].");
 		}
 		if (!($entity instanceof PostEntity)) {
 			throw new InvalidArgumentException("The entity is not the discussion post.");
@@ -36,10 +36,7 @@ class PostInserter extends Worker implements IInserter
 			$entity->discussion = $discussion["id_discussion"];
 		}
 		// Insert the discussion post
-		$postId = SimpleTableModel::createTableModel("post")->insert($this->getArrayFromEntity($entity, "Save"));
-		if(!empty($postId) && $postId != -1) {
-			$entity->setId($postId);
-		}
+		$postId = SimpleTableModel::createTableModel("post")->insert($entity->getData("Save"));
 		return $postId;
 	}
 

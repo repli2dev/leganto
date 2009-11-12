@@ -20,55 +20,47 @@
 class BookEntity extends AEntity
 {
 
-	/* PUBLIC ATTRIBUTES */
-
 	/**
-	 * @Save(id_book)
-	 * @Load(id_book)
+	 * @Translate(id_book)
 	 */
-	public $bookNode;
+	protected $bookNode;
 
 	/**
 	 * @Skip(Save)
-	 * @Load(locale)
+	 * @Translate(locale)
 	 */
-	public $language;
+	protected $language;
 
 	/**
-	 * @Required
-	 * @Save(id_language)
-	 * @Load(id_language)
+	 * @Translate(id_language)
 	 */
-	public $languageId;
+	protected $languageId;
 
 	/**
 	 * @Required
 	 */
-	public $inserted;
+	protected $inserted;
 
 	/**
 	 * @Skip(Save)
-	 * @Load(number_of_opinions)
+	 * @Translate(number_of_opinions)
 	 */
-	public $numberOfOpinions;
-
-	/**
-	 * @Skip(Save)
-	 */
-	public $rating;
+	protected $numberOfOpinions;
 
 	/**
 	 * @Skip(Save)
 	 */
-	public $similarity;
-
-	public $subtitle;
+	protected $rating;
 
 	/**
-	 * @Required
+	 * @Skip(Save)
 	 */
-	public $title;
+	protected $similarity;
 
-	public $updated;
+	protected $subtitle;
+
+	protected $title;
+
+	protected $updated;
 
 }

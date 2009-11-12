@@ -28,18 +28,10 @@ class HelpEntity extends AEntity
 
 	const OTHER = "other";
 
-	/* PUBLIC ATTRIBUTES */
+	protected $category;
 
-	/**
-	 * @Required
-	 */
-	public $category;
+	protected $text;
 
-	/**
-	 * @Required
-	 */
-	public $text;
-
-	public $image;
+	protected $image;
 
 }

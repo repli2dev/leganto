@@ -14,14 +14,14 @@
  * @author		Jan Drabek
  * @version		$Id$
  */
-class TagInserter extends Worker implements IInserter
+class TagInserter implements IInserter
 {
 
 	/* PUBLIC METHODS */
 	
 	public function insert(IEntity &$entity) {
-		if (!$entity->isReadyToInsert()) {
-			throw new InvalidArgumentException("The entity is not ready to be inserted.");
+		if ($entity->getState() != IEntity::STATE_NEW) {
+			throw new InvalidArgumentException("The entity can not be inserted because it is not in state [NEW].");
 		}
 		// I try to find the tag
 		$tag = Leganto::Tags()->getSelector()->findAll()
@@ -33,11 +33,7 @@ class TagInserter extends Worker implements IInserter
 		}
 		// It the tag does not exists, insert it
 		else {
-			$input = $this->getArrayFromEntity($entity, "Save");
-			$tagId = SimpleTableModel::createTableModel("tag")->insert($input);
-		}
-		if(!empty($tagId) && $tagId != -1) {
-			$entity->setId($tagId);
+			$tagId = SimpleTableModel::createTableModel("tag")->insert($entity->getData("Save"));
 		}
 		return $tagId;
 

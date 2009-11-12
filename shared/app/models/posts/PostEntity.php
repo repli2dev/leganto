@@ -21,80 +21,64 @@
 class PostEntity extends AEntity
 {
 
-	/**
-	 * @Required
-	 */
-	public $content;
+	protected $content;
 
 	/**
 	 * ID of the entity which is discussed
 	 *
-	 * @Required
-	 * @Load(id_discussed)
+	 * @Translate(id_discussed)
 	 */
-	public $discussed;
+	protected $discussed;
 
 	/**
 	 * ID of the discussion
 	 *
-	 * @Load(id_discussion)
-	 * @Save(id_discussion)
+	 * @Translate(id_discussion)
 	 */
-	public $discussion;
+	protected $discussion;
 
 	/**
 	 * The name of the discussion
 	 *
-	 * @Load(discussion_name)
+	 * @Translate(discussion_name)
 	 * @Skip(Save)
 	 */
-	public $discussionName;
+	protected $discussionName;
 
 	/**
 	 * ID of the discussion type
 	 *
-	 * @Required
-	 * @Load(id_discussable)
+	 * @Translate(id_discussable)
 	 */
-	public $discussionType;
+	protected $discussionType;
+
+	protected $inserted;
 
 	/**
-	 * @Required
+	 * @Translate(id_language)
 	 */
-	public $inserted;
+	protected $language;
 
 	/**
-	 * @Required
-	 * @Load(id_language)
-	 * @Save(id_language)
-	 */
-	public $language;
-
-	/**
-	 * @Load(locale)
+	 * @Translate(locale)
 	 * @Skip(Save)
 	 */
-	public $locale;
+	protected $locale;
 
-	public $reply;
+	protected $reply;
+
+	protected $subject;
 
 	/**
-	 * @Required
+	 * @Translate(id_user)
 	 */
-	public $subject;
+	protected $user;
 
 	/**
-	 * @Required
-	 * @Load(id_user)
-	 * @Save(id_user)
-	 */
-	public $user;
-
-	/**
-	 * @Load(user_nick)
+	 * @Translate(user_nick)
 	 * @Skip(Save)
 	 */
-	public $userName;
+	protected $userName;
 
 
 }

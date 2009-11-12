@@ -22,51 +22,34 @@ class OpinionEntity extends AEntity
 {
 
 	/**
-	 * @Required
-	 * @Save(id_book)
-	 * @Load(id_book)
+	 * @Translate(id_book)
 	 */
-	public $book;
+	protected $book;
+
+	protected $content;
+
+	protected $inserted;
 
 	/**
-	 * @Required
+	 * @Translate(Save)
 	 */
-	public $content;
+	protected $language;
 
 	/**
-	 * @Required
+	 * @Translate(id_language)
 	 */
-	public $inserted;
+	protected $languageId;
+
+	protected $rating;
 
 	/**
-	 * @Skip(Save)
-	 * @Load(locale)
+	 * @Translate(id_user)
 	 */
-	public $language;
+	protected $userId;
 
 	/**
-	 * @Required
-	 * @Save(id_language)
-	 * @Load(id_language)
+	 * @Translate(user_nick)
 	 */
-	public $languageId;
-
-	/**
-	 * @Required
-	 */
-	public $rating;
-
-	/**
-	 * @Load(id_user)
-	 * @Save(id_user)
-	 * @Required
-	 */
-	public $userId;
-
-	/**
-	 * @Load(user_nick)
-	 * @Skip(Save)
-	 */
-	public $userName;
+	protected $userName;
 
 }

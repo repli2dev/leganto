@@ -21,25 +21,16 @@
 class TopicEntity extends AEntity
 {
 
-	/**
-	 * @Required
-	 */
-	public $inserted;
+	protected $inserted;
 
-	/**
-	 * @Required
-	 */
-	public $name;
+	protected $name;
 
-	/**
-	 * @Required
-	 */
-	public $user;
+	protected $user;
 
 	/**
 	 * @Skip(Save)
-	 * @Load(user_name)
+	 * @Translate(user_name)
 	 */
-	public $userName;
+	protected $userName;
 
 }

@@ -14,14 +14,14 @@
  * @author		Jan Drabek
  * @version		$Id$
  */
-class AuthorInserter extends Worker implements IInserter
+class AuthorInserter implements IInserter
 {
 
 	/* PUBLIC METHODS */
 	
 	public function insert(IEntity &$entity) {
-		if (!$entity->isReadyToInsert()) {
-			throw new InvalidArgumentException("The entity is not ready to be inserted.");
+		if ($entity->getState() != IEntity::STATE_NEW) {
+			throw new InvalidArgumentException("The entity can not be inserted because it is not in state [NEW].");
 		}
 		// I try to find the author
 		$source = Leganto::authors()->getSelector()->findAll()
@@ -43,11 +43,8 @@ class AuthorInserter extends Worker implements IInserter
 		}
 		// It the author does not exists, insert it
 		else {
-			$input = $this->getArrayFromEntity($entity, "Save");
+			$input = $entity->getData("Save");
 			$authorId = SimpleTableModel::createTableModel("author")->insert($input);
-		}
-		if(!empty($authorId) && $authorId != -1) {
-			$entity->setId($authorId);
 		}
 		return $authorId;
 		
