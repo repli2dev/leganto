@@ -53,7 +53,7 @@ $router[] = new Route(
 );
 
 $router[] = new Route(
-	"/<presenter>/<view>",
+	"/<presenter>/<action>/",
 	array(
 		"presenter"	=> "View",
 		"action"	=> "available"

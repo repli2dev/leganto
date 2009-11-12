@@ -87,10 +87,10 @@ class ViewPresenter extends BasePresenter
 			Debug::processException($e);
 			$this->code(404);
 		}
-		catch(DibiDriverException $e) {
-			Debug::processException($e);
-			$this->code(500, "Database error.");
-		}
+//		catch(DibiDriverException $e) {
+//			Debug::processException($e);
+//			$this->code(500, "Database error.");
+//		}
 	}
 
 	public function renderDiscussions($type = NULL, $offset = 0, $limit = 10) {
