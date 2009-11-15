@@ -1,0 +1,28 @@
+<?php echo '<?xml version="1.0" encoding="UTF-8"?>' ?>
+
+<shelf xmlns="http://leganto.com/api">
+	<id>{$shelf->getId()}</id>
+	<type>{$shelf->type}</type>
+	<name>{$shelf->name}</name>
+	<user>
+		<id>{$shelf->user}</id>
+		<name>{$shelf->userName}</name>
+	</user>
+
+	{if !empty($books)}
+	<books>
+		{foreach $books AS $book}
+		<book>
+			<id>{$book->getId()}</id>
+			<language>{$book->language}</language>
+			<title>{$book->title}</title>
+			{if !empty($book->subtitle)}
+			<subtitle>{$book->subtitle}</subtitle>
+			{/if}
+			<rating>{$book->rating}</rating>
+			<number-of-opinions>{$book->numberOfOpinions}</number-of-opinions>
+		</book>
+		{/foreach}
+	</books>
+	{/if}
+</shelf>

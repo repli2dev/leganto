@@ -1,0 +1,11 @@
+<?php echo '<?xml version="1.0" encoding="UTF-8"?>' ?>
+
+<identity xmlns="http://leganto.com/api">
+
+	{if isset($identity)}
+	<nick>{$identity->getName()}</nick>
+
+	<user-id>{$identity->id_user}</user-id>
+	{/if}
+
+</identity>

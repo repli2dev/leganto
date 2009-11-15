@@ -1,0 +1,27 @@
+<?php echo '<?xml version="1.0" encoding="UTF-8"?>' ?>
+
+<users xmlns="http://leganto.com/api">
+
+	{foreach $users AS $user}
+	<user>
+		<id>{$user->getId()}</id>
+
+		<name>{$user->nickname}</name>
+
+		<registrated>{$user->inserted}</registrated>
+
+		{if !empty($user->lastLogged)}
+		<last-logged>{$user->lastLogged}</last-logged>
+		{/if}
+
+		{if !empty($user->birthyear)}
+		<birth-year>{$user->birthyear}</birth-year>
+		{/if}
+
+		{if !empty($user->sex)}
+		<sex>{$user->sex}</sex>
+		{/if}
+	</user>
+	{/foreach}
+
+</users>
