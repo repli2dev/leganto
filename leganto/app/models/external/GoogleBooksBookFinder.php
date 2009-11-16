@@ -17,7 +17,7 @@
 
  class GoogleBooksBookFinder extends AFinder {
 	 
-	public $xmlUrl = "http://books.google.com/books/feeds/volumes?q=<--QUERY-->&lr=<--LANG-->";
+	const XML_URL = "http://books.google.com/books/feeds/volumes?q=<--QUERY-->&lr=<--LANG-->";
 
 	/**
 	 * It tries to find the book on google books
@@ -25,13 +25,21 @@
 	 * @param BookEntity $book The specified book
 	 * @return array or NULL
 	 */
-	function get(IEntity $entity) {
-		$this->setQuery($this->makeQuery($entity));
+	public function get(IEntity $entity) {
+		$this->setUrlParam("QUERY", $this->makeQuery($entity));
 		return $this->fetchAndParse();
 	}
 
-	function fetchAndParse(){
-		$pageContent = $this->getURLContent($this->xmlURL);
+	/* PROTECTED METHODS */
+
+	protected function getUrl() {
+		return self::XML_URL;
+	}
+
+	/* PRIVATE METHODS */
+
+	private function fetchAndParse() {
+		$pageContent = $this->getUrlContent($this->getParsedUrl());
 		// Parsing...
 		$data = simplexml_load_string($pageContent);
 		$i = 0;
@@ -49,13 +57,10 @@
 				$output[$i]['identifier'][] = (string) $identifier;
 			}
 			$i++;
-			
+
 		}
 		return $output;
-		
 	}
-
-	
 
 	/**
 	 * It returns URL where the results of book searching are displayed
@@ -63,9 +68,9 @@
 	 * @param Entity $etity
 	 * @return string
 	 */
-	function makeQuery(IEntity $entity) {
-		if (!$entity->isReadyToUpdate()) {
-			throw new InvalidStateException("The entity has to be ready to be updated.");
+	private function makeQuery(IEntity $entity) {
+		if ($entity->getState() != IEntity::STATE_PERSISTED) {
+			throw new InvalidStateException("The entity has to be in state [PERSISTED].");
 		}
 		$query = "";
 

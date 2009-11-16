@@ -17,23 +17,37 @@
 
 abstract class AFinder implements IFinder {
 
-	public $xmlURL;
+	private $params = array();
 
 	/**
 	 * Set query language
 	 * @param string $lang google code of language
 	 */
-	function  __construct($lang) {
-		$this->xmlUrl = strtr($this->xmlUrl, array("<--LANG-->" => $lang));
+	public function  __construct($language) {
+		if (empty($language)) {
+			throw new NullPointerException("language");
+		}
+		$this->setUrlParam("LANG", $language);
 	}
 	
+	/* PROTECTED METHODS */
+
+	/**
+	 * It returns a parsed URL
+	 *
+	 * @return string
+	 */
+	protected final function getParsedUrl() {
+		return strtr($this->getUrl(), $this->getUrlParams());
+	}
+
 	/**
 	 * It returns a content which is placed on the specified address.
 	 *
 	 * @param string $url
 	 * @return string
 	 */
-	function getURLContent($url) {
+	protected function getUrlContent($url) {
 		$ch = curl_init($url);
 		// The data should be returned (not printed)
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
@@ -51,8 +65,38 @@ abstract class AFinder implements IFinder {
 		}
 	}
 
-	function setQuery($query) {
-		$this->xmlURL = strtr($this->xmlUrl, array("<--QUERY-->" => $query));
+	/**
+	 * It returns not parsed URL
+	 *
+	 * @return string
+	 */
+	protected abstract function getUrl();
+
+	/**
+	 * It returns array with URL params
+	 *
+	 * @return array
+	 */
+	protected final function getUrlParams() {
+		return $this->params;
 	}
+
+	/**
+	 * I sets an URL param
+	 *
+	 * @param string $key
+	 * @param string $value
+	 * @throws NullPointerException if the $key or $value is empty
+	 */
+	protected final function setUrlParam($key, $value) {
+		if (empty($key)) {
+			throw new NullPointerException("key");
+		}
+		if (empty($value)) {
+			throw new NullPointerException("value");
+		}
+		$this->params["<--" . String::upper($key) . "-->"] = $value;
+	}
+
 
 }

@@ -23,27 +23,4 @@ interface IFinder {
 	 */
 	function get(IEntity $entity);
 
-	/**
-	 * Return content of remote page
-	 * @param string url Query to ask
-	 */
-	function getURLContent($url);
-
-	/**
-	 * Fetch remote page and parse it to array
-	 * @param IEntity $entity where are data to fetch
-	 */
-	function fetchAndParse();
-
-	/**
-	 * Set address of remote page
-	 * @param string $query
-	 */
-	function setQuery($query);
-
-	/**
-	 * Make query from entity datas
-	 * @param Ientity $entity
-	 */
-	function makeQuery(Ientity $entity);
 }
