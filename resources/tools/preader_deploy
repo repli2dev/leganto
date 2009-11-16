@@ -1,0 +1,80 @@
+#!/bin/bash
+# Author: Jan Drabek
+
+echo "Deploy script";
+echo "----------------------------------------------------------";
+server="devel.ctenari.cz";
+user="devel";
+password="PASSWORD"
+project="http://preader.googlecode.com/svn/trunk/"
+
+# Test avability of needed programs
+type -P wput &>/dev/null || { echo "Program wput needed. Aborting." >&2; exit 1;}
+type -P mktemp &>/dev/null || { echo "Program mktemp needed. Aborting." >&2; exit 1;}
+type -P svn &>/dev/null || { echo "Subversion needed. Aborting." >&2; exit 1;}
+type -P find &>/dev/null || { echo "Program find needed. Aborting." >&2; exit 1;}
+
+# Print help if wanted
+if [ "$1" ==  "--help" ]; then
+	echo "Update version from svn to devel ftp.";
+	echo "		(without paramer) run deploy";
+	echo "--externals	update also externals"
+	echo "--checkout	delete all files, and do new checkout";
+	echo "--help		show this help";
+	exit;
+fi
+
+# Start
+echo "Starting PREADER deploy...";
+if [ ! -d "./preader" ]; then
+	mkdir ./preader
+fi
+
+# New checkout
+if [ "$1" == "--checkout" ]; then
+	# Remove remote copy
+	echo "Please remove all files from FTP";
+	read -p "Enter this after it is done"
+	# Remove local copy
+	rm -Rfv	./preader/*
+	rm -Rfv "./preader/.svn"
+	cd ./preader
+	# Checkout
+	echo "Doing checkout";
+	START=`date +%M`
+	svn checkout $project .
+	END=`date +%M`
+else
+
+# Update svn
+	echo "Updating working copy...";
+	cd ./preader/
+	START=`date +%M`
+	if [ "$1" == "--externals" ]; then
+		svn update
+	else
+		svn update --ignore-externals
+	fi
+	END=`date +%M`
+fi
+
+# Copy to ftp
+	echo "Syncing to remote site...";
+	((TOTAL=$END - $START));
+	if [ "$TOTAL" == "0" ]; then
+		TOTAL="1";
+	else
+		((TOTAL=$TOTAL + 1));
+	fi
+	echo "Working with repository lasted $TOTAL minute(s)";
+	echo "Updated files...";
+	if [ -f ./files ]
+        then
+                rm ./files
+        fi
+	find  -mmin -$TOTAL -type f | grep -v svn > ./files
+	cat ./files | while read FROM; do wput $FROM ftp://$user:$password@$server/$FROM; done;
+	if [ -f ./files ]
+        then
+                rm ./files
+        fi
