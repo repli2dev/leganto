@@ -27,31 +27,45 @@ class UserEntity extends AEntity
 	protected $birthyear;
 
 	protected $email;
-
+	
+	/**
+	 * @Skip(Form)
+	 */
 	protected $inserted;
 
 	/**
 	 * @Translate(last_logged)
+	 * @Skip(Form)
 	 */
 	protected $lastLogged;
 
 	/**
 	 * @Translate(nick)
+	 * @Rule(type=filled)
 	 */
 	protected $nickname;
 
 	protected $password;
-
+	
+	/**
+	 * @Skip(Form)
+	 */
 	protected $role;
 
 	protected $sex;
 
 	/**
-	 * @Translate(Save)
+	 * @Skip(Form)
 	 */
 	protected $similarity;
 
+	/**
+	 * @Skip(Form)
+	 */
 	protected $type;
 
+	/**
+	 * @Skip(Form)
+	 */
 	protected $updated;
 }

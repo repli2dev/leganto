@@ -25,10 +25,11 @@ class HelpSelector implements ISelector
 
 	/** @return HelpEntity */
 	public function findRandomByCategory($category) {
-		if (empty($category)) {
-			throw new NullPointerException("category");
+		$source = dibi::dataSource("SELECT * FROM [help] ORDER BY %sql ","RAND()");
+		if (!empty($category)) {
+			$source->where("[category] = %s",$category);
 		}
-		$source = dibi::dataSource("SELECT * FROM [help] ORDER BY %sql ","RAND()","LIMIT 1");
+		$source->applyLimit(1);
 		return Leganto::help()->fetchAndCreate($source);
 	}
 
