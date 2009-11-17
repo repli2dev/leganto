@@ -16,7 +16,6 @@ fi
 
 # Test avability of needed programs
 type -P wput &>/dev/null || { echo "Program wput needed. Aborting." >&2; exit 1;}
-type -P mktemp &>/dev/null || { echo "Program mktemp needed. Aborting." >&2; exit 1;}
 type -P svn &>/dev/null || { echo "Subversion needed. Aborting." >&2; exit 1;}
 type -P find &>/dev/null || { echo "Program find needed. Aborting." >&2; exit 1;}
 
