@@ -8,16 +8,7 @@ class BasePresenter extends Presenter
 
 		$template = parent::createTemplate();
 
-		// register filters
-		$template->registerFilter('CurlyBracketsFilter::invoke');
-
-		// register custom helpers
-		$template->registerHelper("date", Helpers::getHelper('date'));
-		$template->registerHelper("time", Helpers::getHelper('time'));
-		$template->registerHelper("texy", Helpers::getHelper('texy'));
-		$template->registerHelper("translate", Helpers::getHelper('translate'));
-
-		return $template;
+		return LegantoTemplate::loadTemplate($template);
 	}
 
 	protected function startUp() {

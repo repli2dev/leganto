@@ -14,10 +14,23 @@
  * @author		Jan Drabek
  * @version		$Id$
  */
-class Web_DefaultPresenter extends Web_BasePresenter
-{
-    public function rederDefault(){
+class Web_DefaultPresenter extends Web_BasePresenter {
+	public function renderDefault() {
+		if(Environment::getUser()->isAuthenticated()) {
+			$this->forward("feed");
+		}
+	}
 	
-    }
+	public function renderFeed() {
+
+	}
+
+	protected function createComponentIntroduction($name) {
+		return new IntroductionComponent($this,$name);
+	}
+
+	protected function createComponentPreview($name) {
+		return new PreviewComponent($this,$name);
+	}
 
 }

@@ -34,6 +34,11 @@ class UserEntity extends AEntity
 	protected $inserted;
 
 	/**
+	 * @Translate(id_language)
+	 */
+	protected $idLanguage;
+
+	/**
 	 * @Translate(last_logged)
 	 * @Skip(Form)
 	 */
@@ -45,6 +50,9 @@ class UserEntity extends AEntity
 	 */
 	protected $nickname;
 
+	/**
+	 * @Form(withResource=password)
+	 */
 	protected $password;
 	
 	/**
@@ -58,11 +66,6 @@ class UserEntity extends AEntity
 	 * @Skip(Form)
 	 */
 	protected $similarity;
-
-	/**
-	 * @Skip(Form)
-	 */
-	protected $type;
 
 	/**
 	 * @Skip(Form)

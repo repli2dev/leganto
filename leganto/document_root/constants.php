@@ -7,3 +7,6 @@ define('APP_DIR', WWW_DIR . '/../app');
 
 // absolute filesystem path to the libraries
 define('LIBS_DIR', WWW_DIR . '/../libs');
+
+// absolute filesystem path to the templates
+define('TEMPLATES_DIR', APP_DIR . '/templates');

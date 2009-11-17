@@ -23,7 +23,6 @@ CREATE TABLE `user` (
 	`role` ENUM('common', 'moderator', 'admin') NOT NULL DEFAULT 'common' COMMENT 'role',
 	`email` VARCHAR(255) NOT NULL COMMENT 'e-mail',
 	`password` VARCHAR(255) NOT NULL COMMENT 'hash hesla',
-	`type` ENUM('root','common') NULL DEFAULT 'common' COMMENT 'typ uzivatele; common - kontroluji se pristupova prava, root - nekontroluji ',
 	`nick` VARCHAR(255) NOT NULL COMMENT 'prezdivka, pod kterou uzivatel vystupuje',
 	`sex` ENUM('male','female') NULL COMMENT 'pohlavi',
 	`birth_year` INT(3) NULL COMMENT 'vek',

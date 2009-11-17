@@ -17,6 +17,8 @@
 
 abstract class AFinder implements IFinder {
 
+	const REDIRECTION_LIMIT = 5;
+
 	private $params = array();
 
 	/**
@@ -47,7 +49,10 @@ abstract class AFinder implements IFinder {
 	 * @param string $url
 	 * @return string
 	 */
-	protected function getUrlContent($url) {
+	protected function getUrlContent($url, $counter = 0) {
+		if ($counter >= self::REDIRECTION_LIMIT) {
+			throw new IOException("The infinite loop.");
+		}
 		$ch = curl_init($url);
 		// The data should be returned (not printed)
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
@@ -60,8 +65,7 @@ abstract class AFinder implements IFinder {
 		}
 		else {
 			preg_match("/http.+\d+\//", $output, $matches);
-			// FIXME: fix potencial circular reference
-			return $this->getURLContent($matches[0]);
+			return $this->getURLContent($matches[0], $counter+1);
 		}
 	}
 

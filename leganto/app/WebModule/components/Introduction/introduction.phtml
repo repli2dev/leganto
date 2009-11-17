@@ -1,18 +1,20 @@
-{if isset($hint)}
-<div id="note">
-    <h1>Did you know...</h1>
-    {$hint->text}
-</div>
-{/if}
+{snippet introduction-block}
+	{if isset($hint)}
+	<div id="note">
+	    <h1>Did you know...</h1>
+	    {$hint->text}
+	</div>
+	{/if}
 
-{if isset($form)}
-	{!$form->render()}
-{/if}
+	{if isset($form)}
+		{!$form->render()}
+	{/if}
+{/snippet}
 <div id="info">
     <h1>Scarsick</h1>
     <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Quis nostrud 							exerci tation ex ea commodo consequat.</p>
 </div>
 <div id="getin">
-    <a href="{link changeState,'signup'}" id="signup_button">Sign up</a>
-    <a href="{link changeState,'login'}" id="login_button">Log in</a>
+    <a class="ajax" href="{link changeState!,'signup'}" id="signup_button">Sign up</a>
+    <a class="ajax" href="{link changeState!,'login'}" id="login_button">Log in</a>
 </div>

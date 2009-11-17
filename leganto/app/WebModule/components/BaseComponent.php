@@ -27,23 +27,14 @@ abstract class BaseComponent extends Control
     protected function createTemplate() {
 	$template = parent::createTemplate();
 
-	// register filters
-	$template->registerFilter('CurlyBracketsFilter::invoke');
-
-	// register custom helpers
-	$template->registerHelper("date", Helpers::getHelper('date'));
-	$template->registerHelper("time", Helpers::getHelper('time'));
-	$template->registerHelper("texy", Helpers::getHelper('texy'));
-	$template->registerHelper("translate", Helpers::getHelper('translate'));
-
 	$componentName = strtr($this->getClass(), array("Component" => ""));
 
 	$template->setFile(
 	    dirname(__FILE__) . "/" .
 	    $componentName . "/" .
-	    strtolower($componentName) . ".phtml"
+	    ExtraString::lowerFirst($componentName) . ".phtml"
 	);
 
-	return $template;
+	return LegantoTemplate::loadTemplate($template);
     }
 }

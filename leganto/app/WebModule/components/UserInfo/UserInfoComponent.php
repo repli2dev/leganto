@@ -13,18 +13,19 @@
  * @author		Jan Papousek
  * @author		Jan Drabek
  * @version		$Id$
+ *
  */
-class Web_BasePresenter extends BasePresenter {
 
-	protected function createComponentSearch($name) {
-		return new SearchComponent($this,$name);
+class UserInfoComponent extends BaseComponent {
+	
+	public function render(){
+		if(Environment::getUser()->isAuthenticated()){
+			parent::render();
+		}
 	}
 
-	protected function createComponentNavigation($name) {
-		return new NavigationComponent($this,$name);
-	}
-
-	protected function createComponentUserInfo($name) {
-		return new UserInfoComponent($this,$name);
+	public function handleLogout() {
+		Environment::getUser()->signOut(TRUE);
 	}
 }
+
