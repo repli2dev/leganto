@@ -5,8 +5,14 @@ echo "Deploy script";
 echo "----------------------------------------------------------";
 server="devel.ctenari.cz";
 user="devel";
-password="PASSWORD"
+password=""
 project="http://preader.googlecode.com/svn/trunk/"
+
+# Test if variables are filled
+if [[ $server == "" ]] || [[ $user == "" ]] || [[ $password  == "" ]] || [[ $project == "" ]]; then
+	echo "Main variables are not set, please edit this script";
+	exit 1;
+fi
 
 # Test avability of needed programs
 type -P wput &>/dev/null || { echo "Program wput needed. Aborting." >&2; exit 1;}
@@ -18,7 +24,7 @@ type -P find &>/dev/null || { echo "Program find needed. Aborting." >&2; exit 1;
 if [ "$1" ==  "--help" ]; then
 	echo "Update version from svn to devel ftp.";
 	echo "		(without paramer) run deploy";
-	echo "--externals	update also externals"
+	echo "--ignore-externals	ignore all external dependencies when update"
 	echo "--checkout	delete all files, and do new checkout";
 	echo "--help		show this help";
 	exit;
@@ -50,10 +56,10 @@ else
 	echo "Updating working copy...";
 	cd ./preader/
 	START=`date +%M`
-	if [ "$1" == "--externals" ]; then
-		svn update
-	else
+	if [ "$1" == "--ignore-externals" ]; then
 		svn update --ignore-externals
+	else
+		svn update
 	fi
 	END=`date +%M`
 fi
@@ -68,13 +74,13 @@ fi
 	fi
 	echo "Working with repository lasted $TOTAL minute(s)";
 	echo "Updated files...";
-	if [ -f ./files ]
+	if [ -f ../files ]
         then
-                rm ./files
+                rm ../files
         fi
-	find  -mmin -$TOTAL -type f | grep -v svn > ./files
-	cat ./files | while read FROM; do wput $FROM ftp://$user:$password@$server/$FROM; done;
-	if [ -f ./files ]
+	find  -mmin -$TOTAL -type f | grep -v svn > ../files
+	cat ../files | while read FROM; do wput $FROM ftp://$user:$password@$server/$FROM; done;
+	if [ -f ../files ]
         then
-                rm ./files
+                rm ../files
         fi
