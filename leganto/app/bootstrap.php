@@ -35,6 +35,7 @@ $application = Environment::getApplication();
 $router = $application->getRouter();
 
 $router[] = ApiModule::createRouter();
+$router[] = WebModule::createRouter();
 $router[] = TestModule::createRouter();
 
 // Step 5: Database connection
