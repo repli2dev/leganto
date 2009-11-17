@@ -77,10 +77,11 @@ class IntroductionComponent extends BaseComponent
 	$signUpForm->addGroup("Sign Up");
 	$signUpForm->getElementPrototype()->setId("signup");
 	$builder = new SimpleFormBuilder(Leganto::users()->createEmpty(), $signUpForm);
-	$builder->setResource("sex", "");
-	$builder->setResource("birth_year", "");
+	$builder->disableItem("sex");
+	$builder->disableItem("birth_year");
 	$form = $builder->buildForm();
 	$form->addPassword("password2","Password again");
+	$form->addSubmit("submitSignUp", "Register");
 	$form->onSubmit[] = array($builder, "onSubmit");
 	return $form;
     }
