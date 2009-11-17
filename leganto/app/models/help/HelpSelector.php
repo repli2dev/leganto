@@ -24,7 +24,7 @@ class HelpSelector implements ISelector
 	}
 
 	/** @return HelpEntity */
-	public function findRandomByCategory($category) {
+	public function findRandomByCategory($category = NULL) {
 		$source = dibi::dataSource("SELECT * FROM [help] ORDER BY %sql ","RAND()");
 		if (!empty($category)) {
 			$source->where("[category] = %s",$category);
