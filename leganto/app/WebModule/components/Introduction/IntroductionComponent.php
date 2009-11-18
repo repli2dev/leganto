@@ -83,9 +83,9 @@ class IntroductionComponent extends BaseComponent {
 		$user->inserted = new DibiVariable("now()", "sql");
 		// Build a form
 		$builder = new SimpleFormBuilder($user, $signUpForm);
-		$builder->disableItem("sex");
-		$builder->disableItem("birth_year");
-		$builder->disableItem("id_language");
+		$builder->disable("sex");
+		$builder->disable("birth_year");
+		$builder->disable("id_language");
 		$form = $builder->buildForm();
 		// Add remain items
 		$form->addPassword("password2","Password again");
