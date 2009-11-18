@@ -39,20 +39,21 @@ class IntroductionComponent extends BaseComponent {
 	}
 
 	public function loadDefaultTemplate() {
-		$template = $this->getTemplate();
-		$template->hint = Leganto::help()->getSelector()->findRandomByCategory();
+		$template			= $this->getTemplate();
+		$template->hint		= Leganto::help()->getSelector()->findRandomByCategory();
+		$template->state	= "default";
 		return $template;
 	}
 
 	public function loadLoginTemplate() {
-		$template = $this->getTemplate();
-		$template->form = $this->getComponent("loginForm");
+		$template			= $this->getTemplate();
+		$template->state	= "login";
 		return $template;
 	}
 
 	public function loadSignUpTemplate() {
-		$template = $this->getTemplate();
-		$template->form = $this->getComponent("signUpForm");
+		$template			= $this->getTemplate();
+		$template->state	= "signup";
 		return $template;
 	}
 
@@ -81,6 +82,7 @@ class IntroductionComponent extends BaseComponent {
 		$user->role = "common";
 		$user->idLanguage = 1;
 		$user->inserted = new DibiVariable("now()", "sql");
+		$user->addOnPersistListener(new CallbackListener(array($this, "postSignUp")));
 		// Build a form
 		$builder = new SimpleFormBuilder($user, $signUpForm);
 		$builder->disable("sex");
@@ -96,16 +98,20 @@ class IntroductionComponent extends BaseComponent {
 		return $form;
 	}
 
-	public function postSignUp(UserEntity $user){
+	public function postSignUp(EntityPersistedEvent $event){
+		$user = $event->getEntity();
 		$template = LegantoTemplate::loadTemplate(new Template());
-		$template->setFile(TEMPLATES_DIR . "/mails/signUp.phtml");
+		$template->setFile(WebModule::getModuleDir() . "/templates/mails/signUp.phtml");
 
 		$mail = new Mail();
 		$mail->addTo($user->email);
 		$mail->setFrom(Environment::getConfig("mail")->info, Environment::getConfig("mail")->name);
-		$mail->setSubject("Thanks for your registration");
+		$mail->setSubject("Thanks for your registration.");
 		$mail->setBody($template);
-		$mail->send();
+		//$mail->send();
+
+		$this->getPresenter()->flashMessage("Thanks for your registration.");
+		$this->getPresenter()->redirect("this");
 	}
 
 
@@ -136,6 +142,7 @@ class IntroductionComponent extends BaseComponent {
 			default:
 				throw new InvalidArgumentException("The state can be only defualt, login or signup");
 		}
+		//$this->invalidateControl();
 	}
 }
 

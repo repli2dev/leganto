@@ -16,5 +16,9 @@ class WebModule
 	}
 
 
+	public static function getModuleDir() {
+		return dirname(__FILE__);
+	}
+
 }
 

@@ -21,7 +21,7 @@ class UserAuthenticator
 				IAuthenticator::INVALID_CREDENTIAL
 			);
 		}
-		return new Identity($name, $row["role"], array("id_user" => $row["id_user"]));
+		return new Identity($name, $row["role"], array("id" => $row["id_user"]));
 	}
 
 	public static function passwordHash($password) {

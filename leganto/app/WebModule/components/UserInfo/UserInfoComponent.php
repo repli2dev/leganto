@@ -19,6 +19,7 @@
 class UserInfoComponent extends BaseComponent {
 	
 	public function render(){
+		$this->getTemplate()->user = System::user();
 		if(Environment::getUser()->isAuthenticated()){
 			parent::render();
 		}

@@ -15,7 +15,7 @@ if (@$_SERVER['HTTP_HOST'] == "devel.ctenari.cz") {
 	Environment::setName("devel-ctenari");
 }
 
-Environment::setName("Kronos");
+//Environment::setName("Kronos");
 
 Environment::getApplication()->catchExceptions = false;
 Environment::loadConfig(APP_DIR . '/config.ini');
