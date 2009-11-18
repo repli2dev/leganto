@@ -55,7 +55,7 @@ class EditionImageStorage extends EskymoObject implements IStorage
 	/** PRIVATE METHODS */
 
 	private function getDirectoryPath() {
-		return APP_DIR . "/../storage";
+		return APP_DIR . "/../storage/book";
 	}
 
 }
