@@ -20,17 +20,6 @@ abstract class AFinder implements IFinder {
 	const REDIRECTION_LIMIT = 5;
 
 	private $params = array();
-
-	/**
-	 * Set query language
-	 * @param string $lang google code of language
-	 */
-	public function  __construct($language) {
-		if (empty($language)) {
-			throw new NullPointerException("language");
-		}
-		$this->setUrlParam("LANG", $language);
-	}
 	
 	/* PROTECTED METHODS */
 

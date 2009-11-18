@@ -32,10 +32,24 @@ class EditionImageStorage extends EskymoObject implements IStorage
 		if (!$bookDirectory->exists()) {
 			$bookDirectory->mkdir();
 		}
-		$destination = $bookDirectory->getPath() . "/" . $edition->getId() . "." . $image->getExtension();
-		$image->copy($destination);
+		$extension = ($image->getExtension() == NULL) ? "jpeg" : $image->getExtension();
+		$destination = $bookDirectory->getPath() . "/" . $edition->getId() . "." . $extension;
+		if (preg_match("/http/", $image->getPath())) {
+			$ch = curl_init($image->getPath());
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+			$output = curl_exec($ch);
+			curl_close($ch);
+			$fp = fopen($destination, "w+");
+			fwrite($fp, $output);
+			fclose($fp);
+		}
+		else {
+			$image->copy($destination);
+		}
+		
 		$edition->image = $destination;
-		$edition->persist();
+		//$edition->persist();
+		return new File($destination);
 	}
 
 	/** PRIVATE METHODS */

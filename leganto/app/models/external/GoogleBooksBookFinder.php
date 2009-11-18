@@ -20,6 +20,17 @@
 	const XML_URL = "http://books.google.com/books/feeds/volumes?q=<--QUERY-->&lr=<--LANG-->";
 
 	/**
+	 * Set query language
+	 * @param string $lang google code of language
+	 */
+	public function  __construct($language) {
+		if (empty($language)) {
+			throw new NullPointerException("language");
+		}
+		$this->setUrlParam("LANG", $language);
+	}
+
+	/**
 	 * It tries to find the book on google books
 	 *
 	 * @param BookEntity $book The specified book
