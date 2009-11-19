@@ -14,6 +14,8 @@ Environment::loadConfig(APP_DIR . '/config.ini');
 
 dibi::connect(Environment::getConfig("database"));
 
+dibi::query("TRUNCATE TABLE [edition]");
+
 // Ziskam knihu
 $books           = Leganto::books()->fetchAndCreateAll(Leganto::books()->getSelector()->findAll()->applyLimit(20));
 // Vytvorim vyhledavac obrazku
