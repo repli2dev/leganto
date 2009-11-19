@@ -16,7 +16,6 @@ class GoogleBooksBookFinderTest extends EskymoTestCase
 
 	public function testGetType() {
 		$info = $this->finder->get($this->entity);
-		Debug::dump($info);
 		$this->assertTrue(is_array($info));
 	}
 

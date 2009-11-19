@@ -32,8 +32,10 @@ class EditionInserterTest extends EskymoTestCase
 
 	public function testInsertByGoogleBooksInfo() {
 		$this->inserted = $this->inserter->insertByGoogleBooksInfo($this->book, $this->info);
-		Debug::dump($this->inserted);
+		$this->assertFalse(empty($this->inserted));
+		foreach ($this->inserted AS $edition) {
+			$this->assertEquals(IEntity::STATE_PERSISTED, $edition->getState());
+		}
 	}
 
 }
-
