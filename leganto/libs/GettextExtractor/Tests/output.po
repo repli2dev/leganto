@@ -1,0 +1,22 @@
+# Gettext keys exported by GettextExtractor
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+# testfile.phtml:2
+msgid "Whooa %d asd"
+msgid_plural "Whooa %d asd"
+msgstr[0] "Whooa %d asd"
+msgstr[1] "Whooa %d asd"
+
+# testfile.php:3
+# testfile.phtml:5
+msgid "Whooa! %d asd"
+msgid_plural "Whooa! %d asd"
+msgstr[0] "Whooa! %d asd"
+msgstr[1] "Whooa! %d asd"
+
+# testfile.php:7
+msgid "ww"
+msgstr "ww"
