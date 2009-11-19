@@ -126,6 +126,9 @@ p {
 	margin: 10px auto;
 	color: #3D3417;
 }
+#feed h2 {
+	font-size: 110%;
+}
 #footer {
 	height: 47px;
 	clear: both;
