@@ -218,3 +218,16 @@ CREATE TABLE `help` (
 	`text` TEXT NOT NULL,
 	`image` TEXT NULL
 ) ENGINE = InnoDB COMMENT = 'vestavena napoveda';
+
+DROP TABLE IF EXISTS `edition`;
+CREATE TABLE `edition` (
+	`id_edition` INT(25) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'identifikator',
+	`id_book_title` INT(25) UNSIGNED NOT NULL COMMENT 'knizni titul',
+	`isbn` VARCHAR(100) NOT NULL COMMENT 'isbn',
+	`pages` INT(25) UNSIGNED NULL COMMENT 'pocet stran',
+	`published` VARCHAR(4) NULL COMMENT 'rok vydani',
+	`image` VARCHAR(255) NULL COMMENT 'soubor obsahujici obrazek obalky knihy',
+	`inserted` DATETIME NOT NULL COMMENT 'cas, kdy byla polozka vlozena do systemu',
+	`updated` TIMESTAMP COMMENT 'cas, kdy byla polozka naposledy zmenena',
+	FOREIGN KEY (`id_book_title`) REFERENCES `book_title` (`id_book_title`) ON UPDATE CASCADE ON DELETE CASCADE
+) ENGINE = InnoDB COMMENT = 'Vydani knih';
