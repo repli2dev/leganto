@@ -16,10 +16,11 @@ final class System
 	/** @return IEntity		*/
 	public static function domain() {
 		if (!isset(self::$domain)) {
-			self::$domain = SimpleEntityFactory::createEntityFactory("domain")
+			$source = SimpleEntityFactory::createEntityFactory("domain")
 				->getSelector()
 				->findAll()
 				->where("[uri] = %s", @$_SERVER['HTTP_HOST']);
+				self::$domain = SimpleEntityFactory::createEntityFactory("domain")->fetchAndCreate($source);
 		}
 		return self::$domain;
 	}
@@ -27,7 +28,7 @@ final class System
 	/** @return ITranslator */
 	public static function translator() {
 		if (empty(self::$translator)) {
-			self::$translator = new SimpleTranslator();
+			self::$translator = new Translator(self::domain()->locale, APP_DIR . "/locale", "leganto");
 		}
 		return self::$translator;
 	}
@@ -46,14 +47,4 @@ final class System
 		}
 		return self::$user;
 	}
-}
-
-
-class SimpleTranslator implements ITranslator
-{
-
-	public function translate($message, $count = NULL) {
-		return $message;
-	}
-
 }

@@ -14,7 +14,7 @@ class DomainSelector implements ISelector
 
 	/** @return DibiDataSource */
 	public function findAll() {
-		return dibi::dataSource("SELECT * FROM [domain]");
+		return dibi::dataSource("SELECT * FROM [view_domain]");
 	}
 
 }

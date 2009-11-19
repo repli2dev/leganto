@@ -30,6 +30,8 @@ final class LegantoTemplate
 		$template->registerHelper("translate", Helpers::getHelper('translate'));
 		$template->registerHelper("thumbnail", Helpers::getHelper('thumbnail'));
 
+		$template->setTranslator(System::translator());
+
 		return $template;
 	}
 

@@ -175,3 +175,11 @@ CREATE VIEW `view_book_search` AS
 	INNER JOIN `tag` USING (`id_tag`)
 	INNER JOIN `written_by` USING (`id_book`)
 	INNER JOIN `author` USING (`id_author`);
+
+DROP VIEW IF EXISTS `view_domain`;
+CREATE VIEW `view_domain` AS
+	SELECT
+		`domain`.*,
+		`language`.`locale`
+	FROM `domain`
+	INNER JOIN `language` USING(`id_language`);
