@@ -3,6 +3,9 @@ class EditionImageStorage extends EskymoObject implements IStorage
 {
 
 	public function getFile(IEntity $entity) {
+		if ($entity->getState() != IEntity::STATE_PERSISTED) {
+			throw new InvalidArgumentException("The entity has to be in state [persisted].");
+		}
 		switch(get_class($entity)) {
 			case "BookEntity":
 				$file = new File($this->getDirectoryPath() . "/" . $entity->getId());
@@ -22,6 +25,15 @@ class EditionImageStorage extends EskymoObject implements IStorage
 				throw new InvalidArgumentException("The entity has to be book or edition.");
 		}
 		return $file;
+	}
+
+	/** @return File */
+	public function getRandomFileByBook(BookEntity $book) {
+		$files = $this->getFile($book);
+		if (empty($file)) {
+			return NULL;
+		}
+		return $files[rand(0,sizeof($files)-1)];
 	}
 
 	public function store(IEntity $edition, File $image) {
