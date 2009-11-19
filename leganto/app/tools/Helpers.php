@@ -38,6 +38,9 @@ final class Helpers
 			case "texy": return array(get_class(), 'texyHelper');
 				break;
 			case "translate": return array(get_class(), 'translateHelper');
+				break;
+			case "thumbnail": return array(get_class(), "thumbnailHelper");
+				break;
 			default:
 				throw new DataNotFoundException("helper: $helper");
 		}
@@ -66,6 +69,25 @@ final class Helpers
 	public static function texyHelper($input) {
 		// TODO: Process by Texy!
 		return $input;
+	}
+
+	/**
+	 * It returns thumbnail URL
+	 *
+	 * @param string $image Image path
+	 * @param int $width Max width
+	 * @param int $height Max height
+	 * @return string
+	 */
+	public static function thumbnailHelper($image, $width = NULL, $height = NULL) {
+		$url = Environment::getApplication()->getPresenter()->getTemplate()->baseUri . "thumb/phpThumb.php?src=$image";
+		if (!empty($width)) {
+			$url .= "&w=$width";
+		}
+		if (!empty($height)) {
+			$url .= "&h=$height";
+		}
+		return $url;
 	}
 
 	/**

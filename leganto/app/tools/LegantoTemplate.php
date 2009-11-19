@@ -28,6 +28,7 @@ final class LegantoTemplate
 		$template->registerHelper("time", Helpers::getHelper('time'));
 		$template->registerHelper("texy", Helpers::getHelper('texy'));
 		$template->registerHelper("translate", Helpers::getHelper('translate'));
+		$template->registerHelper("thumbnail", Helpers::getHelper('thumbnail'));
 
 		return $template;
 	}
