@@ -66,10 +66,15 @@
 		// Parsing...
 		$data = simplexml_load_string($pageContent);
 		$i = 0;
+		$output = array();
 		foreach($data->entry as $entry){
+			$output[$i] = array();
 			$entry = $entry->children('http://purl.org/dc/terms'); // Switch the namespaces
 			// FIXME: co prekladatele?!
 			foreach($entry->creator as $creator){
+				if (!isset($output[$i]['author'])) {
+					$output[$i]['author'] = array();
+				}
 				$output[$i]['author'][] = (string) $creator;
 			}
 			$output[$i][self::PUBLISHED] = (int) $entry->date;

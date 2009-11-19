@@ -229,5 +229,7 @@ CREATE TABLE `edition` (
 	`image` VARCHAR(255) NULL COMMENT 'soubor obsahujici obrazek obalky knihy',
 	`inserted` DATETIME NOT NULL COMMENT 'cas, kdy byla polozka vlozena do systemu',
 	`updated` TIMESTAMP COMMENT 'cas, kdy byla polozka naposledy zmenena',
-	FOREIGN KEY (`id_book_title`) REFERENCES `book_title` (`id_book_title`) ON UPDATE CASCADE ON DELETE CASCADE
+	FOREIGN KEY (`id_book_title`) REFERENCES `book_title` (`id_book_title`) ON UPDATE CASCADE ON DELETE CASCADE,
+	UNIQUE(`isbn`),
+	INDEX(`id_book_title`)
 ) ENGINE = InnoDB COMMENT = 'Vydani knih';

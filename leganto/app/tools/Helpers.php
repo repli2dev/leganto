@@ -80,7 +80,10 @@ final class Helpers
 	 * @return string
 	 */
 	public static function thumbnailHelper($image, $width = NULL, $height = NULL) {
-		$url = Environment::getApplication()->getPresenter()->getTemplate()->baseUri . "thumb/phpThumb.php?src=$image";
+		if (empty($image) || !file_exists($image)) {
+			$image = WWW_DIR . "/img/avatar_placeholder.gif";
+		}
+		$url = Environment::getApplication()->getPresenter()->getTemplate()->baseUri . "thumb/phpThumb.php?src=" . $image;
 		if (!empty($width)) {
 			$url .= "&w=$width";
 		}

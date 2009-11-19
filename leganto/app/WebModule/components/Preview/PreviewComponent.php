@@ -18,6 +18,22 @@
 
 class PreviewComponent extends BaseComponent
 {
-    
+
+	public function render() {
+		$this->getTemplate()->books = Leganto::books()->fetchAndCreateAll(
+			Leganto::books()->getSelector()
+				->findAll()
+				/*->orderBy("inserted", "desc")*/
+				->applyLimit(4)
+		);
+		$storage = new EditionImageStorage();
+		$this->getTemplate()->covers = array();
+		foreach ($this->getTemplate()->books AS $book) {
+			$image = $storage->getRandomFileByBook($book);
+			$this->getTemplate()->covers[$book->getId()] = empty($image) ? NULL : $image->getAbsolutePath();
+		}
+		parent::render();
+	}
+
 }
 

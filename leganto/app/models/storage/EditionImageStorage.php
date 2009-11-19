@@ -29,10 +29,11 @@ class EditionImageStorage extends EskymoObject implements IStorage
 
 	/** @return File */
 	public function getRandomFileByBook(BookEntity $book) {
-		$files = $this->getFile($book);
-		if (empty($file)) {
+		$directory = $this->getFile($book);
+		if (empty($directory)) {
 			return NULL;
 		}
+		$files = $directory->listFiles();
 		return $files[rand(0,sizeof($files)-1)];
 	}
 
@@ -67,7 +68,7 @@ class EditionImageStorage extends EskymoObject implements IStorage
 	/** PRIVATE METHODS */
 
 	private function getDirectoryPath() {
-		return APP_DIR . "/../storage/books";
+		return WWW_DIR . "/storage/books";
 	}
 
 }

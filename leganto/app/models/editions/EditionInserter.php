@@ -29,7 +29,9 @@ class EditionInserter implements IInserter
 				$entity->isbn			= strtr($identifier, array("ISBN:" => ""));
 				$entity->inserted		= new DibiVariable("now()", "sql");
 				$entity->persist();
-				$result[] = $entity;
+				if ($entity->getId() != -1) {
+					$result[] = $entity;
+				}
 			}
 		}
 		return $result;
