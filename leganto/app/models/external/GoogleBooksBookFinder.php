@@ -74,7 +74,8 @@
 			}
 			$output[$i][self::PUBLISHED] = (int) $entry->date;
 			$output[$i][self::FORMAT] = (string) $entry->format[1];
-			$output[$i][self::PAGES] = (string) $entry->format[0];
+			preg_match("/\d+/", (string) $entry->format[0], $matches);
+			$output[$i][self::PAGES] = ExtraArray::firstValue($matches);
 			$output[$i][self::TITLE] = (string) $entry->title;
 			foreach($entry->identifier as $identifier){
 				$output[$i][self::IDENTIFIER][] = (string) $identifier;
