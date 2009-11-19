@@ -14,5 +14,13 @@ class EditionSelector implements ISelector
 		return dibi::dataSource("SELECT * FROM [edition]");
 	}
 
+	/** @return DibiDataSource */
+	public function findAllByBook(BookEntity $book) {
+		if ($book->getState() != IEntity::STATE_PERSISTED) {
+			throw new InvalidArgumentException("The book entity has to be in state [persisted].");
+		}
+		return dibi::dataSource("SELECT * FROM [edition] WHERE [id_book_title] = %i", $book->getId());
+	}
+
 }
 
