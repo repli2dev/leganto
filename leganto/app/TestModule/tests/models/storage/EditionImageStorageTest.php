@@ -26,7 +26,7 @@ class EditionImageStorageTest extends EskymoTestCase
 	}
 
 	protected function tearDown() {
-		$this->edition->delete();
+		//$this->edition->delete();
 	}
 
 	public function testStore() {
