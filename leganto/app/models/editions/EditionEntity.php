@@ -4,8 +4,8 @@
 class EditionEntity extends AEntity
 {
 
-	/** @Translate(id_book) */
-	protected $idBook;
+	/** @Translate(id_book_title) */
+	protected $idBookTitle;
 
 	protected $inserted;
 

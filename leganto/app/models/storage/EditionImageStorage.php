@@ -28,7 +28,7 @@ class EditionImageStorage extends EskymoObject implements IStorage
 		if ($edition->getState() != IEntity::STATE_PERSISTED) {
 			throw new InvalidArgumentException("The entity has to be persisted.");
 		}
-		$bookDirectory = new File($this->getDirectoryPath() . "/" . $edition->idBook);
+		$bookDirectory = new File($this->getDirectoryPath() . "/" . $edition->idBookTitle);
 		if (!$bookDirectory->exists()) {
 			$bookDirectory->mkdir();
 		}
@@ -48,7 +48,7 @@ class EditionImageStorage extends EskymoObject implements IStorage
 		}
 		
 		$edition->image = $destination;
-		//$edition->persist();
+		$edition->persist();
 		return new File($destination);
 	}
 

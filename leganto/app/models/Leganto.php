@@ -41,6 +41,13 @@ class Leganto
 	/**
 	 * @return IEntityFactory
 	 */
+	public static function editions() {
+		return SimpleEntityFactory::createEntityFactory("edition");
+	}
+
+	/**
+	 * @return IEntityFactory
+	 */
 	public static function help() {
 		return SimpleEntityFactory::createEntityFactory("help");
 	}
