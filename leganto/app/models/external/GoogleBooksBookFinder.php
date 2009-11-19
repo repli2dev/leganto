@@ -16,8 +16,20 @@
  */
 
  class GoogleBooksBookFinder extends AFinder {
-	 
-	const XML_URL = "http://books.google.com/books/feeds/volumes?q=<--QUERY-->&lr=<--LANG-->";
+
+	const AUTHOR		= "author";
+
+	const FORMAT		= "format";
+
+	const IDENTIFIER	= "isbn";
+
+	const PAGES			= "pages";
+
+	const PUBLISHED		= "publishDate";
+
+	const TITLE			= "title";
+
+	const XML_URL		= "http://books.google.com/books/feeds/volumes?q=<--QUERY-->&lr=<--LANG-->";
 
 	/**
 	 * Set query language
@@ -60,12 +72,12 @@
 			foreach($entry->creator as $creator){
 				$output[$i]['author'][] = (string) $creator;
 			}
-			$output[$i]['publishDate'] = (int) $entry->date;
-			$output[$i]['format'] = (string) $entry->format[1];
-			$output[$i]['pages'] = (string) $entry->format[0];
-			$output[$i]['title'] = (string) $entry->title;
+			$output[$i][self::PUBLISHED] = (int) $entry->date;
+			$output[$i][self::FORMAT] = (string) $entry->format[1];
+			$output[$i][self::PAGES] = (string) $entry->format[0];
+			$output[$i][self::TITLE] = (string) $entry->title;
 			foreach($entry->identifier as $identifier){
-				$output[$i]['identifier'][] = (string) $identifier;
+				$output[$i][self::IDENTIFIER][] = (string) $identifier;
 			}
 			$i++;
 
