@@ -37,8 +37,6 @@ final class Helpers
 				break;
 			case "texy": return array(get_class(), 'texyHelper');
 				break;
-			case "translate": return array(get_class(), 'translateHelper');
-				break;
 			case "thumbnail": return array(get_class(), "thumbnailHelper");
 				break;
 			default:
