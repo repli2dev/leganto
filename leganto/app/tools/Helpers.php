@@ -53,11 +53,7 @@ final class Helpers
 	 * @return string Formated date.
 	 */
 	public static function dateFormatHelper($date) {
-		return preg_replace(
-			"/(\d{4})-0?([1-9]{1,2}0?)-0?([1-9]{1,2}0?) 0?([0-9]{1,2}0?):(\d{2}):(\d{2})/",
-			"\\3. \\2. \\1",
-			$date
-		);
+		return date('d.m.Y',strtotime($date));
 	}
 
 	/**
@@ -100,21 +96,7 @@ final class Helpers
 	 * @return string Formated time.
 	 */
 	public static function timeFormatHelper($time) {
-		return preg_replace(
-			"/(\d{4})-0?([1-9]{1,2}0?)-0?([1-9]{1,2}0?) 0?([0-9]{1,2}0?):(\d{2}):(\d{2})/",
-			"\\3. \\2. \\1, \\4:\\5",
-			$time
-		);
-	}
-
-	/**
-	 * It return localized key.
-	 *
-	 * @param string $module The module name.
-	 * @param string $key The key.
-	 */
-	public static function translateHelper($key, $module = "base") {
-		return Locales::get($module)->get($key);
+		return date('d.m.Y H:i',$time);
 	}
 
 }

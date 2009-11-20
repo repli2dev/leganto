@@ -82,6 +82,7 @@ class IntroductionComponent extends BaseComponent {
 		$user->role = "common";
 		$user->idLanguage = 1;
 		$user->inserted = new DibiVariable("now()", "sql");
+		// Add post action (send mail to user)
 		$user->addOnPersistListener(new CallbackListener(array($this, "postSignUp")));
 		// Build a form
 		$builder = new SimpleFormBuilder($user, $signUpForm);
@@ -93,8 +94,6 @@ class IntroductionComponent extends BaseComponent {
 		$form->addPassword("password2","Password again");
 		$form->addSubmit("submitSignUp", "Register");
 		$form->onSubmit[] = array($builder, "onSubmit");
-		// Send mail
-		//$this->postSignUp($user); TODO: udalosti formulare
 		return $form;
 	}
 
@@ -108,7 +107,7 @@ class IntroductionComponent extends BaseComponent {
 		$mail->setFrom(Environment::getConfig("mail")->info, Environment::getConfig("mail")->name);
 		$mail->setSubject("Thanks for your registration.");
 		$mail->setBody($template);
-		//$mail->send();
+		$mail->send();
 
 		$this->getPresenter()->flashMessage("Thanks for your registration.");
 		$this->getPresenter()->redirect("this");

@@ -20,6 +20,7 @@ class BaseForm extends AppForm
 {
 
 	public function  render() {
+		// Do not use tables for forms any more
 		$renderer = $this->getRenderer();
 		$renderer->wrappers['controls']['container'] = NULL;
 		$renderer->wrappers['pair']['container'] = 'p';

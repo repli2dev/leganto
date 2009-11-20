@@ -19,6 +19,11 @@ final class LegantoTemplate
 
 	final private function  __construct() {}
 
+	/**
+	 * Adding basic helpers and system translator
+	 * @param ITemplate $template
+	 * @return ITemplate
+	 */
 	public static function loadTemplate(ITemplate $template){
 		// register filters
 		$template->registerFilter('CurlyBracketsFilter::invoke');
