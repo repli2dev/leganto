@@ -1,0 +1,19 @@
+# Gettext keys exported by GettextExtractor
+# Created: 2009-11-20T01:33:20+01:00
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2009-11-20 01:34+0100\n"
+"Last-Translator: Jan Papoušek <jan.papousek@gmail.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+# introduction.phtml:18
+# _d21edecc0d242ddb6c4ec9376860b475.introduction.phtml.php:21
+msgid "Welcome!"
+msgstr "Welcome!"
+

@@ -28,7 +28,11 @@ final class System
 	/** @return ITranslator */
 	public static function translator() {
 		if (empty(self::$translator)) {
-			self::$translator = new Translator(self::domain()->locale, APP_DIR . "/locale", "leganto");
+			self::$translator = new Translator(
+				self::domain()->locale,
+				APP_DIR . "/locale",
+				"leganto"
+			);
 		}
 		return self::$translator;
 	}
