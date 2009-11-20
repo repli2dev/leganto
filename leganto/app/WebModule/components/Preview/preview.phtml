@@ -1,8 +1,8 @@
 <div id="feed">
 	{foreach $books AS $book}
 	<div class="column">
-		<h2>{$book->title}</h2>
 		<img class="avatar_icon" src="{$covers[$book->getId()],50|thumbnail}" alt="{$book->title}" width="50" height="80" />
+		<h2>{$book->title}</h2>
 		<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Quis nostrud 							exerci tation ex ea commodo consequat.</p>
 	</div>
 	{/foreach}

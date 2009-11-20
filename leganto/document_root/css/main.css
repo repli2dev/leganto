@@ -28,7 +28,7 @@ h2 {
 	padding: 0;
 	font-size: 25px;
 	color: #F1C11B;
-	text-shadow: 1px 1px 1px #695414;
+	/*text-shadow: 1px 1px 1px #695414;*/
 }
 p {
 	margin: 0;
@@ -126,9 +126,6 @@ p {
 	margin: 10px auto;
 	color: #3D3417;
 }
-#feed h2 {
-	font-size: 110%;
-}
 #footer {
 	height: 47px;
 	clear: both;
@@ -142,6 +139,14 @@ p {
 	margin: 0;
 	padding: 0 0 0 5px;
 }*/
+#feed h2 {
+	font-size: 110%;
+	/*height: 40px;*/
+	/*display: inline;*/
+	/*vertical-align: bottom;*/
+	margin: 0 0 5px 0;
+	padding: 0;
+}
 #feed p {
 	padding: 0;
 }
@@ -212,7 +217,8 @@ p {
 	border-top: 3px solid #F9E7A2;
 }
 .column {
-	width: 23%;
+	/*width: 23%;*/
+	width: 31%;
 	float: left;
 	margin: 0 1% 20px 1%;
 }
@@ -285,7 +291,13 @@ p {
 	border: 0px;
 	width: 101px;
 	height: 26px;
+	color: #5B3E1E;
+	font-family: Verdana, Geneva, sans-serif;
+	font-size: 15px;
+	font-weight: bolder;
+	line-height: 24px;
 	background-image: url(../img/main_signup_submit_default.gif);
+	background-color: #FEFCEB;
 }
 #signup [type="submit"]:hover {
 	background-image: url(../img/main_signup_submit_hover.gif);
