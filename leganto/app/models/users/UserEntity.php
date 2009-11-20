@@ -51,7 +51,7 @@ class UserEntity extends AEntity
 	protected $nickname;
 
 	/**
-	 * @Form(withResource=password)
+	 * @Form(withResource=password, withoutResource=password)
 	 */
 	protected $password;
 	
