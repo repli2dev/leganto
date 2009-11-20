@@ -287,7 +287,8 @@ p {
 	background-repeat: no-repeat;
 }
 #signup [type="submit"] {
-	float: right;
+	/*float: right;*/
+	margin-left: 130px;
 	border: 0px;
 	width: 101px;
 	height: 26px;
@@ -307,7 +308,9 @@ p {
 }
 #signup label {
 	float: left;
-	width: 105px;
+	width: 130px;
+	text-align: right;
+	margin-right: 10px;
 	color: #214465;
 	font-size: 17px;
 	line-height: 25px;
@@ -319,8 +322,8 @@ p {
 #signup legend {
 	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
 	font-weight: bolder;
-	margin: 0 0 0 0;
-	padding: 23px 0 0 0;
+	margin: 0 0 0 140px;
+	padding: 24px 0 0 0;
 	color: #336699;
 	font-size: 30px;
 	text-shadow: 1px 1px 1px #003;
