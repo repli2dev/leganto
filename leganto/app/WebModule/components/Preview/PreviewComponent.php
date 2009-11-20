@@ -24,7 +24,7 @@ class PreviewComponent extends BaseComponent
 			Leganto::books()->getSelector()
 				->findAll()
 				/*->orderBy("inserted", "desc")*/
-				->applyLimit(4)
+				->applyLimit(6)
 		);
 		$storage = new EditionImageStorage();
 		$this->getTemplate()->covers = array();
