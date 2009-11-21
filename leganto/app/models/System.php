@@ -28,8 +28,11 @@ final class System
 	/** @return ITranslator */
 	public static function translator() {
 		if (empty(self::$translator)) {
+			$domain = self::$domain;
+			$r = new HttpRequest();
 			self::$translator = new Translator(
-				self::domain()->locale,
+				// FIXME:
+				empty($domain) ? "EN_us" : $domain->locale,
 				APP_DIR . "/locale",
 				"leganto"
 			);

@@ -14,7 +14,7 @@ class Translator implements ITranslator
      */
     public function __construct($locale, $directory, $domain = 'messages')
     {
-        putenv("LANG=$locale");
+        //putenv("LANG=$locale");
         setlocale(LC_ALL, $locale);
         
         // language pack path: $directory/$locale/LC_$domain/$domain.mo
