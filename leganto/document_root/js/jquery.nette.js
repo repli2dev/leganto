@@ -34,3 +34,23 @@ jQuery.ajaxSetup({
 	success: jQuery.nette.success,
 	dataType: "json"
 });
+
+$(function() {
+        // nastaví událost onclick pro všechny elementy A s třídou 'ajax'
+        $("a.ajax").live("click", function(event) {
+                $.get(this.href); // zahájí AJAXový požadavek
+
+                // zobrazí spinner, signalizující uživateli, že se něco děje
+                $('<div id="ajax-spinner"></div>').css({
+                        position: "absolute",
+                        left: event.pageX + 20,
+                        top: event.pageY + 40
+
+                }).ajaxStop(function() {
+                        $(this).remove(); // po skončení spinner smaž
+
+                }).appendTo("body");
+
+                return false;
+        });
+}); 

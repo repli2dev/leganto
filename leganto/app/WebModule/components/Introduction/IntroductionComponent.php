@@ -141,7 +141,7 @@ class IntroductionComponent extends BaseComponent {
 			default:
 				throw new InvalidArgumentException("The state can be only defualt, login or signup");
 		}
-		//$this->invalidateControl();
+		$this->invalidateControl("introduction-block");
 	}
 }
 

@@ -132,6 +132,11 @@ p {
 	background: #FDF7CD;
 	border-top: 2px solid #F9E7A2;
 }
+#ajax-spinner {
+	background-image: url('../img/ajax-loader.gif');
+	width: 16px;
+	height: 16px;
+}
 /********************* NESTED ***********************/
 /*#category li {
 	display: inline;
@@ -170,6 +175,7 @@ p {
 	padding-left: 17px;
 }
 #note h1 {
+	font-size: 200%;
 	padding: 12px 0 0 0;
 	color: #8B5727;
 	text-shadow: 1px 1px 1px #3E2813;
