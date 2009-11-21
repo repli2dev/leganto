@@ -247,7 +247,7 @@ p {
 	text-align: left;
 }
 /********************* FORMS ************************/
-#signup {
+#sign {
 	height: 277px;
 	width: 375px;
 	float: right;
@@ -255,10 +255,10 @@ p {
 	padding: 0;
 	font: "Trebuchet MS", Arial, Helvetica, sans-serif;
 }
-#signup fieldset {
+#sign fieldset {
 	border: 0;
 }
-#signup [type="checkbox"] {
+#sign [type="checkbox"] {
 	border: 1px dotted #336699;
 	background-color: #FEFCEB;
 	height: 20px;
@@ -274,8 +274,8 @@ p {
 /*#signup [type="checkbox"]:active {
 	background-image: url(../img/main_signup_radio_active.gif);
 }*/
-#signup [type="text"],
-#signup [type="password"] {
+#sign [type="text"],
+#sign [type="password"] {
 	height: 25px;
 	width: 170px;
 	border: 1px dotted #336699;
@@ -286,15 +286,15 @@ p {
 	padding: 0 5px;
 	line-height: 25px;
 }
-#signup [type="text"]:focus,
-#signup [type="password"]:focus{
+#sign [type="text"]:focus,
+#sign [type="password"]:focus{
 	background-image: url(../img/main_input_arrow.gif);
 	background-position: 165px;
 	background-repeat: no-repeat;
 }
-#signup [type="submit"] {
-	/*float: right;*/
-	margin-left: 140px;
+#sign [type="submit"] {
+	float: right;
+	margin: 0 40px 0 140px;
 	border: 0px;
 	width: 101px;
 	height: 26px;
@@ -305,27 +305,31 @@ p {
 	line-height: 24px;
 	background-image: url(../img/main_signup_submit_default.gif);
 	background-color: #FEFCEB;
+	position: relative;
+	bottom: 32px;
+	
 }
-#signup [type="submit"]:hover {
+#sign [type="submit"]:hover {
 	background-image: url(../img/main_signup_submit_hover.gif);
 }
-#signup [type="submit"]:active {
+#sign [type="submit"]:active {
 	background-image: url(../img/main_signup_submit_active.gif);
 }
-#signup label {
+#sign label {
 	float: left;
 	width: 130px;
 	text-align: right;
 	margin-right: 10px;
 	color: #214465;
-	font-size: 17px;
+	font-size: 15px;
+	font-weight: bolder;
 	line-height: 25px;
 	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
 }
-#signup label:after {
+#sign label:after {
 	content: ":";
 }
-#signup legend {
+#sign legend {
 	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
 	font-weight: bolder;
 	margin: 0 0 0 140px;
@@ -335,7 +339,7 @@ p {
 	text-shadow: 1px 1px 1px #003;
 	letter-spacing: 1.3px;
 }
-#signup p {
+#sign p {
 	margin: 10px 0;
 	padding: 0;
 	clear: both;
