@@ -61,7 +61,7 @@ class IntroductionComponent extends BaseComponent {
 
 	protected function createComponentLoginForm($name) {
 		$loginForm = new BaseForm;
-		$loginForm->getElementPrototype()->setId("signup");
+		$loginForm->getElementPrototype()->setId("sign");
 		$loginForm->addGroup("Log in");
 		$loginForm->addText("nickname", "Nickname")
 		    ->addRule(Form::FILLED,"Please fill the nickname.");
@@ -76,7 +76,7 @@ class IntroductionComponent extends BaseComponent {
 		// Create form skeleton
 		$signUpForm = new BaseForm;
 		$signUpForm->addGroup("Sign Up");
-		$signUpForm->getElementPrototype()->setId("signup");
+		$signUpForm->getElementPrototype()->setId("sign");
 		// Create user entity and set defaults (for form building)
 		$user = Leganto::users()->createEmpty();
 		$user->role = "common";
