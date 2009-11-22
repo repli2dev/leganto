@@ -315,9 +315,9 @@ class GettextExtractor
         foreach ($this->comments as $comment) {
         	$output[] = '# ' . $comment;
         }
-        $output[] = '# Created: ' . date('c');
         $output[] = 'msgid ""';
         $output[] = 'msgstr ""';
+	$output[] = '"POT-Creation-Date: ' . date('c').'\n"';
         foreach ($this->meta as $key => $value) {
         	$output[] = '"' . $key . ': ' . $value . '\n"';
         }
@@ -339,7 +339,8 @@ class GettextExtractor
             } else {
                 $output[] = 'msgstr "' . addslashes($key) . '"'; 
             }*/
-            $output[] = 'msgstr "' . $this->addSlashes($key) . '"';
+            //$output[] = 'msgstr "' . $this->addSlashes($key) . '"';
+	    $output[] = 'msgstr ""'; // Templates should not containt translated strings.
             $output[] = '';
         }
         

@@ -31,10 +31,8 @@ final class System
 			$domain = self::$domain;
 			$r = new HttpRequest();
 			self::$translator = new Translator(
-				// FIXME:
-				empty($domain) ? "EN_us" : $domain->locale,
-				APP_DIR . "/locale",
-				"leganto"
+				empty($domain) ? "en_US" : $domain->locale,
+				APP_DIR . "/locale"
 			);
 		}
 		return self::$translator;

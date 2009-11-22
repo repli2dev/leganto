@@ -78,7 +78,7 @@ class PHPFilter implements iFilter
                     continue;
                 }
                 if ($c[0] == T_CONSTANT_ENCAPSED_STRING && $next == 1) {
-                    $data[substr($c[1], 1, -1)][] = $pInfo['basename'] . ':' . $c[2];
+                    $data[substr($c[1], 1, -1)][] = strtr($pInfo['dirname'], array(realpath(APP_DIR) => 'APP_DIR')) . '/' . $pInfo['basename'] . ':' . $c[2];
                     $next = false; 
                 }
             } else {

@@ -15,10 +15,12 @@ class Translator implements ITranslator
     public function __construct($locale, $directory, $domain = 'messages')
     {
         //putenv("LANG=$locale");
-        setlocale(LC_ALL, $locale);
+        if(setlocale(LC_ALL, $locale) === FALSE){
+		throw new Exception("This locale is not present on this system, therefore it cannot work!");
+	}
         
         // language pack path: $directory/$locale/LC_$domain/$domain.mo
-        // example: application/locale/cs/LC_MESSAGES/messages.mo
+        // example: application/locale/cs_CZ/LC_MESSAGES/messages.mo
         bindtextdomain($domain, $directory);
         textdomain($domain);
         bind_textdomain_codeset($domain, 'UTF-8');
