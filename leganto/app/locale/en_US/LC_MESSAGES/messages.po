@@ -1,25 +1,43 @@
-# Gettext keys exported by GettextExtractor
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2009-11-22T16:06:54+01:00\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "Project-Id-Version: \n"
+"POT-Creation-Date: \n"
 "PO-Revision-Date: \n"
-"Last-Translator: Jan Dr√°bek <repli2dev@gmail.com>\n"
+"Last-Translator: Jan Dr·bek <repli2dev@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 # APP_DIR/WebModule/components/Introduction/introduction.phtml:3
 msgid "Did you know?"
-msgstr "A"
+msgstr "Did you know?"
+
+# APP_DIR/WebModule/components/UserInfo/userInfo.phtml:0
+msgid "Log out"
+msgstr "Log out"
 
 # APP_DIR/WebModule/templates/layout.phtml:26
 msgid "No content"
-msgstr "B"
+msgstr "No content"
 
 # APP_DIR/WebModule/components/Introduction/introduction.phtml:18
 msgid "Welcome!"
-msgstr "C"
+msgstr "Welcome!"
+
+# APP_DIR/WebModule/components/Search/search.phtml:5
+msgid "all"
+msgstr "all"
+
+# APP_DIR/WebModule/components/Search/search.phtml:7
+msgid "authors"
+msgstr "authors"
+
+# APP_DIR/WebModule/components/Search/search.phtml:6
+msgid "books"
+msgstr "books"
+
+# APP_DIR/WebModule/components/Search/search.phtml:8
+msgid "readers"
+msgstr "readers"
 

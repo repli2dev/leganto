@@ -1,12 +1,16 @@
 # Gettext keys exported by GettextExtractor
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2009-11-22T16:06:54+01:00\n"
+"POT-Creation-Date: 2009-11-22T16:46:41+01:00\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 # APP_DIR/WebModule/components/Introduction/introduction.phtml:3
 msgid "Did you know?"
+msgstr ""
+
+# APP_DIR/WebModule/components/UserInfo/userInfo.phtml:0
+msgid "Log out"
 msgstr ""
 
 # APP_DIR/WebModule/templates/layout.phtml:26
@@ -15,4 +19,20 @@ msgstr ""
 
 # APP_DIR/WebModule/components/Introduction/introduction.phtml:18
 msgid "Welcome!"
+msgstr ""
+
+# APP_DIR/WebModule/components/Search/search.phtml:5
+msgid "all"
+msgstr ""
+
+# APP_DIR/WebModule/components/Search/search.phtml:7
+msgid "authors"
+msgstr ""
+
+# APP_DIR/WebModule/components/Search/search.phtml:6
+msgid "books"
+msgstr ""
+
+# APP_DIR/WebModule/components/Search/search.phtml:8
+msgid "readers"
 msgstr ""
