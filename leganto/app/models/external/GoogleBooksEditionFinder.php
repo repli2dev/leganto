@@ -15,7 +15,19 @@
  * @version		$Id$
  */
 
- class GoogleBooksBookFinder extends AFinder {
+ class GoogleBooksEditionFinder extends AFinder {
+
+	const AUTHOR		= "author";
+
+	const FORMAT		= "format";
+
+	const IDENTIFIER	= "isbn";
+
+	const PAGES			= "pages";
+
+	const PUBLISHED		= "publishDate";
+
+	const TITLE			= "title";
 
 	const XML_URL		= "http://books.google.com/books/feeds/volumes?q=<--QUERY-->&lr=<--LANG-->";
 
@@ -36,8 +48,8 @@
 	 * @param BookEntity $book The specified book
 	 * @return array or NULL
 	 */
-	public function get($entity) {
-		$this->setUrlParam("QUERY", $this->makeQuery($entity));
+	public function get($gid) {
+		$this->setUrlParam("QUERY", $this->makeQuery($gid));
 		return $this->fetchAndParse();
 	}
 
@@ -53,49 +65,41 @@
 		$pageContent = $this->getUrlContent($this->getParsedUrl());
 		// Parsing...
 		$data = simplexml_load_string($pageContent);
-		// Get Google Book ID of first item
-		$entry = $data->entry->children('http://purl.org/dc/terms'); // Switch the namespaces
-		$gid = (string) $entry->identifier[0];
-		$params = $this->getUrlParams();
+		$i = 0;
+		$output = array();
+		foreach($data->entry as $entry){
+			$output[$i] = array();
+			$entry = $entry->children('http://purl.org/dc/terms'); // Switch the namespaces
+			// FIXME: co prekladatele?!
+			foreach($entry->creator as $creator){
+				if (!isset($output[$i]['author'])) {
+					$output[$i]['author'] = array();
+				}
+				$output[$i]['author'][] = (string) $creator;
+			}
+			$output[$i][self::PUBLISHED] = (int) $entry->date;
+			$output[$i][self::FORMAT] = (string) $entry->format[1];
+			preg_match("/\d+/", (string) $entry->format[0], $matches);
+			$output[$i][self::PAGES] = ExtraArray::firstValue($matches);
+			$output[$i][self::TITLE] = (string) $entry->title;
+			foreach($entry->identifier as $identifier){
+				$output[$i][self::IDENTIFIER][] = (string) $identifier;
+			}
+			$i++;
 
-		if(empty($gid)){
-			echo "Failed for query: ".$params['<--QUERY-->']."<br />";
-			return;
-		} else {
-			// Ask editionFinder to do the job
-			$editionFinder = new GoogleBooksEditionFinder($params['<--LANG-->']);
-
-			return $editionFinder->get($gid);
 		}
+		return $output;
 	}
 
 	/**
 	 * It returns URL where the results of book searching are displayed
 	 *
-	 * @param Entity $etity
+	 * @param string $gid Google Book Id
 	 * @return string
 	 */
-	private function makeQuery(IEntity $entity) {
-		if ($entity->getState() != IEntity::STATE_PERSISTED) {
-			throw new InvalidStateException("The entity has to be in state [PERSISTED].");
-		}
-		$query = "";
+	private function makeQuery($gid) {
+		$query = 'editions:'.$gid.'';
 
-		// Add title to query
-		$query .= 'intitle:"'.$entity->title.'"';
-
-		// Add author to query
-		$authors = Leganto::authors()->fetchAndCreateAll(
-			Leganto::authors()->getSelector()->findAllByBook($entity)
-		);
-		foreach($authors AS $author) {
-			if ($author->type == AuthorEntity::GROUP) {
-				$query .= ' inauthor:"' . $author->groupname.'"';
-			}
-			else {
-				$query .= ' inauthor:"'. $author->firstname . ' ' . $author->lastname.'"';
-			}
-		}
 		return urlencode($query);
 	}
  }

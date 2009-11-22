@@ -13,19 +13,19 @@ class EditionInserter implements IInserter
 	 * @param IEntity The book which the edition is related to.
 	 * @param array $info
 	 * @return array Array of Edition entities
-	 * @see GoogleBooksBookFinder
+	 * @see GoogleBooksEditionFinder
 	 */
 	public function insertByGoogleBooksInfo(IEntity $book, array $info) {
 		$result = array();
 		foreach ($info AS $edition) {
-			foreach($edition[GoogleBooksBookFinder::IDENTIFIER] AS $identifier) {
+			foreach($edition[GoogleBooksEditionFinder::IDENTIFIER] AS $identifier) {
 				if (!preg_match("/ISBN/", $identifier)) {
 					continue;
 				}
 				$entity = Leganto::editions()->createEmpty();
 				$entity->idBookTitle	= $book->getId();
-				$entity->pages			= $edition[GoogleBooksBookFinder::PAGES];
-				$entity->published		= $edition[GoogleBooksBookFinder::PUBLISHED];
+				$entity->pages			= $edition[GoogleBooksEditionFinder::PAGES];
+				$entity->published		= $edition[GoogleBooksEditionFinder::PUBLISHED];
 				$entity->isbn			= strtr($identifier, array("ISBN:" => ""));
 				$entity->inserted		= new DibiVariable("now()", "sql");
 				$entity->persist();

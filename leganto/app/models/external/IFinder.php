@@ -19,8 +19,8 @@ interface IFinder {
 
 	/**
 	 * Return array of values from input XML
-	 * @param IEntity $entity where are data to fetch
+	 * @param $param
 	 */
-	function get(IEntity $entity);
+	function get($param);
 
 }

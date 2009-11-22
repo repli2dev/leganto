@@ -4,7 +4,7 @@ class EditionImageFinder extends AFinder
 
 	const URL = "http://obalkyknih.cz/view?isbn=<--ISBN-->";
 
-	public function get(IEntity $edition) {
+	public function get($edition) {
 		if ($edition->getState() != IEntity::STATE_PERSISTED) {
 			throw new InvalidArgumentException("The entity has to be persisted.");
 		}
