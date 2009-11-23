@@ -23,8 +23,5 @@ class Web_BasePresenter extends BasePresenter {
 	protected function createComponentNavigation($name) {
 		return new NavigationComponent($this,$name);
 	}
-
-	protected function createComponentUserInfo($name) {
-		return new UserInfoComponent($this,$name);
-	}
+	
 }

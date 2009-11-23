@@ -18,6 +18,14 @@
 
 class NavigationComponent extends BaseComponent
 {
+	public function render() {
+		$this->getTemplate()->user = System::user();
+		parent::render();
+	}
+
+	public function handleLogout() {
+		Environment::getUser()->signOut(TRUE);
+	}
     
 }
 
