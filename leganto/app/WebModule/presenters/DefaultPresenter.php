@@ -16,13 +16,14 @@
  */
 class Web_DefaultPresenter extends Web_BasePresenter {
 	public function renderDefault() {
+		$this->setPageTitle(System::translator()->translate("Main page"));
 		if(Environment::getUser()->isAuthenticated()) {
 			$this->forward("feed");
 		}
 	}
 	
 	public function renderFeed() {
-
+		$this->setPageTitle(System::translator()->translate("News"));
 	}
 
 	protected function createComponentIntroduction($name) {

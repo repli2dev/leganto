@@ -16,6 +16,10 @@
  */
 class Web_BasePresenter extends BasePresenter {
 
+	public function setPageTitle($pageTitle){
+		$this->getTemplate()->pageTitle = $pageTitle;
+	}
+
 	protected function createComponentSearch($name) {
 		return new SearchComponent($this,$name);
 	}
