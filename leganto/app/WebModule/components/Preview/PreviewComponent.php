@@ -22,7 +22,7 @@ class PreviewComponent extends BaseComponent
 	public function render() {
 		$this->getTemplate()->opinions = Leganto::opinions()
 		    ->getSelector()
-		    ->findAllLast()
+		    ->findAllNotEmptyLast()
 		    ->fetchPairs("id_book","content");
 		$this->getTemplate()->books = Leganto::books()->fetchAndCreateAll(
 			Leganto::books()->getSelector()

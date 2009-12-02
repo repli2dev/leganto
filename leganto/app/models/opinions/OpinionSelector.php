@@ -42,8 +42,14 @@ class OpinionSelector implements ISelector
 
 	}
 
-	public function findAllLast($limit = 6) {
-	    return dibi::dataSource("SELECT * FROM [view_opinion] ORDER BY [inserted] DESC LIMIT %i", $limit);
+	public function findAllNotEmptyLast($limit = 6) {
+	    return dibi::dataSource(
+		"SELECT *
+		 FROM [view_opinion]
+		 WHERE [content] IS NOT NULL
+		 AND LENGTH(TRIM([content])) > 0
+		 ORDER BY [inserted] DESC
+		 LIMIT %i", $limit);
 	}
 
 }
