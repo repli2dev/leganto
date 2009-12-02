@@ -11,6 +11,14 @@ class OpinionSelector implements ISelector
 		return dibi::dataSource("SELECT * FROM [view_opinion]");
 	}
 
+	/** @return OpinionEntity */
+	public function find($id) {
+		return Leganto::opinions()
+			->fetchAndCreate(
+				dibi::dataSource("SELECT * FROM [view_opinion] WHERE [id_opinion] = %i", $id)
+			);
+	}
+
 	/**
 	 * @param BookEntity $book
 	 * @return DibiDataSource
@@ -34,13 +42,8 @@ class OpinionSelector implements ISelector
 
 	}
 
-
-	/** @return BookEntity */
-	public function find($id) {
-		return Leganto::opinions()
-			->fetchAndCreate(
-				dibi::dataSource("SELECT * FROM [view_opinion] WHERE [id_opinion] = %i", $id)
-			);
+	public function findAllLast($limit = 6) {
+	    return dibi::dataSource("SELECT * FROM [view_opinion] ORDER BY [inserted] DESC LIMIT %i", $limit);
 	}
 
 }

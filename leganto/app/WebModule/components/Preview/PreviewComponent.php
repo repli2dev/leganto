@@ -20,11 +20,14 @@ class PreviewComponent extends BaseComponent
 {
 
 	public function render() {
+		$this->getTemplate()->opinions = Leganto::opinions()
+		    ->getSelector()
+		    ->findAllLast()
+		    ->fetchPairs("id_book","content");
 		$this->getTemplate()->books = Leganto::books()->fetchAndCreateAll(
 			Leganto::books()->getSelector()
 				->findAll()
-				/*->orderBy("inserted", "desc")*/
-				->applyLimit(6)
+				->where("id_book IN %l", array_keys($this->getTemplate()->opinions))
 		);
 		$storage = new EditionImageStorage();
 		$this->getTemplate()->covers = array();

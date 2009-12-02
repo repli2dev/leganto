@@ -3,11 +3,7 @@
 	<div class="column">
 		<img class="avatar_icon" src="{$covers[$book->getId()],50|thumbnail}" alt="{$book->title}" width="50" height="80" />
 		<h2>{$book->title}</h2>
-		{if $iterator->isOdd()}
-			<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Quis nostrud exerci tation ex ea commodo consequat.</p>
-		{else}
-			<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</p>
-		{/if}
+		{$opinions[$book->bookNode]|texy}
 	</div>
 	{/foreach}
 </div>
