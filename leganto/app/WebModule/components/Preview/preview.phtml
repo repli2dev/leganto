@@ -3,7 +3,7 @@
 	<div class="column">
 		<img class="avatar_icon" src="{$covers[$book->getId()],50|thumbnail}" alt="{$book->title}" width="50" height="80" />
 		<h2>{$book->title}</h2>
-		{=String::truncate($opinions[$book->bookNode],200)|texy}
+		<strong>{=$opinions[$book->bookNode]->userName}</strong> : {=String::truncate($opinions[$book->bookNode]->content,120)|texy}
 	</div>
 	{if $iterator->getCounter() % 3 == 0}<hr style="clear:both; visibility:hidden" /> {/if}
 	{/foreach}
