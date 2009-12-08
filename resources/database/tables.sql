@@ -36,6 +36,16 @@ CREATE TABLE `user` (
 	UNIQUE(`nick`)
 ) ENGINE = InnoDB COMMENT = 'uzivatele';
 
+DROP TABLE IF EXISTS `user_connections`;
+CREATE TABLE `user_connections` (
+	`id_connection` INT(25) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'identifikator',
+	`id_user` INT(25) UNSIGNED NOT NULL COMMENT 'uzivatel',
+	`type`	ENUM('facebook') NOT NULL COMMENT 'typ propojeni - sluzba na ktere se autorizuje',
+	`token` TEXT NOT NULL COMMENT 'cizi klic, ktery je dostupny - hash, id uzivatele na cizim serveru...',
+	FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`) ON UPDATE CASCADE ON DELETE CASCADE,
+	UNIQUE(`id_user`,`type`)
+) ENGINE = InnoDB COMMENT = 'propojeni s ucty uzivatelu na jinych serverech, napriklad facebook';
+
 DROP TABLE IF EXISTS `book`;
 CREATE TABLE `book` (
 	`id_book` INT(25) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'identifikator',
