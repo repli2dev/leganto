@@ -17,10 +17,10 @@
  */
 
 class IntroductionComponent extends BaseComponent {
-/**
- * @persistent
- * @var string
- */
+	/**
+	 * @persistent
+	 * @var string
+	 */
 	public $state = "default";
 
 	public function render() {
@@ -33,6 +33,12 @@ class IntroductionComponent extends BaseComponent {
 				break;
 			case "signup":
 				$template = $this->loadSignUpTemplate();
+				break;
+			case "facebook":
+				$template = $this->loadFacebookTemplate();
+				break;
+			case "twitter":
+				$template = $this->loadTwitterTemplate();
 				break;
 		}
 		$template->render();
@@ -57,6 +63,18 @@ class IntroductionComponent extends BaseComponent {
 		return $template;
 	}
 
+	public function loadFacebookTemplate() {
+		$template			= $this->getTemplate();
+		$template->state	= "facebook";
+		return $template;
+	}
+
+	public function loadTwitterTemplate() {
+		$template			= $this->getTemplate();
+		$template->state	= "twitter";
+		return $template;
+	}
+
 	/** PROTECTED **/
 
 	protected function createComponentLoginForm($name) {
@@ -64,9 +82,9 @@ class IntroductionComponent extends BaseComponent {
 		$loginForm->getElementPrototype()->setId("sign");
 		$loginForm->addGroup("Log in");
 		$loginForm->addText("nickname", "Nickname")
-		    ->addRule(Form::FILLED,"Please fill the nickname.");
+			->addRule(Form::FILLED,"Please fill the nickname.");
 		$loginForm->addPassword("password", "Password")
-		    ->addRule(Form::FILLED,"Please fill the password.");
+			->addRule(Form::FILLED,"Please fill the password.");
 		$loginForm->addSubmit("submitted", "Log in");
 		$loginForm->onSubmit[] = array($this, "loginFormSubmitted");
 		return $loginForm;
@@ -97,7 +115,85 @@ class IntroductionComponent extends BaseComponent {
 		return $form;
 	}
 
-	public function postSignUp(EntityPersistedEvent $event){
+	protected function createComponentTwitterForm($name) {
+		$form = new BaseForm();
+		$form->getElementPrototype()->setId("sign");
+		
+		if(Environment::getConfig("twitter")->enable) { // check if twitter is enabled
+			if(!isset($_GET['oauth_verifier'])) { // user is not logged here -> prepare redirect to twitter login server
+				// Create instance of bridge to twitter OAuth
+				$gate = new TwitterOAuth(Environment::getConfig("twitter")->apiKey, Environment::getConfig("twitter")->secret);
+
+				// Get REQUEST token (set callbeck to current URL)
+				$requestToken = $gate->getRequestToken(Environment::getHttpRequest()->uri->absoluteUri);
+
+				// Save it to session
+				$_SESSION['request_token_key'] = $token = $requestToken['oauth_token'];
+				$_SESSION['request_token_secret'] = $requestToken['oauth_token_secret'];
+
+				// Failsafe - if last connection failed then stop trying
+				switch ($gate->http_code) {
+					case 200:
+						// ADD request token to URL where should user authorize
+						$url = $gate->getAuthorizeURL($token);
+						header('Location: '.$url);
+						break;
+					default:
+						_('Could not connect to Twitter. Please try it later.');
+						break;
+				}
+			} else { // user has returned - proceed, verify and store user's data
+				// Create bridge to twitter to verify received informations.
+				$gate = new TwitterOAuth(Environment::getConfig("twitter")->apiKey, Environment::getConfig("twitter")->secret, $_SESSION['request_token_key'], $_SESSION['request_token_secret']);
+
+				// Remove token key etc. - it's useless now.
+				unset($_SESSION['request_token_key']);
+				unset($_SESSION['request_token_secret']);;
+
+				// Fetch informations about user
+				$info = $gate->getAccessToken($_GET['oauth_verifier']);
+				var_dump($info);
+				$test = $gate->get('account/verify_credentials');
+				var_dump($test);
+
+				// Show user a dialog - create new account, or add this twitter to normal account
+				// TODO: joining and creating accounts
+			}
+		} else {
+			$form->addError(_("Twitter functions have been temporary disabled. Please try it later."));
+		}
+		return $form;
+	}
+
+	protected function createComponentFacebookForm($name) {
+		// Procedure
+		// Try look up, if user is already logged on facebook
+		//    Logged -> continue
+		//    Not logged -> jump to facebook
+
+		// Try to find user ID from facebook in table user_connections
+		//    Found -> good, automatic login
+		//    Not found -> Temporary login, show options
+		//        New account -> create dummy account here -> login
+		//        Already have account -> link accounts and login
+
+		$form = new BaseForm();
+		$form->getElementPrototype()->setId("sign");
+
+		if(Environment::getConfig("facebook")->enable) { // check if facebook is enabled
+			$fbGate = new Facebook(Environment::getConfig("facebook")->apiKey,Environment::getConfig("facebook")->secret,NULL,TRUE);
+			Debug::dump($fbGate);
+			$fbUser = $fbGate->require_login();
+			Debug::dump($fbUser);
+
+			$form->addText("test","Test");
+		} else {
+			$form->addError(_("Facebook functions have been temporary disabled. Please try it later."));
+		}
+		return $form;
+	}
+
+	public function postSignUp(EntityPersistedEvent $event) {
 		$user = $event->getEntity();
 		$template = LegantoTemplate::loadTemplate(new Template());
 		$template->setFile(WebModule::getModuleDir() . "/templates/mails/signUp.phtml");
@@ -119,8 +215,8 @@ class IntroductionComponent extends BaseComponent {
 		$values = $form->getValues();
 		try {
 			Environment::getUser()->authenticate($values['nickname'],$values['password']);
-		} catch (AuthenticationException $e){
-			switch ($e->getCode()){
+		} catch (AuthenticationException $e) {
+			switch ($e->getCode()) {
 				case IAuthenticator::IDENTITY_NOT_FOUND:
 					$form->addError("User not found");
 					break;
@@ -136,10 +232,12 @@ class IntroductionComponent extends BaseComponent {
 			case "default":
 			case "login":
 			case "signup":
+			case "facebook":
+			case "twitter":
 				$this->state = $state;
 				break;
 			default:
-				throw new InvalidArgumentException("The state can be only defualt, login or signup");
+				throw new InvalidArgumentException("The state can be only default, login, facebook, twitter or signup");
 		}
 		$this->invalidateControl("introduction-block");
 	}

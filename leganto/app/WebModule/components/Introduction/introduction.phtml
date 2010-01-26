@@ -2,7 +2,7 @@
 	@{if isset($hint)}
 	<div id="note">
 	    <h1>{_'Did you know?'}</h1>
-		<img src="img/ico/light_bulb.png" />
+		<img alt="Tip" src="img/ico/light_bulb.png" />
         <div class="leftspacer">&nbsp;</div>
         <div class="rightspacer">&nbsp;</div>
 	    {$hint->text}
@@ -10,10 +10,15 @@
 	@{else}
 		@{if $state == "login"}
 			@{widget "loginForm"}
-		@{else}
-			@{if $state == "signup"}
-				@{widget "signUpForm"}
-			@{/if}
+		@{/if}
+		@{if $state == "facebook"}
+			@{widget "facebookForm"}
+		@{/if}
+		@{if $state == "twitter"}
+			@{widget "twitterForm"}
+		@{/if}
+		@{if $state == "signup"}
+			@{widget "signUpForm"}
 		@{/if}
 	@{/if}
 
@@ -26,3 +31,6 @@
     <a href="{link changeState,'signup'}" class="ajax" id="signup_button">Sign up</a>
     <a href="{link changeState,'login'}" class="ajax" id="login_button">Log in</a>
 </div>
+<hr />
+    <a href="{link changeState, 'facebook'}" class="aja1x">Login with Facebook</a> | 
+    <a href="{link changeState, 'twitter'}" class="aja1x">Login with Twitter</a>
