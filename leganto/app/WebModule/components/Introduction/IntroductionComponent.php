@@ -29,14 +29,22 @@ class IntroductionComponent extends BaseComponent {
 
 	public function  __construct() {
 		parent::__construct();
-		$this->twitter = new Twitter;
+
 		$newState = Environment::getHttpRequest()->getQuery("introduction-state"); // FIXME: toto je opravdu osklivy hack! Jak obejit to ze state jeste nebyl nastaven, ale pri vytvareni komponenty uz je pozde - vystup odchazi?!
 		if($newState == "twitter"){
-			if($this->twitter->authentification()){
+			$this->twitter = new Twitter;
+			// Try if session is filled with right data (because then it ok to skip authentification)
+			$session = Environment::getSession("twitter"); // Open session namespace for twitter data
+			if(isset($session->auth['oauth_token']) && $session->auth['oauth_token_secret']){
+				$this->twitterStatus = true;
+			} else
+			if($this->twitter->authentification()){ // Authentification was successful
 				$this->twitterStatus = true;
 			} else {
 				$this->twitterStatus = false;
 			}
+
+			// If twitterStatus is true then try to look up for existing connection -> if it is found then user is logged automatically
 		}
 	}
 
@@ -89,6 +97,7 @@ class IntroductionComponent extends BaseComponent {
 	public function loadTwitterTemplate() {
 		$template			= $this->getTemplate();
 		$template->state	= "twitter";
+		$template->twitterStatus = $this->twitterStatus;
 		return $template;
 	}
 
@@ -133,11 +142,18 @@ class IntroductionComponent extends BaseComponent {
 	}
 
 	protected function createComponentTwitterForm($name) {
+		//$content = Html::el("div id=sign");
 		$form = new BaseForm();
-		$form->getElementPrototype()->setId("sign");
 		if($this->twitterStatus == true){
-			// Continue with connecting accounts
-			var_dump(Environment::getSession("twitter"));
+			// Continue with connecting accounts - show user decide -> form
+			// login part of form
+			$group = $form->addGroup();
+			$form->addText("nickname", "Nickname")
+				->addRule(Form::FILLED,"Please fill the nickname.");
+			$form->addPassword("password", "Password")
+				->addRule(Form::FILLED,"Please fill the password.");
+			$form->addSubmit("submitted", "Log in");
+			$form->onSubmit[] = array($this, "loginFormSubmitted");
 		} else {
 			$form->addError(_("Twitter functions are not accessible right now. Please try it later."));
 		}
@@ -204,6 +220,7 @@ class IntroductionComponent extends BaseComponent {
 					break;
 			}
 		}
+		// If user was successfully logged and there were found data in session (namespace twitter) then add connection and log user in.
 	}
 
 	public function handleChangeState($state) {
@@ -219,6 +236,13 @@ class IntroductionComponent extends BaseComponent {
 				throw new InvalidArgumentException("The state can be only default, login, facebook, twitter or signup");
 		}
 		$this->invalidateControl("introduction-block");
+	}
+
+	/**
+	 * Create new account (with filled name etc, but empty password)
+	 */
+	public function handleSignUpViaTwitter() {
+	
 	}
 }
 

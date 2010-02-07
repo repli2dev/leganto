@@ -15,7 +15,20 @@
 			@{widget "facebookForm"}
 		@{/if}
 		@{if $state == "twitter"}
-			@{widget "twitterForm"}
+			@{if $twitterStatus == true}
+			<div>
+				<h1>{_'Do you have account?'}</h1>
+				<p><strong>{_'Yes...'}</strong> {_'If you want to connect this twitter account please log in.'}</p>
+				@{widget "twitterForm"}
+				<p><strong>{_'No...'}</strong> {_'If you want to create new account please click on button Create new which log in you automatically in just a second.'}</p>
+				<a href="{link signUpViaTwitter}" id="signup_button">{_'Create new'}</a>
+			</div>
+			@{else}
+				<div id="sign">
+					<h1>{_'Error'}</h1>
+					@{widget "twitterForm"}
+				</div>
+			@{/if}
 		@{/if}
 		@{if $state == "signup"}
 			@{widget "signUpForm"}
@@ -28,9 +41,9 @@
     <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Quis nostrud 							exerci tation ex ea commodo consequat.</p>
 </div>
 <div id="getin">
-    <a href="{link changeState,'signup'}" class="ajax" id="signup_button">Sign up</a>
-    <a href="{link changeState,'login'}" class="ajax" id="login_button">Log in</a>
+    <a href="{link changeState,'signup'}" class="ajax" id="signup_button">{_'Sign up'}</a>
+    <a href="{link changeState,'login'}" class="ajax" id="login_button">{_'Log in'}</a>
 </div>
 <hr />
-    <a href="{link changeState, 'facebook'}" class="aja1x">Login with Facebook</a> | 
-    <a href="{link changeState, 'twitter'}" class="aja1x">Login with Twitter</a>
+    <a href="{link changeState, 'facebook'}">{_'Login with Facebook'}</a> |
+    <a href="{link changeState, 'twitter'}">{_'Login with Twitter'}</a>
