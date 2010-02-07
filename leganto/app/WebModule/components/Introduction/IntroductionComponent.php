@@ -119,48 +119,11 @@ class IntroductionComponent extends BaseComponent {
 		$form = new BaseForm();
 		$form->getElementPrototype()->setId("sign");
 		
-		if(Environment::getConfig("twitter")->enable) { // check if twitter is enabled
-			if(!isset($_GET['oauth_verifier'])) { // user is not logged here -> prepare redirect to twitter login server
-				// Create instance of bridge to twitter OAuth
-				$gate = new TwitterOAuth(Environment::getConfig("twitter")->apiKey, Environment::getConfig("twitter")->secret);
-
-				// Get REQUEST token (set callbeck to current URL)
-				$requestToken = $gate->getRequestToken(Environment::getHttpRequest()->uri->absoluteUri);
-
-				// Save it to session
-				$_SESSION['request_token_key'] = $token = $requestToken['oauth_token'];
-				$_SESSION['request_token_secret'] = $requestToken['oauth_token_secret'];
-
-				// Failsafe - if last connection failed then stop trying
-				switch ($gate->http_code) {
-					case 200:
-						// ADD request token to URL where should user authorize
-						$url = $gate->getAuthorizeURL($token);
-						header('Location: '.$url);
-						break;
-					default:
-						_('Could not connect to Twitter. Please try it later.');
-						break;
-				}
-			} else { // user has returned - proceed, verify and store user's data
-				// Create bridge to twitter to verify received informations.
-				$gate = new TwitterOAuth(Environment::getConfig("twitter")->apiKey, Environment::getConfig("twitter")->secret, $_SESSION['request_token_key'], $_SESSION['request_token_secret']);
-
-				// Remove token key etc. - it's useless now.
-				unset($_SESSION['request_token_key']);
-				unset($_SESSION['request_token_secret']);;
-
-				// Fetch informations about user
-				$info = $gate->getAccessToken($_GET['oauth_verifier']);
-				var_dump($info);
-				$test = $gate->get('account/verify_credentials');
-				var_dump($test);
-
-				// Show user a dialog - create new account, or add this twitter to normal account
-				// TODO: joining and creating accounts
-			}
+		$twitter = new Twitter();
+		if($twitter->authentification()){
+			var_dump(Environment::getSession("twitter"));
 		} else {
-			$form->addError(_("Twitter functions have been temporary disabled. Please try it later."));
+			$form->addError(_("Twitter functions are not accessible right now. Please try it later."));
 		}
 		return $form;
 	}
