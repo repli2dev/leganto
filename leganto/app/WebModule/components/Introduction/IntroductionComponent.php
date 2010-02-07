@@ -23,6 +23,23 @@ class IntroductionComponent extends BaseComponent {
 	 */
 	public $state = "default";
 
+	public $twitter;
+
+	public $twitterStatus = false;
+
+	public function  __construct() {
+		parent::__construct();
+		$this->twitter = new Twitter;
+		$newState = Environment::getHttpRequest()->getQuery("introduction-state"); // FIXME: toto je opravdu osklivy hack! Jak obejit to ze state jeste nebyl nastaven, ale pri vytvareni komponenty uz je pozde - vystup odchazi?!
+		if($newState == "twitter"){
+			if($this->twitter->authentification()){
+				$this->twitterStatus = true;
+			} else {
+				$this->twitterStatus = false;
+			}
+		}
+	}
+
 	public function render() {
 		switch($this->state) {
 			case "default":
@@ -118,9 +135,8 @@ class IntroductionComponent extends BaseComponent {
 	protected function createComponentTwitterForm($name) {
 		$form = new BaseForm();
 		$form->getElementPrototype()->setId("sign");
-		
-		$twitter = new Twitter();
-		if($twitter->authentification()){
+		if($this->twitterStatus == true){
+			// Continue with connecting accounts
 			var_dump(Environment::getSession("twitter"));
 		} else {
 			$form->addError(_("Twitter functions are not accessible right now. Please try it later."));
