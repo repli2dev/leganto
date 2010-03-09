@@ -1,0 +1,20 @@
+Connection to Twitter (OAuth)
+--------------------------------------------------------------------------------
+
+1. PHP library is from http://github.com/abraham/twitteroauth/
+
+2. Create application on https://twitter.com/oauth/
+
+3. Application has to have these settings:
+	Application Type:	Browser
+	Callback URL:		Anything (without that callback cannot be overwritten from app)
+	Default Access type:	Read & Write
+	Use Twitter for login:	(checked) Yes, use Twitter for login
+
+4. Set mandatory keys from https://twitter.com/oauth/ (from your app overview) to app/config.ini
+	twitter.apiKey = <YOUR-CONSUMER-KEY>
+	twitter.secret = <YOUR_SECRET-KEY>
+	! DO NOT COMMIT THIS CHANGES INTO REPOSITORY !
+
+5. Enable twitter login in the same file
+	twitter.enable = true
