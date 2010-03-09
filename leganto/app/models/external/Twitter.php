@@ -21,7 +21,7 @@ class Twitter implements ISocialNetwork {
 
 	/**
 	 * Should do login aganist social network API and return unique ID. It store retrieved data into session.
-	 * @return string $id unique user id
+	 * @return boolean success of operation
 	 */
 	function authentification() {
 		if(!$this->isEnabled()) return false;

@@ -44,7 +44,14 @@ class IntroductionComponent extends BaseComponent {
 				$this->twitterStatus = false;
 			}
 
-			// If twitterStatus is true then try to look up for existing connection -> if it is found then user is logged automatically
+		}
+		// If twitterStatus is true then try to look up for existing connection -> if it is found then user is logged automatically
+		if($this->twitterStatus == true){
+			try {
+				Environment::getUser()->authenticate(null,null,$session->auth['oauth_token']);
+			} catch (AuthenticationException $e) {
+				// Silent error - output is not desired - connection was not found -> show message to let user choose what to do
+			}
 		}
 	}
 
@@ -124,7 +131,7 @@ class IntroductionComponent extends BaseComponent {
 		// Create user entity and set defaults (for form building)
 		$user = Leganto::users()->createEmpty();
 		$user->role = "common";
-		$user->idLanguage = 1;
+		$user->idLanguage = 1;		// FIXME: Dle jazykové mutace
 		$user->inserted = new DibiVariable("now()", "sql");
 		// Add post action (send mail to user)
 		$user->addOnPersistListener(new CallbackListener(array($this, "postSignUp")));
@@ -145,7 +152,7 @@ class IntroductionComponent extends BaseComponent {
 		//$content = Html::el("div id=sign");
 		$form = new BaseForm();
 		if($this->twitterStatus == true){
-			// Continue with connecting accounts - show user decide -> form
+			// Continue with connecting accounts - show user the options -> form
 			// login part of form
 			$group = $form->addGroup();
 			$form->addText("nickname", "Nickname")
@@ -220,7 +227,24 @@ class IntroductionComponent extends BaseComponent {
 					break;
 			}
 		}
-		// If user was successfully logged and there were found data in session (namespace twitter) then add connection and log user in.
+		// If user was successfully logged and there were found data in session (namespace twitter) -> add connection
+		$twitter = Environment::getSession("twitter");
+		if($twitter){
+			$user = Environment::getUser()->getIdentity();
+			$exists = Leganto::connections()->getSelector()->exists($user->id,'twitter');
+			if(!$exists){
+				// Prepare user connection entity
+				$connection = Leganto::connections()->createEmpty();
+				$connection->user = $user->id;
+				$connection->type = 'twitter';
+				$connection->token = $twitter->auth['oauth_token'];
+
+				// Commit
+				Leganto::connections()->getInserter()->insert($connection);
+			} else {
+				// TODO: zobrazit uzivateli chybu, ze se snazi pripojit ucet, ktery je k nejakem uctu pripojen
+			}
+		}
 	}
 
 	public function handleChangeState($state) {
@@ -239,10 +263,41 @@ class IntroductionComponent extends BaseComponent {
 	}
 
 	/**
-	 * Create new account (with filled name etc, but empty password)
+	 * Create new account from twitter data (with filled name etc, but empty password)
 	 */
 	public function handleSignUpViaTwitter() {
-	
+		// Get data for registering profile + load session
+		$data = $this->twitter->userInfo();
+		$twitter = Environment::getSession("twitter");
+
+		// Prepare user entity
+		$user = Leganto::users()->createEmpty();
+		$user->role = "common";
+		$user->idLanguage = 1;
+		$user->inserted = new DibiVariable("now()", "sql");
+		$user->nickname = $data->screen_name;
+		// FIXME: odstranit vyplnove texty - v entitach jsem nenasel ze by byli vyzadovany, ale hazi to nullpointerexception
+		$user->email = "dummy@example.com"; // dummy address - twitter won't share email address
+		$user->password = "HJASD7889ASho6953Dsdfhsdfkododposqeih"; // not-hashed password - potencial security risk
+
+		// Commit
+		$user = Leganto::users()->getInserter()->insert($user);
+		if($user != -1){
+			// Prepare user connection entity
+			$connection = Leganto::connections()->createEmpty();
+			$connection->user = $user;
+			$connection->type = 'twitter';
+			$connection->token = $twitter->auth['oauth_token'];
+
+			// Commit
+			Leganto::connections()->getInserter()->insert($connection);
+
+			// Login
+			Environment::getUser()->authenticate(null,null,$twitter->auth['oauth_token']);
+		} else {
+			// TODO: tady vypsat chybu, ze takovy ucet uz existuje (stejny nick).
+		}
+		
 	}
 }
 

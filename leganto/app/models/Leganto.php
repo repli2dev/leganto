@@ -94,4 +94,11 @@ class Leganto
 		return SimpleEntityFactory::createEntityFactory("user");
 	}
 
+	/**
+	 * @return IEntityFactory
+	 */
+	public static function connections() {
+		return SimpleEntityFactory::createEntityFactory("connection");
+	}
+
 }

@@ -43,6 +43,7 @@ $router[] = WebModule::createRouter();
 // Step 5: Database connection
 // lazy connect should be enabled in config.ini
 dibi::connect(Environment::getConfig('database'));
+error_reporting(E_ALL^E_USER_WARNING);
 
 // Step 6: Run the application!
 $application->run();

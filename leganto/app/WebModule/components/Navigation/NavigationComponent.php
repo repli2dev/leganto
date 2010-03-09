@@ -25,6 +25,11 @@ class NavigationComponent extends BaseComponent
 
 	public function handleLogout() {
 		Environment::getUser()->signOut(TRUE);
+		// Remove session information belonging to connections (twitter, facebook...)
+		$twitter = Environment::getSession("twitter");
+		if(!empty($twitter)) {
+			$twitter->setExpiration("-365 days");
+		}
 	}
     
 }
