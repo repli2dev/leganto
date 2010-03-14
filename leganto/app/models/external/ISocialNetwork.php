@@ -21,7 +21,7 @@ interface ISocialNetwork {
 	 * Should do login aganist social network API and return true/false. Output data should be stored in session.
 	 * @return boolean
 	 */
-	function authentification();
+	function authentication();
 
 	/**
 	 * Decide (according to global config) if this social network is enabled.

@@ -25,33 +25,13 @@ class IntroductionComponent extends BaseComponent {
 
 	public $twitter;
 
-	public $twitterStatus = false;
-
 	public function  __construct() {
 		parent::__construct();
 
 		$newState = Environment::getHttpRequest()->getQuery("introduction-state"); // FIXME: toto je opravdu osklivy hack! Jak obejit to ze state jeste nebyl nastaven, ale pri vytvareni komponenty uz je pozde - vystup odchazi?!
 		if($newState == "twitter"){
 			$this->twitter = new Twitter;
-			// Try if session is filled with right data (because then it ok to skip authentification)
-			$session = Environment::getSession("twitter"); // Open session namespace for twitter data
-			if(isset($session->auth['oauth_token']) && $session->auth['oauth_token_secret']){
-				$this->twitterStatus = true;
-			} else
-			if($this->twitter->authentification()){ // Authentification was successful
-				$this->twitterStatus = true;
-			} else {
-				$this->twitterStatus = false;
-			}
-
-		}
-		// If twitterStatus is true then try to look up for existing connection -> if it is found then user is logged automatically
-		if($this->twitterStatus == true){
-			try {
-				Environment::getUser()->authenticate(null,null,$session->auth['oauth_token']);
-			} catch (AuthenticationException $e) {
-				// Silent error - output is not desired - connection was not found -> show message to let user choose what to do
-			}
+			$this->twitter->doLogin();
 		}
 	}
 
@@ -104,7 +84,7 @@ class IntroductionComponent extends BaseComponent {
 	public function loadTwitterTemplate() {
 		$template			= $this->getTemplate();
 		$template->state	= "twitter";
-		$template->twitterStatus = $this->twitterStatus;
+		$template->twitterStatus = $this->twitter->isLogged();
 		return $template;
 	}
 
@@ -151,7 +131,7 @@ class IntroductionComponent extends BaseComponent {
 	protected function createComponentTwitterForm($name) {
 		//$content = Html::el("div id=sign");
 		$form = new BaseForm();
-		if($this->twitterStatus == true){
+		if($this->twitter->isLogged() == true){
 			// Continue with connecting accounts - show user the options -> form
 			// login part of form
 			$group = $form->addGroup();
@@ -160,7 +140,7 @@ class IntroductionComponent extends BaseComponent {
 			$form->addPassword("password", "Password")
 				->addRule(Form::FILLED,"Please fill the password.");
 			$form->addSubmit("submitted", "Log in");
-			$form->onSubmit[] = array($this, "loginFormSubmitted");
+			$form->onSubmit[] = array($this, "loginTwitterFormSubmitted");
 		} else {
 			$form->addError(_("Twitter functions are not accessible right now. Please try it later."));
 		}
@@ -203,11 +183,11 @@ class IntroductionComponent extends BaseComponent {
 		$mail = new Mail();
 		$mail->addTo($user->email);
 		$mail->setFrom(Environment::getConfig("mail")->info, Environment::getConfig("mail")->name);
-		$mail->setSubject("Thanks for your registration.");
+		$mail->setSubject(_("Thanks for your registration."));
 		$mail->setBody($template);
 		$mail->send();
 
-		$this->getPresenter()->flashMessage("Thanks for your registration.");
+		$this->getPresenter()->flashMessage(_("Thanks for your registration."));
 		$this->getPresenter()->redirect("this");
 	}
 
@@ -227,24 +207,45 @@ class IntroductionComponent extends BaseComponent {
 					break;
 			}
 		}
-		// If user was successfully logged and there were found data in session (namespace twitter) -> add connection
-		$twitter = Environment::getSession("twitter");
-		if($twitter){
-			$user = Environment::getUser()->getIdentity();
-			$exists = Leganto::connections()->getSelector()->exists($user->id,'twitter');
-			if(!$exists){
-				// Prepare user connection entity
-				$connection = Leganto::connections()->createEmpty();
-				$connection->user = $user->id;
-				$connection->type = 'twitter';
-				$connection->token = $twitter->auth['oauth_token'];
+	}
 
-				// Commit
-				Leganto::connections()->getInserter()->insert($connection);
-			} else {
-				// TODO: zobrazit uzivateli chybu, ze se snazi pripojit ucet, ktery je k nejakem uctu pripojen
+	public function loginTwitterFormSubmitted(Form $form) {
+		$values = $form->getValues();
+		try {
+			Environment::getUser()->authenticate($values['nickname'],$values['password']);
+		} catch (AuthenticationException $e) {
+			switch ($e->getCode()) {
+				case IAuthenticator::IDENTITY_NOT_FOUND:
+					$form->addError("User not found");
+					break;
+				case IAuthenticator::INVALID_CREDENTIAL:
+					$form->addError("The password is wrong");
+					break;
 			}
 		}
+		// If user was successfully logged and there were found data in session (namespace twitter) -> add connection
+		$user = $user = Environment::getUser()->getIdentity();
+		if($user != NULL){
+			$this->twitter = new Twitter;
+			$twitterToken = $this->twitter->getToken();
+			if(!empty($twitterToken)){
+				$exists = Leganto::connections()->getSelector()->exists($user->id,'twitter');
+				if(!$exists){
+					// Prepare user connection entity
+					$connection = Leganto::connections()->createEmpty();
+					$connection->user = $user->id;
+					$connection->type = 'twitter';
+					$connection->token = $twitterToken;
+
+					// Commit
+					Leganto::connections()->getInserter()->insert($connection);
+				} else {
+					// TODO: zobrazit uzivateli chybu, ze se snazi pripojit ucet, ktery je k nejakem uctu pripojen
+					// Hmm, takova chyba by nemela nastat... Ale co kdyz nekdo skonci uprostred prihlasovani s daty ulozenymi v sezeni?
+				}
+			}
+		}
+		
 	}
 
 	public function handleChangeState($state) {
@@ -268,12 +269,12 @@ class IntroductionComponent extends BaseComponent {
 	public function handleSignUpViaTwitter() {
 		// Get data for registering profile + load session
 		$data = $this->twitter->userInfo();
-		$twitter = Environment::getSession("twitter");
 
 		// Prepare user entity
 		$user = Leganto::users()->createEmpty();
 		$user->role = "common";
-		$user->idLanguage = 1;
+		// FIXME: pouziva se id_role? Proc je id_role a role - zbytecna duplikace
+		$user->idLanguage = System::domain()->idLanguage;
 		$user->inserted = new DibiVariable("now()", "sql");
 		$user->nickname = $data->screen_name;
 		// FIXME: odstranit vyplnove texty - v entitach jsem nenasel ze by byli vyzadovany, ale hazi to nullpointerexception
@@ -287,13 +288,13 @@ class IntroductionComponent extends BaseComponent {
 			$connection = Leganto::connections()->createEmpty();
 			$connection->user = $user;
 			$connection->type = 'twitter';
-			$connection->token = $twitter->auth['oauth_token'];
+			$connection->token = $this->twitter->getToken();
 
 			// Commit
 			Leganto::connections()->getInserter()->insert($connection);
 
 			// Login
-			Environment::getUser()->authenticate(null,null,$twitter->auth['oauth_token']);
+			Environment::getUser()->authenticate(null,null,$this->twitter->getToken());
 		} else {
 			// TODO: tady vypsat chybu, ze takovy ucet uz existuje (stejny nick).
 		}
