@@ -3,7 +3,7 @@
 
 echo "Deploy script";
 echo "----------------------------------------------------------";
-server="devel.ctenari.cz";
+server="ctenari.cz";
 user="devel";
 password=""
 project="http://preader.googlecode.com/svn/trunk/"
@@ -15,7 +15,7 @@ if [[ $server == "" ]] || [[ $user == "" ]] || [[ $password  == "" ]] || [[ $pro
 fi
 
 # Test avability of needed programs
-type -P wput &>/dev/null || { echo "Program wput needed. Aborting." >&2; exit 1;}
+type -P ftpsync &>/dev/null || { echo "Program ftpsync needed (http://ossw.ibcl.at/FTPSync/). Aborting." >&2; exit 1;}
 type -P svn &>/dev/null || { echo "Subversion needed. Aborting." >&2; exit 1;}
 type -P find &>/dev/null || { echo "Program find needed. Aborting." >&2; exit 1;}
 
@@ -46,40 +46,20 @@ if [ "$1" == "--checkout" ]; then
 	cd ./preader
 	# Checkout
 	echo "Doing checkout";
-	START=`date +%M`
 	svn checkout $project .
-	END=`date +%M`
 else
 
 # Update svn
 	echo "Updating working copy...";
 	cd ./preader/
-	START=`date +%M`
 	if [ "$1" == "--ignore-externals" ]; then
 		svn update --ignore-externals
 	else
 		svn update
 	fi
-	END=`date +%M`
 fi
 
-# Copy to ftp
-	echo "Syncing to remote site...";
-	((TOTAL=$END - $START));
-	if [ "$TOTAL" == "0" ]; then
-		TOTAL="1";
-	else
-		((TOTAL=$TOTAL + 1));
-	fi
-	echo "Working with repository lasted $TOTAL minute(s)";
-	echo "Updated files...";
-	if [ -f ../files ]
-        then
-                rm ../files
-        fi
-	find  -mmin -$TOTAL -type f | grep -v svn > ../files
-	cat ../files | while read FROM; do wput $FROM ftp://$user:$password@$server/$FROM; done;
-	if [ -f ../files ]
-        then
-                rm ../files
-        fi
+# Copy changed to ftp
+echo "Syncing to remote site...";
+ftpsync -S . ftp://$user:$password@$server// ignoremask=.svn
+echo "Syncing done in $TOTAL minute(s)!";
