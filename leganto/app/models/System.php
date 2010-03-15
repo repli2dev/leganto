@@ -28,7 +28,8 @@ final class System
 	/** @return ITranslator */
 	public static function translator() {
 		if (empty(self::$translator)) {
-			$domain = self::$domain;
+			// TODO: check
+			$domain = self::domain();
 			$r = new HttpRequest();
 			self::$translator = new Translator(
 				empty($domain) ? "en_US" : $domain->locale,
