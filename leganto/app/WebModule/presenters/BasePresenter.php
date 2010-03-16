@@ -16,6 +16,11 @@
  */
 class Web_BasePresenter extends BasePresenter {
 
+        protected function beforeRender() {
+	    // HACK
+	    $this->getComponent("navigation");
+	}
+
 	public function setPageTitle($pageTitle){
 		$this->getTemplate()->pageTitle = $pageTitle;
 	}

@@ -19,6 +19,11 @@
 abstract class BaseComponent extends Control
 {
 
+    public function __construct(/*Nette\*/IComponentContainer $parent = NULL, $name = NULL) {
+	parent::__construct($parent, $name);
+	$this->init();
+    }
+
     public function render(){
 	$this->getTemplate()->render();
 
@@ -37,4 +42,6 @@ abstract class BaseComponent extends Control
 
 	return LegantoTemplate::loadTemplate($template);
     }
+
+    protected function init() {}
 }

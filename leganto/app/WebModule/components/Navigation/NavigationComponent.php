@@ -19,7 +19,6 @@
 class NavigationComponent extends BaseComponent
 {
 	public function render() {
-		$this->getTemplate()->user = System::user();
 		parent::render();
 	}
 
@@ -31,6 +30,9 @@ class NavigationComponent extends BaseComponent
 			$twitter->setExpiration("-365 days");
 		}
 	}
-    
+	
+	protected function init() {
+	    $this->getTemplate()->user = System::user();
+	}
 }
 
