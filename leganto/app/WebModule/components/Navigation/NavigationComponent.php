@@ -27,8 +27,9 @@ class NavigationComponent extends BaseComponent
 		// Remove session information belonging to connections (twitter, facebook...)
 		$twitter = Environment::getSession("twitter");
 		if(!empty($twitter)) {
-			$twitter->setExpiration("-365 days");
+			$twitter->remove();
 		}
+		$this->getPresenter()->redirect("Default:");
 	}
 	
 	protected function init() {

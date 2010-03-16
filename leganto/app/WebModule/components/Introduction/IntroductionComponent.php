@@ -294,7 +294,12 @@ class IntroductionComponent extends BaseComponent {
 			Leganto::connections()->getInserter()->insert($connection);
 
 			// Login
-			Environment::getUser()->authenticate(null,null,$this->twitter->getToken());
+			try {
+				Environment::getUser()->authenticate(null,null,$this->twitter->getToken());
+			}
+			catch (Exception $e) {
+				Debug::_paintBlueScreen($e);
+			}
 		} else {
 			// TODO: tady vypsat chybu, ze takovy ucet uz existuje (stejny nick).
 		}
