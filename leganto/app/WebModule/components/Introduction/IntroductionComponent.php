@@ -300,7 +300,7 @@ class IntroductionComponent extends BaseComponent {
 			
 		} else {
 			// Show error that same account (probably nick) exists
-			$this->getPresenter()->flashMessage(_("Account with same nickname is already registered."));
+			$this->flashMessage(_("Account with same nickname is already registered."));
 		}
 		
 	}
