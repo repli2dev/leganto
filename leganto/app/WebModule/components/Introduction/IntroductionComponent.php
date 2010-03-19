@@ -224,7 +224,7 @@ class IntroductionComponent extends BaseComponent {
 			}
 		}
 		// If user was successfully logged and there were found data in session (namespace twitter) -> add connection
-		$user = $user = Environment::getUser()->getIdentity();
+		$user = Environment::getUser()->getIdentity();
 		if($user != NULL){
 			$this->twitter = new Twitter;
 			$twitterToken = $this->twitter->getToken();
@@ -243,8 +243,8 @@ class IntroductionComponent extends BaseComponent {
 					// Now it is safe to delete twitter data in session
 					$this->twitter->destroyLoginData();
 				} else {
-					// TODO: zobrazit uzivateli chybu, ze se snazi pripojit ucet, ktery je k nejakem uctu pripojen
-					// Hmm, takova chyba by nemela nastat... Ale co kdyz nekdo skonci uprostred prihlasovani s daty ulozenymi v sezeni?
+					// This twitter id is already connected to some account
+					$form->addError("This twitter account is already connected to an account.");
 				}
 			}
 		}
@@ -299,7 +299,9 @@ class IntroductionComponent extends BaseComponent {
 			$this->twitter->destroyLoginData();
 			
 		} else {
-			// TODO: tady vypsat chybu, ze takovy ucet uz existuje (stejny nick).
+			// Show error that same account (probably nick) exists
+			$this->getPresenter()->flashMessage(_("Account with same nickname is already registered."));
+			$this->getPresenter()->redirect("this");
 		}
 		
 	}
