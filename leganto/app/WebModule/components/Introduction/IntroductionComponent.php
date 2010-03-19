@@ -277,9 +277,6 @@ class IntroductionComponent extends BaseComponent {
 		$user->idLanguage = System::domain()->idLanguage;
 		$user->inserted = new DibiVariable("now()", "sql");
 		$user->nickname = $data->screen_name;
-		// FIXME: odstranit vyplnove texty - v entitach jsem nenasel ze by byli vyzadovany, ale hazi to nullpointerexception
-		$user->email = "dummy@example.com"; // dummy address - twitter won't share email address
-		$user->password = "HJASD7889ASho6953Dsdfhsdfkododposqeih"; // not-hashed password - potencial security risk
 
 		// Commit
 		$user = Leganto::users()->getInserter()->insert($user);
@@ -293,13 +290,11 @@ class IntroductionComponent extends BaseComponent {
 			// Commit
 			Leganto::connections()->getInserter()->insert($connection);
 
-			// Login
-			try {
-				Environment::getUser()->authenticate(null,null,$this->twitter->getToken());
-			}
-			catch (Exception $e) {
-				Debug::_paintBlueScreen($e);
-			}
+			Environment::getUser()->authenticate(null,null,$this->twitter->getToken());
+
+			// Now it is safe to delete twitter data in session
+			$this->twitter->destroyLoginData();
+			
 		} else {
 			// TODO: tady vypsat chybu, ze takovy ucet uz existuje (stejny nick).
 		}

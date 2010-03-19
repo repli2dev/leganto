@@ -164,5 +164,11 @@ class Twitter implements ISocialNetwork {
 			return false;
 		}
 	}
+	function destroyLoginData() {
+		// Remove session information belonging to connections (twitter, facebook...)
+		if(isset($this->session)) {
+			$this->session->remove();
+		}
+	}
 
 }
