@@ -239,6 +239,9 @@ class IntroductionComponent extends BaseComponent {
 
 					// Commit
 					Leganto::connections()->getInserter()->insert($connection);
+
+					// Now it is safe to delete twitter data in session
+					$this->twitter->destroyLoginData();
 				} else {
 					// TODO: zobrazit uzivateli chybu, ze se snazi pripojit ucet, ktery je k nejakem uctu pripojen
 					// Hmm, takova chyba by nemela nastat... Ale co kdyz nekdo skonci uprostred prihlasovani s daty ulozenymi v sezeni?
@@ -290,12 +293,10 @@ class IntroductionComponent extends BaseComponent {
 			// Commit
 			Leganto::connections()->getInserter()->insert($connection);
 
-			// Now it is safe to delete twitter data in session
-			// FIXME: this code should by right after authentication but it is not possible due the problem in browsers
-			$token = $this->twitter->getToken();
-			$this->twitter->destroyLoginData();
-
 			Environment::getUser()->authenticate(null,null,$token);
+
+			// Now it is safe to delete twitter data in session
+			$this->twitter->destroyLoginData();
 			
 		} else {
 			// TODO: tady vypsat chybu, ze takovy ucet uz existuje (stejny nick).
