@@ -290,10 +290,12 @@ class IntroductionComponent extends BaseComponent {
 			// Commit
 			Leganto::connections()->getInserter()->insert($connection);
 
-			Environment::getUser()->authenticate(null,null,$this->twitter->getToken());
-
 			// Now it is safe to delete twitter data in session
+			// FIXME: this code should by right after authentication but it is not possible due the problem in browsers
+			$token = $this->twitter->getToken();
 			$this->twitter->destroyLoginData();
+
+			Environment::getUser()->authenticate(null,null,$token);
 			
 		} else {
 			// TODO: tady vypsat chybu, ze takovy ucet uz existuje (stejny nick).
