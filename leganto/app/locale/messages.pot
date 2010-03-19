@@ -1,24 +1,102 @@
 # Gettext keys exported by GettextExtractor
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2009-11-22T16:46:41+01:00\n"
+"POT-Creation-Date: 2010-03-19T18:17:00+01:00\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:306
+msgid "Account with same nickname is already registered."
+msgstr ""
+
+# APP_DIR/WebModule/components/Introduction/introduction.phtml:28
+msgid "Create new"
+msgstr ""
 
 # APP_DIR/WebModule/components/Introduction/introduction.phtml:3
 msgid "Did you know?"
 msgstr ""
 
-# APP_DIR/WebModule/components/UserInfo/userInfo.phtml:0
+# APP_DIR/WebModule/components/Introduction/introduction.phtml:19
+msgid "Do you have account?"
+msgstr ""
+
+# APP_DIR/WebModule/components/Introduction/introduction.phtml:32
+msgid "Error"
+msgstr ""
+
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:176
+msgid "Facebook functions have been temporary disabled. Please try it later."
+msgstr ""
+
+# APP_DIR/WebModule/components/Introduction/introduction.phtml:20
+msgid "If you want to connect this twitter account please log in."
+msgstr ""
+
+# APP_DIR/WebModule/components/Introduction/introduction.phtml:22
+msgid "If you want to create new account please click on button Create new which log in you automatically in just a second."
+msgstr ""
+
+# APP_DIR/WebModule/components/Introduction/introduction.phtml:49
+msgid "Log in"
+msgstr ""
+
+# APP_DIR/WebModule/components/Navigation/navigation.phtml:14
 msgid "Log out"
 msgstr ""
 
-# APP_DIR/WebModule/templates/layout.phtml:26
+# APP_DIR/WebModule/components/Introduction/introduction.phtml:52
+msgid "Login with Facebook"
+msgstr ""
+
+# APP_DIR/WebModule/components/Introduction/introduction.phtml:53
+msgid "Login with Twitter"
+msgstr ""
+
+# APP_DIR/WebModule/components/Navigation/navigation.phtml:3
+# APP_DIR/WebModule/presenters/DefaultPresenter.php:19
+msgid "Main page"
+msgstr ""
+
+# APP_DIR/WebModule/presenters/DefaultPresenter.php:26
+msgid "News"
+msgstr ""
+
+# APP_DIR/WebModule/templates/layout.phtml:35
 msgid "No content"
 msgstr ""
 
-# APP_DIR/WebModule/components/Introduction/introduction.phtml:18
+# APP_DIR/WebModule/components/Introduction/introduction.phtml:22
+msgid "No..."
+msgstr ""
+
+# APP_DIR/WebModule/components/Navigation/navigation.phtml:13
+msgid "Settings"
+msgstr ""
+
+# APP_DIR/WebModule/components/Introduction/introduction.phtml:48
+msgid "Sign up"
+msgstr ""
+
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:189
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:193
+msgid "Thanks for your registration."
+msgstr ""
+
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:250
+msgid "This twitter account is already connected to an account."
+msgstr ""
+
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:147
+msgid "Twitter functions are not accessible right now. Please try it later."
+msgstr ""
+
+# APP_DIR/WebModule/components/Introduction/introduction.phtml:44
 msgid "Welcome!"
+msgstr ""
+
+# APP_DIR/WebModule/components/Introduction/introduction.phtml:20
+msgid "Yes..."
 msgstr ""
 
 # APP_DIR/WebModule/components/Search/search.phtml:5

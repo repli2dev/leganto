@@ -28,14 +28,15 @@ final class System
 	/** @return ITranslator */
 	public static function translator() {
 		if (empty(self::$translator)) {
-			// TODO: check
 			$domain = self::domain();
-			$r = new HttpRequest();
-			self::$translator = new Translator(
-				empty($domain) ? "en_US" : $domain->locale,
-				APP_DIR . "/locale"
-			);
+			if(empty($domain)){
+				$lang = "en_US";
+			} else {
+				$lang = $domain->locale;
+			}
+			self::$translator = new GettextTranslator(APP_DIR . '/locale/' . $lang . '/LC_MESSAGES/messages.mo');
 		}
+		// FIXME: nastavit cachovani
 		return self::$translator;
 	}
 
@@ -52,5 +53,10 @@ final class System
 			}
 		}
 		return self::$user;
+	}
+
+	/** @return string */
+	public static function translate($message, $count = 1) {
+		return self::translator()->translate($message, $count = 1);
 	}
 }

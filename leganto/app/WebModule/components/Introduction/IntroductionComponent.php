@@ -100,6 +100,7 @@ class IntroductionComponent extends BaseComponent {
 			->addRule(Form::FILLED,"Please fill the password.");
 		$loginForm->addSubmit("submitted", "Log in");
 		$loginForm->onSubmit[] = array($this, "loginFormSubmitted");
+		$loginForm->setTranslator(System::translator());
 		return $loginForm;
 	}
 
@@ -111,7 +112,7 @@ class IntroductionComponent extends BaseComponent {
 		// Create user entity and set defaults (for form building)
 		$user = Leganto::users()->createEmpty();
 		$user->role = "common";
-		$user->idLanguage = 1;		// FIXME: Dle jazykové mutace
+		$user->idLanguage = System::domain()->idLanguage;
 		$user->inserted = new DibiVariable("now()", "sql");
 		// Add post action (send mail to user)
 		$user->addOnPersistListener(new CallbackListener(array($this, "postSignUp")));
@@ -125,6 +126,7 @@ class IntroductionComponent extends BaseComponent {
 		$form->addPassword("password2","Password again");
 		$form->addSubmit("submitSignUp", "Register");
 		$form->onSubmit[] = array($builder, "onSubmit");
+		$form->setTranslator(System::translator());
 		return $form;
 	}
 
@@ -142,8 +144,9 @@ class IntroductionComponent extends BaseComponent {
 			$form->addSubmit("submitted", "Log in");
 			$form->onSubmit[] = array($this, "loginTwitterFormSubmitted");
 		} else {
-			$form->addError(_("Twitter functions are not accessible right now. Please try it later."));
+			$form->addError(System::translate("Twitter functions are not accessible right now. Please try it later."));
 		}
+		$form->setTranslator(System::translator());
 		return $form;
 	}
 
@@ -170,7 +173,7 @@ class IntroductionComponent extends BaseComponent {
 
 			$form->addText("test","Test");
 		} else {
-			$form->addError(_("Facebook functions have been temporary disabled. Please try it later."));
+			$form->addError(System::translate("Facebook functions have been temporary disabled. Please try it later."));
 		}
 		return $form;
 	}
@@ -183,11 +186,11 @@ class IntroductionComponent extends BaseComponent {
 		$mail = new Mail();
 		$mail->addTo($user->email);
 		$mail->setFrom(Environment::getConfig("mail")->info, Environment::getConfig("mail")->name);
-		$mail->setSubject(_("Thanks for your registration."));
+		$mail->setSubject(System::translate("Thanks for your registration."));
 		$mail->setBody($template);
 		$mail->send();
 
-		$this->getPresenter()->flashMessage(_("Thanks for your registration."));
+		$this->getPresenter()->flashMessage(System::translate("Thanks for your registration."));
 		$this->getPresenter()->redirect("this");
 	}
 
@@ -244,7 +247,7 @@ class IntroductionComponent extends BaseComponent {
 					$this->twitter->destroyLoginData();
 				} else {
 					// This twitter id is already connected to some account
-					$form->addError("This twitter account is already connected to an account.");
+					$form->addError(System::translate("This twitter account is already connected to an account."));
 				}
 			}
 		}
@@ -300,7 +303,7 @@ class IntroductionComponent extends BaseComponent {
 			
 		} else {
 			// Show error that same account (probably nick) exists
-			$this->flashMessage(_("Account with same nickname is already registered."));
+			$this->flashMessage(System::translate("Account with same nickname is already registered."));
 		}
 		
 	}

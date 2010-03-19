@@ -16,7 +16,7 @@
  */
 class Web_DefaultPresenter extends Web_BasePresenter {
 	public function renderDefault() {
-		$this->setPageTitle(System::translator()->translate("Main page"));
+		$this->setPageTitle(System::translate("Main page"));
 		if(Environment::getUser()->isAuthenticated()) {
 			$this->forward("feed");
 		}
