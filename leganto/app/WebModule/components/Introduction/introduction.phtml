@@ -21,6 +21,11 @@
 				<p><strong>{_'Yes...'}</strong> {_'If you want to connect this twitter account please log in.'}</p>
 				@{widget "twitterForm"}
 				<p><strong>{_'No...'}</strong> {_'If you want to create new account please click on button Create new which log in you automatically in just a second.'}</p>
+				<ul>
+					{foreach $flashes as $flash}
+						<li>{$flash->message}</li>
+					{/foreach}
+				</ul>
 				<a href="{link signUpViaTwitter}" id="signup_button">{_'Create new'}</a>
 			</div>
 			@{else}
