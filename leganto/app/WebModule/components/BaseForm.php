@@ -26,6 +26,7 @@ class BaseForm extends AppForm
 		$renderer->wrappers['pair']['container'] = 'p';
 		$renderer->wrappers['label']['container'] = NULL;
 		$renderer->wrappers['control']['container'] = NULL;
+		$this->setTranslator(System::translator());
 		parent::render();
 	}
 

@@ -100,7 +100,6 @@ class IntroductionComponent extends BaseComponent {
 			->addRule(Form::FILLED,"Please fill the password.");
 		$loginForm->addSubmit("submitted", "Log in");
 		$loginForm->onSubmit[] = array($this, "loginFormSubmitted");
-		$loginForm->setTranslator(System::translator());
 		return $loginForm;
 	}
 
@@ -126,7 +125,6 @@ class IntroductionComponent extends BaseComponent {
 		$form->addPassword("password2","Password again");
 		$form->addSubmit("submitSignUp", "Register");
 		$form->onSubmit[] = array($builder, "onSubmit");
-		$form->setTranslator(System::translator());
 		return $form;
 	}
 
@@ -146,7 +144,6 @@ class IntroductionComponent extends BaseComponent {
 		} else {
 			$form->addError(System::translate("Twitter functions are not accessible right now. Please try it later."));
 		}
-		$form->setTranslator(System::translator());
 		return $form;
 	}
 
