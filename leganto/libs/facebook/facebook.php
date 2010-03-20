@@ -106,17 +106,17 @@ class Facebook {
    *
    * For nitty-gritty details of when each of these is used, check out
    * http://wiki.developers.facebook.com/index.php/Verifying_The_Signature
+   *
+   * @param bool  resolve_auth_token  convert an auth token into a session
    */
-  public function validate_fb_params() {
+  public function validate_fb_params($resolve_auth_token=true) {
     $this->fb_params = $this->get_valid_fb_params($_POST, 48 * 3600, 'fb_sig');
 
     // note that with preload FQL, it's possible to receive POST params in
     // addition to GET, so use a different prefix to differentiate them
     if (!$this->fb_params) {
       $fb_params = $this->get_valid_fb_params($_GET, 48 * 3600, 'fb_sig');
-      $fb_post_params = $this->get_valid_fb_params($_POST,
-                                                   48 * 3600, // 48 hours
-                                                   'fb_post_sig');
+      $fb_post_params = $this->get_valid_fb_params($_POST, 48 * 3600, 'fb_post_sig');
       $this->fb_params = array_merge($fb_params, $fb_post_params);
     }
 
@@ -146,11 +146,13 @@ class Facebook {
       $this->set_user($user,
                       $session_key,
                       $expires);
-    } else if ($cookies =
-               $this->get_valid_fb_params($_COOKIE, null, $this->api_key)) {
-      // if no Facebook parameters were found in the GET or POST variables,
-      // then fall back to cookies, which may have cached user information
-      // Cookies are also used to receive session data via the Javascript API
+    }
+    // if no Facebook parameters were found in the GET or POST variables,
+    // then fall back to cookies, which may have cached user information
+    // Cookies are also used to receive session data via the Javascript API
+    else if ($cookies =
+             $this->get_valid_fb_params($_COOKIE, null, $this->api_key)) {
+
       $base_domain_cookie = 'base_domain_' . $this->api_key;
       if (isset($_COOKIE[$base_domain_cookie])) {
         $this->base_domain = $_COOKIE[$base_domain_cookie];
@@ -162,6 +164,25 @@ class Facebook {
       $this->set_user($cookies['user'],
                       $cookies['session_key'],
                       $expires);
+    }
+    // finally, if we received no parameters, but the 'auth_token' GET var
+    // is present, then we are in the middle of auth handshake,
+    // so go ahead and create the session
+    else if ($resolve_auth_token && isset($_GET['auth_token']) &&
+             $session = $this->do_get_session($_GET['auth_token'])) {
+      if ($this->generate_session_secret &&
+          !empty($session['secret'])) {
+        $session_secret = $session['secret'];
+      }
+
+      if (isset($session['base_domain'])) {
+        $this->base_domain = $session['base_domain'];
+      }
+
+      $this->set_user($session['uid'],
+                      $session['session_key'],
+                      $session['expires'],
+                      isset($session_secret) ? $session_secret : null);
     }
 
     return !empty($this->fb_params);
