@@ -25,13 +25,19 @@ class IntroductionComponent extends BaseComponent {
 
 	public $twitter;
 
+	public $facebook;
+
 	public function  __construct() {
 		parent::__construct();
 
 		$newState = Environment::getHttpRequest()->getQuery("introduction-state"); // FIXME: toto je opravdu osklivy hack! Jak obejit to ze state jeste nebyl nastaven, ale pri vytvareni komponenty uz je pozde - vystup odchazi?!
-		if($newState == "twitter"){
-			$this->twitter = new Twitter;
+		if($newState == "twitter") {
+			$this->twitter = new TwitterBridge;
 			$this->twitter->doLogin();
+		} else
+		if($newState == "facebook") {
+			$this->facebook = new FacebookBridge;
+			$this->facebook->doLogin();
 		}
 	}
 
@@ -78,6 +84,7 @@ class IntroductionComponent extends BaseComponent {
 	public function loadFacebookTemplate() {
 		$template			= $this->getTemplate();
 		$template->state	= "facebook";
+		$template->facebookStatus = $this->facebook->isLogged();
 		return $template;
 	}
 
@@ -148,29 +155,21 @@ class IntroductionComponent extends BaseComponent {
 	}
 
 	protected function createComponentFacebookForm($name) {
-		// Procedure
-		// Try look up, if user is already logged on facebook
-		//    Logged -> continue
-		//    Not logged -> jump to facebook
-
-		// Try to find user ID from facebook in table user_connections
-		//    Found -> good, automatic login
-		//    Not found -> Temporary login, show options
-		//        New account -> create dummy account here -> login
-		//        Already have account -> link accounts and login
-
 		$form = new BaseForm();
-		$form->getElementPrototype()->setId("sign");
+		//$form->getElementPrototype()->setId("sign");
 
-		if(Environment::getConfig("facebook")->enable) { // check if facebook is enabled
-			$fbGate = new Facebook(Environment::getConfig("facebook")->apiKey,Environment::getConfig("facebook")->secret,NULL,TRUE);
-			Debug::dump($fbGate);
-			$fbUser = $fbGate->require_login();
-			Debug::dump($fbUser);
-
-			$form->addText("test","Test");
+		if($this->facebook->isLogged() == true){
+			// Continue with connecting accounts - show user the options -> form
+			// login part of form
+			$group = $form->addGroup();
+			$form->addText("nickname", "Nickname")
+				->addRule(Form::FILLED,"Please fill the nickname.");
+			$form->addPassword("password", "Password")
+				->addRule(Form::FILLED,"Please fill the password.");
+			$form->addSubmit("submitted", "Log in");
+			$form->onSubmit[] = array($this, "loginFacebookFormSubmitted");
 		} else {
-			$form->addError(System::translate("Facebook functions have been temporary disabled. Please try it later."));
+			$form->addError(System::translate("Facebook functions are not accessible right now. Please try it later."));
 		}
 		return $form;
 	}
@@ -209,6 +208,9 @@ class IntroductionComponent extends BaseComponent {
 		}
 	}
 
+	/*
+	 * This handler take care of choosing screen of twitter login
+	 */
 	public function loginTwitterFormSubmitted(Form $form) {
 		$values = $form->getValues();
 		try {
@@ -226,7 +228,7 @@ class IntroductionComponent extends BaseComponent {
 		// If user was successfully logged and there were found data in session (namespace twitter) -> add connection
 		$user = Environment::getUser()->getIdentity();
 		if($user != NULL){
-			$this->twitter = new Twitter;
+			$this->twitter = new TwitterBridge;
 			$twitterToken = $this->twitter->getToken();
 			if(!empty($twitterToken)){
 				$exists = Leganto::connections()->getSelector()->exists($user->id,'twitter');
@@ -251,6 +253,51 @@ class IntroductionComponent extends BaseComponent {
 		
 	}
 
+	/*
+	 * This handler take care of choosing screen of twitter login
+	 */
+	public function loginFacebookFormSubmitted(Form $form) {
+		$values = $form->getValues();
+		try {
+			Environment::getUser()->authenticate($values['nickname'],$values['password']);
+		} catch (AuthenticationException $e) {
+			switch ($e->getCode()) {
+				case IAuthenticator::IDENTITY_NOT_FOUND:
+					$form->addError("User not found");
+					break;
+				case IAuthenticator::INVALID_CREDENTIAL:
+					$form->addError("The password is wrong");
+					break;
+			}
+		}
+		// If user was successfully logged and there were found data in session (namespace twitter) -> add connection
+		$user = Environment::getUser()->getIdentity();
+		if($user != NULL){
+			$this->twitter = new FacebookBridge;
+			$facebookToken = $this->twitter->getToken();
+			if(!empty($facebookToken)){
+				$exists = Leganto::connections()->getSelector()->exists($user->id,'facebook');
+				if(!$exists){
+					// Prepare user connection entity
+					$connection = Leganto::connections()->createEmpty();
+					$connection->user = $user->id;
+					$connection->type = 'facebook';
+					$connection->token = $facebookToken;
+
+					// Commit
+					Leganto::connections()->getInserter()->insert($connection);
+
+					// Now it is safe to delete twitter data in session
+					$this->facebook->destroyLoginData();
+				} else {
+					// This twitter id is already connected to some account
+					$form->addError(System::translate("This facebook account is already connected to an account."));
+				}
+			}
+		}
+
+	}
+
 	public function handleChangeState($state) {
 		switch($state) {
 			case "default":
@@ -267,7 +314,7 @@ class IntroductionComponent extends BaseComponent {
 	}
 
 	/**
-	 * Create new account from twitter data (with filled name etc, but empty password)
+	 * Create new account from twitter data (with filled name etc, but empty password and email)
 	 */
 	public function handleSignUpViaTwitter() {
 		// Get data for registering profile + load session
@@ -303,6 +350,44 @@ class IntroductionComponent extends BaseComponent {
 			$this->flashMessage(System::translate("Account with same nickname is already registered."));
 		}
 		
+	}
+	/**
+	 * Create new account from twitter data (with filled name etc, but empty password and email)
+	 */
+	public function handleSignUpViaFacebook() {
+		// Get data for registering profile + load session
+		$data = $this->facebook->userInfo();
+
+		// Prepare user entity
+		$user = Leganto::users()->createEmpty();
+		$user->role = "common";
+		// FIXME: pouziva se id_role? Proc je id_role a role - zbytecna duplikace
+		$user->idLanguage = System::domain()->idLanguage;
+		$user->inserted = new DibiVariable("now()", "sql");
+		$user->nickname = $data["username"];
+
+		// Commit
+		$user = Leganto::users()->getInserter()->insert($user);
+		if($user != -1){
+			// Prepare user connection entity
+			$connection = Leganto::connections()->createEmpty();
+			$connection->user = $user;
+			$connection->type = 'facebook';
+			$connection->token = $this->facebook->getToken();
+
+			// Commit
+			Leganto::connections()->getInserter()->insert($connection);
+
+			Environment::getUser()->authenticate(null,null,$this->facebook->getToken());
+
+			// Now it is safe to delete twitter data in session
+			$this->facebook->destroyLoginData();
+
+		} else {
+			// Show error that same account (probably nick) exists
+			$this->flashMessage(System::translate("Account with same nickname is already registered."));
+		}
+
 	}
 }
 

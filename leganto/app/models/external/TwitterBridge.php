@@ -15,11 +15,11 @@
  * @version		$Id$
  */
 
-class Twitter implements ISocialNetwork {
+class TwitterBridge implements ISocialNetwork {
 
 	private $gate;
 
-	private $twitterStatus = false;
+	private $status = false;
 
 	private $session;
 
@@ -107,19 +107,20 @@ class Twitter implements ISocialNetwork {
 	function doLogin() {
 		if(!$this->isEnabled()) return false;
 		// Try if session is filled with right data (because then it ok to skip authentication)
-		if(isset($this->session->auth['oauth_token']) && $this->session->auth['oauth_token_secret']){
-			$this->twitterStatus = true;
+		if(isset($this->session->auth['oauth_token']) && isset($this->session->auth['oauth_token_secret'])) {
+			$this->status = true;
 		} else
 		if($this->authentication()){ // Authentication was successful
-			$this->twitterStatus = true;
+			$this->status = true;
 		} else {
-			$this->twitterStatus = false;
+			$this->status = false;
 		}
 
-		// If twitterStatus is true then try to look up for existing connection -> if it is found then user is logged automatically
-		if($this->twitterStatus == true){
+		// If status is true then try to look up for existing connection -> if it is found then user is logged automatically
+		if($this->status == true){
 			try {
 				Environment::getUser()->authenticate(null,null,$this->session->auth['oauth_token']);
+				$this->destroyLoginData();
 			} catch (AuthenticationException $e) {
 				// Silent error - output is not desired - connection was not found -> show message to let user choose what to do
 			}
@@ -132,7 +133,7 @@ class Twitter implements ISocialNetwork {
 	 */
 	function isLogged() {
 		if(!$this->isEnabled()) return false;
-		return $this->twitterStatus;
+		return $this->status;
 	}
 
 	/**
@@ -155,7 +156,7 @@ class Twitter implements ISocialNetwork {
 	function postMessage($message) {
 		if(!$this->isEnabled()) return false;
 
-		// Fetch data
+		// Post data
 		$this->doNormalConnection();
 		$data = $this->gate->post('statuses/update', array("status" => $message));
 		if(!isset($data->error)){
@@ -165,7 +166,7 @@ class Twitter implements ISocialNetwork {
 		}
 	}
 	function destroyLoginData() {
-		// Remove session information belonging to connections (twitter, facebook...)
+		// Remove session information belonging to connection
 		if(isset($this->session)) {
 			$this->session->remove();
 		}

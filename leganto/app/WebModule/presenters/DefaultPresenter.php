@@ -23,7 +23,7 @@ class Web_DefaultPresenter extends Web_BasePresenter {
 	}
 	
 	public function renderFeed() {
-		$this->setPageTitle(System::translator()->translate("News"));
+		$this->setPageTitle(System::translate("News"));
 	}
 
 	protected function createComponentIntroduction($name) {

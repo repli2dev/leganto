@@ -18,10 +18,15 @@
 interface ISocialNetwork {
 
 	/**
-	 * Should do login aganist social network API and return true/false. Output data should be stored in session.
+	 * Should do login aganist social network API and return true/false. Temporary login data should be stored in session.
 	 * @return boolean
 	 */
 	function authentication();
+
+	/**
+	 * Do any nescessary steps to login user in
+	 */
+	function doLogin();
 
 	/**
 	 * Decide (according to global config) if this social network is enabled.
