@@ -270,7 +270,7 @@ class IntroductionComponent extends BaseComponent {
 					break;
 			}
 		}
-		// If user was successfully logged and there were found data in session (namespace twitter) -> add connection
+		// If user was successfully logged and there were found data in session (namespace facebook) -> add connection
 		$user = Environment::getUser()->getIdentity();
 		if($user != NULL){
 			$this->twitter = new FacebookBridge;
@@ -287,7 +287,7 @@ class IntroductionComponent extends BaseComponent {
 					// Commit
 					Leganto::connections()->getInserter()->insert($connection);
 
-					// Now it is safe to delete twitter data in session
+					// Now it is safe to delete facebook data in session
 					$this->facebook->destroyLoginData();
 				} else {
 					// This twitter id is already connected to some account
@@ -380,7 +380,7 @@ class IntroductionComponent extends BaseComponent {
 
 			Environment::getUser()->authenticate(null,null,$this->facebook->getToken());
 
-			// Now it is safe to delete twitter data in session
+			// Now it is safe to delete facebook data in session
 			$this->facebook->destroyLoginData();
 
 		} else {

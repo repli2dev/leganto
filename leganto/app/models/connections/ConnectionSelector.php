@@ -39,4 +39,9 @@ class ConnectionSelector implements ISelector {
 			return false;
 		}
 	}
+	/** @return int */
+	public function getToken($user,$type) {
+		$data = dibi::query("SELECT * FROM [connection] WHERE [id_user] = %i", $user, "AND [type] = %s", $type)->fetch();
+		return $data['token'];
+	}
 }

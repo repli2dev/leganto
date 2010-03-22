@@ -128,13 +128,18 @@ class FacebookBridge implements ISocialNetwork {
 
 	/**
 	 * Post message on facebook, return true if successful
+	 * Usage: $this->postMessage("Flies cleared.",Leganto::connections()->getSelector()->getToken(System::user()->id,"facebook"));
 	 * @return boolean
 	 */
-	function postMessage($message) {
+	function postMessage($message,$uid) {
 		if(!$this->isEnabled()) return false;
 
-		//$this->doNormalConnection();
-		//$this->gate->api_client->users_setStatus($message,$uid);
+		if(empty($uid)) {
+			throw new NullPointerException("uid");
+		}
+
+		$this->doNormalConnection();
+		$this->gate->api_client->users_setStatus($message,$uid);
 
 	}
 	function destroyLoginData() {
