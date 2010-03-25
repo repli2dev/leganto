@@ -14,7 +14,9 @@ Debug::timer();
 
 echo "EXTRACTING ALL TEXT FOR TRANSLATION...";
 
-$ge = new GettextExtractor();
+$ge = new NetteGettextExtractor();
+
+$ge->setupForms();
 
 // Set Filters
 $ge->setFilter('php', 'PHP');

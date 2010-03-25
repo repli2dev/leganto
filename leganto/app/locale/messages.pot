@@ -1,15 +1,17 @@
 # Gettext keys exported by GettextExtractor
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2010-03-19T18:17:00+01:00\n"
+"POT-Creation-Date: 2010-03-25T21:22:17+01:00\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:306
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:350
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:388
 msgid "Account with same nickname is already registered."
 msgstr ""
 
-# APP_DIR/WebModule/components/Introduction/introduction.phtml:28
+# APP_DIR/WebModule/components/Introduction/introduction.phtml:24
+# APP_DIR/WebModule/components/Introduction/introduction.phtml:38
 msgid "Create new"
 msgstr ""
 
@@ -17,27 +19,33 @@ msgstr ""
 msgid "Did you know?"
 msgstr ""
 
-# APP_DIR/WebModule/components/Introduction/introduction.phtml:19
+# APP_DIR/WebModule/components/Introduction/introduction.phtml:15
+# APP_DIR/WebModule/components/Introduction/introduction.phtml:29
 msgid "Do you have account?"
 msgstr ""
 
-# APP_DIR/WebModule/components/Introduction/introduction.phtml:32
-msgid "Error"
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:172
+msgid "Facebook functions are not accessible right now. Please try it later."
 msgstr ""
 
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:176
-msgid "Facebook functions have been temporary disabled. Please try it later."
+# APP_DIR/WebModule/components/Introduction/introduction.phtml:16
+msgid "If you want to connect this facebook account please log in."
 msgstr ""
 
-# APP_DIR/WebModule/components/Introduction/introduction.phtml:20
+# APP_DIR/WebModule/components/Introduction/introduction.phtml:30
 msgid "If you want to connect this twitter account please log in."
 msgstr ""
 
-# APP_DIR/WebModule/components/Introduction/introduction.phtml:22
+# APP_DIR/WebModule/components/Introduction/introduction.phtml:18
+# APP_DIR/WebModule/components/Introduction/introduction.phtml:32
 msgid "If you want to create new account please click on button Create new which log in you automatically in just a second."
 msgstr ""
 
-# APP_DIR/WebModule/components/Introduction/introduction.phtml:49
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:103
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:108
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:149
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:169
+# APP_DIR/WebModule/components/Introduction/introduction.phtml:53
 msgid "Log in"
 msgstr ""
 
@@ -45,11 +53,11 @@ msgstr ""
 msgid "Log out"
 msgstr ""
 
-# APP_DIR/WebModule/components/Introduction/introduction.phtml:52
+# APP_DIR/WebModule/components/Introduction/introduction.phtml:56
 msgid "Login with Facebook"
 msgstr ""
 
-# APP_DIR/WebModule/components/Introduction/introduction.phtml:53
+# APP_DIR/WebModule/components/Introduction/introduction.phtml:57
 msgid "Login with Twitter"
 msgstr ""
 
@@ -62,40 +70,94 @@ msgstr ""
 msgid "News"
 msgstr ""
 
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:104
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:145
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:165
+msgid "Nickname"
+msgstr ""
+
 # APP_DIR/WebModule/templates/layout.phtml:35
 msgid "No content"
 msgstr ""
 
-# APP_DIR/WebModule/components/Introduction/introduction.phtml:22
+# APP_DIR/WebModule/components/Introduction/introduction.phtml:18
+# APP_DIR/WebModule/components/Introduction/introduction.phtml:32
 msgid "No..."
+msgstr ""
+
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:106
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:147
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:167
+msgid "Password"
+msgstr ""
+
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:132
+msgid "Password again"
+msgstr ""
+
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:105
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:146
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:166
+msgid "Please fill the nickname."
+msgstr ""
+
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:107
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:148
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:168
+msgid "Please fill the password."
+msgstr ""
+
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:133
+msgid "Register"
 msgstr ""
 
 # APP_DIR/WebModule/components/Navigation/navigation.phtml:13
 msgid "Settings"
 msgstr ""
 
-# APP_DIR/WebModule/components/Introduction/introduction.phtml:48
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:116
+msgid "Sign Up"
+msgstr ""
+
+# APP_DIR/WebModule/components/Introduction/introduction.phtml:52
 msgid "Sign up"
 msgstr ""
 
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:185
 # APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:189
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:193
 msgid "Thanks for your registration."
 msgstr ""
 
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:250
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:205
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:224
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:269
+msgid "The password is wrong"
+msgstr ""
+
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:294
+msgid "This facebook account is already connected to an account."
+msgstr ""
+
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:249
 msgid "This twitter account is already connected to an account."
 msgstr ""
 
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:147
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:152
 msgid "Twitter functions are not accessible right now. Please try it later."
 msgstr ""
 
-# APP_DIR/WebModule/components/Introduction/introduction.phtml:44
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:202
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:221
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:266
+msgid "User not found"
+msgstr ""
+
+# APP_DIR/WebModule/components/Introduction/introduction.phtml:48
 msgid "Welcome!"
 msgstr ""
 
-# APP_DIR/WebModule/components/Introduction/introduction.phtml:20
+# APP_DIR/WebModule/components/Introduction/introduction.phtml:16
+# APP_DIR/WebModule/components/Introduction/introduction.phtml:30
 msgid "Yes..."
 msgstr ""
 
