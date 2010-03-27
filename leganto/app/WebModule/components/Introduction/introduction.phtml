@@ -13,6 +13,7 @@
 		@{/if}
 		@{if $state == "facebook"}
 			<div>
+			@{if $enabled}
 				<h1>{_'Do you have account?'}</h1>
 				<p><strong>{_'Yes...'}</strong> {_'If you want to connect this facebook account please log in.'}</p>
 				@{widget "facebookForm"}
@@ -23,10 +24,15 @@
 					{/foreach}
 				</ul>
 				<a href="{link signUpViaFacebook}" id="signup_button">{_'Create new'}</a>
+			@{else}
+				<h1>{_'Temporary Error'}</h1>
+				<p>{_'Facebook functions are not accessible right now. Please try it later.'}</p>
+			@{/if}
 			</div>
 		@{/if}
 		@{if $state == "twitter"}
 			<div>
+			@{if $enabled}
 				<h1>{_'Do you have account?'}</h1>
 				<p><strong>{_'Yes...'}</strong> {_'If you want to connect this twitter account please log in.'}</p>
 				@{widget "twitterForm"}
@@ -37,6 +43,10 @@
 					{/foreach}
 				</ul>
 				<a href="{link signUpViaTwitter}" id="signup_button">{_'Create new'}</a>
+			@{else}
+				<h1>{_'Temporary Error'}</h1>
+				<p>{_'Twitter functions are not accessible right now. Please try it later.'}</p>
+			@{/if}
 			</div>
 		@{/if}
 		@{if $state == "signup"}

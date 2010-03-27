@@ -24,9 +24,6 @@ class Web_DefaultPresenter extends Web_BasePresenter {
 	
 	public function renderFeed() {
 		$this->setPageTitle(System::translate("News"));
-		
-		$t = new FacebookBridge;
-		$t->postMessage("Flies cleared.",Leganto::connections()->getSelector()->getToken(System::user()->id,"facebook"));
 	}
 
 	protected function createComponentIntroduction($name) {

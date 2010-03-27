@@ -30,7 +30,8 @@ class IntroductionComponent extends BaseComponent {
 	public function  __construct() {
 		parent::__construct();
 
-		$newState = Environment::getHttpRequest()->getQuery("introduction-state"); // FIXME: toto je opravdu osklivy hack! Jak obejit to ze state jeste nebyl nastaven, ale pri vytvareni komponenty uz je pozde - vystup odchazi?!
+		// FIXME: toto je opravdu osklivy hack! Jak obejit to ze state jeste nebyl nastaven, ale pri vytvareni komponenty uz je pozde - vystup odchazi?!
+		$newState = Environment::getHttpRequest()->getQuery("introduction-state"); 
 		if($newState == "twitter") {
 			$this->twitter = new TwitterBridge;
 			$this->twitter->doLogin();
@@ -84,14 +85,14 @@ class IntroductionComponent extends BaseComponent {
 	public function loadFacebookTemplate() {
 		$template			= $this->getTemplate();
 		$template->state	= "facebook";
-		$template->facebookStatus = $this->facebook->isLogged();
+		$template->enabled = $this->facebook->isEnabled();
 		return $template;
 	}
 
 	public function loadTwitterTemplate() {
 		$template			= $this->getTemplate();
 		$template->state	= "twitter";
-		$template->twitterStatus = $this->twitter->isLogged();
+		$template->enabled = $this->twitter->isEnabled();
 		return $template;
 	}
 
@@ -148,8 +149,6 @@ class IntroductionComponent extends BaseComponent {
 				->addRule(Form::FILLED,"Please fill the password.");
 			$form->addSubmit("submitted", "Log in");
 			$form->onSubmit[] = array($this, "loginTwitterFormSubmitted");
-		} else {
-			$form->addError(System::translate("Twitter functions are not accessible right now. Please try it later."));
 		}
 		return $form;
 	}
@@ -168,8 +167,6 @@ class IntroductionComponent extends BaseComponent {
 				->addRule(Form::FILLED,"Please fill the password.");
 			$form->addSubmit("submitted", "Log in");
 			$form->onSubmit[] = array($this, "loginFacebookFormSubmitted");
-		} else {
-			$form->addError(System::translate("Facebook functions are not accessible right now. Please try it later."));
 		}
 		return $form;
 	}
