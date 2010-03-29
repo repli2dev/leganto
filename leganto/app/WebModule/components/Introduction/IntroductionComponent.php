@@ -171,7 +171,7 @@ class IntroductionComponent extends BaseComponent {
 		return $form;
 	}
 
-	public function postSignUp(EntityPersistedEvent $event) {
+	public function postSignUp(EntityEvent $event) {
 		$user = $event->getEntity();
 		$template = LegantoTemplate::loadTemplate(new Template());
 		$template->setFile(WebModule::getModuleDir() . "/templates/mails/signUp.phtml");
