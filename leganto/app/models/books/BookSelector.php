@@ -55,7 +55,7 @@ class BookSelector implements ISelector
 		if (empty($keyword)) {
 			throw new NullPointerException("keyword");
 		}
-		$keyword .= "%".$keyword."%";
+		$keyword = "%".$keyword."%";
 		
 		return dibi::dataSource("SELECT * FROM [view_book_search] WHERE
 				[title] LIKE %s", $keyword," OR 
