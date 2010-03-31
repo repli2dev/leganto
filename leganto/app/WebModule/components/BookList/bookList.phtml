@@ -1,0 +1,34 @@
+<style>
+    .icon {
+	border: 1px solid #F5D25A;
+	float: left;
+	margin: 0px 12px 6px 0;
+	padding: 1px;
+	border: 1px solid #F5D25A;
+    }
+    .book-list-item {
+	clear: both;
+    }
+</style>
+
+<div clas="book-list">
+    {foreach $books AS $book}
+    <div class="book-list-item">
+	<div class="cover">
+	    <img class="icon" src="{$covers[$book->getId()],50|thumbnail}" alt="{$book->title}" width="50" height="80" />
+	</div>
+	<h2>{$book->title}</h2>
+	<div class="info">
+	    {foreach $authors[$book->getId()] AS $author}
+	    <a href="" class="author">
+		{if $author->groupname != NULL}{$author->groupname} {/if}
+		{if $author->firstname != NULL}{$author->firstname}{/if}
+		{if $author->lastname != NULL}{$author->lastname}{/if}
+	    </a>
+	    {/foreach}
+	</div>
+	<div class="tags"></div>
+	<div class="rating"></div>
+    </div>
+    {/foreach}
+</div>
