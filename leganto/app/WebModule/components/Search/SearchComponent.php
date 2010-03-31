@@ -18,6 +18,18 @@
 
 class SearchComponent extends BaseComponent
 {
-    
+
+    public function render() {
+	$this->getTemplate()->form = $this->getComponent("form");
+	parent::render();
+    }
+
+    protected function createComponentForm($name) {
+	$form = new AppForm($this, $name);
+	$form->getElementPrototype()->setId("search");
+	$form->addText("query");
+	$form->addSubmit("search_submit", "");
+    }
+
 }
 

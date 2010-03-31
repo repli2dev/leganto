@@ -1,4 +1,12 @@
-<form id="search">
+{!$form->render('begin')}
+    <fieldset>
+	<legend></legend>
+	{!$form['query']->control}
+	{!$form['search_submit']->control}
+    </fieldset>
+{!$form->render('end')}
+<!--
+<form id="search"> 
     <fieldset>
 	    <legend></legend>
 	    <input type="text" size="14" name="name" value="Search"/>
@@ -9,3 +17,4 @@
 	    <label><input type="radio" name="search" value="reader" /><a href="#" class="deselect">{_'readers'}</a></label>
     </fieldset>
 </form>
+-->
