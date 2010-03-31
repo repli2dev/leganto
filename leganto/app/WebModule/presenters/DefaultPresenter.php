@@ -26,12 +26,22 @@ class Web_DefaultPresenter extends Web_BasePresenter {
 		$this->setPageTitle(System::translate("News"));
 	}
 
+	public function renderSearch($query, $book = TRUE) {
+	    $this->setPageTitle(System::translate("Search"));
+	    $source = Leganto::books()->getSelector()->search($query);
+	    $this->getComponent("searchList")->setUp($source);
+	}
+
 	protected function createComponentIntroduction($name) {
 		return new IntroductionComponent($this,$name);
 	}
 
 	protected function createComponentPreview($name) {
 		return new PreviewComponent($this,$name);
+	}
+
+	protected function createComponentSearchList($name) {
+	    return new BookListComponent($this, $name);
 	}
 
 }
