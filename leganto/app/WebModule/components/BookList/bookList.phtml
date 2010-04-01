@@ -1,15 +1,11 @@
 <style>
-    .icon {
-	border: 1px solid #F5D25A;
-	float: left;
-	margin: 0px 12px 6px 0;
-	padding: 1px;
-	border: 1px solid #F5D25A;
-    }
     .book-list-item {
 	width: 30%;
 	float: left;
 	margin: 0 1% 20px 1%;
+    }
+    .book-list-item h2 a {
+	color: #F1C11B;
     }
 </style>
 
@@ -19,7 +15,7 @@
 	<div class="cover">
 	    <img class="icon" src="{$covers[$book->getId()],50|thumbnail}" alt="{$book->title}" width="50" height="80" />
 	</div>
-	<h2>{$book->title}</h2>
+	<h2><a href="{plink Book:view,$book->getId()}">{$book->title}</a></h2>
 	<div class="info">
 	    {foreach $authors[$book->bookNode] AS $author}
 	    <a href="" class="author">
