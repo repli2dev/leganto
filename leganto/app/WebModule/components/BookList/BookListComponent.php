@@ -52,7 +52,7 @@ class BookListComponent extends BaseComponent
 
     private function getOrderColumn() {
 	if (empty($this->orderColumn)) {
-	    return array("rating", "number_of_opinions");
+	    return"number_of_opinions";
 	}
 	else {
 	    return $this->orderColumn;
