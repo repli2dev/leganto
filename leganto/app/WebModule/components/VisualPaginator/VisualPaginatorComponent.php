@@ -27,7 +27,7 @@
  * @copyright  Copyright (c) 2009 David Grudl
  * @package    Nette Extras
  */
-class VisualPaginatorComponent extends Control
+class VisualPaginatorComponent extends BaseComponent
 {
 	/** @var Paginator */
 	private $paginator;
@@ -74,8 +74,7 @@ class VisualPaginatorComponent extends Control
 
 		$this->template->steps = $steps;
 		$this->template->paginator = $paginator;
-		$this->template->setFile(dirname(__FILE__) . '/template.phtml');
-		$this->template->render();
+		parent::render();
 	}
 
 
