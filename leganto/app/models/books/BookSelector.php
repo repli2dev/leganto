@@ -56,7 +56,7 @@ class BookSelector implements ISelector
 			throw new NullPointerException("keyword");
 		}
 		$source = dibi::dataSource("SELECT * FROM [view_book_search]");
-		$keywords = split(" ", $keyword);
+		$keywords = preg_split('/ /', $keyword);
 		foreach($keywords AS $word) {
 		    $word = "%".$word."%";
 		    $source->where("
