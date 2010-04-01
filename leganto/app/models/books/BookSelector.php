@@ -55,20 +55,22 @@ class BookSelector implements ISelector
 		if (empty($keyword)) {
 			throw new NullPointerException("keyword");
 		}
-		$source = dibi::dataSource("SELECT * FROM [view_book_search]");
 		$keywords = preg_split('/ /', $keyword);
+		$conditions = "";
 		foreach($keywords AS $word) {
-		    $word = "%".$word."%";
-		    $source->where("
-			[title] LIKE %s", $word," OR
-			[subtitle] LIKE %s", $word," OR
-			[name] LIKE %s", $word," OR
-			[first_name] LIKE %s", $word," OR
-			[last_name] LIKE %s", $word," OR
-			[group_name] LIKE %s", $word
-		    );
+		    if (!empty($conditions)) {
+			$conditions .= " AND ";
+		    }
+		    $word = "%".mysql_escape_string($word)."%";
+		    $conditions .= "
+			([title] LIKE '$word' OR
+			[subtitle] LIKE '$word' OR
+			[name] LIKE '$word' OR
+			[first_name] LIKE '$word' OR
+			[last_name] LIKE '$word' OR
+			[group_name] LIKE '$word')";
 		}
-		return $source;
+		return dibi::dataSource("SELECT * FROM [view_book_search] " . (empty($conditions) ? "" : " WHERE " . $conditions) . " GROUP BY [id_book]");
 	}
 
 	public function findOthers(BookEntity $book) {

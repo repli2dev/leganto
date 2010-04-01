@@ -3,9 +3,6 @@ class BookListComponent extends BaseComponent
 {
 
     /** @var int */
-    private $count;
-
-    /** @var int */
     private $limit = 12;
 
     /** @persistent */
@@ -55,7 +52,6 @@ class BookListComponent extends BaseComponent
 
     protected function createComponentPaginator($name) {
 	$vp = new VisualPaginatorComponent($this, $name);
-	$vp->getPaginator()->itemCount	    = $this->count;
 	$vp->getPaginator()->itemsPerPage   = $this->limit;
 	return $vp;
     }
@@ -91,8 +87,8 @@ class BookListComponent extends BaseComponent
     }
 
     private function loadTemplate(DibiDataSource $source) {
-	$this->count= $source->count();
 	$paginator  = $this->getComponent("paginator")->getPaginator();
+	$paginator->itemCount = $source->count();
 	$books	    = $source
 	    ->orderBy($this->getOrderColumn(), $this->getOrderDirection())
 	    ->applyLimit($paginator->itemsPerPage, $paginator->offset)
