@@ -5,28 +5,11 @@ class BookListComponent extends BaseComponent
     /** @var int */
     private $limit = 12;
 
-    /** @persistent */
-    public $orderColumn;
-
-    /** @persistent */
-    public $orderDirection;
-
-    /** @persistent */
-    public $page;
-
     /** @var bool */
     private $setupHappened = false;
 
     public function getLimit() {
 	return $this->limit;
-    }
-
-    public function handleOrder($column) {
-	$this->setOrderColumn($column);
-    }
-
-    public function handlePage($page) {
-	$this->setPage($page);
     }
 
     /**
@@ -56,27 +39,6 @@ class BookListComponent extends BaseComponent
 	return $vp;
     }
 
-
-    // ---- PRIVATE METHODS
-
-    private function getOrderColumn() {
-	if (empty($this->orderColumn)) {
-	    return"rating";
-	}
-	else {
-	    return $this->orderColumn;
-	}
-    }
-
-    private function getOrderDirection() {
-	if (empty ($this->orderDirection)) {
-	    return 'DESC';
-	}
-	else {
-	    return $this->orderDirection;
-	}
-    }
-
     private function getPage() {
 	if (empty($this->page)) {
 	    return 0;
@@ -89,8 +51,10 @@ class BookListComponent extends BaseComponent
     private function loadTemplate(DibiDataSource $source) {
 	$paginator  = $this->getComponent("paginator")->getPaginator();
 	$paginator->itemCount = $source->count();
+	if ($this->getLimit() == 0) {
+	    $paginator->itemsPerPage = $paginator->itemCount;
+	}
 	$books	    = $source
-	    ->orderBy($this->getOrderColumn(), $this->getOrderDirection())
 	    ->applyLimit($paginator->itemsPerPage, $paginator->offset)
 	    ->fetchAssoc("id_book");
 	$this->getTemplate()->books = array();
@@ -132,36 +96,6 @@ class BookListComponent extends BaseComponent
 //		$this->getTemplate()->tags[$bookId][] = $entity;
 //	    }
 //	}
-    }
-
-    private function setOrderColumn($column) {
-	switch($column) {
-	    case "rating":
-	    case "title":
-	    case "number_of_opinions":
-		$this->orderColumn = $column;
-		break;
-	    default:
-		throw new InvalidArgumentException("The column name [$column] is illegal.");
-	}
-    }
-
-    private function setOrderDirection($asc) {
-	if ($asc) {
-	    $this->orderDirection = 'ASC';
-	}
-	else {
-	    $this->orderDirection = 'DESC';
-	}
-    }
-
-    private function setPage($page) {
-	if ($page <= 0) {
-	    $this->page = 0;
-	}
-	else {
-	    $this->page = $page;
-	}
     }
 
 }
