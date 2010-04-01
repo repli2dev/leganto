@@ -21,7 +21,7 @@ class PostSelector implements ISelector
 		if (!in_array($type, array(self::OPINION))) {
 				throw new NotSupportedException("The entity type is not supported");
 		}
-		return dibi::DataSource("SELECT * FROM [view_post] WHERE [id_discussable] = %i", $type, " AND [id_discussion] = %i", $id);
+		return dibi::DataSource("SELECT * FROM [view_post] WHERE [id_discussable] = %i", $type, " AND [id_discussed] = %i", $id);
 	}
 
 	public function find($id) {

@@ -21,7 +21,7 @@ CREATE VIEW `view_author` AS
 	SELECT
 		`author`.*,
 		IF (`author`.`type` = 'person', CONCAT(`author`.`first_name`, CONCAT(' ', `author`.`last_name`)), `group_name`) AS `full_name`
-	FROM `author`
+	FROM `author`;
 
 DROP VIEW IF EXISTS `view_book_author`;
 CREATE VIEW `view_book_author` AS
@@ -72,7 +72,7 @@ CREATE VIEW `view_shelf` AS
 	FROM `shelf`
 	LEFT JOIN `in_shelf` USING (`id_shelf`)
 	LEFT JOIN `user` USING(`id_user`)
-	GROUP BY `shelf`.`id_shelf`
+	GROUP BY `shelf`.`id_shelf`;
 
 DROP VIEW IF EXISTS `view_opinion`;
 CREATE VIEW `view_opinion` AS
@@ -114,12 +114,13 @@ CREATE VIEW `view_post` AS
 		`discussion`.`id_discussion`	AS `id_discussion`,
 		`discussion`.`name`				AS `discussion_name`,
 		`discussion`.`id_discussable`	AS `id_discussable`,
+		`discussion`.`id_discussed`	AS `id_discussed`,
 		`language`.`id_language`		AS `id_language`,
 		`language`.`locale`				AS `locale`
 	FROM `post`
 	INNER JOIN `language` USING (`id_language`)
 	INNER JOIN `user` USING (`id_user`)
-	INNER JOIN `discussion` USING (`id_discussion`)
+	INNER JOIN `discussion` USING (`id_discussion`);
 
 DROP VIEW IF EXISTS `view_topic`;
 CREATE VIEW `view_topic` AS
@@ -127,7 +128,7 @@ CREATE VIEW `view_topic` AS
 		`topic`.*,
 		`user`.`nick`					AS `user_name`
 	FROM `topic`
-	INNER JOIN `user` USING (`id_user`)
+	INNER JOIN `user` USING (`id_user`);
 
 DROP VIEW IF EXISTS `view_discussion`;
 CREATE VIEW `view_discussion` AS
@@ -148,7 +149,7 @@ CREATE VIEW `view_similar_book` AS
 		`book_similarity`.`value`		AS `similarity`
 	FROM `book_similarity`
 	INNER JOIN `view_book` ON `book_similarity`.`id_book_to` = `view_book`.`id_book`
-	ORDER BY `similarity` DESC
+	ORDER BY `similarity` DESC;
 
 DROP VIEW IF EXISTS `view_similar_user`;
 CREATE VIEW `view_similar_user` AS
@@ -158,7 +159,7 @@ CREATE VIEW `view_similar_user` AS
 		`user_similarity`.`value`	AS `similarity`
 	FROM `user_similarity`
 	INNER JOIN `user` ON `user_similarity`.`id_user_to` = `user`.`id_user`
-	ORDER BY `similarity` DESC
+	ORDER BY `similarity` DESC;
 	
 DROP VIEW IF EXISTS `view_book_search`;
 CREATE VIEW `view_book_search` AS
@@ -171,8 +172,8 @@ CREATE VIEW `view_book_search` AS
 		`author`.`last_name`,
 		`author`.`group_name`
 	FROM `view_book`
-	INNER JOIN `tagged` USING (`id_book`)
-	INNER JOIN `tag` USING (`id_tag`)
+	LEFT JOIN `tagged` USING (`id_book`)
+	LEFT JOIN `tag` USING (`id_tag`)
 	INNER JOIN `written_by` USING (`id_book`)
 	INNER JOIN `author` USING (`id_author`);
 
