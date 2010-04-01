@@ -17,6 +17,9 @@
 final class Helpers
 {
 
+	/** @var Texy */
+	private static $texy;
+
 	final private function  __construct() {}
 
 	/**
@@ -61,8 +64,10 @@ final class Helpers
 	 * @return string The processed string
 	 */
 	public static function texyHelper($input) {
-		// TODO: Process by Texy!
-		return $input;
+		if (empty(self::$texy)) {
+		    self::$texy = new Texy();
+		}
+		return self::$texy->process($input);
 	}
 
 	/**

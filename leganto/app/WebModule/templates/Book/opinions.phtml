@@ -15,7 +15,7 @@
 		{$opinion->inserted|date} | <strong class="author">{$opinion->userName}</strong>
 	</div>
 	<div class="content">
-		{$opinion->content|texy}
+		{!=$opinion->content|texy}
 	</div>
     </div>
     <hr style="clear:both; visibility:hidden" />
