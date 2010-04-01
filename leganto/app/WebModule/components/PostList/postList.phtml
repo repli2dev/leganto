@@ -1,0 +1,25 @@
+<style>
+    .post {
+	padding: 0px 10px;
+    }
+    .post .content {
+	margin-left: 70px;
+    }
+    .post .info {
+	margin-left: 70px;
+    }
+</style>
+{foreach $posts AS $post}
+<div class="post">
+    <img class="icon" src="{$baseUri . 'storage/users/' . $post->user .'jpg', 350|thumbnail}" />
+    <div class="info">
+	{$post->inserted|date} | <strong class="author">{$post->userName}</strong>
+    </div>
+    <div class="content">
+		{!=$post->content|texy}
+    </div>
+</div>
+<hr style="clear:both; visibility:hidden" />
+{/foreach}
+
+{widget paginator}

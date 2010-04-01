@@ -26,29 +26,22 @@ class Web_BookPresenter extends Web_BasePresenter
 	$this->getTemplate()->editions	= Leganto::editions()->fetchAndCreateAll(
 	    Leganto::editions()->getSelector()->findAllByBook($this->getTemplate()->book)
 	);
-
-	$this->getTemplate()->opinions	= Leganto::opinions()->fetchAndCreateAll(
+	$this->getComponent("opinionList")->setLimit(5);
+	$this->getComponent("opinionList")->setUp(
 	    Leganto::opinions()->getSelector()
 		->findAllByBook($this->getTemplate()->book)
 		->where("[content] != ''")
-		->applyLimit(5, 0)
+		->applyLimit(5)
 	);
 	$this->setPageTitle($this->getTemplate()->book->title);
     }
 
     public function renderOpinions($book) {
 	$this->getTemplate()->book	= Leganto::books()->getSelector()->find($book);
-	$paginator = $this->getComponent("paginator")->getPaginator();
-	$paginator->itemCount = Leganto::opinions()
-	    ->getSelector()
-	    ->findAllByBook($this->getTemplate()->book)
-	    ->where("[content] != ''")
-	    ->count();
-	$this->getTemplate()->opinions	= Leganto::opinions()->fetchAndCreateAll(
+	$this->getComponent("opinionList")->setUp(
 	    Leganto::opinions()->getSelector()
 		->findAllByBook($this->getTemplate()->book, System::user())
 		->where("[content] != ''")
-		->applyLimit($paginator->itemsPerPage, $paginator->offset)
 	);
 	$this->setPageTitle($this->getTemplate()->book->title);
     }
@@ -61,10 +54,8 @@ class Web_BookPresenter extends Web_BasePresenter
 	$this->setPageTitle($this->getTemplate()->book->title);
     }
 
-    protected function createComponentPaginator($name) {
-	$vp = new VisualPaginatorComponent($this, $name);
-	$vp->getPaginator()->itemsPerPage = 10;
-	return $vp;
+    protected function createComponentOpinionList($name) {
+	return new OpinionListComponent($this, $name);
     }
 
     protected function createComponentSimilarBooks($name) {

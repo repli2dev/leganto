@@ -43,23 +43,9 @@
 	    <a href="{link Default:search, $tag->name}" class="tag">{$tag->name}</a>
 	{/foreach}
     </div>
-    {if !empty($opinions)}
     <hr style="clear:both; visibility:hidden" />
     <div id="opinions">
 	<h3>Opinions</h3>
-	{foreach $opinions AS $opinion}
-	<div class="opinion">
-	    <img class="icon" src="{$baseUri . 'storage/users/' . $opinion->userId .'jpg', 50|thumbnail}" />
-	    <div class="info">
-		<img class="rating" src="{$baseUri}img/rating_{$opinion->rating}.png" />
-		{$opinion->inserted|date} | <strong class="author">{$opinion->userName}</strong>
-	    </div>
-	    <div class="content">
-		{!=$opinion->content|texy}
-	    </div>
-	</div>
-	<hr style="clear:both; visibility:hidden" />
-	{/foreach}
+	{widget opinionList}
     </div>
-    {/if}
 {/block}
