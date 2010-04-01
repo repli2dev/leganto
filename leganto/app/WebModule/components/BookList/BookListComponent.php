@@ -117,7 +117,6 @@ class BookListComponent extends BaseComponent
 	    $this->getTemplate()->covers[$entity->getId()] = empty($image) ? NULL : $image->getAbsolutePath();
 	}
 	// Authors
-	$this->getTemplate()->authors = array();
 	foreach($authors as $bookId => $authorGroup) {
 	    $this->getTemplate()->authors[$bookId] = array();
 	    foreach ($authorGroup AS $author) {
@@ -126,18 +125,17 @@ class BookListComponent extends BaseComponent
 	    }
 	}
 	// Tags
-	$this->getTemplate()->tags = array();
-	$tags = Leganto::tags()->getSelector()
-	    ->findAll()
-	    ->where("[id_book] IN %l", array_keys($books))
-	    ->fetchAssoc("id_book");
-	foreach($tags AS $bookId => $tagGroup) {
-	    $this->getTemplate()->tags[$bookId] = array();
-	    foreach($tagGroup AS $tag) {
-		$entity = Leganto::tags()->createEmpty()->loadDataFromArray($tag->getArrayCopy(), "Load");
-		$this->getTemplate()->tags[$bookId][] = $entity;
-	    }
-	}
+//	$tags = Leganto::tags()->getSelector()
+//	    ->findAll()
+//	    ->where("[id_book] IN %l", array_keys($books))
+//	    ->fetchAssoc("id_book");
+//	foreach($tags AS $bookId => $tagGroup) {
+//	    $this->getTemplate()->tags[$bookId] = array();
+//	    foreach($tagGroup AS $tag) {
+//		$entity = Leganto::tags()->createEmpty()->loadDataFromArray($tag->getArrayCopy(), "Load");
+//		$this->getTemplate()->tags[$bookId][] = $entity;
+//	    }
+//	}
     }
 
     private function setOrderColumn($column) {
