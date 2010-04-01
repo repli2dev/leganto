@@ -3,7 +3,10 @@ class BookListComponent extends BaseComponent
 {
 
     /** @var int */
-    private $limit = 10;
+    private $count;
+
+    /** @var int */
+    private $limit = 12;
 
     /** @persistent */
     public $orderColumn;
@@ -48,11 +51,21 @@ class BookListComponent extends BaseComponent
 	$this->loadTemplate($source);
     }
 
-    // PRIVATE METHODS
+    // ---- PROTECTED METHODS
+
+    protected function createComponentPaginator($name) {
+	$vp = new VisualPaginatorComponent($this, $name);
+	$vp->getPaginator()->itemCount	    = $this->count;
+	$vp->getPaginator()->itemsPerPage   = $this->limit;
+	return $vp;
+    }
+
+
+    // ---- PRIVATE METHODS
 
     private function getOrderColumn() {
 	if (empty($this->orderColumn)) {
-	    return"number_of_opinions";
+	    return"rating";
 	}
 	else {
 	    return $this->orderColumn;
@@ -78,20 +91,26 @@ class BookListComponent extends BaseComponent
     }
 
     private function loadTemplate(DibiDataSource $source) {
+	$this->count= $source->count();
+	$paginator  = $this->getComponent("paginator")->getPaginator();
 	$books	    = $source
 	    ->orderBy($this->getOrderColumn(), $this->getOrderDirection())
-	    ->applyLimit($this->getLimit(), $this->getPage() * $this->getLimit())
-	    ->fetchAssoc("id_book_title");
-	$authors    = $source
-	    ->where("[id_book_title] IN %l", array_keys($books))
-	    ->fetchAssoc("id_book_title,id_author");
-	// Books and covers
+	    ->applyLimit($paginator->itemsPerPage, $paginator->offset)
+	    ->fetchAssoc("id_book");
 	$this->getTemplate()->books = array();
 	$this->getTemplate()->covers = array();
+	$this->getTemplate()->tags = array();
+	$this->getTemplate()->authors = array();
+	if (empty($books)) {
+	    return;
+	}
+	$authors    = Leganto::authors()->getSelector()->findAllByBooks(array_keys($books))
+	    ->fetchAssoc("id_book,id_author");
+	// Books and covers
 	$storage = new EditionImageStorage();
 	foreach($books as $book) {
 	    // Book
-	    $entity = Leganto::books()->createEmpty()->loadDataFromArray($book->getArrayCopy());
+	    $entity = Leganto::books()->createEmpty()->loadDataFromArray($book->getArrayCopy(), "Load");
 	    $this->getTemplate()->books[] = $entity;
 	    // Cover
 	    $image = $storage->getRandomFileByBook($entity);
@@ -99,11 +118,24 @@ class BookListComponent extends BaseComponent
 	}
 	// Authors
 	$this->getTemplate()->authors = array();
-	foreach($authors as $bookTitleId => $authorGroup) {
-	    $this->getTemplate()->authors[$bookTitleId] = array();
+	foreach($authors as $bookId => $authorGroup) {
+	    $this->getTemplate()->authors[$bookId] = array();
 	    foreach ($authorGroup AS $author) {
 		$entity = Leganto::authors()->createEmpty()->loadDataFromArray($author->getArrayCopy(), "Load");
-		$this->getTemplate()->authors[$bookTitleId][] = $entity;
+		$this->getTemplate()->authors[$bookId][] = $entity;
+	    }
+	}
+	// Tags
+	$this->getTemplate()->tags = array();
+	$tags = Leganto::tags()->getSelector()
+	    ->findAll()
+	    ->where("[id_book] IN %l", array_keys($books))
+	    ->fetchAssoc("id_book");
+	foreach($tags AS $bookId => $tagGroup) {
+	    $this->getTemplate()->tags[$bookId] = array();
+	    foreach($tagGroup AS $tag) {
+		$entity = Leganto::tags()->createEmpty()->loadDataFromArray($tag->getArrayCopy(), "Load");
+		$this->getTemplate()->tags[$bookId][] = $entity;
 	    }
 	}
     }
