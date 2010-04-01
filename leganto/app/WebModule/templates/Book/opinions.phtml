@@ -1,0 +1,26 @@
+@{extends layout.phtml}
+
+@{block #subcontent}
+<div id="book-info">
+    <h1>{$book->title}</h1>
+    <img class="rating" src="{$baseUri}img/rating_{=round($book->rating)}.png" />
+</div>
+
+<div id="opinions">
+    {foreach $opinions AS $opinion}
+    <div class="opinion">
+	<img class="icon" src="{$baseUri . 'storage/users/' . $opinion->userId .'jpg', 50|thumbnail}" />
+	<div class="info">
+	    <img class="rating" src="{$baseUri}img/rating_{$opinion->rating}.png" />
+		{$opinion->inserted|date} | <strong class="author">{$opinion->userName}</strong>
+	</div>
+	<div class="content">
+		{$opinion->content|texy}
+	</div>
+    </div>
+    <hr style="clear:both; visibility:hidden" />
+    {/foreach}
+
+    {widget paginator}
+</div>
+@{/block}

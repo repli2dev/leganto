@@ -1,0 +1,65 @@
+@{extends layout.phtml}
+
+@{block #subcontent}
+    <div id="book-info">
+	{if empty($edition)}
+	<img class="icon" src="{$cover,150|thumbnail}" alt="{$book->title}" {if empty($cover)}width="150" height="240"{/if} />
+	{else}
+	<img class="icon" src="{$edition->image,150|thumbnail}" alt="{$book->title}" {if empty($edition->image)}width="150" height="240"{/if} />
+	{/if}
+	<h1>{$book->title}</h1>
+	<img class="rating" src="{$baseUri}img/rating_{=round($book->rating)}.png" />
+	{foreach $authors AS $author}
+	<h2>
+	    {if $author->groupname != NULL}{$author->groupname} {/if}
+	    {if $author->firstname != NULL}{$author->firstname}{/if}
+	    {if $author->lastname != NULL}{$author->lastname}{/if}
+	</h2>
+	{/foreach}
+	{if !empty($edition)}
+	<p>
+	    <strong>ISBN/ISSN:</strong>&nbsp;{$edition->isbn}
+	    <br />
+	    <strong>Pages:</strong>&nbsp;{$edition->pages}
+	    <br />
+	    <strong>Published:</strong>&nbsp;{$edition->published}
+	</p>
+
+	{/if}
+    </div>
+    <hr style="clear:both; visibility:hidden" />
+    <div id="editions">
+	{foreach $editions AS $edition}
+	{if $edition->image != NULL}
+	    <a href="{link default, $book->getId(), $edition->getId()}">
+		<img class="icon" src="{$edition->image, 50|thumbnail}" width="50" height="80" />
+	    </a>
+	{/if}
+	{/foreach}
+    </div>
+    <hr style="clear:both; visibility:hidden" />
+    <div id="tags">
+	{foreach $tags AS $tag}
+	    <a href="{link Default:search, $tag->name}" class="tag">{$tag->name}</a>
+	{/foreach}
+    </div>
+    {if !empty($opinions)}
+    <hr style="clear:both; visibility:hidden" />
+    <div id="opinions">
+	<h3>Opinions</h3>
+	{foreach $opinions AS $opinion}
+	<div class="opinion">
+	    <img class="icon" src="{$baseUri . 'storage/users/' . $opinion->userId .'jpg', 50|thumbnail}" />
+	    <div class="info">
+		<img class="rating" src="{$baseUri}img/rating_{$opinion->rating}.png" />
+		{$opinion->inserted|date} | <strong class="author">{$opinion->userName}</strong>
+	    </div>
+	    <div class="content">
+		{$opinion->content|texy}
+	    </div>
+	</div>
+	<hr style="clear:both; visibility:hidden" />
+	{/foreach}
+    </div>
+    {/if}
+{/block}

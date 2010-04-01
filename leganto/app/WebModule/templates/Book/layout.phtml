@@ -1,1 +1,76 @@
 @{extends ../layout.phtml}
+
+@{block #content}
+<style>
+    #book-menu {
+	list-style: none;
+	float: left;
+	margin-left: -210px;
+    }
+    #book-menu li {
+	display: block;
+	text-align: right;
+	margin: 0;
+	padding: 10px;
+	width:150px;
+	border-right: 2px solid #F1C11D;
+    }
+    #book-menu li a {
+	font-size: 120%;
+	color: #865A2C;
+	font-size: 15px;
+	font-weight: bolder;
+    }
+    #book-menu li a:hover {
+	color: #4C3319;
+    }
+    #book-menu .active {
+	background-color: #F5D25A;
+    }
+    #book-info, #editions, #opinions, #tags, #feed {
+	padding-left: 30px;
+	padding-top: 10px;
+    }
+    #book-info .icon {
+	float: left;
+    }
+    #book-info h1 {
+	margin-top: 0;
+	padding-top: 0;
+    }
+    #book-info h2 {
+	font-size: 1.5em;
+    }
+    #editions a:hover .icon {
+	border-color: black;
+    }
+    #opinions .opinion {
+	padding: 0px 10px;
+    }
+    .opinion .content {
+	margin-left: 70px;
+    }
+    .opinion .info {
+	margin-left: 70px;
+    }
+    .opinion .info .rating {
+	text-align: right;
+	float:right;
+    }
+    #tags .tag {
+	margin-right: 20px;
+	font-weight: bolder;
+	font-size: 1.5em;
+    }
+</style>
+
+<div id="book-view">
+    <ul id="book-menu">
+	<li{if $presenter->getAction() == 'default'} class="active"{/if}><a href="{link default, $book->getId()}">{_'General info'}</a></li>
+	<li{if $presenter->getAction() == 'opinions'} class="active"{/if}><a href="{link opinions, $book->getId()}">{_'Opinions'}</a></li>
+	<li{if $presenter->getAction() == 'similar'} class="active"{/if}><a href="{link similar, $book->getId()}">{_'Similar books'}</a></li>
+    </ul>
+    @{block #subcontent}
+    @{/block}
+</div>
+@{/block}
