@@ -45,7 +45,7 @@ class BookSelector implements ISelector
 		if (empty($book)) {
 			throw new NullPointerException("book");
 		}
-		if (empty($book->bookNode)) {
+		if ($book->bookNode == NULL) {
 			throw new NullPointerException("book::bookNode");
 		}
 		return dibi::dataSource("SELECT * FROM [view_similar_book] WHERE [id_book_from] = %i", $book->bookNode);
