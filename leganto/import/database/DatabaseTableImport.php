@@ -22,8 +22,8 @@ abstract class DatabaseTableImport extends EskymoObject implements IImportable
 	    try {
 		$this->getDestination()->rollback();
 	    }
-	    catch(DibiException $e) {}
-	    throw new DibiDriverException($e->getMessage(), $e->getCode(), $e->getSql());
+	    catch(DibiException $ex) {}
+	    throw $e;
 	}
     }
 
