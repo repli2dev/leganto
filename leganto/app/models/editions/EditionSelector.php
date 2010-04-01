@@ -7,7 +7,7 @@ class EditionSelector implements ISelector
 		if (empty($id)) {
 			throw new NullPointerException("id");
 		}
-		Leganto::editions()->fetchAndCreate(dibi::dataSource("SELECT * FROM [edition] WHERE [id_edition] = %i", $id));
+		return Leganto::editions()->fetchAndCreate(dibi::dataSource("SELECT * FROM [edition] WHERE [id_edition] = %i", $id));
 	}
 
 	public function findAll() {
