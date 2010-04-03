@@ -1,0 +1,6 @@
+mkdir -p './leganto/app/logs'
+mkdir -p './leganto/app/temp'
+mkdir -p './leganto/document_root/storage/books'
+mkdir -p './leganto/document_root/storage/users'
+chmod 777 './leganto/app/temp'
+chmod 700 './.metadata'
