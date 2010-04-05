@@ -7,7 +7,7 @@ class FeedItemSelector implements ISelector
     }
 
     public function findAll() {
-	return dibi::dataSource("SELECT * FROM [view_feed]");
+	return dibi::dataSource("SELECT * FROM [tmp_feed]");
     }
 
     public function findAllByUser(IEntity $user) {
@@ -17,7 +17,7 @@ class FeedItemSelector implements ISelector
 	if ($user->getId() == NULL) {
 	    throw new NullPointerException("The user has no ID.");
 	}
-	return dibi::dataSource("SELECT * FROM [view_feed] WHERE [id_user] = %i", $user->getId());
+	return dibi::dataSource("SELECT * FROM [tmp_feed] WHERE [id_user] = %i", $user->getId());
     }
 
 }
