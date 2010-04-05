@@ -43,11 +43,16 @@ class OpinionListComponent extends BaseComponent
 	foreach($this->getTemplate()->opinions AS $opinion) {
 	    $opinionIds[] = $opinion->getId();
 	}
-	$this->getTemplate()->discussions = Leganto::discussions()
-	    ->getSelector()
-	    ->findAll()
-	    ->where("[id_discussable] = 2 AND [id_discussed] IN %l", $opinionIds)
-	    ->fetchPairs("id_discussed", "number_of_posts");
+	if (!empty($opinionIds)) {
+	    $this->getTemplate()->discussions = Leganto::discussions()
+		->getSelector()
+		->findAll()
+		->where("[id_discussable] = 2 AND [id_discussed] IN %l", $opinionIds)
+		->fetchPairs("id_discussed", "number_of_posts");
+	}
+	else {
+	    $this->getTemplate()->discussions = array();
+	}
 	if (isset ($this->getTemplate()->showedOpinion)) {
 	    $this->getComponent("postList")->setUp(
 		Leganto::posts()->getSelector()
