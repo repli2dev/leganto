@@ -182,7 +182,7 @@ CREATE TABLE `tag` (
 	`id_tag` INT(25) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'identifikator',
 	`id_language` INT(25) UNSIGNED NOT NULL COMMENT 'jazyk, do nehoz klicove slovo patri',
 	`name` VARCHAR(255) NOT NULL COMMENT 'samotne klicove slovo',
-	`updated` TIMESTAMP COMMENT 'cas, kdy byla polozka naposledy zmenena',
+	`updated` TIMESTAMP NOT NULL COMMENT 'cas, kdy byla polozka naposledy zmenena',
 	FOREIGN KEY (`id_language`) REFERENCES `language` (`id_language`) ON UPDATE CASCADE ON DELETE CASCADE
 ) ENGINE = InnoDB COMMENT = 'klicova slova pouzita k oznaceni knih';
 

@@ -1,0 +1,38 @@
+<style>
+    .feed-item .content {
+	margin-left: 70px;
+    }
+    .feed-item .info {
+	margin-left: 70px;
+    }
+    .feed {
+	padding-left: 50px;
+    }
+</style>
+
+<div id="feed">	
+{foreach $feed AS $item}
+    <div class=feed-item">
+	<img class="icon" src="{$baseUri . 'storage/users/' . $item->userId .'jpg', 50|thumbnail}" />
+	<div class="info">
+	    {$item->inserted|date}
+	    |
+	    <strong class="title">
+	    {if $item->type == FeedItemEntity::TYPE_OPINION}
+		{!_'<a href="%s">%s</a> has an opinion on the book <a href="%s">%s</a>',$presenter->link('User:default', $item->userId), $item->userNick, $presenter->link('Book:default', $item->categoryId), $item->categoryName}
+	    {else}
+		{if $item->type == FeedItemEntity::TYPE_POST}
+		    {!_'<a href="%s">%s</a> has contributed to the discussion <a href="%s">%s</a>',$presenter->link('User:default', $item->userId), $item->userNick, $presenter->link('Discussion:posts', $item->categoryId), $item->categoryName}
+		{/if}
+	    {/if}
+	    </strong>
+	</div>
+	<div class="content">
+		    {!=String::truncate($item->content, 300)|texy}
+	</div>
+    </div>
+    <hr style="clear:both; visibility:hidden" />
+{/foreach}
+
+{widget paginator}
+</div>

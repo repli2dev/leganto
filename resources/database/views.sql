@@ -184,3 +184,34 @@ CREATE VIEW `view_domain` AS
 		`language`.`locale`
 	FROM `domain`
 	INNER JOIN `language` USING(`id_language`);
+
+DROP VIEW IF EXISTS `view_feed`;
+CREATE VIEW `view_feed` AS 
+    (
+	SELECT
+	    `view_opinion`.`id_user`,
+	    `view_opinion`.`user_nick`,
+	    'opinion'			AS `type`,
+	    `view_opinion`.`id_opinion` AS `id_item`,
+	    ''				AS `item_name`,
+	    `view_opinion`.`id_book`	AS `id_category`,
+	    `book_title`.`title`	AS `category_name`,
+	    `view_opinion`.`content`,
+	    `view_opinion`.`inserted`
+	FROM `view_opinion`
+	INNER JOIN `book_title` USING(`id_book`)
+    )
+    UNION
+    (
+	SELECT
+	    `view_post`.`id_user`,
+	    `view_post`.`user_nick`,
+	    'post'			AS `type`,
+	    `view_post`.`id_post`	AS `id_item`,
+	    `view_post`.`subject`	AS `item_name`,
+	    `view_post`.`id_discussion` AS `id_category`,
+	    `view_post`.`discussion_name` AS `category_name`,
+	    `view_post`.`content`,
+	    `view_post`.`inserted`
+	FROM `view_post`
+    ) ORDER BY `inserted` DESC;

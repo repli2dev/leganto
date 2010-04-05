@@ -5,7 +5,9 @@
 class PostSelector implements ISelector
 {
 
-	const OPINION = 2;
+	const OPINION	= 2;
+
+	const TOPIC	= 1;
 
 	public function findAll() {
 		return dibi::DataSource("SELECT * FROM [view_post]");
@@ -18,7 +20,7 @@ class PostSelector implements ISelector
 		if (empty($id)) {
 			throw new NullPointerException("id");
 		}
-		if (!in_array($type, array(self::OPINION))) {
+		if (!in_array($type, array(self::OPINION,self::TOPIC))) {
 				throw new NotSupportedException("The entity type is not supported");
 		}
 		return dibi::DataSource("SELECT * FROM [view_post] WHERE [id_discussable] = %i", $type, " AND [id_discussed] = %i", $id);

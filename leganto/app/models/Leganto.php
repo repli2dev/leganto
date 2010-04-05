@@ -48,6 +48,13 @@ class Leganto
 	/**
 	 * @return IEntityFactory
 	 */
+	public static function feed() {
+	    return SimpleEntityFactory::createEntityFactory("feedItem");
+	}
+
+	/**
+	 * @return IEntityFactory
+	 */
 	public static function help() {
 		return SimpleEntityFactory::createEntityFactory("help");
 	}

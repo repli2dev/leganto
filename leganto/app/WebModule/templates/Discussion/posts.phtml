@@ -1,5 +1,6 @@
 {extends layout.phtml}
 
 {block #content}
-{widget 'feed'}
+<h1>{$discussion->name}</h1>
+{widget postList}
 {/block}

@@ -24,6 +24,7 @@ class Web_DefaultPresenter extends Web_BasePresenter {
 	
 	public function renderFeed() {
 		$this->setPageTitle(System::translate("News"));
+		$this->getComponent("feed")->setUp(Leganto::feed()->getSelector()->findAll());
 	}
 
 	public function renderSearch($query, $book = TRUE) {
@@ -42,6 +43,10 @@ class Web_DefaultPresenter extends Web_BasePresenter {
 
 	protected function createComponentSearchList($name) {
 	    return new BookListComponent($this, $name);
+	}
+
+	protected function createComponentFeed($name) {
+	    return new FeedComponent($this, $name);
 	}
 
 }
