@@ -1,9 +1,0 @@
-[submodule "leganto/libs/Nette"]
-	path = leganto/libs/Nette
-	url = git://github.com/nette/nette.git
-[submodule "leganto/libs/dibi"]
-	path = leganto/libs/dibi
-	url = git://github.com/nette/dibi.git
-[submodule "leganto/libs/eskymo"]
-	path = leganto/libs/eskymo
-	url = git://git.yavanna.cz/eskymotools.git/

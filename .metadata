@@ -1,6 +1,7 @@
 mkdir -p './leganto/app/logs'
-mkdir -p './leganto/app/temp'
 mkdir -p './leganto/document_root/storage/books'
 mkdir -p './leganto/document_root/storage/users'
+chmod 666 './leganto/app/temp/c-Nette.RobotLoader/_6e12a70acb76bdfbf36f8664a97c0577'
 chmod 777 './leganto/app/temp'
+chmod 777 './leganto/app/temp/c-Nette.RobotLoader'
 chmod 700 './.metadata'
