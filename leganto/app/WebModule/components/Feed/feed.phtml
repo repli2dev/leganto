@@ -13,7 +13,7 @@
 <div id="feed">	
 {foreach $feed AS $item}
     <div class=feed-item">
-	<img class="icon" src="{$baseUri . 'storage/users/' . $item->userId .'jpg', 50|thumbnail}" />
+	<img class="icon" src="{$baseUri . 'storage/users/' . $item->userId .'.jpg', 50|thumbnail}" />
 	<div class="info">
 	    {$item->inserted|date}
 	    |

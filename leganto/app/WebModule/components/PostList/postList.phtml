@@ -11,7 +11,7 @@
 </style>
 {foreach $posts AS $post}
 <div class="post">
-    <img class="icon" src="{$baseUri . 'storage/users/' . $post->user .'jpg', 350|thumbnail}" />
+    <img class="icon" src="{$baseUri . 'storage/users/' . $post->user .'.jpg', 50|thumbnail}" />
     <div class="info">
 	{$post->inserted|date} | <strong class="author">{$post->userName}</strong>
     </div>

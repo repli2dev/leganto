@@ -79,7 +79,7 @@ final class Helpers
 	 * @return string
 	 */
 	public static function thumbnailHelper($image, $width = NULL, $height = NULL) {
-		if (empty($image) || !file_exists($image)) {
+		if (empty($image) || (!file_exists($image) && !file_exists(WWW_DIR . $image))) {
 			$image = WWW_DIR . "/img/avatar_placeholder.gif";
 		}
 		$url = Environment::getApplication()->getPresenter()->getTemplate()->baseUri . "thumb/phpThumb.php?src=" . $image;
