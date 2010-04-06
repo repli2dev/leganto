@@ -1,5 +1,17 @@
 {extends layout.phtml}
 
 {block #content}
+<div id="feed-switcher">
+    {if $allSwitcher}
+    <strong>All</strong>
+    |
+    <a href="{link feed, FALSE}">Followed</a>
+    {else}
+    <a href="{link feed, TRUE}">All</a>
+    |
+    <strong>Followed</strong>
+    {/if}
+</div>
 {widget 'feed'}
+
 {/block}

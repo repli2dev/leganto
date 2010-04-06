@@ -16,15 +16,24 @@
  */
 class Web_DefaultPresenter extends Web_BasePresenter {
 	public function renderDefault() {
-		$this->setPageTitle(System::translate("Main page"));
 		if(Environment::getUser()->isAuthenticated()) {
 			$this->forward("feed");
 		}
+		$this->setPageTitle(System::translate("Main page"));
 	}
 	
-	public function renderFeed() {
+	public function renderFeed($all = TRUE) {
+		if(!Environment::getUser()->isAuthenticated()) {
+			$this->forward("default");
+		}
 		$this->setPageTitle(System::translate("News"));
-		$this->getComponent("feed")->setUp(Leganto::feed()->getSelector()->findAll());
+		$source = Leganto::feed()->getSelector()->findAll();
+		if (!$all) {
+		    $users = Leganto::users()->getSelector()->findAllFollowed(System::user())->fetchPairs("id_user","id_user");
+		    $source->where("id_user IN %l", $users);
+		}
+		$this->getTemplate()->allSwitcher = $all;
+		$this->getComponent("feed")->setUp($source);
 	}
 
 	public function renderSearch($query, $book = TRUE) {
