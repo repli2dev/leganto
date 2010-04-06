@@ -48,7 +48,7 @@ class DatabaseSimilarity implements ISimilarity
 			CREATE TABLE [".$entity."_similarity]
 			(INDEX([id_".$entity."_to]), INDEX([id_".$entity."_from]))
 			".$this->getComputingQuery()
-			);		
+			);
 		dibi::query("
 			CREATE TABLE [".$entity."_similarity_computed]
 			(INDEX([id_".$entity."]))

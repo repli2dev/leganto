@@ -28,8 +28,8 @@ class PostInserter implements IInserter
 			$entity->discussion = SimpleTableModel::createTableModel("discussion")->insert(array(
 				"id_discussable"	=> $entity->discussionType,
 				"id_discussed"		=> $entity->discussed,
-				"name"				=> $discussed[$discussable["column_name"]],
-				"inserted"			=> new DibiVariable("now()", "sql")
+				"name"			=> $discussed[$discussable["column_name"]],
+				"inserted"		=> new DateTime()
 			));
 		}
 		else {

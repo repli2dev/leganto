@@ -24,7 +24,7 @@ class BookInserter implements IInserter
 			throw new InvalidArgumentException("The entity can not be inserted because it is not in state [NEW].");
 		}
 		// crete book node
-		$bookId = SimpleTableModel::createTableModel("book")->insert(array("inserted" => new DibiVariable("now()",'sql')));
+		$bookId = SimpleTableModel::createTableModel("book")->insert(array("inserted" => new DateTime()));
 		// create real book
 		$entity->bookNode = $bookId;
 		$bookTitleId = SimpleTableModel::createTableModel("book_title")->insert($entity->getData("Save"));

@@ -46,7 +46,7 @@ class ShelfUpdater implements IUpdater
 		return SimpleTableModel::createTableModel("in_shelf")->insert(array(
 			"id_shelf"		=> $shelf->getId(),
 			"id_book"		=> $book->bookNode,
-			"inserted"		=> new DibiVariable("now()", "sql")
+			"inserted"		=> new DateTime()
 		));
 	}
 

@@ -32,7 +32,7 @@ class UserUpdater implements IUpdater {
 		dibi::update("user",
 			array(
 				"new_pass_key" => $hash,
-				"new_pass_time" => new DibiVariable("NOW()", "sql")
+				"new_pass_time" => new DateTime()
 			)
 		)->execute();
 		return $hash;
@@ -45,8 +45,8 @@ class UserUpdater implements IUpdater {
 				$newPassword = ExtraString::random(10);
 				dibi::update("user",
 					array(
-						"new_pass_key" => new DibiVariable("NULL","sql"),
-						"new_pass_time" => new DibiVariable("NULL","sql"),
+						"new_pass_key" => array("sql", "NULL"),
+						"new_pass_time" => array("sql", "NULL"),
 						"password" => UserAuthenticator::passwordHash($newPassword)
 					)
 				)->execute();

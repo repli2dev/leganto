@@ -25,7 +25,8 @@ class TopicEntity extends AEntity
 
 	protected $name;
 
-	protected $user;
+	/** @Translate(id_user) */
+	protected $userId;
 
 	/**
 	 * @Skip(Save)

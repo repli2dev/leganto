@@ -27,7 +27,7 @@ class EditionInserter implements IInserter
 				$entity->pages			= $edition[GoogleBooksEditionFinder::PAGES];
 				$entity->published		= $edition[GoogleBooksEditionFinder::PUBLISHED];
 				$entity->isbn			= strtr($identifier, array("ISBN:" => ""));
-				$entity->inserted		= new DibiVariable("now()", "sql");
+				$entity->inserted		= new DateTime();
 				$entity->persist();
 				if ($entity->getId() != -1) {
 					$result[] = $entity;
