@@ -18,7 +18,7 @@ class OpinionsImport extends DatabaseTableImport {
 	    $this->getDestination()->insert("opinion", array(
 		"id_language"	=> $language["id_language"],
 		"id_user"	=> $opinion["user"],
-		"id_book"	=> $opinion["book"],
+		"id_book_title"	=> $opinion["book"],
 		"rating"	=> $opinion["rating"],
 		"inserted"	=> $opinion["date"],
 		"content"	=> trim($opinion["content"])

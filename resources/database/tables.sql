@@ -115,17 +115,17 @@ CREATE TABLE `opinion` (
 	`id_opinion` INT(25) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'identifikator',
 	`id_user` INT(25) UNSIGNED NOT NULL COMMENT 'uzivatel, ktery nazor napsal',
 	`id_language` INT(25) UNSIGNED NOT NULL COMMENT 'jazyk, kterym je nazor napsany',
-	`id_book` INT(25) UNSIGNED NOT NULL COMMENT 'kniha, ke ktere je nazor napsany',
+	`id_book_title` INT(25) UNSIGNED NOT NULL COMMENT 'kniha, ke ktere je nazor napsany',
 	`rating` ENUM('1','2','3','4','5') NOT NULL DEFAULT '1' COMMENT 'hodnoceni',
 	`content` TEXT NOT NULL COMMENT 'slovni vyjadreni nazoru na knihu',
 	`inserted` DATETIME NOT NULL COMMENT 'cas, kdy byla polozka vlozena do systemu',
 	`updated` TIMESTAMP COMMENT 'cas, kdy byla polozka naposledy zmenena',
 	FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`) ON UPDATE CASCADE ON DELETE CASCADE,
 	FOREIGN KEY (`id_language`) REFERENCES `language` (`id_language`) ON UPDATE CASCADE ON DELETE CASCADE,
-	FOREIGN KEY (`id_book`) REFERENCES `book` (`id_book`) ON UPDATE CASCADE ON DELETE CASCADE,
-	UNIQUE (`id_user`,`id_book`),
+	FOREIGN KEY (`id_book_title`) REFERENCES `book_title` (`id_book_title`) ON UPDATE CASCADE ON DELETE CASCADE,
+	UNIQUE (`id_user`,`id_book_title`),
 	INDEX(`id_user`),
-	INDEX(`id_book`)
+	INDEX(`id_book_title`)
 ) ENGINE = InnoDB COMMENT = 'hodnocene nazory uzivatelu na knihy';
 
 DROP TABLE IF EXISTS topic;

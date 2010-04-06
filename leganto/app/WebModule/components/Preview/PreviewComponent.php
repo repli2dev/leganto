@@ -27,7 +27,7 @@ class PreviewComponent extends BaseComponent
 		$this->getTemplate()->opinions = array();
 		foreach($opinions AS $opinion) {
 		    $entity = Leganto::opinions()->createEmpty()->loadDataFromArray($opinion->getArrayCopy(), "Load");
-		    $this->getTemplate()->opinions[$entity->book] = $entity;
+		    $this->getTemplate()->opinions[$entity->bookTitleId] = $entity;
 		}
 		$this->getTemplate()->books = Leganto::books()->fetchAndCreateAll(
 			Leganto::books()->getSelector()

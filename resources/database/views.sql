@@ -13,7 +13,7 @@ CREATE VIEW `view_book` AS
 	FROM `book`
 	INNER JOIN `book_title` USING(`id_book`)
 	INNER JOIN `language` USING(`id_language`)
-	LEFT JOIN `opinion` USING(`id_book`)
+	LEFT JOIN `opinion` USING(`id_book_title`)
 	GROUP BY `book_title`.`id_book_title`;
 
 DROP VIEW IF EXISTS `view_author`;
@@ -78,14 +78,14 @@ DROP VIEW IF EXISTS `view_opinion`;
 CREATE VIEW `view_opinion` AS
 	SELECT
 		`opinion`.`id_opinion`			AS `id_opinion`,
-		`opinion`.`content`				AS `content`,
-		`opinion`.`rating`				AS `rating`,
+		`opinion`.`content`			AS `content`,
+		`opinion`.`rating`			AS `rating`,
 		`opinion`.`inserted`			AS `inserted`,
-		`opinion`.`id_book`				AS `id_book`,
-		`user`.`id_user`				AS `id_user`,
-		`user`.`nick`					AS `user_nick`,
+		`opinion`.`id_book_title`		AS `id_book_title`,
+		`user`.`id_user`			AS `id_user`,
+		`user`.`nick`				AS `user_nick`,
 		`language`.`id_language`		AS `id_language`,
-		`language`.`locale`				AS `locale`
+		`language`.`locale`			AS `locale`
 	FROM `opinion`
 	INNER JOIN `language` USING(`id_language`)
 	INNER JOIN `user` USING(`id_user`)
@@ -191,15 +191,15 @@ CREATE VIEW `view_feed` AS
 	SELECT
 	    `view_opinion`.`id_user`,
 	    `view_opinion`.`user_nick`,
-	    'opinion'			AS `type`,
-	    `view_opinion`.`id_opinion` AS `id_item`,
-	    ''				AS `item_name`,
-	    `view_opinion`.`id_book`	AS `id_category`,
-	    `book_title`.`title`	AS `category_name`,
+	    'opinion'				AS `type`,
+	    `view_opinion`.`id_opinion`		AS `id_item`,
+	    ''					AS `item_name`,
+	    `view_opinion`.`id_book_title`	AS `id_category`,
+	    `book_title`.`title`		AS `category_name`,
 	    `view_opinion`.`content`,
 	    `view_opinion`.`inserted`
 	FROM `view_opinion`
-	INNER JOIN `book_title` USING(`id_book`)
+	INNER JOIN `book_title` USING(`id_book_title`)
     )
     UNION
     (

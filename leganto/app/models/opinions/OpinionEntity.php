@@ -22,9 +22,9 @@ class OpinionEntity extends AEntity
 {
 
 	/**
-	 * @Translate(id_book)
+	 * @Translate(id_book_title)
 	 */
-	protected $book;
+	protected $bookTitleId;
 
 	protected $content;
 
