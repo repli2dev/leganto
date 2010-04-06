@@ -48,7 +48,7 @@ class DiscussionImport extends DatabaseTableImport
 	}
 	// Opinion comment posts
 	$disNames	= $this->getDestination()->query("SELECT * FROM [book_title] GROUP BY [id_book] ORDER BY [inserted] DESC")->fetchPairs("id_book", "title");
-	$opinionIds	= $this->getDestination()->query("SELECT * FROM [opinion] GROUP BY [id_book] ORDER BY [inserted] DESC")->fetchPairs("id_book", "id_opinion");
+	$opinionIds	= $this->getDestination()->query("SELECT * FROM [opinion] GROUP BY [id_book_title] ORDER BY [inserted] DESC")->fetchPairs("id_book_title", "id_opinion");
 	$posts		= $this->getSource()->query("SELECT * FROM [reader_discussion] WHERE type = 'book'")->fetchAll();
 	$discussions	= array();
 	foreach($posts AS $post) {
