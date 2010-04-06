@@ -60,7 +60,7 @@ class EditionImageStorage extends EskymoObject implements IStorage
 			$image->copy($destination);
 		}
 		
-		$edition->image = $destination;
+		$edition->image = strtr($destination, array(WWW_DIR => ""));
 		$edition->persist();
 		return new File($destination);
 	}
