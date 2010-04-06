@@ -1,3 +1,19 @@
-<h2>Topic list</h2>
+<style>
 
+</style>
+<div id="topics">
+    {foreach $topics AS $topic}
+    <div class="topic">
+	<img class="icon" src="{$baseUri . 'storage/users/' . $topic->userId .'.jpg', 50|thumbnail}" />
+	<div class="info">
+	    <strong><a href="{plink Discussion:posts, $topic->getId()}">{$topic->name}</a></strong>
+	    |
+	    <a href="{plink User:default, $topic->userId}">{$topic->userName}</a>
+	    |
+	    {$topic->inserted|date}
+	</div>
+    </div>
+    <hr style="clear:both; visibility:hidden" />
+    {/foreach}
+</div>
 {widget paginator}

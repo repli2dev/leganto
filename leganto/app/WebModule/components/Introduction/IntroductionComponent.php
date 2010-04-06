@@ -120,7 +120,7 @@ class IntroductionComponent extends BaseComponent {
 		$user = Leganto::users()->createEmpty();
 		$user->role = "common";
 		$user->idLanguage = System::domain()->idLanguage;
-		$user->inserted = new DibiVariable("now()", "sql");
+		$user->inserted = new DateTime();
 		// Add post action (send mail to user)
 		$user->addOnPersistListener(new CallbackListener(array($this, "postSignUp")));
 		// Build a form
@@ -322,7 +322,7 @@ class IntroductionComponent extends BaseComponent {
 		$user->role = "common";
 		// FIXME: pouziva se id_role? Proc je id_role a role - zbytecna duplikace
 		$user->idLanguage = System::domain()->idLanguage;
-		$user->inserted = new DibiVariable("now()", "sql");
+		$user->inserted = new DateTime();
 		$user->nickname = $data->screen_name;
 
 		// Commit
@@ -360,7 +360,7 @@ class IntroductionComponent extends BaseComponent {
 		$user->role = "common";
 		// FIXME: pouziva se id_role? Proc je id_role a role - zbytecna duplikace
 		$user->idLanguage = System::domain()->idLanguage;
-		$user->inserted = new DibiVariable("now()", "sql");
+		$user->inserted = new DateTime();
 		$user->nickname = $data["username"];
 
 		// Commit

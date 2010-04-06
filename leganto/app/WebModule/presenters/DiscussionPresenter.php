@@ -4,7 +4,7 @@ class Web_DiscussionPresenter extends Web_BasePresenter
 
     public function renderDefault() {
 	$this->setPageTitle(System::translate("Discussion topics"));
-	$this->getComponent("topicList")->setUp(Leganto::topics()->getSelector()->findAll());
+	$this->getComponent("topicList")->setUp(Leganto::topics()->getSelector()->findAll()->orderBy("inserted", "desc"));
     }
 
     public function renderPosts($discussion) {
