@@ -19,14 +19,14 @@ class DiscussionImport extends DatabaseTableImport
 	    "table"		=> "topic",
 	    "column_id"		=> "id_topic",
 	    "column_name"	=> "name",
-	    "inserted"		=> new DibiVariable("NOW()", "sql")
+	    "inserted"		=> new DateTime()
 	))->execute();
 	$this->getDestination()->insert("discussable", array(
 	    "id_discussable"	=> 2,
 	    "table"		=> "view_opinion",
 	    "column_id"		=> "id_opinion",
 	    "column_name"	=> "user_nick",
-	    "inserted"		=> new DibiVariable("NOW()", "sql")
+	    "inserted"		=> new DateTime()
 	))->execute();
     }
 

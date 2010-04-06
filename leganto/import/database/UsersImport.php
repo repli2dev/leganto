@@ -17,7 +17,7 @@ class UsersImport extends DatabaseTableImport {
 		"password"	=> $user["password"],
 		"id_user"	=> $user["id"],
 		"nick"		=> $user["name"],
-		"inserted"	=> new DibiVariable("now()", "sql")
+		"inserted"	=> new DateTime()
 		))->execute();
 
 	    $this->getDestination()->insert("shelf", array(
@@ -25,7 +25,7 @@ class UsersImport extends DatabaseTableImport {
 		"id_user"		=> $user["id"],
 		"type"		=> "read",
 		"name"		=> "Mám přečteno",
-		"inserted"		=> new DibiVariable("now()", "sql")
+		"inserted"		=> new DateTime()
 		))->execute();
 
 	    $this->getDestination()->insert("shelf", array(
@@ -33,7 +33,7 @@ class UsersImport extends DatabaseTableImport {
 		"id_user"		=> $user["id"],
 		"type"		=> "wanted",
 		"name"		=> "Chci si přečíst",
-		"inserted"		=> new DibiVariable("now()", "sql")
+		"inserted"		=> new DateTime()
 		))->execute();
 	}
 	echo $this->getDestination()->dataSource("SELECT * FROM [user]")->count() . " USERS IMPORTED\n";

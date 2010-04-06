@@ -26,7 +26,7 @@ class BooksImport extends DatabaseTableImport {
 		'type'		=> 'person',
 		'first_name'	=> $firstname,
 		'last_name'	=> $lastname,
-		'inserted'	=> new DibiVariable("now()", "sql"),
+		'inserted'	=> new DateTime(),
 		'id_author'	=> $author["id"]
 		))->execute();
 	}
@@ -39,7 +39,7 @@ class BooksImport extends DatabaseTableImport {
 	foreach($books AS $book) {
 	    // BOOK
 	    $this->getDestination()->insert("book", array(
-		'inserted'	=> new DibiVariable("now()", "sql"),
+		'inserted'	=> new DateTime(),
 		'id_book'	=> $book["id"]
 		))->execute();
 	    // TITLE
@@ -48,7 +48,7 @@ class BooksImport extends DatabaseTableImport {
 		"id_book"	=> $book["id"],
 		"id_language"	=> $language["id_language"],
 		"title"		=> $title,
-		'inserted'	=> new DibiVariable("now()", "sql"),
+		'inserted'	=> new DateTime()
 		))->execute();
 	    // WRITTEN BY
 	    $this->getDestination()->insert("written_by", array(
