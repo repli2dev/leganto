@@ -45,6 +45,7 @@ class BooksImport extends DatabaseTableImport {
 	    // TITLE
 	    $title = trim($book["title"]);
 	    $this->getDestination()->insert("book_title", array(
+		"id_book_title"	=> $book["id"],
 		"id_book"	=> $book["id"],
 		"id_language"	=> $language["id_language"],
 		"title"		=> $title,
