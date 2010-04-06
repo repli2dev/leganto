@@ -215,3 +215,11 @@ CREATE VIEW `view_feed` AS
 	    `view_post`.`inserted`
 	FROM `view_post`
     ) ORDER BY `inserted` DESC;
+
+DROP VIEW IF EXISTS `view_followed`;
+CREATE VIEW `view_followed` AS
+    SELECT
+	`following`.`id_user`		AS `id_user_following`,
+	`user`.*
+    FROM `following`
+    INNER JOIN `user` ON `following`.`id_user_followed` = `user`.`id_user`;

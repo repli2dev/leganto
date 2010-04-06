@@ -243,3 +243,14 @@ CREATE TABLE `edition` (
 	UNIQUE(`isbn`),
 	INDEX(`id_book_title`)
 ) ENGINE = InnoDB COMMENT = 'Vydani knih';
+
+DROP TABLE IF EXISTS `following`;
+CREATE TABLE `following` (
+    `id_following` INT(25) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'identifikator',
+    `id_user` INT(25) UNSIGNED NOT NULL COMMENT 'uzivatel, ktery followuje',
+    `id_user_followed` INT(25) UNSIGNED NOT NULL COMMENT 'uzivatel, ktery je followan',
+    FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY (`id_user_followed`) REFERENCES `user` (`id_user`) ON UPDATE CASCADE ON DELETE CASCADE,
+    UNIQUE(`id_user`, `id_user_followed`)
+) ENGINE = InnoDB COMMENT = 'followers';
+)

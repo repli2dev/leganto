@@ -23,6 +23,13 @@ class UserSelector implements ISelector
 		return dibi::dataSource("SELECT * FROM [user]");
 	}
 
+	public function findAllFollowed(UserEntity $user) {
+	    if ($user->getId() == NULL) {
+		throw new NullPointerException("user:id");
+	    }
+	    return dibi::dataSource("SELECT * FROM [view_followed] WHERE [id_user_following] = %i", $user->getId());
+	}
+
 	public function findAllSimilar(UserEntity $user) {
 		if ($user->getId() == NULL) {
 			throw new NullPointerException("user:id");
