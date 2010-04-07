@@ -2,31 +2,6 @@
 
 @{block #content}
 <style>
-    #book-menu {
-	list-style: none;
-	float: left;
-	margin-left: -210px;
-    }
-    #book-menu li {
-	display: block;
-	text-align: right;
-	margin: 0;
-	padding: 10px;
-	width:150px;
-	border-right: 2px solid #F1C11D;
-    }
-    #book-menu li a {
-	font-size: 120%;
-	color: #865A2C;
-	font-size: 15px;
-	font-weight: bolder;
-    }
-    #book-menu li a:hover {
-	color: #4C3319;
-    }
-    #book-menu .active {
-	background-color: #F5D25A;
-    }
     #book-info, #editions, #opinions, #tags, #feed {
 	padding-left: 30px;
 	padding-top: 10px;
@@ -59,11 +34,7 @@
 </style>
 
 <div id="book-view">
-    <ul id="book-menu">
-	<li{if $presenter->getAction() == 'default'} class="active"{/if}><a href="{link default, $book->getId()}">{_'General info'}</a></li>
-	<li{if $presenter->getAction() == 'opinions'} class="active"{/if}><a href="{link opinions, $book->getId()}">{_'Opinions'}</a></li>
-	<li{if $presenter->getAction() == 'similar'} class="active"{/if}><a href="{link similar, $book->getId()}">{_'Similar books'}</a></li>
-    </ul>
+    {widget submenu}
     @{block #subcontent}
     @{/block}
 </div>

@@ -63,4 +63,12 @@ class Web_BookPresenter extends Web_BasePresenter
 	return new BookListComponent($this, $name);
     }
 
+    protected function createComponentSubmenu($name) {
+	$submenu = new SubmenuComponent($this, $name);
+	$submenu->addLink("default", System::translate("General info"));
+	$submenu->addLink("opinions", System::translate("Opinions"), array("book" => $this->getTemplate()->book->getId()));
+	$submenu->addLink("similar", System::translate("Similar books"), array("book" => $this->getTemplate()->book->getId()));
+	return $submenu;
+    }
+
 }

@@ -2,8 +2,12 @@
 class SubmenuComponent extends BaseComponent
 {
 
-    public function setUp(array $links) {
-	$this->getTemplate()->links = $links;
+    public function addLink($action, $name, $args = NULL) {
+	$this->getTemplate()->links[] = new SubmenuLink($action, $name, $args);
+    }
+
+    protected function init() {
+	$this->getTemplate()->links = array();
     }
 
 }
