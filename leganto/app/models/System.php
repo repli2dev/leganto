@@ -57,6 +57,7 @@ final class System
 
 	/** @return string */
 	public static function translate($message, $count = 1) {
-		return self::translator()->translate($message, $count = 1);
+		$args = func_get_args();
+		return call_user_func_array(array(self::translator(), 'translate'), $args);
 	}
 }
