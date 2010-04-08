@@ -49,7 +49,7 @@ class Web_BookPresenter extends Web_BasePresenter
     public function renderSimilar($book) {
 	$this->getTemplate()->book	= Leganto::books()->getSelector()->find($book);
 	$this->getComponent("similarBooks")->setLimit(0);
-	$this->getComponent("similarBooks")->setUp(
+	$this->getComponent("similarBooks")->setSource(
 	    Leganto::books()->getSelector()->findAllSimilar($this->getTemplate()->book)->applyLimit(12)
 	);
 	$this->setPageTitle($this->getTemplate()->book->title);

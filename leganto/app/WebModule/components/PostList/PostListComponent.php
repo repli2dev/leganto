@@ -1,36 +1,16 @@
 <?php
-class PostListComponent extends BaseComponent
+class PostListComponent extends BaseListComponent
 {
-    /** @var int */
-    private $limit = 10;
-
-    public function getLimit() {
-	return $this->limit;
-    }
-
-
-    public function setLimit($limit) {
-	$this->limit = $limit;
-    }
-
-    public function setUp(DibiDataSource $source) {
-	$this->loadTemplate($source);
-    }
-
-    // ---- PROTECTED METHODS
-    protected function createComponentPaginator($name) {
-	$vp = new VisualPaginatorComponent($this, $name);
-	$vp->getPaginator()->itemsPerPage = $this->getLimit();
-	return $vp;
+    protected function beforeRender() {
+	$this->loadTemplate($this->getSource());
     }
 
     // ---- PRIVATE METHODS
 
     private function loadTemplate(DibiDataSource $source) {
-	$paginator = $this->getComponent("paginator")->getPaginator();
-	$paginator->itemCount = $source->count();
+	$paginator = $this->getPaginator();
 	if ($this->getLimit() == 0) {
-	    $vp->getPaginator()->itemsPerPage = $paginator->itemCount;
+	    $this->getPaginator()->itemsPerPage = $paginator->itemCount;
 
 	}
 	$source->applyLimit($paginator->itemsPerPage, $paginator->offset);

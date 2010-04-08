@@ -27,7 +27,8 @@ class NavigationComponent extends BaseComponent
 		$this->getPresenter()->redirect("Default:");
 	}
 	
-	protected function init() {
+	protected function startUo() {
+	    parent::startUp();
 	    $this->getTemplate()->user = System::user();
 	}
 }

@@ -6,7 +6,7 @@ class SubmenuComponent extends BaseComponent
 	$this->getTemplate()->links[] = new SubmenuLink($action, $name, $args);
     }
 
-    protected function init() {
+    protected function startUp() {
 	$this->getTemplate()->links = array();
     }
 
