@@ -1,20 +1,43 @@
 <?php
-class RssPresenter extends BasePresenter
+class Web_RssPresenter extends Web_BasePresenter
 {
 
+    const LIMIT = 10;
 
     public function renderDefault($user = NULL) {
 	$source = Leganto::feed()->getSelector()->findAll();
 	if (!empty($user)) {
-	    $users = Leganto::users()->getSelector()->findAllFollowed($user)->fetchPairs("id_user","id_user");
+	    $userEntity = Leganto::users()->getSelector()->find($user);
+	    $users = Leganto::users()->getSelector()->findAllFollowed($userEntity)->fetchPairs("id_user","id_user");
 	    $source->where("id_user IN %l", $users);
 	}
-	while($item = $source->fetch()) {
+	$source->applyLimit(self::LIMIT);
+	foreach (Leganto::feed()->fetchAndCreateAll($source) AS $item) {
+	    if ($item->type == FeedItemEntity::TYPE_OPINION) {
+		$this->addItem(
+		    System::translate("%s has an opinion on the book %s", $item->userNick, $item->categoryName),
+		    $this->link('//Book:default', $item->categoryId),
+		    $item->content,
+		    $item->inserted,
+		    $this->link('//Book:default', $item->categoryId)
+		);
+	    }
+	    else {
+		$this->addItem(
+		    System::translate("%s has contributed to the discussion %s", $item->userNick, $item->categoryName),
+		    $this->link('//Discussion:posts', $item->categoryId),
+		    $item->content,
+		    $item->inserted,
+		    $this->link('//Discussion:posts', $item->categoryId)
+		);
+	    }
 	}
     }
 
     protected function startUp() {
+	parent::startUp();
 	$this->getTemplate()->items = array();
+	$this->getTemplate()->domain = System::domain();
     }
 
     private function addItem($title, $link, $description, $date, $guid) {

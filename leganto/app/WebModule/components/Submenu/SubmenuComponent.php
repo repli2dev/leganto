@@ -7,6 +7,7 @@ class SubmenuComponent extends BaseComponent
     }
 
     protected function startUp() {
+	parent::startUp();
 	$this->getTemplate()->links = array();
     }
 

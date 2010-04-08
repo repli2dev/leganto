@@ -33,7 +33,7 @@ class Web_DefaultPresenter extends Web_BasePresenter {
 		    $source->where("id_user IN %l", $users);
 		}
 		$this->getTemplate()->allSwitcher = $all;
-		$this->getComponent("feed")->setUp($source);
+		$this->getComponent("feed")->setSource($source);
 	}
 
 	public function renderSearch($query, $book = TRUE) {

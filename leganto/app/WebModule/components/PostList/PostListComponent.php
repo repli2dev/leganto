@@ -2,6 +2,7 @@
 class PostListComponent extends BaseListComponent
 {
     protected function beforeRender() {
+	parent::beforeRender();
 	$this->loadTemplate($this->getSource());
     }
 

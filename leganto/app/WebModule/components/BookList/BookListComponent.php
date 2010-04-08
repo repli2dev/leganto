@@ -5,10 +5,12 @@ class BookListComponent extends BaseListComponent
     // ---- PROTECTED METHODS
 
     protected function beforeRender() {
+	parent::beforeRender();
 	$this->loadTemplate($this->getSource());
     }
 
     protected function startUp() {
+	parent::startUp();
 	$this->setLimit(12);
     }
 
@@ -16,7 +18,6 @@ class BookListComponent extends BaseListComponent
 
     private function loadTemplate(DibiDataSource $source) {
 	$paginator  = $this->getPaginator();
-	$paginator->itemCount = $source->count();
 	if ($this->getLimit() == 0) {
 	    $paginator->itemsPerPage = $paginator->itemCount;
 	}

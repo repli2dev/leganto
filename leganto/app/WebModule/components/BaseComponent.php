@@ -21,10 +21,11 @@ abstract class BaseComponent extends Control
 
     public function __construct(/*Nette\*/IComponentContainer $parent = NULL, $name = NULL) {
 	parent::__construct($parent, $name);
-	$this->init();
+	$this->startUp();
     }
 
     public function render(){
+	$this->beforeRender();
 	$this->getTemplate()->render();
 
     }

@@ -27,7 +27,7 @@ class Web_BookPresenter extends Web_BasePresenter
 	    Leganto::editions()->getSelector()->findAllByBook($this->getTemplate()->book)
 	);
 	$this->getComponent("opinionList")->setLimit(5);
-	$this->getComponent("opinionList")->setUp(
+	$this->getComponent("opinionList")->setSource(
 	    Leganto::opinions()->getSelector()
 		->findAllByBook($this->getTemplate()->book)
 		->where("[content] != ''")
@@ -38,7 +38,7 @@ class Web_BookPresenter extends Web_BasePresenter
 
     public function renderOpinions($book) {
 	$this->getTemplate()->book	= Leganto::books()->getSelector()->find($book);
-	$this->getComponent("opinionList")->setUp(
+	$this->getComponent("opinionList")->setSource(
 	    Leganto::opinions()->getSelector()
 		->findAllByBook($this->getTemplate()->book, System::user())
 		->where("[content] != ''")

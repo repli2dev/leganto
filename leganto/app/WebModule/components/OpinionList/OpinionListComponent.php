@@ -1,32 +1,17 @@
 <?php
-class OpinionListComponent extends BaseComponent
+class OpinionListComponent extends BaseListComponent
 {
-
-    /** @var int */
-    private $limit = 10;
-
-    public function getLimit() {
-	return $this->limit;
-    }
 
     public function handleShowPosts($opinion) {
 	$this->getTemplate()->showedOpinion = $opinion;
     }
 
-    public function setLimit($limit) {
-	$this->limit = $limit;
-    }
-
-    public function setUp(DibiDataSource $source) {
-	$this->loadTemplate($source);
+    protected function beforeRender() {
+	parent::beforeRender();
+	$this->loadTemplate($this->getSource());
     }
 
     // ---- PROTECTED METHODS
-    protected function createComponentPaginator($name) {
-	$vp = new VisualPaginatorComponent($this, $name);
-	$vp->getPaginator()->itemsPerPage = $this->getLimit();
-	return $vp;
-    }
 
     protected function createComponentPostList($name) {
 	return new PostListComponent($this, $name);
@@ -35,8 +20,7 @@ class OpinionListComponent extends BaseComponent
     // ---- PRIVATE METHODS
 
     private function loadTemplate(DibiDataSource $source) {
-	$paginator = $this->getComponent("paginator")->getPaginator();
-	$paginator->itemCount = $source->count();
+	$paginator = $this->getPaginator();
 	$source->applyLimit($paginator->itemsPerPage, $paginator->offset);
 	$this->getTemplate()->opinions = Leganto::opinions()->fetchAndCreateAll($source);
 	$opinionIds = array();
@@ -54,7 +38,7 @@ class OpinionListComponent extends BaseComponent
 	    $this->getTemplate()->discussions = array();
 	}
 	if (isset ($this->getTemplate()->showedOpinion)) {
-	    $this->getComponent("postList")->setUp(
+	    $this->getComponent("postList")->setSource(
 		Leganto::posts()->getSelector()
 		    ->findAllByIdAndType($this->getTemplate()->showedOpinion, PostSelector::OPINION)
 	    );
