@@ -28,10 +28,23 @@ class Web_DefaultPresenter extends Web_BasePresenter {
 		}
 		$this->setPageTitle(System::translate("News"));
 		$source = Leganto::feed()->getSelector()->findAll();
-		if (!$all) {
-		    $users = Leganto::users()->getSelector()->findAllFollowed(System::user())->fetchPairs("id_user","id_user");
-		    $source->where("id_user IN %l", $users);
+		if($source->count() == 0) {
+			$noEvents = true;
+		} else {
+			$noEvents = false;
 		}
+		if (!$all) {
+			// Get list of all followed users
+			$users = Leganto::users()->getSelector()->findAllFollowed(System::user());
+			// User follows no users!
+			if($users->count() == 0) {
+				$noEvents = true;
+			} else {
+				$users = $users->fetchPairs("id_user","id_user");
+				$source->where("id_user IN %l", $users);
+			}
+		}
+		$this->getTemplate()->noEvents = $noEvents;
 		$this->getTemplate()->allSwitcher = $all;
 		$this->getComponent("feed")->setSource($source);
 	}

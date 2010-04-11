@@ -59,6 +59,12 @@ class IntroductionComponent extends BaseComponent {
 			case "twitter":
 				$template = $this->loadTwitterTemplate();
 				break;
+			case "forgot":
+				$template = $this->loadForgotTemplate();
+				break;
+			case "renew":
+				$template = $this->loadRenewTemplate();
+				break;
 		}
 		$template->render();
 	}
@@ -96,48 +102,112 @@ class IntroductionComponent extends BaseComponent {
 		return $template;
 	}
 
+	public function loadForgotTemplate() {
+		$template			= $this->getTemplate();
+		$template->state	= "forgot";
+		return $template;
+	}
+	public function loadRenewTemplate() {
+		$template			= $this->getTemplate();
+		$template->state	= "renew";
+		return $template;
+	}
+
 	/** PROTECTED **/
 
 	protected function createComponentLoginForm($name) {
-		$loginForm = new BaseForm;
-		$loginForm->getElementPrototype()->setId("sign");
-		$loginForm->addGroup("Log in");
-		$loginForm->addText("nickname", "Nickname")
+		$form = new BaseForm;
+		$form->getElementPrototype()->setId("sign");
+		$form->addGroup("Log in");
+		$form->addText("nickname", "Nickname")
 			->addRule(Form::FILLED,"Please fill the nickname.");
-		$loginForm->addPassword("password", "Password")
+		$form->addPassword("password", "Password")
 			->addRule(Form::FILLED,"Please fill the password.");
-		$loginForm->addSubmit("submitted", "Log in");
-		$loginForm->onSubmit[] = array($this, "loginFormSubmitted");
-		return $loginForm;
+		$form->addSubmit("submitted", "Log in");
+		$form->onSubmit[] = array($this, "loginFormSubmitted");
+		return $form;
 	}
 
 	protected function createComponentSignUpForm($name) {
 		// Create form skeleton
-		$signUpForm = new BaseForm;
-		$signUpForm->addGroup("Sign Up");
-		$signUpForm->getElementPrototype()->setId("sign");
-		// Create user entity and set defaults (for form building)
-		$user = Leganto::users()->createEmpty();
-		$user->role = "common";
-		$user->idLanguage = System::domain()->idLanguage;
-		$user->inserted = new DateTime();
-		// Add post action (send mail to user)
-		$user->addOnPersistListener(new CallbackListener(array($this, "postSignUp")));
-		// Build a form
-		$builder = new SimpleFormBuilder($user, $signUpForm);
-		$builder->disable("sex");
-		$builder->disable("birth_year");
-		$builder->disable("id_language");
-		$form = $builder->buildForm();
-		// Add remain items
-		$form->addPassword("password2","Password again");
-		$form->addSubmit("submitSignUp", "Register");
-		$form->onSubmit[] = array($builder, "onSubmit");
+		$form = new BaseForm;
+		$form->addGroup("Sign Up");
+		$form->getElementPrototype()->setId("sign");
+		$form->addText("email", "Email")
+			->addRule(Form::EMAIL,"Please fill correct email.")
+			->addRule(Form::FILLED,"Please fill the email.");
+		$form->addText("nickname", "Nickname")
+			->addRule(Form::FILLED,"Please fill the nickname.");
+		$form->addPassword("password", "Password")
+			->addRule(Form::FILLED,"Please fill the password.");
+		$form->addPassword("password2", "Password again")
+			->addRule(Form::FILLED,"Please fill the second password for check.")
+			->addConditionOn($form["password"], Form::FILLED)
+				->addRule(Form::EQUAL, "Passwords have to match!", $form["password"]);
+		$form->addSubmit("submitted", "Register");
+		$form->onSubmit[] = array($this, "signUpFormSubmitted");
 		return $form;
 	}
 
+	public function signUpFormSubmitted(Form $form) {
+		$values = $form->getValues();
+
+		// Create entity and fill it with user data
+		$user = Leganto::users()->createEmpty();
+		$user->nickname = $values["nickname"];
+		$user->email = $values["email"];
+		$user->password = UserAuthenticator::passwordHash($values["password"]);
+
+		// Add system data
+		$user->role = "common";
+		$user->idLanguage = System::domain()->idLanguage;
+		$user->inserted = new DateTime();
+
+		// Commit & postSignUp
+		// FIXME: hack kvuli tomu ze nick neni v databazi nastaven jako unique (-> je mozne nekomu ukradnout identitu)
+		$nickExists = dibi::dataSource("SELECT * FROM [user] WHERE [nick] = %s",$values["nickname"])->count();
+		if($nickExists == 0) {
+			$user = Leganto::users()->getInserter()->insert($user);
+		} else {
+			$user = -1;
+			$form->addError("Account with same nickname or email is already registered.");
+		}
+		if($user != -1) {
+			$user = Leganto::users()->getSelector()->find($user);
+
+			$template = LegantoTemplate::loadTemplate(new Template());
+			$template->setFile(WebModule::getModuleDir() . "/templates/mails/signUp.phtml");
+			$template->nickname = $values["nickname"];
+			$template->password = $values["password"];
+
+			$mail = new Mail();
+			$mail->addTo($user->email);
+			$mail->setFrom(Environment::getConfig("mail")->info, Environment::getConfig("mail")->name);
+			$mail->setSubject(System::translate("Leganto: Thanks for your registration."));
+			$mail->setBody($template);
+			$mail->send();
+
+			// Authentiticate at last
+			try {
+				Environment::getUser()->authenticate($values['nickname'],$values['password']);
+			} catch (AuthenticationException $e) {
+				switch ($e->getCode()) {
+					case IAuthenticator::IDENTITY_NOT_FOUND:
+						$form->addError("User not found");
+						break;
+					case IAuthenticator::INVALID_CREDENTIAL:
+						$form->addError("The password is wrong");
+						break;
+				}
+			}
+			$this->getPresenter()->flashMessage(System::translate("Thanks for your registration."));
+			$this->getPresenter()->redirect("this");
+		} else {
+			$form->addError("Account with same nickname or email is already registered.");
+		}
+	}
+
 	protected function createComponentTwitterForm($name) {
-		//$content = Html::el("div id=sign");
 		$form = new BaseForm();
 		if($this->twitter->isLogged() == true){
 			// Continue with connecting accounts - show user the options -> form
@@ -155,8 +225,6 @@ class IntroductionComponent extends BaseComponent {
 
 	protected function createComponentFacebookForm($name) {
 		$form = new BaseForm();
-		//$form->getElementPrototype()->setId("sign");
-
 		if($this->facebook->isLogged() == true){
 			// Continue with connecting accounts - show user the options -> form
 			// login part of form
@@ -170,23 +238,6 @@ class IntroductionComponent extends BaseComponent {
 		}
 		return $form;
 	}
-
-	public function postSignUp(EntityEvent $event) {
-		$user = $event->getEntity();
-		$template = LegantoTemplate::loadTemplate(new Template());
-		$template->setFile(WebModule::getModuleDir() . "/templates/mails/signUp.phtml");
-
-		$mail = new Mail();
-		$mail->addTo($user->email);
-		$mail->setFrom(Environment::getConfig("mail")->info, Environment::getConfig("mail")->name);
-		$mail->setSubject(System::translate("Thanks for your registration."));
-		$mail->setBody($template);
-		$mail->send();
-
-		$this->getPresenter()->flashMessage(System::translate("Thanks for your registration."));
-		$this->getPresenter()->redirect("this");
-	}
-
 
 	/** HANDLERS **/
 	public function loginFormSubmitted(Form $form) {
@@ -243,7 +294,7 @@ class IntroductionComponent extends BaseComponent {
 					$this->twitter->destroyLoginData();
 				} else {
 					// This twitter id is already connected to some account
-					$form->addError(System::translate("This twitter account is already connected to an account."));
+					$form->addError("This twitter account is already connected to an account.");
 				}
 			}
 		}
@@ -288,7 +339,7 @@ class IntroductionComponent extends BaseComponent {
 					$this->facebook->destroyLoginData();
 				} else {
 					// This twitter id is already connected to some account
-					$form->addError(System::translate("This facebook account is already connected to an account."));
+					$form->addError("This facebook account is already connected to an account.");
 				}
 			}
 		}
@@ -302,10 +353,12 @@ class IntroductionComponent extends BaseComponent {
 			case "signup":
 			case "facebook":
 			case "twitter":
+			case "forgot":
+			case "renew":
 				$this->state = $state;
 				break;
 			default:
-				throw new InvalidArgumentException("The state can be only default, login, facebook, twitter or signup");
+				throw new InvalidArgumentException("The state can be only default, login, facebook, twitter, signup, forgot or renew");
 		}
 		$this->invalidateControl("introduction-block");
 	}
@@ -320,7 +373,6 @@ class IntroductionComponent extends BaseComponent {
 		// Prepare user entity
 		$user = Leganto::users()->createEmpty();
 		$user->role = "common";
-		// FIXME: pouziva se id_role? Proc je id_role a role - zbytecna duplikace
 		$user->idLanguage = System::domain()->idLanguage;
 		$user->inserted = new DateTime();
 		$user->nickname = $data->screen_name;
@@ -358,7 +410,6 @@ class IntroductionComponent extends BaseComponent {
 		// Prepare user entity
 		$user = Leganto::users()->createEmpty();
 		$user->role = "common";
-		// FIXME: pouziva se id_role? Proc je id_role a role - zbytecna duplikace
 		$user->idLanguage = System::domain()->idLanguage;
 		$user->inserted = new DateTime();
 		$user->nickname = $data["username"];

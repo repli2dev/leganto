@@ -52,17 +52,26 @@
 		@{if $state == "signup"}
 			@{widget "signUpForm"}
 		@{/if}
+		@{if $state == "forgot"}
+			{_"Not implemented yet."}
+		@{/if}
+		@{if $state == "renew"}
+			{_"Not implemented yet."}
+		@{/if}
 	@{/if}
 
+	@{if $state != "facebook" && $state != "twitter"}
+		<div id="info">
+		    <h1>{_'Welcome!'}</h1>
+		    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Quis nostrud 							exerci tation ex ea commodo consequat.</p>
+		</div>
+		<div id="getin">
+		    <a href="{link changeState,'signup'}" class="ajax" id="signup_button">{_'Sign up'}</a>
+		    <a href="{link changeState,'login'}" class="ajax" id="login_button">{_'Log in'}</a>
+		</div>
+		<hr />
+		    <a href="{link changeState, 'facebook'}">{_'Login with Facebook'}</a> |
+		    <a href="{link changeState, 'twitter'}">{_'Login with Twitter'}</a> | 
+		    <a href="{link changeState, 'forgot'}" class="ajax">{_'I forgot password'}</a>
+	@{/if}
 {/snippet}
-<div id="info">
-    <h1>{_'Welcome!'}</h1>
-    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Quis nostrud 							exerci tation ex ea commodo consequat.</p>
-</div>
-<div id="getin">
-    <a href="{link changeState,'signup'}" class="ajax" id="signup_button">{_'Sign up'}</a>
-    <a href="{link changeState,'login'}" class="ajax" id="login_button">{_'Log in'}</a>
-</div>
-<hr />
-    <a href="{link changeState, 'facebook'}">{_'Login with Facebook'}</a> |
-    <a href="{link changeState, 'twitter'}">{_'Login with Twitter'}</a>

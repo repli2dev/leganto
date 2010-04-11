@@ -1,17 +1,39 @@
 # Gettext keys exported by GettextExtractor
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2010-03-25T21:22:17+01:00\n"
+"POT-Creation-Date: 2010-04-11T12:33:03+02:00\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:350
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:388
+# APP_DIR/WebModule/components/Search/SearchComponent.php:38
+msgid ""
+msgstr ""
+
+# APP_DIR/WebModule/presenters/RssPresenter.php:18
+msgid "%s has an opinion on the book %s"
+msgstr ""
+
+# APP_DIR/WebModule/presenters/RssPresenter.php:27
+msgid "%s has contributed to the discussion %s"
+msgstr ""
+
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:399
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:436
 msgid "Account with same nickname is already registered."
 msgstr ""
 
-# APP_DIR/WebModule/components/Introduction/introduction.phtml:24
-# APP_DIR/WebModule/components/Introduction/introduction.phtml:38
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:173
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:206
+msgid "Account with same nickname or email is already registered."
+msgstr ""
+
+# APP_DIR/WebModule/templates/Default/feed.phtml:11
+# APP_DIR/WebModule/templates/Default/feed.phtml:15
+msgid "All"
+msgstr ""
+
+# APP_DIR/WebModule/components/Introduction/introduction.phtml:25
+# APP_DIR/WebModule/components/Introduction/introduction.phtml:44
 msgid "Create new"
 msgstr ""
 
@@ -19,33 +41,74 @@ msgstr ""
 msgid "Did you know?"
 msgstr ""
 
-# APP_DIR/WebModule/components/Introduction/introduction.phtml:15
-# APP_DIR/WebModule/components/Introduction/introduction.phtml:29
-msgid "Do you have account?"
+# APP_DIR/WebModule/components/Navigation/navigation.phtml:4
+msgid "Discussion"
 msgstr ""
 
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:172
-msgid "Facebook functions are not accessible right now. Please try it later."
+# APP_DIR/WebModule/presenters/DiscussionPresenter.php:6
+msgid "Discussion topics"
+msgstr ""
+
+# APP_DIR/WebModule/templates/mails/signUp.phtml:7
+msgid "Do not worry about your password, it was encrypted just after sending this message"
 msgstr ""
 
 # APP_DIR/WebModule/components/Introduction/introduction.phtml:16
+# APP_DIR/WebModule/components/Introduction/introduction.phtml:35
+msgid "Do you have account?"
+msgstr ""
+
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:136
+msgid "Email"
+msgstr ""
+
+# APP_DIR/WebModule/components/Introduction/introduction.phtml:28
+msgid "Facebook functions are not accessible right now. Please try it later."
+msgstr ""
+
+# APP_DIR/WebModule/templates/Default/feed.phtml:13
+# APP_DIR/WebModule/templates/Default/feed.phtml:17
+msgid "Followed"
+msgstr ""
+
+# APP_DIR/WebModule/presenters/BookPresenter.php:68
+msgid "General info"
+msgstr ""
+
+# APP_DIR/WebModule/templates/mails/signUp.phtml:0
+msgid "Hi,"
+msgstr ""
+
+# APP_DIR/WebModule/components/Introduction/introduction.phtml:74
+msgid "I forgot password"
+msgstr ""
+
+# APP_DIR/WebModule/components/Introduction/introduction.phtml:17
 msgid "If you want to connect this facebook account please log in."
 msgstr ""
 
-# APP_DIR/WebModule/components/Introduction/introduction.phtml:30
+# APP_DIR/WebModule/components/Introduction/introduction.phtml:36
 msgid "If you want to connect this twitter account please log in."
 msgstr ""
 
-# APP_DIR/WebModule/components/Introduction/introduction.phtml:18
-# APP_DIR/WebModule/components/Introduction/introduction.phtml:32
+# APP_DIR/WebModule/components/Introduction/introduction.phtml:19
+# APP_DIR/WebModule/components/Introduction/introduction.phtml:38
 msgid "If you want to create new account please click on button Create new which log in you automatically in just a second."
 msgstr ""
 
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:103
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:108
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:149
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:169
-# APP_DIR/WebModule/components/Introduction/introduction.phtml:53
+# APP_DIR/WebModule/templates/mails/signUp.phtml:9
+msgid "Leganto team"
+msgstr ""
+
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:186
+msgid "Leganto: Thanks for your registration."
+msgstr ""
+
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:121
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:126
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:220
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:236
+# APP_DIR/WebModule/components/Introduction/introduction.phtml:69
 msgid "Log in"
 msgstr ""
 
@@ -53,26 +116,33 @@ msgstr ""
 msgid "Log out"
 msgstr ""
 
-# APP_DIR/WebModule/components/Introduction/introduction.phtml:56
+# APP_DIR/WebModule/components/Introduction/introduction.phtml:72
 msgid "Login with Facebook"
 msgstr ""
 
-# APP_DIR/WebModule/components/Introduction/introduction.phtml:57
+# APP_DIR/WebModule/components/Introduction/introduction.phtml:73
 msgid "Login with Twitter"
 msgstr ""
 
 # APP_DIR/WebModule/components/Navigation/navigation.phtml:3
-# APP_DIR/WebModule/presenters/DefaultPresenter.php:19
+# APP_DIR/WebModule/presenters/DefaultPresenter.php:22
 msgid "Main page"
 msgstr ""
 
-# APP_DIR/WebModule/presenters/DefaultPresenter.php:26
+# APP_DIR/WebModule/presenters/DefaultPresenter.php:29
 msgid "News"
 msgstr ""
 
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:104
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:145
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:165
+# APP_DIR/WebModule/components/VisualPaginator/visualPaginator.phtml:53
+# APP_DIR/WebModule/components/VisualPaginator/visualPaginator.phtml:55
+msgid "Next"
+msgstr ""
+
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:122
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:139
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:216
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:232
+# APP_DIR/WebModule/templates/mails/signUp.phtml:4
 msgid "Nickname"
 msgstr ""
 
@@ -80,99 +150,167 @@ msgstr ""
 msgid "No content"
 msgstr ""
 
-# APP_DIR/WebModule/components/Introduction/introduction.phtml:18
-# APP_DIR/WebModule/components/Introduction/introduction.phtml:32
+# APP_DIR/WebModule/templates/Default/feed.phtml:23
+msgid "No events found, probably you do not follow any user. If you want to show all events click on All above this text."
+msgstr ""
+
+# APP_DIR/WebModule/components/Introduction/introduction.phtml:19
+# APP_DIR/WebModule/components/Introduction/introduction.phtml:38
 msgid "No..."
 msgstr ""
 
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:106
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:147
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:167
+# APP_DIR/WebModule/components/Introduction/introduction.phtml:55
+# APP_DIR/WebModule/components/Introduction/introduction.phtml:58
+msgid "Not implemented yet."
+msgstr ""
+
+# APP_DIR/WebModule/presenters/BookPresenter.php:69
+msgid "Opinions"
+msgstr ""
+
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:124
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:141
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:218
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:234
+# APP_DIR/WebModule/templates/mails/signUp.phtml:5
 msgid "Password"
 msgstr ""
 
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:132
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:143
 msgid "Password again"
 msgstr ""
 
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:105
 # APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:146
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:166
+msgid "Passwords have to match!"
+msgstr ""
+
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:137
+msgid "Please fill correct email."
+msgstr ""
+
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:138
+msgid "Please fill the email."
+msgstr ""
+
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:123
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:140
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:217
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:233
 msgid "Please fill the nickname."
 msgstr ""
 
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:107
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:148
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:168
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:125
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:142
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:219
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:235
 msgid "Please fill the password."
 msgstr ""
 
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:133
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:144
+msgid "Please fill the second password for check."
+msgstr ""
+
+# APP_DIR/WebModule/components/VisualPaginator/visualPaginator.phtml:38
+# APP_DIR/WebModule/components/VisualPaginator/visualPaginator.phtml:40
+msgid "Previous"
+msgstr ""
+
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:147
 msgid "Register"
+msgstr ""
+
+# APP_DIR/WebModule/presenters/DefaultPresenter.php:53
+msgid "Search"
 msgstr ""
 
 # APP_DIR/WebModule/components/Navigation/navigation.phtml:13
 msgid "Settings"
 msgstr ""
 
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:116
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:134
 msgid "Sign Up"
 msgstr ""
 
-# APP_DIR/WebModule/components/Introduction/introduction.phtml:52
+# APP_DIR/WebModule/components/Introduction/introduction.phtml:68
 msgid "Sign up"
 msgstr ""
 
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:185
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:189
+# APP_DIR/WebModule/presenters/BookPresenter.php:70
+msgid "Similar books"
+msgstr ""
+
+# APP_DIR/WebModule/templates/Default/feed.phtml:22
+msgid "Sorry"
+msgstr ""
+
+# APP_DIR/WebModule/components/Introduction/introduction.phtml:27
+# APP_DIR/WebModule/components/Introduction/introduction.phtml:46
+msgid "Temporary Error"
+msgstr ""
+
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:203
 msgid "Thanks for your registration."
 msgstr ""
 
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:205
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:224
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:269
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:199
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:253
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:272
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:317
 msgid "The password is wrong"
 msgstr ""
 
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:294
+# APP_DIR/WebModule/components/Search/SearchComponent.php:36
+msgid "The search field has to be filled."
+msgstr ""
+
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:342
 msgid "This facebook account is already connected to an account."
 msgstr ""
 
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:249
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:297
 msgid "This twitter account is already connected to an account."
 msgstr ""
 
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:152
+# APP_DIR/WebModule/components/Introduction/introduction.phtml:47
 msgid "Twitter functions are not accessible right now. Please try it later."
 msgstr ""
 
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:202
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:221
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:266
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:196
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:250
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:269
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:314
 msgid "User not found"
 msgstr ""
 
-# APP_DIR/WebModule/components/Introduction/introduction.phtml:48
+# APP_DIR/WebModule/components/Introduction/introduction.phtml:64
 msgid "Welcome!"
 msgstr ""
 
-# APP_DIR/WebModule/components/Introduction/introduction.phtml:16
-# APP_DIR/WebModule/components/Introduction/introduction.phtml:30
+# APP_DIR/WebModule/components/Introduction/introduction.phtml:17
+# APP_DIR/WebModule/components/Introduction/introduction.phtml:36
 msgid "Yes..."
 msgstr ""
 
-# APP_DIR/WebModule/components/Search/search.phtml:5
+# APP_DIR/WebModule/templates/mails/signUp.phtml:3
+msgid "Your credentials used for login are:"
+msgstr ""
+
+# APP_DIR/WebModule/components/Search/search.phtml:13
 msgid "all"
 msgstr ""
 
-# APP_DIR/WebModule/components/Search/search.phtml:7
+# APP_DIR/WebModule/components/Search/search.phtml:15
 msgid "authors"
 msgstr ""
 
-# APP_DIR/WebModule/components/Search/search.phtml:6
+# APP_DIR/WebModule/components/Search/search.phtml:14
 msgid "books"
 msgstr ""
 
-# APP_DIR/WebModule/components/Search/search.phtml:8
+# APP_DIR/WebModule/templates/mails/signUp.phtml:1
+msgid "probably you have just registered account on Leganto website"
+msgstr ""
+
+# APP_DIR/WebModule/components/Search/search.phtml:16
 msgid "readers"
 msgstr ""

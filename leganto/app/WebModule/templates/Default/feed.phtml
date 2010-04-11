@@ -9,15 +9,21 @@
 
 <div id="feed-switcher">
     {if $allSwitcher}
-    <strong>All</strong>
+    <strong>{_"All"}</strong>
     |
-    <a href="{link feed, FALSE}">Followed</a>
+    <a href="{link feed, FALSE}">{_"Followed"}</a>
     {else}
-    <a href="{link feed, TRUE}">All</a>
+    <a href="{link feed, TRUE}">{_"All"}</a>
     |
-    <strong>Followed</strong>
+    <strong>{_"Followed"}</strong>
     {/if}
 </div>
-{widget 'feed'}
+
+{if $noEvents}
+	<h2>{_"Sorry"}</h2>
+	<p>{_"No events found, probably you do not follow any user. If you want to show all events click on All above this text."}</p>
+{else}
+	{widget 'feed'}
+{/if}
 
 {/block}
