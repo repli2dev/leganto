@@ -38,7 +38,8 @@ class FacebookBridge implements ISocialNetwork {
 		// Create connection to facebook and login
 		$this->doNormalConnection();
 		// We want user to grant us permission for reading, publishing, offline access (user is not currently logged in), for status updates and for sharing items
-		$this->session->user = $this->gate->require_login("publish_stream,read_stream,offline_access,status_update,share_item");
+		//$this->session->user = $this->gate->require_login("publish_stream,read_stream,offline_access,status_update,share_item");
+		$this->session->user = $this->gate->require_login();
 		if(!empty($this->session->user)) {
 			return true;
 		} else {

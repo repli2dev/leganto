@@ -1,5 +1,5 @@
 <?php
-// Copyright 2004-2009 Facebook. All Rights Reserved.
+// Copyright 2004-present Facebook. All Rights Reserved.
 //
 // +---------------------------------------------------------------------------+
 // | Facebook Platform PHP5 client                                             |
@@ -1321,6 +1321,13 @@ function toggleDisplay(id, type) {
               'start_time' => $start_time,
               'end_time' => $end_time,
               'test_mode' => $test_mode)), true);
+  }
+
+  public function payments_transfer($from_id, $to_id, $params) {
+    return $this->call_method('facebook.payments.transfer',
+        array('from_id' => $from_id,
+              'to_id' => $to_id,
+              'params' => json_encode($params)));
   }
 
   /**
@@ -3499,8 +3506,12 @@ function toggleDisplay(id, type) {
     list($get, $post) = $this->add_standard_params($method, $params);
     // we need to do this before signing the params
     $this->convert_array_values_to_json($post);
-    $post['sig'] = Facebook::generate_sig(array_merge($get, $post),
-                                          $this->secret);
+
+    // no point in signing if we don't have a secret
+    if ($this->secret) {
+      $post['sig'] = Facebook::generate_sig(array_merge($get, $post),
+                                            $this->secret);
+    }
     return array($get, $post);
   }
 
@@ -3699,9 +3710,6 @@ function toggleDisplay(id, type) {
   }
 
   static public function methodIsReadOnly($method) {
-    // Until this is fully deployed, fail fast:
-    return false;
-
     static $READ_ONLY_CALLS =
       array('admin_getallocation' => 1,
             'admin_getappproperties' => 1,
@@ -3804,6 +3812,8 @@ class FacebookAPIErrorCodes {
   const API_EC_HOST_PUP = 14;
   const API_EC_SESSION_SECRET_NOT_ALLOWED = 15;
   const API_EC_HOST_READONLY = 16;
+  const API_EC_USER_TOO_MANY_CALLS = 17;
+  const API_EC_REQUEST_RESOURCES_EXCEEDED = 18;
 
   /*
    * PARAMETER ERRORS
@@ -3833,6 +3843,7 @@ class FacebookAPIErrorCodes {
   const API_EC_PARAM_BAD_PAGE_TYPE = 152;
   const API_EC_PARAM_BAD_LOCALE = 170;
   const API_EC_PARAM_BLOCKED_NOTIFICATION = 180;
+  const API_EC_PARAM_ACCESS_TOKEN = 190;
 
   /*
    * USER PERMISSIONS ERRORS
@@ -3890,6 +3901,9 @@ class FacebookAPIErrorCodes {
   const API_EC_EDIT_VIDEO_INVALID_FILE = 351;
   const API_EC_EDIT_VIDEO_INVALID_TYPE = 352;
   const API_EC_EDIT_VIDEO_FILE = 353;
+  const API_EC_VIDEO_NOT_TAGGED = 354;
+  const API_EC_VIDEO_ALREADY_TAGGED = 355;
+
 
   const API_EC_EDIT_FEED_TITLE_ARRAY = 360;
   const API_EC_EDIT_FEED_TITLE_PARAMS = 361;
@@ -3999,6 +4013,7 @@ class FacebookAPIErrorCodes {
   const API_EC_PAYMENTS_INVALID_OPERATION = 1158;
   const API_EC_PAYMENTS_PAYMENT_FAILED = 1159;
   const API_EC_PAYMENTS_DISABLED = 1160;
+  const API_EC_PAYMENTS_INSUFFICIENT_BALANCE = 1161;
 
   /*
    * CONNECT SESSION ERRORS
