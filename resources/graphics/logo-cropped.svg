@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   inkscape:version="0.47 r22583"
+   version="1.1"
+   inkscape:label="Pozadí"
+   id="svg2"
+   height="1052.3622047"
+   width="744.09448819"
+   sodipodi:docname="leganto-orezane.svg">
+  <defs
+     id="defs3">
+    <marker
+       inkscape:stockid="Arrow2Lend"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="Arrow2Lend"
+       style="overflow:visible;">
+      <path
+         id="path3677"
+         style="font-size:12.0;fill-rule:evenodd;stroke-width:0.62500000;stroke-linejoin:round;"
+         d="M 8.7185878,4.0337352 L -2.2072895,0.016013256 L 8.7185884,-4.0017078 C 6.9730900,-1.6296469 6.9831476,1.6157441 8.7185878,4.0337352 z "
+         transform="scale(1.1) rotate(180) translate(1,0)" />
+    </marker>
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 526.18109 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="744.09448 : 526.18109 : 1"
+       inkscape:persp3d-origin="372.04724 : 350.78739 : 1"
+       id="perspective9" />
+    <filter
+       id="filter4627"
+       inkscape:label="Drop shadow"
+       width="1.5"
+       height="1.5"
+       x="-.25"
+       y="-.25">
+      <feGaussianBlur
+         id="feGaussianBlur4629"
+         in="SourceAlpha"
+         stdDeviation="10,000000"
+         result="blur" />
+      <feColorMatrix
+         id="feColorMatrix4631"
+         result="bluralpha"
+         type="matrix"
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0,500000 0 " />
+      <feOffset
+         id="feOffset4633"
+         in="bluralpha"
+         dx="0,000000"
+         dy="0,000000"
+         result="offsetBlur" />
+      <feMerge
+         id="feMerge4635">
+        <feMergeNode
+           id="feMergeNode4637"
+           in="offsetBlur" />
+        <feMergeNode
+           id="feMergeNode4639"
+           in="SourceGraphic" />
+      </feMerge>
+    </filter>
+    <inkscape:perspective
+       id="perspective3639"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <filter
+       id="filter3647"
+       inkscape:label="Drop shadow"
+       width="1.5"
+       height="1.5"
+       x="-.25"
+       y="-.25">
+      <feGaussianBlur
+         id="feGaussianBlur3649"
+         in="SourceAlpha"
+         stdDeviation="10,000000"
+         result="blur" />
+      <feColorMatrix
+         id="feColorMatrix3651"
+         result="bluralpha"
+         type="matrix"
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0,500000 0 " />
+      <feOffset
+         id="feOffset3653"
+         in="bluralpha"
+         dx="0,000000"
+         dy="0,000000"
+         result="offsetBlur" />
+      <feMerge
+         id="feMerge3655">
+        <feMergeNode
+           id="feMergeNode3657"
+           in="offsetBlur" />
+        <feMergeNode
+           id="feMergeNode3659"
+           in="SourceGraphic" />
+      </feMerge>
+    </filter>
+    <inkscape:perspective
+       id="perspective2857"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective2879"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.4020841"
+     inkscape:cx="-392.23048"
+     inkscape:cy="823.20902"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer2"
+     showgrid="false"
+     inkscape:window-width="1680"
+     inkscape:window-height="1000"
+     inkscape:window-x="-4"
+     inkscape:window-y="-3"
+     inkscape:window-maximized="1"
+     inkscape:snap-grids="true"
+     showguides="true"
+     inkscape:guide-bbox="true">
+    <sodipodi:guide
+       orientation="0,1"
+       position="-478.75556,616.83041"
+       id="guide5130" />
+    <sodipodi:guide
+       orientation="1,0"
+       position="-1895.1259,599.37709"
+       id="guide5134" />
+    <sodipodi:guide
+       orientation="0,1"
+       position="-686.42356,1295.7488"
+       id="guide5136" />
+    <sodipodi:guide
+       orientation="1,0"
+       position="-478.75556,616.83041"
+       id="guide5138" />
+    <sodipodi:guide
+       orientation="0,1"
+       position="-870.46466,286.00982"
+       id="guide5140" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata6">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Vrstva 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <image
+       sodipodi:absref="/home/jan/Dokumenty/inkscape_pasted_image_20100508_133902.png"
+       xlink:href="Dokumenty/inkscape_pasted_image_20100508_133902.png"
+       inkscape:export-ydpi="90"
+       inkscape:export-xdpi="90"
+       inkscape:export-filename="/home/jan/path5150-2.png"
+       y="-337.97"
+       x="-2022.8947"
+       id="image3641"
+       height="1152.1969"
+       width="2195.738" />
+    <rect
+       style="fill:#ffe8c8;fill-opacity:1;stroke:#3c352f;stroke-width:0;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;filter:url(#filter3647)"
+       id="rect3645"
+       width="650"
+       height="650"
+       x="-1307.8895"
+       y="-312.58453"
+       transform="matrix(0.86200892,-0.25580053,0.24782618,0.88974594,-120.28851,-32.970758)"
+       inkscape:export-filename="/home/jan/leganto-logo.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="font-size:medium;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;color:#000000;fill:#3c352f;fill-opacity:1;stroke:none;stroke-width:30;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Bitstream Vera Sans;-inkscape-font-specification:Bitstream Vera Sans"
+       d="m -786.09375,258.8125 c -2.84703,0.17754 -5.63715,1.18813 -7.9375,2.875 -210.42385,149.63159 -429.43755,143.6875 -429.43755,143.6875 l 4.5679,0 8.0829,30.15677 482.2555,-0.15682 c 3.96234,0.056 7.92271,-1.5354 10.74453,-4.3176 2.82182,-2.7822 4.4691,-6.71966 4.4691,-10.6824 0,-3.96274 -1.64728,-7.9002 -4.4691,-10.6824 -2.82182,-2.7822 -6.78219,-4.37364 -10.74453,-4.3176 l -299.0625,0 c 75.26626,-21.21579 163.78968,-57.22606 250.96875,-119.21875 2.68511,-1.841 4.74276,-4.58026 5.7629,-7.67192 1.02015,-3.09167 0.99682,-6.51759 -0.0653,-9.59507 -2.12434,-6.15496 -8.63699,-10.49101 -15.13505,-10.07676 l 0,5e-5 -5e-5,0 z"
+       id="path3678"
+       sodipodi:nodetypes="ccccccssscccssccc"
+       inkscape:export-filename="/home/jan/leganto-logo.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m -1211.1894,415.67947 0,0 z"
+       id="path5146"
+       inkscape:export-filename="/home/jan/leganto-logo.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="Layer">
+    <path
+       style="font-size:medium;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;color:#000000;fill:#3c352f;fill-opacity:1;stroke:none;stroke-width:30;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Bitstream Vera Sans;-inkscape-font-specification:Bitstream Vera Sans"
+       d="m -877.21875,159.90625 c -4.83627,0.21154 -9.49517,2.92722 -12.0625,7.03125 0,0 -139.86975,212.8514 -325.18755,238.1875 20.8609,17.26185 18.6442,14.96081 4.0626,29.71875 205.1478,-28.04722 346.3437,-251.65625 346.3437,-251.65625 3.04169,-4.58415 3.26691,-10.88493 0.56029,-15.67455 -2.70662,-4.78962 -8.22033,-7.84732 -13.71654,-7.6067 z"
+       id="path5150"
+       sodipodi:nodetypes="cccccsc"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"
+       inkscape:export-filename="/home/jan/leganto-logo.png" />
+    <path
+       style="font-size:medium;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;color:#000000;fill:#3c352f;fill-opacity:1;stroke:none;stroke-width:30;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Bitstream Vera Sans;-inkscape-font-specification:Bitstream Vera Sans"
+       d="m -1017.0312,79.65625 c -3.927,-0.04074 -7.8465,1.535254 -10.6522,4.283098 -2.8057,2.747844 -4.463,6.633704 -4.5041,10.560652 0,0 -1.7569,64.89517 -26.7813,136.65625 -25.0243,71.76108 -68.5084,146.92317 -159.1436,174.00567 19.3555,29.28177 38.0833,10.85115 9.3397,30.36985 102.7323,-30.69718 151.4104,-117.8273 178.1477,-194.50052 26.7373,-76.67322 28.4062,-145.78125 28.4062,-145.78125 0.1581,-3.993604 -1.3605,-8.027182 -4.1131,-10.924964 -2.7526,-2.897782 -6.7028,-4.621533 -10.6993,-4.668786 z"
+       id="path5150-0"
+       sodipodi:nodetypes="cscsccscsc"
+       inkscape:export-filename="/home/jan/leganto-logo.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+  </g>
+</svg>
