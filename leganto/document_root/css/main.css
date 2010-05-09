@@ -132,22 +132,23 @@ p {
 	vertical-align: middle;
 }
 #signup_button {
-	background-image: url(../img/main_signupbutton_default.gif);
+	background-image: url(../img/main_signupbutton.gif);
 }
 #signup_button:hover {
-	background-image: url(../img/main_signupbutton_hover.gif);
+	background-position: -101px;
+
 }
 #signup_button:active {
-	background-image: url(../img/main_signupbutton_active.gif);
+	background-position: -202px;
 }
 #login_button {
-	background-image:url(../img/main_loginbutton_default.gif);
+	background-image:url(../img/main_loginbutton.gif);
 }
 #login_button:hover {
-	background-image:url(../img/main_loginbutton_hover.gif);
+	background-position: -101px;
 }
 #login_button:active {
-	background-image:url(../img/main_loginbutton_active.gif);
+	background-position: -202px;
 }
 #feed {
 	margin: 10px auto;
@@ -352,26 +353,26 @@ p {
 }
 #sign [type="submit"] {
 	float: right;
-	margin: 0 40px 0 140px;
+	margin: 30px 40px 0 140px;
 	border: 0px;
 	width: 101px;
 	height: 26px;
 	color: #5B3E1E;
+	background: none;
 	font-family: Verdana, Geneva, sans-serif;
 	font-size: 15px;
 	font-weight: bolder;
 	line-height: 24px;
-	background-image: url(../img/main_signup_submit_default.gif);
-	background-color: #FEFCEB;
+	background-image: url(../img/main_submitbutton.gif);
 	position: relative;
 	bottom: 32px;
 	
 }
 #sign [type="submit"]:hover {
-	background-image: url(../img/main_signup_submit_hover.gif);
+	background-position: -101px;
 }
 #sign [type="submit"]:active {
-	background-image: url(../img/main_signup_submit_active.gif);
+	background-position: -202px;
 }
 #sign label {
 	float: left;
