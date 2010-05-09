@@ -16,7 +16,7 @@
    id="svg2"
    height="1052.3622047"
    width="744.09448819"
-   sodipodi:docname="leganto.svg">
+   sodipodi:docname="logo.svg">
   <defs
      id="defs3">
     <marker
@@ -135,8 +135,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.4020841"
-     inkscape:cx="-906.78574"
-     inkscape:cy="702.03928"
+     inkscape:cx="-1360.6709"
+     inkscape:cy="697.0652"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -177,7 +177,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -187,7 +187,7 @@
      id="layer1">
     <image
        sodipodi:absref="/home/jan/Dokumenty/inkscape_pasted_image_20100508_133902.png"
-       xlink:href="Dokumenty/inkscape_pasted_image_20100508_133902.png"
+       xlink:href="/home/jan/Dokumenty/inkscape_pasted_image_20100508_133902.png"
        inkscape:export-ydpi="90"
        inkscape:export-xdpi="90"
        inkscape:export-filename="/home/jan/path5150-1.png"
@@ -197,7 +197,7 @@
        height="1152.1969"
        width="2195.738" />
     <rect
-       style="fill:#ffe8c8;fill-opacity:1;stroke:#3c352f;stroke-width:0;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;filter:url(#filter3647)"
+       style="fill:#f5d25a;fill-opacity:1;stroke:#3c352f;stroke-width:0;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;filter:url(#filter3647)"
        id="rect3645"
        width="650"
        height="650"

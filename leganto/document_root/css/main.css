@@ -45,9 +45,27 @@ p {
 }
 #logo {
 	height: 80px;
-	width: 300px;
+	width: 450px;
 	float: left;
 	margin: 5px 0;
+}
+#logo #logo_image {
+	margin-top: 13px;
+	float: left;
+}
+#logo h1 {
+	margin-top: 0px;
+	margin-left: 20px;
+	float: left;
+	color: #f5d25a;
+}
+#logo .motto {
+	font-weight: bold;
+	font-style: italic;
+	color: white;
+	float: left;
+	margin-top: 42px;
+	margin-left: 20px;
 }
 #navbar {
 	height: 34px;
