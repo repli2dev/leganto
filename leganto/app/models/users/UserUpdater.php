@@ -34,7 +34,9 @@ class UserUpdater implements IUpdater {
 				"new_pass_key" => $hash,
 				"new_pass_time" => new DateTime()
 			)
-		)->execute();
+		)
+			->where("id_user = %i",$entity->id)
+			->execute();
 		return $hash;
 	}
 
@@ -49,7 +51,9 @@ class UserUpdater implements IUpdater {
 						"new_pass_time" => "",
 						"password" => UserAuthenticator::passwordHash($newPassword)
 					)
-				)->execute();
+				)
+					->where("id_user = %i",$entity->id)
+					->execute();
 				return $newPassword;
 			} else {
 				throw new InvalidStateException("The hash is wrong.",self::ERROR_WRONG_HASH);
