@@ -37,6 +37,16 @@ class UserSelector implements ISelector
 		return dibi::dataSource("SELECT * FROM [view_similar_user] WHERE [id_user_from] = %i", $user->getId());
 	}
 
+	public function findByEmail($email){
+		if(empty($email)) {
+			throw new NullPointerException("email");
+		}
+		return Leganto::users()
+			->fetchAndCreate(
+				dibi::dataSource("SELECT * FROM [user] WHERE [email] = %s",$email)
+			);
+	}
+
 	/** @return UserEntity */
 	public function find($id) {
 		return Leganto::users()

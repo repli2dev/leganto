@@ -10,6 +10,8 @@ chmod 666 './leganto/app/temp/c-Nette.Template/_be0dc92cedd77c505ed0a42c6196b169
 chmod 666 './leganto/app/temp/c-Nette.Template/_b76da72114a0b0833b0364e7452573cd.posts.phtml.php'
 chmod 666 './leganto/app/temp/c-Nette.Template/_b8fd182fc9ff039e9cbfe0fea0105be3.topicList.phtml.php'
 chmod 666 './leganto/app/temp/c-Nette.Template/_d9b92aea2f7a028b6b5db53614ec9129.visualPaginator.phtml.php'
+chmod 666 './leganto/app/temp/c-Nette.Template/_f567f62c8aa5b2e6b9bd98cca367cdd6.renewPassword.phtml.php'
+chmod 666 './leganto/app/temp/c-Nette.Template/_f83116fb41c9aba99f2fe90949221a8b.forgottenPassword.phtml.php'
 chmod 666 './leganto/app/temp/c-Nette.Template/_f9554d91daa91a078e3420fe62de0f44.layout.phtml.php'
 chmod 666 './leganto/app/temp/c-Nette.Template/_0be5bb6c8a26581ecfc39f0b5d749c8b.submenu.phtml.php'
 chmod 666 './leganto/app/temp/c-Nette.Template/_0dcef4964fdecfe3572d46d1f34c8649.search.phtml.php'

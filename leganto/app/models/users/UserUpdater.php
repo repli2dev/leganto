@@ -45,8 +45,8 @@ class UserUpdater implements IUpdater {
 				$newPassword = ExtraString::random(10);
 				dibi::update("user",
 					array(
-						"new_pass_key" => array("sql", "NULL"),
-						"new_pass_time" => array("sql", "NULL"),
+						"new_pass_key" => "NULL",
+						"new_pass_time" => "",
 						"password" => UserAuthenticator::passwordHash($newPassword)
 					)
 				)->execute();

@@ -59,8 +59,8 @@ class IntroductionComponent extends BaseComponent {
 			case "twitter":
 				$template = $this->loadTwitterTemplate();
 				break;
-			case "forgot":
-				$template = $this->loadForgotTemplate();
+			case "forgotten":
+				$template = $this->loadForgottenTemplate();
 				break;
 			case "renew":
 				$template = $this->loadRenewTemplate();
@@ -102,9 +102,9 @@ class IntroductionComponent extends BaseComponent {
 		return $template;
 	}
 
-	public function loadForgotTemplate() {
+	public function loadForgottenTemplate() {
 		$template			= $this->getTemplate();
-		$template->state	= "forgot";
+		$template->state	= "forgotten";
 		return $template;
 	}
 	public function loadRenewTemplate() {
@@ -183,7 +183,7 @@ class IntroductionComponent extends BaseComponent {
 			$mail = new Mail();
 			$mail->addTo($user->email);
 			$mail->setFrom(Environment::getConfig("mail")->info, Environment::getConfig("mail")->name);
-			$mail->setSubject(System::translate("Leganto: Thanks for your registration."));
+			$mail->setSubject(System::translate("Leganto: thanks for your registration"));
 			$mail->setBody($template);
 			$mail->send();
 
@@ -302,7 +302,7 @@ class IntroductionComponent extends BaseComponent {
 	}
 
 	/*
-	 * This handler take care of choosing screen of twitter login
+	 * This handler take care of choosing screen of facebook login
 	 */
 	public function loginFacebookFormSubmitted(Form $form) {
 		$values = $form->getValues();
@@ -353,12 +353,12 @@ class IntroductionComponent extends BaseComponent {
 			case "signup":
 			case "facebook":
 			case "twitter":
-			case "forgot":
+			case "forgotten":
 			case "renew":
 				$this->state = $state;
 				break;
 			default:
-				throw new InvalidArgumentException("The state can be only default, login, facebook, twitter, signup, forgot or renew");
+				throw new InvalidArgumentException("The state can be only default, login, facebook, twitter, signup, forgotten or renew");
 		}
 		$this->invalidateControl("introduction-block");
 	}
@@ -436,6 +436,99 @@ class IntroductionComponent extends BaseComponent {
 			$this->flashMessage(System::translate("Account with same nickname is already registered."));
 		}
 
+	}
+	protected function createComponentForgottenForm($name) {
+		$form = new BaseForm;
+		$form->getElementPrototype()->setId("sign");
+		$form->addGroup("Forgotten password");
+		$form->addText("email", "Email")
+			->addRule(Form::EMAIL,"Please fill correct email.")
+			->addRule(Form::FILLED,"Please fill the email.");
+		$form->addSubmit("submitted", "Proceed");
+		$form->onSubmit[] = array($this, "forgottenFormSubmitted");
+		return $form;
+	}
+
+	protected function createComponentRenewForm($name) {
+		$form = new BaseForm;
+		$form->getElementPrototype()->setId("sign");
+		$form->addGroup("Renew password");
+		$form->addText("email", "Email")
+			->addRule(Form::EMAIL,"Please fill correct email.")
+			->addRule(Form::FILLED,"Please fill the email.");
+		$form->addText("hash", "Code")
+			->addRule(Form::FILLED,"Please fill correct code.");
+		$form->addSubmit("submitted", "Finish");
+		$form->onSubmit[] = array($this, "renewFormSubmitted");
+		return $form;
+	}
+
+	public function forgottenFormSubmitted(Form $form) {
+		$values = $form->getValues();
+
+		// Look for user
+		$user = Leganto::users()->getSelector()->findByEmail($values["email"]);
+		if($user != NULL){
+			$hash = Leganto::users()->getUpdater()->generateHashForNewPassword($user);
+			// Prepare mail template
+			$template = LegantoTemplate::loadTemplate(new Template());
+			$template->setFile(WebModule::getModuleDir() . "/templates/mails/forgottenPassword.phtml");
+			$template->hash = $hash;
+			// Send mail with new pass key
+			$mail = new Mail();
+			$mail->addTo($user->email);
+			$mail->setFrom(Environment::getConfig("mail")->info, Environment::getConfig("mail")->name);
+			$mail->setSubject(System::translate("Leganto: request for new password"));
+			$mail->setBody($template);
+			$mail->send();
+			// Presmerovat na renew
+			$this->flashMessage(System::translate("The code was sent to account email address."));
+			$this->state = "renew";
+			$this->invalidateControl();
+			
+		} else {
+			$form->addError("User with this email address do not exists. Please check for mistakes.");
+		}
+	}
+	
+	public function renewFormSubmitted(Form $form) {
+		$values = $form->getValues();
+
+		// Look for user
+		$user = Leganto::users()->getSelector()->findByEmail($values["email"]);
+		if($user != NULL){
+			try {
+				$password = Leganto::users()->getUpdater()->confirmNewPassword($user,$values["hash"]);
+				// Prepare mail template
+				$template = LegantoTemplate::loadTemplate(new Template());
+				$template->setFile(WebModule::getModuleDir() . "/templates/mails/renewPassword.phtml");
+				$template->nickname = $user->nickname;
+				$template->password = $password;
+				// Send mail with new pass key
+				$mail = new Mail();
+				$mail->addTo($user->email);
+				$mail->setFrom(Environment::getConfig("mail")->info, Environment::getConfig("mail")->name);
+				$mail->setSubject(System::translate("Leganto: new password"));
+				$mail->setBody($template);
+				$mail->send();
+				// Presmerovat na login
+				$this->flashMessage(System::translate("Your new password was sent to account email address."));
+				$this->state = "login";
+				$this->invalidateControl();
+			}
+			catch (InvalidStateException $e) {
+				switch ($e->getCode()) {
+					case UserUpdater::ERROR_OLD_HASH:
+						$form->addError("The code is too old. You can try a new request.");
+						break;
+					case UserUpdater::ERROR_WRONG_HASH:
+						$form->addError("The code is wrong. Have you typed it correctly?");
+						break;
+				}
+			}
+		} else {
+			$form->addError("User with this email address do not exists. Please check for mistakes.");
+		}
 	}
 }
 

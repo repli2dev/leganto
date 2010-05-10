@@ -9,6 +9,13 @@
 	</div>
 	@{else}
 		@{if $state == "login"}
+			{if $flashes}
+			<ul>
+				{foreach $flashes as $flash}
+					<li>{$flash->message}</li>
+				{/foreach}
+			</ul>
+			{/if}
 			@{widget "loginForm"}
 		@{/if}
 		@{if $state == "facebook"}
@@ -52,11 +59,18 @@
 		@{if $state == "signup"}
 			@{widget "signUpForm"}
 		@{/if}
-		@{if $state == "forgot"}
-			{_"Not implemented yet."}
+		@{if $state == "forgotten"}
+			@{widget "forgottenForm"}
 		@{/if}
 		@{if $state == "renew"}
-			{_"Not implemented yet."}
+			{if $flashes}
+			<ul>
+				{foreach $flashes as $flash}
+					<li>{$flash->message}</li>
+				{/foreach}
+			</ul>
+			{/if}
+			@{widget "renewForm"}
 		@{/if}
 	@{/if}
 
@@ -72,6 +86,6 @@
 		<hr />
 		    <a href="{link changeState, 'facebook'}">{_'Login with Facebook'}</a> |
 		    <a href="{link changeState, 'twitter'}">{_'Login with Twitter'}</a> | 
-		    <a href="{link changeState, 'forgot'}" class="ajax">{_'I forgot password'}</a>
+		    <a href="{link changeState, 'forgotten'}" class="ajax">{_'Forgotten password'}</a>
 	@{/if}
 {/snippet}
