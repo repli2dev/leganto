@@ -9,9 +9,9 @@
 		</ul>
 		{if $user != NULL}
 			<div id="user">
-				<a href="#"><img class="avatar_icon" src="/img/avatar_tryout.gif" /><span>{$user->nickname}</span></a>
+				<a href="/"><img class="avatar_icon" src="/img/avatar_tryout.gif" /><span>{$user->nickname}</span></a>
 				<span>I</span>
-				<a href="#" title="Settings"><img src="/img/ico/settings.png" /><span>{_'Settings'}</span></a>
+				<a href="{plink Settings:}" title="Settings"><img src="/img/ico/settings.png" /><span>{_'Settings'}</span></a>
 				<a class="logout" href="{link logout}" title="{_'Log out'}"><img src="/img/ico/logout.png" /></a>
 			</div>
 		{/if}
