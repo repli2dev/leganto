@@ -258,6 +258,7 @@ class Import extends EskymoObject
 				"password"		=> $row["password"],
 				"id_user"		=> $row["id"],
 				"nick"			=> utf8_decode($row["name"]),	// FIXME
+				"last_logged"		=> $row["login"],
 				"inserted"		=> new DibiVariable("now()", "sql")
 			))->execute();
 
