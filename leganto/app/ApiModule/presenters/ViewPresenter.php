@@ -301,7 +301,7 @@ class Api_ViewPresenter extends Api_BasePresenter
 			$authors = $rows->where("[id_book_title] IN %l", array_keys($books))->fetchAssoc("id_book_title,id_author");
 			$this->getTemplate()->books = array();
 			foreach($books as $book){
-				$entity = Leganto::books()->createEmpty()->loadDataFromArray($book->getArrayCopy());
+				$entity = Leganto::books()->createEmpty()->loadDataFromArray($book->toArray());
 				$this->getTemplate()->books[] = $entity;
 			}
 			
@@ -309,7 +309,7 @@ class Api_ViewPresenter extends Api_BasePresenter
 			foreach($authors as $bookTitleId => $authorGroup){
 				$this->getTemplate()->authors[$bookTitleId] = array();
 				foreach ($authorGroup AS $author) {
-					$entity = Leganto::authors()->createEmpty()->loadDataFromArray($author->getArrayCopy());
+					$entity = Leganto::authors()->createEmpty()->loadDataFromArray($author->toArray());
 					$this->getTemplate()->authors[$bookTitleId][] = $entity;
 				}
 				

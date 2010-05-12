@@ -37,7 +37,7 @@ class BookListComponent extends BaseListComponent
 	$storage = new EditionImageStorage();
 	foreach($books as $book) {
 	    // Book
-	    $entity = Leganto::books()->createEmpty()->loadDataFromArray($book->getArrayCopy(), "Load");
+	    $entity = Leganto::books()->createEmpty()->loadDataFromArray($book->toArray(), "Load");
 	    $this->getTemplate()->books[] = $entity;
 	    // Cover
 	    $image = $storage->getRandomFileByBook($entity);
@@ -47,7 +47,7 @@ class BookListComponent extends BaseListComponent
 	foreach($authors as $bookId => $authorGroup) {
 	    $this->getTemplate()->authors[$bookId] = array();
 	    foreach ($authorGroup AS $author) {
-		$entity = Leganto::authors()->createEmpty()->loadDataFromArray($author->getArrayCopy(), "Load");
+		$entity = Leganto::authors()->createEmpty()->loadDataFromArray($author->toArray(), "Load");
 		$this->getTemplate()->authors[$bookId][] = $entity;
 	    }
 	}
