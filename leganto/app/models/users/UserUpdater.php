@@ -47,8 +47,8 @@ class UserUpdater implements IUpdater {
 				$newPassword = ExtraString::random(10);
 				dibi::update("user",
 					array(
-						"new_pass_key" => "NULL",
-						"new_pass_time" => "",
+						"new_pass_key" => "",
+						"new_pass_time" => "NULL",
 						"password" => UserAuthenticator::passwordHash($newPassword)
 					)
 				)
@@ -61,6 +61,29 @@ class UserUpdater implements IUpdater {
 		} else {
 			throw new InvalidStateException("The hash is too old.",self::ERROR_OLD_HASH);
 		}
+	}
+
+	public function removePassCode(UserEntity $entity){
+		if($entity->new_pass_key){
+			dibi::update("user",
+				array(
+					'new_pass_key' => '',
+					'new_pass_time' => 'NULL'
+				)
+			)
+				->where("id_user = %i",$entity->id)
+				->execute();
+		}
+	}
+	public function removeOldPassCodes(){
+		dibi::update("user",
+			array(
+				'new_pass_key' => '',
+				'new_pass_time' => 'NULL'
+			)
+		)
+			->where("UNIX_TIMESTAMP(new_pass_time) < %i",time()-24*60*60)
+			->execute();
 	}
 }
 ?>

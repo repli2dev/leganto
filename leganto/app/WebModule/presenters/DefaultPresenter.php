@@ -52,6 +52,13 @@ class Web_DefaultPresenter extends Web_BasePresenter {
 	public function renderSearch($query, $book = TRUE) {
 	    $this->setPageTitle(System::translate("Search"));
 	    $source = Leganto::books()->getSelector()->search($query);
+	    // If there is only one result then redirect to it
+	    $count = $source->count();
+	    if($count == 1){
+		    $row = $source->fetch();
+
+		    $this->redirect('Book:Default',$row->id_book);
+	    }
 	    $this->getComponent("searchList")->setSource($source);
 	}
 

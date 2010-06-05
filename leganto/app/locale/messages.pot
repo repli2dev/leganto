@@ -1,7 +1,7 @@
 # Gettext keys exported by GettextExtractor
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2010-05-17T18:22:18+02:00\n"
+"POT-Creation-Date: 2010-06-05T20:07:37+02:00\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
@@ -17,13 +17,17 @@ msgstr ""
 msgid "%s has contributed to the discussion %s"
 msgstr ""
 
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:399
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:436
+# APP_DIR/WebModule/presenters/SettingsPresenter.php:40
+msgid "About"
+msgstr ""
+
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:167
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:204
 msgid "Account with same nickname is already registered."
 msgstr ""
 
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:173
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:206
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:496
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:529
 msgid "Account with same nickname or email is already registered."
 msgstr ""
 
@@ -36,15 +40,24 @@ msgstr ""
 msgid "All"
 msgstr ""
 
-# APP_DIR/WebModule/presenters/SettingsPresenter.php:24
+# APP_DIR/WebModule/presenters/SettingsPresenter.php:56
+# APP_DIR/WebModule/presenters/SettingsPresenter.php:57
+msgid "Avatar"
+msgstr ""
+
+# APP_DIR/WebModule/presenters/SettingsPresenter.php:27
 msgid "Basic information"
 msgstr ""
 
-# APP_DIR/WebModule/presenters/SettingsPresenter.php:28
+# APP_DIR/WebModule/presenters/SettingsPresenter.php:37
 msgid "Birth year"
 msgstr ""
 
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:459
+# APP_DIR/WebModule/presenters/SettingsPresenter.php:43
+msgid "Change password"
+msgstr ""
+
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:244
 # APP_DIR/WebModule/templates/mails/forgottenPassword.phtml:6
 msgid "Code"
 msgstr ""
@@ -52,6 +65,10 @@ msgstr ""
 # APP_DIR/WebModule/components/Introduction/introduction.phtml:32
 # APP_DIR/WebModule/components/Introduction/introduction.phtml:51
 msgid "Create new"
+msgstr ""
+
+# APP_DIR/WebModule/presenters/SettingsPresenter.php:44
+msgid "Current password"
 msgstr ""
 
 # APP_DIR/WebModule/components/Introduction/introduction.phtml:3
@@ -75,18 +92,26 @@ msgstr ""
 msgid "Do you have account?"
 msgstr ""
 
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:136
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:444
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:456
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:229
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:241
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:269
+# APP_DIR/WebModule/presenters/SettingsPresenter.php:30
 msgid "Email"
+msgstr ""
+
+# APP_DIR/WebModule/presenters/SettingsPresenter.php:35
+msgid "Extra information"
 msgstr ""
 
 # APP_DIR/WebModule/components/Introduction/introduction.phtml:35
 msgid "Facebook functions are not accessible right now. Please try it later."
 msgstr ""
 
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:461
-# APP_DIR/WebModule/presenters/SettingsPresenter.php:31
+# APP_DIR/WebModule/presenters/SettingsPresenter.php:59
+msgid "File must be an image."
+msgstr ""
+
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:246
 msgid "Finish"
 msgstr ""
 
@@ -99,7 +124,7 @@ msgstr ""
 msgid "For finishing your request you have to copy this code and paste it into page Renew password."
 msgstr ""
 
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:443
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:228
 # APP_DIR/WebModule/components/Introduction/introduction.phtml:88
 msgid "Forgotten password"
 msgstr ""
@@ -137,22 +162,22 @@ msgstr ""
 msgid "Leganto team"
 msgstr ""
 
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:511
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:346
 msgid "Leganto: new password"
 msgstr ""
 
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:481
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:316
 msgid "Leganto: request for new password"
 msgstr ""
 
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:186
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:509
 msgid "Leganto: thanks for your registration"
 msgstr ""
 
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:121
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:126
 # APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:220
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:236
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:254
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:259
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:294
 # APP_DIR/WebModule/components/Introduction/introduction.phtml:83
 msgid "Log in"
 msgstr ""
@@ -178,6 +203,14 @@ msgstr ""
 msgid "Main page"
 msgstr ""
 
+# APP_DIR/WebModule/presenters/SettingsPresenter.php:47
+msgid "New password"
+msgstr ""
+
+# APP_DIR/WebModule/presenters/SettingsPresenter.php:50
+msgid "New password again"
+msgstr ""
+
 # APP_DIR/WebModule/presenters/DefaultPresenter.php:29
 msgid "News"
 msgstr ""
@@ -187,13 +220,13 @@ msgstr ""
 msgid "Next"
 msgstr ""
 
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:122
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:139
 # APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:216
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:232
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:255
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:272
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:290
 # APP_DIR/WebModule/templates/mails/signUp.phtml:4
 # APP_DIR/WebModule/templates/mails/renewPassword.phtml:3
-# APP_DIR/WebModule/presenters/SettingsPresenter.php:25
+# APP_DIR/WebModule/presenters/SettingsPresenter.php:28
 msgid "Nickname"
 msgstr ""
 
@@ -218,63 +251,74 @@ msgstr ""
 msgid "Our motto, short, simple"
 msgstr ""
 
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:124
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:141
 # APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:218
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:234
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:257
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:274
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:292
 # APP_DIR/WebModule/templates/mails/signUp.phtml:5
 # APP_DIR/WebModule/templates/mails/renewPassword.phtml:4
 msgid "Password"
 msgstr ""
 
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:143
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:276
 msgid "Password again"
 msgstr ""
 
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:146
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:279
+# APP_DIR/WebModule/presenters/SettingsPresenter.php:54
 msgid "Passwords have to match!"
 msgstr ""
 
-# APP_DIR/WebModule/presenters/SettingsPresenter.php:30
-msgid "Please correct birth year."
+# APP_DIR/WebModule/presenters/SettingsPresenter.php:39
+msgid "Please correct birth year. Only allowed is integer."
 msgstr ""
 
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:460
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:245
 msgid "Please fill correct code."
 msgstr ""
 
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:137
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:445
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:457
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:230
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:242
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:270
+# APP_DIR/WebModule/presenters/SettingsPresenter.php:31
 msgid "Please fill correct email."
 msgstr ""
 
-# APP_DIR/WebModule/presenters/SettingsPresenter.php:26
-msgid "Please fill correct nickname."
+# APP_DIR/WebModule/presenters/SettingsPresenter.php:33
+msgid "Please fill email in right format someone@somewhere.tld."
 msgstr ""
 
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:138
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:446
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:458
+# APP_DIR/WebModule/presenters/SettingsPresenter.php:46
+msgid "Please fill in your current password"
+msgstr ""
+
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:231
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:243
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:271
 msgid "Please fill the email."
 msgstr ""
 
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:123
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:140
 # APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:217
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:233
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:256
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:273
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:291
 msgid "Please fill the nickname."
 msgstr ""
 
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:125
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:142
 # APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:219
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:235
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:258
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:275
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:293
 msgid "Please fill the password."
 msgstr ""
 
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:144
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:277
+# APP_DIR/WebModule/presenters/SettingsPresenter.php:52
 msgid "Please fill the second password for check."
+msgstr ""
+
+# APP_DIR/WebModule/presenters/SettingsPresenter.php:49
+msgid "Please fill your new password."
 msgstr ""
 
 # APP_DIR/WebModule/components/VisualPaginator/visualPaginator.phtml:38
@@ -282,16 +326,20 @@ msgstr ""
 msgid "Previous"
 msgstr ""
 
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:447
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:232
 msgid "Proceed"
 msgstr ""
 
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:147
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:280
 msgid "Register"
 msgstr ""
 
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:455
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:240
 msgid "Renew password"
+msgstr ""
+
+# APP_DIR/WebModule/presenters/SettingsPresenter.php:63
+msgid "Save"
 msgstr ""
 
 # APP_DIR/WebModule/presenters/DefaultPresenter.php:53
@@ -300,14 +348,15 @@ msgstr ""
 
 # APP_DIR/WebModule/components/Navigation/navigation.phtml:13
 # APP_DIR/WebModule/presenters/SettingsPresenter.php:19
+# APP_DIR/WebModule/presenters/SettingsPresenter.php:77
 msgid "Settings"
 msgstr ""
 
-# APP_DIR/WebModule/presenters/SettingsPresenter.php:27
+# APP_DIR/WebModule/presenters/SettingsPresenter.php:36
 msgid "Sex"
 msgstr ""
 
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:134
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:267
 msgid "Sign Up"
 msgstr ""
 
@@ -319,6 +368,11 @@ msgstr ""
 msgid "Similar books"
 msgstr ""
 
+# APP_DIR/WebModule/presenters/SettingsPresenter.php:22
+# APP_DIR/WebModule/presenters/SettingsPresenter.php:78
+msgid "Social networks"
+msgstr ""
+
 # APP_DIR/WebModule/templates/Default/feed.phtml:22
 msgid "Sorry"
 msgstr ""
@@ -328,26 +382,26 @@ msgstr ""
 msgid "Temporary Error"
 msgstr ""
 
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:203
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:526
 msgid "Thanks for your registration."
 msgstr ""
 
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:522
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:357
 msgid "The code is too old. You can try a new request."
 msgstr ""
 
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:525
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:360
 msgid "The code is wrong. Have you typed it correctly?"
 msgstr ""
 
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:485
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:320
 msgid "The code was sent to account email address."
 msgstr ""
 
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:199
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:253
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:272
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:317
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:382
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:427
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:470
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:522
 msgid "The password is wrong"
 msgstr ""
 
@@ -355,11 +409,11 @@ msgstr ""
 msgid "The search field has to be filled."
 msgstr ""
 
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:342
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:407
 msgid "This facebook account is already connected to an account."
 msgstr ""
 
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:297
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:452
 msgid "This twitter account is already connected to an account."
 msgstr ""
 
@@ -367,15 +421,15 @@ msgstr ""
 msgid "Twitter functions are not accessible right now. Please try it later."
 msgstr ""
 
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:196
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:250
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:269
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:314
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:379
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:424
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:467
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:519
 msgid "User not found"
 msgstr ""
 
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:490
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:530
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:325
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:365
 msgid "User with this email address do not exists. Please check for mistakes."
 msgstr ""
 
@@ -392,8 +446,16 @@ msgstr ""
 msgid "Your credentials used for login are:"
 msgstr ""
 
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:515
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:350
 msgid "Your new password was sent to account email address."
+msgstr ""
+
+# APP_DIR/WebModule/presenters/SettingsPresenter.php:99
+msgid "Your settings was left unchanged."
+msgstr ""
+
+# APP_DIR/WebModule/presenters/SettingsPresenter.php:97
+msgid "Your settings was saved."
 msgstr ""
 
 # APP_DIR/WebModule/components/Search/search.phtml:13

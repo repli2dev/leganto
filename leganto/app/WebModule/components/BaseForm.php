@@ -19,7 +19,8 @@
 class BaseForm extends AppForm
 {
 
-	public function  render() {
+	public function  __construct() {
+		parent::__construct();
 		// Do not use tables for forms any more
 		$renderer = $this->getRenderer();
 		$renderer->wrappers['controls']['container'] = NULL;
@@ -27,7 +28,6 @@ class BaseForm extends AppForm
 		$renderer->wrappers['label']['container'] = NULL;
 		$renderer->wrappers['control']['container'] = NULL;
 		$this->setTranslator(System::translator());
-		parent::render();
 	}
 
 }

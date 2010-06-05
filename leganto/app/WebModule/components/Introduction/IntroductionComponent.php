@@ -113,239 +113,7 @@ class IntroductionComponent extends BaseComponent {
 		return $template;
 	}
 
-	/** PROTECTED **/
-
-	protected function createComponentLoginForm($name) {
-		$form = new BaseForm;
-		$form->getElementPrototype()->setId("sign");
-		$form->addGroup("Log in");
-		$form->addText("nickname", "Nickname")
-			->addRule(Form::FILLED,"Please fill the nickname.");
-		$form->addPassword("password", "Password")
-			->addRule(Form::FILLED,"Please fill the password.");
-		$form->addSubmit("submitted", "Log in");
-		$form->onSubmit[] = array($this, "loginFormSubmitted");
-		return $form;
-	}
-
-	protected function createComponentSignUpForm($name) {
-		// Create form skeleton
-		$form = new BaseForm;
-		$form->addGroup("Sign Up");
-		$form->getElementPrototype()->setId("sign");
-		$form->addText("email", "Email")
-			->addRule(Form::EMAIL,"Please fill correct email.")
-			->addRule(Form::FILLED,"Please fill the email.");
-		$form->addText("nickname", "Nickname")
-			->addRule(Form::FILLED,"Please fill the nickname.");
-		$form->addPassword("password", "Password")
-			->addRule(Form::FILLED,"Please fill the password.");
-		$form->addPassword("password2", "Password again")
-			->addRule(Form::FILLED,"Please fill the second password for check.")
-			->addConditionOn($form["password"], Form::FILLED)
-				->addRule(Form::EQUAL, "Passwords have to match!", $form["password"]);
-		$form->addSubmit("submitted", "Register");
-		$form->onSubmit[] = array($this, "signUpFormSubmitted");
-		return $form;
-	}
-
-	public function signUpFormSubmitted(Form $form) {
-		$values = $form->getValues();
-
-		// Create entity and fill it with user data
-		$user = Leganto::users()->createEmpty();
-		$user->nickname = $values["nickname"];
-		$user->email = $values["email"];
-		$user->password = UserAuthenticator::passwordHash($values["password"]);
-
-		// Add system data
-		$user->role = "common";
-		$user->idLanguage = System::domain()->idLanguage;
-		$user->inserted = new DateTime();
-
-		// Commit & postSignUp
-		// FIXME: hack kvuli tomu ze nick neni v databazi nastaven jako unique (-> je mozne nekomu ukradnout identitu)
-		$nickExists = dibi::dataSource("SELECT * FROM [user] WHERE [nick] = %s",$values["nickname"])->count();
-		if($nickExists == 0) {
-			$user = Leganto::users()->getInserter()->insert($user);
-		} else {
-			$user = -1;
-			$form->addError("Account with same nickname or email is already registered.");
-		}
-		if($user != -1) {
-			$user = Leganto::users()->getSelector()->find($user);
-
-			$template = LegantoTemplate::loadTemplate(new Template());
-			$template->setFile(WebModule::getModuleDir() . "/templates/mails/signUp.phtml");
-			$template->nickname = $values["nickname"];
-			$template->password = $values["password"];
-
-			$mail = new Mail();
-			$mail->addTo($user->email);
-			$mail->setFrom(Environment::getConfig("mail")->info, Environment::getConfig("mail")->name);
-			$mail->setSubject(System::translate("Leganto: thanks for your registration"));
-			$mail->setBody($template);
-			$mail->send();
-
-			// Authentiticate at last
-			try {
-				Environment::getUser()->authenticate($values['nickname'],$values['password']);
-			} catch (AuthenticationException $e) {
-				switch ($e->getCode()) {
-					case IAuthenticator::IDENTITY_NOT_FOUND:
-						$form->addError("User not found");
-						break;
-					case IAuthenticator::INVALID_CREDENTIAL:
-						$form->addError("The password is wrong");
-						break;
-				}
-			}
-			$this->getPresenter()->flashMessage(System::translate("Thanks for your registration."));
-			$this->getPresenter()->redirect("this");
-		} else {
-			$form->addError("Account with same nickname or email is already registered.");
-		}
-	}
-
-	protected function createComponentTwitterForm($name) {
-		$form = new BaseForm();
-		if($this->twitter->isLogged() == true){
-			// Continue with connecting accounts - show user the options -> form
-			// login part of form
-			$group = $form->addGroup();
-			$form->addText("nickname", "Nickname")
-				->addRule(Form::FILLED,"Please fill the nickname.");
-			$form->addPassword("password", "Password")
-				->addRule(Form::FILLED,"Please fill the password.");
-			$form->addSubmit("submitted", "Log in");
-			$form->onSubmit[] = array($this, "loginTwitterFormSubmitted");
-		}
-		return $form;
-	}
-
-	protected function createComponentFacebookForm($name) {
-		$form = new BaseForm();
-		if($this->facebook->isLogged() == true){
-			// Continue with connecting accounts - show user the options -> form
-			// login part of form
-			$group = $form->addGroup();
-			$form->addText("nickname", "Nickname")
-				->addRule(Form::FILLED,"Please fill the nickname.");
-			$form->addPassword("password", "Password")
-				->addRule(Form::FILLED,"Please fill the password.");
-			$form->addSubmit("submitted", "Log in");
-			$form->onSubmit[] = array($this, "loginFacebookFormSubmitted");
-		}
-		return $form;
-	}
-
-	/** HANDLERS **/
-	public function loginFormSubmitted(Form $form) {
-		$values = $form->getValues();
-		try {
-			Environment::getUser()->authenticate($values['nickname'],$values['password']);
-		} catch (AuthenticationException $e) {
-			switch ($e->getCode()) {
-				case IAuthenticator::IDENTITY_NOT_FOUND:
-					$form->addError("User not found");
-					break;
-				case IAuthenticator::INVALID_CREDENTIAL:
-					$form->addError("The password is wrong");
-					break;
-			}
-		}
-	}
-
-	/*
-	 * This handler take care of choosing screen of twitter login
-	 */
-	public function loginTwitterFormSubmitted(Form $form) {
-		$values = $form->getValues();
-		try {
-			Environment::getUser()->authenticate($values['nickname'],$values['password']);
-		} catch (AuthenticationException $e) {
-			switch ($e->getCode()) {
-				case IAuthenticator::IDENTITY_NOT_FOUND:
-					$form->addError("User not found");
-					break;
-				case IAuthenticator::INVALID_CREDENTIAL:
-					$form->addError("The password is wrong");
-					break;
-			}
-		}
-		// If user was successfully logged and there were found data in session (namespace twitter) -> add connection
-		$user = Environment::getUser()->getIdentity();
-		if($user != NULL){
-			$this->twitter = new TwitterBridge;
-			$twitterToken = $this->twitter->getToken();
-			if(!empty($twitterToken)){
-				$exists = Leganto::connections()->getSelector()->exists($user->id,'twitter');
-				if(!$exists){
-					// Prepare user connection entity
-					$connection = Leganto::connections()->createEmpty();
-					$connection->user = $user->id;
-					$connection->type = 'twitter';
-					$connection->token = $twitterToken;
-
-					// Commit
-					Leganto::connections()->getInserter()->insert($connection);
-
-					// Now it is safe to delete twitter data in session
-					$this->twitter->destroyLoginData();
-				} else {
-					// This twitter id is already connected to some account
-					$form->addError("This twitter account is already connected to an account.");
-				}
-			}
-		}
-		
-	}
-
-	/*
-	 * This handler take care of choosing screen of facebook login
-	 */
-	public function loginFacebookFormSubmitted(Form $form) {
-		$values = $form->getValues();
-		try {
-			Environment::getUser()->authenticate($values['nickname'],$values['password']);
-		} catch (AuthenticationException $e) {
-			switch ($e->getCode()) {
-				case IAuthenticator::IDENTITY_NOT_FOUND:
-					$form->addError("User not found");
-					break;
-				case IAuthenticator::INVALID_CREDENTIAL:
-					$form->addError("The password is wrong");
-					break;
-			}
-		}
-		// If user was successfully logged and there were found data in session (namespace facebook) -> add connection
-		$user = Environment::getUser()->getIdentity();
-		if($user != NULL){
-			$this->twitter = new FacebookBridge;
-			$facebookToken = $this->twitter->getToken();
-			if(!empty($facebookToken)){
-				$exists = Leganto::connections()->getSelector()->exists($user->id,'facebook');
-				if(!$exists){
-					// Prepare user connection entity
-					$connection = Leganto::connections()->createEmpty();
-					$connection->user = $user->id;
-					$connection->type = 'facebook';
-					$connection->token = $facebookToken;
-
-					// Commit
-					Leganto::connections()->getInserter()->insert($connection);
-
-					// Now it is safe to delete facebook data in session
-					$this->facebook->destroyLoginData();
-				} else {
-					// This twitter id is already connected to some account
-					$form->addError("This facebook account is already connected to an account.");
-				}
-			}
-		}
-
-	}
-
+	/* HANDLERS */
 	public function handleChangeState($state) {
 		switch($state) {
 			case "default":
@@ -437,6 +205,23 @@ class IntroductionComponent extends BaseComponent {
 		}
 
 	}
+
+	/* COMPONENTS - FACTORY */
+	protected function createComponentTwitterForm($name) {
+		$form = new BaseForm();
+		if($this->twitter->isLogged() == true){
+			// Continue with connecting accounts - show user the options -> form
+			// login part of form
+			$group = $form->addGroup();
+			$form->addText("nickname", "Nickname")
+				->addRule(Form::FILLED,"Please fill the nickname.");
+			$form->addPassword("password", "Password")
+				->addRule(Form::FILLED,"Please fill the password.");
+			$form->addSubmit("submitted", "Log in");
+			$form->onSubmit[] = array($this, "loginTwitterFormSubmitted");
+		}
+		return $form;
+	}
 	protected function createComponentForgottenForm($name) {
 		$form = new BaseForm;
 		$form->getElementPrototype()->setId("sign");
@@ -463,6 +248,56 @@ class IntroductionComponent extends BaseComponent {
 		return $form;
 	}
 
+	protected function createComponentLoginForm($name) {
+		$form = new BaseForm;
+		$form->getElementPrototype()->setId("sign");
+		$form->addGroup("Log in");
+		$form->addText("nickname", "Nickname")
+			->addRule(Form::FILLED,"Please fill the nickname.");
+		$form->addPassword("password", "Password")
+			->addRule(Form::FILLED,"Please fill the password.");
+		$form->addSubmit("submitted", "Log in");
+		$form->onSubmit[] = array($this, "loginFormSubmitted");
+		return $form;
+	}
+
+	protected function createComponentSignUpForm($name) {
+		// Create form skeleton
+		$form = new BaseForm;
+		$form->addGroup("Sign Up");
+		$form->getElementPrototype()->setId("sign");
+		$form->addText("email", "Email")
+			->addRule(Form::EMAIL,"Please fill correct email.")
+			->addRule(Form::FILLED,"Please fill the email.");
+		$form->addText("nickname", "Nickname")
+			->addRule(Form::FILLED,"Please fill the nickname.");
+		$form->addPassword("password", "Password")
+			->addRule(Form::FILLED,"Please fill the password.");
+		$form->addPassword("password2", "Password again")
+			->addRule(Form::FILLED,"Please fill the second password for check.")
+			->addConditionOn($form["password"], Form::FILLED)
+				->addRule(Form::EQUAL, "Passwords have to match!", $form["password"]);
+		$form->addSubmit("submitted", "Register");
+		$form->onSubmit[] = array($this, "signUpFormSubmitted");
+		return $form;
+	}
+	protected function createComponentFacebookForm($name) {
+		$form = new BaseForm();
+		if($this->facebook->isLogged() == true){
+			// Continue with connecting accounts - show user the options -> form
+			// login part of form
+			$group = $form->addGroup();
+			$form->addText("nickname", "Nickname")
+				->addRule(Form::FILLED,"Please fill the nickname.");
+			$form->addPassword("password", "Password")
+				->addRule(Form::FILLED,"Please fill the password.");
+			$form->addSubmit("submitted", "Log in");
+			$form->onSubmit[] = array($this, "loginFacebookFormSubmitted");
+		}
+		return $form;
+	}
+
+	/* FORM SIGNALS */
 	public function forgottenFormSubmitted(Form $form) {
 		$values = $form->getValues();
 
@@ -485,12 +320,12 @@ class IntroductionComponent extends BaseComponent {
 			$this->flashMessage(System::translate("The code was sent to account email address."));
 			$this->state = "renew";
 			$this->invalidateControl();
-			
+
 		} else {
 			$form->addError("User with this email address do not exists. Please check for mistakes.");
 		}
 	}
-	
+
 	public function renewFormSubmitted(Form $form) {
 		$values = $form->getValues();
 
@@ -528,6 +363,170 @@ class IntroductionComponent extends BaseComponent {
 			}
 		} else {
 			$form->addError("User with this email address do not exists. Please check for mistakes.");
+		}
+	}
+	/*
+	 * This handler take care of choosing screen of facebook login
+	 */
+	public function loginFacebookFormSubmitted(Form $form) {
+		$values = $form->getValues();
+		try {
+			Environment::getUser()->authenticate($values['nickname'],$values['password']);
+			Leganto::users()->getUpdater()->removePassCode(System::user());
+		} catch (AuthenticationException $e) {
+			switch ($e->getCode()) {
+				case IAuthenticator::IDENTITY_NOT_FOUND:
+					$form->addError("User not found");
+					break;
+				case IAuthenticator::INVALID_CREDENTIAL:
+					$form->addError("The password is wrong");
+					break;
+			}
+		}
+		// If user was successfully logged and there were found data in session (namespace facebook) -> add connection
+		$user = Environment::getUser()->getIdentity();
+		if($user != NULL){
+			$this->twitter = new FacebookBridge;
+			$facebookToken = $this->twitter->getToken();
+			if(!empty($facebookToken)){
+				$exists = Leganto::connections()->getSelector()->exists($user->id,'facebook');
+				if(!$exists){
+					// Prepare user connection entity
+					$connection = Leganto::connections()->createEmpty();
+					$connection->user = $user->id;
+					$connection->type = 'facebook';
+					$connection->token = $facebookToken;
+
+					// Commit
+					Leganto::connections()->getInserter()->insert($connection);
+
+					// Now it is safe to delete facebook data in session
+					$this->facebook->destroyLoginData();
+				} else {
+					// This twitter id is already connected to some account
+					$form->addError("This facebook account is already connected to an account.");
+				}
+			}
+		}
+
+	}
+	/*
+	 * This handler take care of choosing screen of twitter login
+	 */
+	public function loginTwitterFormSubmitted(Form $form) {
+		$values = $form->getValues();
+		try {
+			Environment::getUser()->authenticate($values['nickname'],$values['password']);
+			Leganto::users()->getUpdater()->removePassCode(System::user());
+		} catch (AuthenticationException $e) {
+			switch ($e->getCode()) {
+				case IAuthenticator::IDENTITY_NOT_FOUND:
+					$form->addError("User not found");
+					break;
+				case IAuthenticator::INVALID_CREDENTIAL:
+					$form->addError("The password is wrong");
+					break;
+			}
+		}
+		// If user was successfully logged and there were found data in session (namespace twitter) -> add connection
+		$user = Environment::getUser()->getIdentity();
+		if($user != NULL){
+			$this->twitter = new TwitterBridge;
+			$twitterToken = $this->twitter->getToken();
+			if(!empty($twitterToken)){
+				$exists = Leganto::connections()->getSelector()->exists($user->id,'twitter');
+				if(!$exists){
+					// Prepare user connection entity
+					$connection = Leganto::connections()->createEmpty();
+					$connection->user = $user->id;
+					$connection->type = 'twitter';
+					$connection->token = $twitterToken;
+
+					// Commit
+					Leganto::connections()->getInserter()->insert($connection);
+
+					// Now it is safe to delete twitter data in session
+					$this->twitter->destroyLoginData();
+				} else {
+					// This twitter id is already connected to some account
+					$form->addError("This twitter account is already connected to an account.");
+				}
+			}
+		}
+
+	}
+
+	public function loginFormSubmitted(Form $form) {
+		$values = $form->getValues();
+		try {
+			Environment::getUser()->authenticate($values['nickname'],$values['password']);
+			Leganto::users()->getUpdater()->removePassCode(System::user());
+		} catch (AuthenticationException $e) {
+			switch ($e->getCode()) {
+				case IAuthenticator::IDENTITY_NOT_FOUND:
+					$form->addError("User not found");
+					break;
+				case IAuthenticator::INVALID_CREDENTIAL:
+					$form->addError("The password is wrong");
+					break;
+			}
+		}
+	}
+	public function signUpFormSubmitted(Form $form) {
+		$values = $form->getValues();
+
+		// Create entity and fill it with user data
+		$user = Leganto::users()->createEmpty();
+		$user->nickname = $values["nickname"];
+		$user->email = $values["email"];
+		$user->password = UserAuthenticator::passwordHash($values["password"]);
+
+		// Add system data
+		$user->role = "common";
+		$user->idLanguage = System::domain()->idLanguage;
+		$user->inserted = new DateTime();
+
+		// Commit & postSignUp
+		// FIXME: hack kvuli tomu ze nick neni v databazi nastaven jako unique (-> je mozne nekomu ukradnout identitu)
+		$nickExists = dibi::dataSource("SELECT * FROM [user] WHERE [nick] = %s",$values["nickname"])->count();
+		if($nickExists == 0) {
+			$user = Leganto::users()->getInserter()->insert($user);
+		} else {
+			$user = -1;
+			$form->addError("Account with same nickname or email is already registered.");
+		}
+		if($user != -1) {
+			$user = Leganto::users()->getSelector()->find($user);
+
+			$template = LegantoTemplate::loadTemplate(new Template());
+			$template->setFile(WebModule::getModuleDir() . "/templates/mails/signUp.phtml");
+			$template->nickname = $values["nickname"];
+			$template->password = $values["password"];
+
+			$mail = new Mail();
+			$mail->addTo($user->email);
+			$mail->setFrom(Environment::getConfig("mail")->info, Environment::getConfig("mail")->name);
+			$mail->setSubject(System::translate("Leganto: thanks for your registration"));
+			$mail->setBody($template);
+			$mail->send();
+
+			// Authentiticate at last
+			try {
+				Environment::getUser()->authenticate($values['nickname'],$values['password']);
+			} catch (AuthenticationException $e) {
+				switch ($e->getCode()) {
+					case IAuthenticator::IDENTITY_NOT_FOUND:
+						$form->addError("User not found");
+						break;
+					case IAuthenticator::INVALID_CREDENTIAL:
+						$form->addError("The password is wrong");
+						break;
+				}
+			}
+			$this->getPresenter()->flashMessage(System::translate("Thanks for your registration."));
+			$this->getPresenter()->redirect("this");
+		} else {
+			$form->addError("Account with same nickname or email is already registered.");
 		}
 	}
 }

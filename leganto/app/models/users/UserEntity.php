@@ -54,6 +54,10 @@ class UserEntity extends AEntity
 	 * @Form(withResource=password, withoutResource=password)
 	 */
 	protected $password;
+
+	protected $new_pass_key;
+
+	protected $about;
 	
 	/**
 	 * @Skip(Form)
