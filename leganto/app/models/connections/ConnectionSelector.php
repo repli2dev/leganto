@@ -23,9 +23,17 @@ class ConnectionSelector implements ISelector {
 		return dibi::dataSource("SELECT * FROM [connection]");
 	}
 
+	/** @return DataSource */
+	public function findAllFromUser($user){
+		if(empty($user)){
+			throw new NullPointerException("user");
+		}
+		return $this->findAll()->where('id_user = %i', $user);
+	}
+
 	/** @return UserConnectionsEntity */
 	public function find($id) {
-		return Leganto::connection()
+		return Leganto::connections()
 			->fetchAndCreate(
 			dibi::dataSource("SELECT * FROM [connection] WHERE [id_connection] = %i", $id)
 		);

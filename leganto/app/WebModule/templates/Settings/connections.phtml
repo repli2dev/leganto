@@ -2,12 +2,38 @@
 
 @{block #subcontent}
 	<h1>Social networks</h1>
+	<p>Zde můžete vidět a spravovat propojení vašeho účtu se sociálními sítěmi.</p>
+	<p>Přidat novou sociální síť: </p>
+	<ul>
+		<li>{if isSet($used['facebook'])}Facebook | <small>Účet tohoto typu už máte připojen.</small>{else}<a href="{link}">Facebook</a>{/if}</li>
+		<li>{if isSet($used['twitter'])}Twitter | <small>Účet tohoto typu už máte připojen.</small>{else}<a href="{link}">Twitter</a>{/if}</li>
+	</ul>
 	{if $flashes}
 		<ul>
 			{foreach $flashes as $flash}
 				<li>{$flash->message}</li>
 			{/foreach}
 		</ul>
+	{/if}
+	{if count($data) > 0}
+		<table>
+			<thead>
+				<th>ID</th>
+				<th>Služba/web</th>
+				<th>Akce</th>
+			</thead>
+			<tbody>
+				{foreach $data as $row}
+					<tr>
+						<td>{$row->id_connection}</td>
+						<td>{$row->type}</td>
+						<td><a href="{link delete,$row->id_connection}">Smazat</a></td>
+					</tr>
+				{/foreach}
+			</tbody>
+		</table>
+	{else}
+		<p><em>Váš účet není propojen s žádnými účty na sociálních sítích.</em></p>
 	{/if}
 	
 {/block}

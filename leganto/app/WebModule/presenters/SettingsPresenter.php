@@ -20,8 +20,28 @@ class Web_SettingsPresenter extends Web_BasePresenter {
 	}
 	public function renderConnections(){
 		$this->setPageTitle(System::translate("Social networks"));
+		$data = Leganto::connections()->getSelector()->findAllFromUser(System::user()->id);
+
+		$used = array();
+		foreach($data as $row){
+			$used[$row->type] = TRUE;
+		}
+
+		$this->template->data = $data;
+		$this->template->used = $used;
 	}
 
+	public function actionDelete($id){
+		$this->setPageTitle(System::translate("Delete connection"));
+	}
+
+	protected function createComponentDeleteForm($name){
+		$form = new BaseForm;
+		$form->addSubmit("yes","Yes");
+		$form->addSubmit("no","No");
+		$form->onSubmit[] = array($this,"deleteFormSubmitted");
+		return $form;
+	}
 	protected function createComponentSettingsForm($name) {
 		$form = new BaseForm;
 		$form->addGroup("Basic information");
@@ -99,5 +119,22 @@ class Web_SettingsPresenter extends Web_BasePresenter {
 			$this->flashMessage(System::translate("Your settings was left unchanged."));
 		}
 		$this->redirect("default");
+	}
+	public function deleteFormSubmitted(Form $form){
+		if($form["yes"]->isSubmittedBy()){
+			$id = $this->getParam("id");
+			$data = Leganto::connections()->getSelector()->find($id);
+			$user = System::user();
+			if($data->user == $user->id){
+				Leganto::connections()->getDeleter()->delete($id);
+				$this->flashMessage("Connection was successfully deleted.");
+				$this->redirect("connections");
+			} else {
+				$form->addError("You are not owner. Operation could not be performed.");
+			}
+		} else {
+			$this->redirect("connections");
+		}
+		
 	}
 }
