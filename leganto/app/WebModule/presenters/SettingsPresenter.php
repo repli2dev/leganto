@@ -16,25 +16,102 @@
  */
 class Web_SettingsPresenter extends Web_BasePresenter {
 	public function renderDefault() {
-		$this->setPageTitle(System::translate("Settings"));
+		if(!Environment::getUser()->isAuthenticated()) {
+			$this->redirect("Default:");
+		} else {
+			$this->setPageTitle(System::translate("Settings"));
+		}
 	}
 	public function renderConnections(){
-		$this->setPageTitle(System::translate("Social networks"));
-		$data = Leganto::connections()->getSelector()->findAllFromUser(System::user()->id);
+		if(!Environment::getUser()->isAuthenticated()) {
+			$this->redirect("Default:");
+		} else {
+			$this->setPageTitle(System::translate("Social networks"));
+			$data = Leganto::connections()->getSelector()->findAllFromUser(System::user()->id);
 
-		$used = array();
-		foreach($data as $row){
-			$used[$row->type] = TRUE;
+			$used = array();
+			foreach($data as $row){
+				$used[$row->type] = TRUE;
+			}
+
+			$this->template->data = $data;
+			$this->template->used = $used;
 		}
-
-		$this->template->data = $data;
-		$this->template->used = $used;
 	}
 
 	public function actionDelete($id){
-		$this->setPageTitle(System::translate("Delete connection"));
+		if(!Environment::getUser()->isAuthenticated()) {
+			$this->redirect("Default:");
+		} else {
+			$this->setPageTitle(System::translate("Delete connection"));
+		}
 	}
 
+	public function actionTwitter(){
+		if(!Environment::getUser()->isAuthenticated()) {
+			$this->redirect("Default:");
+		} else {
+			// Check if user have one account already
+			$user = System::user()->id;
+			$haveOne = Leganto::connections()->getSelector()->exists($user,'twitter');
+			if(!$haveOne){
+				$twitter = new TwitterBridge;
+				$twitter->doLogin();
+				$token = $twitter->getToken();
+				if(!empty($token)){
+					// Prepare user connection entity
+					$connection = Leganto::connections()->createEmpty();
+					$connection->user = $user;
+					$connection->type = 'twitter';
+					$connection->token = $twitter->getToken();
+
+					// Commit
+					Leganto::connections()->getInserter()->insert($connection);
+
+					$this->flashMessage(System::translate('Your account was successfully added.'));
+					$this->redirect('connections');
+				}
+			} else {
+				$this->flashMessage(System::translate('You already have this type of account.'));
+				$this->redirect('connections');
+			}
+			exit;
+		}
+		
+	}
+
+	public function actionFacebook(){
+		if(!Environment::getUser()->isAuthenticated()) {
+			$this->redirect("Default:");
+		} else {
+			// Check if user have one account already
+			$user = System::user()->id;
+			$haveOne = Leganto::connections()->getSelector()->exists($user,'facebook');
+			if(!$haveOne){
+				$fb = new FacebookBridge;
+				$fb->doLogin();
+				// Prepare user connection entity
+				$connection = Leganto::connections()->createEmpty();
+				$connection->user = $user;
+				$connection->type = 'facebook';
+				$connection->token = $fb->getToken();
+
+				// Commit
+				Leganto::connections()->getInserter()->insert($connection);
+
+				$this->flashMessage(System::translate('Your account was successfully added.'));
+				$this->redirect('connections');
+			} else {
+				$this->flashMessage(System::translate('You already have this type of account.'));
+				$this->redirect('connections');
+			}
+			exit;
+		}
+
+	}
+
+
+	// Factories
 	protected function createComponentDeleteForm($name){
 		$form = new BaseForm;
 		$form->addSubmit("yes","Yes");
@@ -125,6 +202,12 @@ class Web_SettingsPresenter extends Web_BasePresenter {
 			$id = $this->getParam("id");
 			$data = Leganto::connections()->getSelector()->find($id);
 			$user = System::user();
+			$password = $user->password;
+			$email = $user->email;
+			// Check if user is allowed to delete connection (he/she isn't where his/her password is empty (-> means registration through SN))
+			if(empty($password) || empty($email)){
+				$form->addError("Your connection cannot be deleted as you have created account through social network. In order to do so please set your account password and email in Settings tab first.");
+			} else
 			if($data->user == $user->id){
 				Leganto::connections()->getDeleter()->delete($id);
 				$this->flashMessage("Connection was successfully deleted.");

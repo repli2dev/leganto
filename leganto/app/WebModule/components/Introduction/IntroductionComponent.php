@@ -34,11 +34,11 @@ class IntroductionComponent extends BaseComponent {
 		$newState = Environment::getHttpRequest()->getQuery("introduction-state"); 
 		if($newState == "twitter") {
 			$this->twitter = new TwitterBridge;
-			$this->twitter->doLogin();
+			$this->twitter->doLoginWithAuthentication();
 		} else
 		if($newState == "facebook") {
 			$this->facebook = new FacebookBridge;
-			$this->facebook->doLogin();
+			$this->facebook->doLoginWithAuthentication();
 		}
 	}
 

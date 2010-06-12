@@ -56,7 +56,7 @@ class UserEntity extends AEntity
 	protected $password;
 
 	protected $new_pass_key;
-
+	
 	protected $about;
 	
 	/**

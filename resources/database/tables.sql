@@ -29,6 +29,7 @@ CREATE TABLE `user` (
 	`last_logged` DATETIME NULL COMMENT 'cas, kdy byl uzivatel naposled prihlasen',
 	`new_pass_key` VARCHAR(30) NULL COMMENT 'hash pro zaslani noveho hesla',
 	`new_pass_time` DATETIME NULL COMMENT 'cas vygenerovani hashe pro nove heslo',
+	`about` TEXT NULL COMMENT 'kratky text o uzivateli',
 	`inserted` DATETIME NOT NULL COMMENT 'cas, kdy byla polozka vlozena do systemu',
 	`updated` TIMESTAMP COMMENT 'cas, kdy byla polozka naposledy zmenena',
 	FOREIGN KEY (`id_language`) REFERENCES `language` (`id_language`) ON UPDATE CASCADE ON DELETE CASCADE,

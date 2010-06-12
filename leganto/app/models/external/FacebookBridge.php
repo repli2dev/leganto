@@ -37,9 +37,16 @@ class FacebookBridge implements ISocialNetwork {
 		if(!$this->isEnabled()) return false;
 		// Create connection to facebook and login
 		$this->doNormalConnection();
-		// We want user to grant us permission for reading, publishing, offline access (user is not currently logged in), for status updates and for sharing items
-		//$this->session->user = $this->gate->require_login("publish_stream,read_stream,offline_access,status_update,share_item");
-		$this->session->user = $this->gate->require_login();
+		// Obtain session
+		$session = $this->gate->getSession();
+		if(!$session){
+			header("Location: ".$this->gate->getLoginUrl(array(
+					'req_perms' => 'publish_stream,read_stream,offline_access,status_update,share_item"'
+				)));
+		}
+		// Obtain user ID
+		$this->session->user = $this->gate->getUser();
+
 		if(!empty($this->session->user)) {
 			return true;
 		} else {
@@ -56,7 +63,11 @@ class FacebookBridge implements ISocialNetwork {
 	}
 
 	function doNormalConnection() {
-		$this->gate = new Facebook(Environment::getConfig("facebook")->apiKey,Environment::getConfig("facebook")->secret);
+		$this->gate = new Facebook(array(
+				"appId" => Environment::getConfig("facebook")->apiKey,
+				"secret" => Environment::getConfig("facebook")->secret,
+				"cookie" => true
+			));
 	}
 
 	/**
@@ -70,8 +81,7 @@ class FacebookBridge implements ISocialNetwork {
 		if(empty($this->session->user)){
 			throw new NullPointerException("User ID is empty, cannot fetch user information.");
 		}
-		$data = $this->gate->api_client->users_getInfo($this->session->user,'last_name, first_name, name, username');
-		$data = $data[0];
+		$data = $this->gate->api('/me');
 		// Username is quite important field and can be empty -> solve that
 		if(empty($data["username"])){
 			$data["username"] = String::webalize(str_replace(" ","",$data["name"]), NULL, FALSE);
@@ -94,6 +104,12 @@ class FacebookBridge implements ISocialNetwork {
 			$this->status = false;
 		}
 
+	}
+	/**
+	 * Do login and tries to authenticate aganist our connection table
+	 */
+	function doLoginWithAuthentication(){
+		$this->doLogin();
 		// If status is true then try to look up for existing connection -> if it is found then user is logged automatically
 		if($this->status == true){
 			try {

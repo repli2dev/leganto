@@ -115,7 +115,13 @@ class TwitterBridge implements ISocialNetwork {
 		} else {
 			$this->status = false;
 		}
+	}
 
+	/**
+	 * Do login and tries to authenticate aganist our connection table
+	 */
+	function doLoginWithAuthentication(){
+		$this->doLogin();
 		// If status is true then try to look up for existing connection -> if it is found then user is logged automatically
 		if($this->status == true){
 			try {
