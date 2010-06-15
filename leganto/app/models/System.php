@@ -28,13 +28,21 @@ final class System
 	/** @return ITranslator */
 	public static function translator() {
 		if (empty(self::$translator)) {
-			$domain = self::domain();
-			if(empty($domain)){
-				$lang = "en_US";
+			$cache = Environment::getCache("translator");
+			if(isSet($cache["translator"])){
+				return $cache["translator"];
 			} else {
-				$lang = $domain->locale;
+				$domain = self::domain();
+				if(empty($domain)){
+					$lang = "en_US";
+				} else {
+					$lang = $domain->locale;
+				}
+				self::$translator = new GettextTranslator(APP_DIR . '/locale/' . $lang . '/LC_MESSAGES/messages.mo');
+				$cache->save("translator", self::$translator, array(
+					'expire' => time() + 60 * 60 * 6,	// expire in 6 hours
+				));
 			}
-			self::$translator = new GettextTranslator(APP_DIR . '/locale/' . $lang . '/LC_MESSAGES/messages.mo');
 		}
 		// FIXME: nastavit cachovani
 		return self::$translator;
