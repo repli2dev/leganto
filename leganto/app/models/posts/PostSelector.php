@@ -42,7 +42,7 @@ class PostSelector implements ISelector
 			 SELECT * FROM [view_post]
 			 WHERE [content] LIKE %s ", $keyword,
 			"OR [user_nick] LIKE %s ", $keyword,
-			"OR [discussion_name] %s ", $keyword
+			"OR [discussion_name] LIKE %s ", $keyword
 		);
 	}
 }

@@ -16,27 +16,50 @@
  *
  */
 
-class SearchComponent extends BaseComponent
-{
+class SearchComponent extends BaseComponent {
 
-    public function render() {
-	$this->getTemplate()->form = $this->getComponent("form");
-	parent::render();
-    }
+	private $compact;
 
-    public function formSubmitted(Form $form) {
-	$query = $form["query"]->getValue();
-	$this->getPresenter()->redirect("Default:search", $query);
-    }
+	public function  __construct(/*Nette\*/IComponentContainer $parent = NULL, $name = NULL, $compact = TRUE) {
+		parent::__construct($parent, $name);
+		$this->compact = $compact;
+	}
 
-    protected function createComponentForm($name) {
-	$form = new AppForm($this, $name);
-	$form->getElementPrototype()->setId("search");
-	$form->addText("query")
-	    ->addRule(Form::FILLED, "The search field has to be filled.");
-	$form->onSubmit[] = array($this, "formSubmitted");
-	$form->addSubmit("search_submit", "");
-    }
+	public function render() {
+		if(!$this->compact){
+			$this->getTemplate()->setFile($this->getPath()."searchFull.phtml");
+		}
+		$this->getTemplate()->form = $this->getComponent("form");
+		$values["query"] = $this->getPresenter()->getparam("query");
+		$this->getTemplate()->form->setValues($values);
+		parent::render();
+	}
+
+	public function formSubmitted(Form $form) {
+		$query = $form["query"]->getValue();
+		if($this->compact){
+			$this->getPresenter()->redirect("Search:default", $query);
+		} else {
+			$this->getPresenter()->redirect("this", $query);
+		}
+	}
+
+	protected function createComponentForm($name) {
+		$form = new AppForm($this, $name);
+		if($this->compact){
+			$form->getElementPrototype()->setId("search");
+		}
+		if($this->compact){
+			$form->addText("query")
+				->addRule(Form::FILLED, "The search field has to be filled.");
+			$form->addSubmit("search_submit", "");
+		} else {
+			$form->addText("query","Text to search:")
+				->addRule(Form::FILLED, "The search field has to be filled.");
+			$form->addSubmit("search_submit", "Search");
+		}
+		$form->onSubmit[] = array($this, "formSubmitted");
+	}
 
 }
 

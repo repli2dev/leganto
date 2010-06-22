@@ -49,29 +49,12 @@ class Web_DefaultPresenter extends Web_BasePresenter {
 		$this->getComponent("feed")->setSource($source);
 	}
 
-	public function renderSearch($query, $book = TRUE) {
-	    $this->setPageTitle(System::translate("Search"));
-	    $source = Leganto::books()->getSelector()->search($query);
-	    // If there is only one result then redirect to it
-	    $count = $source->count();
-	    if($count == 1){
-		    $row = $source->fetch();
-
-		    $this->redirect('Book:Default',$row->id_book);
-	    }
-	    $this->getComponent("searchList")->setSource($source);
-	}
-
 	protected function createComponentIntroduction($name) {
 		return new IntroductionComponent($this,$name);
 	}
 
 	protected function createComponentPreview($name) {
 		return new PreviewComponent($this,$name);
-	}
-
-	protected function createComponentSearchList($name) {
-	    return new BookListComponent($this, $name);
 	}
 
 	protected function createComponentFeed($name) {

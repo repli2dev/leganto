@@ -44,7 +44,6 @@ final class System
 				));
 			}
 		}
-		// FIXME: nastavit cachovani
 		return self::$translator;
 	}
 

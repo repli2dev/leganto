@@ -20,7 +20,7 @@ class PreviewComponent extends BaseComponent
 {
 
 	public function render() {
-		 $opinions = Leganto::opinions()
+		$opinions = Leganto::opinions()
 		    ->getSelector()
 		    ->findAllNotEmptyLast()
 		    ->fetchAll();

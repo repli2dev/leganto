@@ -1,0 +1,25 @@
+<style>
+    .user {
+	padding: 0px 10px;
+    }
+    .user .content {
+	margin-left: 70px;
+    }
+    .user .info {
+	margin-left: 70px;
+    }
+</style>
+{foreach $users AS $user}
+<div class="user">
+    <img class="icon" src="{$baseUri . 'storage/users/' . $user->id .'.jpg', 50|thumbnail}" />
+    <div class="info">
+	{$user->inserted|date} | <strong class="author">{$user->nickname}</strong>
+    </div>
+    <div class="content">
+		{!=$user->about|texy}
+    </div>
+</div>
+<hr style="clear:both; visibility:hidden" />
+{/foreach}
+
+{widget paginator}

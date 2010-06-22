@@ -44,6 +44,11 @@ abstract class BaseComponent extends Control
 	return LegantoTemplate::loadTemplate($template);
     }
 
+    protected function getPath() {
+	    $componentName = strtr($this->getClass(), array("Component" => ""));
+	    return dirname(__FILE__) . "/" . $componentName . "/";
+    }
+
     protected function beforeRender() {}
 
     protected function startUp() {}

@@ -1,0 +1,13 @@
+@{extends ../layout.phtml}
+
+@{block #content}
+
+
+<div id="book-view">
+    {widget submenu}
+    <h2>{$title}</h2>
+    {widget searchForm}
+    @{block #subcontent}
+    @{/block}
+</div>
+@{/block}
