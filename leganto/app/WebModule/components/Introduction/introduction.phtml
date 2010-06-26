@@ -8,6 +8,7 @@
 	    {$hint->text}
 	</div>
 	@{else}
+            <div id="introduction-form-wrapper">
 		@{if $state == "login"}
 			{if $flashes}
 			<ul>
@@ -72,6 +73,7 @@
 			{/if}
 			@{widget "renewForm"}
 		@{/if}
+            </div>
 	@{/if}
 
 	@{if $state != "facebook" && $state != "twitter"}
@@ -86,6 +88,6 @@
 		<hr />
 		    <a href="{link changeState, 'facebook'}">{_'Login with Facebook'}</a> |
 		    <a href="{link changeState, 'twitter'}">{_'Login with Twitter'}</a> | 
-		    <a href="{link changeState, 'forgotten'}" class="ajax">{_'Forgotten password'}</a>
+		    <a href="{link changeState, 'forgotten'}" class="">{_'Forgotten password'}</a>
 	@{/if}
 {/snippet}

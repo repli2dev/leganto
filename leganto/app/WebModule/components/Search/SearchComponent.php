@@ -45,7 +45,7 @@ class SearchComponent extends BaseComponent {
 	}
 
 	protected function createComponentForm($name) {
-		$form = new AppForm($this, $name);
+		$form = new AppForm($this,$name);
 		if($this->compact){
 			$form->getElementPrototype()->setId("search");
 		}
@@ -54,11 +54,12 @@ class SearchComponent extends BaseComponent {
 				->addRule(Form::FILLED, "The search field has to be filled.");
 			$form->addSubmit("search_submit", "");
 		} else {
-			$form->addText("query","Text to search:")
+			$form->addText("query","Text to search")
 				->addRule(Form::FILLED, "The search field has to be filled.");
 			$form->addSubmit("search_submit", "Search");
 		}
 		$form->onSubmit[] = array($this, "formSubmitted");
+                return $form;
 	}
 
 }
