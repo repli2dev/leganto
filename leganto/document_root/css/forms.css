@@ -127,3 +127,19 @@ textarea {
 #search input[type="submit"]:focus {
 	background: url(../img/header_input_submit_hover.gif);
 }
+/***************************** POSTS *****************************************/
+#post-form-wrapper label {
+    display: none;
+}
+#post-form-wrapper label:after {
+    display: none;
+    content: "";
+}
+#post-form-wrapper textarea {
+    width: 100%;
+    height: 80px;
+}
+#post-form-wrapper [type="submit"] {
+    float: right;
+    margin-top: 20px;
+}

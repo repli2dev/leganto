@@ -27,8 +27,7 @@ class PostListComponent extends BaseListComponent
 
         // Redirect
         $this->getPresenter()->flashMessage("The post has been successfuly sent.", "success");
-        
-        $this->getPresenter()->redirect("Discussion:posts", $values["discussed"], $values["type"]);
+        $this->getPresenter()->redirect("this");
     }
 
     public function setDiscussed($discussed, $type) {
@@ -53,7 +52,7 @@ class PostListComponent extends BaseListComponent
     protected function createComponentForm($name) {
         $form = new BaseForm($name);
 
-        $form->addTextArea("content", "Content")
+        $form->addTextArea("content")
             ->addRule(Form::FILLED, "Please fill the content.");
 
         $form->addSubmit("insertPost", "Send post");

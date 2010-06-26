@@ -10,7 +10,9 @@
     }
 </style>
 @{if Environment::getUser()->isAuthenticated()}
-    @{widget form}
+    <div id="post-form-wrapper">
+        @{widget form}
+    </div>
 @{/if}
 @{foreach $posts AS $post}
 <div class="post">

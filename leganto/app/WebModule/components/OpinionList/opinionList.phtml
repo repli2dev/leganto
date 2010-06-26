@@ -36,6 +36,8 @@
 	@{else}
 	    @{if isset($discussions[$opinion->getId()])}
 		<a href="{link showPosts!, $opinion->getId()}" class="show ajax">{_'Show %d comments',$discussions[$opinion->getId()]}</a>
+            @{else}
+                <a href="{link showPosts!, $opinion->getId()}" class="show ajax">{_'Reply'}</a>
 	    @{/if}
 	@{/if}
     </div>
