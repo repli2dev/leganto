@@ -21,7 +21,7 @@ class TopicSelector implements ISelector
 		if (empty($id)) {
 			throw new NullPointerException("id");
 		}
-		return Leganto::topics()->fetchAndCreate(dibi::dataSource("SELECT * FROM [view_topic] WHERE [id_topic]", $id));
+		return Leganto::topics()->fetchAndCreate(dibi::dataSource("SELECT * FROM [view_topic] WHERE [id_topic] = %i", $id));
 	}
 
 	public function findAll() {

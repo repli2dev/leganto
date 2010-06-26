@@ -8,7 +8,7 @@ class Web_DiscussionPresenter extends Web_BasePresenter
     }
 
     public function renderPosts($topic) {
-	$topicEntity = Leganto::discussions()->getSelector()->find($topic);
+	$topicEntity = Leganto::topics()->getSelector()->find($topic);
 	$this->setPageTitle($topicEntity->name);
 	$this->getTemplate()->topic = $topicEntity;
 	$this->getComponent("postList")->setSource(
