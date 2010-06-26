@@ -22,7 +22,7 @@
 		{!_'<a href="%s">%s</a> has an opinion on the book <a href="%s">%s</a>',$presenter->link('User:default', $item->userId), $item->userNick, $presenter->link('Book:default', $item->categoryId), $item->categoryName}
 	    {else}
 		{if $item->type == FeedItemEntity::TYPE_POST}
-		    {!_'<a href="%s">%s</a> has contributed to the discussion <a href="%s">%s</a>',$presenter->link('User:default', $item->userId), $item->userNick, $presenter->link('Discussion:posts', $item->categoryId), $item->categoryName}
+		    {!_'<a href="%s">%s</a> has contributed to the discussion <a href="%s">%s</a>',$presenter->link('User:default', $item->userId), $item->userNick, $presenter->link('Discussion:discussion', $item->categoryId), $item->categoryName}
 		{/if}
 	    {/if}
 	    </strong>

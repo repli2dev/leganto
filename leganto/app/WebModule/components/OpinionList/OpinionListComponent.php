@@ -2,8 +2,12 @@
 class OpinionListComponent extends BaseListComponent
 {
 
+    /** @persistent */
+    public $showedOpinion;
+
     public function handleShowPosts($opinion) {
 	$this->getTemplate()->showedOpinion = $opinion;
+        $this->showedOpinion = $opinion;
         $this->invalidateControl("opinion-list");
     }
 
@@ -38,12 +42,14 @@ class OpinionListComponent extends BaseListComponent
 	else {
 	    $this->getTemplate()->discussions = array();
 	}
-	if (isset ($this->getTemplate()->showedOpinion)) {
+        if (!empty($this->showedOpinion)) {
+            $this->getTemplate()->showedOpinion = $this->showedOpinion;
 	    $this->getComponent("postList")->setSource(
 		Leganto::posts()->getSelector()
 		    ->findAllByIdAndType($this->getTemplate()->showedOpinion, PostSelector::OPINION)
 	    );
-	}
+            $this->getComponent("postList")->setDiscussed($this->showedOpinion, PostSelector::OPINION);
+        }
     }
 
 }

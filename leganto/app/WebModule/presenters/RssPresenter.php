@@ -25,10 +25,10 @@ class Web_RssPresenter extends Web_BasePresenter
 	    else {
 		$this->addItem(
 		    System::translate("%s has contributed to the discussion %s", $item->userNick, $item->categoryName),
-		    $this->link('//Discussion:posts', $item->categoryId),
+		    $this->link('//Discussion:discussion', $item->categoryId),
 		    $item->content,
 		    $item->inserted,
-		    $this->link('//Discussion:posts', $item->categoryId)
+		    $this->link('//Discussion:discussion', $item->categoryId)
 		);
 	    }
 	}

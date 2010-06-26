@@ -7,6 +7,19 @@ class Web_DiscussionPresenter extends Web_BasePresenter
 	$this->getComponent("topicList")->setSource(Leganto::topics()->getSelector()->findAll()->orderBy("inserted", "desc"));
     }
 
+    public function renderDiscussion($id) {
+	$discussionEntity = Leganto::discussions()->getSelector()->find($id);
+	$this->setPageTitle($discussionEntity->name);
+	$this->getTemplate()->discussion = $discussionEntity;
+	$this->getComponent("postList")->setSource(
+	    Leganto::posts()->getSelector()->findAllByIdAndType(
+		$discussionEntity->discussed,
+		$discussionEntity->discussionType
+	    )->orderBy("inserted", "desc")
+	);
+        $this->getComponent("postList")->setDiscussed($discussionEntity->discussed, $discussionEntity->discussionType);
+    }
+
     public function renderPosts($discussed, $type) {
 	$discussion = Leganto::discussions()->getSelector()->findByDiscussedAndType($discussed, $type);
 	$this->setPageTitle($discussion->name);
@@ -14,7 +27,7 @@ class Web_DiscussionPresenter extends Web_BasePresenter
 	$this->getComponent("postList")->setSource(
 	    Leganto::posts()->getSelector()->findAllByIdAndType(
 		$discussed,
-		PostSelector::TOPIC
+		$type
 	    )->orderBy("inserted", "desc")
 	);
         $this->getComponent("postList")->setDiscussed($discussed, $type);
