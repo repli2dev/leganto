@@ -28,4 +28,14 @@ class DiscussionSelector implements ISelector
 		return dibi::dataSource("SELECT * FROM [view_discussion]");
 	}
 
+        public function findByDiscussedAndType($discussed, $type) {
+		if (empty($discussed)) {
+			throw new NullPointerException("discussed");
+		}
+		if (empty($type)) {
+			throw new NullPointerException("type");
+		}
+                return Leganto::discussions()->fetchAndCreate($this->findAll()->where("[id_discussed] = %i", $discussed, " AND [id_discussable] = %i", $type));
+        }
+
 }

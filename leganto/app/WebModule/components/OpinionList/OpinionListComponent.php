@@ -4,6 +4,7 @@ class OpinionListComponent extends BaseListComponent
 
     public function handleShowPosts($opinion) {
 	$this->getTemplate()->showedOpinion = $opinion;
+        $this->invalidateControl("opinion-list");
     }
 
     protected function beforeRender() {

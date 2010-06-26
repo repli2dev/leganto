@@ -29,9 +29,9 @@ class TopicListComponent extends BaseListComponent
         $post->language         = System::user()->idLanguage;
         $post->persist();
 
-        // Redirecting
+        // Redirect
         $this->getPresenter()->flashMessage("The topic has been successfuly created.", "success");
-        $this->getPresenter()->redirect("default");
+        $this->getPresenter()->redirect($this->getPresenter()->backlink());
     }
 
     protected function createComponentForm($name) {

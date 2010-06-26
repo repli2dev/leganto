@@ -16,7 +16,9 @@
 	padding-left: 50px;
     }
 </style>
-{foreach $opinions AS $opinion}
+
+{snippet opinion-list}
+@{foreach $opinions AS $opinion}
 <div class="opinion">
     <img class="icon" src="{$baseUri . 'storage/users/' . $opinion->userId .'.jpg', 50|thumbnail}" />
     <div class="info">
@@ -24,21 +26,22 @@
 	{$opinion->inserted|date} | <strong class="author">{$opinion->userName}</strong>
     </div>
     <div class="content">
-		{!=$opinion->content|texy}
+        {!=$opinion->content|texy}
     </div>
     <div class="posts">
-	{if isset($showedOpinion) && $showedOpinion == $opinion->getId()}
+	@{if isset($showedOpinion) && $showedOpinion == $opinion->getId()}
 	    <div class="posts">
-	    {widget postList}
+	    @{widget postList}
 	    </div>
-	{else}
-	    {if isset($discussions[$opinion->getId()])}
-		<a href="{link showPosts, $opinion->getId()}" class="show">{_'Show %d comments',$discussions[$opinion->getId()]}</a>
-	    {/if}
-	{/if}
+	@{else}
+	    @{if isset($discussions[$opinion->getId()])}
+		<a href="{link showPosts!, $opinion->getId()}" class="show ajax">{_'Show %d comments',$discussions[$opinion->getId()]}</a>
+	    @{/if}
+	@{/if}
     </div>
 </div>
 <hr style="clear:both; visibility:hidden" />
-{/foreach}
+@{/foreach}
 
 {widget paginator}
+{/snippet}

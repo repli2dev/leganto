@@ -9,17 +9,20 @@
 	margin-left: 70px;
     }
 </style>
-{foreach $posts AS $post}
+@{if Environment::getUser()->isAuthenticated()}
+    @{widget form}
+@{/if}
+@{foreach $posts AS $post}
 <div class="post">
     <img class="icon" src="{$baseUri . 'storage/users/' . $post->user .'.jpg', 50|thumbnail}" />
     <div class="info">
-	{$post->inserted|date} | <strong class="author">{$post->userName}</strong>
+	@{$post->inserted|date} | <strong class="author">{$post->userName}</strong>
     </div>
     <div class="content">
 		{!=$post->content|texy}
     </div>
 </div>
 <hr style="clear:both; visibility:hidden" />
-{/foreach}
+@{/foreach}
 
-{widget paginator}
+@{widget paginator}

@@ -6,7 +6,7 @@
     <div class="topic">
 	<img class="icon" src="{$baseUri . 'storage/users/' . $topic->userId .'.jpg', 50|thumbnail}" />
 	<div class="info">
-	    <strong><a href="{plink Discussion:posts, $topic->getId()}">{$topic->name}</a></strong>
+	    <strong><a href="{plink Discussion:posts, $topic->getId(), PostSelector::TOPIC}">{$topic->name}</a></strong>
 	    |
 	    <a href="{plink User:default, $topic->userId}">{$topic->userName}</a>
 	    |
