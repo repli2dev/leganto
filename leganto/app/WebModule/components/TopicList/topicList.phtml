@@ -1,6 +1,6 @@
-<style>
-
-</style>
+{if Environment::getUser()->isAuthenticated()}
+    {widget form}
+{/if}
 <div id="topics">
     {foreach $topics AS $topic}
     <div class="topic">
