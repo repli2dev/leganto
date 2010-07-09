@@ -27,8 +27,8 @@ class IntroductionComponent extends BaseComponent {
 
 	public $facebook;
 
-	public function  __construct() {
-		parent::__construct();
+	public function  __construct(/*Nette\*/IComponentContainer $parent = NULL, $name = NULL) {
+		parent::__construct($parent,$name);
 
 		// FIXME: toto je opravdu osklivy hack! Jak obejit to ze state jeste nebyl nastaven, ale pri vytvareni komponenty uz je pozde - vystup odchazi?!
 		$newState = Environment::getHttpRequest()->getQuery("introduction-state"); 

@@ -36,6 +36,10 @@ class Web_BookPresenter extends Web_BasePresenter
 	$this->setPageTitle($this->getTemplate()->book->title);
     }
 
+    public function renderInsert() {
+	    $this->setPageTitle(System::translate("Insert book"));
+    }
+
     public function renderOpinions($book) {
 	$this->getTemplate()->book	= Leganto::books()->getSelector()->find($book);
 	$this->getComponent("opinionList")->setSource(
@@ -53,6 +57,10 @@ class Web_BookPresenter extends Web_BasePresenter
 	    Leganto::books()->getSelector()->findAllSimilar($this->getTemplate()->book)->applyLimit(12)
 	);
 	$this->setPageTitle($this->getTemplate()->book->title);
+    }
+
+    protected function createComponentInsertingBook($name) {
+	    return new InsertingBookComponent($this, $name);
     }
 
     protected function createComponentOpinionList($name) {

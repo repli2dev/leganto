@@ -14,7 +14,7 @@
  * @author		Jan Drabek
  * @version		$Id$
  */
-class BookUpdater extends Worker implements IUpdater
+class BookUpdater implements IUpdater
 {
 
 	/* PUBLIC METHODS */
@@ -124,7 +124,7 @@ class BookUpdater extends Worker implements IUpdater
 	 * @throws InvalidArgumentException if the $writtenBy is not an AuthorEntity (array)
 	 */
 	public function setWrittenBy(BookEntity $book, $writtenBy) {
-		if (!$book->isReadyToUpdate()) {
+		if ($book->getState() != IEntity::STATE_PERSISTED) {
 			throw new InvalidArgumentException("The entity is not ready to be updated.");
 		}
 		// I want to add a set of authors

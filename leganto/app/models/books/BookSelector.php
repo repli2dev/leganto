@@ -16,6 +16,11 @@
  */
 class BookSelector implements ISelector
 {
+	const BOOK = 'book';
+
+	const TAG = 'name';
+
+	const AUTHOR = 'author';
 
 	/* PUBLIC METHODS */
 	
@@ -69,6 +74,52 @@ class BookSelector implements ISelector
 			[first_name] LIKE '$word' OR
 			[last_name] LIKE '$word' OR
 			[group_name] LIKE '$word')";
+		}
+		return dibi::dataSource("SELECT * FROM [view_book_search] " . (empty($conditions) ? "" : " WHERE " . $conditions) . " GROUP BY [id_book]");
+	}
+
+	public function searchByColumn($column,$keyword) {
+		if(empty($keyword)) {
+			throw new NullPointerException("keyword");
+		}
+		$keywords = preg_split('/ /', $keyword);
+		$conditions = "";
+		switch($column) {
+			case self::BOOK:
+				foreach($keywords AS $word) {
+					if (!empty($conditions)) {
+						$conditions .= " AND ";
+					}
+					$word = "%".mysql_escape_string($word)."%";
+					$conditions .= "
+					([title] LIKE '$word' OR
+					[subtitle] LIKE '$word')";
+				}
+				break;
+			case self::TAG:
+				foreach($keywords AS $word) {
+					if (!empty($conditions)) {
+						$conditions .= " AND ";
+					}
+					$word = "%".mysql_escape_string($word)."%";
+					$conditions .= "
+					([name] LIKE '$word')";
+				}
+				break;
+			case self::AUTHOR:
+				foreach($keywords AS $word) {
+					if (!empty($conditions)) {
+						$conditions .= " AND ";
+					}
+					$word = "%".mysql_escape_string($word)."%";
+					$conditions .= "
+					([first_name] LIKE '$word' OR
+					[last_name] LIKE '$word' OR
+					[group_name] LIKE '$word')";
+				}
+				break;
+			default:
+				throw new InvalidArgumentException("column");
 		}
 		return dibi::dataSource("SELECT * FROM [view_book_search] " . (empty($conditions) ? "" : " WHERE " . $conditions) . " GROUP BY [id_book]");
 	}

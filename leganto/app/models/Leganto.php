@@ -62,6 +62,13 @@ class Leganto
 	/**
 	 * @return IEntityFactory
 	 */
+	public static function languages() {
+		return SimpleEntityFactory::createEntityFactory("language");
+	}
+
+	/**
+	 * @return IEntityFactory
+	 */
 	public static function opinions() {
 		return SimpleEntityFactory::createEntityFactory("opinion");
 	}
