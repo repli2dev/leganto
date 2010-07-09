@@ -13,7 +13,7 @@ Debug::enable(Debug::DEVELOPMENT);
 
 // IMPORT CLASS
 
-class Import extends EskymoObject
+class Import
 {
 
 	private $settings = array(
@@ -40,13 +40,13 @@ class Import extends EskymoObject
 		$source->add("host", "databases.savana.cz:13305");
 		$source->add("database", "reader");
 		$source->add("username", "reader");
-		$source->add("password", "terka90");
+		$source->add("password", "****");
 
 		$destination = new Config();
-		$destination->add("host", "mysql5-innodb");
-		$destination->add("database", "preader_devel");
-		$destination->add("username", "preader_devel");
-		$destination->add("password", "Hublu.Mer");
+		$destination->add("host", "yavanna.cz:3306");
+		$destination->add("database", "leganto");
+		$destination->add("username", "leganto");
+		$destination->add("password", "****");
 
 		dibi::connect($source, "source");
 		dibi::connect($destination, "destination");
