@@ -11,6 +11,14 @@ class OpinionListComponent extends BaseListComponent
         $this->invalidateControl("opinion-list");
     }
 
+    public function handleSortByScore() {
+	$this->sort("rating");
+    }
+
+    public function handleSortByTime() {
+	$this->sort("inserted");
+    }
+
     protected function beforeRender() {
 	parent::beforeRender();
 	$this->loadTemplate($this->getSource());
@@ -18,6 +26,10 @@ class OpinionListComponent extends BaseListComponent
 
     public function showBookInfo() {
         $this->getTemplate()->showedInfo = "book";
+    }
+
+    public function showSorting($show = TRUE) {
+	$this->getTemplate()->sorting = TRUE;
     }
 
     public function showUserInfo() {

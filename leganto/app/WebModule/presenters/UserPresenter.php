@@ -41,6 +41,7 @@ class Web_UserPresenter extends Web_BasePresenter
     protected function createComponentOpinionList($name) {
 	$list = new OpinionListComponent($this, $name);
         $list->showBookInfo();
+        $list->showSorting();
         return $list;
     }
 
