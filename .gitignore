@@ -1,4 +1,5 @@
 leganto/document_root/storage/books/*
 leganto/document_root/storage/users/*
+leganto/document_root/cache/*
 leganto/app/temp/*
 leganto/app/config.ini
