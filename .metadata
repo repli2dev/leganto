@@ -1,6 +1,5 @@
 mkdir -p './leganto/app/logs'
 mkdir -p './leganto/document_root/storage/books'
-mkdir -p './leganto/document_root/storage/users'
 mkdir -p './leganto/libs_all/Nette/examples/CD-collection/app/log'
 mkdir -p './leganto/libs_all/Nette/examples/CD-collection/app/temp'
 mkdir -p './leganto/libs_all/Nette/examples/fifteen/app/log'
