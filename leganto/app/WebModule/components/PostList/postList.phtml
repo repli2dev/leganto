@@ -24,6 +24,7 @@
     </div>
 @{/if}
 @{foreach $posts AS $post}
+<hr style="clear:both; visibility:hidden; margin: 0;" />
 <div class="post">
     {if Misc::isAllowedToControl($post->user)}
     <div class="control">
@@ -42,7 +43,6 @@
 		{!=$post->content|texy}
     </div>
 </div>
-<hr style="clear:both; visibility:hidden" />
 @{/foreach}
 
 @{widget paginator}
