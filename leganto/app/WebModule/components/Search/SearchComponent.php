@@ -37,8 +37,16 @@ class SearchComponent extends BaseComponent {
 
 	public function formSubmitted(Form $form) {
 		$query = $form["query"]->getValue();
+		$in = $form["search"]->getValue();
 		if($this->compact){
-			$this->getPresenter()->redirect("Search:default", $query);
+			if($in == "discussion") {
+				$this->getPresenter()->redirect("Search:discussion", $query);
+			} else
+			if($in == "user") {
+				$this->getPresenter()->redirect("Search:user", $query);
+			} else {
+				$this->getPresenter()->redirect("Search:default", $query);
+			}
 		} else {
 			$this->getPresenter()->redirect("this", $query);
 		}
@@ -52,6 +60,13 @@ class SearchComponent extends BaseComponent {
 		if($this->compact){
 			$form->addText("query")
 				->addRule(Form::FILLED, "The search field has to be filled.");
+			$in = array(
+				"book"	=>	System::translate("Books"),
+				"discussion"	=>	System::translate("Discussions"),
+				"user"	=>	System::translate("Users")
+			);
+			$form->addSelect("search","In",$in)
+				->getControlPrototype()->setId("selectIn");
 			$form->addSubmit("search_submit", "");
 		} else {
 			$form->addText("query","Text to search")

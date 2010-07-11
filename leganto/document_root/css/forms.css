@@ -109,7 +109,7 @@ textarea {
 	height: 23px;
 	width: 23px;
 	background: url(../img/header_input_submit_default.gif);
-	margin: 0 2px;
+	margin: 0px 2px;
 	padding: 0px 5px;
         position: static;
 }
@@ -126,6 +126,9 @@ textarea {
 }
 #search input[type="submit"]:focus {
 	background: url(../img/header_input_submit_hover.gif);
+}
+#search #frmform-search {
+	margin: 0px 2px;
 }
 
 ul.error {

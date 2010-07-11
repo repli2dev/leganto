@@ -3,18 +3,6 @@
 	<legend></legend>
 	{!$form['query']->control}
 	{!$form['search_submit']->control}
+	{!$form["search"]->control}
     </fieldset>
 {!$form->render('end')}
-<!--
-<form id="search"> 
-    <fieldset>
-	    <legend></legend>
-	    <input type="text" size="14" name="name" value="Search"/>
-	    <input type="submit" value="" />
-	    <label><input type="radio" name="search" value="all" checked="checked" /><a href="#" class="select">{_'all'}</label>
-	    <label><input type="radio" name="search" value="book" /><a href="#" class="deselect">{_'books'}</a></label>
-	    <label><input type="radio" name="search" value="author" /><a href="#" class="deselect">{_'authors'}</a></label>
-	    <label><input type="radio" name="search" value="reader" /><a href="#" class="deselect">{_'readers'}</a></label>
-    </fieldset>
-</form>
--->
