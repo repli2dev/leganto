@@ -16,6 +16,9 @@
  */
 final class Helpers {
 
+    /** @var EditionImageStorage */
+    private static $editionImageStorage;
+
     /** @var UserIconStorage */
     private static $userIconStorage;
 
@@ -46,9 +49,18 @@ final class Helpers {
                 break;
             case "userIcon": return array(get_class(), "userIconHelper");
                 break;
+            case "bookCover": return array(get_class(), "bookCoverHelper");
             default:
                 throw new DataNotFoundException("helper: $helper");
         }
+    }
+
+    public static function bookCoverHelper($bookTitleId, $width = NULL, $height = NULL) {
+        return self::thumbnailHelper(
+            self::getEditionImageStorage()->getRandomFileByBookTitleId($bookTitleId),
+            $width,
+            $height
+        );
     }
 
     /**
@@ -130,6 +142,14 @@ final class Helpers {
             self::$userIconStorage = new UserIconStorage();
         }
         return self::$userIconStorage;
+    }
+
+    /** @return EditionImageStorage */
+    private static function getEditionImageStorage() {
+         if (self::$editionImageStorage == null) {
+            self::$editionImageStorage = new EditionImageStorage();
+        }
+        return self::$editionImageStorage;
     }
 
 }
