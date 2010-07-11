@@ -4,6 +4,7 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<link rel="stylesheet" type="text/css" href="/css/main.css" />
                 <link rel="stylesheet" type="text/css" href="/css/forms.css" />
+                <link rel="stylesheet" type="text/css" href="/css/flashes.css" />
 
 		<!--[if lt IE 7.]>
 			<script defer type="text/javascript" src="/js/pngfix.js"></script>
@@ -37,11 +38,13 @@
 
 		<div id="main">
 			<div class="wrapper">
-                        {foreach $flashes AS $flash}
-                            <div class="{$flash->type}">
-                                {$flash->message}
+                            <div id="flashes">
+                                {foreach $flashes AS $flash}
+                                <div class="flash {$flash->type}">
+                                        {$flash->message}
+                                    </div>
+                                {/foreach}
                             </div>
-                        {/foreach}
                 @{block #content}
 			{_'No content'}
 		@{/block}

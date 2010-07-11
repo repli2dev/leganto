@@ -1,0 +1,30 @@
+#flashes .flash {
+    border: 2px solid;
+    padding: 20px;
+    padding-left: 70px;
+    font-size: 1.2em;
+    margin: 15px 10px;
+    background-position: 1% 30%;
+    background-repeat: no-repeat;
+}
+
+#flashes .error {
+    border-color: #7B0404;
+    color: #7B0404;
+    background-color: #E8B8B1;
+    background-image: url(../img/ico/flash-error.png);
+}
+
+#flashes .success {
+    border-color: #1E3712;
+    color: #1E3712;
+    background-color: #ADCC9E;
+    background-image: url(../img/ico/flash-success.png);
+}
+
+#flashes .info {
+    border-color: #0D58A6;
+    color: #0D58A6;
+    background-color: #FFFFFF;
+    background-image: url(../img/ico/flash-info.png);
+}
