@@ -31,14 +31,15 @@ class SearchComponent extends BaseComponent {
 		}
 		$this->getTemplate()->form = $this->getComponent("form");
 		$values["query"] = $this->getPresenter()->getparam("query");
+		$values["search"] = $this->getPresenter()->getAction();
 		$this->getTemplate()->form->setValues($values);
 		parent::render();
 	}
 
 	public function formSubmitted(Form $form) {
 		$query = $form["query"]->getValue();
-		$in = $form["search"]->getValue();
 		if($this->compact){
+			$in = $form["search"]->getValue();
 			if($in == "discussion") {
 				$this->getPresenter()->redirect("Search:discussion", $query);
 			} else
@@ -60,8 +61,9 @@ class SearchComponent extends BaseComponent {
 		if($this->compact){
 			$form->addText("query")
 				->addRule(Form::FILLED, "The search field has to be filled.");
+			// Key has to be same as name of action in search presenter
 			$in = array(
-				"book"	=>	System::translate("Books"),
+				"default"	=>	System::translate("Books"),
 				"discussion"	=>	System::translate("Discussions"),
 				"user"	=>	System::translate("Users")
 			);
