@@ -162,7 +162,7 @@ class Web_SettingsPresenter extends Web_BasePresenter {
 		$form->addFile("avatar", "Avatar")
 			->addCondition(Form::FILLED)
 			->addRule(Form::MIME_TYPE, "File must be an image.", 'image/*')
-			->addRule(Form::MAX_FILE_SIZE,"Avatar has to be smaller than 100 KB.",100);
+			->addRule(Form::MAX_FILE_SIZE,"Avatar has to be smaller than 100 KB.",1024*100);
 
 		$form->setCurrentGroup();
 

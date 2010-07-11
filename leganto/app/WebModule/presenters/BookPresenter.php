@@ -37,7 +37,11 @@ class Web_BookPresenter extends Web_BasePresenter
     }
 
     public function renderInsert() {
-	    $this->setPageTitle(System::translate("Insert book"));
+	    if (!Environment::getUser()->isAuthenticated()) {
+			$this->redirect("Default:unauthorized");
+	    } else {
+			$this->setPageTitle(System::translate("Insert book"));
+	    }
     }
 
     public function renderOpinions($book) {

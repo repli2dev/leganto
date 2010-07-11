@@ -49,6 +49,10 @@ class Web_DefaultPresenter extends Web_BasePresenter {
 		$this->getComponent("feed")->setSource($source);
 	}
 
+	public function renderUnauthorized() {
+		$this->setPageTitle(System::translate("Unauthorized"));
+	}
+
 	protected function createComponentIntroduction($name) {
 		return new IntroductionComponent($this,$name);
 	}

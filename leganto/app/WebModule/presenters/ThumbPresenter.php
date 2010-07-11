@@ -20,15 +20,15 @@ class Web_ThumbPresenter extends Web_BasePresenter {
 		$path = str_replace(WWW_DIR,'.',$path);
 
 		// Try to find file in cache
-		if(file_exists(WWW_DIR . "/cache/".md5($w."_".$h."_".$path))){	// Entry found in cache
-			$image = Image::fromFile(WWW_DIR . "/cache/".md5($w."_".$h."_".$path));
+		if(file_exists(APP_DIR . "/temp/cache/".md5($w."_".$h."_".$path)) && filemtime($path) < filemtime(APP_DIR . "/temp/cache/".md5($w."_".$h."_".$path))){	// Entry found in cache
+			$image = Image::fromFile(APP_DIR . "/temp/cache/".md5($w."_".$h."_".$path));
 			$image->send();
 		} else { // Not found in cache
 			$image = Image::fromFile($path);
 			if(!empty($w) || !empty($h)) {
 				$image->resize($w,$h);
 			}
-			$image->save(WWW_DIR . "/cache/".md5($w."_".$h."_".$path),90,Image::JPEG);
+			$image->save(APP_DIR . "/temp/cache/".md5($w."_".$h."_".$path),90,Image::JPEG);
 			$image->send(Image::JPEG,90);
 		}
 
