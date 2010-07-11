@@ -3,7 +3,7 @@ class UsersImport extends DatabaseTableImport {
 
     protected function doImport() {
 	$users = $this->getSource()->query("SELECT * FROM [reader_user]")->fetchAll();
-	$language = $this->getDestination()->query("SELECT * FROM [language] WHERE [name] = 'czech'")->fetch();
+	$language = $this->getDestination()->query("SELECT * FROM [language] WHERE [locale] = 'cs_CZ'")->fetch();
 	$this->getDestination()->begin("users");
 	$this->getDestination()->query("TRUNCATE TABLE [in_shelf]");
 	$this->getDestination()->query("TRUNCATE TABLE [shelf]");

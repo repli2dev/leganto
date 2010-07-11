@@ -5,11 +5,7 @@ class OpinionsImport extends DatabaseTableImport {
 	$books = $this->getDestination()->query("SELECT * FROM [book]")->fetchPairs("id_book", "id_book");
 	$users = $this->getDestination()->query("SELECT * FROM [user]")->fetchPairs("id_user", "id_user");
 	$opinions = $this->getSource()->query("SELECT * FROM [reader_opinion] WHERE [book] IN %l", $books, " AND [user] IN %l", $users)->fetchAll();
-	$language = $this->getDestination()->query("SELECT * FROM [language] WHERE name = 'czech'")->fetch();
-	if (empty($language)) {
-	    $this->getDestination()->insert("language", array("name" => "czech", "locale" => "cs_CZ"))->execute();
-	    $language = $this->getDestination()->query("SELECT * FROM [language] WHERE name = 'czech'")->fetch();
-	}
+	$language = $this->getDestination()->query("SELECT * FROM [language] WHERE [locale] = 'cs_CZ'")->fetch();
 
 	$this->getDestination()->query("TRUNCATE TABLE [opinion]");
 	$this->getDestination()->query("TRUNCATE TABLE [in_shelf]");

@@ -13,22 +13,21 @@ class SystemImport implements IImportable
 
     public function import() {
 	try {
-	    $this->connection->begin("system");
 	    $this->insertLanguages();
 	    $this->insertDomain();
-	    $this->connection->commit("system");
 	}
 	catch(DibiDriverException $e) {
-	    $this->connection->rollback("system");
+	    //$this->connection->rollback("system");
 	    throw $e;
 	}
     }
 
     private function insertDomain() {
 	$domains = array(
-	    "preader"		=> "czech",
-	    "devel.ctenari.cz"	=> "czech",
-	    "ctenari.cz"	=> "czech"
+	    "preader"               => "en_US",
+            "leganto"               => "en_US",
+	    "leganto.yavanna.cz"    => "en_US",
+	    "ctenari.cz"            => "cs_CZ"
 	);
 	foreach($domains AS $domain => $language) {
 	    $this->connection->insert("domain", array(
@@ -40,10 +39,15 @@ class SystemImport implements IImportable
 
     private function insertLanguages() {
 	$this->connection->insert("language", array(
-	    "name"	=> "czech",
-	    "locale"	=> "cs"
+	    "name"	=> "Česky",
+	    "locale"	=> "cs_CZ"
 	    ))->execute();
-	$this->languages["czech"] = $this->connection->insertId();
+        $this->languages["cs_CZ"] = $this->connection->insertId();
+	$this->connection->insert("language", array(
+	    "name"	=> "English",
+	    "locale"	=> "en_US"
+	    ))->execute();
+        $this->languages["en_US"] = $this->connection->insertId();
     }
 
 }

@@ -10,7 +10,7 @@ class TagsImport extends DatabaseTableImport {
 
     private function importTags() {
 	$tags	    = $this->getSource()->query("SELECT * FROM [reader_tag]")->fetchAll();
-	$language   = $this->getDestination()->query("SELECT * FROM [language] WHERE [name] = 'czech'")->fetch();
+	$language   = $this->getDestination()->query("SELECT * FROM [language] WHERE [locale] = 'cs_CZ'")->fetch();
 	foreach($tags AS $tag) {
 	    $this->getDestination()->insert("tag", array(
 		"id_language"	=> $language["id_language"],

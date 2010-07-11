@@ -35,7 +35,7 @@ class BooksImport extends DatabaseTableImport {
 
     private function importBooks() {
 	$books	    = $this->getSource()->query("SELECT * FROM [reader_book] ORDER BY [id]")->fetchAll();
-	$language   = $this->getDestination()->query("SELECT * FROM [language] WHERE [name] = 'czech'")->fetch();
+	$language   = $this->getDestination()->query("SELECT * FROM [language] WHERE [locale] = 'cs_CZ'")->fetch();
 	foreach($books AS $book) {
 	    // BOOK
 	    $this->getDestination()->insert("book", array(

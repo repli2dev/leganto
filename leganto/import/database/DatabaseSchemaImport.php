@@ -12,8 +12,8 @@ class DatabaseSchemaImport implements IImportable
     }
 
     public function setSource(File $source) {
-	if ($tables->isFile()) {
-	    throw new IOException("The file " . $tables->getPath() . " does not exist.");
+	if (!$source->isFile()) {
+	    throw new IOException("The file " . $source->getPath() . " does not exist.");
 	}
 	$this->sources[] = $source;
     }

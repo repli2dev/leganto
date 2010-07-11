@@ -33,7 +33,7 @@ class DiscussionImport extends DatabaseTableImport
     protected function posts() {
 	// Discussion posts
 	$posts	    = $this->getSource()->query("SELECT * FROM [reader_discussion] WHERE type = 'topic' OR type = 'discussion'")->fetchAll();
-	$language   = $this->getDestination()->query("SELECT * FROM [language] WHERE [name] = 'czech'")->fetch();
+	$language   = $this->getDestination()->query("SELECT * FROM [language] WHERE [locale] = 'cs_CZ'")->fetch();
 	foreach($posts AS $post) {
 	    $this->getDestination()->insert("post", array(
 		"id_post"	=> $post["id"],
