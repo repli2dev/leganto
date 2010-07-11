@@ -1,10 +1,11 @@
 <?php
+
 /**
  * The source file is subject to the license located on web
  * "http://code.google.com/p/preader/".
  *
  * @copyright	Copyright (c) 2009 Jan Papoušek (jan.papousek@gmail.com),
- *				Jan Drábek (repli2dev@gmail.com)
+ * 				Jan Drábek (repli2dev@gmail.com)
  * @link		http://code.google.com/p/preader/
  * @license		http://code.google.com/p/preader/
  */
@@ -15,224 +16,237 @@
  * @version		$Id$
  */
 class Web_SettingsPresenter extends Web_BasePresenter {
-    public function renderDefault() {
-        if(!Environment::getUser()->isAuthenticated()) {
-            $this->redirect("Default:");
-        } else {
-            $this->setPageTitle(System::translate("Settings"));
-        }
-    }
-    public function renderConnections() {
-        if(!Environment::getUser()->isAuthenticated()) {
-            $this->redirect("Default:");
-        } else {
-            $this->setPageTitle(System::translate("Social networks"));
-            $data = Leganto::connections()->getSelector()->findAllFromUser(System::user()->id);
 
-            $used = array();
-            foreach($data as $row) {
-                $used[$row->type] = TRUE;
-            }
+	public function renderDefault() {
+		if (!Environment::getUser()->isAuthenticated()) {
+			$this->redirect("Default:");
+		} else {
+			$this->setPageTitle(System::translate("Settings"));
+		}
+	}
 
-            $this->template->data = $data;
-            $this->template->used = $used;
-        }
-    }
+	public function renderConnections() {
+		if (!Environment::getUser()->isAuthenticated()) {
+			$this->redirect("Default:");
+		} else {
+			$this->setPageTitle(System::translate("Social networks"));
+			$data = Leganto::connections()->getSelector()->findAllFromUser(System::user()->id);
 
-    public function actionDelete($id) {
-        if(!Environment::getUser()->isAuthenticated()) {
-            $this->redirect("Default:");
-        } else {
-            $this->setPageTitle(System::translate("Delete connection"));
-        }
-    }
+			$used = array();
+			foreach ($data as $row) {
+				$used[$row->type] = TRUE;
+			}
 
-    public function actionTwitter() {
-        if(!Environment::getUser()->isAuthenticated()) {
-            $this->redirect("Default:");
-        } else {
-        // Check if user have one account already
-            $user = System::user()->id;
-            $haveOne = Leganto::connections()->getSelector()->exists($user,'twitter');
-            if(!$haveOne) {
-                $twitter = new TwitterBridge;
-                $twitter->doLogin();
-                $token = $twitter->getToken();
-                if(!empty($token)) {
-                // Prepare user connection entity
-                    $connection = Leganto::connections()->createEmpty();
-                    $connection->user = $user;
-                    $connection->type = 'twitter';
-                    $connection->token = $twitter->getToken();
+			$this->template->data = $data;
+			$this->template->used = $used;
+		}
+	}
 
-                    // Commit
-                    Leganto::connections()->getInserter()->insert($connection);
+	public function actionDelete($id) {
+		if (!Environment::getUser()->isAuthenticated()) {
+			$this->redirect("Default:");
+		} else {
+			$this->setPageTitle(System::translate("Delete connection"));
+		}
+	}
 
-                    $this->flashMessage(System::translate('Your account was successfully added.'));
-                    $this->redirect('connections');
-                }
-            } else {
-                $this->flashMessage(System::translate('You already have this type of account.'));
-                $this->redirect('connections');
-            }
-            exit;
-        }
+	public function actionTwitter() {
+		if (!Environment::getUser()->isAuthenticated()) {
+			$this->redirect("Default:");
+		} else {
+			// Check if user have one account already
+			$user = System::user()->id;
+			$haveOne = Leganto::connections()->getSelector()->exists($user, 'twitter');
+			if (!$haveOne) {
+				$twitter = new TwitterBridge;
+				$twitter->doLogin();
+				$token = $twitter->getToken();
+				if (!empty($token)) {
+					// Prepare user connection entity
+					$connection = Leganto::connections()->createEmpty();
+					$connection->user = $user;
+					$connection->type = 'twitter';
+					$connection->token = $twitter->getToken();
 
-    }
+					// Commit
+					Leganto::connections()->getInserter()->insert($connection);
 
-    public function actionFacebook() {
-        if(!Environment::getUser()->isAuthenticated()) {
-            $this->redirect("Default:");
-        } else {
-        // Check if user have one account already
-            $user = System::user()->id;
-            $haveOne = Leganto::connections()->getSelector()->exists($user,'facebook');
-            if(!$haveOne) {
-                $fb = new FacebookBridge;
-                $fb->doLogin();
-                // Prepare user connection entity
-                $connection = Leganto::connections()->createEmpty();
-                $connection->user = $user;
-                $connection->type = 'facebook';
-                $connection->token = $fb->getToken();
+					$this->flashMessage(System::translate('Your account was successfully added.'), 'success');
+					$this->redirect('connections');
+				}
+			} else {
+				$this->flashMessage(System::translate('You already have this type of account.'), 'error');
+				$this->redirect('connections');
+			}
+			exit;
+		}
+	}
 
-                // Commit
-                Leganto::connections()->getInserter()->insert($connection);
+	public function actionFacebook() {
+		if (!Environment::getUser()->isAuthenticated()) {
+			$this->redirect("Default:");
+		} else {
+			// Check if user have one account already
+			$user = System::user()->id;
+			$haveOne = Leganto::connections()->getSelector()->exists($user, 'facebook');
+			if (!$haveOne) {
+				$fb = new FacebookBridge;
+				$fb->doLogin();
+				// Prepare user connection entity
+				$connection = Leganto::connections()->createEmpty();
+				$connection->user = $user;
+				$connection->type = 'facebook';
+				$connection->token = $fb->getToken();
 
-                $this->flashMessage(System::translate('Your account was successfully added.'));
-                $this->redirect('connections');
-            } else {
-                $this->flashMessage(System::translate('You already have this type of account.'));
-                $this->redirect('connections');
-            }
-            exit;
-        }
+				// Commit
+				Leganto::connections()->getInserter()->insert($connection);
 
-    }
+				$this->flashMessage(System::translate('Your account was successfully added.'), 'success');
+				$this->redirect('connections');
+			} else {
+				$this->flashMessage(System::translate('You already have this type of account.'), 'error');
+				$this->redirect('connections');
+			}
+			exit;
+		}
+	}
 
+	// Factories
+	protected function createComponentDeleteForm($name) {
+		$form = new BaseForm;
+		$form->addSubmit("yes", "Yes");
+		$form->addSubmit("no", "No");
+		$form->onSubmit[] = array($this, "deleteFormSubmitted");
+		return $form;
+	}
 
-    // Factories
-    protected function createComponentDeleteForm($name) {
-        $form = new BaseForm;
-        $form->addSubmit("yes","Yes");
-        $form->addSubmit("no","No");
-        $form->onSubmit[] = array($this,"deleteFormSubmitted");
-        return $form;
-    }
-    protected function createComponentSettingsForm($name) {
-        $form = new BaseForm;
-        $form->addGroup("Basic information");
-        $form->addText("nickname", "Nickname")
-            ->disabled = TRUE;
-        $form->addText('email',"Email")
-            ->addRule(Form::FILLED,"Please fill correct email.")
-            ->addCondition(Form::FILLED)
-            ->addRule(Form::EMAIL,'Please fill email in right format someone@somewhere.tld.');
+	protected function createComponentSettingsForm($name) {
+		// Prepare form
+		$form = new BaseForm;
+		$form->addGroup("Basic information");
+		$form->addText('email', "Email")
+			->addRule(Form::FILLED, "Please fill correct email.")
+			->addCondition(Form::FILLED)
+			->addRule(Form::EMAIL, 'Please fill email in right format someone@somewhere.tld.');
 
-        $form->addGroup("Extra information");
-        $form->addSelect("sex", "Sex", array("" => "Unknown", "male" => "Male", "female" => "Female"));
-        $form->addText("birthyear","Birth year",4)
-            ->addCondition(Form::FILLED)
-            ->addRule(Form::INTEGER,"Please correct birth year. Only allowed is integer.");
-        $form->addTextArea('about','About');
+		$form->addGroup("Extra information");
+		$form->addSelect("sex", "Sex", array("" => "Unknown", "male" => "Male", "female" => "Female"));
+		$form->addText("birthyear", "Birth year", 4)
+			->addCondition(Form::FILLED)
+			->addRule(Form::INTEGER, "Please correct birth year. Only allowed is integer.");
+		$form->addTextArea('about', 'About');
 
-        // TODO: dodelat pravidla kdyz uzivatel vyplni jen new nebo new2
-        $form->addGroup("Change password");
-        $old = $form->addPassword("old",'Current password')
-            ->addCondition(Form::FILLED)
-            ->addRule(Form::FILLED,"Please fill in your current password");
-        $form->addPassword("new",'New password')
-            ->addConditionOn($form["old"], Form::FILLED)
-            ->addRule(Form::FILLED,"Please fill your new password.");
-        $form->addPassword("new2",'New password again')
-            ->addConditionOn($form["old"], Form::FILLED)
-            ->addRule(Form::FILLED,"Please fill the second password for check.")
-            ->addConditionOn($form["new"], Form::FILLED)
-            ->addRule(Form::EQUAL, "Passwords have to match!", $form["new"]);
+		$form->addGroup("Change password");
+		$form->addPassword("old", 'Current password');
+		$form->addPassword("new", 'New password');
+		$form->addPassword("new2", 'New password again');
+		// Get instances of all object to create cross rules!
+		$old = $form["old"];
+		$new = $form["new"];
+		$new2 = $form["new2"];
 
-        $form->addGroup("Avatar");
-        $form->addFile("avatar","Avatar")
-            ->addCondition(Form::FILLED)
-            ->addRule(Form::MIME_TYPE,"File must be an image.",'image/*');
+		$old->addConditionOn($new,Form::FILLED)
+			->addRule(Form::FILLED,"Please fill your current password.");
+		$old->addConditionOn($new2,Form::FILLED)
+			->addRule(Form::FILLED,"Please fill your current password.");
+			
+		$new->addConditionOn($old,Form::FILLED)
+			->addRule(Form::FILLED,"Please fill new password.");
+		
+		$new2->addConditionOn($old,Form::FILLED)
+			->addRule(Form::FILLED,"Please fill new password for check.");
+		$new2->addCondition(Form::FILLED)
+			->addRule(Form::EQUAL,"New passwords have to match. Please type them again.",$new);
 
-        $form->setCurrentGroup();
+		$form->addGroup("Avatar");
+		$form->addFile("avatar", "Avatar")
+			->addCondition(Form::FILLED)
+			->addRule(Form::MIME_TYPE, "File must be an image.", 'image/*')
+			->addRule(Form::MAX_FILE_SIZE,"Avatar has to be smaller than 100 KB.",100);
 
-        $form->addSubmit("submitted", "Save");
-        $form->onSubmit[] = array($this, "settingsFormSubmitted");
-        // Load data and bind them
-        $user = System::user();
-        $values['nickname'] = $user->nickname;
-        $values['email'] = $user->email;
-        $values['sex'] = $user->sex;
-        $values['birthyear'] = $user->birthyear;
-        $values['about'] = $user->about;
-        $form->setValues($values);
-        return $form;
-    }
-    protected function createComponentSubmenu($name) {
-        $submenu = new SubmenuComponent($this, $name);
-        $submenu->addLink("default", System::translate("Settings"));
-        $submenu->addLink("connections", System::translate("Social networks"));
-        return $submenu;
-    }
+		$form->setCurrentGroup();
+
+		$form->addSubmit("submitted", "Save");
+		$form->onSubmit[] = array($this, "settingsFormSubmitted");
+		// Load data of current user for showing them
+		$user = System::user();
+		$values['email'] = $user->email;
+		$values['sex'] = $user->sex;
+		$values['birthyear'] = $user->birthyear;
+		$values['about'] = $user->about;
+		$form->setValues($values);
+		return $form;
+	}
+
+	protected function createComponentSubmenu($name) {
+		$submenu = new SubmenuComponent($this, $name);
+		$submenu->addLink("default", System::translate("Settings"));
+		$submenu->addLink("connections", System::translate("Social networks"));
+		return $submenu;
+	}
 
 	/* FORM SIGNALS */
-    public function settingsFormSubmitted(Form $form) {
-        $user = System::user();
-        $values = $form->getValues();
-        $user->email = $values["email"];
-        $user->sex = $values["sex"];
-        $user->birthyear = $values["birthyear"];
-        $user->about = $values["about"];
 
-        if(isSet($values["new"]) && !empty($values["new"])) {
-            $user->password = UserAuthenticator::passwordHash($values["new"]);
-        }
-        try {
-            if ($user->getState() == IEntity::STATE_MODIFIED) {
-                Leganto::users()->getUpdater()->update($user);
-                $this->flashMessage(System::translate("Your settings was saved."), "success");
-            } else {
-                $this->flashMessage(System::translate("Your settings was left unchanged."));
-            }
-            $tmpFile = $values["avatar"]->getTemporaryFile();
-            if (!empty($tmpFile)) {
-                $storage = new UserIconStorage();
-                $storage->store($user, new File($tmpFile));
-                $this->flashMessage(System::translate("The avatar has been successfuly changed."), "success");
-            }
-            $this->redirect("this");
-        }
-        catch(DuplicityException $e) {
-            $this->flashMessage(System::translate("The e-mail is already used by another user."), "error");
-        }
+	public function settingsFormSubmitted(Form $form) {
+		$user = System::user();
+		$values = $form->getValues();
+		$user->email = $values["email"];
+		$user->sex = $values["sex"];
+		$user->birthyear = $values["birthyear"];
+		$user->about = $values["about"];
+		
+		if (isSet($values["new"]) && !empty($values["new"])) {
+			if($user->password != UserAuthenticator::passwordHash($values["old"])){
+				$form->addError("Error occured, current password you have entered is wrong.");
+				return;
+			} else {
+				$user->password = UserAuthenticator::passwordHash($values["new"]);
+			}
+		}
+		try {
+			if ($user->getState() == IEntity::STATE_MODIFIED) {
+				Leganto::users()->getUpdater()->update($user);
+				$this->flashMessage(System::translate("Your settings was saved."), "success");
+			} else {
+				$this->flashMessage(System::translate("Your settings was left unchanged."));
+			}
+			$tmpFile = $values["avatar"]->getTemporaryFile();
+			if (!empty($tmpFile)) {
+				$storage = new UserIconStorage();
+				$storage->store($user, new File($tmpFile));
+				$this->flashMessage(System::translate("The avatar has been successfuly changed."), "success");
+			}
+			$this->redirect("this");
+		} catch (DuplicityException $e) {
+			$this->flashMessage(System::translate("The e-mail is already used by another user."), "error");
+		}
 //        catch(Exception $e) {
 //            Debug::fireLog($e->getMessage());
 //            $this->getPresenter()->flashMessage(System::translate('Unexpected error happened.'), "error");
 //        }
-        
-    }
-    public function deleteFormSubmitted(Form $form) {
-        if($form["yes"]->isSubmittedBy()) {
-            $id = $this->getParam("id");
-            $data = Leganto::connections()->getSelector()->find($id);
-            $user = System::user();
-            $password = $user->password;
-            $email = $user->email;
-            // Check if user is allowed to delete connection (he/she isn't where his/her password is empty (-> means registration through SN))
-            if(empty($password) || empty($email)) {
-                $form->addError("Your connection cannot be deleted as you have created account through social network. In order to do so please set your account password and email in Settings tab first.");
-            } else
-                if($data->user == $user->id) {
-                    Leganto::connections()->getDeleter()->delete($id);
-                    $this->flashMessage("Connection was successfully deleted.");
-                    $this->redirect("connections");
-                } else {
-                    $form->addError("You are not owner. Operation could not be performed.");
-                }
-        } else {
-            $this->redirect("connections");
-        }
+	}
 
-    }
+	public function deleteFormSubmitted(Form $form) {
+		if ($form["yes"]->isSubmittedBy()) {
+			$id = $this->getParam("id");
+			$data = Leganto::connections()->getSelector()->find($id);
+			$user = System::user();
+			$password = $user->password;
+			$email = $user->email;
+			// Check if user is allowed to delete connection (he/she isn't where his/her password is empty (-> means registration through SN))
+			if (empty($password) || empty($email)) {
+				$form->addError("Your connection cannot be deleted as you have created account through social network. In order to do so please set your account password and email in Settings tab first.");
+			} else
+			if ($data->user == $user->id) {
+				Leganto::connections()->getDeleter()->delete($id);
+				$this->flashMessage(System::translate("Connection was successfully deleted."), 'success');
+				$this->redirect("connections");
+			} else {
+				$form->addError("You are not owner. Operation could not be performed.");
+			}
+		} else {
+			$this->redirect("connections");
+		}
+	}
+
 }
