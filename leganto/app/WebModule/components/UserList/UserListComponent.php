@@ -6,6 +6,11 @@ class UserListComponent extends BaseListComponent
 	$this->loadTemplate($this->getSource());
     }
 
+    protected function startUp() {
+	parent::startUp();
+	$this->setLimit(12);
+    }
+
     // ---- PRIVATE METHODS
 
     private function loadTemplate(DibiDataSource $source) {

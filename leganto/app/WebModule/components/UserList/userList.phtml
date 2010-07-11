@@ -1,25 +1,29 @@
 <style>
-    .user {
-	padding: 0px 10px;
+    .user-item {
+	width: 30%;
+	float: left;
+	margin: 0 1% 20px 1%;
     }
-    .user .content {
+    .user-item .content {
 	margin-left: 70px;
     }
-    .user .info {
+    .user-item .info {
 	margin-left: 70px;
     }
 </style>
+<div class="user-list">
 {foreach $users AS $user}
-<div class="user">
-    <img class="icon" src="{$baseUri . 'storage/users/' . $user->id .'.jpg', 50|thumbnail}" />
-    <div class="info">
-	{$user->inserted|date} | <strong class="author">{$user->nickname}</strong>
+    <div class="user-item">
+	<img class="icon" src="{$user->getId(), 50|userico}" />
+	<div class="info">
+	    <a href="{plink User:default, $user->getId()}">{$user->nickname}</a>
+	</div>
+	<div class="content">
+		    {!=String::truncate($user->about, 100)|texy}
+	</div>
     </div>
-    <div class="content">
-		{!=$user->about|texy}
-    </div>
+    {if $iterator->getCounter() % 3 == 0}<hr style="clear:both; visibility:hidden" />{/if}
+    {/foreach}
 </div>
 <hr style="clear:both; visibility:hidden" />
-{/foreach}
-
 {widget paginator}
