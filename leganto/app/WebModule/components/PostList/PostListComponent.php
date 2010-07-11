@@ -6,6 +6,27 @@ class PostListComponent extends BaseListComponent
 
     private $type;
 
+    public function handleDelete($post) {
+        $postEntity = Leganto::posts()->getSelector()->find($post);
+        if ($postEntity == null) {
+            $this->getPresenter()->flashMessage(System::translate('The post can not be deleted.'), "error");
+            return;
+        }
+        try {
+            $discussion = Leganto::discussions()->getSelector()->find($postEntity->discussion);
+            $postEntity->delete();
+            $this->getPresenter()->flashMessage(System::translate("The post has been deleted."), "success");
+            if ($discussion->discussionType == PostSelector::TOPIC && $discussion->numberOfPosts == 1) {
+                $this->getPresenter()->flashMessage(System::translate("The post has been last in the topic, therefore the topic has been also deleted."), "success");
+                $this->getPresenter()->redirect("Discussion:default");
+            }
+        }
+        catch (Expcetion $e) {
+            Debug::log($e->getMessage());
+            $this->getPresenter()->flashMessage(System::translate('Unexpected error happened.'), "error");
+        }
+    }
+
     public function formSubmitted(Form $form) {
         $values = $form->getValues();
 

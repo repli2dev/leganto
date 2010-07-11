@@ -8,6 +8,15 @@
     .post .info {
 	margin-left: 70px;
     }
+    .post .control {
+        float: right;
+    }
+    .post .control a {
+        text-decoration: none;
+    }
+    .post .control a img{
+        border: none;
+    }
 </style>
 @{if Environment::getUser()->isAuthenticated()}
     <div id="post-form-wrapper">
@@ -16,6 +25,15 @@
 @{/if}
 @{foreach $posts AS $post}
 <div class="post">
+    {if Misc::isAllowedToControl($post->user)}
+    <div class="control">
+        {assign confirm => System::translate("Are you sure you want to delete a discussion post?")}
+        {assign link    => $component->link('delete', $post->getId())}
+        <a onclick="if(confirm('{!$confirm}')) window.location = '{!$link}'">
+            <img src="{$baseUri . 'img/ico/delete.png'}" alt="{_'Delete'}" />
+        </a>
+    </div>
+    {/if}
     <img class="icon" src="{$baseUri . 'storage/users/' . $post->user .'.jpg', 50|thumbnail}" />
     <div class="info">
 	@{$post->inserted|date} | <strong class="author">{$post->userName}</strong>
