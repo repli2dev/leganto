@@ -16,6 +16,15 @@ class OpinionListComponent extends BaseListComponent
 	$this->loadTemplate($this->getSource());
     }
 
+    public function showBookInfo() {
+        $this->getTemplate()->showedInfo = "book";
+    }
+
+    public function showUserInfo() {
+        $this->getTemplate()->showedInfo = "user";
+    }
+
+
     // ---- PROTECTED METHODS
 
     protected function createComponentPostList($name) {
@@ -25,6 +34,7 @@ class OpinionListComponent extends BaseListComponent
     // ---- PRIVATE METHODS
 
     private function loadTemplate(DibiDataSource $source) {
+        // Paginator
 	$paginator = $this->getPaginator();
 	$source->applyLimit($paginator->itemsPerPage, $paginator->offset);
 	$this->getTemplate()->opinions = Leganto::opinions()->fetchAndCreateAll($source);
@@ -49,6 +59,10 @@ class OpinionListComponent extends BaseListComponent
 		    ->findAllByIdAndType($this->getTemplate()->showedOpinion, PostSelector::OPINION)
 	    );
             $this->getComponent("postList")->setDiscussed($this->showedOpinion, PostSelector::OPINION);
+        }
+        // Default showed info
+        if (empty($this->getTemplate()->showedInfo)) {
+            $this->getTemplate()->showedInfo = 'user';
         }
     }
 
