@@ -4,26 +4,45 @@
 <script type="text/javascript">
 $(document).ready(function(){
 
+	$(".toggle_container").hide();
+
 	$(function() {
-		$("#shelf ul").sortable({ opacity: 0.6, cursor: 'move', update: function() {
+		$(".books-in-shelf").sortable({ opacity: 0.6, cursor: 'move', update: function() {
 			var order = $(this).sortable("serialize") + '&action=updateRecordsListings';
 		}
 		});
 	});
 
+
+
+	//Switch the "Open" and "Close" state per click then slide up/down (depending on open/close state)
+	$(".shelf h2").click(function(){
+	    $(this).next().slideToggle("slow");
+	});
+
+
 });
 </script>
 
 <style>
-    #shelf {
-	border: 1px solif black;
+    html {
+	overflow-Y: scroll;
+    }
+
+    .shelf {
+	margin-left: 20px;
+	margin-top: 5px;
+    }
+    .shelf p {
+	margin: 0;
+    }
+    .shelf ul, .shelf li {
+	margin:0;
     }
     .book-in-shelf {
 	display: block;
-	width: 29%;
-	float: left;
-	margin: 0 1% 20px 1%;
 	padding: 5px;
+	margin: 0;
     }
     .book-in-shelf img {
 	float: left;
@@ -32,11 +51,18 @@ $(document).ready(function(){
     .book-in-shelf h3 {
 	margin: 0 10px;
     }
-    .book-in-shelf {
-	cursor: pointer;
-    }
     .book-in-shelf:hover {
 	background: #f5d25a;
+    }
+    .shelf h2 {
+	cursor: pointer;
+	padding: 0 0 0 50px;
+	margin: 0 0 5px 0;
+	height: 46px;
+	line-height: 46px;
+	font-size: 2em;
+	font-weight: normal;
+	background: gray;
     }
 
 </style>
@@ -45,20 +71,71 @@ $(document).ready(function(){
         <h1>{$user->nickname}</h1>
     </div>
 
-		<div id="shelf">
-		    <ul>
-			<li class="book-in-shelf">
-			    <img src="/thumb/resize?path=.%2F%2Fstorage%2Fbooks%2F2%2F24.jpeg&w=50" />
-			    <h3>2001: Vesmírná oddyssea</h3>
-			</li>
-			<li class="book-in-shelf">
-			    <img src="/thumb/resize?path=.%2F%2Fstorage%2Fbooks%2F1%2F7.jpeg&w=50" />
-			    <h3>1984</h3>
-			</li>
-			<li class="book-in-shelf">
-			    <img src="/thumb/resize?path=.%2Fstorage%2Fbooks%2F9%2F66.jpeg&w=50" />
-			    <h3>Rozmarné léto</h3>
-			</li>
-		    </ul>
-		</div>
+{foreach $shelves AS $shelf}
+<div class="shelf">
+    <h2>{$shelf->name}</h2>
+    <div class="toggle_container">
+	{if !empty($books[$shelf->getId()])}
+	    <ul class="books-in-shelf">
+		{foreach $books[$shelf->getId()] AS $bookRow}
+		    {assign book => Leganto::books()->createEmpty()->loadDataFromArray($bookRow->toArray(), "Load")}
+		<li class="book-in-shelf">
+		    <img src="{$book->getId(), 50|bookcover}" width="50" height="80" />
+		    <h3>{$book->title}</h3>
+		    <hr style="clear:both; visibility:hidden;" />
+		</li>
+		{/foreach}
+	    </ul>
+	{/if}
+    </div>
+</div>
+{/foreach}
+<div class="shelf">
+    <h2>Shelf</h2>
+    <div class="toggle_container">
+	<div>
+	    <ul class="books-in-shelf">
+		<li class="book-in-shelf">
+		    <img src="/thumb/resize?path=.%2F%2Fstorage%2Fbooks%2F2%2F24.jpeg&w=50" width="50" height="80" />
+		    <h3>2001: Vesmírná oddyssea</h3>
+		    <hr style="clear:both; visibility:hidden;" />
+		</li>
+		<li class="book-in-shelf">
+		    <img src="/thumb/resize?path=.%2F%2Fstorage%2Fbooks%2F1%2F7.jpeg&w=50" width="50" height="80" />
+		    <h3>1984</h3>
+		    <hr style="clear:both; visibility:hidden;" />
+		</li>
+		<li class="book-in-shelf">
+		    <img src="/thumb/resize?path=.%2Fstorage%2Fbooks%2F9%2F66.jpeg&w=50" width="50" height="80" />
+		    <h3>Rozmarné léto</h3>
+		    <hr style="clear:both; visibility:hidden;" />
+		</li>
+	    </ul>
+	</div>
+    </div>
+</div>
+<div class="shelf">
+    <h2>Shelf</h2>
+    <div class="toggle_container">
+	<div>
+	    <ul class="books-in-shelf">
+		<li class="book-in-shelf">
+		    <img src="/thumb/resize?path=.%2F%2Fstorage%2Fbooks%2F2%2F24.jpeg&w=50" width="50" height="80" />
+		    <h3>2001: Vesmírná oddyssea</h3>
+		    <hr style="clear:both; visibility:hidden;" />
+		</li>
+		<li class="book-in-shelf">
+		    <img src="/thumb/resize?path=.%2F%2Fstorage%2Fbooks%2F1%2F7.jpeg&w=50" width="50" height="80" />
+		    <h3>1984</h3>
+		    <hr style="clear:both; visibility:hidden;" />
+		</li>
+		<li class="book-in-shelf">
+		    <img src="/thumb/resize?path=.%2Fstorage%2Fbooks%2F9%2F66.jpeg&w=50" width="50" height="80" />
+		    <h3>Rozmarné léto</h3>
+		    <hr style="clear:both; visibility:hidden;" />
+		</li>
+	    </ul>
+	</div>
+    </div>
+</div>
 {/block}

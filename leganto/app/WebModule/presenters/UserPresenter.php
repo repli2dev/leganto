@@ -33,6 +33,8 @@ class Web_UserPresenter extends Web_BasePresenter
             $this->flashMessage(System::translate("The user does not exist."), "error");
             $this->redirect("Default:default");
         }
+	$this->getTemplate()->shelves = Leganto::shelves()->fetchAndCreateAll(Leganto::shelves()->getSelector()->findByUser($user));
+	$this->getTemplate()->books   = Leganto::books()->getSelector()->findAllInShelvesByUser($user)->fetchAssoc("id_shelf,id_book");
 	$this->setPageTitle($user->nickname . ": " . System::translate("Shelves"));
     }
 

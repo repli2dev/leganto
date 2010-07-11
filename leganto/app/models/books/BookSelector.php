@@ -46,6 +46,13 @@ class BookSelector implements ISelector
 		return dibi::dataSource("SELECT * FROM [view_shelf_book] WHERE [id_shelf] = %i", $shelf->getId());
 	}
 
+	public function findAllInShelvesByUser(UserEntity $user) {
+		if (empty($user)) {
+			throw new NullPointerException("user");
+		}
+		return dibi::dataSource("SELECT * FROM [view_shelf_book] WHERE [id_user] = %i", $user->getId());
+	}
+
 	public function findAllSimilar(BookEntity $book) {
 		if (empty($book)) {
 			throw new NullPointerException("book");
