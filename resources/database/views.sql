@@ -85,10 +85,12 @@ CREATE VIEW `view_opinion` AS
 		`user`.`id_user`			AS `id_user`,
 		`user`.`nick`				AS `user_nick`,
 		`language`.`id_language`		AS `id_language`,
-		`language`.`locale`			AS `locale`
+		`language`.`locale`			AS `locale`,
+                `book_title`.`title`                     AS `book_title`
 	FROM `opinion`
 	INNER JOIN `language` USING(`id_language`)
 	INNER JOIN `user` USING(`id_user`)
+        INNER JOIN `book_title` USING(`id_book_title`)
 	ORDER BY `opinion`.`inserted` DESC;
 
 DROP VIEW IF EXISTS `view_similar_opinion`;

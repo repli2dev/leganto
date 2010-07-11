@@ -26,6 +26,12 @@ class OpinionEntity extends AEntity
 	 */
 	protected $bookTitleId;
 
+        /**
+         * @Skip(Save)
+         * @Translate(book_title)
+         */
+        protected $bookTitle;
+
 	protected $content;
 
 	protected $inserted;
