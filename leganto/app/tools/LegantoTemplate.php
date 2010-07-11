@@ -33,6 +33,7 @@ final class LegantoTemplate
 		$template->registerHelper("time", Helpers::getHelper('time'));
 		$template->registerHelper("texy", Helpers::getHelper('texy'));
 		$template->registerHelper("thumbnail", Helpers::getHelper('thumbnail'));
+                $template->registerHelper("userico", Helpers::getHelper('userIcon'));
 
 		$template->setTranslator(System::translator());
 

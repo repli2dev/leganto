@@ -2,12 +2,5 @@
 
 @{block #subcontent}
 	<h1>Settings</h1>
-	{if $flashes}
-		<ul>
-			{foreach $flashes as $flash}
-				<li>{$flash->message}</li>
-			{/foreach}
-		</ul>
-	{/if}
 	@{widget "settingsForm"}
 {/block}

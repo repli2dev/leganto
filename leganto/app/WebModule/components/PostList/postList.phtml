@@ -35,7 +35,7 @@
         </a>
     </div>
     {/if}
-    <img class="icon" src="{$baseUri . 'storage/users/' . $post->user .'.jpg', 50|thumbnail}" />
+    <img class="icon" src="{$post->user, 50|userico}" />
     <div class="info">
 	@{$post->inserted|date} | <strong class="author">{$post->userName}</strong>
     </div>

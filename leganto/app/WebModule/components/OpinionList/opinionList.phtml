@@ -20,7 +20,7 @@
 {snippet opinion-list}
 @{foreach $opinions AS $opinion}
 <div class="opinion">
-    <img class="icon" src="{$baseUri . 'storage/users/' . $opinion->userId .'.jpg', 50|thumbnail}" />
+    <img class="icon" src="{$opinion->userId, 50|userico}" />
     <div class="info">
 	<img class="rating" src="{$baseUri}img/rating_{$opinion->rating}.png" />
 	{$opinion->inserted|date} | <strong class="author">{$opinion->userName}</strong>

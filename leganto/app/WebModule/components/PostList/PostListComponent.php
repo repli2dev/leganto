@@ -22,7 +22,7 @@ class PostListComponent extends BaseListComponent
             }
         }
         catch (Expcetion $e) {
-            Debug::log($e->getMessage());
+            Debug::fireLog($e->getMesssage());
             $this->getPresenter()->flashMessage(System::translate('Unexpected error happened.'), "error");
         }
     }

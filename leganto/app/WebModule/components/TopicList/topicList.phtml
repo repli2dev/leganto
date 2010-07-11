@@ -4,7 +4,7 @@
 <div id="topics">
     {foreach $topics AS $topic}
     <div class="topic">
-	<img class="icon" src="{$baseUri . 'storage/users/' . $topic->userId .'.jpg', 50|thumbnail}" />
+	<img class="icon" src="{$topic->userId, 50|userico}" />
 	<div class="info">
 	    <strong><a href="{plink Discussion:posts, $topic->getId(), PostSelector::TOPIC}">{$topic->name}</a></strong>
 	    |
