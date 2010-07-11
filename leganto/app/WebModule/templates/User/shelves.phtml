@@ -1,0 +1,64 @@
+@{extends layout.phtml}
+
+@{block #subcontent}
+<script type="text/javascript">
+$(document).ready(function(){
+
+	$(function() {
+		$("#shelf ul").sortable({ opacity: 0.6, cursor: 'move', update: function() {
+			var order = $(this).sortable("serialize") + '&action=updateRecordsListings';
+		}
+		});
+	});
+
+});
+</script>
+
+<style>
+    #shelf {
+	border: 1px solif black;
+    }
+    .book-in-shelf {
+	display: block;
+	width: 29%;
+	float: left;
+	margin: 0 1% 20px 1%;
+	padding: 5px;
+    }
+    .book-in-shelf img {
+	float: left;
+	margin-right: 10px;
+    }
+    .book-in-shelf h3 {
+	margin: 0 10px;
+    }
+    .book-in-shelf {
+	cursor: pointer;
+    }
+    .book-in-shelf:hover {
+	background: #f5d25a;
+    }
+
+</style>
+
+    <div id="user-info">
+        <h1>{$user->nickname}</h1>
+    </div>
+
+		<div id="shelf">
+		    <ul>
+			<li class="book-in-shelf">
+			    <img src="/thumb/resize?path=.%2F%2Fstorage%2Fbooks%2F2%2F24.jpeg&w=50" />
+			    <h3>2001: Vesmírná oddyssea</h3>
+			</li>
+			<li class="book-in-shelf">
+			    <img src="/thumb/resize?path=.%2F%2Fstorage%2Fbooks%2F1%2F7.jpeg&w=50" />
+			    <h3>1984</h3>
+			</li>
+			<li class="book-in-shelf">
+			    <img src="/thumb/resize?path=%2Fhome%2Fpapi%2Fworkspace%2Fleganto%2Fleganto%2Fdocument_root%2Fstorage%2Fbooks%2F9%2F66.jpeg&w=50" />
+			    <h3>Rozmarné léto</h3>
+			</li>
+		    </ul>
+		</div>
+{/block}

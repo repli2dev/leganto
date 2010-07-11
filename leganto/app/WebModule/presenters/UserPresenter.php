@@ -26,6 +26,16 @@ class Web_UserPresenter extends Web_BasePresenter
         $this->setPageTitle($user->nickname . ": " . System::translate("Opinions"));
     }
 
+    public function renderShelves($id) {
+        $user = Leganto::users()->getSelector()->find($id);
+        $this->getTemplate()->user = $user;
+        if ($user == null) {
+            $this->flashMessage(System::translate("The user does not exist."), "error");
+            $this->redirect("Default:default");
+        }
+	$this->setPageTitle($user->nickname . ": " . System::translate("Shelves"));
+    }
+
     // COMPONENTS
 
     protected function createComponentSubmenu($name) {
