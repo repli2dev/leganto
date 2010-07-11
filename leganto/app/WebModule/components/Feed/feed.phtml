@@ -1,19 +1,9 @@
-<style>
-    .feed-item .content {
-	margin-left: 70px;
-    }
-    .feed-item .info {
-	margin-left: 70px;
-    }
-    .feed {
-	padding-left: 50px;
-    }
-</style>
-
-<div id="feed">	
+<div class="list">
 {foreach $feed AS $item}
-    <div class=feed-item">
+    <div class=item">
+
 	<img class="icon" src="{$item->userId, 50|userico}" />
+
 	<div class="info">
 	    {$item->inserted|date}
 	    |
@@ -27,11 +17,15 @@
 	    {/if}
 	    </strong>
 	</div>
+
 	<div class="content">
 		    {!=String::truncate($item->content, 300)|texy}
 	</div>
+
     </div>
+
     <hr style="clear:both; visibility:hidden" />
+    
 {/foreach}
 
 {widget paginator}

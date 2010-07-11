@@ -1,48 +1,32 @@
-<style>
-    .post {
-	padding: 0px 10px;
-    }
-    .post .content {
-	margin-left: 70px;
-    }
-    .post .info {
-	margin-left: 70px;
-    }
-    .post .control {
-        float: right;
-    }
-    .post .control a {
-        text-decoration: none;
-    }
-    .post .control a img{
-        border: none;
-    }
-</style>
-@{if Environment::getUser()->isAuthenticated()}
-    <div id="post-form-wrapper">
-        @{widget form}
-    </div>
-@{/if}
-@{foreach $posts AS $post}
-<hr style="clear:both; visibility:hidden; margin: 0;" />
-<div class="post">
-    {if Misc::isAllowedToControl($post->user)}
-    <div class="control">
-        {assign confirm => System::translate("Are you sure you want to delete a discussion post?")}
-        {assign link    => $component->link('delete', $post->getId())}
-        <a onclick="if(confirm('{!$confirm}')) window.location = '{!$link}'">
-            <img src="{$baseUri . 'img/ico/delete.png'}" alt="{_'Delete'}" />
-        </a>
-    </div>
-    {/if}
-    <img class="icon" src="{$post->user, 50|userico}" />
-    <div class="info">
-	@{$post->inserted|date} | <strong class="author">{$post->userName}</strong>
-    </div>
-    <div class="content">
-		{!=$post->content|texy}
-    </div>
+<div class="list">
+    @{if Environment::getUser()->isAuthenticated()}
+	<div id="post-form-wrapper">
+	    @{widget form}
+	</div>
+    @{/if}
+
+    @{foreach $posts AS $post}
+	<hr style="clear:both; visibility:hidden; margin: 0;" />
+	<div class="item">
+	    {if Misc::isAllowedToControl($post->user)}
+	    <div class="control">
+		{assign confirm => System::translate("Are you sure you want to delete a discussion post?")}
+		{assign link    => $component->link('delete', $post->getId())}
+		<a onclick="if(confirm('{!$confirm}')) window.location = '{!$link}'">
+		    <img src="{$baseUri . 'img/ico/delete.png'}" alt="{_'Delete'}" />
+		</a>
+	    </div>
+	    {/if}
+	    <img class="icon" src="{$post->user, 50|userico}" />
+	    <div class="info">
+		@{$post->inserted|date} | <strong class="author">{$post->userName}</strong>
+	    </div>
+	    <div class="content">
+			{!=$post->content|texy}
+	    </div>
+	</div>
+    @{/foreach}
+    
 </div>
-@{/foreach}
 
 @{widget paginator}

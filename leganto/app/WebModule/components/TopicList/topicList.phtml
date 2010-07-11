@@ -1,15 +1,15 @@
 {if Environment::getUser()->isAuthenticated()}
     {widget form}
 {/if}
-<div id="topics">
+<div cllass="list">
     {foreach $topics AS $topic}
-    <div class="topic">
+    <div class="item">
 	<img class="icon" src="{$topic->userId, 50|userico}" />
 	<div class="info">
 	    <strong><a href="{plink Discussion:posts, $topic->getId(), PostSelector::TOPIC}">{$topic->name}</a></strong>
-	    |
+	    <br />
 	    <a href="{plink User:default, $topic->userId}">{$topic->userName}</a>
-	    |
+	    <br />
 	    {$topic->inserted|date}
 	</div>
     </div>

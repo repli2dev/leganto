@@ -1,32 +1,8 @@
-<style>
-    .opinion {
-	padding: 0px 10px;
-    }
-    .opinion .content {
-	margin-left: 70px;
-    }
-    .opinion .info {
-	margin-left: 70px;
-    }
-    .opinion .info .rating {
-	text-align: right;
-	float:right;
-    }
-    .posts {
-	padding-left: 50px;
-    }
-    #sorting {
-        margin: 10px auto;
-    }
-    #sorting th {
-	padding: 10px;
-    }
-</style>
-
 {snippet opinion-list}
-<div class="opinion-list">
+<div class="list">
+
     {if !empty($sorting)}
-    <table id="sorting">
+    <table class="navigation">
         <tr>
             <th>Order by:</th>
             <th><a href="{link sortByTime!}" title="_{'Sort by time}'">Time</a></th>
@@ -34,8 +10,10 @@
         </tr>
     </table>
     {/if}
+
     @{foreach $opinions AS $opinion}
-    <div class="opinion">
+    <div class="item">
+
         {if $showedInfo == 'user'}
             <img class="icon" src="{$opinion->userId, 50|userico}" />
         
@@ -51,26 +29,29 @@
                 {$opinion->inserted|date} | <a href="{plink Book:default, $opinion->bookTitleId}">{$opinion->bookTitle}</a>
             </div>
         {/if}
+
         <div class="content">
             {!=$opinion->content|texy}
         </div>
-        <div class="posts">
-            @{if isset($showedOpinion) && $showedOpinion == $opinion->getId()}
-                <div class="posts">
-                @{widget postList}
-                </div>
-            @{else}
-                @{if isset($discussions[$opinion->getId()])}
-                    <a href="{link showPosts!, $opinion->getId()}" class="show ajax">{_'Show %d comments',$discussions[$opinion->getId()]}</a>
-                @{else}
-                    @{if Environment::getUser()->isAuthenticated()}
-                    <a href="{link showPosts!, $opinion->getId()}" class="show ajax">{_'Reply'}</a>
-                    @{/if}
-                @{/if}
-            @{/if}
-        </div>
+
+	<hr style="clear:both; visibility:hidden; margin:0;" />
+	
+        @{if isset($showedOpinion) && $showedOpinion == $opinion->getId()}
+            @{widget postList}
+	@{else}
+	    @{if isset($discussions[$opinion->getId()])}
+		<a href="{link showPosts!, $opinion->getId()}" class="action ajax">{_'Show %d comments',$discussions[$opinion->getId()]}</a>
+	    @{else}
+		@{if Environment::getUser()->isAuthenticated()}
+		    <a href="{link showPosts!, $opinion->getId()}" class="action ajax">{_'Reply'}</a>
+		@{/if}
+	    @{/if}
+	@{/if}
+
     </div>
+
     <hr style="clear:both; visibility:hidden;" />
+    
     @{/foreach}
 
     {widget paginator}

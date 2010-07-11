@@ -1,0 +1,21 @@
+/*********************** GENERAL **********************************************/
+.list .item {
+    padding: 0px 10px;
+}
+.list .list {
+    padding-left: 50px;
+}
+.list .navigation {
+    margin: 10px auto;
+}
+.list .navigation th {
+    padding: 10px;
+}
+.list .item .content, .list .item .info, .list .item .action {
+    margin-left: 70px;
+}
+/*********************** OPINIONS *********************************************/
+.list .rating {
+    text-align: right;
+    float:right;
+}
