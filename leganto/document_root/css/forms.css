@@ -1,4 +1,4 @@
-/***************************** DEFAULT ****************************************/
+formUnder/***************************** DEFAULT ****************************************/
 form {
 	font: "Trebuchet MS", Arial, Helvetica, sans-serif;
 }
@@ -62,6 +62,10 @@ textarea {
 	color: #224465;
 }
 [type="submit"] {
+	margin: 0 0 0 140px;
+}
+/** Graphics button for extra purposes - otherwise use normal buttons **/
+[type="submit"].nice {
 	margin: 30px 0 0 140px;
 	border: 0px;
 	width: 101px;
@@ -76,10 +80,10 @@ textarea {
 	bottom: 32px;
         cursor: pointer;
 }
-[type="submit"]:hover {
+[type="submit"].nice:hover {
 	background-position: -101px;
 }
-[type="submit"]:active {
+[type="submit"].nice:active {
 	background-position: -202px;
 }
 
@@ -106,6 +110,7 @@ textarea {
 	display: none;
 }
 #search input[type="submit"] {
+	border: 0px;
 	height: 23px;
 	width: 23px;
 	background: url(../img/header_input_submit_default.gif);
@@ -144,6 +149,11 @@ ul.error {
 	background-color: #E8B8B1;
 	background-image: url(../img/ico/flash-error.png);
 	list-style: none;
+}
+.underForm {
+	display: block;
+	margin-left: 140px;
+	margin-top: 10px;
 }
 
 /***************************** POSTS *****************************************/

@@ -24,13 +24,27 @@ class InsertingBookComponent extends BaseComponent {
 	 */
 	public $phase;
 
-	/**
-	 * @persistent
-	 */
+
+	// Going through session
 	public $numOfAuthors = 1;
+
 
 	public function __construct(/*Nette\*/IComponentContainer $parent = NULL, $name = NULL){
 		parent::__construct($parent,$name);
+		$session = Environment::getSession("insertingBook");
+		if(isSet($session["values"])) {
+			$this->phase = 3;
+		}
+		// Workaround to unset number of authors on new inserting
+		if($this->phase == 2) {
+			$session["numOfAuthors"] = 1;
+		}
+		$this->numOfAuthors = $session["numOfAuthors"];
+	}
+
+	public function  __destruct() {
+		$session = Environment::getSession("insertingBook");
+		$session["numOfAuthors"] = $this->numOfAuthors;
 	}
 
 	public function render() {
@@ -64,7 +78,15 @@ class InsertingBookComponent extends BaseComponent {
 	}
 
 	public function insertFormSubmitted(Form $form) {
+		// Workarround: When user ends inserting book, he/she is redirected to phase 3... However when he/she clicks on Add/Remove author component is in phase 1!
+		$this->phase = 3;
 		$values = $form->getValues();
+		if($form["newAuthor"]->isSubmittedBy()) {
+			$session = Environment::getSession("insertingBook");
+			$session["values"] = $values;
+			$session["numOfAuthors"] = $this->numOfAuthors;
+			$this->getPresenter()->redirect("Author:insert");
+		} else
 		if($form["insert"]->isSubmittedBy()){
 			// Insert book
 			$book= Leganto::books()->createEmpty();
@@ -82,6 +104,34 @@ class InsertingBookComponent extends BaseComponent {
 					->where("id_author IN %l", $values["authors"])
 			);
 			Leganto::books()->getUpdater()->setWrittenBy($book, $authors);
+			// TODO: Vyzkouset co se stane, kdyz uzivatel vybere nekolikrat stejneho autora - osetrit?
+			// Find edition and image
+			try {
+				$language = Leganto::languages()->getSelector()->find($book->languageId);
+				$imageFinder    = new EditionImageFinder();
+				$storage        = new EditionImageStorage();
+				$googleFinder   = new GoogleBooksBookFinder($language->google);
+				$info           = $googleFinder->get($book);
+				if (empty($info)) {
+					echo "No info found.";
+				} else {
+					// Get edition
+					$editions       = Leganto::editions()->getInserter()->insertByGoogleBooksInfo($book, $info);
+					// Try to find image foreach edition
+					foreach($editions AS $edition) {
+						// Find images
+						$images = $imageFinder->get($edition);
+						// Store first one
+						if (!empty($images)) {
+							$storage->store($edition, new File(ExtraArray::firstValue($images)));
+						}
+					}
+				}
+			}
+			catch(Exception $e) {
+				$this->getPresenter()->flashMessage(System::translate("The book has been inserted. Unfortunate, book cover and other additional informations could not be fetched, still you can add them manually."),'info');
+			}
+			$this->getPresenter()->redirect("Book:default",$book->getId());
 
 		} else  {
 			if($form["removeAuthor"]->isSubmittedBy()){
@@ -114,16 +164,27 @@ class InsertingBookComponent extends BaseComponent {
 		$authors = array(NULL => "---- " . System::translate("Choose author") . " ----") + Leganto::authors()->getSelector()->findAll()->orderBy("full_name")->fetchPairs("id_author", "full_name");
 		$container = $form->addContainer("authors");
 		for($i=0; $i < $this->numOfAuthors; $i++) {
-			$container->addSelect($i, "Author", $authors)
+			$last = $container->addSelect($i, "Author", $authors)
 				->skipFirst()
 				->addRule(Form::FILLED,"Choose the author of the book.");
+		}
+		if(isSet($last)) {
+			// Add text saying what to do
+			$el = Html::el("span")->setClass("underForm");
+			$el->setText(System::translate("If the author is not listed, please click on button New."));
+			$last->setOption("description", $el);
 		}
 		$form->addSubmit("addAuthor","Add")
 			->getControlPrototype()->setId("addAuthor");
 		// TODO: skryt pri poctu autoru = 1
 		$form->addSubmit("removeAuthor","Remove")
-			->setValidationScope(FALSE);
-			
+			->setValidationScope(FALSE)
+			->getControlPrototype()->setId("removeAuthor");
+		
+		$form->addSubmit("newAuthor","New")
+			->setValidationScope(FALSE)
+			->getControlPrototype()->setId("newAuthor");
+		
 		$form["removeAuthor"]->getControlPrototype()->setId("removeAuthor");
 
 		// Language
@@ -138,6 +199,13 @@ class InsertingBookComponent extends BaseComponent {
 
 		// Defaults
 		$form->setDefaults(array("language" => System::domain()->idLanguage));
+		// Check if there are data in session (user probably returns from adding author) and restore
+		$session = Environment::getSession("insertingBook");
+		if(isSet($session["values"])) {
+			$form->setDefaults($session["values"]);
+			unset($session["values"]);
+		}
+
 		return $form;
 	}
 

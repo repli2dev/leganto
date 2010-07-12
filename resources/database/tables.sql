@@ -3,6 +3,7 @@ CREATE TABLE `language` (
 	`id_language` INT (25) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'identifikator',
 	`name` VARCHAR (50) NOT NULL COMMENT 'nazev jazyka',
 	`locale` VARCHAR (10) NOT NULL COMMENT 'zkratka jazyka',
+	`google` VARCHAR (10) NOT NULL COMMENT 'zkratka jazyka pro google (cs,en...)',
 	UNIQUE (`name`), UNIQUE (`locale`)
 ) ENGINE = InnoDB COMMENT = 'Obsahuje pouzivane jazyky';
 

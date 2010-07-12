@@ -14,21 +14,16 @@
  * @author		Jan Drabek
  * @version		$Id$
  */
-class LanguageSelector implements ISelector
+/**
+ * @Id(translate=id_language)
+ */
+class LanguageEntity extends AEntity
 {
 
-	/* PUBLIC METHODS */
-	
-	public function findAll() {
-		return dibi::dataSource("SELECT * FROM [language]");
-	}
+	protected $name;
 
-	/** @return LanguageEntity */
-	public function find($id) {
-		return Leganto::languages()
-			->fetchAndCreate(
-				dibi::dataSource("SELECT * FROM [language] WHERE [id_language] = %i", $id)
-			);
-	}
+	protected $locale;
+
+	protected $google;
 
 }

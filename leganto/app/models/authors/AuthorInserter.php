@@ -30,11 +30,13 @@ class AuthorInserter implements IInserter
 			$source->where("[group_name] = %s", $entity->groupname);
 		}
 		elseif ($entity->type == AuthorEntity::PERSON) {
-			if (!empty($entity->firstname)) {
-				$source->where("[first_name] = %s", $entity->firstname);
+			$firstname = $entity->firstname;
+			$lastname = $entity->lastname;
+			if (!empty($fistname)) {
+				$source->where("[first_name] = %s", $firstname);
 			}
-			if (!empty($entity->lastname)) {
-				$source->where("[last_name] = %s", $entity->lastname);
+			if (!empty($lastname)) {
+				$source->where("[last_name] = %s", $lastname);
 			}
 		}
 		$author = $source->fetch();
