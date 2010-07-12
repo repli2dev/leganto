@@ -37,6 +37,23 @@ class Web_SearchPresenter extends Web_BasePresenter {
 		$this->getComponent("searchList")->setSource($source);
 	}
 
+	public function renderAuthor($query) {
+		$this->getTemplate()->title = System::translate("Author search");
+		$this->setPageTitle($this->getTemplate()->title);
+		if(empty($query)){
+			$this->getTemplate()->message = System::translate("Enter text to search before you start searching!");
+			return;
+		}
+		$source = Leganto::authors()->getSelector()->search($query);
+		$count = $source->count();
+		if($count == 0){
+			$this->getTemplate()->message = System::translate("Nothing was found for your query, please be less specific.");
+			return;
+		}
+		// TODO: pridat presmerovani pokud je vysledek jeden
+		$this->getComponent("authorList")->setSource($source);
+	}
+
 	public function renderDiscussion($query) {
 		$this->getTemplate()->title = System::translate("Discussion search");
 		$this->setPageTitle($this->getTemplate()->title);
@@ -75,6 +92,7 @@ class Web_SearchPresenter extends Web_BasePresenter {
 		$query = $this->getParam("query");
 		$submenu = new SubmenuComponent($this, $name);
 		$submenu->addLink("default", System::translate("Book search"), $query);
+		$submenu->addLink("author", System::translate("Author search"), $query);
 		$submenu->addLink("discussion", System::translate("Discussion search"), $query);
 		$submenu->addLink("user", System::translate("User search"), $query);
 		return $submenu;
@@ -83,6 +101,9 @@ class Web_SearchPresenter extends Web_BasePresenter {
 	// Factory
 	protected function createComponentSearchList($name) {
 		return new BookListComponent($this, $name);
+	}
+	protected function createComponentAuthorList($name) {
+		return new AuthorListComponent($this, $name);
 	}
 	protected function createComponentPostList($name) {
 		return new PostListComponent($this, $name);

@@ -45,6 +45,9 @@ class SearchComponent extends BaseComponent {
 			} else
 			if($in == "user") {
 				$this->getPresenter()->redirect("Search:user", $query);
+			} else
+			if($in == "author") {
+				$this->getPresenter()->redirect("Search:author", $query);
 			} else {
 				$this->getPresenter()->redirect("Search:default", $query);
 			}
@@ -64,6 +67,7 @@ class SearchComponent extends BaseComponent {
 			// Key has to be same as name of action in search presenter
 			$in = array(
 				"default"	=>	System::translate("Books"),
+				"author"	=>	System::translate("Authors"),
 				"discussion"	=>	System::translate("Discussions"),
 				"user"	=>	System::translate("Users")
 			);

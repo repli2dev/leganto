@@ -34,7 +34,7 @@ class OpinionSelector implements ISelector
 			throw new NullPointerException("user:id");
 		}
 		// In case that user does not have any opinions cause the same view as for unregistered user
-		if(count($this->findAllByUser($user)) == 0){
+		if(isSet($user) && count($this->findAllByUser($user)) == 0){
 			unset($user);
 		}
 		if (empty($user)) {

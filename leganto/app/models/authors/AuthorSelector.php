@@ -54,4 +54,23 @@ class AuthorSelector implements ISelector
 			);
 	}
 
+	public function search($keyword){
+		if (empty($keyword)) {
+			throw new NullPointerException("keyword");
+		}
+		$keywords = preg_split('/ /', $keyword);
+		$conditions = "";
+		foreach($keywords AS $word) {
+		    if (!empty($conditions)) {
+			$conditions .= " AND ";
+		    }
+		    $word = "%".mysql_escape_string($word)."%";
+		    $conditions .= "
+			([first_name] LIKE '$word' OR
+			[last_name] LIKE '$word' OR
+			[group_name] LIKE '$word')";
+		}
+		return dibi::dataSource("SELECT * FROM [view_author] " . (empty($conditions) ? "" : " WHERE " . $conditions) . " GROUP BY [id_author]");
+	}
+
 }

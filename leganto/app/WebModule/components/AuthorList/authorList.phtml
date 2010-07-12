@@ -1,0 +1,29 @@
+<style>
+    .author-item {
+	width: 30%;
+	float: left;
+	margin: 0 1% 20px 1%;
+    }
+    .author-item .content {
+	margin-left: 70px;
+    }
+    .author-item .info {
+	margin-left: 70px;
+    }
+</style>
+<div class="author-list">
+{foreach $authors AS $author}
+    <div class="author-item">
+	<img class="icon" src="/img/avatar_placeholder.gif" />
+	<div class="info">
+	    <a href="{plink Author:default, $author->getId()}">{$author->fullname}</a>
+	</div>
+	<div class="content">
+		    
+	</div>
+    </div>
+    {if $iterator->getCounter() % 3 == 0}<hr style="clear:both; visibility:hidden" />{/if}
+    {/foreach}
+</div>
+<hr style="clear:both; visibility:hidden" />
+{widget paginator}

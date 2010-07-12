@@ -43,6 +43,11 @@ class AuthorEntity extends AEntity
 	 */
 	protected $lastname;
 
+	/**
+	 * @Translate(full_name)
+	 */
+	protected $fullname;
+
 	protected $type;
 	
 	/* PUBLIC METHODS */
