@@ -58,7 +58,8 @@ class InsertingAuthorComponent extends BaseComponent {
 			$this->getPresenter()->flashMessage(System::translate("New author was successfully inserted. You can insert another now or you can continue in browsing our page."),'success');
 			$this->getPresenter()->redirect("Author:insert");
 		} else {
-			$this->getPresenter()->flashMessage(System::translate("New author was successfully inserted. Now you can select it from the list of authors."),'success');
+			$this->getPresenter()->flashMessage(System::translate("New author was successfully inserted. At the same time, the author was appended to your filled form."),'success');
+			$session["authorId"] = $author->getId();
 			$this->getPresenter()->redirect("Book:insert");
 		}
 	}

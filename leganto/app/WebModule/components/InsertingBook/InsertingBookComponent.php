@@ -34,6 +34,23 @@ class InsertingBookComponent extends BaseComponent {
 		$session = Environment::getSession("insertingBook");
 		if(isSet($session["values"])) {
 			$this->phase = 3;
+			$values = $session["values"]; // needed because 3 dimensional arrays do not work
+			// Clean authors (delete empty select list)
+			$authors = array();
+			foreach ($values["authors"] as $row) {
+				if(!empty($row)) {
+					$authors[] = $row;
+				}
+			}
+			$session["numOfAuthors"] = count($authors);
+			$values["authors"] = $authors;
+			// If authorId is set, it means that user is returning from inserting author and we should append it to the form
+			if(isSet($session["authorId"])) {
+				$session["numOfAuthors"] = $session["numOfAuthors"] + 1;
+				$values["authors"][($session["numOfAuthors"]-1)] = $session["authorId"]; // -1 because of indexing from 0
+				unset($session["authorId"]);
+			}
+			$session["values"] = $values;
 		}
 		// Workaround to unset number of authors on new inserting
 		if($this->phase == 2) {
@@ -78,7 +95,7 @@ class InsertingBookComponent extends BaseComponent {
 	}
 
 	public function insertFormSubmitted(Form $form) {
-		// Workarround: When user ends inserting book, he/she is redirected to phase 3... However when he/she clicks on Add/Remove author component is in phase 1!
+		// Workaround: When user ends inserting book, he/she is redirected to phase 3... However when he/she clicks on Add/Remove author component is in phase 1!
 		$this->phase = 3;
 		$values = $form->getValues();
 		if($form["newAuthor"]->isSubmittedBy()) {
@@ -104,7 +121,6 @@ class InsertingBookComponent extends BaseComponent {
 					->where("id_author IN %l", $values["authors"])
 			);
 			Leganto::books()->getUpdater()->setWrittenBy($book, $authors);
-			// TODO: Vyzkouset co se stane, kdyz uzivatel vybere nekolikrat stejneho autora - osetrit?
 			// Find edition and image
 			try {
 				$language = Leganto::languages()->getSelector()->find($book->languageId);
