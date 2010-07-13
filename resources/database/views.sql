@@ -81,6 +81,7 @@ CREATE VIEW `view_opinion` AS
 		`opinion`.`content`			AS `content`,
 		`opinion`.`rating`			AS `rating`,
 		`opinion`.`inserted`			AS `inserted`,
+		`opinion`.`updated`			AS `updated`,
 		`opinion`.`id_book_title`		AS `id_book_title`,
 		`user`.`id_user`			AS `id_user`,
 		`user`.`nick`				AS `user_nick`,

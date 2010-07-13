@@ -1,5 +1,4 @@
 <?php
-
 // Step 1: Load Nette Framework
 // this allows Nette to load classes automatically so that
 // you don't have to litter your code with 'require' statements

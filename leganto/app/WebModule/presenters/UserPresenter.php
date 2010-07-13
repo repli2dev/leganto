@@ -85,6 +85,55 @@ class Web_UserPresenter extends Web_BasePresenter {
 		$this->setPageTitle($user->nickname . ": " . System::translate("Shelves"));
 	}
 
+	public function renderIcon($id) {
+		if(empty($id)) {
+			$this->redirect("Default:");
+		}
+		// Fetch data
+		$user = Leganto::users()->getSelector()->find($id);
+		$data = Leganto::opinions()->getSelector()->findAllByUser(
+				$user
+			)->orderBy("updated","DESC")->applyLimit(2)->fetchAll();
+		$books = array();
+		foreach($data as $row) {
+			$books[] = Leganto::books()->getSelector()->find($row->id_book_title);
+		}
+		// Create image and fill it with data
+		$image = imagecreatefrompng(WWW_DIR. "/img/propag/big_skeleton.png");
+		$black = imagecolorallocate($image,0,0,0);
+                $brown = imagecolorallocate($image,51,102,153);
+		$font = WWW_DIR."/img/fonts/DejaVuSans.ttf";
+		imagettftext($image, 9, 0, 38, 31, $black, $font, $user->nickname);
+		// First book
+                imagettftext($image, 8, 0, 4, 53, $brown, $font, wordwrap($books[0]->title,21));
+                $size = imagettfbbox(8,0, $font, wordwrap($books[0]->title,21));
+                $next_pos = abs($size[3] - $size[5])+53;
+		$author = Leganto::authors()->getSelector()->findAllByBook($books[0])->fetchAll();
+		$authorInsert = $author[0]->full_name;
+		if(count($author) != 1) {
+			$authorInsert = $authorInsert."...";
+		}
+                imagettftext($image, 8, 0, 4, $next_pos+2, $black, $font, $authorInsert);
+                $size = imagettfbbox(8,0, $font, $authorInsert);
+                $next_pos = $next_pos + abs($size[3] - $size[5])+10;
+                // Second book
+                imagettftext($image, 8, 0, 4, $next_pos, $brown, $font, wordwrap($books[1]->title,21));
+                $size = imagettfbbox(8,0, $font, wordwrap($books[1]->title,21));
+                $next_pos = $next_pos + abs($size[3] - $size[5]);
+		$author = Leganto::authors()->getSelector()->findAllByBook($books[1])->fetchAll();
+		$authorInsert = $author[0]->full_name;
+		if(count($author) != 1) {
+			$authorInsert = $authorInsert."...";
+		}
+                imagettftext($image, 8, 0, 4, $next_pos+2, $black, $font, $authorInsert);
+		// Send to browser
+		header('Content-Type: image/png');
+		imagepng($image);
+		imagedestroy($image);
+		die;
+
+	}
+
 	// COMPONENTS
 
 	protected function createComponentSubmenu($name) {
