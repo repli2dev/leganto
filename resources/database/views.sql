@@ -225,3 +225,11 @@ CREATE VIEW `view_followed` AS
 	`user`.*
     FROM `following`
     INNER JOIN `user` ON `following`.`id_user_followed` = `user`.`id_user`;
+
+DROP VIEW IF EXISTS `view_following`;
+CREATE VIEW `view_following` AS
+    SELECT
+	`following`.`id_user_followed`,
+	`user`.*
+    FROM `following`
+    INNER JOIN `user` ON `user`.`id_user` =  `following`.`id_user`

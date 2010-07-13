@@ -85,5 +85,23 @@ class UserUpdater implements IUpdater {
 			->where("UNIX_TIMESTAMP(new_pass_time) < %i",time()-24*60*60)
 			->execute();
 	}
+
+	public function toogleFollow($user) {
+		if(Leganto::users()->getSelector()->isFollowedBy($user,System::user())) {
+			dibi::delete("following")
+				->where("id_user = %i",System::user()->getId())
+				->where("id_user_followed = %i",$user)
+				->execute();
+			return FALSE;
+		} else {
+			dibi::insert("following",
+				array(
+				    'id_user' => System::user()->getId(),
+				    'id_user_followed' => $user
+				)
+			)->execute();
+			return TRUE;
+		}
+	}
 }
 ?>
