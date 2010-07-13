@@ -49,11 +49,12 @@ class Web_BookPresenter extends Web_BasePresenter {
 		if (!Environment::getUser()->isAuthenticated()) {
 			$this->redirect("Default:unauthorized");
 		} else {
-			$this->setPageTitle(System::translate("Add opinion"));
+			$this->getTemplate()->book = Leganto::books()->getSelector()->find($book["book"]);
+			$this->setPageTitle(System::translate("Your opinion"));
 		}
 	}
 
-	public function renderInsert() {
+	public function renderInsert($book) {
 		if (!Environment::getUser()->isAuthenticated()) {
 			$this->redirect("Default:unauthorized");
 		} else {
