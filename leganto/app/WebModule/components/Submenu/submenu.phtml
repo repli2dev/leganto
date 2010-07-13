@@ -24,6 +24,9 @@
     #submenu .active {
 	background-color: #F5D25A;
     }
+    #submenu li.event {
+	border-right: 2px solid green;
+    }
 </style>
 <ul id="submenu">
     {foreach $links AS $link}
@@ -31,6 +34,14 @@
 	<li{if $presenter->getAction() == $link->getAction()} class="active"{/if}><a href="{plink $link->getAction(), $link->getArgs()}">{$link->getName()}</a></li>
     {else}
 	<li{if $presenter->getAction() == $link->getAction()} class="active"{/if}><a href="{plink $link->getAction()}">{$link->getName()}</a></li>
+    {/if}
+    {/foreach}
+
+    {foreach $events AS $link}
+    {if $link->getArgs()}
+	<li class="event {if $presenter->getAction() == $link->getAction()}active{/if}"><a href="{plink $link->getAction(), $link->getArgs()}">{$link->getName()}</a></li>
+    {else}
+	<li class="event {if $presenter->getAction() == $link->getAction()}active{/if}"><a href="{plink $link->getAction()}">{$link->getName()}</a></li>
     {/if}
     {/foreach}
 </ul>

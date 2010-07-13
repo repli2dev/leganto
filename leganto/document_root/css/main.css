@@ -92,7 +92,6 @@ a img {
 	border-bottom: 1px solid #C1833;
 }
 #main {
-	width: 100%;
 	background: url(../img/main_bg.jpg) repeat-x;
 	background-color: #FEFCEB;
 	padding:5px;
@@ -157,6 +156,7 @@ a img {
 	clear: both;
 	background: #FDF7CD;
 	border-top: 2px solid #F9E7A2;
+	
 }
 #ajax-spinner {
 	background-image: url('../img/ajax-loader.gif');

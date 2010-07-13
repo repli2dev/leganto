@@ -6,9 +6,14 @@ class SubmenuComponent extends BaseComponent
 	$this->getTemplate()->links[] = new SubmenuLink($action, $name, $args);
     }
 
+    public function addEvent($action, $name, $args = NULL) {
+	$this->getTemplate()->events[] = new SubmenuLink($action, $name, $args);
+    }
+
     protected function startUp() {
 	parent::startUp();
 	$this->getTemplate()->links = array();
+	$this->getTemplate()->events = array();
     }
 
 }

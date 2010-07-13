@@ -21,6 +21,17 @@ class OpinionSelector implements ISelector
 
 	/**
 	 * @param BookEntity $book
+	 * @param UserEntity $book
+	 * @return OpinionEntity */
+	public function findByBookAndUser($book,$user) {
+		return Leganto::opinions()
+			->fetchAndCreate(
+				dibi::dataSource("SELECT * FROM [view_opinion] WHERE [id_book_title] = %i", $book->getId()," AND [id_user] = %i", $user->getId())
+			);
+	}
+
+	/**
+	 * @param BookEntity $book
 	 * @return DibiDataSource
 	 */
 	public function findAllByBook(BookEntity $book, UserEntity $user = NULL) {

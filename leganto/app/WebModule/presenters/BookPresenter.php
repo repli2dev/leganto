@@ -36,6 +36,23 @@ class Web_BookPresenter extends Web_BasePresenter {
 		$this->setPageTitle($this->getTemplate()->book->title);
 	}
 
+	public function actionWantRead($book) {
+		if (!Environment::getUser()->isAuthenticated()) {
+			$this->redirect("Default:unauthorized");
+		} else {
+			// TODO: Add to shelf
+			
+		}
+	}
+
+	public function actionAddOpinion($book) {
+		if (!Environment::getUser()->isAuthenticated()) {
+			$this->redirect("Default:unauthorized");
+		} else {
+			$this->setPageTitle(System::translate("Add opinion"));
+		}
+	}
+
 	public function renderInsert() {
 		if (!Environment::getUser()->isAuthenticated()) {
 			$this->redirect("Default:unauthorized");
@@ -67,6 +84,10 @@ class Web_BookPresenter extends Web_BasePresenter {
 		return new InsertingBookComponent($this, $name);
 	}
 
+	protected function createComponentInsertingOpinion($name) {
+		return new InsertingOpinionComponent($this, $name);
+	}
+
 	protected function createComponentOpinionList($name) {
 		return new OpinionListComponent($this, $name);
 	}
@@ -80,6 +101,14 @@ class Web_BookPresenter extends Web_BasePresenter {
 		$submenu->addLink("default", System::translate("General info"), array("book" => $this->getTemplate()->book->getId()));
 		$submenu->addLink("opinions", System::translate("Opinions"), array("book" => $this->getTemplate()->book->getId()));
 		$submenu->addLink("similar", System::translate("Similar books"), array("book" => $this->getTemplate()->book->getId()));
+		if (Environment::getUser()->isAuthenticated()) {
+			if(Leganto::opinions()->getSelector()->findByBookAndUser($this->getTemplate()->book, System::user()) == NULL) {
+				$submenu->addEvent("addOpinion", System::translate("Add opinion"), array("book" => $this->getTemplate()->book->getId()));
+			} else {
+				$submenu->addEvent("addOpinion", System::translate("Change opinion"), array("book" => $this->getTemplate()->book->getId()));
+			}
+			$submenu->addEvent("wantRead", System::translate("Want read"), array("book" => $this->getTemplate()->book->getId()));
+		}
 		return $submenu;
 	}
 

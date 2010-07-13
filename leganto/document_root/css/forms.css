@@ -155,6 +155,9 @@ ul.error {
 	margin-left: 140px;
 	margin-top: 10px;
 }
+.tags {
+	width: auto;
+}
 
 /***************************** POSTS *****************************************/
 #post-form-wrapper label {
