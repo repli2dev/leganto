@@ -19,8 +19,6 @@ class Web_BasePresenter extends BasePresenter {
         protected function beforeRender() {
 	    // HACK
 	    $this->getComponent("navigation");
-	    // Remove old new pass codes
-	    Leganto::users()->getUpdater()->removeOldPassCodes();
 	}
 
 	public function setPageTitle($pageTitle){

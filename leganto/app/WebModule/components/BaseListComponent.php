@@ -44,12 +44,13 @@ abstract class BaseListComponent extends BaseComponent
 	if (!empty($this->orderBy)) {
 	    $this->getSource()->orderBy($this->orderBy, $this->sorting);
 	}
-	$this->getPaginator()->itemsPerPage = $this->getLimit();
-	$this->getPaginator()->itemCount = $this->getSource()->count();
     }
 
     protected function createComponentPaginator($name) {
-	return new VisualPaginatorComponent($this, $name);
+	$paginator = new VisualPaginatorComponent($this, $name);
+	$paginator->paginator->itemsPerPage = $this->getLimit();
+	$paginator->paginator->itemCount = $this->getSource()->count();
+	return $paginator;
     }
 
     /** @return Paginator */

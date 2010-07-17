@@ -54,6 +54,8 @@
     
     @{/foreach}
 
-    {widget paginator}
+    {if ($showedPaginator)}
+	{widget paginator}
+    {/if}
 </div>
 {/snippet}

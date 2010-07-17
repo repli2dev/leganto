@@ -27,6 +27,7 @@ class Web_BookPresenter extends Web_BasePresenter {
 				Leganto::editions()->getSelector()->findAllByBook($this->getTemplate()->book)
 		);
 		$this->getComponent("opinionList")->setLimit(5);
+		$this->getComponent("opinionList")->showPaginator(FALSE);
 		$this->getComponent("opinionList")->setSource(
 				Leganto::opinions()->getSelector()
 				->findAllByBook($this->getTemplate()->book)

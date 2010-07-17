@@ -3,9 +3,9 @@ require_once dirname(__FILE__) . "/header.php";
 
 Environment::loadConfig(APP_DIR . '/config.ini');
 
-Debug::enable(Debug::DEVELOPMENT);
+//Debug::enable(Debug::DEVELOPMENT);
 
-Debug::timer();
+//Debug::timer();
 
 dibi::connect(Environment::getConfig("database"));
 

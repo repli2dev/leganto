@@ -3,7 +3,7 @@
 /**
  * This presenter works with images
  */
-class Web_ThumbPresenter extends Web_BasePresenter {
+class Web_ThumbPresenter extends Presenter {
 
 	/**
 	 * This action resize image at given path and store it to cache

@@ -22,7 +22,7 @@ class UserAuthenticator
 		} else { // Internal login
 			$name = $credentials[IAuthenticator::USERNAME];
 			$password = self::passwordHash($credentials[IAuthenticator::PASSWORD]);
-			$row = Leganto::users()->getSelector()->findAll()->where("[nick] = %s", $name)->fetch();
+			$row = Leganto::users()->getSelector()->findByNick($name);
 		}
 		// Atuehntication failed -> throw execption.
 		if (empty($row)) {
@@ -31,14 +31,14 @@ class UserAuthenticator
 				IAuthenticator::IDENTITY_NOT_FOUND
 			);
 		}
-		if (isset($password) && $row["password"] != $password) {
+		if (isset($password) && $row->password != $password) {
 			throw new AuthenticationException(
 				"The password does not match",
 				IAuthenticator::INVALID_CREDENTIAL
 			);
 		}
 		// Or return new identity
-		return new Identity($name, $row["role"], array("id" => $row["id_user"]));
+		return new Identity($name, $row->role, array("id" => $row->getId()));
 	}
 
 	public static function passwordHash($password) {

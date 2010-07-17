@@ -28,6 +28,10 @@ class OpinionListComponent extends BaseListComponent
         $this->getTemplate()->showedInfo = "book";
     }
 
+    public function showPaginator($show = TRUE) {
+	$this->getTemplate()->showedPaginator = $show;
+    }
+
     public function showSorting($show = TRUE) {
 	$this->getTemplate()->sorting = TRUE;
     }
@@ -46,9 +50,22 @@ class OpinionListComponent extends BaseListComponent
     // ---- PRIVATE METHODS
 
     private function loadTemplate(DibiDataSource $source) {
-        // Paginator
-	$paginator = $this->getPaginator();
-	$source->applyLimit($paginator->itemsPerPage, $paginator->offset);
+        // Default show values
+        if (empty($this->getTemplate()->showedInfo)) {
+            $this->getTemplate()->showedInfo = 'user';
+        }
+	if (!isset ($this->getTemplate()->showedPaginator )) {
+		$this->getTemplate()->showedPaginator = TRUE;
+	}
+	// Paginator
+	if ($this->getTemplate()->showedPaginator) {
+		$paginator = $this->getPaginator();
+		$source->applyLimit($paginator->itemsPerPage, $paginator->offset);
+	}
+	else {
+		$source->applyLimit($this->getLimit());
+	}
+	// Opinions
 	$this->getTemplate()->opinions = Leganto::opinions()->fetchAndCreateAll($source);
 	$opinionIds = array();
 	foreach($this->getTemplate()->opinions AS $opinion) {
@@ -71,10 +88,6 @@ class OpinionListComponent extends BaseListComponent
 		    ->findAllByIdAndType($this->getTemplate()->showedOpinion, PostSelector::OPINION)
 	    );
             $this->getComponent("postList")->setDiscussed($this->showedOpinion, PostSelector::OPINION);
-        }
-        // Default showed info
-        if (empty($this->getTemplate()->showedInfo)) {
-            $this->getTemplate()->showedInfo = 'user';
         }
     }
 

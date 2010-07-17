@@ -28,19 +28,14 @@ class Web_DefaultPresenter extends Web_BasePresenter {
 		}
 		$this->setPageTitle(System::translate("News"));
 		$source = Leganto::feed()->getSelector()->findAll();
-		if($source->count() == 0) {
-			$noEvents = true;
-		} else {
-			$noEvents = false;
-		}
+		$noEvents = false;
 		if (!$all) {
 			// Get list of all followed users
-			$users = Leganto::users()->getSelector()->findAllFollowed(System::user());
+			$users = Leganto::users()->getSelector()->findAllFollowed(System::user())->fetchPairs("id_user","id_user");
 			// User follows no users!
-			if($users->count() == 0) {
+			if(empty($users)) {
 				$noEvents = true;
 			} else {
-				$users = $users->fetchPairs("id_user","id_user");
 				$source->where("id_user IN %l", $users);
 			}
 		}

@@ -65,6 +65,16 @@ class UserSelector implements ISelector {
 		);
 	}
 
+	public function findByNick($nick) {
+		if (empty($nick)) {
+			throw new NullPointerException("nick");
+		}
+		return Leganto::users()
+			->fetchAndCreate(
+				dibi::dataSource("SELECT * FROM [user] WHERE [nick] = %s", $nick)
+		);
+	}
+
 	/** @return UserEntity */
 	public function find($id) {
 		return Leganto::users()

@@ -35,7 +35,8 @@ CREATE TABLE `user` (
 	`updated` TIMESTAMP COMMENT 'cas, kdy byla polozka naposledy zmenena',
 	FOREIGN KEY (`id_language`) REFERENCES `language` (`id_language`) ON UPDATE CASCADE ON DELETE CASCADE,
 	UNIQUE(`email`),
-	UNIQUE(`nick`)
+	UNIQUE(`nick`),
+	INDEX(`nick`)
 ) ENGINE = InnoDB COMMENT = 'uzivatele';
 
 DROP TABLE IF EXISTS `connection`;
