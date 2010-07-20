@@ -26,20 +26,24 @@ $storage        = new EditionImageStorage();
 $googleFinder   = new GoogleBooksBookFinder("cs");
 
 foreach ($books AS $book) {
+	echo "GET ".$book->title."\n";
 	// Ziskam data od Googlu
-	$info           = $googleFinder->get($book);
-	if (empty($info)) {
-		continue;
-	}
-	// Na zaklade dat od Googlu vytvorim k dane knize edice
-	$editions       = Leganto::editions()->getInserter()->insertByGoogleBooksInfo($book, $info);
-	// Pro kazdou edici
-	foreach($editions AS $edition) {
-		// Ziskam obrazky (teoreticky je jich vice, i kdyz me to ted nezajima)
-		$images = $imageFinder->get($edition);
-		// Pokud nejsou obrazky prazdne, ulozim prvni z nich
-		if (!empty($images)) {
-			$storage->store($edition, new File(ExtraArray::firstValue($images)));
+	try {
+		$info = $googleFinder->get($book);
+
+		// Na zaklade dat od Googlu vytvorim k dane knize edice
+		$editions       = Leganto::editions()->getInserter()->insertByGoogleBooksInfo($book, $info);
+		// Pro kazdou edici
+		foreach($editions AS $edition) {
+			// Ziskam obrazky (teoreticky je jich vice, i kdyz me to ted nezajima)
+			$images = $imageFinder->get($edition);
+			// Pokud nejsou obrazky prazdne, ulozim prvni z nich
+			if (!empty($images)) {
+				$storage->store($edition, new File(ExtraArray::firstValue($images)));
+			}
 		}
+	}
+	catch(Exception $e) {
+		continue;
 	}
 }

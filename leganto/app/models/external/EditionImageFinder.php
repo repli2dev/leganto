@@ -8,7 +8,7 @@ class EditionImageFinder extends AFinder
 		if ($edition->getState() != IEntity::STATE_PERSISTED) {
 			throw new InvalidArgumentException("The entity has to be persisted.");
 		}
-		$this->setUrlParam("isbn", $edition->isbn);
+		$this->setUrlParam("isbn", $edition->isbn9);
 		$content = $this->getUrlContent($this->getParsedUrl());
 		preg_match("/http:\/\/www\.obalkyknih\.cz\/file\/cover\/\d+\/medium/", $content, $matches);
 		return $matches;

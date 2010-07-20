@@ -18,20 +18,20 @@ class EditionInserter implements IInserter
 	public function insertByGoogleBooksInfo(IEntity $book, array $info) {
 		$result = array();
 		foreach ($info AS $edition) {
-			foreach($edition[GoogleBooksEditionFinder::IDENTIFIER] AS $identifier) {
-				if (!preg_match("/ISBN/", $identifier)) {
-					continue;
-				}
-				$entity = Leganto::editions()->createEmpty();
-				$entity->idBookTitle	= $book->getId();
-				$entity->pages			= $edition[GoogleBooksEditionFinder::PAGES];
-				$entity->published		= $edition[GoogleBooksEditionFinder::PUBLISHED];
-				$entity->isbn			= strtr($identifier, array("ISBN:" => ""));
-				$entity->inserted		= new DateTime();
-				$entity->persist();
-				if ($entity->getId() != -1) {
-					$result[] = $entity;
-				}
+			$entity = Leganto::editions()->createEmpty();
+			$entity->idBookTitle	= $book->getId();
+			$entity->pages			= $edition[GoogleBooksEditionFinder::PAGES];
+			$entity->published		= $edition[GoogleBooksEditionFinder::PUBLISHED];
+			if(isSet($edition[GoogleBooksEditionFinder::IDENTIFIER][1])) {
+				$entity->isbn9			= strtr($edition[GoogleBooksEditionFinder::IDENTIFIER][1], array("ISBN:" => ""));
+			}
+			if(isSet($edition[GoogleBooksEditionFinder::IDENTIFIER][2])) {
+				$entity->isbn13			= strtr($edition[GoogleBooksEditionFinder::IDENTIFIER][2], array("ISBN:" => ""));
+			}
+			$entity->inserted		= new DateTime();
+			$entity->persist();
+			if ($entity->getId() != -1) {
+				$result[] = $entity;
 			}
 		}
 		return $result;
