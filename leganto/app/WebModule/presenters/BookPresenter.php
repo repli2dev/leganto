@@ -2,8 +2,10 @@
 
 class Web_BookPresenter extends Web_BasePresenter {
 
+	private $book;
+
 	public function renderDefault($book, $edition = NULL) {
-		$this->getTemplate()->book = Leganto::books()->getSelector()->find($book);
+		$this->getTemplate()->book = $this->getBook();
 
 		if ($edition) {
 			$this->getTemplate()->edition = Leganto::editions()->getSelector()->find($edition);
@@ -50,10 +52,11 @@ class Web_BookPresenter extends Web_BasePresenter {
 		if (!Environment::getUser()->isAuthenticated()) {
 			$this->redirect("Default:unauthorized");
 		} else {
-			$this->getTemplate()->book = Leganto::books()->getSelector()->find($book["book"]);
+			$this->getTemplate()->book = $this->getBook();
 			$this->setPageTitle(System::translate("Your opinion"));
 		}
 	}
+
 
 	public function renderInsert($book) {
 		if (!Environment::getUser()->isAuthenticated()) {
@@ -64,7 +67,7 @@ class Web_BookPresenter extends Web_BasePresenter {
 	}
 
 	public function renderOpinions($book) {
-		$this->getTemplate()->book = Leganto::books()->getSelector()->find($book);
+		$this->getTemplate()->book = $this->getBook();
 		$this->getComponent("opinionList")->setSource(
 				Leganto::opinions()->getSelector()
 				->findAllByBook($this->getTemplate()->book, System::user())
@@ -74,12 +77,18 @@ class Web_BookPresenter extends Web_BasePresenter {
 	}
 
 	public function renderSimilar($book) {
-		$this->getTemplate()->book = Leganto::books()->getSelector()->find($book);
+		$this->getTemplate()->book = $this->getBook();
 		$this->getComponent("similarBooks")->setLimit(0);
 		$this->getComponent("similarBooks")->setSource(
 			Leganto::books()->getSelector()->findAllSimilar($this->getTemplate()->book)->applyLimit(12)
 		);
 		$this->setPageTitle($this->getTemplate()->book->title);
+	}
+
+        protected function createComponentBookShelfControl($name) {
+	    $component = new BookShelfControlComponent($this, $name);
+	    $component->setBook($this->getBook());
+	    return $component;
 	}
 
 	protected function createComponentInsertingBook($name) {
@@ -100,18 +109,28 @@ class Web_BookPresenter extends Web_BasePresenter {
 
 	protected function createComponentSubmenu($name) {
 		$submenu = new SubmenuComponent($this, $name);
-		$submenu->addLink("default", System::translate("General info"), array("book" => $this->getTemplate()->book->getId()));
-		$submenu->addLink("opinions", System::translate("Opinions"), array("book" => $this->getTemplate()->book->getId()));
-		$submenu->addLink("similar", System::translate("Similar books"), array("book" => $this->getTemplate()->book->getId()));
+		$submenu->addLink("default", System::translate("General info"), $this->getBook()->getId());
+		$submenu->addLink("opinions", System::translate("Opinions"), $this->getBook()->getId());
+		$submenu->addLink("similar", System::translate("Similar books"), $this->getBook()->getId());
 		if (Environment::getUser()->isAuthenticated()) {
 			if(Leganto::opinions()->getSelector()->findByBookAndUser($this->getTemplate()->book, System::user()) == NULL) {
-				$submenu->addEvent("addOpinion", System::translate("Add opinion"), array("book" => $this->getTemplate()->book->getId()));
+				$submenu->addEvent("addOpinion", System::translate("Add opinion"), $this->getBook()->getId());
 			} else {
-				$submenu->addEvent("addOpinion", System::translate("Change opinion"), array("book" => $this->getTemplate()->book->getId()));
+				$submenu->addEvent("addOpinion", System::translate("Change opinion"), $this->getBook()->getId());
 			}
-			$submenu->addEvent("wantRead", System::translate("Want read"), array("book" => $this->getTemplate()->book->getId()));
+			$submenu->addEvent("wantRead", System::translate("Want read"), $this->getBook()->getId());
 		}
 		return $submenu;
+	}
+
+	// PRIVATE METHODS
+
+	/** @return BookEntity */
+	private function getBook() {
+	    if (empty($this->book)) {
+		$this->book = $this->getTemplate()->book = Leganto::books()->getSelector()->find($this->getParam("book"));
+	    }
+	    return $this->book;
 	}
 
 }

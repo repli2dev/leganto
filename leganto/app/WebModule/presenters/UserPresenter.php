@@ -2,39 +2,38 @@
 
 class Web_UserPresenter extends Web_BasePresenter {
 
-	public function renderDefault($id) {
-		$user = Leganto::users()->getSelector()->find($id);
-		$this->getTemplate()->user = $user;
-		if ($user == null) {
+	private $user;
+
+	public function renderDefault($user) {
+		$this->getTemplate()->user = $this->getUserEntity();
+		if ($this->getUserEntity() == null) {
 			$this->flashMessage(System::translate("The user does not exist."), "error");
 			$this->redirect("Default:default");
 		}
-		$this->setPageTitle($user->nickname . ": " . System::translate("Profile"));
+		$this->setPageTitle($this->getUserEntity()->nickname . ": " . System::translate("Profile"));
 	}
 
-	public function renderOpinions($id) {
-		$user = Leganto::users()->getSelector()->find($id);
-		$this->getTemplate()->user = $user;
-		if ($user == null) {
+	public function renderOpinions($user) {
+		$this->getTemplate()->user = $this->getUserEntity();
+		if ($this->getUserEntity() == null) {
 			$this->flashMessage(System::translate("The user does not exist."), "error");
 			$this->redirect("Default:default");
 		}
 		$this->getComponent("opinionList")->setSource(
 				Leganto::opinions()->getSelector()
-				->findAllByUser($user)
+				->findAllByUser($this->getUserEntity())
 		);
-		$this->setPageTitle($user->nickname . ": " . System::translate("Opinions"));
+		$this->setPageTitle($this->getUserEntity()->nickname . ": " . System::translate("Opinions"));
 	}
 
-	public function renderToogleFollow($id) {
+	public function renderToogleFollow($user) {
 		if (!Environment::getUser()->isAuthenticated()) {
 			$this->redirect("Default:unauthorized");
 		} else {
-			$id = $id["user"];
-			if($id == System::user()->getId()) {
+			if($this->getUserEntity()->getId() == System::user()->getId()) {
 				$this->flashMessage(System::translate("You cannot follow yourself, you egoist!"));
 			} else {
-				$result = Leganto::users()->getUpdater()->toogleFollow($id);
+				$result = Leganto::users()->getUpdater()->toogleFollow($this->getUserEntity()->getId());
 				if($result == TRUE) {
 					$this->flashMessage(System::translate("This user is now followed by you."));
 				} else {
@@ -45,44 +44,63 @@ class Web_UserPresenter extends Web_BasePresenter {
 		}
 	}
 
-	public function renderFollowing($id) {
-		$user = Leganto::users()->getSelector()->find($id);
-		$this->getTemplate()->user = $user;
-		if ($user == null) {
+	public function renderFollowing($user) {
+		$this->getTemplate()->user = $this->getUserEntity();
+		if ($this->getUserEntity() == null) {
 			$this->flashMessage(System::translate("The user does not exist."), "error");
 			$this->redirect("Default:default");
 		}
 		$this->getComponent("userList")->setSource(
 				Leganto::users()->getSelector()
-				->findAllFollowed($user)
+				->findAllFollowed($this->getUserEntity())
 		);
-		$this->setPageTitle($user->nickname . ": " . System::translate("Following"));
+		$this->setPageTitle($this->getUserEntity()->nickname . ": " . System::translate("Following"));
 	}
 
-	public function renderFollowers($id) {
-		$user = Leganto::users()->getSelector()->find($id);
-		$this->getTemplate()->user = $user;
-		if ($user == null) {
+	public function renderFollowers($user) {
+		$this->getTemplate()->user = $this->getUserEntity();
+		if ($this->getUserEntity() == null) {
 			$this->flashMessage(System::translate("The user does not exist."), "error");
 			$this->redirect("Default:default");
 		}
 		$this->getComponent("userList")->setSource(
 				Leganto::users()->getSelector()
-				->findAllFollowing($user)
+				->findAllFollowing($this->getUserEntity())
 		);
-		$this->setPageTitle($user->nickname . ": " . System::translate("Followers"));
+		$this->setPageTitle($this->getUserEntity()->nickname . ": " . System::translate("Followers"));
 	}
 
-	public function renderShelves($id) {
-		$user = Leganto::users()->getSelector()->find($id);
-		$this->getTemplate()->user = $user;
-		if ($user == null) {
+	public function renderEditShelf($user, $shelf) {
+	    if ($this->getUserEntity()->getId() != System::user()->getId()) {
+		$this->flashMessage(System::translate("The authenticated user has to insert shelf with his id."), "error");
+		$this->redirect("default", System::user()->getId());
+	    }
+	    $shelfEntity = Leganto::shelves()->getSelector()->find($shelf);
+	    if (empty($shelfEntity)) {
+		$this->flashMessage(System::translate("The shelf does not exist."), "error");
+		$this->redirect("default");
+	    }
+	    $this->getComponent("insertingShelf")->setShelf($shelfEntity);
+	    $this->setPageTitle($this->getUserEntity()->nickname . ": " . System::translate("Edit shelf"));
+	}
+
+	public function renderInsertShelf($user) {
+	    if ($this->getUserEntity()->getId() != System::user()->getId()) {
+		$this->flashMessage(System::translate("The authenticated user has to insert shelf with his id."), "error");
+		$this->redirect("default", System::user()->getId());
+	    }
+	    $this->setPageTitle($this->getUserEntity()->nickname . ": " . System::translate("Insert shelf"));
+	}
+
+	public function renderShelves($user) {
+		$this->getTemplate()->user = $this->getUserEntity();
+		if ($this->getUserEntity() == null) {
 			$this->flashMessage(System::translate("The user does not exist."), "error");
 			$this->redirect("Default:default");
 		}
-		$this->getTemplate()->shelves = Leganto::shelves()->fetchAndCreateAll(Leganto::shelves()->getSelector()->findByUser($user));
-		$this->getTemplate()->books = Leganto::books()->getSelector()->findAllInShelvesByUser($user)->fetchAssoc("id_shelf,id_book");
-		$this->setPageTitle($user->nickname . ": " . System::translate("Shelves"));
+		$this->getTemplate()->shelves = Leganto::shelves()->fetchAndCreateAll(Leganto::shelves()->getSelector()->findByUser($this->getUserEntity()));
+		$this->getTemplate()->books = Leganto::books()->getSelector()->findAllInShelvesByUser($this->getUserEntity())->fetchAssoc("id_shelf,id_book");
+		$this->setPageTitle($this->getUserEntity()->nickname . ": " . System::translate("Shelves"));
 	}
 
 	public function renderIcon($id) {
@@ -150,18 +168,22 @@ class Web_UserPresenter extends Web_BasePresenter {
 
 	// COMPONENTS
 
+	protected function createComponentInsertingShelf($name) {
+	    return new InsertingShelfComponent($this, $name);
+	}
+
 	protected function createComponentSubmenu($name) {
 		$submenu = new SubmenuComponent($this, $name);
-		$submenu->addLink("default", System::translate("General info"), array("user" => $this->getTemplate()->user->getId()));
-		$submenu->addLink("opinions", System::translate("Opinions"), array("user" => $this->getTemplate()->user->getId()));
-		$submenu->addLink("shelves", System::translate("Shelves"), array("user" => $this->getTemplate()->user->getId()));
-		$submenu->addLink("following", System::translate("Following"), array("user" => $this->getTemplate()->user->getId()));
-		$submenu->addLink("followers", System::translate("Followers"), array("user" => $this->getTemplate()->user->getId()));
-		if (Environment::getUser()->isAuthenticated() && System::user()->getId() != $this->getTemplate()->user->getId()) {
+		$submenu->addLink("default", System::translate("General info"), $this->getUserEntity()->getId());
+		$submenu->addLink("opinions", System::translate("Opinions"), $this->getUserEntity()->getId());
+		$submenu->addLink("shelves", System::translate("Shelves"), $this->getUserEntity()->getId());
+		$submenu->addLink("following", System::translate("Following"), $this->getUserEntity()->getId());
+		$submenu->addLink("followers", System::translate("Followers"), $this->getUserEntity()->getId());
+		if (Environment::getUser()->isAuthenticated() && System::user()->getId() != $this->getUserEntity()->getId()) {
 			if(Leganto::users()->getSelector()->isFollowedBy($this->getTemplate()->user->getId(),System::user())) {
-				$submenu->addEvent("toogleFollow", System::translate("Unfollow"), array("user" => $this->getTemplate()->user->getId()));
+				$submenu->addEvent("toogleFollow", System::translate("Unfollow"), $this->getUserEntity()->getId());
 			} else {
-				$submenu->addEvent("toogleFollow", System::translate("Follow"), array("user" => $this->getTemplate()->user->getId()));
+				$submenu->addEvent("toogleFollow", System::translate("Follow"), $this->getUserEntity()->getId());
 			}
 		}
 		return $submenu;
@@ -177,6 +199,18 @@ class Web_UserPresenter extends Web_BasePresenter {
 	protected function createComponentUserList($name) {
 		$list = new UserListComponent($this, $name);
 		return $list;
+	}
+
+	// PRIVATE METHODS
+
+	private function getUserEntity() {
+	    if (empty($this->user)) {
+		$id = $this->getParam("user");
+		if (!empty($id)) {
+		    $this->user = Leganto::users()->getSelector()->find($this->getParam("user"));
+		}
+	    }
+	    return $this->user;
 	}
 
 }
