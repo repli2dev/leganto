@@ -16,5 +16,21 @@
 </style>
 
 <div id="book-shelf-control">
+    {if !empty($shelves)}
+	<ul>
+	    {foreach $shelves AS $shelf}
+		<li>
+		    <span class="control">
+			{assign confirm => System::translate("Are you sure you want to remove a book from shelf *%s*?", $shelf->name)}
+			{assign link    => $component->link('removeFromShelf', $book->getId(), $shelf->getId())}
+			<a onclick="if(confirm('{$confirm}')) window.location = '{!$link}'">
+			    <img src="{$baseUri . 'img/ico/delete.png'}" alt="{_'Delete'}" />
+			</a>
+		    </span>
+		    {$shelf->name}
+		</li>
+	    {/foreach}
+	</ul>
+    {/if}
 {widget form}
 </div>

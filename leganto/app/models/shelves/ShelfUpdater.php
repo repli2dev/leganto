@@ -43,10 +43,6 @@ class ShelfUpdater implements IUpdater
 	 * @return int Inserted ID. If the book has been already inserted, it returns -1.
 	 */
 	public function insertToShelf(ShelfEntity $shelf, BookEntity $book) {
-		SimpleTableModel::createTableModel("in_shelf")->deleteAll(array(
-			"id_user"		=> $shelf->user,
-			"id_book"		=> $book->bookNode
-		));
 		return SimpleTableModel::createTableModel("in_shelf")->insert(array(
 			"id_shelf"		=> $shelf->getId(),
 			"id_book"		=> $book->bookNode,
@@ -55,15 +51,15 @@ class ShelfUpdater implements IUpdater
 	}
 
 	/**
-	 * Remove the book from user's shelfs
+	 * Remove the book from shelf
 	 *
-	 * @param UserEntity $user
-	 * @param BookEntity $book
+	 * @param ShelfEntity shelf
+	 * @param BookEntity  book
 	 */
-	public function removeFromShelves(UserEntity $user, BookEntity $book) {
+	public function removeBookFromShelf(ShelfEntity $shelf, BookEntity $book) {
 		SimpleTableModel::createTableModel("in_shelf")->deleteAll(array(
-			"id_user"		=> $user->getId(),
-			"id_book"		=> $book->bookNode
+			"id_shelf"  => $shelf->getId(),
+			"id_book"   => $book->getId()
 		));
 	}
 

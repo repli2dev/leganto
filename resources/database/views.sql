@@ -46,6 +46,7 @@ CREATE VIEW `view_shelf_book` AS
 	SELECT
 		`shelf`.`id_shelf`				AS `id_shelf`,
 		`shelf`.`id_user`				AS `id_user`,
+		`shelf`.`name`					AS `name`,
 		`view_book`.*
 	FROM `in_shelf`
 	INNER JOIN `shelf` USING (`id_shelf`)

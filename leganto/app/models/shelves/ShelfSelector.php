@@ -31,7 +31,7 @@ class ShelfSelector implements ISelector
 			throw new NullPointerException("The book has no ID");
 		}
 		// FIXME: Pohled view_shelf_book neni pripraven na to, aby se z nej delala entita Shelf
-                return Leganto::shelves()->fetchAndCreate(dibi::dataSource("SELECT * FROM [view_shelf_book] WHERE [id_user] = %i", $user->getId(), " AND [id_book_title] = %i", $book->getId()));
+                return dibi::dataSource("SELECT * FROM [view_shelf_book] WHERE [id_user] = %i", $user->getId(), " AND [id_book_title] = %i", $book->getId());
         }
 
 	public function find($id) {

@@ -6,6 +6,30 @@ class BookShelfControlComponent extends BaseComponent
 
     private $book;
 
+    public function handleRemoveFromShelf($book, $shelf) {
+	$user = System::user();
+	$shelfEntity = Leganto::shelves()->getSelector()->find($shelf);
+	if (empty($user) || $shelfEntity->user != $user->getId()) {
+	    $this->getPresenter()->flashMessage(System::translate("Unauthorized operation.", "error"));
+	    return;
+	}
+	$bookEntity = Leganto::books()->getSelector()->find($book);
+	if (empty($bookEntity)) {
+	    $this->getPresenter()->flashMessage(System::translate("The given book does not exist.", "error"));
+	    return;
+	}
+	try {
+	    Leganto::shelves()->getUpdater()->removeBookFromShelf($shelfEntity, $bookEntity);
+	    $this->getPresenter()->flashMessage(System::translate("The book  %s has been removed from shelf %s", $bookEntity->title, $shelfEntity->name), "success");
+	}
+	catch(Exception $e) {
+	    $this->getPresenter()->flashMessage(System::translate('Unexpected error happened.'), "error");
+	    error_log($e->getTraceAsString());
+	    return;
+	}
+	$this->getPresenter()->redirect("this");
+    }
+
     public function setBook(BookEntity $book) {
         $this->book = $book;
     }
@@ -14,13 +38,14 @@ class BookShelfControlComponent extends BaseComponent
 	if (!Environment::getUser()->isAuthenticated()) {
 	    return;
 	}
+	$this->loadTemplate();
 	return parent::render();
     }
 
     public function formSubmitted(Form $form) {
 	$shelf = $form["shelf"]->getValue();
 	if ($shelf == self::OPTION_CREATE_NEW_SHELF) {
-	    $this->getPresenter()->redirect("User:insertShelf", System::user()->getId());
+	    $this->getPresenter()->redirect("User:insertShelf", System::user()->getId(), $this->getPresenter()->backlink());
 	}
 	else {
 	    try {
@@ -54,19 +79,29 @@ class BookShelfControlComponent extends BaseComponent
         $shelves = Leganto::shelves()->getSelector()->findByUser($user)->fetchPairs("id_shelf", "name")
 		    + array(self::OPTION_CREATE_NEW_SHELF => "--- " . System::translate("Create a new shelf") . " ---");
         $form->addSelect("shelf", NULL, $shelves)
-	    ->skipFirst("--- " . System::translate("In no shelf") . " ---");
+	    ->skipFirst("--- " . System::translate("Select shelf") . " ---");
 	$form["shelf"]->getControlPrototype()->onChange = "form.submit()";
-
-        // Check whether the user has the book in some shelf already
-        $shelf = Leganto::shelves()->getSelector()->findByUserAndBook($user, $this->book);
-        if (!empty($shelf)) {
-            $form->setDefaults(array("shelf" => $shelf->getId()));
-        }
-
+	
 	// Submit settings
 	$form->onSubmit[] = array($this, "formSubmitted");
 
         return $form;
+    }
+
+    protected function loadTemplate() {
+	// Check whether the book is set
+	if (empty($this->book)) {
+	    throw new InvalidStateException("The component [$name] can not be rendered, because the book is not set.");
+	}
+	// Check whether the user is authenticated
+        $user = System::user();
+        if (empty($user)) {
+            throw new InvalidStateException("The component [$name] in [" . $this->getName() . "] can not be rendered because no user is authenticated.");
+        }
+	// Get shelves by book
+	$this->getTemplate()->shelves = Leganto::shelves()->fetchAndCreateAll(Leganto::shelves()->getSelector()->findByUserAndBook($user, $this->book));
+	// Get the book
+	$this->getTemplate()->book = $this->book;
     }
 
 }
