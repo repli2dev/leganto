@@ -93,14 +93,8 @@ class Web_UserPresenter extends Web_BasePresenter {
 	}
 
 	public function renderShelves($user) {
-		$this->getTemplate()->user = $this->getUserEntity();
-		if ($this->getUserEntity() == null) {
-			$this->flashMessage(System::translate("The user does not exist."), "error");
-			$this->redirect("Default:default");
-		}
-		$this->getTemplate()->shelves = Leganto::shelves()->fetchAndCreateAll(Leganto::shelves()->getSelector()->findByUser($this->getUserEntity()));
-		$this->getTemplate()->books = Leganto::books()->getSelector()->findAllInShelvesByUser($this->getUserEntity())->fetchAssoc("id_shelf,id_book");
-		$this->setPageTitle($this->getUserEntity()->nickname . ": " . System::translate("Shelves"));
+	    $this->getTemplate()->user = $this->getUserEntity();
+	    $this->setPageTitle($this->getUserEntity()->nickname . ": " . System::translate("Shelves"));
 	}
 
 	public function renderIcon($id) {
@@ -172,6 +166,12 @@ class Web_UserPresenter extends Web_BasePresenter {
 	    return new InsertingShelfComponent($this, $name);
 	}
 
+	protected function createComponentShelves($name) {
+	    $shelves = new ShelvesComponent($this, $name);
+	    $shelves->setUser($this->getUserEntity());
+	    return $shelves;
+	}
+
 	protected function createComponentSubmenu($name) {
 		$submenu = new SubmenuComponent($this, $name);
 		$submenu->addLink("default", System::translate("General info"), $this->getUserEntity()->getId());
@@ -208,6 +208,10 @@ class Web_UserPresenter extends Web_BasePresenter {
 		$id = $this->getParam("user");
 		if (!empty($id)) {
 		    $this->user = Leganto::users()->getSelector()->find($this->getParam("user"));
+		}
+		if (empty($this->user)) {
+		    $this->flashMessage(System::translate("The user does not exist."), "error");
+		    $this->redirect("Default:default");
 		}
 	    }
 	    return $this->user;
