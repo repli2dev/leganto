@@ -1,12 +1,12 @@
 <script type="text/javascript">
 $(document).ready(function(){
 
-	$(".toggle_container").hide();
+    $(".toggle_container").hide();
 
-	//Switch the "Open" and "Close" state per click then slide up/down (depending on open/close state)
-	$(".shelf h2").click(function(){
-	    $(this).next().slideToggle("slow");
-	});
+    //Switch the "Open" and "Close" state per click then slide up/down (depending on open/close state)
+    $(".shelf h2").click(function(){
+	$(this).next().slideToggle("slow");
+    });
 
 
 });
@@ -53,22 +53,22 @@ $(document).ready(function(){
 </style>
 
 {foreach $shelves AS $shelf}
-{assign link => $component->link('persist', $shelf->getId())}
-<script>
-$(function() {
-	$(".books-in-shelf").sortable({ opacity: 0.6, cursor: 'move', update: function() {
-		var order = $(this).sortable("serialize");
-		$.post("{!link}", order);
-	}
-	});
-});
-</script>
 
 <div class="shelf">
     <h2>{$shelf->name}</h2>
     <div class="toggle_container">
 	{if !empty($books[$shelf->getId()])}
-	    <ul class="books-in-shelf">
+	    {assign link => $component->link('persist', $shelf->getId())}
+	    <script>
+		$(function() {
+			$("#books-in-shelf-{!$shelf->getId()}").sortable({ opacity: 0.6, cursor: 'move', update: function() {
+				var order = $(this).sortable("serialize");
+				$.post("{!link}", order);
+			}
+			});
+		});
+	    </script>
+	    <ul class="books-in-shelf" id="books-in-shelf-{$shelf->getId()}">
 		{foreach $books[$shelf->getId()] AS $bookRow}
 		    {assign book => Leganto::books()->createEmpty()->loadDataFromArray($bookRow->toArray(), "Load")}
 		    <li class="book-in-shelf" id="books_{$book->getId()}">

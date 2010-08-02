@@ -10,9 +10,13 @@ class ShelvesComponent extends BaseComponent
     private $orderedBook;
 
     public function handlePersist($shelf) {
+	// List sent by AJAX
 	$order = $this->getPresenter()->getParam("books");
+	// Get shelf entity
 	$shelfEntity = Leganto::shelves()->getSelector()->find($shelf);
+	// Books of shelf
 	$books = Leganto::books()->fetchAndCreateAll(Leganto::books()->getSelector()->findAllByShelf($shelfEntity));
+	// Update
 	Leganto::shelves()->getUpdater()->changeOrder($shelfEntity, $this->getOrderedBook($order, $books), $this->getNewOrder($order, $books));
     }
 
