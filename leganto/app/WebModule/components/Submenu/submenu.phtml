@@ -1,47 +1,49 @@
 <style>
     #submenu {
-	list-style: none;
-	float: left;
-	margin-left: -210px;
+	border-color: #F1C11D;
     }
-    #submenu li {
-	display: block;
+    #actions {
+	border-color: green;
+    }
+    #submenu ul li, #actions ul li {
 	text-align: right;
-	margin: 0;
-	padding: 10px;
-	width:150px;
-	border-right: 2px solid #F1C11D;
+	padding: 10px 0;
     }
-    #submenu li a {
+    #submenu li a, #actions li a {
 	font-size: 120%;
 	color: #865A2C;
 	font-size: 15px;
 	font-weight: bolder;
     }
-    #submenu li a:hover {
+    #submenu li a:hover, #actions li a:hover {
 	color: #4C3319;
     }
     #submenu .active {
 	background-color: #F5D25A;
     }
-    #submenu li.event {
-	border-right: 2px solid green;
-    }
 </style>
-<ul id="submenu">
-    {foreach $links AS $link}
-    {if $link->getArgs()}
-	<li{if $presenter->getAction() == $link->getAction()} class="active"{/if}><a href="{plink $link->getAction(), $link->getArgs()}">{$link->getName()}</a></li>
-    {else}
-	<li{if $presenter->getAction() == $link->getAction()} class="active"{/if}><a href="{plink $link->getAction()}">{$link->getName()}</a></li>
-    {/if}
-    {/foreach}
+<div class="box" id="submenu">
+    <ul>
+	{foreach $links AS $link}
+	{if $link->getArgs()}
+	    <li{if $presenter->getAction() == $link->getAction()} class="active"{/if}><a href="{plink $link->getAction(), $link->getArgs()}">{$link->getName()}</a></li>
+	{else}
+	    <li{if $presenter->getAction() == $link->getAction()} class="active"{/if}><a href="{plink $link->getAction()}">{$link->getName()}</a></li>
+	{/if}
+	{/foreach}
+    </ul>
+</div>
 
-    {foreach $events AS $link}
-    {if $link->getArgs()}
-	<li class="event {if $presenter->getAction() == $link->getAction()}active{/if}"><a href="{plink $link->getAction(), $link->getArgs()}">{$link->getName()}</a></li>
-    {else}
-	<li class="event {if $presenter->getAction() == $link->getAction()}active{/if}"><a href="{plink $link->getAction()}">{$link->getName()}</a></li>
-    {/if}
-    {/foreach}
-</ul>
+{if !empty($events)}
+<div class="box" id="actions">
+    <ul>
+    	{foreach $events AS $link}
+	{if $link->getArgs()}
+	    <li class="event {if $presenter->getAction() == $link->getAction()}active{/if}"><a href="{plink $link->getAction(), $link->getArgs()}">{$link->getName()}</a></li>
+	{else}
+	    <li class="event {if $presenter->getAction() == $link->getAction()}active{/if}"><a href="{plink $link->getAction()}">{$link->getName()}</a></li>
+	{/if}
+	{/foreach}
+    </ul>
+</div>
+{/if}

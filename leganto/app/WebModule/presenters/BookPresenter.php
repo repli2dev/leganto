@@ -118,7 +118,6 @@ class Web_BookPresenter extends Web_BasePresenter {
 			} else {
 				$submenu->addEvent("addOpinion", System::translate("Change opinion"), $this->getBook()->getId());
 			}
-			$submenu->addEvent("wantRead", System::translate("Want read"), $this->getBook()->getId());
 		}
 		return $submenu;
 	}

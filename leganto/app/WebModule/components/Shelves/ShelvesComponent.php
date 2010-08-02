@@ -16,6 +16,19 @@ class ShelvesComponent extends BaseComponent
 	Leganto::shelves()->getUpdater()->changeOrder($shelfEntity, $this->getOrderedBook($order, $books), $this->getNewOrder($order, $books));
     }
 
+    public function handleRemove($shelf) {
+	try {
+	    $shelfEntity = Leganto::shelves()->getSelector()->find($shelf);
+	    // TODO: Check permission
+	    $shelfEntity->delete();
+	    $this->getPresenter()->flashMessage(System::translate("The shelf has been successfuly deleted.", "success"));
+	}
+	catch(Exception $e) {
+	    $this->getPresenter()->flashMessage(System::translate('Unexpected error happened.'), "error");
+	    error_log($e->getTraceAsString());
+	}
+    }
+
     public function setUser(UserEntity $user) {
 	$this->user = $user;
     }

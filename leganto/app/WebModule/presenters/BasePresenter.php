@@ -25,12 +25,16 @@ class Web_BasePresenter extends BasePresenter {
 		$this->getTemplate()->pageTitle = $pageTitle;
 	}
 
-	protected function createComponentSearch($name) {
-		return new SearchComponent($this,$name);
+	protected function createComponentFlashMessages($name) {
+	    return new FlashMessagesComponent($this, $name);
 	}
 
 	protected function createComponentNavigation($name) {
 		return new NavigationComponent($this,$name);
+	}
+
+	protected function createComponentSearch($name) {
+		return new SearchComponent($this,$name);
 	}
 	
 }

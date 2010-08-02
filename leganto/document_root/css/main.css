@@ -195,6 +195,30 @@ a img {
 #menu > li:first-child a {
 	padding-left: 17px;
 }
+#left-column {
+    float: left;
+    margin-left: -210px;
+    width:210px;
+}
+#left-column .box {
+    border-top-style: solid;
+    border-top-width: 2px;
+    border-right-style: solid;
+    border-right-width: 2px;
+    margin: 10px 0;
+}
+#left-column .box ul {
+    padding: 0;
+    margin: 0;
+}
+#left-column .box ul li {
+    display: block;
+    padding-right: 10px;
+}
+#right-column {
+    float: right;
+    width: 100%;
+}
 #note h1 {
 	/*font-size: 200%;*/
 	padding: 12px 0 0 0;

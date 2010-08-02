@@ -40,13 +40,6 @@
 
 		<div id="main">
 			<div class="wrapper">
-                            <div id="flashes">
-                                {foreach $flashes AS $flash}
-                                <div class="flash {$flash->type}">
-                                        {$flash->message}
-                                    </div>
-                                {/foreach}
-                            </div>
                 @{block #content}
 			{_'No content'}
 		@{/block}

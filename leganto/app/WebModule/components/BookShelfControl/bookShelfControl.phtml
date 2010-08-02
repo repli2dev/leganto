@@ -1,7 +1,4 @@
 <style>
-    #book-shelf-control {
-
-    }
     #book-shelf-control form {
 	padding: 0;
     }
@@ -12,10 +9,17 @@
     #book-shelf-control form select {
 	margin: 0;
     }
-
+    #book-shelf-control {
+	border-color: #336699;
+    }
+    #book-shelf-control ul li {
+	margin-left: 20px;
+	line-height: 2em;
+    }
 </style>
 
-<div id="book-shelf-control">
+<div id="book-shelf-control" class="box">
+    <h3>{_'Shelves'}</h3>
     {if !empty($shelves)}
 	<ul>
 	    {foreach $shelves AS $shelf}

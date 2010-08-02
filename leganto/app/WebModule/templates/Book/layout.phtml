@@ -34,9 +34,15 @@
 </style>
 
 <div id="book-view">
-    @{widget submenu}
-    @{widget bookShelfControl}
-    @{block #subcontent}
-    @{/block}
+
+    <div id="left-column">
+	@{widget submenu}
+	@{widget bookShelfControl}
+    </div>
+    <div id="right-column">
+	{widget flashMessages}
+	@{block #subcontent}
+	@{/block}
+    </div>
 </div>
 @{/block}

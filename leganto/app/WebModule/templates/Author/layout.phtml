@@ -1,10 +1,12 @@
 @{extends ../layout.phtml}
 
 @{block #content}
-
-<div id="book-view">
-    @{widget submenu}
-    @{block #subcontent}
-    @{/block}
-</div>
+    <div id="left-column">
+	@{widget submenu}
+    </div>
+    <div id="right-column">
+	{widget flashMessages}
+	@{block #subcontent}
+	@{/block}
+    </div>
 @{/block}

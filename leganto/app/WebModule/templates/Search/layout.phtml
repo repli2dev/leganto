@@ -2,9 +2,11 @@
 
 @{block #content}
 
-
-<div id="book-view">
+<div id="left-column">
     {widget submenu}
+</div>
+<div id="right-column">
+    {widget flashMessages}
     <h2>{$title}</h2>
     {widget searchForm}
     @{block #subcontent}
