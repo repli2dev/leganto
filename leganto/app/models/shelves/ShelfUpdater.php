@@ -39,7 +39,7 @@ class ShelfUpdater implements IUpdater
 		}
 		else if($oldOrder < $newOrder) {
 		    dibi::query("
-			UPDATE [in_shelf] SET [order] = [order] -1 1
+			UPDATE [in_shelf] SET [order] = [order] -1
 			WHERE [id_shelf] = %i ", $shelf->getId(),
 			"AND [order] <= %i ", $newOrder,
 			"AND [order] > %i", $oldOrder
