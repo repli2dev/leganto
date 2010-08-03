@@ -52,4 +52,9 @@ class DiscussionEntity extends AEntity
 	 * @Translate(number_of_posts)
 	 */
 	protected $numberOfPosts;
+
+	/**
+	 * @Skip(Save)
+	 */
+	protected $subname;
 }

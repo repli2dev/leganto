@@ -25,12 +25,16 @@ class PostInserter implements IInserter
 			// The discussed entity
 			$discussed = SimpleTableModel::createTableModel($discussable["table"])->findAll()->where("%n = %i", $discussable["column_id"], $entity->discussed)->fetch();
 			// Insert a new discussion
-			$entity->discussion = SimpleTableModel::createTableModel("discussion")->insert(array(
-				"id_discussable"	=> $entity->discussionType,
-				"id_discussed"		=> $entity->discussed,
-				"name"			=> $discussed[$discussable["column_name"]],
-				"inserted"		=> new DateTime()
-			));
+			$toInsert = array(
+			    "id_discussable"	=> $entity->discussionType,
+			    "id_discussed"	=> $entity->discussed,
+			    "name"		=> $discussed[$discussable["column_name"]],
+			    "inserted"		=> new DateTime()
+			);
+			if (!empty($discussable["column_subname"])) {
+			    $toInsert["subname"] = $discussed[$discussable["column_subname"]];
+			}
+			$entity->discussion = SimpleTableModel::createTableModel("discussion")->insert($toInsert);
 		}
 		else {
 			$entity->discussion = $discussion["id_discussion"];

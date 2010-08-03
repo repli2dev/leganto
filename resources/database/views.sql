@@ -117,6 +117,7 @@ CREATE VIEW `view_post` AS
 		`user`.`nick`					AS `user_nick`,
 		`discussion`.`id_discussion`	AS `id_discussion`,
 		`discussion`.`name`				AS `discussion_name`,
+		`discussion`.`subname`				AS `discussion_subname`,
 		`discussion`.`id_discussable`	AS `id_discussable`,
 		`discussion`.`id_discussed`	AS `id_discussed`,
 		`language`.`id_language`		AS `id_language`,
@@ -200,6 +201,7 @@ CREATE VIEW `view_feed` AS
 	    ''					AS `item_name`,
 	    `view_opinion`.`id_book_title`	AS `id_category`,
 	    `book_title`.`title`		AS `category_name`,
+	    NULL				AS `category_subname`,
 	    `view_opinion`.`content`,
 	    `view_opinion`.`inserted`
 	FROM `view_opinion`
@@ -215,6 +217,7 @@ CREATE VIEW `view_feed` AS
 	    `view_post`.`subject`	AS `item_name`,
 	    `view_post`.`id_discussion` AS `id_category`,
 	    `view_post`.`discussion_name` AS `category_name`,
+	    `view_post`.`discussion_name` AS `category_subname`,
 	    `view_post`.`content`,
 	    `view_post`.`inserted`
 	FROM `view_post`

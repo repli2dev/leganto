@@ -1,6 +1,15 @@
 /*********************** GENERAL **********************************************/
+.list form {
+    margin-bottom: 10px;   
+}
 .list .item {
     padding: 0px 10px;
+}
+.list .item .control {
+    float: right;
+}
+.list .item .control a {
+    margin-right: 10px;
 }
 .list .list {
     padding-left: 50px;
