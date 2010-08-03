@@ -18,13 +18,13 @@
 	{/foreach}
 	{if !empty($edition)}
 	<p>
-	    <strong>ISBN:</strong>&nbsp;
 	    {if $edition->isbn10 != NULL}
+		<strong>ISBN:</strong>&nbsp;
 		{$edition->isbn10}
 	    {/if}
-	    <br />
-	    <strong>ISBN:</strong>&nbsp;
 	    {if $edition->isbn13 != NULL}
+		<br />
+		<strong>ISBN:</strong>&nbsp;
 		{$edition->isbn13}
 	    {/if}
 	    <br />
