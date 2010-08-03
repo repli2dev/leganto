@@ -38,11 +38,9 @@
     <hr style="clear:both; visibility:hidden" />
     <div id="editions">
 	{foreach $editions AS $edition}
-	{if $edition->image != NULL}
 	    <a href="{link default, $book->getId(), $edition->getId()}">
 		<img class="icon" src="{$edition->image, 50|thumbnail}" width="50" height="80" />
 	    </a>
-	{/if}
 	{/foreach}
     </div>
     <hr style="clear:both; visibility:hidden" />
