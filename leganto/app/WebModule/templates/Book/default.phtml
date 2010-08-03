@@ -18,7 +18,15 @@
 	{/foreach}
 	{if !empty($edition)}
 	<p>
-	    <strong>ISBN/ISSN:</strong>&nbsp;{$edition->isbn}
+	    <strong>ISBN:</strong>&nbsp;
+	    {if $edition->isbn9 != NULL}
+		{$edition->isbn9}
+	    {/if}
+	    <br />
+	    <strong>ISBN:</strong>&nbsp;
+	    {if $edition->isbn13 != NULL}
+		{$edition->isbn13}
+	    {/if}
 	    <br />
 	    <strong>Pages:</strong>&nbsp;{$edition->pages}
 	    <br />
