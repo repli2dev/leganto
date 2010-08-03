@@ -4,9 +4,9 @@ class Web_AuthorPresenter extends Web_BasePresenter {
 
 	public function renderInsert() {
 		if (!Environment::getUser()->isAuthenticated()) {
-			$this->redirect("Default:unauthorized");
+		    $this->redirect("Default:unauthorized");
 		} else {
-			$this->setPageTitle(System::translate("Insert author"));
+		    $this->setPageTitle(System::translate("Insert author"));
 		}
 	}
 

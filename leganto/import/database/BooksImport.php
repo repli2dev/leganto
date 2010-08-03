@@ -39,7 +39,7 @@ class BooksImport extends DatabaseTableImport {
 	foreach($books AS $book) {
 	    // BOOK
 	    $this->getDestination()->insert("book", array(
-		'inserted'	=> new DateTime(),
+		'inserted'	=> $book["date"],
 		'id_book'	=> $book["id"]
 		))->execute();
 	    // TITLE
@@ -49,7 +49,7 @@ class BooksImport extends DatabaseTableImport {
 		"id_book"	=> $book["id"],
 		"id_language"	=> $language["id_language"],
 		"title"		=> $title,
-		'inserted'	=> new DateTime()
+		'inserted'	=> $book["date"]
 		))->execute();
 	    // WRITTEN BY
 	    $this->getDestination()->insert("written_by", array(
