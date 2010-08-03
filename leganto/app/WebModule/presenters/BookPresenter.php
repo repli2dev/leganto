@@ -66,11 +66,14 @@ class Web_BookPresenter extends Web_BasePresenter {
 	}
 
 
-	public function renderInsert($book) {
+	public function renderInsert($book, $connect = FALSE) {
 		if (!Environment::getUser()->isAuthenticated()) {
 			$this->redirect("Default:unauthorized");
 		} else {
-			$this->setPageTitle(System::translate("Insert book"));
+		    if ($connect) {
+			$this->getComponent("insertingBook")->setBook($this->getBook());
+		    }
+		    $this->setPageTitle(System::translate("Insert book"));
 		}
 	}
 
@@ -130,6 +133,7 @@ class Web_BookPresenter extends Web_BasePresenter {
 			} else {
 				$submenu->addEvent("addOpinion", System::translate("Change opinion"), $this->getBook()->getId());
 			}
+			$submenu->addevent("insert", System::translate("Insert related book"), array("book" => $this->getBook()->getId(), "connect" => TRUE));
 			$submenu->addEvent("addEdition", System::translate("Add new edition"), $this->getBook()->getId());
 			$edition = $this->getParam("edition");
 			if(!empty($edition)) {

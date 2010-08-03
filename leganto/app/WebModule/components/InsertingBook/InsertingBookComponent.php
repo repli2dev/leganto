@@ -18,16 +18,20 @@
 
 class InsertingBookComponent extends BaseComponent {
 
-
+	/**
+	 * @persistent
+	 */
+	public $bookNode;
+    
 	/**
 	 * @persistent
 	 */
 	public $phase;
 
-
 	// Going through session
 	public $numOfAuthors = 1;
 
+	private $title;
 
 	public function __construct(/*Nette\*/IComponentContainer $parent = NULL, $name = NULL){
 		parent::__construct($parent,$name);
@@ -35,6 +39,10 @@ class InsertingBookComponent extends BaseComponent {
 		if(isSet($session["values"])) {
 			$this->phase = 3;
 			$values = $session["values"]; // needed because 3 dimensional arrays do not work
+			// Workaround about hiding authors when the inserted book is connected to another book
+			if (!empty($values["id_book"])) {
+			    $this->bookNode = $values["id_book"];
+			}
 			// Clean authors (delete empty select list)
 			$authors = array();
 			foreach ($values["authors"] as $row) {
@@ -79,8 +87,9 @@ class InsertingBookComponent extends BaseComponent {
 		parent::render();
 	}
 
-	public function handleContinueToInsert() {
-		$this->phase = 3;
+	public function handleContinueToInsert($title) {
+	    $this->title = $title;
+	    $this->phase = 3;
 	}
 
 	public function searchFormSubmitted(Form $form) {
@@ -90,15 +99,23 @@ class InsertingBookComponent extends BaseComponent {
 			Leganto::books()->getSelector()
 				->searchByColumn(BookSelector::BOOK, $values["book_title"])
 		);
-
+		$this->getTemplate()->searchedTitle = $values["book_title"];
 		$this->phase = 2;
+	}
+
+	/**
+	 * It sets book which the inserted book is connected to
+	 * @param $book Book entity
+	 */
+	public function setBook(BookEntity $book) {
+	    $this->bookNode = $book->bookNode;
 	}
 
 	public function insertFormSubmitted(Form $form) {
 		// Workaround: When user ends inserting book, he/she is redirected to phase 3... However when he/she clicks on Add/Remove author component is in phase 1!
 		$this->phase = 3;
 		$values = $form->getValues();
-		if($form["newAuthor"]->isSubmittedBy()) {
+		if(empty($values["id_book"]) && $form["newAuthor"]->isSubmittedBy()) {
 			$session = Environment::getSession("insertingBook");
 			$session["values"] = $values;
 			$session["numOfAuthors"] = $this->numOfAuthors;
@@ -111,16 +128,19 @@ class InsertingBookComponent extends BaseComponent {
 			$book->title = $values["book_title"];
 			$book->subtitle = $values["book_subtitle"];
 			$book->inserted = new DateTime;
-
+			if (!empty($values["id_book"])) {
+			    $book->bookNode = $values["id_book"];
+			}
 			$book->persist();
-			$book->getId();
 
-			// Insert authors
-			$authors = Leganto::authors()->fetchAndCreateAll(
-				Leganto::authors()->getSelector()->findAll()
-					->where("id_author IN %l", $values["authors"])
-			);
-			Leganto::books()->getUpdater()->setWrittenBy($book, $authors);
+			if (empty($values["id_book"])) {
+			    // Insert authors
+			    $authors = Leganto::authors()->fetchAndCreateAll(
+				    Leganto::authors()->getSelector()->findAll()
+					    ->where("id_author IN %l", $values["authors"])
+			    );
+			    Leganto::books()->getUpdater()->setWrittenBy($book, $authors);
+			}
 			// Find edition and image
 			try {
 				$language = Leganto::languages()->getSelector()->find($book->languageId);
@@ -176,37 +196,44 @@ class InsertingBookComponent extends BaseComponent {
 		$form->addText("book_subtitle", "Book subtitle");
 
 		// Authors
-		$form->addGroup("Authors");
-		$authors = array(NULL => "---- " . System::translate("Choose author") . " ----") + Leganto::authors()->getSelector()->findAll()->orderBy("full_name")->fetchPairs("id_author", "full_name");
-		$container = $form->addContainer("authors");
-		for($i=0; $i < $this->numOfAuthors; $i++) {
-			$last = $container->addSelect($i, "Author", $authors)
-				->skipFirst()
-				->addRule(Form::FILLED,"Choose the author of the book.");
-		}
-		if(isSet($last)) {
-			// Add text saying what to do
-			$el = Html::el("span")->setClass("underForm");
-			$el->setText(System::translate("If the author is not listed, please click on button New."));
-			$last->setOption("description", $el);
-		}
-		$form->addSubmit("addAuthor","Add")
-			->getControlPrototype()->setId("addAuthor");
-		// TODO: skryt pri poctu autoru = 1
-		$form->addSubmit("removeAuthor","Remove")
-			->setValidationScope(FALSE)
-			->getControlPrototype()->setId("removeAuthor");
-		
-		$form->addSubmit("newAuthor","New")
-			->setValidationScope(FALSE)
-			->getControlPrototype()->setId("newAuthor");
-		
-		$form["removeAuthor"]->getControlPrototype()->setId("removeAuthor");
+		if (empty($this->bookNode)) {
+		    $form->addGroup("Authors");
+		    $authors = array(NULL => "---- " . System::translate("Choose author") . " ----") + Leganto::authors()->getSelector()->findAll()->orderBy("full_name")->fetchPairs("id_author", "full_name");
+		    $container = $form->addContainer("authors");
 
+
+
+		    for($i=0; $i < $this->numOfAuthors; $i++) {
+			    $last = $container->addSelect($i, "Author", $authors)
+				    ->skipFirst()
+				    ->addRule(Form::FILLED,"Choose the author of the book.");
+		    }
+		    if(isSet($last)) {
+			    // Add text saying what to do
+			    $el = Html::el("span")->setClass("underForm");
+			    $el->setText(System::translate("If the author is not listed, please click on button New."));
+			    $last->setOption("description", $el);
+		    }
+		    $form->addSubmit("addAuthor","Add")
+			    ->getControlPrototype()->setId("addAuthor");
+		    // TODO: skryt pri poctu autoru = 1
+		    $form->addSubmit("removeAuthor","Remove")
+			    ->setValidationScope(FALSE)
+			    ->getControlPrototype()->setId("removeAuthor");
+
+		    $form->addSubmit("newAuthor","New")
+			    ->setValidationScope(FALSE)
+			    ->getControlPrototype()->setId("newAuthor");
+
+		    $form["removeAuthor"]->getControlPrototype()->setId("removeAuthor");
+		}
 		// Language
 		$form->addGroup("Other");
 		$languages = Leganto::languages()->getSelector()->findAll()->fetchPairs("id_language", "name");
 		$form->addSelect("language", "Language", $languages);
+
+		// Book node
+		$form->addHidden("id_book");
 
 		// Submit button
 		$form->addGroup();
@@ -214,7 +241,15 @@ class InsertingBookComponent extends BaseComponent {
 		$form->onSubmit[] = array($this,"insertFormSubmitted");
 
 		// Defaults
-		$form->setDefaults(array("language" => System::domain()->idLanguage));
+		$defaults = array();
+		$defaults["language"] =System::domain()->idLanguage;
+		if (!empty($this->title)) {
+		    $defaults["book_title"] = $this->title;
+		}
+		if (!empty($this->bookNode)) {
+		    $defaults["id_book"] = $this->bookNode;
+		}
+		$form->setDefaults($defaults);
 		// Check if there are data in session (user probably returns from adding author) and restore
 		$session = Environment::getSession("insertingBook");
 		if(isSet($session["values"])) {
