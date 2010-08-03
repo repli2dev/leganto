@@ -23,7 +23,7 @@ class InsertingOpinionComponent extends BaseComponent {
 	public function  __construct(IComponentContainer $parent = NULL, $name = NULL) {
 		parent::__construct($parent, $name);
 		$book = $this->getPresenter()->getParam("book");
-		$this->getTemplate()->book = $this->bookEntity = Leganto::books()->getSelector()->find($book["book"]);
+		$this->getTemplate()->book = $this->bookEntity = Leganto::books()->getSelector()->find($book);
 		if($this->bookEntity == NULL) {
 			throw new BadRequestException("Book with ID ".$book["book"]." not found");
 		}

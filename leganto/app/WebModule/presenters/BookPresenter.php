@@ -125,10 +125,10 @@ class Web_BookPresenter extends Web_BasePresenter {
 		$submenu->addLink("opinions", System::translate("Opinions"), $this->getBook()->getId());
 		$submenu->addLink("similar", System::translate("Similar books"), $this->getBook()->getId());
 		if (Environment::getUser()->isAuthenticated()) {
-			if(Leganto::opinions()->getSelector()->findByBookAndUser($this->getTemplate()->book, System::user()) == NULL) {
+			if(Leganto::opinions()->getSelector()->findByBookAndUser($this->getBook(), System::user()) == NULL) {
 				$submenu->addEvent("addOpinion", System::translate("Add opinion"), $this->getBook()->getId());
 			} else {
-				$submenu->addEvent("addOpinion", System::translate("Add opinion"), $this->getBook()->getId());
+				$submenu->addEvent("addOpinion", System::translate("Change opinion"), $this->getBook()->getId());
 			}
 			$submenu->addEvent("addEdition", System::translate("Add new edition"), $this->getBook()->getId());
 			$edition = $this->getParam("edition");
