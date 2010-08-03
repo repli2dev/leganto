@@ -148,6 +148,7 @@ CREATE TABLE discussable (
 	`table` VARCHAR(100) NOT NULL COMMENT 'nazev tabulky, ktera obsahuje entity, ktere mohou byt diskutovany',
 	`column_id` VARCHAR(100) NOT NULL COMMENT 'nazev sloupce, ktery obsahuje ID entity',
 	`column_name` VARCHAR(255) NOT NULL COMMENT 'nazev sloupce, ze ktereho se bere nazev diskuse',
+	`column_subname` VARCHAR(255) NULL COMMENT 'nazev sloupce, ze ktereho se bere pripadny podnazev diskuse',
 	`inserted` DATETIME NOT NULL COMMENT 'cas, kdy byla polozka vlozena do systemu',
 	`updated` TIMESTAMP COMMENT 'cas, kdy byla polozka naposledy zmenena'
 ) ENGINE = InnoDB COMMENT = 'typy entit, ke kterym mohou byt vedeny diskuse';
@@ -158,6 +159,7 @@ CREATE TABLE discussion (
 	`id_discussable` INT(25) UNSIGNED NOT NULL COMMENT 'typ entity, k niz se diskuse vede',
 	`id_discussed` INT(25) UNSIGNED NOT NULL COMMENT 'ID entity, ke ktere se diskuse vede',
 	`name` VARCHAR(255) NOT NULL COMMENT 'nazev diskuse',
+	`subname` VARCHAR(255) NOT NULL COMMENT 'podnazev diskuse',
 	`inserted` DATETIME NOT NULL COMMENT 'cas, kdy byla polozka vlozena do systemu',
 	`updated` TIMESTAMP COMMENT 'cas, kdy byla polozka naposledy zmenena',
 	FOREIGN KEY (`id_discussable`) REFERENCES `discussable`(`id_discussable`) ON UPDATE CASCADE ON DELETE CASCADE

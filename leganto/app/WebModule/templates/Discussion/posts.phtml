@@ -1,6 +1,12 @@
 {extends layout.phtml}
 
 {block #subcontent}
-<h1>{$discussion->name}</h1>
+{dump($discussion)}
+<h1>
+    {$discussion->name}
+    {if $discussion->subname != null}
+	({$discussion->subname})
+    {/if}
+</h1>
 {widget postList}
 {/block}

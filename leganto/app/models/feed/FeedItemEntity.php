@@ -24,6 +24,9 @@ class FeedItemEntity extends AEntity
     /** @Translate(category_name) */
     protected $categoryName;
 
+    /** @Translate(category_subname) */
+    protected $categorySubname;
+
     protected $content;
 
     protected $inserted;
