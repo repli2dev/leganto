@@ -84,10 +84,13 @@ class Web_UserPresenter extends Web_BasePresenter {
 	    $this->setPageTitle($this->getUserEntity()->nickname . ": " . System::translate("Edit shelf"));
 	}
 
-	public function renderInsertShelf($user) {
+	public function renderInsertShelf($user, $backlinkUri = NULL) {
 	    if ($this->getUserEntity()->getId() != System::user()->getId()) {
 		$this->flashMessage(System::translate("The authenticated user has to insert shelf with his id."), "error");
 		$this->redirect("default", System::user()->getId());
+	    }
+	    if (!empty($backlinkUri)) {
+		$this->getComponent("insertingShelf")->setBacklink($backlinkUri);
 	    }
 	    $this->setPageTitle($this->getUserEntity()->nickname . ": " . System::translate("Insert a new shelf"));
 	}

@@ -20,13 +20,19 @@ class InsertingShelfComponent extends BaseComponent {
 
     private $shelf;
 
+    /** @persistent */
+    public $backlink;
+
+    public function setBacklink($backlinkUri) {
+	$this->backlink = $backlinkUri;
+    }
+
     public function setShelf(ShelfEntity $shelf) {
 	$this->shelf = $shelf;
     }
 
     public function formSubmitted(Form $form) {
 	$values = $form->getValues();
-	Debug::dump($values["id_shelf"]);
 	// Update old one
 	if (!empty($values["id_shelf"])) {
 	    $shelf = Leganto::shelves()->getSelector()->find($values["id_shelf"]);
@@ -48,7 +54,12 @@ class InsertingShelfComponent extends BaseComponent {
 	    error_log($e->getTraceAsString());
 	    return;
 	}
-	$this->getPresenter()->redirect("User:shelves", System::user()->getId());
+	if (empty($this->backlink)) {
+	    $this->getPresenter()->redirect("User:shelves", System::user()->getId());
+	}
+	else {
+	    $this->getPresenter()->redirectUri($this->backlink);
+	}
     }
 
     protected function createComponentForm($name) {

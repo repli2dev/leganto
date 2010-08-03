@@ -45,7 +45,7 @@ class BookShelfControlComponent extends BaseComponent
     public function formSubmitted(Form $form) {
 	$shelf = $form["shelf"]->getValue();
 	if ($shelf == self::OPTION_CREATE_NEW_SHELF) {
-	    $this->getPresenter()->redirect("User:insertShelf", System::user()->getId());
+	    $this->getPresenter()->redirect("User:insertShelf", System::user()->getId(), $this->getPresenter()->link("Book:default", $this->book->getId()));
 	}
 	else {
 	    try {
