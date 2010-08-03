@@ -70,8 +70,8 @@ class IntroductionComponent extends BaseComponent {
 	}
 
 	public function loadDefaultTemplate() {
-		$template			= $this->getTemplate();
-		$template->hint		= Leganto::help()->getSelector()->findRandomByCategory();
+		$template		= $this->getTemplate();
+		$template->hint		= Leganto::help()->getSelector()->findRandom(System::language());
 		$template->state	= "default";
 		return $template;
 	}

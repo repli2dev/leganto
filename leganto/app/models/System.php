@@ -5,6 +5,9 @@ final class System
 	/** @var DomainEntity	*/
 	private static $domain;
 
+	/** @var LanguageEntity */
+	private static $language;
+
 	/** @var ITranslator	*/
 	private static $translator;
 
@@ -23,6 +26,16 @@ final class System
 				self::$domain = SimpleEntityFactory::createEntityFactory("domain")->fetchAndCreate($source);
 		}
 		return self::$domain;
+	}
+
+	/** @return IEntity */
+	public static function language() {
+	    if (!isset(self::$language)) {
+		self::$language = SimpleEntityFactory::createEntityFactory("language")
+			    ->getSelector()
+			    ->find(self::domain()->idLanguage);
+	    }
+	    return self::$language;
 	}
 
 	/** @return ITranslator */

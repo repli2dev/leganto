@@ -227,9 +227,11 @@ CREATE TABLE `user_similarity` (
 DROP TABLE IF EXISTS `help`;
 CREATE TABLE `help` (
 	`id_help` INT(25) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'identifikator',
+	`id_language` INT(25) UNSIGNED NOT NULL COMMENT 'jazyk, k nemuz napoveda patri',
 	`category` ENUM('book','author','user','other') NOT NULL COMMENT 'kategorie napovedy',
 	`text` TEXT NOT NULL,
-	`image` TEXT NULL
+	`image` TEXT NULL,
+	FOREIGN KEY (`id_language`) REFERENCES `language` (`id_language`) ON UPDATE CASCADE ON DELETE CASCADE
 ) ENGINE = InnoDB COMMENT = 'vestavena napoveda';
 
 DROP TABLE IF EXISTS `edition`;
