@@ -44,30 +44,62 @@ $(document).ready(function(){
     }
     .shelf h2 {
 	cursor: pointer;
-	padding: 0 0 0 50px;
-	margin: 0 0 5px 0;
+	padding: 0 10px;
+	margin: 10px 0;
 	line-height: 2em;
 	font-weight: normal;
-	background: gray;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	border: 2px solid #6699bb;
+
+    }
+    .shelf h2 .control {
+	float: right;
+	
+    }
+    .shelf h2 .control a {
+	margin-right: 10px;
     }
 </style>
 
 {foreach $shelves AS $shelf}
 
 <div class="shelf">
-    <h2>{$shelf->name}</h2>
+    <h2>
+	{$shelf->name}
+	{if $owner}
+	    <span class="control">
+		{assign confirm => System::translate("Are you sure you want to delete a shelf *%s*?", $shelf->name)}
+		{assign link    => $component->link('remove', $shelf->getId())}
+		<a href="{plink User:editShelf, System::user()->getId(), $shelf->getId()}" title="{_'Edit'}">
+		    <img src="{$baseUri . 'img/ico/edit.png'}" alt="{_'Edit'}" />
+		</a>
+		<a onclick="if(confirm('{!$confirm}')) window.location = '{!$link}'" title="{_'Delete'}">
+		    <img src="{$baseUri . 'img/ico/delete.png'}" alt="{_'Delete'}" />
+		</a>
+	    </span>
+	{/if}
+    </h2>
+		    
     <div class="toggle_container">
 	{if !empty($books[$shelf->getId()])}
-	    {assign link => $component->link('persist', $shelf->getId())}
-	    <script>
-		$(function() {
-			$("#books-in-shelf-{!$shelf->getId()}").sortable({ opacity: 0.6, cursor: 'move', update: function() {
-				var order = $(this).sortable("serialize");
-				$.post("{!link}", order);
-			}
-			});
-		});
-	    </script>
+	    {if $owner}
+		{assign link => $component->link('persist', $shelf->getId())}
+		<script>
+		    $(function() {
+			    $("#books-in-shelf-{!$shelf->getId()}").sortable({ opacity: 0.6, cursor: 'move', update: function() {
+				    var order = $(this).sortable("serialize");
+				    $.post("{!link}", order);
+			    }
+			    });
+			    $("#books-in-shelf-{!$shelf->getId()}").sortable({
+				placeholder: 'ui-state-highlight'
+			    });
+
+		    });
+		</script>
+	    {/if}
 	    <ul class="books-in-shelf" id="books-in-shelf-{$shelf->getId()}">
 		{foreach $books[$shelf->getId()] AS $bookRow}
 		    {assign book => Leganto::books()->createEmpty()->loadDataFromArray($bookRow->toArray(), "Load")}

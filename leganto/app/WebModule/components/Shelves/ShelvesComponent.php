@@ -47,6 +47,13 @@ class ShelvesComponent extends BaseComponent
 	// Books in shelves
 	// FIXME: The books should be represented as entities
 	$this->getTemplate()->books = Leganto::books()->getSelector()->findAllInShelvesByUser($this->user)->fetchAssoc("id_shelf,id_book");
+	// Check whether the user is authenticated and whether he/she is owner of shelfs
+	if (Environment::getUser()->isAuthenticated() && $this->user->getId() == System::user()->getId()) {
+	    $this->getTemplate()->owner = TRUE;
+	}
+	else {
+	    $this->getTemplate()->owner = FALSE;
+	}
     }
 
     private function computeNewOrder(array $order, array $books) {

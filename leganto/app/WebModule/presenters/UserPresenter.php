@@ -89,7 +89,7 @@ class Web_UserPresenter extends Web_BasePresenter {
 		$this->flashMessage(System::translate("The authenticated user has to insert shelf with his id."), "error");
 		$this->redirect("default", System::user()->getId());
 	    }
-	    $this->setPageTitle($this->getUserEntity()->nickname . ": " . System::translate("Insert shelf"));
+	    $this->setPageTitle($this->getUserEntity()->nickname . ": " . System::translate("Insert a new shelf"));
 	}
 
 	public function renderShelves($user) {
@@ -185,6 +185,9 @@ class Web_UserPresenter extends Web_BasePresenter {
 			} else {
 				$submenu->addEvent("toogleFollow", System::translate("Follow"), $this->getUserEntity()->getId());
 			}
+		}
+		if (Environment::getUser()->isAuthenticated() && System::user()->getId() == $this->getUserEntity()->getId()) {
+		    $submenu->addEvent("insertShelf", System::translate("Insert a new shelf"), $this->getUserEntity()->getId());
 		}
 		return $submenu;
 	}
