@@ -97,6 +97,13 @@ class EditionComponent extends BaseComponent {
 		if (!empty($tmpFile)) {
 			$storage = new EditionImageStorage();
 			$storage->store($entity, new File($tmpFile));
+		} else { // Try to find image
+			$imageFinder    = new EditionImageFinder();
+			$images = $imageFinder->get($entity);
+			if (!empty($images)) {
+				$storage = new EditionImageStorage();
+				$storage->store($entity, new File(ExtraArray::firstValue($images)));
+			}
 		}
 		$this->getPresenter()->flashMessage(System::translate("Thank you. Your edition has been successfully added and you are looking on it now."));
 		$this->getPresenter()->redirect("Book:default",$book,$entity->getId());
