@@ -240,7 +240,7 @@ DROP TABLE IF EXISTS `edition`;
 CREATE TABLE `edition` (
 	`id_edition` INT(25) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'identifikator',
 	`id_book_title` INT(25) UNSIGNED NOT NULL COMMENT 'knizni titul',
-	`isbn9` VARCHAR(100) NOT NULL COMMENT 'isbn 9',
+	`isbn10` VARCHAR(100) NOT NULL COMMENT 'isbn 10',
 	`isbn13` VARCHAR(100) NOT NULL COMMENT 'isbn 13',
 	`pages` INT(25) UNSIGNED NULL COMMENT 'pocet stran',
 	`published` VARCHAR(4) NULL COMMENT 'rok vydani',

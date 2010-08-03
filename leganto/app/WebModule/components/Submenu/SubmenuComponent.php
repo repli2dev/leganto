@@ -38,7 +38,7 @@ class SubmenuLink {
     }
 
     public function getArgs() {
-	return $this->args;
+		return $this->args;
     }
 
     public function getName() {

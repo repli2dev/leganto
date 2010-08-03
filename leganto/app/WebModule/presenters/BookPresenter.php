@@ -39,12 +39,20 @@ class Web_BookPresenter extends Web_BasePresenter {
 		$this->setPageTitle($this->getTemplate()->book->title);
 	}
 
-	public function actionWantRead($book) {
+	public function actionAddEdition($book) {
 		if (!Environment::getUser()->isAuthenticated()) {
 			$this->redirect("Default:unauthorized");
 		} else {
-			// TODO: Add to shelf
-			
+			$this->getTemplate()->book = $this->getBook();
+			$this->setPageTitle(System::translate("Add edition"));
+		}
+	}
+
+	public function actionEditEdition($book, $edition) {
+		if (!Environment::getUser()->isAuthenticated()) {
+			$this->redirect("Default:unauthorized");
+		} else {
+			$this->setPageTitle(System::translate("Edit edition"));
 		}
 	}
 
@@ -95,6 +103,10 @@ class Web_BookPresenter extends Web_BasePresenter {
 		return new InsertingBookComponent($this, $name);
 	}
 
+	protected function createComponentEditionForm($name) {
+		return new EditionComponent($this, $name);
+	}
+
 	protected function createComponentInsertingOpinion($name) {
 		return new InsertingOpinionComponent($this, $name);
 	}
@@ -116,7 +128,12 @@ class Web_BookPresenter extends Web_BasePresenter {
 			if(Leganto::opinions()->getSelector()->findByBookAndUser($this->getTemplate()->book, System::user()) == NULL) {
 				$submenu->addEvent("addOpinion", System::translate("Add opinion"), $this->getBook()->getId());
 			} else {
-				$submenu->addEvent("addOpinion", System::translate("Change opinion"), $this->getBook()->getId());
+				$submenu->addEvent("addOpinion", System::translate("Add opinion"), $this->getBook()->getId());
+			}
+			$submenu->addEvent("addEdition", System::translate("Add new edition"), $this->getBook()->getId());
+			$edition = $this->getParam("edition");
+			if(!empty($edition)) {
+				$submenu->addEvent("editEdition", System::translate("Edit this edition"), array("book" => $this->getBook()->getId(), "edition" => $edition));
 			}
 		}
 		return $submenu;

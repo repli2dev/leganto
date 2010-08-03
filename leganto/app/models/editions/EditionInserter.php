@@ -23,7 +23,7 @@ class EditionInserter implements IInserter
 			$entity->pages			= $edition[GoogleBooksEditionFinder::PAGES];
 			$entity->published		= $edition[GoogleBooksEditionFinder::PUBLISHED];
 			if(isSet($edition[GoogleBooksEditionFinder::IDENTIFIER][1])) {
-				$entity->isbn9			= strtr($edition[GoogleBooksEditionFinder::IDENTIFIER][1], array("ISBN:" => ""));
+				$entity->isbn10			= strtr($edition[GoogleBooksEditionFinder::IDENTIFIER][1], array("ISBN:" => ""));
 			}
 			if(isSet($edition[GoogleBooksEditionFinder::IDENTIFIER][2])) {
 				$entity->isbn13			= strtr($edition[GoogleBooksEditionFinder::IDENTIFIER][2], array("ISBN:" => ""));

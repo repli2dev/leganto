@@ -9,7 +9,7 @@ class EditionEntity extends AEntity
 
 	protected $inserted;
 
-	protected $isbn9;
+	protected $isbn10;
 
 	protected $isbn13;
 
