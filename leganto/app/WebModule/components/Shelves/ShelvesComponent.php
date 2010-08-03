@@ -25,12 +25,14 @@ class ShelvesComponent extends BaseComponent
 	    $shelfEntity = Leganto::shelves()->getSelector()->find($shelf);
 	    // TODO: Check permission
 	    $shelfEntity->delete();
-	    $this->getPresenter()->flashMessage(System::translate("The shelf has been successfuly deleted.", "success"));
+	    $this->getPresenter()->flashMessage(System::translate("The shelf has been successfuly deleted."), "success");
 	}
 	catch(Exception $e) {
 	    $this->getPresenter()->flashMessage(System::translate('Unexpected error happened.'), "error");
 	    error_log($e->getTraceAsString());
+	    return;
 	}
+	$this->getPresenter()->redirect("this");
     }
 
     public function setUser(UserEntity $user) {

@@ -218,6 +218,7 @@ a img {
 #right-column {
     float: right;
     width: 100%;
+    margin-left: 20px;
 }
 #note h1 {
 	/*font-size: 200%;*/
