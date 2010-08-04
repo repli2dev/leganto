@@ -55,7 +55,6 @@ class Web_SearchPresenter extends Web_BasePresenter {
 
 			$this->redirect('Author:default',$row->id_author);
 		}
-		// TODO: pridat presmerovani pokud je vysledek jeden
 		$this->getComponent("authorList")->setSource($source);
 	}
 
@@ -74,6 +73,7 @@ class Web_SearchPresenter extends Web_BasePresenter {
 		}
 		// TODO: pridat presmerovani pokud je vysledek jeden
 		$this->getComponent("postList")->setSource($source);
+		$this->getComponent("postList")->disablePosting();
 	}
 
 	public function renderUser($query) {
@@ -94,7 +94,6 @@ class Web_SearchPresenter extends Web_BasePresenter {
 
 			$this->redirect('User:default',$row->id_user);
 		}
-		
 		$this->getComponent("userList")->setSource($source);
 	}
 

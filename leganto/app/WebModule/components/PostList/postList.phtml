@@ -1,5 +1,5 @@
 <div class="list">
-    @{if Environment::getUser()->isAuthenticated()}
+    @{if Environment::getUser()->isAuthenticated() && $enablePosting}
 	<div id="post-form-wrapper">
 	    @{widget form}
 	</div>
