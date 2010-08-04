@@ -1,0 +1,13 @@
+<div id="editions">
+    {foreach $editions AS $edition}
+	<a href="{plink default, $edition->idBookTitle, $edition->getId()}">
+	    <img class="icon" src="{$edition->image, 50|thumbnail}" width="50" height="80" />
+	</a>
+    {/foreach}
+    <hr style="clear:both; visibility:hidden" />
+    {if !$showWithoutCover}
+	<a href="{link showWithoutCover}" title="{_'Show editions without image'}">{_'Show editions without image'}</a>
+    {else}
+	<a href="{link hideWithoutCover}" title="{_'Hide editions without image'}">{_'Hide editions without image'}</a>
+    {/if}
+</div>

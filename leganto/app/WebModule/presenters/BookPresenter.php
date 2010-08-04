@@ -10,24 +10,22 @@ class Web_BookPresenter extends Web_BasePresenter {
 		if ($edition) {
 			$this->getTemplate()->edition = Leganto::editions()->getSelector()->find($edition);
 		}
-
+		// Authors
 		$this->getTemplate()->authors = Leganto::authors()->fetchAndCreateAll(
 					Leganto::authors()->getSelector()
 					->findAllByBook($this->getTemplate()->book),
 				"Load"
 		);
-
+		// Tags
 		$this->getTemplate()->tags = Leganto::tags()->fetchAndCreateAll(
 					Leganto::tags()->getSelector()
 					->findAllByBook($this->getTemplate()->book)
 		);
-
-		$storage = new EditionImageStorage();
-		$this->getTemplate()->cover = $storage->getRandomFileByBook($this->getTemplate()->book);
-
-		$this->getTemplate()->editions = Leganto::editions()->fetchAndCreateAll(
-				Leganto::editions()->getSelector()->findAllByBook($this->getTemplate()->book)
+		// Editions
+		$this->getComponent("editionList")->setSource(
+		    Leganto::editions()->getSelector()->findAllByBook($this->getTemplate()->book)
 		);
+		// Opinions
 		$this->getComponent("opinionList")->setLimit(5);
 		$this->getComponent("opinionList")->showPaginator(FALSE);
 		$this->getComponent("opinionList")->setSource(
@@ -108,6 +106,10 @@ class Web_BookPresenter extends Web_BasePresenter {
 
 	protected function createComponentEditionForm($name) {
 		return new EditionComponent($this, $name);
+	}
+
+	protected function createComponentEditionList($name) {
+	    return new EditionListComponent($this, $name);
 	}
 
 	protected function createComponentInsertingOpinion($name) {

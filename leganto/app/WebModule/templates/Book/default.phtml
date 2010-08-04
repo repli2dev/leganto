@@ -36,14 +36,7 @@
 	{/if}
     </div>
     <hr style="clear:both; visibility:hidden" />
-    <div id="editions">
-	{foreach $editions AS $edition}
-	    <a href="{link default, $book->getId(), $edition->getId()}">
-		<img class="icon" src="{$edition->image, 50|thumbnail}" width="50" height="80" />
-	    </a>
-	{/foreach}
-    </div>
-    <hr style="clear:both; visibility:hidden" />
+    {widget editionList}
     <div id="tags">
 	{foreach $tags AS $tag}
 	    <a href="{link Search:default, $tag->name}" class="tag">{$tag->name}</a>
