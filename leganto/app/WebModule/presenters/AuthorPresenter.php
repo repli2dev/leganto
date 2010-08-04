@@ -6,6 +6,7 @@ class Web_AuthorPresenter extends Web_BasePresenter {
 		if (!Environment::getUser()->isAuthenticated()) {
 		    $this->redirect("Default:unauthorized");
 		} else {
+		    $this->getComponent("insertingAuthor")->setBacklink("Book:insert");
 		    $this->setPageTitle(System::translate("Insert author"));
 		}
 	}

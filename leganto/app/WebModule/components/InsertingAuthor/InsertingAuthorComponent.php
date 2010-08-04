@@ -21,6 +21,9 @@ class InsertingAuthorComponent extends BaseComponent {
 	/** @persistent */
 	public $type;
 
+	/** @persistent */
+	public $backlink;
+
 	public function render() {
 		switch($this->type) {
 			case AuthorEntity::GROUP:
@@ -53,19 +56,27 @@ class InsertingAuthorComponent extends BaseComponent {
 		$author->inserted = new DateTime;
 		$author->persist();
 		// TODO: co delat tedka? Vratit uzivatele na zacatek (s tim ze muze vlozit dalsiho), nebo na stranku autora?
-		$session = Environment::getSession("insertingBook");
-		if(!isSet($session["values"])) {
-			$this->getPresenter()->flashMessage(System::translate("New author was successfully inserted. You can insert another now or you can continue in browsing our page."),'success');
-			$this->getPresenter()->redirect("Author:insert");
-		} else {
-			$this->getPresenter()->flashMessage(System::translate("New author was successfully inserted. At the same time, the author was appended to your filled form."),'success');
-			$session["authorId"] = $author->getId();
-			$this->getPresenter()->redirect("Book:insert");
+		$this->getPresenter()->flashMessage(System::translate("New author has been successfuly inserted."),'success');
+		
+		if (empty($this->backlink)) {
+		    $this->getPresenter()->redirect("Author:insert");
+		}
+		else {
+		    if ($this->backlink == "Book:insert") {
+			InsertingBookComponent::sendSignalWithAuthor($author);
+		    }
+		    $this->getPresenter()->redirect($this->backlink);
 		}
 	}
 
 	public function changeTypeFormSubmitted(Form $form) {
 		$this->type = $form["type"]->getValue();
+	}
+
+
+
+	public function setBacklink($backlink) {
+	    $this->backlink = $backlink;
 	}
 
 	// PROTECTED METHODS
