@@ -34,6 +34,8 @@ class Web_BookPresenter extends Web_BasePresenter {
 				->where("[content] != ''")
 				->applyLimit(5)
 		);
+		// Graph
+		$this->getTemplate()->graph = StatisticsGraphs::getRatingsByBook($this->getBook())->getLink();
 		$this->setPageTitle($this->getTemplate()->book->title);
 	}
 

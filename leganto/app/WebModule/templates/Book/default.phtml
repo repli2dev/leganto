@@ -1,12 +1,18 @@
 @{extends layout.phtml}
 
 @{block #subcontent}
+    <style>
+	#graph-book {
+	    float: right;
+	}
+    </style>
     <div id="book-info">
 	{if empty($edition)}
-	<img class="icon" src="{$cover,150|thumbnail}" alt="{$book->title}" {if empty($cover)}width="150" height="240"{/if} />
+	    <img class="icon" src="{$cover,150|thumbnail}" alt="{$book->title}" {if empty($cover)}width="150" height="240"{/if} />
 	{else}
-	<img class="icon" src="{$edition->image,150|thumbnail}" alt="{$book->title}" {if empty($edition->image)}width="150" height="240"{/if} />
+	    <img class="icon" src="{$edition->image,150|thumbnail}" alt="{$book->title}" {if empty($edition->image)}width="150" height="240"{/if} />
 	{/if}
+	<img id="graph-book" src="{$graph}" />
 	<h1>{$book->title}</h1>
 	<img class="rating" src="{$baseUri}img/rating_{=round($book->rating)}.png" />
 	{foreach $authors AS $author}
@@ -36,7 +42,7 @@
 	{/if}
     </div>
     <hr style="clear:both; visibility:hidden" />
-    {widget editionList}
+    @{widget editionList}
     <div id="tags">
 	{foreach $tags AS $tag}
 	    <a href="{link Search:default, $tag->name}" class="tag">{$tag->name}</a>

@@ -8,10 +8,12 @@ class EditionListComponent extends BaseListComponent
 
     public function handleHideWithoutCover() {
 	$this->showWithoutCover = FALSE;
+	$this->invalidateControl("editions");
     }
 
     public function handleShowWithoutCover() {
 	$this->showWithoutCover = TRUE;
+	$this->invalidateControl("editions");
     }
 
     // ---- PROTECTED METHODS
