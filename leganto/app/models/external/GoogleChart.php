@@ -151,6 +151,9 @@ class GoogleChart
 	}
 	$roundedMax = 1;
 	while($roundedMax < $maxvalue) $roundedMax *= 10;
+	if (($roundedMax/2) > $maxvalue) {
+	    $roundedMax = $roundedMax/2;
+	}
 	$this->setScale(0, $roundedMax);
     }
 

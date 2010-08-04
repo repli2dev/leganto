@@ -1,0 +1,33 @@
+<style>
+    #book-stats {
+	float: right;
+	min-height: 250px;
+    }
+    #book-stats h3 {
+	padding: 0 10px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	border: 2px solid #6699bb;
+    }
+</style>
+<script type="text/javascript">
+$(document).ready(
+    function() {
+	$("#book-stats").accordion({
+	    event: "mouseover",
+	    autoHeight: false
+	});
+    }
+);
+</script>
+<div>
+<div id="book-stats">
+    {foreach $graphs AS $graph}
+	<h3>{$graph['label']}</h3>
+	<div>
+	    <img src="{$graph['graph']->getLink()}" />
+	</div>
+    {/foreach}
+</div>
+</div>

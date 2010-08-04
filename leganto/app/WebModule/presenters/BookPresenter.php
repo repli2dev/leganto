@@ -38,7 +38,7 @@ class Web_BookPresenter extends Web_BasePresenter {
 				->applyLimit(5)
 		);
 		// Graph
-		$this->getTemplate()->graph = StatisticsGraphs::getRatingsByBook($this->getBook())->getLink();
+		$this->getTemplate()->graph = StatisticsGraphs::getSexByBook($this->getBook())->getLink();
 		$this->setPageTitle($this->getTemplate()->book->title);
 	}
 
@@ -130,6 +130,11 @@ class Web_BookPresenter extends Web_BasePresenter {
 	}
 	protected function createComponentShareBox($name) {
 		return new ShareBoxComponent($this, $name);
+	}
+	protected function createComponentBookStatistics($name) {
+	    $stats = new BookStatisticsComponent($this, $name);
+	    $stats->setBook($this->getBook());
+	    return $stats;
 	}
 
 	protected function createComponentSubmenu($name) {

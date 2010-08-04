@@ -5,7 +5,7 @@ class StatisticsGraphs
     /** @return GoogleChart */
     public static function getNumberOfOpinionsByRating() {
 	// Load data
-	$res = dibi::query("SELECT COUNT(*) AS number, rating FROM opinion GROUP BY rating ORDER BY rating DESC");
+	$res = dibi::query("SELECT COUNT(*) AS number, rating FROM opinion GROUP BY rating ORDER BY rating");
 	$statistics = array();
 	while($stat = $res->fetch()) {
 	    $statistics[$stat->rating] = $stat->number;
@@ -42,6 +42,30 @@ class StatisticsGraphs
 	return $chart;
     }
 
+    public static function getSexByBook(BookEntity $book) {
+	$res = dibi::query("
+	    SELECT
+		COUNT([id_user])	    AS [number],
+		IFNULL([sex], 'unknown')    AS [sex]
+	    FROM [opinion]
+	    INNER JOIN [user] USING([id_user])
+	    WHERE [id_book_title] = %i", $book->getId(),
+	    "GROUP BY [sex]"
+	);
+	$statistics = array();
+	while($stat = $res->fetch()) {
+	    $statistics[System::translate($stat->sex)] = $stat->number;
+	}
+	// Build chart
+	$chart = new GoogleChart(GoogleChart::TYPE_TWO_DIMENSIONAL_PIE);
+	$chart->setAxes(array(GoogleChart::AXES_LEFT, GoogleChart::AXES_BOTTOM));
+	$chart->setSize(150, 300);
+	$chart->setLegend(array_keys($statistics));
+	$chart->setLabels(GoogleChart::AXES_BOTTOM, $statistics);
+	$chart->addDataSet($statistics);
+	return $chart;
+    }
+
     private static function getNumberOfInsertedItemsLastYear($tablename) {
 	// Load data
 	$sqls = array();
@@ -66,5 +90,4 @@ class StatisticsGraphs
 	$chart->addDataSet(array_reverse($data));
 	return $chart;
     }
-
 }
