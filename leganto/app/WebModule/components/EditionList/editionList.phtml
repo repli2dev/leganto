@@ -7,7 +7,9 @@
 	{/foreach}
 	<hr style="clear:both; visibility:hidden" />
 	@{if !$showWithoutCover}
-	    <a href="{link showWithoutCover}" class="ajax" title="{_'Show editions without image'}">{_'Show editions without image'}</a>
+	    @{if $hidden}
+		<a href="{link showWithoutCover}" class="ajax" title="{_'Show editions without image'}">{_'Show editions without image'}</a>
+	    @{/if}
 	@{else}
 	    <a href="{link hideWithoutCover}" class="ajax" title="{_'Hide editions without image'}">{_'Hide editions without image'}</a>
 	@{/if}

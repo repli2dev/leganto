@@ -31,10 +31,14 @@ class EditionListComponent extends BaseListComponent
 	    $this->getTemplate()->editions = Leganto::editions()->fetchAndCreateAll($source);
 	}
 	else {
-	    $this->getTemplate()->editions = array();
+	    $this->getTemplate()->editions  = array();
+	    $this->getTemplate()->hidden    = FALSE;
 	    while ($edition = Leganto::editions()->fetchAndCreate($source)) {
 		if ($edition->image != NULL && file_exists(WWW_DIR . "/" . $edition->image)) {
 		    $this->getTemplate()->editions[] = $edition;
+		}
+		else {
+		    $this->getTemplate()->hidden = TRUE;
 		}
 	    }
 	}
