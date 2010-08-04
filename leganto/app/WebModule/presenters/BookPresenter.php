@@ -121,6 +121,9 @@ class Web_BookPresenter extends Web_BasePresenter {
 	protected function createComponentSimilarBooks($name) {
 		return new BookListComponent($this, $name);
 	}
+	protected function createComponentShareBox($name) {
+		return new ShareBoxComponent($this, $name);
+	}
 
 	protected function createComponentSubmenu($name) {
 		$submenu = new SubmenuComponent($this, $name);
