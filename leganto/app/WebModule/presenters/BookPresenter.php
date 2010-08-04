@@ -21,6 +21,9 @@ class Web_BookPresenter extends Web_BasePresenter {
 					Leganto::tags()->getSelector()
 					->findAllByBook($this->getTemplate()->book)
 		);
+		// Cover
+		$storage = new EditionImageStorage();
+                $this->getTemplate()->cover = $storage->getRandomFileByBook($this->getTemplate()->book);
 		// Editions
 		$this->getComponent("editionList")->setSource(
 		    Leganto::editions()->getSelector()->findAllByBook($this->getTemplate()->book)
