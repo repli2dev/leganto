@@ -269,6 +269,7 @@ a img {
 	margin: 2px 0 0 10px;
 	border-bottom: 1px solid #F1C11D;
 }
+/*
 .column a {
 	float: right;
 	border-bottom: 1px dotted #CC3333;
@@ -283,6 +284,7 @@ a img {
 .column a:after {
 	content: " »";
 }
+*/
 /********************* CLASSES ***********************/
 .icon {
 	float: left;

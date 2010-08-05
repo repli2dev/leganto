@@ -12,14 +12,14 @@
 	    <div class="control">
 		{assign confirm => System::translate("Are you sure you want to delete a discussion post?")}
 		{assign link    => $component->link('delete', $post->getId())}
-		<a onclick="if(confirm('{!$confirm}')) window.location = '{!$link}'">
+		<a onclick="if(confirm('{!$confirm}')) window.location = '{!$link}'" title="{_'Delete'}">
 		    <img src="{$baseUri . 'img/ico/delete.png'}" alt="{_'Delete'}" />
 		</a>
 	    </div>
 	    {/if}
 	    <img class="icon" src="{$post->user, 50|userico}" />
 	    <div class="info">
-		@{$post->inserted|date} | <strong class="author">{$post->userName}</strong>
+		@{$post->inserted|date} | <strong class="author"><a href="{plink User:default, $post->user}" title="{$post->userName}">{$post->userName}</a></strong>
 	    </div>
 	    <div class="content">
 			{!=$post->content|texy}

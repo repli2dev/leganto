@@ -2,8 +2,8 @@
 	{foreach $books AS $book}
 	<div class="column">
 		<img class="icon" src="{$covers[$book->getId()],50|thumbnail}" alt="{$book->title}" width="50" height="80" />
-		<h2>{$book->title}</h2>
-		{!=String::truncate("<strong>" . $opinions[$book->bookNode]->userName . "</strong> : " . $opinions[$book->bookNode]->content,120)|texy}
+		<h2><a href="{plink Book:default, $book->getId()}" title="{$book->title}">{$book->title}</a></h2>
+		{!=String::truncate("<strong><a href=\"" . $presenter->link('User:default', $opinions[$book->bookNode]->userId) . "\" title=\"" . $opinions[$book->bookNode]->userName . "\">" . $opinions[$book->bookNode]->userName ."</a></strong>: " . $opinions[$book->bookNode]->content,120)|texy}
 	</div>
 	{if $iterator->getCounter() % 3 == 0}<hr style="clear:both; visibility:hidden" /> {/if}
 	{/foreach}

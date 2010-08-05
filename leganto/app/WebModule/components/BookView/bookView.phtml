@@ -9,9 +9,9 @@
 	<img class="rating" src="{$baseUri}img/rating_{=round($book->rating)}.png" />
 	{foreach $authors AS $author}
 	<h2>
-	    {if $author->groupname != NULL}{$author->groupname} {/if}
-	    {if $author->firstname != NULL}{$author->firstname}{/if}
-	    {if $author->lastname != NULL}{$author->lastname}{/if}
+	    <a href="{plink Author:default, $author->getId()}" title="{$author->fullname}">
+		{$author->fullname}
+	    </a>
 	</h2>
 	{/foreach}
 	{if !empty($edition)}
