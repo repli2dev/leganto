@@ -61,7 +61,7 @@
 	<ul>
 	    {foreach $editions AS $edition}
 		<li>
-		    <a href="{plink default, $edition->idBookTitle, $edition->getId()}">
+		    <a href="{$component->getParent()->link('setEdition', $edition->getId())}">
 			<img class="icon" src="{$edition->image, 50|thumbnail}" width="50" height="80" />
 		    </a>
 		</li>

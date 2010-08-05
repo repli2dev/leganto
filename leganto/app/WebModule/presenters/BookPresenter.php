@@ -4,42 +4,18 @@ class Web_BookPresenter extends Web_BasePresenter {
 
 	private $book;
 
-	public function renderDefault($book, $edition = NULL) {
-		$this->getTemplate()->book = $this->getBook();
-
-		if ($edition) {
-			$this->getTemplate()->edition = Leganto::editions()->getSelector()->find($edition);
-		}
-		// Authors
-		$this->getTemplate()->authors = Leganto::authors()->fetchAndCreateAll(
-					Leganto::authors()->getSelector()
-					->findAllByBook($this->getTemplate()->book),
-				"Load"
-		);
-		// Tags
-		$this->getTemplate()->tags = Leganto::tags()->fetchAndCreateAll(
-					Leganto::tags()->getSelector()
-					->findAllByBook($this->getTemplate()->book)
-		);
-		// Cover
-		$storage = new EditionImageStorage();
-                $this->getTemplate()->cover = $storage->getRandomFileByBook($this->getTemplate()->book);
-		// Editions
-		$this->getComponent("editionList")->setSource(
-		    Leganto::editions()->getSelector()->findAllByBook($this->getTemplate()->book)
-		);
-		// Opinions
-		$this->getComponent("opinionList")->setLimit(5);
-		$this->getComponent("opinionList")->showPaginator(FALSE);
-		$this->getComponent("opinionList")->setSource(
-				Leganto::opinions()->getSelector()
-				->findAllByBook($this->getTemplate()->book)
-				->where("[content] != ''")
-				->applyLimit(5)
-		);
-		// Graph
-		$this->getTemplate()->graph = StatisticsGraphs::getSexByBook($this->getBook())->getLink();
-		$this->setPageTitle($this->getTemplate()->book->title);
+	public function renderDefault($book) {
+	    // Opinions
+	    $this->getComponent("opinionList")->setLimit(5);
+	    $this->getComponent("opinionList")->showPaginator(FALSE);
+	    $this->getComponent("opinionList")->setSource(
+		Leganto::opinions()->getSelector()
+		    ->findAllByBook($this->getBook())
+		    ->where("[content] != ''")
+		    ->applyLimit(5)
+	    );
+	    // Page title
+	    $this->setPageTitle($this->getBook()->title);
 	}
 
 	public function actionAddEdition($book) {
@@ -99,6 +75,12 @@ class Web_BookPresenter extends Web_BasePresenter {
 		$this->setPageTitle($this->getTemplate()->book->title);
 	}
 
+	protected function createComponentBookView($name) {
+	    $view = new BookViewComponent($this, $name);
+	    $view->setBook($this->getBook());
+	    return $view;
+	}
+
         protected function createComponentBookShelfControl($name) {
 	    $component = new BookShelfControlComponent($this, $name);
 	    $component->setBook($this->getBook());
@@ -111,10 +93,6 @@ class Web_BookPresenter extends Web_BasePresenter {
 
 	protected function createComponentEditionForm($name) {
 		return new EditionComponent($this, $name);
-	}
-
-	protected function createComponentEditionList($name) {
-	    return new EditionListComponent($this, $name);
 	}
 
 	protected function createComponentInsertingOpinion($name) {
@@ -131,11 +109,6 @@ class Web_BookPresenter extends Web_BasePresenter {
 	protected function createComponentShareBox($name) {
 		return new ShareBoxComponent($this, $name);
 	}
-	protected function createComponentBookStatistics($name) {
-	    $stats = new BookStatisticsComponent($this, $name);
-	    $stats->setBook($this->getBook());
-	    return $stats;
-	}
 
 	protected function createComponentSubmenu($name) {
 		$submenu = new SubmenuComponent($this, $name);
@@ -150,7 +123,7 @@ class Web_BookPresenter extends Web_BasePresenter {
 			}
 			$submenu->addevent("insert", System::translate("Insert related book"), array("book" => $this->getBook()->getId(), "connect" => TRUE));
 			$submenu->addEvent("addEdition", System::translate("Add new edition"), $this->getBook()->getId());
-			$edition = $this->getParam("edition");
+			$edition = $this->getComponent("bookView")->getEditionId();
 			if(!empty($edition)) {
 				$submenu->addEvent("editEdition", System::translate("Edit this edition"), array("book" => $this->getBook()->getId(), "edition" => $edition));
 			}

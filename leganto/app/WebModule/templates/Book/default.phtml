@@ -1,51 +1,7 @@
 @{extends layout.phtml}
 
 @{block #subcontent}
-    <div id="book-info">
-	{if empty($edition)}
-	    <img class="icon" src="{$cover,150|thumbnail}" alt="{$book->title}" {if empty($cover)}width="150" height="240"{/if} />
-	{else}
-	    <img class="icon" src="{$edition->image,150|thumbnail}" alt="{$book->title}" {if empty($edition->image)}width="150" height="240"{/if} />
-	{/if}
-	{widget bookStatistics}
-	<h1>{$book->title}</h1>
-	<img class="rating" src="{$baseUri}img/rating_{=round($book->rating)}.png" />
-	{foreach $authors AS $author}
-	<h2>
-	    {if $author->groupname != NULL}{$author->groupname} {/if}
-	    {if $author->firstname != NULL}{$author->firstname}{/if}
-	    {if $author->lastname != NULL}{$author->lastname}{/if}
-	</h2>
-	{/foreach}
-	{if !empty($edition)}
-	<p>
-	    {if $edition->isbn10 != NULL}
-		<strong>ISBN:</strong>&nbsp;
-		{$edition->isbn10}
-	    {/if}
-	    {if $edition->isbn13 != NULL}
-		<br />
-		<strong>ISBN:</strong>&nbsp;
-		{$edition->isbn13}
-	    {/if}
-	    <br />
-	    <strong>Pages:</strong>&nbsp;{$edition->pages}
-	    <br />
-	    <strong>Published:</strong>&nbsp;{$edition->published}
-	</p>
-
-	{/if}
-    </div>
-    <hr style="clear:both; visibility:hidden" />
-    @{widget editionList}
-    <div id="tags">
-	{foreach $tags AS $tag}
-	    <a href="{link Search:default, $tag->name}" class="tag">{$tag->name}</a>
-	{/foreach}
-    </div>
-    <hr style="clear:both; visibility:hidden" />
-    <div id="opinions">
-	<h3>Opinions</h3>
-	@{widget opinionList}
-    </div>
+    @{widget bookView}
+    <h3>Opinions</h3>
+    @{widget opinionList}
 {/block}
