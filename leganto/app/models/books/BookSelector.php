@@ -63,7 +63,7 @@ class BookSelector implements ISelector
 		return dibi::dataSource("SELECT * FROM [view_similar_book] WHERE [id_book_from] = %i", $book->bookNode);
 	}
 	
-	public function search($keyword){
+	public function search($keyword) {
 		if (empty($keyword)) {
 			throw new NullPointerException("keyword");
 		}
@@ -83,6 +83,18 @@ class BookSelector implements ISelector
 			[group_name] LIKE '$word')";
 		}
 		return dibi::dataSource("SELECT * FROM [view_book_search] " . (empty($conditions) ? "" : " WHERE " . $conditions) . " GROUP BY [id_book]");
+	}
+
+	public function suggest($keyword) {
+		if (empty($keyword)) {
+			throw new NullPointerException("keyword");
+		}
+		$word = "%".mysql_escape_string($keyword)."%";
+		$conditions = "
+			[title] LIKE '$word'
+		";
+		// Do not use view (because view takes over 100 ms)
+		return dibi::dataSource("SELECT * FROM [book_title] WHERE " . $conditions . "");
 	}
 
 	public function searchByColumn($column,$keyword) {

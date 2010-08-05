@@ -157,6 +157,22 @@ class Web_BookPresenter extends Web_BasePresenter {
 		}
 		return $submenu;
 	}
+	public function renderSuggest($term) {
+		$cache = Environment::getCache("bookSuggest");
+		if(isSet($cache[md5($term)])){
+			echo json_encode($cache[md5($term)]);
+		} else {
+			$items = Leganto::books()->getSelector()->suggest($term)->select("title")->applyLimit(10)->fetchAssoc("title");
+			foreach($items as $item) {
+				$results[] = $item->title;
+			}
+			echo json_encode($results);
+			$cache->save(md5($term), $results, array(
+				'expire' => time() + 60 * 60 * 6,	// expire in 6 hours
+			));
+		}
+		die; // Fast respond needed, not want to overload server
+	}
 
 	// PRIVATE METHODS
 
