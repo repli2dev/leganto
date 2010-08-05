@@ -21,18 +21,11 @@ class BookListComponent extends BaseListComponent
 	if ($this->getLimit() == 0) {
 	    $paginator->itemsPerPage = $paginator->itemCount;
 	}
-	$books	    = $source
-	    ->applyLimit($paginator->itemsPerPage, $paginator->offset)
-	    ->fetchAssoc("id_book");
+	$books	    = $source->applyLimit($paginator->itemsPerPage, $paginator->offset);
 	$this->getTemplate()->books = array();
 	$this->getTemplate()->covers = array();
 	$this->getTemplate()->tags = array();
 	$this->getTemplate()->authors = array();
-	if (empty($books)) {
-	    return;
-	}
-	$authors    = Leganto::authors()->getSelector()->findAllByBooks(array_keys($books))
-	    ->fetchAssoc("id_book,id_author");
 	// Books and covers
 	$storage = new EditionImageStorage();
 	foreach($books as $book) {
@@ -44,6 +37,12 @@ class BookListComponent extends BaseListComponent
 	    $this->getTemplate()->covers[$entity->getId()] = empty($image) ? NULL : $image->getAbsolutePath();
 	}
 	// Authors
+	$nodes = array();
+	foreach ($this->getTemplate()->books AS $book) {
+	    $nodes[$book->bookNode] = 1;
+	}
+	$authors    = Leganto::authors()->getSelector()->findAllByBooks(array_keys($nodes))
+	    ->fetchAssoc("id_book,id_author");
 	foreach($authors as $bookId => $authorGroup) {
 	    $this->getTemplate()->authors[$bookId] = array();
 	    foreach ($authorGroup AS $author) {
