@@ -55,14 +55,14 @@
 		$data = simplexml_load_string($pageContent);
 		$params = $this->getUrlParams();
 		if(!isSet($data->entry)) {
-			throw new Exception("No results for query: ".urldecode($params['<--QUERY-->']));
+			throw new IOException("No results for query: ".urldecode($params['<--QUERY-->']));
 		}
 		// Get Google Book ID of first item
 		$entry = $data->entry->children('http://purl.org/dc/terms'); // Switch the namespaces
 		$gid = $entry->identifier[0];
 
 		if(empty($gid)){
-			throw new Exception("Unknown error.");
+			throw new IOException("Unknown error.");
 		} else {
 			// Ask editionFinder to do the job
 			$editionFinder = new GoogleBooksEditionFinder($params['<--LANG-->']);

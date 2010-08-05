@@ -203,7 +203,6 @@ class InsertingBookComponent extends BaseComponent
 
     protected function startUp() {
 	$this->loadPersistedState();
-	Debug::dump($this->state);
     }
 
     // PRIVATE METHODS
@@ -317,9 +316,10 @@ class InsertingBookComponent extends BaseComponent
 	    }
 	}
 	catch(Exception $e) {
-		$this->getPresenter()->flashMessage(System::translate("The book has been inserted. Unfortunate, book cover and other additional informations could not be fetched, still you can add them manually."),'info');
+	    error_log($e->getTraceAsString());
 	}
-	//$this->resetState();
+	$this->getPresenter()->flashMessage(System::translate("Book has been successfuly inserted."), "success");
+	$this->getPresenter()->flashMessage(System::translate("The system tried to load editions of the book '".$book->title."', but the process is not reliable and you can insert editions manually."));
 	$this->getPresenter()->redirect("Book:default",$book->getId());
     }
 
