@@ -6,6 +6,8 @@ class PostListComponent extends BaseListComponent
 
     private $type;
 
+    private $enablePosting = TRUE;
+
     public function handleDelete($post) {
         $postEntity = Leganto::posts()->getSelector()->find($post);
         if ($postEntity == null) {
@@ -62,11 +64,16 @@ class PostListComponent extends BaseListComponent
         $this->type         = $type;
     }
 
+    public function disablePosting() {
+	    $this->enablePosting = FALSE;
+    }
+
     // ---- PROTECTED METHODS
 
     protected function beforeRender() {
 	parent::beforeRender();
 	$this->loadTemplate($this->getSource());
+	$this->getTemplate()->enablePosting = $this->enablePosting;
     }
 
 
