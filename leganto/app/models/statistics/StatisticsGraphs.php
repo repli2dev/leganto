@@ -5,7 +5,7 @@ class StatisticsGraphs
     /** @return GoogleChart */
     public static function getNumberOfOpinionsByRating() {
 	// Load data
-	$res = dibi::query("SELECT COUNT(*) AS number, rating FROM opinion GROUP BY rating ORDER BY rating");
+	$res = dibi::query("SELECT COUNT(*) AS number, rating FROM opinion GROUP BY rating");
 	$statistics = array();
 	while($stat = $res->fetch()) {
 	    $statistics[$stat->rating] = $stat->number;
@@ -27,9 +27,21 @@ class StatisticsGraphs
 
     public static function getRatingsByBook(BookEntity $book) {
 	$res = dibi::query("SELECT COUNT([id_opinion]) AS [number], [rating] FROM [opinion] WHERE [id_book_title] = %i", $book->getId()," GROUP BY [rating] ORDER BY [rating] DESC");
-	$statistics = array();
+	$data = array();
 	while($stat = $res->fetch()) {
-	    $statistics[$stat->rating] = $stat->number;
+	    $data[$stat->rating] = $stat->number;
+	}
+	if (empty($data)) {
+	    return;
+	}
+	$statistics = array();
+	for($i = 5; $i > 0; $i--) {
+	    if (!isset($data[$i])) {
+		$statistics[$i] = 0;
+	    }
+	    else {
+		$statistics[$i] = $data[$i];
+	    }
 	}
 	// Build chart
 	$chart = new GoogleChart(GoogleChart::TYPE_TWO_DIMENSIONAL_PIE);
@@ -52,9 +64,22 @@ class StatisticsGraphs
 	    WHERE [id_book_title] = %i", $book->getId(),
 	    "GROUP BY [sex]"
 	);
-	$statistics = array();
+	$data = array();
 	while($stat = $res->fetch()) {
-	    $statistics[System::translate($stat->sex)] = $stat->number;
+	    $data[$stat->sex] = $stat->number;
+	}
+	if (empty($data)) {
+	    return;
+	}
+	$sexes = array("male", "female", "unknown");
+	$statistics = array();
+	foreach($sexes AS $sex) {
+	    if (!isset($data[$sex])) {
+		$statistics[System::translate($sex)] = 0;
+	    }
+	    else {
+		$statistics[System::translate($sex)] = $data[$sex];
+	    }
 	}
 	// Build chart
 	$chart = new GoogleChart(GoogleChart::TYPE_TWO_DIMENSIONAL_PIE);

@@ -28,47 +28,49 @@
 	    opacity: 0.5;
 	}
     </style>
-    <script>
-    $(function(){
-	//Get our elements for faster access and set overlay width
-	var div = $('#editions');
-	var ul = $('#editions ul');
-	// unordered list's left margin
-	var ulPadding = 15;
+    {if !empty($editions)}
+	<script>
+	$(function(){
+	    //Get our elements for faster access and set overlay width
+	    var div = $('#editions');
+	    var ul = $('#editions ul');
+	    // unordered list's left margin
+	    var ulPadding = 15;
 
-	//Get menu width
-	var divWidth = div.width();
+	    //Get menu width
+	    var divWidth = div.width();
 
-	//Remove scrollbars
-	div.css({ overflow: 'hidden'});
+	    //Remove scrollbars
+	    div.css({ overflow: 'hidden'});
 
-	//Find last image container
-	var lastLi = ul.find('li:last-child');
+	    //Find last image container
+	    var lastLi = ul.find('li:last-child');
 
-	//When user move mouse over menu
-	div.mousemove(function(e){
+	    //When user move mouse over menu
+	    div.mousemove(function(e){
 
-	  //As images are loaded ul width increases,
-	  //so we recalculate it each time
-	  var ulWidth = lastLi[0].offsetLeft + lastLi.outerWidth() + ulPadding;
+	      //As images are loaded ul width increases,
+	      //so we recalculate it each time
+	      var ulWidth = lastLi[0].offsetLeft + lastLi.outerWidth() + ulPadding;
 
-	  var left = (e.pageX - div.offset().left) * (ulWidth-divWidth) / divWidth;
-	  div.scrollLeft(left);
+	      var left = (e.pageX - div.offset().left) * (ulWidth-divWidth) / divWidth;
+	      div.scrollLeft(left);
+	    });
 	});
-    });
-    </script>
-    <div id="editions">
-	<ul>
-	    {foreach $editions AS $edition}
-		<li>
-		    <a href="{$component->getParent()->link('setEdition', $edition->getId())}">
-			<img class="icon" src="{$edition->image, 50|thumbnail}" width="50" height="80" />
-		    </a>
-		</li>
-	    {/foreach}
-	</ul>
-    </div>
-    <hr style="clear:both; visibility:hidden" />
+	</script>
+	<div id="editions">
+	    <ul>
+		{foreach $editions AS $edition}
+		    <li>
+			<a href="{$component->getParent()->link('setEdition', $edition->getId())}">
+			    <img class="icon" src="{$edition->image, 50|thumbnail}" width="50" height="80" />
+			</a>
+		    </li>
+		{/foreach}
+	    </ul>
+	</div>
+	<hr style="clear:both; visibility:hidden" />
+    {/if}
     @{if !$showWithoutCover}
 	@{if $hidden}
 	    <a href="{link showWithoutCover}" class="ajax" title="{_'Show editions without image'}">{_'Show editions without image'}</a>

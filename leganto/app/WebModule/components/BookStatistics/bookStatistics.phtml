@@ -24,10 +24,12 @@ $(document).ready(
 <div>
 <div id="book-stats">
     {foreach $graphs AS $graph}
-	<h3>{$graph['label']}</h3>
-	<div>
-	    <img src="{$graph['graph']->getLink()}" />
-	</div>
+	{if !empty($graph['graph'])}
+	    <h3>{$graph['label']}</h3>
+	    <div>
+		<img src="{$graph['graph']->getLink()}" />
+	    </div>
+	{/if}
     {/foreach}
 </div>
 </div>

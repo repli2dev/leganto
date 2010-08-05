@@ -38,8 +38,6 @@ class BookViewComponent extends BaseComponent
 	$this->getComponent("editionList")->setSource(
 	    Leganto::editions()->getSelector()->findAllByBook($this->book)
 	);
-	// Graph
-	$this->getTemplate()->graph = StatisticsGraphs::getSexByBook($this->book)->getLink();
 	// Edition?
 	if (!empty($this->edition)) {
 	    $edition = Leganto::editions()->getSelector()->find($this->edition);

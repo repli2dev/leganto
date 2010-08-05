@@ -142,11 +142,13 @@ class GoogleChart
     }
 
     private function autoScale() {
-	$maxvalue = -PHP_INT_MAX;
+	$maxvalue = 0;
 	foreach($this->data AS $dataset) {
-	    $max = max($dataset);
-	    if ($max >= $maxvalue) {
-		$maxvalue = $max;
+	    if (!empty($dataset)) {
+		$max = max($dataset);
+		if ($max >= $maxvalue) {
+		    $maxvalue = $max;
+		}
 	    }
 	}
 	$roundedMax = 1;
