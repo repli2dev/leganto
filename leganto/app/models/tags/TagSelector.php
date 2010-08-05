@@ -41,5 +41,17 @@ class TagSelector implements ISelector
 				dibi::dataSource("SELECT * FROM [tag] WHERE [id_tag] = %i", $id)
 			);
 	}
+
+	public function suggest($keyword) {
+		if (empty($keyword)) {
+			throw new NullPointerException("keyword");
+		}
+		$word = "%".mysql_escape_string($keyword)."%";
+		$conditions = "
+			[name] LIKE '$word'
+		";
+		// Do not use view (because view takes over 100 ms)
+		return dibi::dataSource("SELECT * FROM [tag] WHERE " . $conditions . "");
+	}
 	
 }

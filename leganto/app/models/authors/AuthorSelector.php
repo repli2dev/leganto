@@ -73,4 +73,17 @@ class AuthorSelector implements ISelector
 		return dibi::dataSource("SELECT * FROM [view_author] " . (empty($conditions) ? "" : " WHERE " . $conditions) . " GROUP BY [id_author]");
 	}
 
+	public function suggest($keyword) {
+		if (empty($keyword)) {
+			throw new NullPointerException("keyword");
+		}
+		$word = "%".mysql_escape_string($keyword)."%";
+		$conditions .= "
+			([first_name] LIKE '$word' OR
+			[last_name] LIKE '$word' OR
+			[group_name] LIKE '$word')";
+		// Do not use view (because view takes over 100 ms)
+		return dibi::dataSource("SELECT * FROM [view_author] WHERE " . $conditions . "");
+	}
+
 }

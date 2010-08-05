@@ -147,6 +147,23 @@ class Web_BookPresenter extends Web_BasePresenter {
 		die; // Fast respond needed, not want to overload server
 	}
 
+	public function renderTagSuggest($term) {
+		$cache = Environment::getCache("tagSuggest");
+		if(isSet($cache[md5($term)])){
+			echo json_encode($cache[md5($term)]);
+		} else {
+			$items = Leganto::tags()->getSelector()->suggest($term)->select("name")->applyLimit(10)->fetchAssoc("name");
+			foreach($items as $item) {
+				$results[] = $item->name;
+			}
+			echo json_encode($results);
+			$cache->save(md5($term), $results, array(
+				'expire' => time() + 60 * 60 * 6,	// expire in 6 hours
+			));
+		}
+		die; // Fast respond needed, not want to overload server
+	}
+
 	// PRIVATE METHODS
 
 	/** @return BookEntity */
