@@ -1,17 +1,79 @@
 {snippet editions}
+    <style>
+	#editions {
+	    overflow: auto;
+	    height: 100px;
+	    /* Set it so we could calculate the offsetLeft */
+	    position: relative;
+	}
+	#editions ul {
+	    margin: 0;
+	    padding: 0;
+	    display: block;
+	    height: 100px;
+	    /* Max width here, for users without Javascript */
+	    width: 1500px;
+	    list-style: none;
+	}
+	#editions ul li {
+	    display: block;
+	    float: left;
+	}
+	#editions ul li a {
+	    display: block;
+	    text-decoration: none;
+	}
+	#editions ul li a:hover img {
+	    filter:alpha(opacity=50);
+	    opacity: 0.5;
+	}
+    </style>
+    <script>
+    $(function(){
+	//Get our elements for faster access and set overlay width
+	var div = $('#editions');
+	var ul = $('#editions ul');
+	// unordered list's left margin
+	var ulPadding = 15;
+
+	//Get menu width
+	var divWidth = div.width();
+
+	//Remove scrollbars
+	div.css({ overflow: 'hidden'});
+
+	//Find last image container
+	var lastLi = ul.find('li:last-child');
+
+	//When user move mouse over menu
+	div.mousemove(function(e){
+
+	  //As images are loaded ul width increases,
+	  //so we recalculate it each time
+	  var ulWidth = lastLi[0].offsetLeft + lastLi.outerWidth() + ulPadding;
+
+	  var left = (e.pageX - div.offset().left) * (ulWidth-divWidth) / divWidth;
+	  div.scrollLeft(left);
+	});
+    });
+    </script>
     <div id="editions">
-	{foreach $editions AS $edition}
-	    <a href="{plink default, $edition->idBookTitle, $edition->getId()}">
-		<img class="icon" src="{$edition->image, 50|thumbnail}" width="50" height="80" />
-	    </a>
-	{/foreach}
-	<hr style="clear:both; visibility:hidden" />
-	@{if !$showWithoutCover}
-	    @{if $hidden}
-		<a href="{link showWithoutCover}" class="ajax" title="{_'Show editions without image'}">{_'Show editions without image'}</a>
-	    @{/if}
-	@{else}
-	    <a href="{link hideWithoutCover}" class="ajax" title="{_'Hide editions without image'}">{_'Hide editions without image'}</a>
-	@{/if}
+	<ul>
+	    {foreach $editions AS $edition}
+		<li>
+		    <a href="{plink default, $edition->idBookTitle, $edition->getId()}">
+			<img class="icon" src="{$edition->image, 50|thumbnail}" width="50" height="80" />
+		    </a>
+		</li>
+	    {/foreach}
+	</ul>
     </div>
+    <hr style="clear:both; visibility:hidden" />
+    @{if !$showWithoutCover}
+	@{if $hidden}
+	    <a href="{link showWithoutCover}" class="ajax" title="{_'Show editions without image'}">{_'Show editions without image'}</a>
+	@{/if}
+    @{else}
+	<a href="{link hideWithoutCover}" class="ajax" title="{_'Hide editions without image'}">{_'Hide editions without image'}</a>
+    @{/if}
 {/snippet}
