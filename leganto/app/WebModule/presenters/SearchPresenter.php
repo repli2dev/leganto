@@ -32,7 +32,7 @@ class Web_SearchPresenter extends Web_BasePresenter {
 		if($count == 1) {
 			$row = $source->fetch();
 
-			$this->redirect('Book:Default',$row->id_book);
+			$this->redirect('Book:Default',$row->id_book_title);
 		}
 		$this->getComponent("searchList")->setSource($source);
 	}
