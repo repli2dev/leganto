@@ -262,4 +262,25 @@ CREATE TABLE `following` (
     FOREIGN KEY (`id_user_followed`) REFERENCES `user` (`id_user`) ON UPDATE CASCADE ON DELETE CASCADE,
     UNIQUE(`id_user`, `id_user_followed`)
 ) ENGINE = InnoDB COMMENT = 'followers';
-)
+
+DROP TABLE IF EXISTS `support_category`;
+CREATE TABLE `support_category` (
+	`id_support_category` INT(25) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'identifikator',
+	`id_language` INT(25) UNSIGNED NOT NULL COMMENT 'preferovany jazyk uzivatele',
+	`name` VARCHAR(255) NOT NULL COMMENT 'jmeno kategorie v danem jazyce',
+	`description` TEXT NOT NULL COMMENT 'kratky popis kategorie',
+	`weight` TINYINT NOT NULL COMMENT 'tiha dane kategorie (aby slo urcit poradi)',
+	`updated` TIMESTAMP COMMENT 'cas, kdy byla polozka naposledy zmenena',
+	FOREIGN KEY (`id_language`) REFERENCES `language` (`id_language`) ON UPDATE CASCADE ON DELETE CASCADE
+) ENGINE = InnoDB COMMENT = 'kategorie napovedy';
+
+DROP TABLE IF EXISTS `support_text`;
+CREATE TABLE `support_text` (
+	`id_support_text` INT(25) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'identifikator',
+	`id_support_category` INT(25) UNSIGNED NOT NULL COMMENT 'category',
+	`name` VARCHAR(255) NOT NULL COMMENT 'jmeno kategorie v danem jazyce',
+	`text` TEXT NOT NULL COMMENT 'text dane stranky napovedy',
+	`updated` TIMESTAMP COMMENT 'cas, kdy byla polozka naposledy zmenena',
+	FOREIGN KEY (`id_support_category`) REFERENCES `support_category` (`id_support_category`) ON UPDATE CASCADE ON DELETE CASCADE
+) ENGINE = InnoDB COMMENT = 'texty napovedy';
+

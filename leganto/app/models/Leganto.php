@@ -111,6 +111,20 @@ class Leganto
 	/**
 	 * @return IEntityFactory
 	 */
+	public static function supportCategory() {
+		return SimpleEntityFactory::createEntityFactory("supportCategory");
+	}
+
+	/**
+	 * @return IEntityFactory
+	 */
+	public static function supportText() {
+		return SimpleEntityFactory::createEntityFactory("supportText");
+	}
+
+	/**
+	 * @return IEntityFactory
+	 */
 	public static function connections() {
 		return SimpleEntityFactory::createEntityFactory("connection");
 	}
