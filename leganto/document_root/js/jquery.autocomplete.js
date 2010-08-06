@@ -1,7 +1,9 @@
 $(function() {
+	// Local caches
 	var cache = {};
 	var authorCache = {};
 	var tagCache = {};
+
 	// Small search form in header
 	$( "#search #frmform-query" ).autocomplete({
 		minLength: 2,
@@ -18,8 +20,8 @@ $(function() {
 					dataType: "json",
 					data: request,
 					success: function( data ) {
-						cache[ request.term ] = data;
-						response( data );
+						cache[ request.term ] = data;						
+						response(data);
 					}
 				});
 			} else
@@ -41,6 +43,7 @@ $(function() {
 			} else return;
 		}
 	});
+
 	// Big search form
 	$( "#frm-searchForm-form #frmform-query" ).autocomplete({
 		minLength: 2,
@@ -70,9 +73,20 @@ $(function() {
 	}
 	$( "#frm-insertingOpinion-addOpinionForm #frmaddOpinionForm-tags" ).autocomplete({
 		source: function(request, response) {
-			$.getJSON("/book/tag-suggest/", {
-				term: extractLast(request.term)
-			}, response);
+			if ( extractLast(request.term) in tagCache ) {
+				response( tagCache[ extractLast(request.term) ] );
+				return;
+			}
+			request.term = extractLast(request.term);
+			$.ajax({
+				url: "/book/tag-suggest/",
+				dataType: "json",
+				data: request,
+				success: function( data ) {
+					tagCache[ request.term ] = data;
+					response( data );
+				}
+			});
 		},
 		search: function() {
 			// custom minLength
