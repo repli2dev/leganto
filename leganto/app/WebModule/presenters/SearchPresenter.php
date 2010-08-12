@@ -97,6 +97,28 @@ class Web_SearchPresenter extends Web_BasePresenter {
 		$this->getComponent("userList")->setSource($source);
 	}
 
+	public function renderHelp($query) {
+		$this->getTemplate()->title = System::translate("Help search");
+		$this->setPageTitle($this->getTemplate()->title);
+		if(empty($query)){
+			$this->getTemplate()->message = System::translate("Enter text to search before you start searching!");
+			return;
+		}
+		$source = Leganto::supportText()->getSelector()->search($query);
+		// If there is only one result then redirect to it
+		$count = $source->count();
+		if($count == 0){
+			$this->getTemplate()->message = System::translate("Nothing was found for your query, please be less specific.");
+			return;
+		} else
+		if($count == 1) {
+			$row = $source->fetch();
+
+			$this->redirect('Help:text',$row->id_support_text);
+		}
+		$this->getComponent("helpList")->setSource($source);
+	}
+
 	protected function createComponentSubmenu($name) {
 		$query = $this->getParam("query");
 		$submenu = new SubmenuComponent($this, $name);
@@ -104,12 +126,16 @@ class Web_SearchPresenter extends Web_BasePresenter {
 		$submenu->addLink("author", System::translate("Author search"), $query);
 		$submenu->addLink("discussion", System::translate("Discussion search"), $query);
 		$submenu->addLink("user", System::translate("User search"), $query);
+		$submenu->addLink("help", System::translate("Help"), $query);
 		return $submenu;
 	}
 
 	// Factory
 	protected function createComponentSearchList($name) {
 		return new BookListComponent($this, $name);
+	}
+	protected function createComponentHelpList($name) {
+		return new HelpListComponent($this, $name);
 	}
 	protected function createComponentAuthorList($name) {
 		return new AuthorListComponent($this, $name);

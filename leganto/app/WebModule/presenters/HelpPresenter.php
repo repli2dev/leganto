@@ -19,6 +19,28 @@ class Web_HelpPresenter extends Web_BasePresenter {
 		$this->setPageTitle(System::translate("Help"));
 		$this->getTemplate()->data = Leganto::supportCategory()->getSelector()->findAllSortedByWeight();
 	}
-	
-	
+
+	public function renderCategory($id) {
+		$this->getTemplate()->category = Leganto::supportCategory()->getSelector()->find($id);
+		if(count($this->getTemplate()->category) == 0) {
+			$this->redirect("default");
+		}
+		$this->setPageTitle($this->getTemplate()->category->name);
+		$this->getTemplate()->data = Leganto::supportText()->getSelector()->findAllByCategory($id);
+		
+	}
+
+	public function renderText($id) {
+		$this->getTemplate()->data = Leganto::supportText()->getSelector()->find($id);
+		$this->setPageTitle($this->getTemplate()->data->name);
+	}
+
+	protected function createComponentSubmenu($name) {
+		$submenu = new SubmenuComponent($this, $name);
+		$data = Leganto::supportCategory()->getSelector()->findAllSortedByWeight();
+		foreach($data as $item) {
+			$submenu->addLink("category", $item->name, array("id" => $item->id_support_category));
+		}
+		return $submenu;
+	}
 }

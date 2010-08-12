@@ -16,6 +16,21 @@ class SubmenuComponent extends BaseComponent
 	$this->getTemplate()->events = array();
     }
 
+    public function equalArgs($args,$presenter) {
+	    $params = $presenter->getParam();
+	    unset($params["action"]);
+	    // Array and not array args!
+	    if(!is_array($args) && count($params) == 1) {
+		    $params = end($params);
+	    }
+	    // Are arrays equal
+	    if($params == $args) {
+		    return TRUE;
+	    } else {
+		    return FALSE;
+	    }
+    }
+
 }
 
 

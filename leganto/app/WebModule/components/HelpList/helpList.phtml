@@ -1,0 +1,17 @@
+<div class="list">
+
+    @{foreach $helps AS $help}
+	<hr style="clear:both; visibility:hidden; margin: 0;" />
+	<div class="item">
+	    <div class="info">
+		<strong><a href="{plink Help:text, $help->getId()}">{$help->name}</a></strong> @{$help->updated|date} | <strong class="author">{_"Leganto team"}</a></strong>
+	    </div>
+	    <div class="content">
+			{!=$help->text|texy}
+	    </div>
+	</div>
+    @{/foreach}
+    
+</div>
+
+@{widget paginator}

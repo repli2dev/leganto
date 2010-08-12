@@ -46,6 +46,9 @@ class SearchComponent extends BaseComponent {
 			if($in == "user") {
 				$this->getPresenter()->redirect("Search:user", $query);
 			} else
+			if($in == "help") {
+				$this->getPresenter()->redirect("Search:help", $query);
+			} else
 			if($in == "author") {
 				$this->getPresenter()->redirect("Search:author", $query);
 			} else {
@@ -69,7 +72,8 @@ class SearchComponent extends BaseComponent {
 				"default"	=>	System::translate("Books"),
 				"author"	=>	System::translate("Authors"),
 				"discussion"	=>	System::translate("Discussions"),
-				"user"	=>	System::translate("Users")
+				"user"	=>	System::translate("Users"),
+				"help"	=>	System::translate("Help")
 			);
 			$form->addSelect("search","In",$in)
 				->getControlPrototype()->setId("selectIn");
