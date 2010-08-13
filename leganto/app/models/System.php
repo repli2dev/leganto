@@ -80,4 +80,9 @@ final class System
 		$args = func_get_args();
 		return call_user_func_array(array(self::translator(), 'translate'), $args);
 	}
+
+	public static function captchaQuestion() {
+		$data = Leganto::captcha()->getSelector()->findFromLanguageRandom(self::language()->getId());
+		return $data;
+	}
 }

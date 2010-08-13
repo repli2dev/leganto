@@ -285,3 +285,11 @@ CREATE TABLE `support_text` (
 	FOREIGN KEY (`id_support_category`) REFERENCES `support_category` (`id_support_category`) ON UPDATE CASCADE ON DELETE CASCADE
 ) ENGINE = InnoDB COMMENT = 'texty napovedy';
 
+DROP TABLE IF EXISTS `captcha`;
+CREATE TABLE `captcha` (
+	`id_captcha` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'id captchy',
+	`question` TEXT NOT NULL COMMENT 'dokonala otazka',
+	`answer` TEXT NOT NULL COMMENT 'jedina odpoved',
+	`id_language` INT(25) UNSIGNED NOT NULL COMMENT 'preferovany jazyk uzivatele',
+	FOREIGN KEY (`id_language`) REFERENCES `language` (`id_language`) ON UPDATE CASCADE ON DELETE CASCADE
+) ENGINE = InnoDB COMMENT = 'Tabulka s textovymi otazkami pro captchu.'

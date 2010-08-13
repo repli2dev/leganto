@@ -277,6 +277,7 @@ class IntroductionComponent extends BaseComponent {
 			->addRule(Form::FILLED,"Please fill the second password for check.")
 			->addConditionOn($form["password"], Form::FILLED)
 				->addRule(Form::EQUAL, "Passwords have to match!", $form["password"]);
+		$form->addSpamProtection();
 		$form->addSubmit("submitted", "Register");
 		$form->onSubmit[] = array($this, "signUpFormSubmitted");
 		return $form;

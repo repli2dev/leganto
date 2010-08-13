@@ -89,7 +89,7 @@ textarea {
 
 /***************************** INTRODUCTION ***********************************/
 #introduction-form-wrapper {
-	height: 277px;
+	/*height: 277px;*/
 	width: 375px;
 	float: right;
 	margin: 0;

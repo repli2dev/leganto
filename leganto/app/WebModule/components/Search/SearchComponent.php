@@ -60,6 +60,7 @@ class SearchComponent extends BaseComponent {
 	}
 
 	protected function createComponentForm($name) {
+		// AppForm used because header search form
 		$form = new AppForm($this,$name);
 		if($this->compact){
 			$form->getElementPrototype()->setId("search");
@@ -84,6 +85,7 @@ class SearchComponent extends BaseComponent {
 			$form->addSubmit("search_submit", "Search");
 		}
 		$form->onSubmit[] = array($this, "formSubmitted");
+		$form->addProtection("Form timeout, please send form again.");
                 return $form;
 	}
 
