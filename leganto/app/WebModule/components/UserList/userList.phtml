@@ -19,7 +19,7 @@
 	    <a href="{plink User:default, $user->getId()}">{$user->nickname}</a>
 	</div>
 	<div class="content">
-		    {!=String::truncate($user->about, 100)|texy}
+		    {!=String::truncate($user->about, 100)|texySafe|stripTags}
 	</div>
     </div>
     {if $iterator->getCounter() % 3 == 0}<hr style="clear:both; visibility:hidden" />{/if}

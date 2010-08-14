@@ -19,7 +19,7 @@
 	</div>
 
 	<div class="content">
-		    {!=String::truncate($item->content, 300)|texy}
+		    <p>{!=String::truncate($item->content, 300)|texySafe|stripTags}</p>
 	</div>
 
     </div>

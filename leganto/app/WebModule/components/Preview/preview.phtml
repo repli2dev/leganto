@@ -3,8 +3,8 @@
 	<div class="column">
 		<img class="icon" src="{$covers[$book->getId()],50|thumbnail}" alt="{$book->title}" width="50" height="80" />
 		<h2><a href="{plink Book:default, $book->getId()}" title="{$book->title}">{$book->title}</a></h2>
-		<strong><a href="{plink User:default, $opinions[$book->bookNode]->userId}" title="{$opinions[$book->bookNode]->userName}">{$opinions[$book->bookNode]->userName}</a></strong>:
-		{!=String::truncate($opinions[$book->bookNode]->content,120)|texySafe|stripTags}
+		<p><strong><a href="{plink User:default, $opinions[$book->bookNode]->userId}" title="{$opinions[$book->bookNode]->userName}">{$opinions[$book->bookNode]->userName}</a></strong>:
+		{!=String::truncate($opinions[$book->bookNode]->content,120)|texySafe|stripTags}</p>
 	</div>
 	{if $iterator->getCounter() % 3 == 0}<hr style="clear:both; visibility:hidden" /> {/if}
 	{/foreach}

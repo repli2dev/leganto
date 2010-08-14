@@ -8,7 +8,7 @@ $(function() {
 	$( "#search #frmform-query" ).autocomplete({
 		minLength: 2,
 		source: function(request, response) {
-			// Turn off when not searching books
+			// Turn off when not searching books or authors
 			if($("#frmform-search").val() == "default") {
 				if ( request.term in cache ) {
 					response( cache[ request.term ] );
@@ -40,7 +40,7 @@ $(function() {
 						response( data );
 					}
 				});
-			} else return;
+			} else return false;
 		}
 	});
 
@@ -48,20 +48,39 @@ $(function() {
 	$( "#frm-searchForm-form #frmform-query" ).autocomplete({
 		minLength: 2,
 		source: function(request, response) {
-			if ( request.term in cache ) {
-				response( cache[ request.term ] );
-				return;
-			}
-
-			$.ajax({
-				url: "/book/suggest/",
-				dataType: "json",
-				data: request,
-				success: function( data ) {
-					cache[ request.term ] = data;
-					response( data );
+			// Turn off when not searching books or authors
+			if($("#frmform-search").val() == "default") {
+				if ( request.term in cache ) {
+					response( cache[ request.term ] );
+					return;
 				}
-			});
+
+				$.ajax({
+					url: "/book/suggest/",
+					dataType: "json",
+					data: request,
+					success: function( data ) {
+						cache[ request.term ] = data;
+						response(data);
+					}
+				});
+			} else
+			if($("#frmform-search").val() == "author") {
+				if ( request.term in authorCache ) {
+					response( authorCache[ request.term ] );
+					return;
+				}
+
+				$.ajax({
+					url: "/author/suggest/",
+					dataType: "json",
+					data: request,
+					success: function( data ) {
+						authorCache[ request.term ] = data;
+						response( data );
+					}
+				});
+			} else return false;
 		}
 	});
 	// Tags (adding opinion)

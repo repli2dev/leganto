@@ -327,3 +327,12 @@ a img {
 	margin: 0 auto;
 	text-align: left;
 }
+.external {
+	background: url(/img/external.png) no-repeat;
+	background-position: right;
+	padding: 0 15px 0 0;
+}
+.share-box-inner .external {
+	background: none;
+	padding: 0px;
+}

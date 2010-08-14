@@ -122,7 +122,7 @@ final class Helpers {
 			"phrase/sup-alt" => true,
 			"phrase/sub" => false,
 			"phrase/sub-alt" => true,
-			"phrase/span" => false,
+			"phrase/span" => true,
 			"phrase/span-alt" => false,
 			"phrase/cite" => false,
 			"phrase/quote" => true,
@@ -172,8 +172,24 @@ final class Helpers {
 		);
 		self::$texySafe->emoticonModule->root = "/img/smiles/";
 		self::$texySafe->emoticonModule->icons = $icons;
-		return self::$texySafe->process($input);
+		return self::$texySafe->process(self::wikiLinks($input));
 	}
+
+	/**
+         * Translate wiki-like links to real ones
+         * @param string input
+         * @return string ouptu
+         */
+        public static function wikiLinks($string){
+                $patterns[0] = '/\[([^)^\]\|]+)\]/';
+                $patterns[1] = '/\[([\S ^\]]+)\|([\S ^\]]+)\]/';
+		// FIXME: jde to jinak než natvrdo?
+                $replacement[0] = '<a href="/search/?query=\\1">\\1</a>';
+                $replacement[1] = '<a href="/search/?query=\\2">\\2</a>';
+                $string = preg_replace($patterns,$replacement,$string);
+                return $string;
+        }
+
 
 	/**
 	 * It returns thumbnail URL

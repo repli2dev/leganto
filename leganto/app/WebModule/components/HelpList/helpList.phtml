@@ -7,7 +7,7 @@
 		<strong><a href="{plink Help:text, $help->getId()}">{$help->name}</a></strong> @{$help->updated|date} | <strong class="author">{_"Leganto team"}</a></strong>
 	    </div>
 	    <div class="content">
-			{!=$help->text|texy}
+			<p>{!=String::truncate($help->text,300)|texy|stripTags}</p>
 	    </div>
 	</div>
     @{/foreach}

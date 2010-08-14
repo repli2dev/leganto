@@ -22,7 +22,7 @@
 		@{$post->inserted|date} | <strong class="author"><a href="{plink User:default, $post->user}" title="{$post->userName}">{$post->userName}</a></strong>
 	    </div>
 	    <div class="content">
-			{!=$post->content|texy}
+			{!=$post->content|texySafe}
 	    </div>
 	</div>
     @{/foreach}
