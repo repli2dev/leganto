@@ -23,6 +23,8 @@ final class Helpers {
 	private static $userIconStorage;
 	/** @var Texy */
 	private static $texy;
+	/** @var Texy */
+	private static $texySafe;
 
 	final private function __construct() {
 
@@ -45,6 +47,8 @@ final class Helpers {
 			case "time": return array(get_class(), 'timeFormatHelper');
 				break;
 			case "texy": return array(get_class(), 'texyHelper');
+				break;
+			case "texySafe": return array(get_class(), 'texySafeHelper');
 				break;
 			case "thumbnail": return array(get_class(), "thumbnailHelper");
 				break;
@@ -76,6 +80,7 @@ final class Helpers {
 
 	/**
 	 * It returns string which is processed by Texy! processor
+	 * It should be only used for text written by users
 	 *
 	 * @param string $input
 	 * @return string The processed string
@@ -85,6 +90,89 @@ final class Helpers {
 			self::$texy = new Texy();
 		}
 		return self::$texy->process($input);
+	}
+
+	/**
+	 * It returns string which is processed by Texy! processor
+	 * Used on all content inserted by user
+	 *
+	 * @param string $input
+	 * @return string The processed string
+	 */
+	public static function texySafeHelper($input) {
+		if (empty(self::$texy)) {
+			self::$texySafe = new Texy();
+		}
+		// FIXME: reportovat toto jako chybu.
+		// TexyConfigurator::safeMode(self::$texySafe);
+		self::$texySafe->allowed = array(
+			"script" => false,
+			"html/tag" => true,
+			"html/comment" => false,
+			"image/definition" => false,
+			"image" => false,
+			"phrase/strong+em" => true,
+			"phrase/strong" => true,
+			"phrase/em" => true,
+			"phrase/em-alt" => false,
+			"phrase/em-alt2" => false,
+			"phrase/ins" => false,
+			"phrase/del" => false,
+			"phrase/sup" => false,
+			"phrase/sup-alt" => true,
+			"phrase/sub" => false,
+			"phrase/sub-alt" => true,
+			"phrase/span" => false,
+			"phrase/span-alt" => false,
+			"phrase/cite" => false,
+			"phrase/quote" => true,
+			"phrase/acronym" => true,
+			"phrase/acronym-alt" => false,
+			"phrase/notexy" =>false,
+			"phrase/code" => true,
+			"phrase/quicklink" => true,
+			"link/definition" => true,
+			"link/reference" => true,
+			"link/url" => true,
+			"link/email" => true,
+			"emoticon" => true,
+			"block/default" => true,
+			"block/pre" => false,
+			"block/code" => false,
+			"block/html" => false,
+			"block/text" => true,
+			"block/texysource" => false,
+			"block/comment" => false,
+			"block/div" => false,
+			"blocks" => false,
+			"figure" => false,
+			"horizline" => false,
+			"blockquote" => true,
+			"table" => false,
+			"heading/underlined" => false,
+			"heading/surrounded" => false,
+			"list" => true,
+			"list/definition" => false,
+			"typography" => true,
+			"longwords" => true
+		);
+		// Add smiles
+		//:-)(šťastný) , :-D(vysmátý) , ;-)(šibalský) , :-((smutný) , :,-((plačící) , :-P(vyplazující jazyk) , >:((naštvaný) .
+		$icons = array(
+			':-)' => "01.png",
+			':)' => "01.png",
+			':-D' => "02.png",
+			':D' => "02.png",
+			';-)' => "03.png",
+			';)' => "03.png",
+			':-(' => "04.png",
+			':,-(' => "05.png",
+			':-P' => "06.png",
+			'>:(' => "07.png"
+		);
+		self::$texySafe->emoticonModule->root = "/img/smiles/";
+		self::$texySafe->emoticonModule->icons = $icons;
+		return self::$texySafe->process($input);
 	}
 
 	/**
