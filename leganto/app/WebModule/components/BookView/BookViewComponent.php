@@ -27,10 +27,6 @@ class BookViewComponent extends BaseComponent
 	$this->getTemplate()->authors = Leganto::authors()->fetchAndCreateAll(
 	    Leganto::authors()->getSelector()->findAllByBook($this->book)
 	);
-	// Tags
-	$this->getTemplate()->tags = Leganto::tags()->fetchAndCreateAll(
-	    Leganto::tags()->getSelector()->findAllByBook($this->book)
-	);
 	// Cover
 	$storage = new EditionImageStorage();
 	$this->getTemplate()->cover = $storage->getRandomFileByBook($this->book);
@@ -61,5 +57,12 @@ class BookViewComponent extends BaseComponent
 
     protected function createComponentRelatedBookList($name) {
 	return new RelatedBookListComponent($this, $name);
+    }
+
+    protected function createComponentTagList($name) {
+	$tags = new TagListComponent($this, $name);
+	$tags->setBook($this->book);
+	$tags->setSource(Leganto::tags()->getSelector()->findAllByBook($this->book));
+	return $tags;
     }
 }

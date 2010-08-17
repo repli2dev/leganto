@@ -73,7 +73,7 @@ class BookShelfControlComponent extends BaseComponent
         if (empty($user)) {
             throw new InvalidStateException("The component [$name] in [" . $this->getName() . "] can not be created because no user is authenticated.");
         }
-        $form = new BaseForm($name);
+        $form = new BaseForm($this, $name);
 
         // Get user's shelves
         $shelves = Leganto::shelves()->getSelector()->findByUser($user)->fetchPairs("id_shelf", "name")

@@ -107,8 +107,8 @@ class BookUpdater implements IUpdater
 		}
 		else if ($tagged instanceof TagEntity) {
 			SimpleTableModel::createTableModel("tagged")->insert(array(
-				"id_book" => $book,
-				"id_tag" => $tag
+				"id_book" => $book->getId(),
+				"id_tag" => $tagged->getId()
 			));
 		}
 		else {

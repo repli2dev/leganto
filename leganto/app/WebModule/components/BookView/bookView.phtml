@@ -39,11 +39,7 @@
 </div>
 <hr style="clear:both; visibility:hidden" />
 @{widget editionList}
-<div id="tags">
-    {foreach $tags AS $tag}
-	<a href="{plink Search:default, $tag->name}" class="tag">{$tag->name}</a>
-    {/foreach}
-</div>
+@{widget tagList}
 @{widget relatedBookList}
 <hr style="clear:both; visibility:hidden" />
     
