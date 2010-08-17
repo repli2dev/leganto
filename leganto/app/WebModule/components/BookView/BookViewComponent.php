@@ -38,6 +38,10 @@ class BookViewComponent extends BaseComponent
 	$this->getComponent("editionList")->setSource(
 	    Leganto::editions()->getSelector()->findAllByBook($this->book)
 	);
+	// Related books
+	$this->getComponent("relatedBookList")->setSource(
+	    Leganto::books()->getSelector()->findAllRelated($this->book)
+	);
 	// Edition?
 	if (!empty($this->edition)) {
 	    $edition = Leganto::editions()->getSelector()->find($this->edition);
@@ -53,5 +57,9 @@ class BookViewComponent extends BaseComponent
 
     protected function createComponentEditionList($name) {
 	return new EditionListComponent($this, $name);
+    }
+
+    protected function createComponentRelatedBookList($name) {
+	return new RelatedBookListComponent($this, $name);
     }
 }

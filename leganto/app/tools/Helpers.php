@@ -55,6 +55,8 @@ final class Helpers {
 			case "userIcon": return array(get_class(), "userIconHelper");
 				break;
 			case "bookCover": return array(get_class(), "bookCoverHelper");
+				break;
+			case "language": return array(get_class(), "languageHelper");
 			default:
 				throw new DataNotFoundException("helper: $helper");
 		}
@@ -76,6 +78,12 @@ final class Helpers {
 	 */
 	public static function dateFormatHelper($date) {
 		return date('d.m.Y', strtotime($date));
+	}
+
+	public static function languageHelper($locale) {
+	    $split = explode("_", $locale);
+	    $state = String::lower($split[1]);
+	    return "<img src=\"" . self::thumbnailHelper(WWW_DIR . "/img/flags/$state.png", 16) . "\" title=\"" . System::translate("Language") . "\" />";
 	}
 
 	/**
@@ -217,7 +225,7 @@ final class Helpers {
 			$url = $presenter->link("Thumb:resize",$path,$width,NULL);
 		} else
 		if (!empty($height)) {
-			$url = $presenter->llink("Thumb:resize",$path,NULL,$height);
+			$url = $presenter->link("Thumb:resize",$path,NULL,$height);
 		}
 		return $url;
 	}

@@ -1,0 +1,16 @@
+<style>
+    #related-books {
+	width: 350px;
+    }
+    #related-books h3 .rating {
+	float: right;
+    }
+</style>
+<h2>{_'Related books'}</h2>
+<div id="related-books">
+    <ul>
+	{foreach $books AS $book}
+	    <li><img class="rating" src="{$baseUri}img/rating_{=round($book->rating)}.png"/> {!$book->language|language} <a href="{plink Book:default, $book->getId()}" title="{$book->title}">{$book->title}</a></li>
+	{/foreach}
+    </ul>
+</div>
