@@ -263,7 +263,7 @@ class IntroductionComponent extends BaseComponent {
 
 	protected function createComponentSignUpForm($name) {
 		// Create form skeleton
-		$form = new BaseForm;
+		$form = new BaseForm($this,$name);
 		$form->addGroup("Sign Up");
 		$form->getElementPrototype()->setId("sign");
 		$form->addText("email", "Email")
