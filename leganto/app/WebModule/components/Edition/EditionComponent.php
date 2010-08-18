@@ -20,9 +20,15 @@ class EditionComponent extends BaseComponent {
 
 	public function  __construct(IComponentContainer $parent = NULL, $name = NULL) {
 		parent::__construct($parent, $name);
+		if (!Environment::getUser()->isAllowed(Resource::EDITION, Action::INSERT)) {
+		    $this->unauthorized();
+		}
 	}
 
 	public function renderEdit() {
+		if (!Environment::getUser()->isAllowed(Resource::EDITION, Action::EDIT)) {
+		    $this->unauthorized();
+		}
 		$this->getTemplate()->setFile($this->getPath()."editEdition.phtml");
 		parent::render();
 	}
@@ -81,6 +87,9 @@ class EditionComponent extends BaseComponent {
 	}
 
 	public function addEditionFormSubmitted(Form $form) {
+		if (!Environment::getUser()->isAllowed(Resource::EDITION, Action::INSERT)) {
+		    $this->unauthorized();
+		}
 		$book = $this->getPresenter()->getParam("book");
 		
 		$values = $form->getValues();
@@ -110,6 +119,9 @@ class EditionComponent extends BaseComponent {
 	}
 
 	public function editEditionFormSubmitted(Form $form) {
+		if (!Environment::getUser()->isAllowed(Resource::EDITION, Action::EDIT)) {
+		    $this->unauthorized();
+		}
 		$book = $this->getPresenter()->getParam("book");
 		$edition = $this->getPresenter()->getParam("edition");
 		

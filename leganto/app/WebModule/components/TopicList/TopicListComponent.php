@@ -10,6 +10,9 @@ class TopicListComponent extends BaseListComponent
     }
 
     public function formSubmitted(Form $form) {
+	if (Environment::getUser()->isAllowed(Resource::TOPIC, Action::INSERT)) {
+	    $this->unauthorized();
+	}
         $values = $form->getValues();
 
         // Inserting of topic

@@ -42,10 +42,16 @@ class InsertingOpinionComponent extends BaseComponent {
 		// Prepare entity and persist
 		$opinion = Leganto::opinions()->getSelector()->findByBookAndUser($this->bookEntity, System::user());
 		if($opinion == NULL) {
+			if (!Environment::getUser()->isAllowed(Resource::OPINION, Action::INSERT)) {
+			    $this->unauthorized();
+			}
 			$opinion = Leganto::opinions()->createEmpty();
 			$opinion->bookTitleId = $this->bookEntity->getId();
 			$this->getPresenter()->flashMessage(System::translate("Thank you for your opinion, your opinion was added and book was inserted to your readed shelf."),'success');
 		} else {
+			if (!Environment::getUser()->isAllowed(Resource::create($opinion), Action::INSERT)) {
+			    $this->unauthorized();
+			}
 			$this->getPresenter()->flashMessage(System::translate("Your opinion was successfully updated."),'success');
 		}
 		$opinion->userId = System::user()->getId();

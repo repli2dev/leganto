@@ -66,7 +66,7 @@ $(document).ready(function(){
 <div class="shelf">
     <h2>
 	{$shelf->name}
-	{if $owner}
+	{if Environment::getUser()->isAllowed(Resource::create($shelf), Action::EDIT)}
 	    <span class="control">
 		{assign confirm => System::translate("Are you sure you want to delete a shelf *%s*?", $shelf->name)}
 		{assign link    => $component->link('remove', $shelf->getId())}
@@ -82,7 +82,7 @@ $(document).ready(function(){
 		    
     <div class="toggle_container">
 	{if !empty($books[$shelf->getId()])}
-	    {if $owner}
+	    {if Environment::getUser()->isAllowed(Resource::create($shelf), Action::EDIT)}
 		{assign link => $component->link('persist', $shelf->getId())}
 		<script>
 		    $(function() {

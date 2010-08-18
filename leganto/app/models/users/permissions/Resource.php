@@ -6,9 +6,13 @@ class Resource implements IResource
 
     const BOOK	    = "book";
 
+    const EDITION   = "edition";
+
     const POST	    = "post";
 
     const OPINION   = "opinion";
+
+    const SHELF	    = "shelf";
 
     const TAG	    = "tag";
 
@@ -32,6 +36,9 @@ class Resource implements IResource
 		return new Resource($resource, $entity->userId);
 		break;
 	    case "post":
+		return new Resource($resource, $entity->user);
+		break;
+	    case "shelf":
 		return new Resource($resource, $entity->user);
 		break;
 	    case "user":

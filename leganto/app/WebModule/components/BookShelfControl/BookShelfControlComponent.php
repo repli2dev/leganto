@@ -9,9 +9,9 @@ class BookShelfControlComponent extends BaseComponent
     public function handleRemoveFromShelf($book, $shelf) {
 	$user = System::user();
 	$shelfEntity = Leganto::shelves()->getSelector()->find($shelf);
-	if (empty($user) || $shelfEntity->user != $user->getId()) {
-	    $this->getPresenter()->flashMessage(System::translate("Unauthorized operation.", "error"));
-	    return;
+	// Check permission
+	if (!Environment::getUser()->isAllowed(Resource::create($shelfEntity), Action::EDIT)) {
+	    $this->unathorized();
 	}
 	$bookEntity = Leganto::books()->getSelector()->find($book);
 	if (empty($bookEntity)) {
@@ -35,7 +35,7 @@ class BookShelfControlComponent extends BaseComponent
     }
 
     public function render() {
-	if (!Environment::getUser()->isAuthenticated()) {
+	if (!Environment::getUser()->isAllowed(Resource::BOOK, Action::INSERT)) {
 	    return;
 	}
 	$this->loadTemplate();

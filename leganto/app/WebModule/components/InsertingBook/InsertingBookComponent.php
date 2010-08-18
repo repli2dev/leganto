@@ -35,6 +35,9 @@ class InsertingBookComponent extends BaseComponent
     }
 
     public function insertFormSubmitted(Form $form) {
+	if (!Environment::getUser()->isAllowed(Resource::BOOK, Action::INSERT)) {
+	    $this->unathorized();
+	}
 	$this->setValues($form->getValues());
 	$this->setPhase(3);
 	// Insert a new author
@@ -60,6 +63,9 @@ class InsertingBookComponent extends BaseComponent
     }
 
     public function render() {
+	if (!Environment::getUser()->isAllowed(Resource::BOOK, Action::INSERT)) {
+	    return;
+	}
 	switch($this->getPhase()) {
 		default:
 		case 1:
@@ -75,6 +81,9 @@ class InsertingBookComponent extends BaseComponent
     }
 
     public function searchFormSubmitted(Form $form) {
+	if (!Environment::getUser()->isAllowed(Resource::BOOK, Action::INSERT)) {
+	    $this->unathorized();
+	}
 	$values = $form->getValues();
 
 	$this->getComponent("bookList")->setSource(

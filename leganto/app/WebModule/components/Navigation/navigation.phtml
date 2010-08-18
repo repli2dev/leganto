@@ -3,7 +3,9 @@
 		<ul id="menu">
 			<li><a href="{plink default:default}">{_'Main page'}</a></li>
 			<li><a href="{plink Discussion:default}">{_'Discussion'}</a></li>
-			<li><a href="{plink Book:insert}">{_'Insert book'}</a></li>
+			{if Environment::getUser()->isAllowed(Resource::SHELF, Action::INSERT)}
+			    <li><a href="{plink Book:insert}">{_'Insert book'}</a></li>
+			{/if}
 			<li><a href="{plink Help:default}">{_'Help'}</a></li>
 			<!-- <li><a href="{plink Statistics:default}">{_'Statistics'}</a></li> -->
 		</ul>

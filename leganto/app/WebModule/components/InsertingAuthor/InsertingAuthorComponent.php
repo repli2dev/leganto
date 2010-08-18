@@ -25,6 +25,9 @@ class InsertingAuthorComponent extends BaseComponent {
 	public $backlink;
 
 	public function render() {
+		if (!Environment::getUser()->isAllowed(Resource::AUTHOR, Action::INSERT)) {
+		    $this->unathorized();
+		}
 		switch($this->type) {
 			case AuthorEntity::GROUP:
 			case AuthorEntity::PERSON:
@@ -37,6 +40,9 @@ class InsertingAuthorComponent extends BaseComponent {
 	}
 
 	public function insertFormSubmitted(Form $form) {
+		if (!Environment::getUser()->isAllowed(Resource::AUTHOR, Action::INSERT)) {
+		    $this->unathorized();
+		}
 		// Redirect if user ordered change of type of author
 		if($form["changeType"]->isSubmittedBy()) {
 			$this->getPresenter()->redirect("Author:insert");

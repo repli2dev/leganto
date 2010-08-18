@@ -1,4 +1,4 @@
-{if Environment::getUser()->isAuthenticated()}
+{if Environment::getUser()->isAlowed(Resource::TOPIC, Action::INSERT)}
     {widget form}
 {/if}
 <div cllass="list">

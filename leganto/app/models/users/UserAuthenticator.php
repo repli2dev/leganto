@@ -38,7 +38,7 @@ class UserAuthenticator
 			);
 		}
 		// Role
-		$role = UserAuthorizator::getRole($row);
+		$role = Role::getRoleDescriptor($row);
 
 		// Or return new identity
 		return new Identity($name, $role, array("id" => $row->getId()));

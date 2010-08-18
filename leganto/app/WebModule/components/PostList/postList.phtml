@@ -8,7 +8,7 @@
     @{foreach $posts AS $post}
 	<hr style="clear:both; visibility:hidden; margin: 0;" />
 	<div class="item">
-	    {if Misc::isAllowedToControl($post->user)}
+	    {if Environment::getUser()->isAllowed(Resource::create($post), Action::EDIT)}
 	    <div class="control">
 		{assign confirm => System::translate("Are you sure you want to delete a discussion post?")}
 		{assign link    => $component->link('delete', $post->getId())}

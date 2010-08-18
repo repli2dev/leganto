@@ -10,6 +10,9 @@ class PostListComponent extends BaseListComponent
 
     public function handleDelete($post) {
         $postEntity = Leganto::posts()->getSelector()->find($post);
+	if (!Environment::getUser()->isAllowed(Resource::create($postEntity), Action::EDIT)) {
+	    $this->unathorized();
+	}
         if ($postEntity == null) {
             $this->getPresenter()->flashMessage(System::translate('The post can not be deleted.'), "error");
             return;
@@ -30,6 +33,9 @@ class PostListComponent extends BaseListComponent
     }
 
     public function formSubmitted(Form $form) {
+	if (!Environment::getUser()->isAllowed(Resource::create($postEntity), Action::INSERT)) {
+	    $this->unathorized();
+	}
         $values = $form->getValues();
 
         // Check whether discussed item and its type present

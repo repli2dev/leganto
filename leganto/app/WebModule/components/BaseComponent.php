@@ -52,4 +52,9 @@ abstract class BaseComponent extends Control
     protected function beforeRender() {}
 
     protected function startUp() {}
+
+    protected final function unauthorized() {
+	$this->getPresenter()->redirect("Default:unauthorized");
+    }
 }
+
