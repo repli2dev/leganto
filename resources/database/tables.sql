@@ -293,3 +293,13 @@ CREATE TABLE `captcha` (
 	`id_language` INT(25) UNSIGNED NOT NULL COMMENT 'preferovany jazyk uzivatele',
 	FOREIGN KEY (`id_language`) REFERENCES `language` (`id_language`) ON UPDATE CASCADE ON DELETE CASCADE
 ) ENGINE = InnoDB COMMENT = 'Tabulka s textovymi otazkami pro captchu.'
+
+DROP TABLE IF EXISTS `user_log`;
+CREATE TABLE `user_log` (
+	`id_log` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+	`id_user` INT UNSIGNED NOT NULL ,
+	`url` TEXT NOT NULL ,
+	`text` TEXT NOT NULL ,
+	`time` DATETIME NOT NULL,
+	FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`) ON UPDATE CASCADE ON DELETE CASCADE
+) ENGINE = MYISAM COMMENT = 'Table with user actions log' 

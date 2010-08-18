@@ -20,6 +20,7 @@ class BookShelfControlComponent extends BaseComponent
 	}
 	try {
 	    Leganto::shelves()->getUpdater()->removeBookFromShelf($shelfEntity, $bookEntity);
+	    System::log("REMOVED BOOK '". $bookEntity->getId()."' FROM SHELF '". $shelfEntity->getId()."'" );
 	    $this->getPresenter()->flashMessage(System::translate("The book  %s has been removed from shelf %s", $bookEntity->title, $shelfEntity->name), "success");
 	}
 	catch(Exception $e) {
@@ -50,11 +51,13 @@ class BookShelfControlComponent extends BaseComponent
 	    try {
 		if (empty($shelf)) {
 		    Leganto::shelves()->getUpdater()->removeFromShelves(System::user(), $this->book);
+		    System::log("REMOVE BOOK '". $this->book->getId()."' FROM SHELVES");
 		    $this->getPresenter()->flashMessage(System::translate('Tho book has been removed from the shelf.'), "success");
 		}
 		else {
 		    $shelfEntity = Leganto::shelves()->getSelector()->find($shelf);
 		    Leganto::shelves()->getUpdater()->insertToShelf($shelfEntity, $this->book);
+		    System::log("INSERT BOOK '". $this->book->getId()."' INTO SHELF '". $shelfEntity->getId()."'" );
 		    $this->getPresenter()->flashMessage(System::translate('The book has been inserted to the shelf.'), "success");
 		}
 	    }
