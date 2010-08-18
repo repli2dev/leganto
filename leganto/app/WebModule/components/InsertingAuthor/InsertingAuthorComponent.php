@@ -16,10 +16,8 @@
  *
  */
 
-class InsertingAuthorComponent extends BaseComponent {
-
-	/** @persistent */
-	public $type;
+class InsertingAuthorComponent extends BaseComponent
+{
 
 	/** @persistent */
 	public $backlink;
@@ -28,32 +26,19 @@ class InsertingAuthorComponent extends BaseComponent {
 		if (!Environment::getUser()->isAllowed(Resource::AUTHOR, Action::INSERT)) {
 		    $this->unathorized();
 		}
-		switch($this->type) {
-			case AuthorEntity::GROUP:
-			case AuthorEntity::PERSON:
-				$this->getTemplate()->setFile($this->getPath()."insertingAuthorForm.phtml");
-				break;
-			default:
-				break;
-		}
 		parent::render();
 	}
 
-	public function insertFormSubmitted(Form $form) {
+	public function formSubmitted(Form $form) {
 		if (!Environment::getUser()->isAllowed(Resource::AUTHOR, Action::INSERT)) {
 		    $this->unathorized();
-		}
-		// Redirect if user ordered change of type of author
-		if($form["changeType"]->isSubmittedBy()) {
-			$this->getPresenter()->redirect("Author:insert");
-			return;
 		}
 		// Load data from form
 		$values = $form->getValues();
 		// Prepare entity and persist it
 		$author = Leganto::authors()->createEmpty();
-		$author->type = $this->type;
-		if($this->type == AuthorEntity::PERSON) {
+		$author->type = $values["type"];
+		if($values["type"] == AuthorEntity::PERSON) {
 			$author->firstname = $values["first_name"];
 			$author->lastname = $values["last_name"];
 		} else {
@@ -62,12 +47,11 @@ class InsertingAuthorComponent extends BaseComponent {
 		$author->inserted = new DateTime;
 		try {
 		    $author->persist();
-		    // TODO: co delat tedka? Vratit uzivatele na zacatek (s tim ze muze vlozit dalsiho), nebo na stranku autora?
 		    $this->getPresenter()->flashMessage(System::translate("New author has been successfuly inserted."),'success');
 		}
 		catch(Exception $e) {
 		    $this->unexpectedError($e);
-		    return; 
+		    return;
 		}
 		if (empty($this->backlink)) {
 		    $this->getPresenter()->redirect("Author:insert");
@@ -80,51 +64,78 @@ class InsertingAuthorComponent extends BaseComponent {
 		}
 	}
 
-	public function changeTypeFormSubmitted(Form $form) {
-		$this->type = $form["type"]->getValue();
-	}
-
-
-
 	public function setBacklink($backlink) {
 	    $this->backlink = $backlink;
 	}
 
 	// PROTECTED METHODS
 
-	protected function createComponentInsertForm($name) {
-		$form = new BaseForm($this, $name);
-		$types = array(
-			AuthorEntity::PERSON	=>	System::translate("Person"),
-			AuthorEntity::GROUP	=>	System::translate("Group")
-		);
-		if($this->type == AuthorEntity::PERSON) {
-			$form->addText("first_name","First name");
-			$form->addText("last_name","Last name")
-				->addRule(Form::FILLED,"Please fill at least the last name.");
-		} else {
-			$form->addText("group_name","Group name")
-				->addRule(Form::FILLED,"Please fill the group name.");
-		}
-		$form->addSubmit("addAuthor","Add author");
-		$form->addSubmit("changeType","Change type")
-			->setValidationScope(FALSE);
-		$form->onSubmit[] = array($this,"insertFormSubmitted");
+	protected function createComponentForm($name) {
+	    $form = new BaseForm($this, $name);
+	    $types = array(
+		    AuthorEntity::PERSON    =>	System::translate("Person"),
+		    AuthorEntity::GROUP	    =>	System::translate("Group")
+	    );
+	    $form->addGroup()->setOption('container', Html::el('div'));
+	    $form->addSelect("type","Type of author",$types)
+		    ->addRule(Form::FILLED,"Please choose type of author.")
+		    ->addCondition(Form::EQUAL, AuthorEntity::PERSON)
+			->toggle("person")
+		    ->endCondition()
+		    ->addCondition(Form::EQUAL, AuthorEntity::GROUP)
+			->toggle("group");
+	    
+	    $form->addGroup()->setOption('container', Html::el('div')->id('person'));
+	    $form->addText("first_name","First name");
+	    $form->addText("last_name","Last name")
+		    ->addConditionOn($form["type"], Form::EQUAL, AuthorEntity::PERSON)
+		    ->addRule(Form::FILLED,"Please fill at least the last name.");
 
-		return $form;
+	    $form->addGroup()->setOption('container', Html::el('div')->id('group'));
+	    $form->addText("group_name","Group name")
+		    ->addConditionOn($form["type"], Form::EQUAL, AuthorEntity::GROUP)
+		    ->addRule(Form::FILLED,"Please fill the group name.");
+
+	    $form->addGroup()->setOption('container', Html::el('div'));
+	    $form->addSubmit("insert", "Insert");
+	    $form->onSubmit[] = array($this, "formSubmitted");
+
+	    return $form;
 	}
 
-	protected function createComponentChangeTypeForm($name) {
-		$form = new BaseForm($this, $name);
-		$types = array(
-			AuthorEntity::PERSON	=>	System::translate("Person"),
-			AuthorEntity::GROUP	=>	System::translate("Group")
-		);
-		$form->addSelect("type","Type of author",$types)
-			->addRule(Form::FILLED,"Please choose type of author.");
-		$form->addSubmit("changeType","Choose type");
-		$form->onSubmit[] = array($this,"changeTypeFormSubmitted");
-
-		return $form;
-	}
+//	protected function createComponentInsertForm($name) {
+//		$form = new BaseForm($this, $name);
+//		$types = array(
+//			AuthorEntity::PERSON	=>	System::translate("Person"),
+//			AuthorEntity::GROUP	=>	System::translate("Group")
+//		);
+//		if($this->type == AuthorEntity::PERSON) {
+//			$form->addText("first_name","First name");
+//			$form->addText("last_name","Last name")
+//				->addRule(Form::FILLED,"Please fill at least the last name.");
+//		} else {
+//			$form->addText("group_name","Group name")
+//				->addRule(Form::FILLED,"Please fill the group name.");
+//		}
+//		$form->addSubmit("addAuthor","Add author");
+//		$form->addSubmit("changeType","Change type")
+//			->setValidationScope(FALSE);
+//		$form->onSubmit[] = array($this,"insertFormSubmitted");
+//
+//		return $form;
+//	}
+//
+//	protected function createComponentChangeTypeForm($name) {
+//		$form = new BaseForm($this, $name);
+//		$types = array(
+//			AuthorEntity::PERSON	=>	System::translate("Person"),
+//			AuthorEntity::GROUP	=>	System::translate("Group")
+//		);
+//		$form->addSelect("type","Type of author",$types)
+//			->addRule(Form::FILLED,"Please choose type of author.");
+//		$form->addSubmit("changeType","Choose type");
+//		$form->onSubmit[] = array($this,"changeTypeFormSubmitted");
+//
+//		return $form;
+//	}
 }
