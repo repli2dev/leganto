@@ -120,14 +120,16 @@ class Web_BookPresenter extends Web_BasePresenter {
 		$submenu->addLink("default", System::translate("General info"), $this->getBook()->getId());
 		$submenu->addLink("opinions", System::translate("Opinions"), $this->getBook()->getId());
 		$submenu->addLink("similar", System::translate("Similar books"), $this->getBook()->getId());
-		$opinion = Leganto::opinions()->getSelector()->findByBookAndUser($this->getBook(), System::user());
+		if (System::user() != NULL) {
+			$opinion = Leganto::opinions()->getSelector()->findByBookAndUser($this->getBook(), System::user());
+		}
 		if (Environment::getUser()->isAllowed(Resource::BOOK, Action::EDIT)) {
 			$submenu->addEvent("insert", System::translate("Edit book"), $this->getBook()->getId());
 		}
 		if (empty($opinion) && Environment::getUser()->isAllowed(Resource::OPINION, Action::INSERT)) {
 		    $submenu->addEvent("addOpinion", System::translate("Add opinion"), $this->getBook()->getId());
 		}
-		else if (Environment::getUser()->isAllowed(Resource::create($opinion), Action::EDIT)) {
+		else if (!empty($opinion) && Environment::getUser()->isAllowed(Resource::create($opinion), Action::EDIT)) {
 		    $submenu->addEvent("addOpinion", System::translate("Change opinion"), $this->getBook()->getId());
 		}
 		if (Environment::getUser()->isAllowed(Resource::BOOK, Action::INSERT)) {
