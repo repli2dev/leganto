@@ -162,7 +162,7 @@ class BookUpdater implements IUpdater
 		if ($entity->getState() != IEntity::STATE_MODIFIED) {
 			throw new InvalidArgumentException("The entity can not be inserted because it is not in state [MODIFIED].");
 		}
-		$input = $this->getArrayFromEntity($entity, "Save");
+		$input = $entity->getData("Save");
 		SimpleTableModel::createTableModel("book_title")->update($entity->getId(), $input);
 	}
 

@@ -45,15 +45,20 @@ class Web_BookPresenter extends Web_BasePresenter {
 	}
 
 
-	public function renderInsert($book, $connect = FALSE) {
-		if (!Environment::getUser()->isAllowed(Resource::BOOK, Action::INSERT)) {
-			$this->unauthorized();
-		} else {
-		    if ($connect) {
-			$this->getComponent("insertingBook")->setBook($this->getBook());
-		    }
-		    $this->setPageTitle(System::translate("Insert book"));
+	public function renderInsert($book, $related = FALSE) {
+		if ($related) {
+			if (!Environment::getUser()->isAllowed(Resource::BOOK, Action::INSERT)) {
+				$this->unauthorized();
+			}
+			$this->getComponent("insertingBook")->setRelatedBook($this->getBook());
 		}
+		else {
+			if (!Environment::getUser()->isAllowed(Resource::BOOK, Action::EDIT)) {
+				$this->unauthorized();
+			}
+			$this->getComponent("insertingBook")->setBookToEdit($this->getBook());
+		}
+		$this->setPageTitle(System::translate("Insert book"));
 	}
 
 	public function renderOpinions($book) {
@@ -116,6 +121,9 @@ class Web_BookPresenter extends Web_BasePresenter {
 		$submenu->addLink("opinions", System::translate("Opinions"), $this->getBook()->getId());
 		$submenu->addLink("similar", System::translate("Similar books"), $this->getBook()->getId());
 		$opinion = Leganto::opinions()->getSelector()->findByBookAndUser($this->getBook(), System::user());
+		if (Environment::getUser()->isAllowed(Resource::BOOK, Action::EDIT)) {
+			$submenu->addEvent("insert", System::translate("Edit book"), $this->getBook()->getId());
+		}
 		if (empty($opinion) && Environment::getUser()->isAllowed(Resource::OPINION, Action::INSERT)) {
 		    $submenu->addEvent("addOpinion", System::translate("Add opinion"), $this->getBook()->getId());
 		}
