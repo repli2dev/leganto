@@ -43,6 +43,7 @@ class UserAuthorizator implements IAuthorizator {
 	    $this->permission->addResource(Resource::POST);
 	    $this->permission->addResource(Resource::SHELF);
 	    $this->permission->addResource(Resource::TAG);
+		$this->permission->addResource(Resource::TOPIC);
 	    $this->permission->addResource(Resource::USER);
 
 	    $this->permission->allow(Role::GUEST, IAuthorizator::ALL, Action::READ);
