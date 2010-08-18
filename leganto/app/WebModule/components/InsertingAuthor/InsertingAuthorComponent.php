@@ -47,10 +47,7 @@ class InsertingAuthorComponent extends BaseComponent
 		$author->inserted = new DateTime;
 		try {
 		    $author->persist();
-<<<<<<< HEAD
-=======
 		    System::log("INSERT AUTHOR '".$author->getId()."'");
->>>>>>> 553097ca9eee0f013cbb3d268ce8ac3ba1d5830b
 		    $this->getPresenter()->flashMessage(System::translate("New author has been successfuly inserted."),'success');
 		}
 		catch(Exception $e) {
@@ -106,40 +103,4 @@ class InsertingAuthorComponent extends BaseComponent
 
 	    return $form;
 	}
-
-//	protected function createComponentInsertForm($name) {
-//		$form = new BaseForm($this, $name);
-//		$types = array(
-//			AuthorEntity::PERSON	=>	System::translate("Person"),
-//			AuthorEntity::GROUP	=>	System::translate("Group")
-//		);
-//		if($this->type == AuthorEntity::PERSON) {
-//			$form->addText("first_name","First name");
-//			$form->addText("last_name","Last name")
-//				->addRule(Form::FILLED,"Please fill at least the last name.");
-//		} else {
-//			$form->addText("group_name","Group name")
-//				->addRule(Form::FILLED,"Please fill the group name.");
-//		}
-//		$form->addSubmit("addAuthor","Add author");
-//		$form->addSubmit("changeType","Change type")
-//			->setValidationScope(FALSE);
-//		$form->onSubmit[] = array($this,"insertFormSubmitted");
-//
-//		return $form;
-//	}
-//
-//	protected function createComponentChangeTypeForm($name) {
-//		$form = new BaseForm($this, $name);
-//		$types = array(
-//			AuthorEntity::PERSON	=>	System::translate("Person"),
-//			AuthorEntity::GROUP	=>	System::translate("Group")
-//		);
-//		$form->addSelect("type","Type of author",$types)
-//			->addRule(Form::FILLED,"Please choose type of author.");
-//		$form->addSubmit("changeType","Choose type");
-//		$form->onSubmit[] = array($this,"changeTypeFormSubmitted");
-//
-//		return $form;
-//	}
 }
