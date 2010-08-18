@@ -79,7 +79,7 @@ class Web_AuthorPresenter extends Web_BasePresenter {
 		$submenu->addLink("default", System::translate("Books"), $this->getAuthor()->getId());
 		if (Environment::getUser()->isAllowed(Resource::AUTHOR, Action::EDIT)) {
 			$submenu->addEvent("insert", System::translate("Edit author"), $this->getAuthor()->getId());
-			$submenu->addEvent("delete", System::translate("Delete author"), $this->getAuthor()->getId());
+			$submenu->addEvent("delete", System::translate("Delete author"), $this->getAuthor()->getId(), System::translate("Are you sure you want to delete this author?"));
 		}
 		return $submenu;
 	}
