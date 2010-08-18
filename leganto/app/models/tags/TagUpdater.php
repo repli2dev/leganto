@@ -14,10 +14,21 @@
  * @author		Jan Drabek
  * @version		$Id$
  */
-class TagUpdater extends Worker implements IUpdater
+class TagUpdater implements IUpdater
 {
 
 	/* PUBLIC METHODS */
+
+	public function merge(TagEntity $superior, TagEntity $inferior) {
+		dibi::begin();
+		$conflictBooks = dibi::query("SELECT [id_book] FROM [tagged] WHERE [id_tag] = %i", $superior->getId())->fetchPairs("id_book", "id_book");
+		if (!empty($conflictBooks)) {
+			dibi::delete("tagged")->where("[id_tag] = %i", $inferior->getId(), " AND [id_book] IN %l", $conflictBooks)->execute();
+		}
+		dibi::update("tagged", array("id_tag" => $superior->getId()))->where("[id_tag] = %i", $inferior->getId())->execute();
+		dibi::delete("tag")->where("[id_tag] = %i", $inferior->getId())->execute();
+		dibi::commit();
+	}
 
 	public function update(IEntity $entity) {
 		if ($entity->getState() != IEntity::STATE_MODIFIED) {
