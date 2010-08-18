@@ -1,6 +1,11 @@
-{extends ../layout.phtml}
+{extends layout.phtml}
 
-{block #content}
-	{widget flashMessages}
-	{widget insertingAuthor}
+{block #subcontent}
+	{if isset($author)}
+		<h1>Edit author</h1>
+		{widget insertingAuthor}
+	{else}
+		<h1>Insert a new author</h1>
+		{widget insertingAuthor}
+	{/if}
 {/block}

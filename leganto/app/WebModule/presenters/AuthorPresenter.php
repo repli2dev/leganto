@@ -2,20 +2,31 @@
 
 class Web_AuthorPresenter extends Web_BasePresenter {
 
-	public function renderInsert() {
+	/** @var AuthorEntity */
+	private $author;
+
+	public function renderInsert($author = NULL) {
 		if (!Environment::getUser()->isAllowed(Resource::AUTHOR, Action::INSERT)) {
 		    $this->unauthorized();
-		} else {
-		    $this->getComponent("insertingAuthor")->setBacklink("Book:insert");
-		    $this->setPageTitle(System::translate("Insert author"));
+		} else {			
+			if (!empty($author)) {
+				$this->getTemplate()->author = $this->getAuthor();
+				$this->getComponent("insertingAuthor")->setAuthor($this->getAuthor());
+				$this->getComponent("insertingAuthor")->setBacklink("default", $author);
+				$this->setPageTitle(System::translate("Edit author"));
+			}
+			else {
+				$this->getComponent("insertingAuthor")->setBacklink("Book:insert");
+				$this->setPageTitle(System::translate("Insert author"));
+			}
 		}
 	}
 
 	public function renderDefault($author) {
-		$this->getTemplate()->author = Leganto::authors()->getSelector()->find($author);
+		$this->getTemplate()->author = $this->getAuthor();
 		$this->getComponent("bookList")->setLimit(0);
 		$this->getComponent("bookList")->setSource(
-			Leganto::books()->getSelector()->findAllByAuthor($this->getTemplate()->author)->applyLimit(12)
+			Leganto::books()->getSelector()->findAllByAuthor($this->getAuthor())->applyLimit(12)
 		);
 		$this->setPageTitle($this->getTemplate()->author->fullname);
 	}
@@ -45,12 +56,28 @@ class Web_AuthorPresenter extends Web_BasePresenter {
 
 	protected function createComponentSubmenu($name) {
 		$submenu = new SubmenuComponent($this, $name);
-		$submenu->addLink("default", System::translate("Books"), array("author" => $this->getTemplate()->author->getId()));
+		$submenu->addLink("default", System::translate("Books"), $this->getAuthor()->getId());
+		if (Environment::getUser()->isAllowed(Resource::AUTHOR, Action::EDIT)) {
+			$submenu->addEvent("insert", System::translate("Edit author"), $this->getAuthor()->getId());
+		}
 		return $submenu;
 	}
 	
 	protected function createComponentBookList($name) {
 		return new BookListComponent($this, $name);
+	}
+
+	// ---- PRIVATE METHODS
+	private function getAuthor() {
+		if (!isset($this->author)) {
+			if ($this->getParam("author") != NULL) {
+				$this->author = Leganto::authors()->getSelector()->find($this->getParam("author"));
+			}
+			else {
+				$this->author = NULL;
+			}
+		}
+		return $this->author;
 	}
 
 }

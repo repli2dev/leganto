@@ -2,7 +2,9 @@
 
 @{block #content}
     <div id="left-column">
-	@{widget submenu}
+		@{if !empty($author)}
+			@{widget submenu}
+		@{/if}
     </div>
     <div id="right-column">
 	{widget flashMessages}

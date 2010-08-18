@@ -19,8 +19,14 @@
 class InsertingAuthorComponent extends BaseComponent
 {
 
+	/** @var AuthorEntity */
+	private $author;
+
 	/** @persistent */
 	public $backlink;
+
+	/** @persistent */
+	public $backlinkArgs;
 
 	public function render() {
 		if (!Environment::getUser()->isAllowed(Resource::AUTHOR, Action::INSERT)) {
@@ -30,13 +36,26 @@ class InsertingAuthorComponent extends BaseComponent
 	}
 
 	public function formSubmitted(Form $form) {
-		if (!Environment::getUser()->isAllowed(Resource::AUTHOR, Action::INSERT)) {
-		    $this->unathorized();
-		}
 		// Load data from form
 		$values = $form->getValues();
+		if (empty($values["id_author"]) && !Environment::getUser()->isAllowed(Resource::AUTHOR, Action::INSERT)) {
+		    $this->unathorized();
+		}
+		else if (!Environment::getUser()->isAllowed(Resource::AUTHOR, Action::EDIT)) {
+			$this->unathorized();
+		}
 		// Prepare entity and persist it
-		$author = Leganto::authors()->createEmpty();
+		if (empty($values["id_author"])) {
+			$author = Leganto::authors()->createEmpty();
+			$flashMessage = "New author has been successfuly inserted.";
+			$logMessage   = "INSERT AUTHOR '".$author->getId()."'";
+		}
+		else {
+			$author = Leganto::authors()->getSelector()->find($values["id_author"]);
+			$flashMessage = "Author has been successfuly updated.";
+			$logMessage   = "UPDATE AUTHOR '".$author->getId()."'";
+		}
+		
 		$author->type = $values["type"];
 		if($values["type"] == AuthorEntity::PERSON) {
 			$author->firstname = $values["first_name"];
@@ -47,8 +66,8 @@ class InsertingAuthorComponent extends BaseComponent
 		$author->inserted = new DateTime;
 		try {
 		    $author->persist();
-		    System::log("INSERT AUTHOR '".$author->getId()."'");
-		    $this->getPresenter()->flashMessage(System::translate("New author has been successfuly inserted."),'success');
+		    System::log($logMessage);
+		    $this->getPresenter()->flashMessage(System::translate($flashMessage),'success');
 		}
 		catch(Exception $e) {
 		    $this->unexpectedError($e);
@@ -61,12 +80,17 @@ class InsertingAuthorComponent extends BaseComponent
 		    if ($this->backlink == "Book:insert") {
 			InsertingBookComponent::sendSignalWithAuthor($author);
 		    }
-		    $this->getPresenter()->redirect($this->backlink);
+		    $this->getPresenter()->redirect($this->backlink, $this->backlinkArgs);
 		}
 	}
 
-	public function setBacklink($backlink) {
-	    $this->backlink = $backlink;
+	public function setAuthor(AuthorEntity $author) {
+		$this->author = $author;
+	}
+
+	public function setBacklink($backlink, $args = NULL) {
+	    $this->backlink		= $backlink;
+		$this->backlinkArgs = $args;
 	}
 
 	// PROTECTED METHODS
@@ -101,6 +125,17 @@ class InsertingAuthorComponent extends BaseComponent
 	    $form->addSubmit("insert", "Insert");
 	    $form->onSubmit[] = array($this, "formSubmitted");
 
+		$form->addHidden("id_author");
+
+		if (isset($this->author)) {
+			$form->setDefaults(array(
+				"type"		=> $this->author->type,
+				"first_name"=> $this->author->firstname,
+				"group_name"=> $this->author->groupname,
+				"id_author"	=> $this->author->getId(),
+				"last_name"	=> $this->author->lastname,
+			));
+		}
 	    return $form;
 	}
 }
