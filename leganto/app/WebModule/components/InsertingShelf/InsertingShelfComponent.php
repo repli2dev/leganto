@@ -23,15 +23,10 @@ class InsertingShelfComponent extends BaseComponent {
     /** @persistent */
     public $backlink;
 
-    public function setBacklink($backlinkUri) {
-	$this->backlink = $backlinkUri;
-    }
-
-    public function setShelf(ShelfEntity $shelf) {
-	$this->shelf = $shelf;
-    }
-
     public function formSubmitted(Form $form) {
+	if (!Environment::getUser()->isAllowed(Resource::SHELF, Action::INSERT)) {
+	    $this->unauthorized();
+	}
 	$values = $form->getValues();
 	// Update old one
 	if (!empty($values["id_shelf"])) {
@@ -51,8 +46,7 @@ class InsertingShelfComponent extends BaseComponent {
 	    $this->getPresenter()->flashMessage(System::translate("The shelf has been successfuly saved."), "success");
 	}
 	catch(Exception $e) {
-	    $this->getPresenter()->flashMessage(System::translate('Unexpected error happened.'), "error");
-	    error_log($e->getTraceAsString());
+	    $this->unexpectedError($e);
 	    return;
 	}
 	if (empty($this->backlink)) {
@@ -61,6 +55,21 @@ class InsertingShelfComponent extends BaseComponent {
 	else {
 	    $this->getPresenter()->redirectUri($this->backlink);
 	}
+    }
+
+    public function render() {
+	if (!Environment::getUser()->isAllowed(Resource::SHELF, Action::INSERT)) {
+	    return;
+	}
+	return parent::render();
+    }
+
+    public function setBacklink($backlinkUri) {
+	$this->backlink = $backlinkUri;
+    }
+
+    public function setShelf(ShelfEntity $shelf) {
+	$this->shelf = $shelf;
     }
 
     protected function createComponentForm($name) {

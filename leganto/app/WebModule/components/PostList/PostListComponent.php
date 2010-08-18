@@ -10,6 +10,9 @@ class PostListComponent extends BaseListComponent
 
     public function handleDelete($post) {
         $postEntity = Leganto::posts()->getSelector()->find($post);
+	if (!Environment::getUser()->isAllowed(Resource::create($postEntity), Action::EDIT)) {
+	    $this->unathorized();
+	}
         if ($postEntity == null) {
             $this->getPresenter()->flashMessage(System::translate('The post can not be deleted.'), "error");
             return;
@@ -25,17 +28,19 @@ class PostListComponent extends BaseListComponent
             }
         }
         catch (Expcetion $e) {
-            Debug::fireLog($e->getMesssage());
-            $this->getPresenter()->flashMessage(System::translate('Unexpected error happened.'), "error");
+            $this->unexpectedError($e);
         }
     }
 
     public function formSubmitted(Form $form) {
+	if (!Environment::getUser()->isAllowed(Resource::create($postEntity), Action::INSERT)) {
+	    $this->unathorized();
+	}
         $values = $form->getValues();
 
         // Check whether discussed item and its type present
         if(empty($values["discussed"]) || empty($values["type"])) {
-            $form->addError("Unexpected error has happened.");
+            $form->addError("Unexpected error has happened.", "error");
             return;
         }
 
@@ -47,11 +52,16 @@ class PostListComponent extends BaseListComponent
         $post->content          = $values["content"];
         $post->inserted         = new DateTime();
         $post->language         = System::user()->idLanguage;
-        $post->persist();
-	System::log("INSERT POST '".$post->getId()."'");
-
+	try {
+		$post->persist();
+		System::log("INSERT POST '".$post->getId()."'");
+		$this->getPresenter()->flashMessage("The post has been successfuly sent.", "success");
+	}
+	catch(Exception $e) {
+		$this->unexpectedError($e);
+		return;
+	}
         // Redirect
-        $this->getPresenter()->flashMessage("The post has been successfuly sent.", "success");
         $this->getPresenter()->redirect("this");
     }
 

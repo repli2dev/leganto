@@ -17,7 +17,7 @@
     {foreach $tags AS $tag}
 	<a href="{plink Search:default, $tag->name}" class="tag">{$tag->name}</a>
     {/foreach}
-    {if Environment::getUser()->isLoggedIn()}
+    {if Environment::getUser()->isAllowed(Resource::TAG, Action::INSERT)}
 	{widget form}
 	<hr style="clear:both; visibility:hidden" />
     {/if}

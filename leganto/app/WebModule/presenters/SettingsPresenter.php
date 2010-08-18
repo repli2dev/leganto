@@ -18,16 +18,16 @@
 class Web_SettingsPresenter extends Web_BasePresenter {
 
 	public function renderDefault() {
-		if (!Environment::getUser()->isAuthenticated()) {
-			$this->redirect("Default:");
+		if (!Environment::getUser()->isAllowed(Resource::create(System::user(), Action::EDIT))) {
+			$this->unauthorized();
 		} else {
 			$this->setPageTitle(System::translate("Settings"));
 		}
 	}
 
 	public function renderConnections() {
-		if (!Environment::getUser()->isAuthenticated()) {
-			$this->redirect("Default:");
+		if (!Environment::getUser()->isAllowed(Resource::create(System::user(), Action::EDIT))) {
+			$this->unauthorized();
 		} else {
 			$this->setPageTitle(System::translate("Social networks"));
 			$data = Leganto::connections()->getSelector()->findAllFromUser(System::user()->id);
@@ -43,16 +43,16 @@ class Web_SettingsPresenter extends Web_BasePresenter {
 	}
 
 	public function actionDelete($id) {
-		if (!Environment::getUser()->isAuthenticated()) {
-			$this->redirect("Default:");
+		if (!Environment::getUser()->isAllowed(Resource::create(System::user(), Action::EDIT))) {
+			$this->unauthorized();
 		} else {
 			$this->setPageTitle(System::translate("Delete connection"));
 		}
 	}
 
 	public function actionTwitter() {
-		if (!Environment::getUser()->isAuthenticated()) {
-			$this->redirect("Default:");
+		if (!Environment::getUser()->isAllowed(Resource::create(System::user(), Action::EDIT))) {
+			$this->unauthorized();
 		} else {
 			// Check if user have one account already
 			$user = System::user()->id;
@@ -68,10 +68,14 @@ class Web_SettingsPresenter extends Web_BasePresenter {
 					$connection->type = 'twitter';
 					$connection->token = $twitter->getToken();
 
-					// Commit
-					Leganto::connections()->getInserter()->insert($connection);
-					System::log("INSERT CONNECTION TO TWITTER '". $connection->getId()."'");
-
+					try {
+						// Commit
+						Leganto::connections()->getInserter()->insert($connection);
+						System::log("INSERT CONNECTION TO TWITTER '" . $connection->getId() . "'");
+					} catch (Exception $e) {
+						$this->unexpectedError($e);
+						return;
+					}
 					$this->flashMessage(System::translate('Your account was successfully added.'), 'success');
 					$this->redirect('connections');
 				}
@@ -84,8 +88,8 @@ class Web_SettingsPresenter extends Web_BasePresenter {
 	}
 
 	public function actionFacebook() {
-		if (!Environment::getUser()->isAuthenticated()) {
-			$this->redirect("Default:");
+		if (!Environment::getUser()->isAllowed(Resource::create(System::user(), Action::EDIT))) {
+			$this->unauthorized();
 		} else {
 			// Check if user have one account already
 			$user = System::user()->id;
@@ -99,9 +103,14 @@ class Web_SettingsPresenter extends Web_BasePresenter {
 				$connection->type = 'facebook';
 				$connection->token = $fb->getToken();
 
-				// Commit
-				Leganto::connections()->getInserter()->insert($connection);
-				System::log("INSERT CONNECTION TO FACEBOOK '". $connection->getId()."'");
+				try {
+					// Commit
+					Leganto::connections()->getInserter()->insert($connection);
+					System::log("INSERT CONNECTION TO FACEBOOK '" . $connection->getId() . "'");
+				} catch (Exception $e) {
+					$this->unexpectedError($e);
+					return;
+				}
 
 				$this->flashMessage(System::translate('Your account was successfully added.'), 'success');
 				$this->redirect('connections');
@@ -147,24 +156,24 @@ class Web_SettingsPresenter extends Web_BasePresenter {
 		$new = $form["new"];
 		$new2 = $form["new2"];
 
-		$old->addConditionOn($new,Form::FILLED)
-			->addRule(Form::FILLED,"Please fill your current password.");
-		$old->addConditionOn($new2,Form::FILLED)
-			->addRule(Form::FILLED,"Please fill your current password.");
-			
-		$new->addConditionOn($old,Form::FILLED)
-			->addRule(Form::FILLED,"Please fill new password.");
-		
-		$new2->addConditionOn($old,Form::FILLED)
-			->addRule(Form::FILLED,"Please fill new password for check.");
+		$old->addConditionOn($new, Form::FILLED)
+			->addRule(Form::FILLED, "Please fill your current password.");
+		$old->addConditionOn($new2, Form::FILLED)
+			->addRule(Form::FILLED, "Please fill your current password.");
+
+		$new->addConditionOn($old, Form::FILLED)
+			->addRule(Form::FILLED, "Please fill new password.");
+
+		$new2->addConditionOn($old, Form::FILLED)
+			->addRule(Form::FILLED, "Please fill new password for check.");
 		$new2->addCondition(Form::FILLED)
-			->addRule(Form::EQUAL,"New passwords have to match. Please type them again.",$new);
+			->addRule(Form::EQUAL, "New passwords have to match. Please type them again.", $new);
 
 		$form->addGroup("Avatar");
 		$form->addFile("avatar", "Avatar")
 			->addCondition(Form::FILLED)
 			->addRule(Form::MIME_TYPE, "File must be an image.", 'image/*')
-			->addRule(Form::MAX_FILE_SIZE,"Avatar has to be smaller than 100 KB.",1024*100);
+			->addRule(Form::MAX_FILE_SIZE, "Avatar has to be smaller than 100 KB.", 1024 * 100);
 
 		$form->setCurrentGroup();
 
@@ -190,15 +199,18 @@ class Web_SettingsPresenter extends Web_BasePresenter {
 	/* FORM SIGNALS */
 
 	public function settingsFormSubmitted(Form $form) {
+		if (!Environment::getUser()->isAllowed(Resource::create(System::user(), Action::EDIT))) {
+			$this->unauthorized();
+		}
 		$user = System::user();
 		$values = $form->getValues();
 		$user->email = $values["email"];
 		$user->sex = $values["sex"];
 		$user->birthyear = $values["birthyear"];
 		$user->about = $values["about"];
-		
+
 		if (isSet($values["new"]) && !empty($values["new"])) {
-			if($user->password != UserAuthenticator::passwordHash($values["old"])){
+			if ($user->password != UserAuthenticator::passwordHash($values["old"])) {
 				$form->addError("Error occured, current password you have entered is wrong.");
 				return;
 			} else {
@@ -230,6 +242,9 @@ class Web_SettingsPresenter extends Web_BasePresenter {
 	}
 
 	public function deleteFormSubmitted(Form $form) {
+		if (!Environment::getUser()->isAllowed(Resource::create(System::user(), Action::EDIT))) {
+			$this->unauthorized();
+		}
 		if ($form["yes"]->isSubmittedBy()) {
 			$id = $this->getParam("id");
 			$data = Leganto::connections()->getSelector()->find($id);

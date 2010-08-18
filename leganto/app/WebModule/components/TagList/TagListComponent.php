@@ -5,8 +5,8 @@ class TagListComponent extends BaseListComponent
     private $book;
 
     public function formSubmitted(Form $form) {
-	if (!Environment::getUser()->isLoggedIn()) {
-	    return;
+	if (Environment::getUser()->isAllowed(Resource::TAG, Action::INSERT)) {
+	    $this->unauthorized();
 	}
 	if (!isset($this->book)) {
 	    throw new InvalidStateException("The book is not set.");
@@ -21,8 +21,7 @@ class TagListComponent extends BaseListComponent
 	    $this->getPresenter()->flashMessage(System::translate("The tag has been successfuly inserted."), "success");
 	}
 	catch(Exception $e) {
-	    $this->getPresenter()->flashMessage(System::translate('Unexpected error happened.'), "error");
-	    Debug::processException($e);
+	    $this->unexpectedError($e);
 	    return;
 	}
 	$this->getPresenter()->redirect("this");

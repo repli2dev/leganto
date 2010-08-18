@@ -14,24 +14,34 @@ class ShelvesComponent extends BaseComponent
 	$order = $this->getPresenter()->getParam("books");
 	// Get shelf entity
 	$shelfEntity = Leganto::shelves()->getSelector()->find($shelf);
+	// Check permission
+	if (!Environment::getUser()->isAllowed(Resource::create($shelfEntity), Action::EDIT)) {
+	    $this->unauthorized();
+	}
 	// Books of shelf
 	$books = Leganto::books()->fetchAndCreateAll(Leganto::books()->getSelector()->findAllByShelf($shelfEntity));
-	// Update
-	Leganto::shelves()->getUpdater()->changeOrder($shelfEntity, $this->getOrderedBook($order, $books), $this->getNewOrder($order, $books));
-	System::log("CHANGE ORDER IN SHELF '". $shelfEntity->getId()."'");
+	try {
+		// Update
+		Leganto::shelves()->getUpdater()->changeOrder($shelfEntity, $this->getOrderedBook($order, $books), $this->getNewOrder($order, $books));
+		System::log("CHANGE ORDER IN SHELF '". $shelfEntity->getId()."'");
+	}
+	catch(Exception $e) {
+		$this->unexpectedError($e);
+	}
     }
 
     public function handleRemove($shelf) {
+	$shelfEntity = Leganto::shelves()->getSelector()->find($shelf);
+	if (!Environment::getUser()->isAllowed(Resource::create($shelfEntity), Action::EDIT)) {
+	    $this->unauthorized();
+	}
 	try {
-	    $shelfEntity = Leganto::shelves()->getSelector()->find($shelf);
-	    // TODO: Check permission
 	    $shelfEntity->delete();
 	    System::log("DELETE SHELF '". $shelfEntity->getId()."'");
 	    $this->getPresenter()->flashMessage(System::translate("The shelf has been successfuly deleted."), "success");
 	}
 	catch(Exception $e) {
-	    $this->getPresenter()->flashMessage(System::translate('Unexpected error happened.'), "error");
-	    error_log($e->getTraceAsString());
+	    $this->unexpectedError($e);
 	    return;
 	}
 	$this->getPresenter()->redirect("this");
@@ -51,13 +61,6 @@ class ShelvesComponent extends BaseComponent
 	// Books in shelves
 	// FIXME: The books should be represented as entities
 	$this->getTemplate()->books = Leganto::books()->getSelector()->findAllInShelvesByUser($this->user)->fetchAssoc("id_shelf,id_book");
-	// Check whether the user is authenticated and whether he/she is owner of shelfs
-	if (Environment::getUser()->isAuthenticated() && $this->user->getId() == System::user()->getId()) {
-	    $this->getTemplate()->owner = TRUE;
-	}
-	else {
-	    $this->getTemplate()->owner = FALSE;
-	}
     }
 
     private function computeNewOrder(array $order, array $books) {

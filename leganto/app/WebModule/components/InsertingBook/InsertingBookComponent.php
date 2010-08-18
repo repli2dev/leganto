@@ -35,6 +35,9 @@ class InsertingBookComponent extends BaseComponent
     }
 
     public function insertFormSubmitted(Form $form) {
+	if (!Environment::getUser()->isAllowed(Resource::BOOK, Action::INSERT)) {
+	    $this->unathorized();
+	}
 	$this->setValues($form->getValues());
 	$this->setPhase(3);
 	// Insert a new author
@@ -60,6 +63,9 @@ class InsertingBookComponent extends BaseComponent
     }
 
     public function render() {
+	if (!Environment::getUser()->isAllowed(Resource::BOOK, Action::INSERT)) {
+	    return;
+	}
 	switch($this->getPhase()) {
 		default:
 		case 1:
@@ -75,6 +81,9 @@ class InsertingBookComponent extends BaseComponent
     }
 
     public function searchFormSubmitted(Form $form) {
+	if (!Environment::getUser()->isAllowed(Resource::BOOK, Action::INSERT)) {
+	    $this->unathorized();
+	}
 	$values = $form->getValues();
 
 	$this->getComponent("bookList")->setSource(
@@ -319,7 +328,8 @@ class InsertingBookComponent extends BaseComponent
 	    System::log("LOOKUP FOR EDITIONS AND IMAGES FOR BOOK '". $book->getId()."'");
 	}
 	catch(Exception $e) {
-	    error_log($e->getTraceAsString());
+	    $this->unexpectedError($e);
+	    return;
 	}
 	$this->getPresenter()->flashMessage(System::translate("Book has been successfuly inserted."), "success");
 	$this->getPresenter()->flashMessage(System::translate("The system tried to load editions of the book '".$book->title."', but the process is not reliable and you can insert editions manually."));

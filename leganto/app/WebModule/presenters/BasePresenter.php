@@ -36,5 +36,14 @@ class Web_BasePresenter extends BasePresenter {
 	protected function createComponentSearch($name) {
 		return new SearchComponent($this,$name);
 	}
-	
+
+	protected final function unauthorized() {
+	    $this->redirect("Default:unauthorized");
+	}
+
+	protected final function unexpectedError(Exception $e) {
+	    $this->flashMessage(System::translate('Unexpected error happened.'), "error");
+	    Debug::processException($e);
+	}
+
 }
