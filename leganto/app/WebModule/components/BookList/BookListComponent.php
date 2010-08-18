@@ -41,8 +41,13 @@ class BookListComponent extends BaseListComponent
 	foreach ($this->getTemplate()->books AS $book) {
 	    $nodes[$book->bookNode] = 1;
 	}
-	$authors    = Leganto::authors()->getSelector()->findAllByBooks(array_keys($nodes))
-	    ->fetchAssoc("id_book,id_author");
+	if (empty($nodes)) {
+		$authors = array();
+	}
+	else {
+		$authors    = Leganto::authors()->getSelector()->findAllByBooks(array_keys($nodes))
+			->fetchAssoc("id_book,id_author");
+	}
 	foreach($authors as $bookId => $authorGroup) {
 	    $this->getTemplate()->authors[$bookId] = array();
 	    foreach ($authorGroup AS $author) {

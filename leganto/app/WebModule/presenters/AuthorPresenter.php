@@ -5,9 +5,29 @@ class Web_AuthorPresenter extends Web_BasePresenter {
 	/** @var AuthorEntity */
 	private $author;
 
-	public function renderInsert($author = NULL) {
-		if (!Environment::getUser()->isAllowed(Resource::AUTHOR, Action::INSERT)) {
+	public function actionDelete($author) {
+		if (!Environment::getUser()->isAllowed(Resource::AUTHOR, Action::EDIT)) {
 		    $this->unauthorized();
+		}
+		if (Leganto::books()->getSelector()->findAllByAuthor($this->getAuthor())->count() != 0) {
+			$this->flashMessage("The author can not be deleted, because the there are some books which are written by this author.", "error");
+			$this->redirect("default", $author);
+		}
+		try {
+			$this->getAuthor()->delete();
+			$this->flashMessage("The author has been successfuly deleted.", "success");
+		}
+		catch(Exception $e) {
+			$this->unexpectedError($e);
+		}
+		$this->redirect("Default:default");
+	}
+
+	public function renderInsert($author = NULL) {
+		if (empty($author) && !Environment::getUser()->isAllowed(Resource::AUTHOR, Action::INSERT)) {
+		    $this->unauthorized();
+		} else if(!Environment::getUser()->isAllowed(Resource::AUTHOR, Action::EDIT)) {
+			$this->unauthorized();
 		} else {			
 			if (!empty($author)) {
 				$this->getTemplate()->author = $this->getAuthor();
@@ -59,6 +79,7 @@ class Web_AuthorPresenter extends Web_BasePresenter {
 		$submenu->addLink("default", System::translate("Books"), $this->getAuthor()->getId());
 		if (Environment::getUser()->isAllowed(Resource::AUTHOR, Action::EDIT)) {
 			$submenu->addEvent("insert", System::translate("Edit author"), $this->getAuthor()->getId());
+			$submenu->addEvent("delete", System::translate("Delete author"), $this->getAuthor()->getId());
 		}
 		return $submenu;
 	}
