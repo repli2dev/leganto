@@ -20,20 +20,25 @@ class TopicListComponent extends BaseListComponent
         $topic->name        = $values["name"];
         $topic->userId      = System::user()->getId();
         $topic->inserted    = new DateTime();
-        $topic->persist();
+	try {
+	    $topic->persist();
 
-        // Inserting of post
-        $post   = Leganto::posts()->createEmpty();
-        $post->user             = System::user()->getId();
-        $post->discussed        = $topic->getId();
-        $post->discussionType   = PostSelector::TOPIC;
-        $post->content          = $values["content"];
-        $post->inserted         = new DateTime();
-        $post->language         = System::user()->idLanguage;
-        $post->persist();
-
+	    // Inserting of post
+	    $post   = Leganto::posts()->createEmpty();
+	    $post->user             = System::user()->getId();
+	    $post->discussed        = $topic->getId();
+	    $post->discussionType   = PostSelector::TOPIC;
+	    $post->content          = $values["content"];
+	    $post->inserted         = new DateTime();
+	    $post->language         = System::user()->idLanguage;
+	    $post->persist();
+	    $this->getPresenter()->flashMessage("The topic has been successfuly created.", "success");
+	}
+	catch(Exception $e) {
+	    $this->unexpectedError($e);
+	    return;
+	}
         // Redirect
-        $this->getPresenter()->flashMessage("The topic has been successfuly created.", "success");
         $this->getPresenter()->redirect($this->getPresenter()->backlink());
     }
 

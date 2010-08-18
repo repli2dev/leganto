@@ -41,4 +41,9 @@ class Web_BasePresenter extends BasePresenter {
 	    $this->redirect("Default:unauthorized");
 	}
 
+	protected final function unexpectedError(Exception $e) {
+	    $this->flashMessage(System::translate('Unexpected error happened.'), "error");
+	    Debug::processException($e);
+	}
+
 }

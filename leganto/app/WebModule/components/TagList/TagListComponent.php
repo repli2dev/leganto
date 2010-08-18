@@ -21,8 +21,7 @@ class TagListComponent extends BaseListComponent
 	    $this->getPresenter()->flashMessage(System::translate("The tag has been successfuly inserted."), "success");
 	}
 	catch(Exception $e) {
-	    $this->getPresenter()->flashMessage(System::translate('Unexpected error happened.'), "error");
-	    Debug::processException($e);
+	    $this->unexpectedError($e);
 	    return;
 	}
 	$this->getPresenter()->redirect("this");

@@ -23,8 +23,7 @@ class BookShelfControlComponent extends BaseComponent
 	    $this->getPresenter()->flashMessage(System::translate("The book  %s has been removed from shelf %s", $bookEntity->title, $shelfEntity->name), "success");
 	}
 	catch(Exception $e) {
-	    $this->getPresenter()->flashMessage(System::translate('Unexpected error happened.'), "error");
-	    error_log($e->getTraceAsString());
+	    $this->unexpectedError($e);
 	    return;
 	}
 	$this->getPresenter()->redirect("this");
@@ -60,8 +59,7 @@ class BookShelfControlComponent extends BaseComponent
 		}
 	    }
 	    catch(Exception $e) {
-		$this->getPresenter()->flashMessage(System::translate('Unexpected error happened.'), "error");
-		error_log($e->getTraceAsString());
+		$this->unexpectedError($e);
 		return;
 	    }
 	    $this->getPresenter()->redirect("this");

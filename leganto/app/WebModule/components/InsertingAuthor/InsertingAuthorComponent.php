@@ -60,10 +60,15 @@ class InsertingAuthorComponent extends BaseComponent {
 			$author->groupname = $values["group_name"];
 		}
 		$author->inserted = new DateTime;
-		$author->persist();
-		// TODO: co delat tedka? Vratit uzivatele na zacatek (s tim ze muze vlozit dalsiho), nebo na stranku autora?
-		$this->getPresenter()->flashMessage(System::translate("New author has been successfuly inserted."),'success');
-		
+		try {
+		    $author->persist();
+		    // TODO: co delat tedka? Vratit uzivatele na zacatek (s tim ze muze vlozit dalsiho), nebo na stranku autora?
+		    $this->getPresenter()->flashMessage(System::translate("New author has been successfuly inserted."),'success');
+		}
+		catch(Exception $e) {
+		    $this->unexpectedError($e);
+		    return; 
+		}
 		if (empty($this->backlink)) {
 		    $this->getPresenter()->redirect("Author:insert");
 		}

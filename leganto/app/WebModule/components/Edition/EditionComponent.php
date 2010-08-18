@@ -95,26 +95,32 @@ class EditionComponent extends BaseComponent {
 		$values = $form->getValues();
 
 		$entity = Leganto::editions()->createEmpty();
-		$entity->idBookTitle = $book;
-		$entity->isbn10 = $values["isbn10"];
-		$entity->isbn13 = $values["isbn13"];
-		$entity->pages = $values["pages"];
-		$entity->published = $values["published"];
-		$entity->inserted = new DateTime();
-		$entity->persist();
-		$tmpFile = $values["image"]->getTemporaryFile();
-		if (!empty($tmpFile)) {
-			$storage = new EditionImageStorage();
-			$storage->store($entity, new File($tmpFile));
-		} else { // Try to find image
-			$imageFinder    = new EditionImageFinder();
-			$images = $imageFinder->get($entity);
-			if (!empty($images)) {
-				$storage = new EditionImageStorage();
-				$storage->store($entity, new File(ExtraArray::firstValue($images)));
-			}
+		try {
+		    $entity->idBookTitle = $book;
+		    $entity->isbn10 = $values["isbn10"];
+		    $entity->isbn13 = $values["isbn13"];
+		    $entity->pages = $values["pages"];
+		    $entity->published = $values["published"];
+		    $entity->inserted = new DateTime();
+		    $entity->persist();
+		    $tmpFile = $values["image"]->getTemporaryFile();
+		    if (!empty($tmpFile)) {
+			    $storage = new EditionImageStorage();
+			    $storage->store($entity, new File($tmpFile));
+		    } else { // Try to find image
+			    $imageFinder    = new EditionImageFinder();
+			    $images = $imageFinder->get($entity);
+			    if (!empty($images)) {
+				    $storage = new EditionImageStorage();
+				    $storage->store($entity, new File(ExtraArray::firstValue($images)));
+			    }
+		    }
+		    $this->getPresenter()->flashMessage(System::translate("Thank you. Your edition has been successfully added and you are looking on it now."));
 		}
-		$this->getPresenter()->flashMessage(System::translate("Thank you. Your edition has been successfully added and you are looking on it now."));
+		catch(Exception $e) {
+		    $this->unexpectedError($e);
+		    return;
+		}
 		$this->getPresenter()->redirect("Book:default",$book,$entity->getId());
 	}
 
@@ -140,13 +146,16 @@ class EditionComponent extends BaseComponent {
 				$storage->store($entity, new File($tmpFile));
 			}
 			$this->getPresenter()->flashMessage(System::translate("Thank you. Edition has been successfully updated and you are looking on it now."));
-			$this->getPresenter()->redirect("Book:default",$book,$entity->getId());
 		}
 		catch (DuplicityException $e) {
 			$this->getPresenter()->flashMessage(System::translate("Sorry. However edition with this ISBN already exists. Here is form with original values."));
 			$this->getPresenter()->redirect("this");
 		}
-		
+		catch (Exception $e) {
+		    $this->unexpectedError($e);
+		    return;
+		}
+		$this->getPresenter()->redirect("Book:default",$book,$entity->getId());
 	}
 
 

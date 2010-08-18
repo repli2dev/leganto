@@ -325,7 +325,8 @@ class InsertingBookComponent extends BaseComponent
 	    }
 	}
 	catch(Exception $e) {
-	    error_log($e->getTraceAsString());
+	    $this->unexpectedError($e);
+	    return;
 	}
 	$this->getPresenter()->flashMessage(System::translate("Book has been successfuly inserted."), "success");
 	$this->getPresenter()->flashMessage(System::translate("The system tried to load editions of the book '".$book->title."', but the process is not reliable and you can insert editions manually."));

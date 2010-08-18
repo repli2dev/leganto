@@ -45,8 +45,7 @@ class InsertingShelfComponent extends BaseComponent {
 	    $this->getPresenter()->flashMessage(System::translate("The shelf has been successfuly saved."), "success");
 	}
 	catch(Exception $e) {
-	    $this->getPresenter()->flashMessage(System::translate('Unexpected error happened.'), "error");
-	    error_log($e->getTraceAsString());
+	    $this->unexpectedError($e);
 	    return;
 	}
 	if (empty($this->backlink)) {

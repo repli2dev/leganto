@@ -27,8 +27,7 @@ class PostListComponent extends BaseListComponent
             }
         }
         catch (Expcetion $e) {
-            Debug::fireLog($e->getMesssage());
-            $this->getPresenter()->flashMessage(System::translate('Unexpected error happened.'), "error");
+            $this->unexpectedError($e);
         }
     }
 
@@ -40,7 +39,7 @@ class PostListComponent extends BaseListComponent
 
         // Check whether discussed item and its type present
         if(empty($values["discussed"]) || empty($values["type"])) {
-            $form->addError("Unexpected error has happened.");
+            $form->addError("Unexpected error has happened.", "error");
             return;
         }
 
@@ -52,10 +51,15 @@ class PostListComponent extends BaseListComponent
         $post->content          = $values["content"];
         $post->inserted         = new DateTime();
         $post->language         = System::user()->idLanguage;
-        $post->persist();
-
+	try {
+	    $post->persist();
+	    $this->getPresenter()->flashMessage("The post has been successfuly sent.", "success");
+	}
+	catch(Exception $e) {
+	    $this->unexpectedError($e);
+	    return;
+	}
         // Redirect
-        $this->getPresenter()->flashMessage("The post has been successfuly sent.", "success");
         $this->getPresenter()->redirect("this");
     }
 

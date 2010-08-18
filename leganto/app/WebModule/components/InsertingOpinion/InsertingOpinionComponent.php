@@ -47,33 +47,39 @@ class InsertingOpinionComponent extends BaseComponent {
 			}
 			$opinion = Leganto::opinions()->createEmpty();
 			$opinion->bookTitleId = $this->bookEntity->getId();
-			$this->getPresenter()->flashMessage(System::translate("Thank you for your opinion, your opinion was added and book was inserted to your readed shelf."),'success');
+			$message = array(System::translate("Thank you for your opinion, your opinion was added and book was inserted to your readed shelf."), 'success');
 		} else {
 			if (!Environment::getUser()->isAllowed(Resource::create($opinion), Action::INSERT)) {
 			    $this->unauthorized();
 			}
-			$this->getPresenter()->flashMessage(System::translate("Your opinion was successfully updated."),'success');
+			$message = array(System::translate("Your opinion was successfully updated."),'success');
 		}
 		$opinion->userId = System::user()->getId();
 		$opinion->inserted = new DateTime;
 		$opinion->rating = $values["rating"];
 		$opinion->content = $values["content"];
 		$opinion->languageId = $values["language"];
-		$opinionId = $opinion->persist();
-		// Explode and add all tags
-		$tags = explode(", ", $values["tags"]);
-		$tagEntities = array();
-		foreach($tags as $tag) {
-			$tagEntity = Leganto::tags()->createEmpty();
-			$tagEntity->name = $tag;
-			$tagEntity->languageId = $values["language"];
-			$tagEntity->persist();
-			$tagEntities[] = $tagEntity;
-			unset($tagEntity);
+		try {
+		    $opinionId = $opinion->persist();
+		    // Explode and add all tags
+		    $tags = explode(", ", $values["tags"]);
+		    $tagEntities = array();
+		    foreach($tags as $tag) {
+			    $tagEntity = Leganto::tags()->createEmpty();
+			    $tagEntity->name = $tag;
+			    $tagEntity->languageId = $values["language"];
+			    $tagEntity->persist();
+			    $tagEntities[] = $tagEntity;
+			    unset($tagEntity);
+		    }
+		    // Set tagged
+		    Leganto::books()->getUpdater()->setTagged($this->bookEntity,$tagEntities);
 		}
-		// Set tagged
-		Leganto::books()->getUpdater()->setTagged($this->bookEntity,$tagEntities);
-		// TODO: add to shelf?
+		catch(Exception $e) {
+		    $this->unexpectedError($e);
+		    return;
+		}
+		$this->getPresenter()->flashMessage($message[0], $message[1]);
 		$this->getPresenter()->redirect("Book:default",$this->bookEntity->getId());
 
 	}

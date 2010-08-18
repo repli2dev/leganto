@@ -68,9 +68,14 @@ class Web_SettingsPresenter extends Web_BasePresenter {
 					$connection->type = 'twitter';
 					$connection->token = $twitter->getToken();
 
-					// Commit
-					Leganto::connections()->getInserter()->insert($connection);
-
+					try {
+					    // Commit
+					    Leganto::connections()->getInserter()->insert($connection);
+					}
+					catch(Exception $e) {
+					    $this->unexpectedError($e);
+					    return;
+					}
 					$this->flashMessage(System::translate('Your account was successfully added.'), 'success');
 					$this->redirect('connections');
 				}
@@ -98,8 +103,14 @@ class Web_SettingsPresenter extends Web_BasePresenter {
 				$connection->type = 'facebook';
 				$connection->token = $fb->getToken();
 
-				// Commit
-				Leganto::connections()->getInserter()->insert($connection);
+				try {
+				    // Commit
+				    Leganto::connections()->getInserter()->insert($connection);
+				}
+				catch(Exception $e) {
+				    $this->unexpectedError($e);
+				    return;
+				}
 
 				$this->flashMessage(System::translate('Your account was successfully added.'), 'success');
 				$this->redirect('connections');

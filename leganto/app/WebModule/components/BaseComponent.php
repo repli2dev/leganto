@@ -56,5 +56,10 @@ abstract class BaseComponent extends Control
     protected final function unauthorized() {
 	$this->getPresenter()->redirect("Default:unauthorized");
     }
+
+    protected final function unexpectedError(Exception $e) {
+	$this->getPresenter()->flashMessage(System::translate('Unexpected error happened.'), "error");
+	Debug::processException($e);
+    }
 }
 

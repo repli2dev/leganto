@@ -20,8 +20,13 @@ class ShelvesComponent extends BaseComponent
 	}
 	// Books of shelf
 	$books = Leganto::books()->fetchAndCreateAll(Leganto::books()->getSelector()->findAllByShelf($shelfEntity));
-	// Update
-	Leganto::shelves()->getUpdater()->changeOrder($shelfEntity, $this->getOrderedBook($order, $books), $this->getNewOrder($order, $books));
+	try {
+	    // Update
+	    Leganto::shelves()->getUpdater()->changeOrder($shelfEntity, $this->getOrderedBook($order, $books), $this->getNewOrder($order, $books));
+	}
+	catch(Exception $e) {
+	    $this->unexpectedError($e);
+	}
     }
 
     public function handleRemove($shelf) {
@@ -34,8 +39,7 @@ class ShelvesComponent extends BaseComponent
 	    $this->getPresenter()->flashMessage(System::translate("The shelf has been successfuly deleted."), "success");
 	}
 	catch(Exception $e) {
-	    $this->getPresenter()->flashMessage(System::translate('Unexpected error happened.'), "error");
-	    error_log($e->getTraceAsString());
+	    $this->unexpectedError($e);
 	    return;
 	}
 	$this->getPresenter()->redirect("this");
