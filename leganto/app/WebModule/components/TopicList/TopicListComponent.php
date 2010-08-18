@@ -35,7 +35,7 @@ class TopicListComponent extends BaseListComponent
     }
 
     protected function createComponentForm($name) {
-        $form = new BaseForm($name);
+        $form = new BaseForm($this, $name);
 
         $form->addText("name", "Topic name")
             ->addRule(Form::FILLED, "Please fill the topic name.");
