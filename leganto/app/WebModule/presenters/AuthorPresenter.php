@@ -3,8 +3,8 @@
 class Web_AuthorPresenter extends Web_BasePresenter {
 
 	public function renderInsert() {
-		if (!Environment::getUser()->isAuthenticated()) {
-		    $this->redirect("Default:unauthorized");
+		if (!Environment::getUser()->isAllowed(Resource::AUTHOR, Action::INSERT)) {
+		    $this->unauthorized();
 		} else {
 		    $this->getComponent("insertingAuthor")->setBacklink("Book:insert");
 		    $this->setPageTitle(System::translate("Insert author"));

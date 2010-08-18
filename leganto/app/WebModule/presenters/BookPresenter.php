@@ -19,8 +19,8 @@ class Web_BookPresenter extends Web_BasePresenter {
 	}
 
 	public function actionAddEdition($book) {
-		if (!Environment::getUser()->isAuthenticated()) {
-			$this->redirect("Default:unauthorized");
+		if (!Environment::getUser()->isAllowed(Resource::EDITION, Action::INSERT)) {
+			$this->unauthorized();
 		} else {
 			$this->getTemplate()->book = $this->getBook();
 			$this->setPageTitle(System::translate("Add edition"));
@@ -28,16 +28,16 @@ class Web_BookPresenter extends Web_BasePresenter {
 	}
 
 	public function actionEditEdition($book, $edition) {
-		if (!Environment::getUser()->isAuthenticated()) {
-			$this->redirect("Default:unauthorized");
+		if (!Environment::getUser()->isAllowed(Resource::EDITION, Action::EDIT)) {
+			$this->unauthorized();
 		} else {
 			$this->setPageTitle(System::translate("Edit edition"));
 		}
 	}
 
 	public function actionAddOpinion($book) {
-		if (!Environment::getUser()->isAuthenticated()) {
-			$this->redirect("Default:unauthorized");
+		if (!Environment::getUser()->isAllowed(Resource::OPINION, Action::INSERT)) {
+			$this->unauthorized();
 		} else {
 			$this->getTemplate()->book = $this->getBook();
 			$this->setPageTitle(System::translate("Your opinion"));
@@ -46,8 +46,8 @@ class Web_BookPresenter extends Web_BasePresenter {
 
 
 	public function renderInsert($book, $connect = FALSE) {
-		if (!Environment::getUser()->isAuthenticated()) {
-			$this->redirect("Default:unauthorized");
+		if (!Environment::getUser()->isAllowed(Resource::BOOK, Action::INSERT)) {
+			$this->unauthorized();
 		} else {
 		    if ($connect) {
 			$this->getComponent("insertingBook")->setBook($this->getBook());
@@ -115,19 +115,24 @@ class Web_BookPresenter extends Web_BasePresenter {
 		$submenu->addLink("default", System::translate("General info"), $this->getBook()->getId());
 		$submenu->addLink("opinions", System::translate("Opinions"), $this->getBook()->getId());
 		$submenu->addLink("similar", System::translate("Similar books"), $this->getBook()->getId());
-		if (Environment::getUser()->isAuthenticated()) {
-			if(Leganto::opinions()->getSelector()->findByBookAndUser($this->getBook(), System::user()) == NULL) {
-				$submenu->addEvent("addOpinion", System::translate("Add opinion"), $this->getBook()->getId());
-			} else {
-				$submenu->addEvent("addOpinion", System::translate("Change opinion"), $this->getBook()->getId());
-			}
-			$submenu->addevent("insert", System::translate("Insert related book"), array("book" => $this->getBook()->getId(), "connect" => TRUE));
-			$submenu->addEvent("addEdition", System::translate("Add new edition"), $this->getBook()->getId());
-			$edition = $this->getComponent("bookView")->getEditionId();
-			if(!empty($edition)) {
-				$submenu->addEvent("editEdition", System::translate("Edit this edition"), array("book" => $this->getBook()->getId(), "edition" => $edition));
-			}
+		$opinion = Leganto::opinions()->getSelector()->findByBookAndUser($this->getBook(), System::user());
+		if (empty($opinion) && Environment::getUser()->isAllowed(Resource::OPINION, Action::INSERT)) {
+		    $submenu->addEvent("addOpinion", System::translate("Add opinion"), $this->getBook()->getId());
 		}
+		else if (Environment::getUser()->isAllowed(Resource::create($opinion), Action::EDIT)) {
+		    $submenu->addEvent("addOpinion", System::translate("Change opinion"), $this->getBook()->getId());
+		}
+		if (Environment::getUser()->isAllowed(Resource::BOOK, Action::INSERT)) {
+		    $submenu->addevent("insert", System::translate("Insert related book"), array("book" => $this->getBook()->getId(), "connect" => TRUE));
+		}
+		if (Environment::getUser()->isAllowed(Resource::EDITION, Action::INSERT)) {
+		    $submenu->addEvent("addEdition", System::translate("Add new edition"), $this->getBook()->getId());
+		}
+		$edition = $this->getComponent("bookView")->getEditionId();
+		if (Environment::getUser()->isAllowed(Resource::EDITION, Action::EDIT) && !empty($edition)) {
+		    $submenu->addEvent("editEdition", System::translate("Edit this edition"), array("book" => $this->getBook()->getId(), "edition" => $edition));
+		}
+	
 		return $submenu;
 	}
 	public function renderSuggest($term) {

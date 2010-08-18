@@ -18,16 +18,16 @@
 class Web_SettingsPresenter extends Web_BasePresenter {
 
 	public function renderDefault() {
-		if (!Environment::getUser()->isAuthenticated()) {
-			$this->redirect("Default:");
+		if (!Environment::getUser()->isAllowed(Resource::create(System::user(), Action::EDIT))) {
+			$this->unauthorized();
 		} else {
 			$this->setPageTitle(System::translate("Settings"));
 		}
 	}
 
 	public function renderConnections() {
-		if (!Environment::getUser()->isAuthenticated()) {
-			$this->redirect("Default:");
+		if (!Environment::getUser()->isAllowed(Resource::create(System::user(), Action::EDIT))) {
+			$this->unauthorized();
 		} else {
 			$this->setPageTitle(System::translate("Social networks"));
 			$data = Leganto::connections()->getSelector()->findAllFromUser(System::user()->id);
@@ -43,16 +43,16 @@ class Web_SettingsPresenter extends Web_BasePresenter {
 	}
 
 	public function actionDelete($id) {
-		if (!Environment::getUser()->isAuthenticated()) {
-			$this->redirect("Default:");
+		if (!Environment::getUser()->isAllowed(Resource::create(System::user(), Action::EDIT))) {
+			$this->unauthorized();
 		} else {
 			$this->setPageTitle(System::translate("Delete connection"));
 		}
 	}
 
 	public function actionTwitter() {
-		if (!Environment::getUser()->isAuthenticated()) {
-			$this->redirect("Default:");
+		if (!Environment::getUser()->isAllowed(Resource::create(System::user(), Action::EDIT))) {
+			$this->unauthorized();
 		} else {
 			// Check if user have one account already
 			$user = System::user()->id;
@@ -83,8 +83,8 @@ class Web_SettingsPresenter extends Web_BasePresenter {
 	}
 
 	public function actionFacebook() {
-		if (!Environment::getUser()->isAuthenticated()) {
-			$this->redirect("Default:");
+		if (!Environment::getUser()->isAllowed(Resource::create(System::user(), Action::EDIT))) {
+			$this->unauthorized();
 		} else {
 			// Check if user have one account already
 			$user = System::user()->id;
@@ -188,6 +188,9 @@ class Web_SettingsPresenter extends Web_BasePresenter {
 	/* FORM SIGNALS */
 
 	public function settingsFormSubmitted(Form $form) {
+		if (!Environment::getUser()->isAllowed(Resource::create(System::user(), Action::EDIT))) {
+			$this->unauthorized();
+		}
 		$user = System::user();
 		$values = $form->getValues();
 		$user->email = $values["email"];
@@ -227,6 +230,9 @@ class Web_SettingsPresenter extends Web_BasePresenter {
 	}
 
 	public function deleteFormSubmitted(Form $form) {
+		if (!Environment::getUser()->isAllowed(Resource::create(System::user(), Action::EDIT))) {
+			$this->unauthorized();
+		}
 		if ($form["yes"]->isSubmittedBy()) {
 			$id = $this->getParam("id");
 			$data = Leganto::connections()->getSelector()->find($id);
