@@ -37,8 +37,11 @@ class UserAuthenticator
 				IAuthenticator::INVALID_CREDENTIAL
 			);
 		}
+		// Role
+		$role = UserAuthorizator::getRole($row);
+
 		// Or return new identity
-		return new Identity($name, $row->role, array("id" => $row->getId()));
+		return new Identity($name, $role, array("id" => $row->getId()));
 	}
 
 	public static function passwordHash($password) {

@@ -20,7 +20,13 @@
  */
 class UserEntity extends AEntity
 {
-	
+
+	const ADMIN	    = "admin";
+
+	const COMMON	    = "common";
+
+	const MODERATOR	    = "moderator";
+
 	/**
 	 * @Translate(birth_year)
 	 */
