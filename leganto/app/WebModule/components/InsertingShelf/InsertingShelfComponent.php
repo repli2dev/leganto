@@ -63,7 +63,7 @@ class InsertingShelfComponent extends BaseComponent {
     }
 
     protected function createComponentForm($name) {
-	$form = new BaseForm($name);
+	$form = new BaseForm($this,$name);
 
 	// Name
 	$form->addText("name", "Name")
