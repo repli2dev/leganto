@@ -158,6 +158,7 @@ class IntroductionComponent extends BaseComponent {
 			Leganto::connections()->getInserter()->insert($connection);
 
 			Environment::getUser()->authenticate(null,null,$this->twitter->getToken());
+			System::log("SIGN UP VIA TWITTER");
 
 			// Now it is safe to delete twitter data in session
 			$this->twitter->destroyLoginData();
@@ -195,6 +196,7 @@ class IntroductionComponent extends BaseComponent {
 			Leganto::connections()->getInserter()->insert($connection);
 
 			Environment::getUser()->authenticate(null,null,$this->facebook->getToken());
+			System::log("SIGN UP VIA FACEBOOK");
 
 			// Now it is safe to delete facebook data in session
 			$this->facebook->destroyLoginData();
@@ -400,6 +402,7 @@ class IntroductionComponent extends BaseComponent {
 
 					// Commit
 					Leganto::connections()->getInserter()->insert($connection);
+					System::log("INSERT CONNECCTION TO FACEBOOK '".$connection->getId()."'");
 
 					// Now it is safe to delete facebook data in session
 					$this->facebook->destroyLoginData();
@@ -445,6 +448,7 @@ class IntroductionComponent extends BaseComponent {
 
 					// Commit
 					Leganto::connections()->getInserter()->insert($connection);
+					System::log("INSERT CONNECTION TO TWITTER '".$connection->getId()."'");
 
 					// Now it is safe to delete twitter data in session
 					$this->twitter->destroyLoginData();
@@ -462,6 +466,7 @@ class IntroductionComponent extends BaseComponent {
 		try {
 			Environment::getUser()->authenticate($values['nickname'],$values['password']);
 			Leganto::users()->getUpdater()->removePassCode(System::user());
+			System::log("LOGIN");
 		} catch (AuthenticationException $e) {
 			switch ($e->getCode()) {
 				case IAuthenticator::IDENTITY_NOT_FOUND:
@@ -514,6 +519,7 @@ class IntroductionComponent extends BaseComponent {
 			// Authentiticate at last
 			try {
 				Environment::getUser()->authenticate($values['nickname'],$values['password']);
+				System::log("INSERT USER");
 			} catch (AuthenticationException $e) {
 				switch ($e->getCode()) {
 					case IAuthenticator::IDENTITY_NOT_FOUND:

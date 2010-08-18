@@ -70,6 +70,7 @@ class Web_SettingsPresenter extends Web_BasePresenter {
 
 					// Commit
 					Leganto::connections()->getInserter()->insert($connection);
+					System::log("INSERT CONNECTION TO TWITTER '". $connection->getId()."'");
 
 					$this->flashMessage(System::translate('Your account was successfully added.'), 'success');
 					$this->redirect('connections');
@@ -100,6 +101,7 @@ class Web_SettingsPresenter extends Web_BasePresenter {
 
 				// Commit
 				Leganto::connections()->getInserter()->insert($connection);
+				System::log("INSERT CONNECTION TO FACEBOOK '". $connection->getId()."'");
 
 				$this->flashMessage(System::translate('Your account was successfully added.'), 'success');
 				$this->redirect('connections');
@@ -206,6 +208,7 @@ class Web_SettingsPresenter extends Web_BasePresenter {
 		try {
 			if ($user->getState() == IEntity::STATE_MODIFIED) {
 				Leganto::users()->getUpdater()->update($user);
+				System::log("CHANGE OF SETTINGS");
 				$this->flashMessage(System::translate("Your settings was saved."), "success");
 			} else {
 				$this->flashMessage(System::translate("Your settings was left unchanged."));

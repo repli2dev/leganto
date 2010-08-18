@@ -54,6 +54,7 @@ class InsertingOpinionComponent extends BaseComponent {
 		$opinion->content = $values["content"];
 		$opinion->languageId = $values["language"];
 		$opinionId = $opinion->persist();
+		System::log("INSERT/CHANGE OPINION '". $opinion->getId()."'");
 		// Explode and add all tags
 		$tags = explode(", ", $values["tags"]);
 		$tagEntities = array();
@@ -67,6 +68,7 @@ class InsertingOpinionComponent extends BaseComponent {
 		}
 		// Set tagged
 		Leganto::books()->getUpdater()->setTagged($this->bookEntity,$tagEntities);
+		System::log("INSERT TAGS TO BOOK '". $this->bookEntity->getId()."'");
 		// TODO: add to shelf?
 		$this->getPresenter()->redirect("Book:default",$this->bookEntity->getId());
 

@@ -18,6 +18,7 @@ class ShelvesComponent extends BaseComponent
 	$books = Leganto::books()->fetchAndCreateAll(Leganto::books()->getSelector()->findAllByShelf($shelfEntity));
 	// Update
 	Leganto::shelves()->getUpdater()->changeOrder($shelfEntity, $this->getOrderedBook($order, $books), $this->getNewOrder($order, $books));
+	System::log("CHANGE ORDER IN SHELF '". $shelfEntity->getId()."'");
     }
 
     public function handleRemove($shelf) {
@@ -25,6 +26,7 @@ class ShelvesComponent extends BaseComponent
 	    $shelfEntity = Leganto::shelves()->getSelector()->find($shelf);
 	    // TODO: Check permission
 	    $shelfEntity->delete();
+	    System::log("DELETE SHELF '". $shelfEntity->getId()."'");
 	    $this->getPresenter()->flashMessage(System::translate("The shelf has been successfuly deleted."), "success");
 	}
 	catch(Exception $e) {

@@ -18,6 +18,7 @@ class TopicListComponent extends BaseListComponent
         $topic->userId      = System::user()->getId();
         $topic->inserted    = new DateTime();
         $topic->persist();
+	System::log("INSERT TOPIC '".$topic->getId()."'");
 
         // Inserting of post
         $post   = Leganto::posts()->createEmpty();
@@ -28,6 +29,7 @@ class TopicListComponent extends BaseListComponent
         $post->inserted         = new DateTime();
         $post->language         = System::user()->idLanguage;
         $post->persist();
+	System::log("INSERT POST '".$post->getId()."");
 
         // Redirect
         $this->getPresenter()->flashMessage("The topic has been successfuly created.", "success");

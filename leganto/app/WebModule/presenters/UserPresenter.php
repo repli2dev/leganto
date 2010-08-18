@@ -35,8 +35,10 @@ class Web_UserPresenter extends Web_BasePresenter {
 			} else {
 				$result = Leganto::users()->getUpdater()->toogleFollow($this->getUserEntity()->getId());
 				if($result == TRUE) {
+					System::log("FOLLOW USER '". $this->getUserEntity()->getId()."'");
 					$this->flashMessage(System::translate("This user is now followed by you."));
 				} else {
+					System::log("UNFOLLOW USER'". $this->getUserEntity()->getId()."'");
 					$this->flashMessage(System::translate("This user is no longer followed by you."));
 				}
 			}

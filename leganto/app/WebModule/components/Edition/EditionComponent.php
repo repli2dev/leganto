@@ -93,6 +93,7 @@ class EditionComponent extends BaseComponent {
 		$entity->published = $values["published"];
 		$entity->inserted = new DateTime();
 		$entity->persist();
+		System::log("INSERT EDITION AND IMAGES TO BOOK '". $book."'");
 		$tmpFile = $values["image"]->getTemporaryFile();
 		if (!empty($tmpFile)) {
 			$storage = new EditionImageStorage();
@@ -122,6 +123,7 @@ class EditionComponent extends BaseComponent {
 			$entity->pages = $values["pages"];
 			$entity->published = $values["published"];
 			$entity->persist();
+			System::log("EDIT EDITION '".$edition."' FROM BOOK '". $book."'");
 			$tmpFile = $values["image"]->getTemporaryFile();
 			if (!empty($tmpFile)) {
 				$storage = new EditionImageStorage();

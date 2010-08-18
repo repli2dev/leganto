@@ -17,6 +17,7 @@ class PostListComponent extends BaseListComponent
         try {
             $discussion = Leganto::discussions()->getSelector()->find($postEntity->discussion);
             $postEntity->delete();
+	    System::log("DELETE POST '".$postEntity->getId()."'");
             $this->getPresenter()->flashMessage(System::translate("The post has been deleted."), "success");
             if ($discussion->discussionType == PostSelector::TOPIC && $discussion->numberOfPosts == 1) {
                 $this->getPresenter()->flashMessage(System::translate("The post has been last in the topic, therefore the topic has been also deleted."), "success");
@@ -47,6 +48,7 @@ class PostListComponent extends BaseListComponent
         $post->inserted         = new DateTime();
         $post->language         = System::user()->idLanguage;
         $post->persist();
+	System::log("INSERT POST '".$post->getId()."'");
 
         // Redirect
         $this->getPresenter()->flashMessage("The post has been successfuly sent.", "success");
