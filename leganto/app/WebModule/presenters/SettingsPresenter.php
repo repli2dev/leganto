@@ -69,12 +69,12 @@ class Web_SettingsPresenter extends Web_BasePresenter {
 					$connection->token = $twitter->getToken();
 
 					try {
-					    // Commit
-					    Leganto::connections()->getInserter()->insert($connection);
-					}
-					catch(Exception $e) {
-					    $this->unexpectedError($e);
-					    return;
+						// Commit
+						Leganto::connections()->getInserter()->insert($connection);
+						System::log("INSERT CONNECTION TO TWITTER '" . $connection->getId() . "'");
+					} catch (Exception $e) {
+						$this->unexpectedError($e);
+						return;
 					}
 					$this->flashMessage(System::translate('Your account was successfully added.'), 'success');
 					$this->redirect('connections');
@@ -104,12 +104,12 @@ class Web_SettingsPresenter extends Web_BasePresenter {
 				$connection->token = $fb->getToken();
 
 				try {
-				    // Commit
-				    Leganto::connections()->getInserter()->insert($connection);
-				}
-				catch(Exception $e) {
-				    $this->unexpectedError($e);
-				    return;
+					// Commit
+					Leganto::connections()->getInserter()->insert($connection);
+					System::log("INSERT CONNECTION TO FACEBOOK '" . $connection->getId() . "'");
+				} catch (Exception $e) {
+					$this->unexpectedError($e);
+					return;
 				}
 
 				$this->flashMessage(System::translate('Your account was successfully added.'), 'success');
@@ -156,24 +156,24 @@ class Web_SettingsPresenter extends Web_BasePresenter {
 		$new = $form["new"];
 		$new2 = $form["new2"];
 
-		$old->addConditionOn($new,Form::FILLED)
-			->addRule(Form::FILLED,"Please fill your current password.");
-		$old->addConditionOn($new2,Form::FILLED)
-			->addRule(Form::FILLED,"Please fill your current password.");
-			
-		$new->addConditionOn($old,Form::FILLED)
-			->addRule(Form::FILLED,"Please fill new password.");
-		
-		$new2->addConditionOn($old,Form::FILLED)
-			->addRule(Form::FILLED,"Please fill new password for check.");
+		$old->addConditionOn($new, Form::FILLED)
+			->addRule(Form::FILLED, "Please fill your current password.");
+		$old->addConditionOn($new2, Form::FILLED)
+			->addRule(Form::FILLED, "Please fill your current password.");
+
+		$new->addConditionOn($old, Form::FILLED)
+			->addRule(Form::FILLED, "Please fill new password.");
+
+		$new2->addConditionOn($old, Form::FILLED)
+			->addRule(Form::FILLED, "Please fill new password for check.");
 		$new2->addCondition(Form::FILLED)
-			->addRule(Form::EQUAL,"New passwords have to match. Please type them again.",$new);
+			->addRule(Form::EQUAL, "New passwords have to match. Please type them again.", $new);
 
 		$form->addGroup("Avatar");
 		$form->addFile("avatar", "Avatar")
 			->addCondition(Form::FILLED)
 			->addRule(Form::MIME_TYPE, "File must be an image.", 'image/*')
-			->addRule(Form::MAX_FILE_SIZE,"Avatar has to be smaller than 100 KB.",1024*100);
+			->addRule(Form::MAX_FILE_SIZE, "Avatar has to be smaller than 100 KB.", 1024 * 100);
 
 		$form->setCurrentGroup();
 
@@ -208,9 +208,9 @@ class Web_SettingsPresenter extends Web_BasePresenter {
 		$user->sex = $values["sex"];
 		$user->birthyear = $values["birthyear"];
 		$user->about = $values["about"];
-		
+
 		if (isSet($values["new"]) && !empty($values["new"])) {
-			if($user->password != UserAuthenticator::passwordHash($values["old"])){
+			if ($user->password != UserAuthenticator::passwordHash($values["old"])) {
 				$form->addError("Error occured, current password you have entered is wrong.");
 				return;
 			} else {
@@ -220,6 +220,7 @@ class Web_SettingsPresenter extends Web_BasePresenter {
 		try {
 			if ($user->getState() == IEntity::STATE_MODIFIED) {
 				Leganto::users()->getUpdater()->update($user);
+				System::log("CHANGE OF SETTINGS");
 				$this->flashMessage(System::translate("Your settings was saved."), "success");
 			} else {
 				$this->flashMessage(System::translate("Your settings was left unchanged."));

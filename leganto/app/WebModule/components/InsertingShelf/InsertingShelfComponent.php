@@ -42,6 +42,7 @@ class InsertingShelfComponent extends BaseComponent {
 	    $shelf->name = $values["name"];
 	    $shelf->type = $values["type"];
 	    $shelf->persist();
+	    System::log("INSERT SHELF '". $shelf->getId()."'");
 	    $this->getPresenter()->flashMessage(System::translate("The shelf has been successfuly saved."), "success");
 	}
 	catch(Exception $e) {

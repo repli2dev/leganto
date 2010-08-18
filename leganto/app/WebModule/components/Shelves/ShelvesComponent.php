@@ -21,11 +21,12 @@ class ShelvesComponent extends BaseComponent
 	// Books of shelf
 	$books = Leganto::books()->fetchAndCreateAll(Leganto::books()->getSelector()->findAllByShelf($shelfEntity));
 	try {
-	    // Update
-	    Leganto::shelves()->getUpdater()->changeOrder($shelfEntity, $this->getOrderedBook($order, $books), $this->getNewOrder($order, $books));
+		// Update
+		Leganto::shelves()->getUpdater()->changeOrder($shelfEntity, $this->getOrderedBook($order, $books), $this->getNewOrder($order, $books));
+		System::log("CHANGE ORDER IN SHELF '". $shelfEntity->getId()."'");
 	}
 	catch(Exception $e) {
-	    $this->unexpectedError($e);
+		$this->unexpectedError($e);
 	}
     }
 
@@ -36,6 +37,7 @@ class ShelvesComponent extends BaseComponent
 	}
 	try {
 	    $shelfEntity->delete();
+	    System::log("DELETE SHELF '". $shelfEntity->getId()."'");
 	    $this->getPresenter()->flashMessage(System::translate("The shelf has been successfuly deleted."), "success");
 	}
 	catch(Exception $e) {

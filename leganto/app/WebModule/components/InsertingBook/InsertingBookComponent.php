@@ -280,6 +280,7 @@ class InsertingBookComponent extends BaseComponent
 	}
 	try {
 	    $book->persist();
+	    System::log("INSERT BOOK '". $book->getId()."'");
 	}
 	catch(Exception $e) {
 	    $this->getPresenter()->flashMessage(System::translate('Unexpected error happened.'), "error");
@@ -295,6 +296,7 @@ class InsertingBookComponent extends BaseComponent
 	    );
 	    try {
 		Leganto::books()->getUpdater()->setWrittenBy($book, $authors);
+		System::log("INSERT AUTHORS TO NEW BOOK '". $book->getId()."'");
 	    }
 	    catch(Exception $e) {
 		$this->getPresenter()->flashMessage(System::translate('Unexpected error happened.'), "error");
@@ -323,6 +325,7 @@ class InsertingBookComponent extends BaseComponent
 			    $storage->store($edition, new File(ExtraArray::firstValue($images)));
 		    }
 	    }
+	    System::log("LOOKUP FOR EDITIONS AND IMAGES FOR BOOK '". $book->getId()."'");
 	}
 	catch(Exception $e) {
 	    $this->unexpectedError($e);

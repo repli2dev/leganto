@@ -47,6 +47,7 @@ class InsertingAuthorComponent extends BaseComponent
 		$author->inserted = new DateTime;
 		try {
 		    $author->persist();
+		    System::log("INSERT AUTHOR '".$author->getId()."'");
 		    $this->getPresenter()->flashMessage(System::translate("New author has been successfuly inserted."),'success');
 		}
 		catch(Exception $e) {

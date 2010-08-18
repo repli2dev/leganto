@@ -85,4 +85,25 @@ final class System
 		$data = Leganto::captcha()->getSelector()->findFromLanguageRandom(self::language()->getId());
 		return $data;
 	}
+
+	public static function log($text = NULL) {
+		// Prepare for insertion and do it without System::user and entities to save time
+		$values["id_user"] = Environment::getUser()->getIdentity()->id;
+		if(empty($values["id_user"])) {
+			return;
+		}
+		$uri = Environment::getHttpRequest()->getUri();
+		$values["url"] = $uri->path;
+		if(!empty($uri->query)) {
+			$values["url"] .= "?".$uri->query;
+		}
+		$values["text"] = $text;
+		$values["time"] = new DateTime;
+		try {
+			return dibi::insert("user_log",$values)->execute();
+		}
+		catch (Exception $e) {
+			Debug::processException();
+		}
+	}
 }
