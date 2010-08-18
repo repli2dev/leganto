@@ -78,7 +78,7 @@ class PostListComponent extends BaseListComponent
 
 
     protected function createComponentForm($name) {
-        $form = new BaseForm($name);
+        $form = new BaseForm($this, $name);
 
         $form->addTextArea("content")
             ->addRule(Form::FILLED, "Please fill the content.");
