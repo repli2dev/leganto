@@ -135,6 +135,7 @@ class Web_BookPresenter extends Web_BasePresenter {
 		if(isSet($cache[md5($term)])){
 			echo json_encode($cache[md5($term)]);
 		} else {
+			$results = array();
 			$items = Leganto::books()->getSelector()->suggest($term)->select("title")->applyLimit(10)->fetchAssoc("title");
 			foreach($items as $item) {
 				$results[] = $item->title;
