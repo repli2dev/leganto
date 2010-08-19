@@ -33,7 +33,7 @@ class PostListComponent extends BaseListComponent
     }
 
     public function formSubmitted(Form $form) {
-	if (!Environment::getUser()->isAllowed(Resource::create($postEntity), Action::INSERT)) {
+	if (!Environment::getUser()->isAllowed(Resource::POST, Action::INSERT)) {
 	    $this->unathorized();
 	}
         $values = $form->getValues();
