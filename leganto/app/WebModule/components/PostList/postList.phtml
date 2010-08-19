@@ -12,7 +12,7 @@
 	    <div class="control">
 		{assign confirm => System::translate("Are you sure you want to delete a discussion post?")}
 		{assign link    => $component->link('delete', $post->getId())}
-		<a onclick="if(confirm('{!$confirm}')) window.location = '{!$link}'" title="{_'Delete'}">
+		<a onclick="return confirm('{!$confirm}')" href="{!$link}" title="{_'Delete'}">
 		    <img src="{$baseUri . 'img/ico/delete.png'}" alt="{_'Delete'}" />
 		</a>
 	    </div>

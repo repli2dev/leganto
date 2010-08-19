@@ -40,7 +40,7 @@
     	{foreach $events AS $link}
 			{assign url    => $component->getPresenter()->link($link->getAction(), $link->getArgs())}
 			<li class="event {if $presenter->getAction() == $link->getAction()}active{/if}">				
-					<a href="{!$url}" {if $link->getConfirm() != NULL}onclick="if(confirm('{!$link->getConfirm()}')) window.location = '{!$url}'"{/if}>{$link->getName()}</a>
+					<a href="{!$url}" {if $link->getConfirm() != NULL}onclick="return (confirm('{!$link->getConfirm()}'))"{/if}>{$link->getName()}</a>
 			</li>
 	{/foreach}
     </ul>
