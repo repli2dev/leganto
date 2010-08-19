@@ -50,13 +50,17 @@ class Web_BookPresenter extends Web_BasePresenter {
 			if (!Environment::getUser()->isAllowed(Resource::BOOK, Action::INSERT)) {
 				$this->unauthorized();
 			}
+			// Insert related book
 			$this->getComponent("insertingBook")->setRelatedBook($this->getBook());
 		}
 		else {
 			if (!Environment::getUser()->isAllowed(Resource::BOOK, Action::EDIT)) {
 				$this->unauthorized();
 			}
-			$this->getComponent("insertingBook")->setBookToEdit($this->getBook());
+			// Edit book
+			if (!empty($book)) {
+				$this->getComponent("insertingBook")->setBookToEdit($this->getBook());
+			}
 		}
 		$this->setPageTitle(System::translate("Insert book"));
 	}
