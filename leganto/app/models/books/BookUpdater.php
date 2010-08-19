@@ -100,16 +100,16 @@ class BookUpdater implements IUpdater
 			foreach($tagged AS $tag) {
 				dibi::insert("tagged", array(
 					"id_tag"	=> $tag->getId(),
-					"id_book"	=> $book->getId()
+					"id_book"	=> $book->bookNode
 				))->execute();
 			}
 			dibi::commit();
 		}
 		else if ($tagged instanceof TagEntity) {
-			SimpleTableModel::createTableModel("tagged")->insert(array(
-				"id_book" => $book->getId(),
-				"id_tag" => $tagged->getId()
-			));
+			dibi::insert("tagged", array(
+				"id_tag"	=> $tagged->getId(),
+				"id_book"	=> $book->bookNode
+			))->execute();
 		}
 		else {
 			throw new InvalidArgumentException("The argument [tagged] has to be array or TagEntity.");

@@ -5,7 +5,7 @@ class TagListComponent extends BaseListComponent
     private $book;
 
     public function formSubmitted(Form $form) {
-	if (Environment::getUser()->isAllowed(Resource::TAG, Action::INSERT)) {
+	if (!Environment::getUser()->isAllowed(Resource::TAG, Action::INSERT)) {
 	    $this->unauthorized();
 	}
 	if (!isset($this->book)) {
