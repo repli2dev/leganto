@@ -4,7 +4,9 @@
     <div id="user-info">
         <img class="icon" src="{$user->getId(),150|userico}" alt="{$user->nickname}" width="150" />
         <h1>{$user->nickname}</h1>
-	<h2>Informations</h2>
+	{if $user->sex != NULL || $user->birthyear != NULL || $user->about != NULL}
+		<h2>Informations</h2>
+	{/if}
 	{if $user->sex != NULL}
 		<p>Sex: {_"$user->sex"}</p>
 	{/if}
@@ -13,8 +15,11 @@
 		<p>Birth year: {_"{$user->birthyear}"}</p>
 	{/if}
 
-        {!$user->about|texySafe}
+	{if $user->about != NULL}
+		{!$user->about|texySafe}
+	{/if}
 
+	<div class="clear">&nbsp;</div>
 	<h2>Opinions</h2>
 	@{widget opinionList}
     </div>
