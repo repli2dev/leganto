@@ -18,6 +18,11 @@ class Web_HelpPresenter extends Web_BasePresenter {
 	public function renderDefault() {
 		$this->setPageTitle(System::translate("Help"));
 		$this->getTemplate()->data = Leganto::supportCategory()->getSelector()->findAllSortedByWeight();
+		$content = array();
+		foreach($this->getTemplate()->data as $item) {
+			 $content[$item->id_support_category] = Leganto::supportText()->getSelector()->findAllByCategory($item->id_support_category);
+		}
+		$this->getTemplate()->content = $content;
 	}
 
 	public function renderCategory($id) {
