@@ -24,7 +24,7 @@
 			<div class="info-top">
 				<img class="rating" src="{$baseUri}img/rating_{$opinion->rating}.png" />
 				{if $showedInfo == 'user'}
-					<a href="{plink User:default, $opinion->userId}">{$opinion->userName}</a>
+					<a href="{plink User:default, $opinion->userId}">{$opinion->userName|hardTruncate, 20}</a>
 				{else}
 					<a href="{plink Book:default, $opinion->bookTitleId}">{$opinion->bookTitle}</a>
 				{/if}
@@ -33,7 +33,7 @@
 				{!=$opinion->content|texySafe}
 			</div>
 			<div class="info-bottom">
-				@{if $showedOpinion != $opinion->getId()}
+				@{if !isset($showedOpinion) || $showedOpinion != $opinion->getId()}
 					@{if isset($discussions[$opinion->getId()])}
 						<a href="{link showPosts!, $opinion->getId()}" class="control ajax">{_'Show %d comments',$discussions[$opinion->getId()]}</a>
 					@{else}

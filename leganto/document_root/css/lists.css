@@ -35,6 +35,7 @@
 }
 .list .info-top {
 	padding-left: 10px;
+	vertical-align: middle;
 }
 .list form * {
 	margin: 0;
@@ -60,4 +61,5 @@
 }
 .opinions .rating {
 	margin-right: 10px;
+	vertical-align: middle;
 }

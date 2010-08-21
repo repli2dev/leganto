@@ -2,8 +2,7 @@
 
 @{block #subcontent}
 <div id="book-info">
-    <h1>{$book->title}</h1>
-    <img class="rating" src="{$baseUri}img/rating_{=round($book->rating)}.png" />
+    <h1>{_"Opinions on book '%s'", $book->title}</h1>
 </div>
 
 <div id="opinions">

@@ -367,3 +367,8 @@ a img {
 	padding: 0;
 	outline: 0;
 }
+#ajax-spinner {
+	background-image: url('../img/ajax-loader.gif');
+	width: 16px;
+	height: 16px;
+}
