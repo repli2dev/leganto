@@ -9,34 +9,36 @@
     }
 </style>
 
-<div clas="book-list">
+<div class="books list">
     {foreach $books AS $book}
-    <div class="book-list-item">
-	<div class="cover">
-	    <img class="icon" src="{$covers[$book->getId()],50|thumbnail}" alt="{$book->title}" width="50" height="80" />
-	</div>
-	<h2><a href="{plink Book:default,$book->getId()}">{$book->title}</a></h2>
-	<div class="info">
-	    {foreach $authors[$book->bookNode] AS $author}
-	    <a href="" class="author">
-		{if $author->groupname != NULL}{$author->groupname} {/if}
-		{if $author->firstname != NULL}{$author->firstname}{/if}
-		{if $author->lastname != NULL}{$author->lastname}{/if}
-	    </a>
-	    {/foreach}
-	</div>
-	<div class="rating"><img src="{$baseUri}img/rating_{=round($book->rating)}.png" /></div>
-	<div class="tags">
-	    {if isset($tags[$book->bookNode])}
-	    {foreach $tags[$book->bookNode] AS $tag}
-	    <a href="" class="tag">
-		{$tag->name}
-	    </a>
-	    {/foreach}
-	    {/if}
-	</div>
-    </div>
-    {if $iterator->getCounter() % 3 == 0}<div class="clear"></div>{/if}
+		<div class="item">
+			<div class="info-side">
+				<img class="icon" src="{$covers[$book->getId()],50|thumbnail}" alt="{$book->title}" width="50" height="80" />
+			</div>
+			<div class="info-top">
+				<a href="{plink Book:default,$book->getId()}" title="{$book->title}{if !empty($book->subtitle)}: {$book->subtitle}{/if}" class="book-title">{$book->title}{if !empty($book->subtitle)}: {$book->subtitle}{/if}</a>
+			</div>
+			<div class="content">
+				{foreach $authors[$book->bookNode] AS $author}
+					<a href="{plink Author:default, $author->getId()}" title="{$author->fullname}" class="author">
+					{$author->fullname}
+					</a>
+					<br />
+				{/foreach}
+				<img src="{$baseUri}img/rating_{=round($book->rating)}.png" class="rating" />
+			</div>
+
+			<div class="tags">
+				{if isset($tags[$book->bookNode])}
+				{foreach $tags[$book->bookNode] AS $tag}
+				<a href="" class="tag">
+				{$tag->name}
+				</a>
+				{/foreach}
+				{/if}
+			</div>
+		</div>
+		{if $iterator->getCounter() % 3 == 0}<div class="clear"></div>{/if}
     {/foreach}
 </div>
 <hr style="clear:both; visibility:hidden" />

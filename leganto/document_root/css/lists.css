@@ -1,9 +1,20 @@
 /*********************** GENERAL **********************************************/
 .list form {
-    margin-bottom: 10px;   
+    margin-bottom: 40px;
+}
+.list form * {
+	margin: 0;
+	padding: 0;
 }
 .list .item {
     padding: 0px 10px;
+	background: #f6f6f6;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	border: 1px solid #f6f6f6;
+	padding: 10px;
+	margin-bottom: 10px;
 }
 .list .item .control {
     float: right;
@@ -35,43 +46,50 @@
 .list .info-top {
 	padding-left: 10px;
 	vertical-align: middle;
-}
-.list form * {
-	margin: 0;
-	padding: 0;
-}
-.list form {
-	margin-bottom: 40px;
+	margin-bottom: 5px;
 }
 /*********************** EXCEPTIONS *******************************************/
-.opinions .item, .posts .item, .topics .item {
-	background: #f6f6f6;
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
-	border-radius: 5px;
-	border: 2px solid #f6f6f6;
-	padding: 10px;
-	margin-bottom: 10px;
-}
 .opinions .icon, .posts .icon, .topics .icon {
 	margin: 0;
 	margin-bottom: 5px;
 }
 /*********************** BOOKS ************************************************/
 .books .item {
-	width: 31%;
+	width: 28%;
 	float: left;
+	margin: 5px;
 }
+.books .book-title {
+	font-weight: bold;
+	text-decoration: none;
+}
+.books .rating {
+	display: block;
+	margin-top: 5px;
+}
+.books .item .content {
+	min-height: 0;
+}
+.books .item .info-side {
+	margin-right: 5px;
+}
+.books .item .content {
+	margin-left: 70px;
+}
+
 /************************** OPINIONS ******************************************/
 .opinions .rating {
 	margin-right: 10px;
 	vertical-align: middle;
 }
+.opinions .item .content {
+	min-height: 70px;
+}
 /************************** TOPICS ********************************************/
 .topics .item {
-	width: 44.5%;
+	width: 46%;
 	float: left;
-	margin: 10px;
+	margin: 5px;
 }
 .topics .item a {
 	width: auto;

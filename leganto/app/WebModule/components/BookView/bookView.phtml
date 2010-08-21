@@ -6,7 +6,7 @@
 		{else}
 			<img src="{$edition->image,150|thumbnail}" alt="{$book->title}" {if empty($edition->image)}width="150" height="240"{/if} />
 		{/if}
-		<strong class="rating">{if $book->rating != NULL}{=round($book->rating/5*100)}%{/if}</strong>
+		<strong class="rating">{if $book->rating != 0}{=round($book->rating/5*100)}%{/if}</strong>
 	</div>
 	<!-- BOOK TITLE -->
 	<h1>{$book->title}</h1>
