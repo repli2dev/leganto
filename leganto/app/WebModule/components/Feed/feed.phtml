@@ -9,10 +9,10 @@
 	    |
 	    <strong class="title">
 	    {if $item->type == FeedItemEntity::TYPE_OPINION}
-		{!_'<a href="%s">%s</a> has an opinion on the book <a href="%s">%s</a>',$presenter->link('User:default', $item->userId), $item->userNick, $presenter->link('Book:default', $item->categoryId), $item->categoryName}
+		{!_'<a href="%s" title="%s">%s</a> has an opinion on the book <a href="%s">%s</a>',$presenter->link('User:default', $item->userId), $item->userNick, ExtraString::hardTruncate($item->userNick,20), $presenter->link('Book:default', $item->categoryId), $item->categoryName}
 	    {else}
 		{if $item->type == FeedItemEntity::TYPE_POST}
-		    {!_'<a href="%s">%s</a> has contributed to the discussion <a href="%s">%s</a>',$presenter->link('User:default', $item->userId), $item->userNick, $presenter->link('Discussion:discussion', $item->categoryId), $item->categorySubname == NULL ? $item->categoryName : $item->categoryName . " (" . $item->categorySubname . ")"}
+		    {!_'<a href="%s" title="%s">%s</a> has contributed to the discussion <a href="%s">%s</a>',$presenter->link('User:default', $item->userId), $item->userNick, ExtraString::hardTruncate($item->userNick,20), $presenter->link('Discussion:discussion', $item->categoryId), $item->categorySubname == NULL ? $item->categoryName : $item->categoryName . " (" . $item->categorySubname . ")"}
 		{/if}
 	    {/if}
 	    </strong>

@@ -54,14 +54,24 @@ final class Helpers {
 				break;
 			case "userIcon": return array(get_class(), "userIconHelper");
 				break;
+			case "hardTruncate": return array("ExtraString", "hardTruncate");
+				break;
 			case "bookCover": return array(get_class(), "bookCoverHelper");
 				break;
 			case "language": return array(get_class(), "languageHelper");
+				break;
 			default:
 				throw new DataNotFoundException("helper: $helper");
 		}
 	}
 
+	/**
+	 * Return URL to random book cover (already thumbnailed) of given bookTitle
+	 * @param int $bookTitleId
+	 * @param int $width
+	 * @param int $height
+	 * @return URL of image
+	 */
 	public static function bookCoverHelper($bookTitleId, $width = NULL, $height = NULL) {
 		return self::thumbnailHelper(
 			self::getEditionImageStorage()->getRandomFileByBookTitleId($bookTitleId),
@@ -80,6 +90,11 @@ final class Helpers {
 		return date('d.m.Y', strtotime($date));
 	}
 
+	/**
+	 * Return HTML image to flag for given locale
+	 * @param string $locale locale string (cs_CZ)
+	 * @return string HTML image
+	 */
 	public static function languageHelper($locale) {
 	    $split = explode("_", $locale);
 	    $state = String::lower($split[1]);
@@ -219,7 +234,7 @@ final class Helpers {
 			$path = $image;
 		}
 		if (!empty($width) && !empty($height)) {
-			$url = $presenter->llink("Thumb:resize",$path,$width,$height);
+			$url = $presenter->link("Thumb:resize",$path,$width,$height);
 		} else
 		if (!empty($width)) {
 			$url = $presenter->link("Thumb:resize",$path,$width,NULL);

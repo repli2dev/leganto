@@ -16,7 +16,7 @@
     <div class="user-item">
 	<img class="icon" src="{$user->getId(), 50|userico}" />
 	<div class="info">
-	    <a href="{plink User:default, $user->getId()}">{$user->nickname}</a>
+		<a href="{plink User:default, $user->getId()}" title="{$user->nickname}">{$user->nickname|hardTruncate:20}</a>
 	</div>
 	<div class="content">
 		    {!=String::truncate($user->about, 100)|texySafe|stripTags}

@@ -19,7 +19,7 @@
 	    {/if}
 	    <img class="icon" src="{$post->user, 50|userico}" />
 	    <div class="info">
-		@{$post->inserted|date} | <strong class="author"><a href="{plink User:default, $post->user}" title="{$post->userName}">{$post->userName}</a></strong>
+		@{$post->inserted|date} | <strong class="author"><a href="{plink User:default, $post->user}" title="{$post->userName}">{$post->userName|hardTruncate:20}</a></strong>
 	    </div>
 	    <div class="content">
 			{!=$post->content|texySafe}

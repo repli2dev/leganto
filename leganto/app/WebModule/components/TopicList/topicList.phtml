@@ -8,7 +8,7 @@
 	<div class="info">
 	    <strong><a href="{plink Discussion:posts, $topic->getId(), PostSelector::TOPIC}">{$topic->name}</a></strong>
 	    <br />
-	    <a href="{plink User:default, $topic->userId}">{$topic->userName}</a>
+	    <a href="{plink User:default, $topic->userId}" title="{$topic->userName}">{$topic->userName|hardTruncate:20}</a>
 	    <br />
 	    {$topic->inserted|date}
 	</div>

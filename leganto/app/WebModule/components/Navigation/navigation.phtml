@@ -11,7 +11,7 @@
 		</ul>
 		{if $user != NULL}
 			<div id="user">
-				<a href="{plink User:default, $user->getId()}"><img class="icon" src="{$user->getId(), 50|userico}" /><span>{$user->nickname}</span></a>
+				<a href="{plink User:default, $user->getId()}" title="{$user->nickname}"><img class="icon" src="{$user->getId(), 50|userico}" /><span>{$user->nickname|hardTruncate:20}</span></a>
 				<a href="{plink Settings:}" title="Settings"><img src="/img/ico/settings.png" /><span>{_'Settings'}</span></a>
 				<a class="logout" href="{link logout}" title="{_'Log out'}"><img src="/img/ico/logout.png" /></a>
 			</div>
