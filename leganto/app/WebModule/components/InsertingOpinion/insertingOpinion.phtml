@@ -1,13 +1,2 @@
-<h1>{_'Your opinion'}</h1>
-<div class="bookInfo">
-		{_'Title'}: {$book->title}<br />
-		{if !empty($book->subtitle)}{_'Subtitle'}: {$book->subtitle}<br />{/if}
-		{_'Authors'}: <br /><em>
-			{foreach $authors AS $author}
-				{if $author->groupname != NULL}{$author->groupname} {/if}
-				{if $author->firstname != NULL}{$author->firstname}{/if}
-				{if $author->lastname != NULL}{$author->lastname}{/if}
-			{/foreach}</em><br />
-		{_'Language'}: {$language}<br />
-</div>
+<h1>{_'Your opinion on'} {$book->title}</h1>
 {widget addOpinionForm}

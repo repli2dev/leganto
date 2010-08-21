@@ -97,8 +97,8 @@ class InsertingOpinionComponent extends BaseComponent {
 		    5 => System::translate("Excellent")
 		);
 		$form->addSelect("rating", "Rating", $ratings)
-			->addRule(Form::FILLED, "Please select rating.")
-			->skipFirst();
+			->skipFirst()
+			->addRule(array($this,"validateRating"),"Please select rating.");
 		$form->addTextArea("content", "Your opinion", 50, 15);
 		$form->addText("tags", "Tags")->setOption("description", System::translate("(tags will be appended to current ones)"));
 		$languages = Leganto::languages()->getSelector()->findAll()->fetchPairs("id_language", "name");
@@ -122,6 +122,19 @@ class InsertingOpinionComponent extends BaseComponent {
 		}
 		$form->setDefaults($values);
 		return($form);
+	}
+
+	public function validateRating($control) {
+		$items = $control->getItems();
+		// Remove first item if we are asked to.
+		if($control->isFirstSkipped()) {
+			unset($items[key($items)]);
+		}
+		if(isSet($items[$control->getValue()])) {
+			return TRUE;
+		} else {
+			return FALSE;
+		}
 	}
 
 }
