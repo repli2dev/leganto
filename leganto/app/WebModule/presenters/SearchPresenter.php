@@ -18,6 +18,8 @@ class Web_SearchPresenter extends Web_BasePresenter {
 	public function renderDefault($query) {
 		$this->getTemplate()->title = System::translate("Book search");
 		$this->setPageTitle($this->getTemplate()->title);
+		$this->setPageDescription(System::translate("Search text phrase in all books."));
+		$this->setPageKeywords(System::translate("search, find, books"));
 		if(empty($query)){
 			$this->getTemplate()->message = System::translate("Enter text to search before you start searching!");
 			return;
@@ -39,6 +41,8 @@ class Web_SearchPresenter extends Web_BasePresenter {
 
 	public function renderAuthor($query) {
 		$this->getTemplate()->title = System::translate("Author search");
+		$this->setPageDescription(System::translate("Search text phrase in all authors."));
+		$this->setPageKeywords(System::translate("author, search, find"));
 		$this->setPageTitle($this->getTemplate()->title);
 		if(empty($query)){
 			$this->getTemplate()->message = System::translate("Enter text to search before you start searching!");
@@ -60,6 +64,8 @@ class Web_SearchPresenter extends Web_BasePresenter {
 
 	public function renderDiscussion($query) {
 		$this->getTemplate()->title = System::translate("Discussion search");
+		$this->setPageDescription(System::translate("Search text phrase in all discussions."));
+		$this->setPageKeywords(System::translate("discussion, search, find"));
 		$this->setPageTitle($this->getTemplate()->title);
 		if(empty($query)){
 			$this->getTemplate()->message = System::translate("Enter text to search before you start searching!");
@@ -78,6 +84,8 @@ class Web_SearchPresenter extends Web_BasePresenter {
 
 	public function renderUser($query) {
 		$this->getTemplate()->title = System::translate("User search");
+		$this->setPageDescription(System::translate("Search text phrase in all users."));
+		$this->setPageKeywords(System::translate("discussion, search, find"));
 		$this->setPageTitle($this->getTemplate()->title);
 		if(empty($query)){
 			$this->getTemplate()->message = System::translate("Enter text to search before you start searching!");
@@ -99,6 +107,8 @@ class Web_SearchPresenter extends Web_BasePresenter {
 
 	public function renderHelp($query) {
 		$this->getTemplate()->title = System::translate("Help search");
+		$this->setPageDescription(System::translate("Search text phrase in whole help section."));
+		$this->setPageKeywords(System::translate("help section, search, find"));
 		$this->setPageTitle($this->getTemplate()->title);
 		if(empty($query)){
 			$this->getTemplate()->message = System::translate("Enter text to search before you start searching!");

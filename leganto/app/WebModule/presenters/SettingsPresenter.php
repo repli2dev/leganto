@@ -22,6 +22,8 @@ class Web_SettingsPresenter extends Web_BasePresenter {
 			$this->unauthorized();
 		} else {
 			$this->setPageTitle(System::translate("Settings"));
+			$this->setPageDescription(System::translate("On this page you can set your profile, write something about you, fill age and sex to personalise."));
+			$this->setPageKeywords(System::translate("settings, profile, update, edit"));
 		}
 	}
 
@@ -30,6 +32,8 @@ class Web_SettingsPresenter extends Web_BasePresenter {
 			$this->unauthorized();
 		} else {
 			$this->setPageTitle(System::translate("Social networks"));
+			$this->setPageDescription(System::translate("On this page you can manage your social networks connected to this page."));
+			$this->setPageKeywords(System::translate("social networks, facebook, twitter, manage, edit, update, remove, add, connect"));
 			$data = Leganto::connections()->getSelector()->findAllFromUser(System::user()->id);
 
 			$used = array();
@@ -47,6 +51,8 @@ class Web_SettingsPresenter extends Web_BasePresenter {
 			$this->unauthorized();
 		} else {
 			$this->setPageTitle(System::translate("Delete connection"));
+			$this->setPageDescription(System::translate("On this page you can delete connection to social network."));
+			$this->setPageKeywords(System::translate("delete, social network, facebook, twitter, remove"));
 		}
 	}
 

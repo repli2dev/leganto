@@ -33,9 +33,13 @@ class Web_AuthorPresenter extends Web_BasePresenter {
 				$this->getComponent("insertingAuthor")->setAuthor($this->getAuthor());
 				$this->getComponent("insertingAuthor")->setBacklink("default", $author);
 				$this->setPageTitle(System::translate("Edit author"));
+				$this->setPageDescription(System::translate("On this page, you can edit already inserted author."));
+				$this->setPageKeywords(System::translate("edit, author, change"));
 			} else {
 				$this->getComponent("insertingAuthor")->setBacklink("Book:insert");
 				$this->setPageTitle(System::translate("Insert author"));
+				$this->setPageDescription(System::translate("On this page, you can insert new author. Please double check if author do not exist."));
+				$this->setPageKeywords(System::translate("insert, author, new"));
 			}
 		}
 	}
@@ -47,6 +51,8 @@ class Web_AuthorPresenter extends Web_BasePresenter {
 			Leganto::books()->getSelector()->findAllByAuthor($this->getAuthor())->applyLimit(12)
 		);
 		$this->setPageTitle($this->getTemplate()->author->fullname);
+		$this->setPageDescription(System::translate("Detail page of author, shows all books from this author, which had been already inserted on our website."));
+		$this->setPageKeywords(System::translate("detail, author, books of author"));
 	}
 
 	public function renderSuggest($term) {

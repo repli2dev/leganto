@@ -20,6 +20,8 @@ class Web_DefaultPresenter extends Web_BasePresenter {
 			$this->forward("feed");
 		}
 		$this->setPageTitle(System::translate("Main page"));
+		$this->setPageDescription(System::translate("Leganto is community webpage which aims to create and share informations about literature as valuable part of our culture. Join our effords."));
+		$this->setPageKeywords(System::translate("books, how to choose book, what friends reads, what my, culture, about books, opinions on books, leganto, čtenáři, preader"));
 	}
 	
 	public function renderFeed($all = FALSE) {
@@ -27,6 +29,8 @@ class Web_DefaultPresenter extends Web_BasePresenter {
 			$this->forward("default");
 		}
 		$this->setPageTitle(System::translate("News"));
+		$this->setPageDescription(System::translate("Feed page offers you updates from our web, you can watch adding opinions or discussion in one page."));
+		$this->setPageKeywords(System::translate("feed, wall, activity of users, followers."));
 		$source = Leganto::feed()->getSelector()->findAll();
 		$noEvents = false;
 		if (!$all) {
@@ -46,6 +50,8 @@ class Web_DefaultPresenter extends Web_BasePresenter {
 
 	public function renderUnauthorized() {
 		$this->setPageTitle(System::translate("Unauthorized"));
+		$this->setPageDescription(System::translate("Sorry, but you have tried to access protected page, please login."));
+		$this->setPageKeywords(System::translate("error, unauthorized"));
 	}
 
 	protected function createComponentIntroduction($name) {

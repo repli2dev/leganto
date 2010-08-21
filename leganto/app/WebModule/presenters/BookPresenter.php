@@ -16,16 +16,18 @@ class Web_BookPresenter extends Web_BasePresenter {
 		);
 		// Editions
 		$this->getComponent("editionList")->setSource(
-				Leganto::editions()->getSelector()->findAllByBook($this->getBook())
+			Leganto::editions()->getSelector()->findAllByBook($this->getBook())
 		);
 		// Related books
 		$this->getComponent("relatedBookList")->setSource(
-				Leganto::books()->getSelector()->findAllRelated($this->getBook())
+			Leganto::books()->getSelector()->findAllRelated($this->getBook())
 		);
 		// Edition?
 		$this->getComponent("bookView")->setEditionId($edition);
 		// Page title
 		$this->setPageTitle($this->getBook()->title);
+		$this->setPageDescription(System::translate("Detail of book where you can find most interesting data such as book cover, tags, opinions, editions, related books etc. "));
+		$this->setPageKeywords(System::translate("book, detail, graphs, opinions, tags, editions, isbn, pages, shelves, share to social network"));
 	}
 
 	public function actionAddEdition($book) {
@@ -34,6 +36,8 @@ class Web_BookPresenter extends Web_BasePresenter {
 		} else {
 			$this->getTemplate()->book = $this->getBook();
 			$this->setPageTitle(System::translate("Add edition"));
+			$this->setPageDescription(System::translate("On this page you can add new edition to this book"));
+			$this->setPageKeywords(System::translate("add, edition, insert"));
 		}
 	}
 
@@ -42,6 +46,8 @@ class Web_BookPresenter extends Web_BasePresenter {
 			$this->unauthorized();
 		} else {
 			$this->setPageTitle(System::translate("Edit edition"));
+			$this->setPageDescription(System::translate("On this page you can edit already inserted edition."));
+			$this->setPageKeywords(System::translate("edit, update, edition"));
 		}
 	}
 
@@ -51,9 +57,10 @@ class Web_BookPresenter extends Web_BasePresenter {
 		} else {
 			$this->getTemplate()->book = $this->getBook();
 			$this->setPageTitle(System::translate("Your opinion"));
+			$this->setPageDescription(System::translate("On this page you can insert or change your opinion on certain book."));
+			$this->setPageKeywords(System::translate("opinion, insert, add, book, your opinion"));
 		}
 	}
-
 
 	public function renderInsert($book, $related = FALSE) {
 		if ($related) {
@@ -62,8 +69,7 @@ class Web_BookPresenter extends Web_BasePresenter {
 			}
 			// Insert related book
 			$this->getComponent("insertingBook")->setRelatedBook($this->getBook());
-		}
-		else {
+		} else {
 			if (!Environment::getUser()->isAllowed(Resource::BOOK, Action::INSERT)) {
 				$this->unauthorized();
 			}
@@ -76,6 +82,8 @@ class Web_BookPresenter extends Web_BasePresenter {
 			}
 		}
 		$this->setPageTitle(System::translate("Insert book"));
+		$this->setPageDescription(System::translate("On this page you can insert new book, for adding to your logbook please use Add opinion."));
+		$this->setPageKeywords(System::translate("insert, add, new book"));
 	}
 
 	public function renderOpinions($book) {
@@ -86,15 +94,19 @@ class Web_BookPresenter extends Web_BasePresenter {
 				->where("[content] != ''")
 		);
 		$this->setPageTitle($this->getTemplate()->book->title);
+		$this->setPageDescription(System::translate("Opinions to certain book from all users, let's choose if it is worth to read!"));
+		$this->setPageKeywords(System::translate("opinion, other users, how to decide what to read"));
 	}
 
 	public function renderSimilar($book) {
 		$this->getTemplate()->book = $this->getBook();
 		$this->getComponent("similarBooks")->setLimit(0);
 		$this->getComponent("similarBooks")->setSource(
-				Leganto::books()->getSelector()->findAllSimilar($this->getTemplate()->book)->applyLimit(12)
+			Leganto::books()->getSelector()->findAllSimilar($this->getTemplate()->book)->applyLimit(12)
 		);
 		$this->setPageTitle($this->getTemplate()->book->title);
+		$this->setPageDescription(System::translate("Similar books to certain book, generated according to book tags. Choose what to read from what you have read!"));
+		$this->setPageKeywords(System::translate("similar books, tags, how to choose book"));
 	}
 
 	protected function createComponentBookView($name) {
@@ -136,6 +148,7 @@ class Web_BookPresenter extends Web_BasePresenter {
 	protected function createComponentSimilarBooks($name) {
 		return new BookListComponent($this, $name);
 	}
+
 	protected function createComponentShareBox($name) {
 		return new ShareBoxComponent($this, $name);
 	}
@@ -153,8 +166,7 @@ class Web_BookPresenter extends Web_BasePresenter {
 		}
 		if (empty($opinion) && Environment::getUser()->isAllowed(Resource::OPINION, Action::INSERT)) {
 			$submenu->addEvent("addOpinion", System::translate("Add opinion"), $this->getBook()->getId());
-		}
-		else if (!empty($opinion) && Environment::getUser()->isAllowed(Resource::create($opinion), Action::EDIT)) {
+		} else if (!empty($opinion) && Environment::getUser()->isAllowed(Resource::create($opinion), Action::EDIT)) {
 			$submenu->addEvent("addOpinion", System::translate("Change opinion"), $this->getBook()->getId());
 		}
 		if (Environment::getUser()->isAllowed(Resource::BOOK, Action::INSERT)) {
@@ -180,17 +192,17 @@ class Web_BookPresenter extends Web_BasePresenter {
 
 	public function renderSuggest($term) {
 		$cache = Environment::getCache("bookSuggest");
-		if(isSet($cache[md5($term)])) {
+		if (isSet($cache[md5($term)])) {
 			echo json_encode($cache[md5($term)]);
 		} else {
 			$results = array();
 			$items = Leganto::books()->getSelector()->suggest($term)->select("title")->applyLimit(10)->fetchAssoc("title");
-			foreach($items as $item) {
+			foreach ($items as $item) {
 				$results[] = $item->title;
 			}
 			echo json_encode($results);
 			$cache->save(md5($term), $results, array(
-					'expire' => time() + 60 * 60 * 6,	// expire in 6 hours
+			    'expire' => time() + 60 * 60 * 6, // expire in 6 hours
 			));
 		}
 		die; // Fast respond needed, not want to overload server
@@ -198,16 +210,16 @@ class Web_BookPresenter extends Web_BasePresenter {
 
 	public function renderTagSuggest($term) {
 		$cache = Environment::getCache("tagSuggest");
-		if(isSet($cache[md5($term)])) {
+		if (isSet($cache[md5($term)])) {
 			echo json_encode($cache[md5($term)]);
 		} else {
 			$items = Leganto::tags()->getSelector()->suggest($term)->select("name")->applyLimit(10)->fetchAssoc("name");
-			foreach($items as $item) {
+			foreach ($items as $item) {
 				$results[] = $item->name;
 			}
 			echo json_encode($results);
 			$cache->save(md5($term), $results, array(
-					'expire' => time() + 60 * 60 * 6,	// expire in 6 hours
+			    'expire' => time() + 60 * 60 * 6, // expire in 6 hours
 			));
 		}
 		die; // Fast respond needed, not want to overload server

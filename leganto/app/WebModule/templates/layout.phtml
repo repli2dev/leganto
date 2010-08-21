@@ -2,24 +2,25 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+		<meta name="description" content="{$pageDescription}" n:ifset="$pageDescription" />
+		<meta name="keywords" content="{$pageKeywords}" n:ifset="$pageKeywords" />
+		<meta name="authors" content="Jan Papoušek, Jan Drábek {_"and our community, altogether."}" />
+		
 		<link rel="stylesheet" type="text/css" href="/css/main.css" />
 		<link rel="stylesheet" type="text/css" href="/css/theme.css" />
 		<link rel="stylesheet" type="text/css" href="/css/forms.css" />
 		<link rel="stylesheet" type="text/css" href="/css/flashes.css" />
 		<link rel="stylesheet" type="text/css" href="/css/lists.css" />
-		<link rel="stylesheet" type="text/css" href="/css/jquery.ui.autocomplete.css" />
 
-		<!--[if lt IE 7.]>
-			<script defer type="text/javascript" src="/js/pngfix.js"></script>
-		<![endif]-->
 		<script type="text/javascript" src="/js/jquery-1.4.2.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="/css/jquery.ui.autocomplete.css" />
 		<script type="text/javascript" src="/js/jquery.external.js"></script>
 		<script type="text/javascript" src="/js/jquery-ui-1.8.2.custom.min.js"></script>
 		<script type="text/javascript" src="/js/jquery.nette.js"></script>
 		<script type="text/javascript" src="/js/jquery.ajaxform.js"></script>
 		<script type="text/javascript" src="/js/jquery.autocomplete.js"></script>
 		<script type="text/javascript" src="/other/texyla/js/texyla.js"></script>
-
 
 		<title>
 			{if $pageTitle}

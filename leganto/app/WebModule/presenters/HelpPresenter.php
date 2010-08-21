@@ -17,6 +17,8 @@
 class Web_HelpPresenter extends Web_BasePresenter {
 	public function renderDefault() {
 		$this->setPageTitle(System::translate("Help"));
+		$this->setPageDescription(System::translate("Are you lost in our page, or you just miss last puzzle? This page can answer nearly all questions."));
+		$this->setPageKeywords(System::translate("help, support, faq, how to, actions, how it works, tags, books, engine"));
 		$this->getTemplate()->data = Leganto::supportCategory()->getSelector()->findAllSortedByWeight();
 		$content = array();
 		foreach($this->getTemplate()->data as $item) {
@@ -31,12 +33,16 @@ class Web_HelpPresenter extends Web_BasePresenter {
 			$this->redirect("default");
 		}
 		$this->setPageTitle($this->getTemplate()->category->name);
+		$this->setPageDescription(System::translate("On this page you can find all pages which belong to choosed category. Select page with content which bother you."));
+		$this->setPageKeywords(System::translate("problems, help, support, answers, how it works"));
 		$this->getTemplate()->data = Leganto::supportText()->getSelector()->findAllByCategory($id);
 		
 	}
 
 	public function renderText($id) {
 		$this->getTemplate()->data = Leganto::supportText()->getSelector()->find($id);
+		$this->setPageDescription(System::translate("On this page you can find informations you were looking for, we hope ;-)"));
+		$this->setPageKeywords(System::translate("help, support, answer, how it works, what to do if"));
 		$this->setPageTitle($this->getTemplate()->data->name);
 	}
 

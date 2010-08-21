@@ -21,8 +21,28 @@ class Web_BasePresenter extends BasePresenter {
 	    $this->getComponent("navigation");
 	}
 
+	/**
+	 * Set title of page
+	 * @param string $content
+	 */
 	public function setPageTitle($pageTitle){
 		$this->getTemplate()->pageTitle = $pageTitle;
+	}
+
+	/**
+	 * Set keywords of page
+	 * @param string $content
+	 */
+	public function setPageKeywords($content){
+		$this->getTemplate()->pageKeywords = $content;
+	}
+
+	/**
+	 * Set description of page
+	 * @param string $content
+	 */
+	public function setPageDescription($content){
+		$this->getTemplate()->pageDescription = $content;
 	}
 
 	protected function createComponentFlashMessages($name) {
