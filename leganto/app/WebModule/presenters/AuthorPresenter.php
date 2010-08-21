@@ -7,7 +7,7 @@ class Web_AuthorPresenter extends Web_BasePresenter {
 
 	public function actionDelete($author) {
 		if (!Environment::getUser()->isAllowed(Resource::AUTHOR, Action::EDIT)) {
-		    $this->unauthorized();
+			$this->unauthorized();
 		}
 		if (Leganto::books()->getSelector()->findAllByAuthor($this->getAuthor())->count() != 0) {
 			$this->flashMessage("The author can not be deleted, because the there are some books which are written by this author.", "error");
@@ -16,8 +16,7 @@ class Web_AuthorPresenter extends Web_BasePresenter {
 		try {
 			$this->getAuthor()->delete();
 			$this->flashMessage("The author has been successfuly deleted.", "success");
-		}
-		catch(Exception $e) {
+		} catch (Exception $e) {
 			$this->unexpectedError($e);
 		}
 		$this->redirect("Default:default");
@@ -25,17 +24,16 @@ class Web_AuthorPresenter extends Web_BasePresenter {
 
 	public function renderInsert($author = NULL) {
 		if (empty($author) && !Environment::getUser()->isAllowed(Resource::AUTHOR, Action::INSERT)) {
-		    $this->unauthorized();
-		} else if(!Environment::getUser()->isAllowed(Resource::AUTHOR, Action::EDIT)) {
 			$this->unauthorized();
-		} else {			
+		} else if (!empty($author) && !Environment::getUser()->isAllowed(Resource::AUTHOR, Action::EDIT)) {
+			$this->unauthorized();
+		} else {
 			if (!empty($author)) {
 				$this->getTemplate()->author = $this->getAuthor();
 				$this->getComponent("insertingAuthor")->setAuthor($this->getAuthor());
 				$this->getComponent("insertingAuthor")->setBacklink("default", $author);
 				$this->setPageTitle(System::translate("Edit author"));
-			}
-			else {
+			} else {
 				$this->getComponent("insertingAuthor")->setBacklink("Book:insert");
 				$this->setPageTitle(System::translate("Insert author"));
 			}
@@ -53,16 +51,16 @@ class Web_AuthorPresenter extends Web_BasePresenter {
 
 	public function renderSuggest($term) {
 		$cache = Environment::getCache("authorSuggest");
-		if(isSet($cache[md5($term)])){
+		if (isSet($cache[md5($term)])) {
 			echo json_encode($cache[md5($term)]);
 		} else {
 			$items = Leganto::authors()->getSelector()->suggest($term)->select("full_name")->applyLimit(10)->fetchAssoc("full_name");
-			foreach($items as $item) {
+			foreach ($items as $item) {
 				$results[] = $item->full_name;
 			}
 			echo json_encode($results);
 			$cache->save(md5($term), $results, array(
-				'expire' => time() + 60 * 60 * 6,	// expire in 6 hours
+			    'expire' => time() + 60 * 60 * 6, // expire in 6 hours
 			));
 		}
 		die; // Fast respond needed, not want to overload server
@@ -83,7 +81,7 @@ class Web_AuthorPresenter extends Web_BasePresenter {
 		}
 		return $submenu;
 	}
-	
+
 	protected function createComponentBookList($name) {
 		return new BookListComponent($this, $name);
 	}
@@ -93,8 +91,7 @@ class Web_AuthorPresenter extends Web_BasePresenter {
 		if (!isset($this->author)) {
 			if ($this->getParam("author") != NULL) {
 				$this->author = Leganto::authors()->getSelector()->find($this->getParam("author"));
-			}
-			else {
+			} else {
 				$this->author = NULL;
 			}
 		}

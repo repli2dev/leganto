@@ -54,11 +54,14 @@ class Web_BookPresenter extends Web_BasePresenter {
 			$this->getComponent("insertingBook")->setRelatedBook($this->getBook());
 		}
 		else {
-			if (!Environment::getUser()->isAllowed(Resource::BOOK, Action::EDIT)) {
+			if (!Environment::getUser()->isAllowed(Resource::BOOK, Action::INSERT)) {
 				$this->unauthorized();
 			}
 			// Edit book
 			if (!empty($book)) {
+				if (!Environment::getUser()->isAllowed(Resource::BOOK, Action::EDIT)) {
+					$this->unauthorized();
+				}
 				$this->getComponent("insertingBook")->setBookToEdit($this->getBook());
 			}
 		}
@@ -137,7 +140,7 @@ class Web_BookPresenter extends Web_BasePresenter {
 		    $submenu->addEvent("addOpinion", System::translate("Change opinion"), $this->getBook()->getId());
 		}
 		if (Environment::getUser()->isAllowed(Resource::BOOK, Action::INSERT)) {
-		    $submenu->addevent("insert", System::translate("Insert related book"), array("book" => $this->getBook()->getId(), "connect" => TRUE));
+		    $submenu->addevent("insert", System::translate("Insert related book"), array("book" => $this->getBook()->getId(), "related" => TRUE));
 		}
 		if (Environment::getUser()->isAllowed(Resource::EDITION, Action::INSERT)) {
 		    $submenu->addEvent("addEdition", System::translate("Add new edition"), $this->getBook()->getId());
