@@ -117,6 +117,7 @@ a img {
 }
 #main {
 	padding-top: 20px;
+	padding-bottom: 20px;
 }
 #right {
 	width: 160px;
@@ -133,7 +134,6 @@ a img {
 	min-height: 500px;
 }
 #footer {
-	margin-top: 20px;
 	height: 47px;
 	clear: both;
 	border-top: 2px solid #F9E7A2;

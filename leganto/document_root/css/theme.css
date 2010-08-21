@@ -1,7 +1,7 @@
-body {
+/*************************** LAYOUT *******************************************/
+#main {
 	background-color: #cbe7eb;
 }
-/*************************** LAYOUT *******************************************/
 #content {
 	-webkit-border-radius: 10px;
 	-moz-border-radius: 10px;
