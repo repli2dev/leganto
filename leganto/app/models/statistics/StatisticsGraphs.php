@@ -48,7 +48,7 @@ class StatisticsGraphs
 	$chart->setAxes(array(GoogleChart::AXES_LEFT, GoogleChart::AXES_BOTTOM));
 	$chart->setSize(150, 300);
 	$chart->setLegend(array_keys($statistics));
-	$chart->setLabels(GoogleChart::AXES_BOTTOM, $statistics);
+	//$chart->setLabels(GoogleChart::AXES_BOTTOM, $statistics);
 	$chart->addDataSet($statistics);
 	//$chart->setName(System::translate("Ratings"));
 	return $chart;
@@ -86,7 +86,7 @@ class StatisticsGraphs
 	$chart->setAxes(array(GoogleChart::AXES_LEFT, GoogleChart::AXES_BOTTOM));
 	$chart->setSize(150, 300);
 	$chart->setLegend(array_keys($statistics));
-	$chart->setLabels(GoogleChart::AXES_BOTTOM, $statistics);
+	//$chart->setLabels(GoogleChart::AXES_BOTTOM, $statistics);
 	$chart->addDataSet($statistics);
 	return $chart;
     }
