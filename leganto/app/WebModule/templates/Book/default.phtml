@@ -2,6 +2,12 @@
 
 @{block #subcontent}
     @{widget bookView}
-    <h2>Opinions</h2>
+	<h2>{_'Tags'}</h2>
+	@{widget tagList}
+    <h2>{_'Opinions'}</h2>
     @{widget opinionList}
+	<h2>{_'Related books'}</h2>
+	{widget relatedBookList}
+	<h2>{_'Editions'}</h2>
+	@{widget editionList}
 {/block}

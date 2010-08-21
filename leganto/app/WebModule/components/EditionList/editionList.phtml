@@ -1,33 +1,4 @@
 {snippet editions}
-    <style>
-	#editions {
-	    overflow: auto;
-	    height: 100px;
-	    /* Set it so we could calculate the offsetLeft */
-	    position: relative;
-	}
-	#editions ul {
-	    margin: 0;
-	    padding: 0;
-	    display: block;
-	    height: 100px;
-	    /* Max width here, for users without Javascript */
-	    width: 1500px;
-	    list-style: none;
-	}
-	#editions ul li {
-	    display: block;
-	    float: left;
-	}
-	#editions ul li a {
-	    display: block;
-	    text-decoration: none;
-	}
-	#editions ul li a:hover img {
-	    filter:alpha(opacity=50);
-	    opacity: 0.5;
-	}
-    </style>
     {if !empty($editions)}
 	<script>
 	$(function(){
@@ -62,14 +33,14 @@
 	    <ul>
 		{foreach $editions AS $edition}
 		    <li>
-			<a href="{$component->getParent()->link('setEdition', $edition->getId())}">
+				<a href="{plink Book:default, $edition->idBookTitle, $edition->getId()}">
 			    <img class="icon" src="{$edition->image, 50|thumbnail}" width="50" height="80" />
 			</a>
 		    </li>
 		{/foreach}
 	    </ul>
 	</div>
-	<hr style="clear:both; visibility:hidden" />
+	<div class="clear"></div>
     {/if}
     @{if !$showWithoutCover}
 	@{if $hidden}
