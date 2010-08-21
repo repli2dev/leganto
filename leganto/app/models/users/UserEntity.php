@@ -56,24 +56,24 @@ class UserEntity extends AEntity
 	 */
 	protected $nickname;
 
-	/**
-	 * @Form(withResource=password, withoutResource=password)
-	 */
 	protected $password;
 
 	protected $new_pass_key;
 	
+	/**
+	 * @Translate(num_opinions)
+	 * @Skip(Save)
+	 */
+	protected $numberOfOpinions;
+
 	protected $about;
 	
-	/**
-	 * @Skip(Form)
-	 */
 	protected $role;
 
 	protected $sex;
 
 	/**
-	 * @Skip(Form)
+	 * @Skip(Save)
 	 */
 	protected $similarity;
 

@@ -1,29 +1,20 @@
-<style>
-    .user-item {
-	width: 30%;
-	float: left;
-	margin: 0 1% 20px 1%;
-    }
-    .user-item .content {
-	margin-left: 70px;
-    }
-    .user-item .info {
-	margin-left: 70px;
-    }
-</style>
-<div class="user-list">
+
+<div class="users list">
 {foreach $users AS $user}
-    <div class="user-item">
-	<img class="icon" src="{$user->getId(), 50|userico}" />
-	<div class="info">
-		<a href="{plink User:default, $user->getId()}" title="{$user->nickname}">{$user->nickname|hardTruncate:20}</a>
-	</div>
-	<div class="content">
-		    {!=String::truncate($user->about, 100)|texySafe|stripTags}
-	</div>
+    <div class="item">
+		<div class="info-side">
+			<img class="icon" src="{$user->getId(), 50|userico}" />
+		</div>
+		<div class="info-top">
+			<a href="{plink User:default, $user->getId()}" class="user-name" title="{$user->nickname}">{$user->nickname|hardTruncate:20}</a>
+		</div>
+		<div class="content">
+			{!=String::truncate($user->about, 100)|texySafe|stripTags}
+		</div>
+		<div class="clear"></div>
     </div>
-    {if $iterator->getCounter() % 3 == 0}<hr style="clear:both; visibility:hidden" />{/if}
+    {if $iterator->getCounter() % 3 == 0}<div class="clear"></div>{/if}
     {/foreach}
 </div>
-<hr style="clear:both; visibility:hidden" />
+<div class="clear"></div>
 {widget paginator}

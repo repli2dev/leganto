@@ -19,7 +19,7 @@ class UserSelector implements ISelector {
 	/* PUBLIC METHODS */
 
 	public function findAll() {
-		return dibi::dataSource("SELECT * FROM [user]");
+		return dibi::dataSource("SELECT * FROM [view_user]");
 	}
 
 	public function findAllFollowed(UserEntity $user) {
@@ -61,7 +61,7 @@ class UserSelector implements ISelector {
 		}
 		return Leganto::users()
 			->fetchAndCreate(
-				dibi::dataSource("SELECT * FROM [user] WHERE [email] = %s", $email)
+				dibi::dataSource("SELECT * FROM [view_user] WHERE [email] = %s", $email)
 		);
 	}
 
@@ -71,7 +71,7 @@ class UserSelector implements ISelector {
 		}
 		return Leganto::users()
 			->fetchAndCreate(
-				dibi::dataSource("SELECT * FROM [user] WHERE [nick] = %s", $nick)
+				dibi::dataSource("SELECT * FROM [view_user] WHERE [nick] = %s", $nick)
 		);
 	}
 
@@ -79,7 +79,7 @@ class UserSelector implements ISelector {
 	public function find($id) {
 		return Leganto::users()
 			->fetchAndCreate(
-				dibi::dataSource("SELECT * FROM [user] WHERE [id_user] = %i", $id)
+				dibi::dataSource("SELECT * FROM [view_user] WHERE [id_user] = %i", $id)
 		);
 	}
 
@@ -90,7 +90,7 @@ class UserSelector implements ISelector {
 		}
 		$keyword = "%" . $keyword . "%";
 
-		return dibi::dataSource("SELECT * FROM [user] WHERE
+		return dibi::dataSource("SELECT * FROM [view_user] WHERE
 				[email] LIKE %s", $keyword, " OR
 				[nick] LIKE %s", $keyword, "
 		");

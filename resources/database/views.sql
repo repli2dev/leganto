@@ -1,3 +1,12 @@
+DROP VIEW IF EXISTS `view_user`;
+CREATE VIEW `view_user` AS
+	SELECT
+		`user`.*,
+		COUNT(`opinion`.`id_opinion`)	AS `num_opinions`
+	FROM `user`
+	LEFT JOIN `opinion` USING(`id_user`)
+	GROUP BY `id_user`;
+
 DROP VIEW IF EXISTS `view_book`;
 CREATE VIEW `view_book` AS
 	SELECT
@@ -163,7 +172,7 @@ CREATE VIEW `view_similar_user` AS
 		`user_similarity`.`id_user_from`,
 		`user_similarity`.`value`	AS `similarity`
 	FROM `user_similarity`
-	INNER JOIN `user` ON `user_similarity`.`id_user_to` = `user`.`id_user`
+	INNER JOIN `view_user` AS `user` ON `user_similarity`.`id_user_to` = `user`.`id_user`
 	ORDER BY `similarity` DESC;
 	
 DROP VIEW IF EXISTS `view_book_search`;
@@ -227,14 +236,14 @@ DROP VIEW IF EXISTS `view_followed`;
 CREATE VIEW `view_followed` AS
     SELECT
 	`following`.`id_user`		AS `id_user_following`,
-	`user`.*
+	`view_user`.*
     FROM `following`
-    INNER JOIN `user` ON `following`.`id_user_followed` = `user`.`id_user`;
+    INNER JOIN `view_user` ON `following`.`id_user_followed` = `view_user`.`id_user`;
 
 DROP VIEW IF EXISTS `view_following`;
 CREATE VIEW `view_following` AS
     SELECT
 	`following`.`id_user_followed`,
-	`user`.*
+	`view_user`.*
     FROM `following`
-    INNER JOIN `user` ON `user`.`id_user` =  `following`.`id_user`
+    INNER JOIN `view_user` ON `view_user`.`id_user` =  `following`.`id_user`;

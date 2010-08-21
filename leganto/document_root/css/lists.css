@@ -99,3 +99,20 @@
 	font-size: 1.5em;
 	text-decoration: none;
 }
+/************************* USERS **********************************************/
+.users .item {
+	width: 28%;
+	float: left;
+	margin: 5px;
+	line-height: 1.4em;
+}
+.users user-name {
+	font-weight: bold;
+	text-decoration: none;
+}
+.users .item .info-side {
+	margin-right: 5px;
+}
+.users .item .content {
+	margin-left: 70px;
+}
