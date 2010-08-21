@@ -1,24 +1,10 @@
-<style>
-    #tags form label {
-	visibility: hidden;
-    }
-    #tags form label:after {
-	content: "";
-    }
-    #tags form p {
-	float: left;
-	width: 220px;
-    }
-    #tags form input[type="submit"] {
-	margin:0;
-    }
-</style>
+
 <div id="tags">
     {foreach $tags AS $tag}
-	<a href="{plink Search:default, $tag->name}" class="tag">{$tag->name}</a>
+		<a href="{plink Search:default, $tag->name}" class="tag">{$tag->name}</a>
     {/foreach}
     {if Environment::getUser()->isAllowed(Resource::TAG, Action::INSERT)}
-	{widget form}
-	<hr style="clear:both; visibility:hidden" />
+		{widget form}
+		<div class="clear"></div>
     {/if}
 </div>

@@ -176,6 +176,19 @@ a img {
 #tags a {
 	text-decoration: none;
 }
+#tags form label {
+	visibility: hidden;
+}
+#tags form label:after {
+	content: "";
+}
+#tags form p {
+	float: left;
+	width: 220px;
+}
+#tags form input[type="submit"] {
+	margin:0;
+}
 #cover {
 	float: left;
 	position: relative;
@@ -225,6 +238,11 @@ a img {
 	opacity: .5;
 	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
 	filter: alpha(opacity=50);
+}
+/************************** DISCUSSION ****************************************/
+#topic-insert {
+	margin-top: 30px;
+	border-top: 1px dotted #bbbbbb;
 }
 /************************** FEED **********************************************/
 #feed h2 {
@@ -360,6 +378,8 @@ a img {
 }
 /************************** OTHER *********************************************/
 .icon {
+	float: left;
+	margin: 0px 12px 6px 0; 
 	padding: 1px;
 	border: 1px solid #F5D25A;
 }

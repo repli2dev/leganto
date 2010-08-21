@@ -31,7 +31,6 @@
 }
 .list .date {
 	display: block;
-	margin-top: 5px;
 }
 .list .info-top {
 	padding-left: 10px;
@@ -44,13 +43,8 @@
 .list form {
 	margin-bottom: 40px;
 }
-/*********************** BOOKS ************************************************/
-.books .item {
-	width: 31%;
-	float: left;
-}
-/************************** OPINIONS ******************************************/
-.opinions .item, .posts .item {
+/*********************** EXCEPTIONS *******************************************/
+.opinions .item, .posts .item, .topics .item {
 	background: #f6f6f6;
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
@@ -59,7 +53,30 @@
 	padding: 10px;
 	margin-bottom: 10px;
 }
+.opinions .icon, .posts .icon, .topics .icon {
+	margin: 0;
+	margin-bottom: 5px;
+}
+/*********************** BOOKS ************************************************/
+.books .item {
+	width: 31%;
+	float: left;
+}
+/************************** OPINIONS ******************************************/
 .opinions .rating {
 	margin-right: 10px;
 	vertical-align: middle;
+}
+/************************** TOPICS ********************************************/
+.topics .item {
+	width: 44.5%;
+	float: left;
+	margin: 10px;
+}
+.topics .item a {
+	width: auto;
+}
+.topics .item .topic-name {
+	font-size: 1.5em;
+	text-decoration: none;
 }

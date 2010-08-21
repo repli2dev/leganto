@@ -17,7 +17,7 @@ h1 a:hover, h2 a:hover, h3 a:hover, h4 a:hover {
 	-webkit-border-radius: 10px;
 	-moz-border-radius: 10px;
 	border-radius: 10px;
-	border: 1px solid white;
+	border: 1px solid #8DA4A7;
 	background: white;
 }
 #footer {
