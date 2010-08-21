@@ -11,7 +11,6 @@ body {
 	color: #172C46;
 	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
 	font-size: 12px;
-	line-height: 1.4em;
 }
 h1, h2, h3, h4 {
 	margin: 15px 0;
@@ -21,6 +20,7 @@ h1, h2, h3, h4 {
 p {
 	padding: 10px 0;
 	font-family: Verdana, Geneva, sans-serif;
+	line-height: 1.4em;
 }
 h1 a, h2 a, h3 a, h4 a {
 	text-decoration: none;
