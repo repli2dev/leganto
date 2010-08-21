@@ -2,11 +2,11 @@
 
 @{block #subcontent}
     <div id="feed">
-	<h3>{_'Results'}</h3>
-	@{if isSet($message)}
-		<p>{$message}</p>
-	@{else}
-		@{widget searchList}
-	@{/if}
+		<h3>{_'Results'}</h3>
+		@{if isSet($message)}
+			<p>{$message}</p>
+		@{else}
+			@{widget searchList}
+		@{/if}
     </div>
 @{/block}

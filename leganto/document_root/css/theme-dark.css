@@ -1,0 +1,22 @@
+body {
+	background-color: #484139;
+}
+/*************************** LAYOUT *******************************************/
+#content {
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	border: 1px solid white;
+	background: white;
+}
+#footer {
+	background: #FDF7CD;
+}
+.box ul li a {
+	color: #F5D25A;
+	font-weight: bolder;
+	text-decoration: none;
+}
+.box ul li a:hover {
+	color: #4C3319;
+}

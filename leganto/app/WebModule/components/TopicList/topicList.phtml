@@ -1,7 +1,7 @@
 {if Environment::getUser()->isAllowed(Resource::TOPIC, Action::INSERT)}
     {widget form}
 {/if}
-<div cllass="list">
+<div class="list">
     {foreach $topics AS $topic}
     <div class="item">
 	<img class="icon" src="{$topic->userId, 50|userico}" />

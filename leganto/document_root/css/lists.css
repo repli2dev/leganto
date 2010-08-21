@@ -23,6 +23,11 @@
 .list .item .content, .list .item .info, .list .item .action {
     margin-left: 70px;
 }
+/*********************** BOOKS ************************************************/
+.books .item {
+	width: 31%;
+	float: left;
+}
 /*********************** OPINIONS *********************************************/
 .list .rating {
     text-align: right;

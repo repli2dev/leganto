@@ -1,13 +1,14 @@
 @{extends ../layout.phtml}
 
 @{block #content}
-
-<div id="left-column">
-    {widget submenu}
-</div>
-<div id="right-column">
-    {widget flashMessages}
-    @{block #subcontent}
-    @{/block}
-</div>
+	<div id="right">
+		{widget submenu}
+	</div>
+	<div id="left">
+		<div id="content">
+			{widget flashMessages}
+			@{block #subcontent}
+			@{/block}
+		</div>
+	</div>
 @{/block}

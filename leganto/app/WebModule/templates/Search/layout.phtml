@@ -2,14 +2,16 @@
 
 @{block #content}
 
-<div id="left-column">
+<div id="right">
     {widget submenu}
 </div>
-<div id="right-column">
-    {widget flashMessages}
-    <h2>{$title}</h2>
-    {widget searchForm}
-    @{block #subcontent}
-    @{/block}
+<div id="left">
+	<div id="content">
+		{widget flashMessages}
+		<h2>{$title}</h2>
+		{widget searchForm}
+		@{block #subcontent}
+		@{/block}
+	</div>
 </div>
 @{/block}

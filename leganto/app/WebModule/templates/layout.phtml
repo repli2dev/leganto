@@ -3,8 +3,9 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<link rel="stylesheet" type="text/css" href="/css/main.css" />
-                <link rel="stylesheet" type="text/css" href="/css/forms.css" />
-                <link rel="stylesheet" type="text/css" href="/css/flashes.css" />
+		<link rel="stylesheet" type="text/css" href="/css/theme-dark.css" />
+		<link rel="stylesheet" type="text/css" href="/css/forms.css" />
+		<link rel="stylesheet" type="text/css" href="/css/flashes.css" />
 		<link rel="stylesheet" type="text/css" href="/css/lists.css" />
 		<link rel="stylesheet" type="text/css" href="/css/jquery.ui.autocomplete.css" />
 
@@ -15,10 +16,9 @@
 		<script type="text/javascript" src="/js/jquery.external.js"></script>
 		<script type="text/javascript" src="/js/jquery-ui-1.8.2.custom.min.js"></script>
 		<script type="text/javascript" src="/js/jquery.nette.js"></script>
-                <script type="text/javascript" src="/js/jquery.ajaxform.js"></script>
+		<script type="text/javascript" src="/js/jquery.ajaxform.js"></script>
 		<script type="text/javascript" src="/js/jquery.autocomplete.js"></script>
-		<script type="text/javascript">
-	</script>
+		<script type="text/javascript" src="/other/texyla/js/texyla.js"></script>
 
 
 		<title>
@@ -33,13 +33,12 @@
 
 		<div id="header">
 			<div class="wrapper">
-				<div id="logo">
-					<img id="logo_image" src="/img/logo.png" alt="{_'Logo - opened book'}" />
-					<h1>Leganto</h1>
-					<span class="motto">{_'Our motto, short, simple'}</span>
-					
-				</div>
-           	{widget search}
+				<a href="{$baseDir}" title="Leganto" id="logo">
+					<span id="page-name">Leganto</span>
+					<span id="motto">{_'Our motto, short, simple'}</span>
+				</a>
+				{widget search}
+				<div class="clear"></div>
 			</div>
 		</div>
 
@@ -48,13 +47,13 @@
 		<div id="main">
 			<div class="wrapper">
                 @{block #content}
-			{_'No content'}
-		@{/block}
+					{_'No content'}
+				@{/block}
+				<div class="clear"></div>
 			</div>
 		</div>
 
 		<div id="footer">
-			<div class="wrapper"></div>
 		</div>
 
 	</body>

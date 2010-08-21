@@ -1,0 +1,71 @@
+body {
+	color: #667777;
+	background-color: #484139;
+	background-position: top center;
+	font: 62.5% Lucida Grande, Arial, sans-serif; /* Reset to 10px equivilent */
+	line-height: 2em;
+	padding: 20px 0 0;
+}
+a {
+	color: #336699;
+	outline: none;
+}
+a:hover {
+	text-decoration: none;
+}
+#wrapper {
+	font-size: 1.4em; /* 14px equiv */
+	margin: 0 auto;
+	text-align: left;
+	width: 472px;
+}
+#leganto {
+	line-height: 200px;
+}
+#leganto h1 {
+	color: #f5d25a;
+	font-size: 4em;
+	float: right;
+	margin: 0 20px 0 0;
+	padding: 0;
+}
+#leganto img {
+	height: 200px;
+	float: left;
+}
+#email {
+	display: block;
+	width: 80%;
+	margin: 0 auto;
+	text-align: center;
+	font-size: 2em;
+}
+#twitter_div, #contact {
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	border: 2px solid white;
+	background: white;
+	overflow: hidden;
+	padding: 26px 20px;
+	margin-bottom: 20px;
+}
+#twitter_div ul {
+	list-style: none;
+	margin: 10px 0;
+	padding: 0;
+	border-top: 1px dashed #D0ECF0;
+}
+#twitter_div ul li {
+	padding: 20px 0;
+	border-bottom: 1px dashed #D0ECF0;
+}
+.clear {
+	height: 0;
+	font-size: 0;
+	line-height: 0;
+	clear: both;
+	margin:0;
+	padding: 0;
+	outline: 0;
+}

@@ -1,6 +1,9 @@
 @{extends ../layout.phtml}
 
 @{block #content}
-    {widget flashMessages}
-    @{block #subcontent}{/block}
+	<div id="content">
+		{widget flashMessages}
+		@{block #subcontent}
+		@{/block}
+	</div>
 {/block}

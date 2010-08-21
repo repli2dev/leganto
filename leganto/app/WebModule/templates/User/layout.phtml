@@ -12,12 +12,14 @@
         }
     </style>
 
-    <div id="left-column">
-	@{widget submenu}
+    <div id="right">
+		@{widget submenu}
     </div>
-    <div id="right-column">
-	{widget flashMessages}
-	@{block #subcontent}
-	@{/block}
+    <div id="left">
+		<div id="content">
+			{widget flashMessages}
+			@{block #subcontent}
+			@{/block}
+		</div>
     </div>
 @{/block}

@@ -1,14 +1,16 @@
 @{extends ../layout.phtml}
 
 @{block #content}
-    <div id="left-column">
+    <div id="right">
 		@{if !empty($author)}
 			@{widget submenu}
 		@{/if}
     </div>
-    <div id="right-column">
-	{widget flashMessages}
-	@{block #subcontent}
-	@{/block}
+    <div id="left">
+		<div id="content">
+			{widget flashMessages}
+			@{block #subcontent}
+			@{/block}
+		</div>
     </div>
 @{/block}
