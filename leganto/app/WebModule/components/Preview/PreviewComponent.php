@@ -32,7 +32,7 @@ class PreviewComponent extends BaseComponent
 		$this->getTemplate()->books = Leganto::books()->fetchAndCreateAll(
 			Leganto::books()->getSelector()
 				->findAll()
-				->where("id_book IN %l", array_keys($this->getTemplate()->opinions))
+				->where("id_book_title IN %l", array_keys($this->getTemplate()->opinions))
 		);
 		$storage = new EditionImageStorage();
 		$this->getTemplate()->covers = array();
