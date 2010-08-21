@@ -16,9 +16,9 @@
     {/foreach}
 </div>
 {widget paginator}
-<div id="topic-insert">
-	<h2>{_'Create a new topic'}</h2>
-	{if Environment::getUser()->isAllowed(Resource::TOPIC, Action::INSERT)}
+{if Environment::getUser()->isAllowed(Resource::TOPIC, Action::INSERT)}
+	<div id="topic-insert">
+		<h2>{_'Create a new topic'}</h2>
 		{widget form}
-	{/if}
-</div>
+	</div>
+{/if}
