@@ -1,5 +1,5 @@
 body {
-	background-color: #484139;
+	background-color: #cbe7eb;
 }
 /*************************** LAYOUT *******************************************/
 #content {
@@ -13,10 +13,17 @@ body {
 	background: #FDF7CD;
 }
 .box ul li a {
-	color: #F5D25A;
+	color: #865A2C;
 	font-weight: bolder;
 	text-decoration: none;
 }
-.box ul li a:hover {
-	color: #4C3319;
+.box h3 {
+	color: white;
+	background: #336699;
+}
+.box li a:hover {
+	color: #4C3319;;
+}
+.box .active {
+	background-color: #F5D25A;
 }

@@ -132,14 +132,6 @@ a img {
 	margin-bottom: 20px;
 	min-height: 300px;
 }
-.box {
-    margin-top: 20px;
-}
-.box ul li {
-    display: block;
-	text-align: left;
-	padding: 5px 0 5px 10px;
-}
 #footer {
 	margin-top: 20px;
 	height: 47px;
@@ -312,14 +304,29 @@ a img {
 	background-position: -202px;
 }
 /************************** SUBMENU *******************************************/
-#submenu li a:hover, #actions li a:hover {
-	color: white;
+.box {
+    margin-top: 20px;
 }
-#submenu .active, #actions .active {
-	background-color: #865A2C;/*#484139;*/
+.box h3 {
+	font-size: 100%;
+	padding: 5px 0 5px 10px;
 }
-#share-box {
-	border-color: #9F1C1C;
+.box ul li {
+    display: block;
+	text-align: left;
+	padding: 5px 0 5px 10px;
+}
+#book-shelf-control form, #book-shelf-control p{
+	padding: 0;
+	margin: 0;
+}
+#book-shelf-control form label {
+	width: 0;
+	visibility: hidden;
+}
+#book-shelf-control form select {
+	margin: 0;
+	width: 100%;
 }
 .share-box-inner {
 	margin-left: 20px;
