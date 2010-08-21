@@ -10,22 +10,13 @@ class Web_UserPresenter extends Web_BasePresenter {
 			$this->flashMessage(System::translate("The user does not exist."), "error");
 			$this->redirect("Default:default");
 		}
-		$this->setPageTitle(System::translate("Profile").": ". $this->getUserEntity()->nickname);
-		$this->setPageDescription(System::translate("Profile page of user where you can track his or hers opinions, look into shelves, find followers and following users."));
-		$this->setPageKeywords(System::translate("followers, following, user profile, user detail, tracking user, users opinion"));
-	}
-
-	public function renderOpinions($user) {
-		$this->getTemplate()->user = $this->getUserEntity();
-		if ($this->getUserEntity() == null) {
-			$this->flashMessage(System::translate("The user does not exist."), "error");
-			$this->redirect("Default:default");
-		}
 		$this->getComponent("opinionList")->setSource(
 				Leganto::opinions()->getSelector()
 				->findAllByUser($this->getUserEntity())
 		);
-		$this->setPageTitle($this->getUserEntity()->nickname . ": " . System::translate("Opinions"));
+		$this->setPageTitle(System::translate("Profile and opinions").": ". $this->getUserEntity()->nickname);
+		$this->setPageDescription(System::translate("Profile page of user where you can track his or hers opinions, look into shelves, find followers and following users."));
+		$this->setPageKeywords(System::translate("followers, following, user profile, user detail, tracking user, users opinion"));
 	}
 
 	public function renderToogleFollow($user) {
@@ -33,18 +24,18 @@ class Web_UserPresenter extends Web_BasePresenter {
 			$this->redirect("Default:unauthorized");
 		} else {
 			if ($this->getUserEntity()->getId() == System::user()->getId()) {
-				$this->flashMessage(System::translate("You cannot follow yourself, you egoist!"));
+				$this->flashMessage(System::translate("You cannot follow yourself, you egoist!"),"error");
 			} else {
 				$result = Leganto::users()->getUpdater()->toogleFollow($this->getUserEntity()->getId());
 				if ($result == TRUE) {
 					System::log("FOLLOW USER '" . $this->getUserEntity()->getId() . "'");
-					$this->flashMessage(System::translate("This user is now followed by you."));
+					$this->flashMessage(System::translate("This user is now followed by you."),"success");
 				} else {
 					System::log("UNFOLLOW USER'" . $this->getUserEntity()->getId() . "'");
-					$this->flashMessage(System::translate("This user is no longer followed by you."));
+					$this->flashMessage(System::translate("This user is no longer followed by you."),"success");
 				}
 			}
-			$this->redirect("default", $id);
+			$this->redirect("default", $this->getUserEntity()->getId());
 		}
 	}
 
@@ -58,7 +49,9 @@ class Web_UserPresenter extends Web_BasePresenter {
 				Leganto::users()->getSelector()
 				->findAllFollowed($this->getUserEntity())
 		);
-		$this->setPageTitle($this->getUserEntity()->nickname . ": " . System::translate("Following"));
+		$this->setPageTitle(System::translate("Following") . ": " . $this->getUserEntity()->nickname);
+		$this->setPageDescription(System::translate("Users which certain user follow."));
+		$this->setPageKeywords(System::translate("followers, following, user profile, user detail"));
 	}
 
 	public function renderFollowers($user) {
@@ -71,7 +64,9 @@ class Web_UserPresenter extends Web_BasePresenter {
 				Leganto::users()->getSelector()
 				->findAllFollowing($this->getUserEntity())
 		);
-		$this->setPageTitle($this->getUserEntity()->nickname . ": " . System::translate("Followers"));
+		$this->setPageTitle(System::translate("Followers") . ": " . $this->getUserEntity()->nickname);
+		$this->setPageDescription(System::translate("Users which follow this user."));
+		$this->setPageKeywords(System::translate("followers, following, user profile, user detail"));
 	}
 
 	public function renderEditShelf($user, $shelf) {
@@ -85,7 +80,9 @@ class Web_UserPresenter extends Web_BasePresenter {
 			$this->redirect("default");
 		}
 		$this->getComponent("insertingShelf")->setShelf($shelfEntity);
-		$this->setPageTitle($this->getUserEntity()->nickname . ": " . System::translate("Edit shelf"));
+		$this->setPageTitle(System::translate("Edit shelf") . ": " . $this->getUserEntity()->nickname);
+		$this->setPageDescription(System::translate("On this page you can edit shelf."));
+		$this->setPageKeywords(System::translate("book shelf, edit, update, change"));
 	}
 
 	public function renderInsertShelf($user, $backlinkUri = NULL) {
@@ -96,12 +93,16 @@ class Web_UserPresenter extends Web_BasePresenter {
 		if (!empty($backlinkUri)) {
 			$this->getComponent("insertingShelf")->setBacklink($backlinkUri);
 		}
-		$this->setPageTitle($this->getUserEntity()->nickname . ": " . System::translate("Insert a new shelf"));
+		$this->setPageTitle(System::translate("Insert a new shelf") . ": " . $this->getUserEntity()->nickname);
+		$this->setPageDescription(System::translate("On this page you can insert new shelf."));
+		$this->setPageKeywords(System::translate("book shelf, insert, new"));
 	}
 
 	public function renderShelves($user) {
 		$this->getTemplate()->user = $this->getUserEntity();
-		$this->setPageTitle($this->getUserEntity()->nickname . ": " . System::translate("Shelves"));
+		$this->setPageTitle(System::translate("Shelves") . ": " . $this->getUserEntity()->nickname);
+		$this->setPageDescription(System::translate("On this page you see shelves of user and book in them, owners can re-order theirs book."));
+		$this->setPageKeywords(System::translate("book shelves, update, reorder, manipulation, books"));
 	}
 
 	public function renderIcon($id) {
@@ -180,8 +181,7 @@ class Web_UserPresenter extends Web_BasePresenter {
 
 	protected function createComponentSubmenu($name) {
 		$submenu = new SubmenuComponent($this, $name);
-		$submenu->addLink("default", System::translate("General info"), $this->getUserEntity()->getId());
-		$submenu->addLink("opinions", System::translate("Opinions"), $this->getUserEntity()->getId());
+		$submenu->addLink("default", System::translate("Info and opinions"), $this->getUserEntity()->getId());
 		$submenu->addLink("shelves", System::translate("Shelves"), $this->getUserEntity()->getId());
 		$submenu->addLink("following", System::translate("Following"), $this->getUserEntity()->getId());
 		$submenu->addLink("followers", System::translate("Followers"), $this->getUserEntity()->getId());

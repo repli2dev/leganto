@@ -1,10 +1,11 @@
 <?php
+
 /**
  * The source file is subject to the license located on web
  * "http://code.google.com/p/preader/".
  *
  * @copyright	Copyright (c) 2009 Jan Papoušek (jan.papousek@gmail.com),
- *				Jan Drábek (repli2dev@gmail.com)
+ * 				Jan Drábek (repli2dev@gmail.com)
  * @link		http://code.google.com/p/preader/
  * @license		http://code.google.com/p/preader/
  */
@@ -15,26 +16,27 @@
  * @version		$Id$
  */
 class Web_SearchPresenter extends Web_BasePresenter {
+
 	public function renderDefault($query) {
 		$this->getTemplate()->title = System::translate("Book search");
 		$this->setPageTitle($this->getTemplate()->title);
 		$this->setPageDescription(System::translate("Search text phrase in all books."));
 		$this->setPageKeywords(System::translate("search, find, books"));
-		if(empty($query)){
+		if (empty($query)) {
 			$this->getTemplate()->message = System::translate("Enter text to search before you start searching!");
 			return;
 		}
 		$source = Leganto::books()->getSelector()->search($query);
 		// If there is only one result then redirect to it
 		$count = $source->count();
-		if($count == 0){
+		if ($count == 0) {
 			$this->getTemplate()->message = System::translate("Nothing was found for your query, please be less specific.");
 			return;
 		} else
-		if($count == 1) {
+		if ($count == 1) {
 			$row = $source->fetch();
 
-			$this->redirect('Book:Default',$row->id_book_title);
+			$this->redirect('Book:Default', $row->id_book_title);
 		}
 		$this->getComponent("searchList")->setSource($source);
 	}
@@ -44,20 +46,20 @@ class Web_SearchPresenter extends Web_BasePresenter {
 		$this->setPageDescription(System::translate("Search text phrase in all authors."));
 		$this->setPageKeywords(System::translate("author, search, find"));
 		$this->setPageTitle($this->getTemplate()->title);
-		if(empty($query)){
+		if (empty($query)) {
 			$this->getTemplate()->message = System::translate("Enter text to search before you start searching!");
 			return;
 		}
 		$source = Leganto::authors()->getSelector()->search($query);
 		$count = $source->count();
-		if($count == 0){
+		if ($count == 0) {
 			$this->getTemplate()->message = System::translate("Nothing was found for your query, please be less specific.");
 			return;
 		} else
-		if($count == 1) {
+		if ($count == 1) {
 			$row = $source->fetch();
 
-			$this->redirect('Author:default',$row->id_author);
+			$this->redirect('Author:default', $row->id_author);
 		}
 		$this->getComponent("authorList")->setSource($source);
 	}
@@ -67,13 +69,13 @@ class Web_SearchPresenter extends Web_BasePresenter {
 		$this->setPageDescription(System::translate("Search text phrase in all discussions."));
 		$this->setPageKeywords(System::translate("discussion, search, find"));
 		$this->setPageTitle($this->getTemplate()->title);
-		if(empty($query)){
+		if (empty($query)) {
 			$this->getTemplate()->message = System::translate("Enter text to search before you start searching!");
 			return;
 		}
 		$source = Leganto::posts()->getSelector()->search($query);
 		$count = $source->count();
-		if($count == 0){
+		if ($count == 0) {
 			$this->getTemplate()->message = System::translate("Nothing was found for your query, please be less specific.");
 			return;
 		}
@@ -87,20 +89,20 @@ class Web_SearchPresenter extends Web_BasePresenter {
 		$this->setPageDescription(System::translate("Search text phrase in all users."));
 		$this->setPageKeywords(System::translate("discussion, search, find"));
 		$this->setPageTitle($this->getTemplate()->title);
-		if(empty($query)){
+		if (empty($query)) {
 			$this->getTemplate()->message = System::translate("Enter text to search before you start searching!");
 			return;
 		}
 		$source = Leganto::users()->getSelector()->search($query);
 		$count = $source->count();
-		if($count == 0){
+		if ($count == 0) {
 			$this->getTemplate()->message = System::translate("Nothing was found for your query, please be less specific.");
 			return;
-		}  else
-		if($count == 1) {
+		} else
+		if ($count == 1) {
 			$row = $source->fetch();
 
-			$this->redirect('User:default',$row->id_user);
+			$this->redirect('User:default', $row->id_user);
 		}
 		$this->getComponent("userList")->setSource($source);
 	}
@@ -110,21 +112,21 @@ class Web_SearchPresenter extends Web_BasePresenter {
 		$this->setPageDescription(System::translate("Search text phrase in whole help section."));
 		$this->setPageKeywords(System::translate("help section, search, find"));
 		$this->setPageTitle($this->getTemplate()->title);
-		if(empty($query)){
+		if (empty($query)) {
 			$this->getTemplate()->message = System::translate("Enter text to search before you start searching!");
 			return;
 		}
 		$source = Leganto::supportText()->getSelector()->search($query);
 		// If there is only one result then redirect to it
 		$count = $source->count();
-		if($count == 0){
+		if ($count == 0) {
 			$this->getTemplate()->message = System::translate("Nothing was found for your query, please be less specific.");
 			return;
 		} else
-		if($count == 1) {
+		if ($count == 1) {
 			$row = $source->fetch();
 
-			$this->redirect('Help:text',$row->id_support_text);
+			$this->redirect('Help:text', $row->id_support_text);
 		}
 		$this->getComponent("helpList")->setSource($source);
 	}
@@ -144,20 +146,25 @@ class Web_SearchPresenter extends Web_BasePresenter {
 	protected function createComponentSearchList($name) {
 		return new BookListComponent($this, $name);
 	}
+
 	protected function createComponentHelpList($name) {
 		return new HelpListComponent($this, $name);
 	}
+
 	protected function createComponentAuthorList($name) {
 		return new AuthorListComponent($this, $name);
 	}
+
 	protected function createComponentPostList($name) {
 		return new PostListComponent($this, $name);
 	}
+
 	protected function createComponentUserList($name) {
 		return new UserListComponent($this, $name);
 	}
+
 	protected function createComponentSearchForm($name) {
-		return new SearchComponent($this, $name,FALSE);
+		return new SearchComponent($this, $name, FALSE);
 	}
 
 }
