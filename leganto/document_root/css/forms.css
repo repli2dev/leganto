@@ -1,4 +1,4 @@
-formUnder/***************************** DEFAULT ****************************************/
+/***************************** DEFAULT ****************************************/
 form {
 	font: "Trebuchet MS", Arial, Helvetica, sans-serif;
 }
@@ -159,7 +159,7 @@ ul.error {
 	width: auto;
 }
 
-/***************************** POSTS *****************************************/
+/***************************** POSTS ******************************************/
 #post-form-wrapper label {
 	display: none;
 }
@@ -173,5 +173,5 @@ ul.error {
 }
 #post-form-wrapper [type="submit"] {
 	float: right;
-	margin-top: 20px;
+	margin-top: 5px;
 }

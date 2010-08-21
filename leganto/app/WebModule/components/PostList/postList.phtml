@@ -1,4 +1,4 @@
-<div class="list">
+<div class="posts list">
     @{if Environment::getUser()->isAuthenticated() && $enablePosting}
 	<div id="post-form-wrapper">
 	    @{widget form}
@@ -6,27 +6,31 @@
     @{/if}
 
     @{foreach $posts AS $post}
-	<hr style="clear:both; visibility:hidden; margin: 0;" />
-	<div class="item">
-	    {if Environment::getUser()->isAllowed(Resource::create($post), Action::EDIT)}
-	    <div class="control">
-		{assign confirm => System::translate("Are you sure you want to delete a discussion post?")}
-		{assign link    => $component->link('delete', $post->getId())}
-		<a onclick="return confirm('{!$confirm}')" href="{!$link}" title="{_'Delete'}">
-		    <img src="{$baseUri . 'img/ico/delete.png'}" alt="{_'Delete'}" />
-		</a>
-	    </div>
-	    {/if}
-	    <img class="icon" src="{$post->user, 50|userico}" />
-	    <div class="info">
-		@{$post->inserted|date} | <strong class="author"><a href="{plink User:default, $post->user}" title="{$post->userName}">{$post->userName|hardTruncate:20}</a></strong>
-	    </div>
-	    <div class="content">
-			{!=$post->content|texySafe}
-	    </div>
-	</div>
+		<div class="clear"></div>
+		<div class="item">
+			<div class="info-side">
+				<img class="icon" src="{$post->user, 50|userico}" />
+				<span class="date">{$post->inserted|date}</span>
+			</div>
+			<div clas="info-top">
+				<a href="{plink User:default, $post->user}" title="{$post->userName}">{$post->userName|hardTruncate, 20}</a>
+				{if Environment::getUser()->isAllowed(Resource::create($post), Action::EDIT)}
+					<div class="control">
+						{assign confirm => System::translate("Are you sure you want to delete a discussion post?")}
+						{assign link    => $component->link('delete', $post->getId())}
+						<a onclick="return confirm('{!$confirm}')" href="{!$link}" title="{_'Delete'}">
+							<img src="{$baseUri . 'img/ico/delete.png'}" alt="{_'Delete'}" />
+						</a>
+					</div>
+				{/if}
+			</div>
+			<div class="content">
+				{!=$post->content|texySafe}
+			</div>
+			<div class="clear"></div>
+		</div>
     @{/foreach}
-    
+
 </div>
 
 @{widget paginator}

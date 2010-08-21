@@ -1,5 +1,5 @@
 {snippet opinion-list}
-<div class="list">
+<div class="opinions list">
 
     {if !empty($sorting)}
     <table class="navigation">
@@ -12,46 +12,45 @@
     {/if}
 
     @{foreach $opinions AS $opinion}
-    <div class="item">
-
-        {if $showedInfo == 'user'}
-            <img class="icon" src="{$opinion->userId, 50|userico}" />
-        
-            <div class="info">
-                <img class="rating" src="{$baseUri}img/rating_{$opinion->rating}.png" />
-                {$opinion->inserted|date} | <a href="{plink User:default, $opinion->userId}">{$opinion->userName}</a>
-            </div>
-        {else}
-            <img class="icon" src="{$opinion->bookTitleId, 50|bookcover}" />
-            
-            <div class="info">
-                <img class="rating" src="{$baseUri}img/rating_{$opinion->rating}.png" />
-                {$opinion->inserted|date} | <a href="{plink Book:default, $opinion->bookTitleId}">{$opinion->bookTitle}</a>
-            </div>
-        {/if}
-
-        <div class="content">
-            {!=$opinion->content|texySafe}
-        </div>
-
-	<hr style="clear:both; visibility:hidden; margin:0;" />
-	
-        @{if isset($showedOpinion) && $showedOpinion == $opinion->getId()}
-            @{widget postList}
-	@{else}
-	    @{if isset($discussions[$opinion->getId()])}
-		<a href="{link showPosts!, $opinion->getId()}" class="action ajax">{_'Show %d comments',$discussions[$opinion->getId()]}</a>
-	    @{else}
-		@{if Environment::getUser()->isAuthenticated()}
-		    <a href="{link showPosts!, $opinion->getId()}" class="action ajax">{_'Reply'}</a>
-		@{/if}
-	    @{/if}
-	@{/if}
-
-    </div>
-
-    <hr style="clear:both; visibility:hidden;" />
-    
+		<div class="item">
+			<div class="info-side">
+				{if $showedInfo == 'user'}
+					<img class="icon" src="{$opinion->userId, 50|userico}" />
+				{else}
+					<img class="icon" src="{$opinion->bookTitleId, 50|bookcover}" />
+				{/if}
+				<span class="date">{$opinion->inserted|date}</span>
+			</div>
+			<div class="info-top">
+				<img class="rating" src="{$baseUri}img/rating_{$opinion->rating}.png" />
+				{if $showedInfo == 'user'}
+					<a href="{plink User:default, $opinion->userId}">{$opinion->userName}</a>
+				{else}
+					<a href="{plink Book:default, $opinion->bookTitleId}">{$opinion->bookTitle}</a>
+				{/if}
+			</div>
+			<div class="content">
+				{!=$opinion->content|texySafe}
+			</div>
+			<div class="info-bottom">
+				@{if $showedOpinion != $opinion->getId()}
+					@{if isset($discussions[$opinion->getId()])}
+						<a href="{link showPosts!, $opinion->getId()}" class="control ajax">{_'Show %d comments',$discussions[$opinion->getId()]}</a>
+					@{else}
+						@{if Environment::getUser()->isAuthenticated()}
+							<a href="{link showPosts!, $opinion->getId()}" class="control ajax">{_'Reply'}</a>
+						@{/if}
+					@{/if}
+				@{/if}
+			</div>
+			<div class="clear"></div>
+		</div>
+		<div class="opinion-posts">
+			@{if isset($showedOpinion) && $showedOpinion == $opinion->getId()}
+				@{widget postList}
+			@{/if}
+		</div>
+		<div class="clear"></div>
     @{/foreach}
 
     {if ($showedPaginator)}

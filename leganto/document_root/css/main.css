@@ -346,8 +346,6 @@ a img {
 }
 /************************** OTHER *********************************************/
 .icon {
-	float: left;
-	margin: 0px 12px 6px 0;
 	padding: 1px;
 	border: 1px solid #F5D25A;
 }

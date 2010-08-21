@@ -7,6 +7,7 @@
 }
 .list .item .control {
     float: right;
+	text-align: right;
 }
 .list .item .control a {
     margin-right: 10px;
@@ -20,16 +21,43 @@
 .list .navigation th {
     padding: 10px;
 }
-.list .item .content, .list .item .info, .list .item .action {
-    margin-left: 70px;
+.list .item .content{
+    margin-left: 75px;
+}
+.list .info-side {
+	float: left;
+	margin-right: 20px;
+	height: 100%;
+}
+.list .date {
+	display: block;
+	margin-top: 5px;
+}
+.list .info-top {
+	padding-left: 10px;
+}
+.list form * {
+	margin: 0;
+	padding: 0;
+}
+.list form {
+	margin-bottom: 40px;
 }
 /*********************** BOOKS ************************************************/
 .books .item {
 	width: 31%;
 	float: left;
 }
-/*********************** OPINIONS *********************************************/
-.list .rating {
-    text-align: right;
-    float:right;
+/************************** OPINIONS ******************************************/
+.opinions .item, .posts .item {
+	background: #f6f6f6;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	border: 2px solid #f6f6f6;
+	padding: 10px;
+	margin-bottom: 10px;
+}
+.opinions .rating {
+	margin-right: 10px;
 }
