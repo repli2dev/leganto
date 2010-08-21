@@ -57,7 +57,7 @@ class StatisticsGraphs {
 		$res = dibi::query("
 	    SELECT
 		COUNT([id_user])	    AS [number],
-		IFNULL([sex], 'unknown')    AS [sex]
+		IFNULL([sex], 'unspecified')    AS [sex]
 	    FROM [opinion]
 	    INNER JOIN [user] USING([id_user])
 	    WHERE [id_book_title] = %i", $book->getId(),
