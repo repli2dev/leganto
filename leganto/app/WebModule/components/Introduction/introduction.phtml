@@ -1,93 +1,95 @@
 {snippet introduction-block}
-	@{if isset($hint)}
-	<div id="note">
-	    <h1>{_'Did you know?'}</h1>
-		<img alt="Tip" src="img/ico/light_bulb.png" />
-        <div class="leftspacer">&nbsp;</div>
-        <div class="rightspacer">&nbsp;</div>
-	    {$hint->text}
-	</div>
-	@{else}
-            <div id="introduction-form-wrapper">
-		@{if $state == "login"}
-			{if $flashes}
-			<ul>
-				{foreach $flashes as $flash}
-					<li>{$flash->message}</li>
-				{/foreach}
-			</ul>
-			{/if}
-			@{widget "loginForm"}
-		@{/if}
-		@{if $state == "facebook"}
-			<div>
-			@{if $enabled}
-				<h1>{_'Do you have account?'}</h1>
-				<p><strong>{_'Yes...'}</strong> {_'If you want to connect this facebook account please log in.'}</p>
-				@{widget "facebookForm"}
-				<p><strong>{_'No...'}</strong> {_'If you want to create new account please click on button Create new which log in you automatically in just a second.'}</p>
+	<div id="introduction">
+		@{if isset($hint)}
+		<div id="note">
+			<h1>{_'Did you know?'}</h1>
+			<img alt="Tip" src="img/ico/light_bulb.png" />
+			<div class="leftspacer">&nbsp;</div>
+			<div class="rightspacer">&nbsp;</div>
+			{$hint->text}
+		</div>
+		@{else}
+				<div id="introduction-form-wrapper">
+			@{if $state == "login"}
+				{if $flashes}
 				<ul>
 					{foreach $flashes as $flash}
 						<li>{$flash->message}</li>
 					{/foreach}
 				</ul>
-				<a href="{link signUpViaFacebook}" id="signup_button">{_'Create new'}</a>
-			@{else}
-				<h1>{_'Temporary Error'}</h1>
-				<p>{_'Facebook functions are not accessible right now. Please try it later.'}</p>
+				{/if}
+				@{widget "loginForm"}
 			@{/if}
-			</div>
-		@{/if}
-		@{if $state == "twitter"}
-			<div>
-			@{if $enabled}
-				<h1>{_'Do you have account?'}</h1>
-				<p><strong>{_'Yes...'}</strong> {_'If you want to connect this twitter account please log in.'}</p>
-				@{widget "twitterForm"}
-				<p><strong>{_'No...'}</strong> {_'If you want to create new account please click on button Create new which log in you automatically in just a second.'}</p>
+			@{if $state == "facebook"}
+				<div>
+				@{if $enabled}
+					<h1>{_'Do you have account?'}</h1>
+					<p><strong>{_'Yes...'}</strong> {_'If you want to connect this facebook account please log in.'}</p>
+					@{widget "facebookForm"}
+					<p><strong>{_'No...'}</strong> {_'If you want to create new account please click on button Create new which log in you automatically in just a second.'}</p>
+					<ul>
+						{foreach $flashes as $flash}
+							<li>{$flash->message}</li>
+						{/foreach}
+					</ul>
+					<a href="{link signUpViaFacebook}" id="signup_button">{_'Create new'}</a>
+				@{else}
+					<h1>{_'Temporary Error'}</h1>
+					<p>{_'Facebook functions are not accessible right now. Please try it later.'}</p>
+				@{/if}
+				</div>
+			@{/if}
+			@{if $state == "twitter"}
+				<div>
+				@{if $enabled}
+					<h1>{_'Do you have account?'}</h1>
+					<p><strong>{_'Yes...'}</strong> {_'If you want to connect this twitter account please log in.'}</p>
+					@{widget "twitterForm"}
+					<p><strong>{_'No...'}</strong> {_'If you want to create new account please click on button Create new which log in you automatically in just a second.'}</p>
+					<ul>
+						{foreach $flashes as $flash}
+							<li>{$flash->message}</li>
+						{/foreach}
+					</ul>
+					<a href="{link signUpViaTwitter}" id="signup_button">{_'Create new'}</a>
+				@{else}
+					<h1>{_'Temporary Error'}</h1>
+					<p>{_'Twitter functions are not accessible right now. Please try it later.'}</p>
+				@{/if}
+				</div>
+			@{/if}
+			@{if $state == "signup"}
+				@{widget "signUpForm"}
+			@{/if}
+			@{if $state == "forgotten"}
+				@{widget "forgottenForm"}
+			@{/if}
+			@{if $state == "renew"}
+				{if $flashes}
 				<ul>
 					{foreach $flashes as $flash}
 						<li>{$flash->message}</li>
 					{/foreach}
 				</ul>
-				<a href="{link signUpViaTwitter}" id="signup_button">{_'Create new'}</a>
-			@{else}
-				<h1>{_'Temporary Error'}</h1>
-				<p>{_'Twitter functions are not accessible right now. Please try it later.'}</p>
+				{/if}
+				@{widget "renewForm"}
 			@{/if}
-			</div>
+				</div>
 		@{/if}
-		@{if $state == "signup"}
-			@{widget "signUpForm"}
-		@{/if}
-		@{if $state == "forgotten"}
-			@{widget "forgottenForm"}
-		@{/if}
-		@{if $state == "renew"}
-			{if $flashes}
-			<ul>
-				{foreach $flashes as $flash}
-					<li>{$flash->message}</li>
-				{/foreach}
-			</ul>
-			{/if}
-			@{widget "renewForm"}
-		@{/if}
-            </div>
-	@{/if}
 
-	@{if $state != "facebook" && $state != "twitter"}
-		<div id="info">
-		    <h1>{_'Welcome!'}</h1>
-		    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Quis nostrud exerci tation ex ea commodo consequat.</p>
-		</div>
-		<div id="getin">
-		    <a href="{link changeState,'signup'}" class="ajax" id="signup_button">{_'Sign up'}</a>
-		    <a href="{link changeState,'login'}" class="ajax" id="login_button">{_'Log in'}</a>
-		</div>
-		<hr />
-		    <a href="{link changeState, 'facebook'}">{_'Login with Facebook'}</a> |
-		    <a href="{link changeState, 'twitter'}">{_'Login with Twitter'}</a> | 
-		    <a href="{link changeState, 'forgotten'}" class="">{_'Forgotten password'}</a>
-	@{/if}
+		@{if $state != "facebook" && $state != "twitter"}
+			<div id="info">
+				<h1>{_'Welcome!'}</h1>
+				<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Quis nostrud exerci tation ex ea commodo consequat.</p>
+			</div>
+			<div id="getin">
+				<a href="{link changeState,'signup'}" class="ajax" id="signup_button">{_'Sign up'}</a>
+				<a href="{link changeState,'login'}" class="ajax" id="login_button">{_'Log in'}</a>
+			</div>
+			<div class="clear"></div>
+			<a href="{link changeState, 'facebook'}">{_'Login with Facebook'}</a> |
+			<a href="{link changeState, 'twitter'}">{_'Login with Twitter'}</a> |
+			<a href="{link changeState, 'forgotten'}" class="">{_'Forgotten password'}</a>
+		@{/if}
+	</div>
 {/snippet}

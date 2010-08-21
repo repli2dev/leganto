@@ -130,7 +130,7 @@ a img {
 	overflow: hidden;
 	padding: 26px 20px;
 	margin-bottom: 20px;
-	min-height: 300px;
+	min-height: 500px;
 }
 #footer {
 	margin-top: 20px;
@@ -208,8 +208,9 @@ a img {
 	text-decoration: none;
 }
 #editions ul li a:hover img {
-	filter:alpha(opacity=50);
-	opacity: 0.5;
+	opacity: .5;
+	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+	filter: alpha(opacity=50);
 }
 /************************** FEED **********************************************/
 #feed h2 {
@@ -245,6 +246,11 @@ a img {
 	float: left;
 }
 /************************** INTRODUCTION **************************************/
+#introduction {
+	margin-bottom: 20px;
+	padding-bottom: 5px;
+	border-bottom: 2px solid #F5D25A;
+}
 #note {
 	height: 245px;
 	width: 310px;
