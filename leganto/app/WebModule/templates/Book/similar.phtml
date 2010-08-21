@@ -1,10 +1,8 @@
 @{extends layout.phtml}
 
 @{block #subcontent}
-<div id="book-info">
-    <h1>{_"Books similar to '%s'", $book->title}</h1>
-    <img class="rating" src="{$baseUri}img/rating_{=round($book->rating)}.png" />
-</div>
+
+<h1>{_"Books similar to '%s'", $book->title}</h1>
 
 <div id="feed">
 @{widget similarBooks}

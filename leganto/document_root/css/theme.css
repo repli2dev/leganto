@@ -1,4 +1,15 @@
 /*************************** LAYOUT *******************************************/
+a {
+	color: #336699;
+}
+a:hover {
+	color: #F5D25A;
+	background-color: #336699;
+}
+h1 a:hover, h2 a:hover, h3 a:hover, h4 a:hover {
+	color: #F5D25A;
+	background: none;
+}
 #main {
 	background-color: #cbe7eb;
 }
@@ -16,6 +27,7 @@
 	color: #865A2C;
 	font-weight: bolder;
 	text-decoration: none;
+	background: none;
 }
 .box h3 {
 	color: white;

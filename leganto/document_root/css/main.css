@@ -13,7 +13,7 @@ body {
 	font-size: 12px;
 }
 h1, h2, h3, h4 {
-	margin: 10px 0;
+	margin: 15px 0;
 	color: #336699;
 	letter-spacing: 1.3px;
 }
@@ -80,6 +80,8 @@ a img {
 	font-size: 15px;
 	font-weight: bolder;
 	text-decoration: none;
+	vertical-align: middle;
+	background: none;
 }
 #navbar a:hover {
 	color: #4C3319;
@@ -145,7 +147,20 @@ a img {
 	font-size: 1.5em;
 }
 #book-info h2 {
-	font-size: 1.5em;
+	font-size: 1.1em;
+}
+#book-stats {
+	float: right;
+	width: 260px;
+	min-height: 250px;
+	margin-left: 10px;
+}
+#book-stats h3 {
+	padding: 0 10px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	border: 2px solid #6699bb;
 }
 #editions a:hover .icon {
 	border-color: black;
@@ -154,13 +169,12 @@ a img {
 	text-align: justify;
 }
 #tags .tag {
-	margin-right: 20px;
+	margin-right: 15px;
 	font-weight: bolder;
-	font-size: 1.2em;
-	color: #F5D25A;
+	font-size: 1em;
 }
-#tags a.tag:hover {
-	color: #4C3319;
+#tags a {
+	text-decoration: none;
 }
 #cover {
 	float: left;

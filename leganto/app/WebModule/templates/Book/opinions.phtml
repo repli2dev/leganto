@@ -1,9 +1,7 @@
 @{extends layout.phtml}
 
 @{block #subcontent}
-<div id="book-info">
-    <h1>{_"Opinions on book '%s'", $book->title}</h1>
-</div>
+<h1>{_"Opinions on book '%s'", $book->title}</h1>
 
 <div id="opinions">
     @{widget opinionList}
