@@ -64,7 +64,11 @@
 	private function fetchAndParse() {
 		$pageContent = $this->getUrlContent($this->getParsedUrl());
 		// Parsing...
-		$data = simplexml_load_string($pageContent);
+		$data = @simplexml_load_string($pageContent);
+		$params = $this->getUrlParams();
+		if($data === false || !isSet($data->entry)) {
+			throw new IOException("No results for query: ".urldecode($params['<--QUERY-->']));
+		}
 		$i = 0;
 		$output = array();
 		foreach($data->entry as $entry){

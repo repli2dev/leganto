@@ -37,8 +37,8 @@ Debug::timer();
 //echo "IMPORTED: SYSTEM INFO\n";
 //$users->import();
 //$books->import();
-$opinions->import();
-$tags->import();
+//$opinions->import();
+//$tags->import();
 $discussions->import();
 
 echo "-------------------------------------------";

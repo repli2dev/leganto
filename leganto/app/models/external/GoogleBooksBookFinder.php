@@ -52,13 +52,13 @@
 	private function fetchAndParse() {
 		$pageContent = $this->getUrlContent($this->getParsedUrl());
 		// Parsing...
-		$data = simplexml_load_string($pageContent);
+		$data = @simplexml_load_string($pageContent);
 		$params = $this->getUrlParams();
-		if(!isSet($data->entry)) {
+		if($data === false || !isSet($data->entry)) {
 			throw new IOException("No results for query: ".urldecode($params['<--QUERY-->']));
 		}
 		// Get Google Book ID of first item
-		$entry = $data->entry->children('http://purl.org/dc/terms'); // Switch the namespaces
+		$entry	= $data->entry->children('http://purl.org/dc/terms'); // Switch the namespaces
 		$gid = $entry->identifier[0];
 
 		if(empty($gid)){
@@ -84,7 +84,7 @@
 		$query = "";
 
 		// Add title to query
-		$query .= 'intitle:"'.$entity->title.'"';
+		$query .= 'intitle:'.$entity->title.'';
 
 		// Add author to query
 		$authors = Leganto::authors()->fetchAndCreateAll(
@@ -92,10 +92,10 @@
 		);
 		foreach($authors AS $author) {
 			if ($author->type == AuthorEntity::GROUP) {
-				$query .= ' inauthor:"' . $author->groupname.'"';
+				$query .= ' inauthor:' . $author->groupname.'';
 			}
 			else {
-				$query .= ' inauthor:"'. $author->firstname . ' ' . $author->lastname.'"';
+				$query .= ' inauthor:'. $author->firstname . ' ' . $author->lastname;
 			}
 		}
 		return urlencode($query);
