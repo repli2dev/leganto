@@ -6,6 +6,9 @@
 	margin: 0;
 	padding: 0;
 }
+.list {
+	margin: 0 auto;
+}
 .list .item {
     padding: 0px 10px;
 	background: #f6f6f6;
@@ -55,7 +58,7 @@
 }
 /*********************** BOOKS ************************************************/
 .books .item {
-	width: 28%;
+	width: 28.5%;
 	float: left;
 	margin: 5px;
 	line-height: 1.4em;

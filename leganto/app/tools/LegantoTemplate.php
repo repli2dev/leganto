@@ -34,8 +34,8 @@ final class LegantoTemplate
 		$template->registerHelper("texy", Helpers::getHelper('texy'));
 		$template->registerHelper("texySafe", Helpers::getHelper('texySafe'));
 		$template->registerHelper("thumbnail", Helpers::getHelper('thumbnail'));
-                $template->registerHelper("userico", Helpers::getHelper('userIcon'));
-                $template->registerHelper("bookcover", Helpers::getHelper('bookCover'));
+		$template->registerHelper("userico", Helpers::getHelper('userIcon'));
+		$template->registerHelper("bookcover", Helpers::getHelper('bookCover'));
 		$template->registerHelper("language", Helpers::getHelper('language'));
 		$template->registerHelper("hardTruncate", Helpers::getHelper('hardTruncate'));
 
