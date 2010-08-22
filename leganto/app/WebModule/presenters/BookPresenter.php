@@ -69,19 +69,26 @@ class Web_BookPresenter extends Web_BasePresenter {
 			}
 			// Insert related book
 			$this->getComponent("insertingBook")->setRelatedBook($this->getBook());
+			$this->setPageTitle(System::translate("Insert book"));
 		} else {
 			if (!Environment::getUser()->isAllowed(Resource::BOOK, Action::INSERT)) {
 				$this->unauthorized();
 			}
 			// Edit book
 			if (!empty($book)) {
+				$this->getTemplate()->editing = TRUE;
 				if (!Environment::getUser()->isAllowed(Resource::BOOK, Action::EDIT)) {
 					$this->unauthorized();
 				}
 				$this->getComponent("insertingBook")->setBookToEdit($this->getBook());
+				$this->setPageTitle(System::translate("Edit book '".$this->getBook()->title."'"));
+			}
+			// Insert a new book
+			else {
+				$this->setPageTitle(System::translate("Insert book"));
 			}
 		}
-		$this->setPageTitle(System::translate("Insert book"));
+		
 		$this->setPageDescription(System::translate("On this page you can insert new book, for adding to your logbook please use Add opinion."));
 		$this->setPageKeywords(System::translate("insert, add, new book"));
 	}
