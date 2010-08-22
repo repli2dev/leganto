@@ -26,28 +26,13 @@ class Web_DefaultPresenter extends Web_BasePresenter {
 		$this->setPageKeywords(System::translate("books, how to choose book, what friends reads, what my, culture, about books, opinions on books, leganto, čtenáři, preader"));
 	}
 
-	public function renderFeed($all = FALSE) {
+	public function renderFeed() {
 		if (!Environment::getUser()->isAuthenticated()) {
 			$this->forward("default");
 		}
 		$this->setPageTitle(System::translate("News"));
 		$this->setPageDescription(System::translate("Feed page offers you updates from our web, you can watch adding opinions or discussion in one page."));
 		$this->setPageKeywords(System::translate("feed, wall, activity of users, followers."));
-		$source = Leganto::feed()->getSelector()->findAll();
-		$noEvents = false;
-		if (!$all) {
-			// Get list of all followed users
-			$users = Leganto::users()->getSelector()->findAllFollowed(System::user())->fetchPairs("id_user", "id_user");
-			// User follows no users!
-			if (empty($users)) {
-				$noEvents = true;
-			} else {
-				$source->where("id_user IN %l", $users);
-			}
-		}
-		$this->getTemplate()->noEvents = $noEvents;
-		$this->getTemplate()->allSwitcher = $all;
-		$this->getComponent("feed")->setSource($source);
 	}
 
 	public function renderUnauthorized() {

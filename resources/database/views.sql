@@ -215,6 +215,7 @@ CREATE VIEW `view_feed` AS
 	    `view_opinion`.`inserted`
 	FROM `view_opinion`
 	INNER JOIN `book_title` USING(`id_book_title`)
+	WHERE `content` IS NOT NULL AND `content` != ''
     )
     UNION
     (
@@ -230,7 +231,8 @@ CREATE VIEW `view_feed` AS
 	    `view_post`.`content`,
 	    `view_post`.`inserted`
 	FROM `view_post`
-    ) ORDER BY `inserted` DESC;
+    )
+	ORDER BY `inserted` DESC;
 
 DROP VIEW IF EXISTS `view_followed`;
 CREATE VIEW `view_followed` AS

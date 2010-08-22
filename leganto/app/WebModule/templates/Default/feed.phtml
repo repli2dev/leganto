@@ -1,29 +1,5 @@
 {extends layout.phtml}
 
 {block #subcontent}
-<style>
-    #feed-switcher {
-	text-align: center;
-    }
-</style>
-
-<div id="feed-switcher">
-    {if $allSwitcher}
-    <strong>{_"All"}</strong>
-    |
-    <a href="{link feed, FALSE}">{_"Followed"}</a>
-    {else}
-    <a href="{link feed, TRUE}">{_"All"}</a>
-    |
-    <strong>{_"Followed"}</strong>
-    {/if}
-</div>
-
-{if $noEvents}
-	<h2>{_"Sorry"}</h2>
-	<p>{_"No events found, probably you do not follow any user. If you want to show all events click on All above this text."}</p>
-{else}
 	{widget 'feed'}
-{/if}
-
 {/block}
