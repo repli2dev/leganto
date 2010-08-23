@@ -8,8 +8,8 @@
 		{/if}
 		<strong class="rating">{if $book->rating != 0}{=round($book->rating/5*100)}%{/if}</strong>
 		<div class="stats">
-			<span class="readers">20</span>
-			<span class="opinions">12</span>
+			<span class="readers">{$book->numberOfReaders}</span>
+			<span class="opinions">{$book->numberOfOpinions}</span>
 		</div>
 	</div>
 	<!-- BOOK TITLE -->

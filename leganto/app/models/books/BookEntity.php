@@ -49,6 +49,12 @@ class BookEntity extends AEntity
 
 	/**
 	 * @Skip(Save)
+	 * @Translate(number_of_readers)
+	 */
+	protected $numberOfReaders;
+
+	/**
+	 * @Skip(Save)
 	 */
 	protected $rating;
 

@@ -18,7 +18,8 @@ CREATE VIEW `view_book` AS
 		`book_title`.`subtitle`				AS `subtitle`,
 		`book_title`.`inserted`				AS `inserted`,
 		IFNULL(AVG(`opinion`.`rating`),0)	AS `rating`,
-		COUNT(`opinion`.`id_opinion`)		AS `number_of_opinions`
+		COUNT(`opinion`.`id_opinion`)		AS `number_of_readers`,
+		(SELECT COUNT(`opinion`.`id_opinion`) FROM `opinion` WHERE `opinion`.`id_book_title` = `book_title`.`id_book_title` AND `opinion`.`content` IS NOT NULL AND `opinion`.`content` != '') AS `number_of_opinions`
 	FROM `book`
 	INNER JOIN `book_title` USING(`id_book`)
 	INNER JOIN `language` USING(`id_language`)
