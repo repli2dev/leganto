@@ -1,7 +1,7 @@
 @{extends layout.phtml}
 
 @{block #subcontent}
-<h1>{_"Opinions on book '%s'", $book->title}</h1>
+<h1>{_"Opinions on book '%s'", $book->title . (($book->subtitle == NULL) ? "" : ": " . $book->subtitle)}</h1>
 
 <div id="opinions">
     @{widget opinionList}

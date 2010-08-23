@@ -51,6 +51,7 @@ class UserAuthorizator implements IAuthorizator {
 	    $ownership = new OwnerAssertion();
 
 	    $this->permission->allow(Role::COMMON, IAuthorizator::ALL, Action::INSERT);
+		$this->permission->allow(Role::COMMON, Resource::EDITION, Action::EDIT);
 	    $this->permission->allow(Role::COMMON, Resource::OPINION, Action::EDIT, $ownership);
 	    $this->permission->allow(Role::COMMON, Resource::POST, Action::EDIT, $ownership);
 	    $this->permission->allow(Role::COMMON, Resource::SHELF, Action::EDIT, $ownership);

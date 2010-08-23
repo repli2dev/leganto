@@ -22,7 +22,7 @@ class Web_AuthorPresenter extends Web_BasePresenter {
 		$this->redirect("Default:default");
 	}
 
-	public function renderInsert($author = NULL) {
+	public function renderInsert($author = NULL, $editingBook = NULL) {
 		if (empty($author) && !Environment::getUser()->isAllowed(Resource::AUTHOR, Action::INSERT)) {
 			$this->unauthorized();
 		} else if (!empty($author) && !Environment::getUser()->isAllowed(Resource::AUTHOR, Action::EDIT)) {
@@ -36,7 +36,12 @@ class Web_AuthorPresenter extends Web_BasePresenter {
 				$this->setPageDescription(System::translate("On this page, you can edit already inserted author."));
 				$this->setPageKeywords(System::translate("edit, author, change"));
 			} else {
-				$this->getComponent("insertingAuthor")->setBacklink("Book:insert");
+				if (empty($editingBook)) {
+					$this->getComponent("insertingAuthor")->setBacklink("Book:insert");
+				}
+				else {
+					$this->getComponent("insertingAuthor")->setBacklink("Book:edit", $editingBook);
+				}
 				$this->setPageTitle(System::translate("Insert author"));
 				$this->setPageDescription(System::translate("On this page, you can insert new author. Please double check if author do not exist."));
 				$this->setPageKeywords(System::translate("insert, author, new"));

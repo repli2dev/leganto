@@ -1,18 +1,8 @@
-{extends layout.phtml}
+{extends ../layout.phtml}
 
 {block #content}
-	{if !empty($editing)}
-		{include #parent}
-	{else}
-		<div id="content">
-			{widget flashMessages}
-			{widget insertingBook}
-		</div>
-	{/if}
-{/block}
-
-{if !empty($editing)}
-	{block #subcontent}
+	<div id="content">
+		{widget flashMessages}
 		{widget insertingBook}
-	{/block}
-{/if}
+	</div>
+{/block}

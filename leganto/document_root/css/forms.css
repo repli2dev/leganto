@@ -86,7 +86,10 @@ textarea {
 [type="submit"].nice:active {
 	background-position: -202px;
 }
-
+/***************************** BOOK *******************************************/
+#frmbookForm-newAuthor, #frmbookForm-removeAuthor {
+	margin-left: 10px !important;
+}
 /***************************** INTRODUCTION ***********************************/
 #introduction-form-wrapper {
 	/*height: 277px;*/

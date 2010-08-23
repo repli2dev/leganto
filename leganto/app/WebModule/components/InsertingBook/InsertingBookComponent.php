@@ -1,8 +1,6 @@
 <?php
 class InsertingBookComponent extends BaseComponent {
 
-	private $author;
-
 	private $book;
 
 	/** @persistent */
@@ -40,6 +38,7 @@ class InsertingBookComponent extends BaseComponent {
 	}
 
 	public function handleContinueToInsert($title) {
+		$this->getPresenter()->flashMessage(System::translate("It can take a long time to insert a new book because the system tries to find editions of the book."));
 		$this->setPhase(3);
 		$this->setTitle($title);
 	}
@@ -48,6 +47,7 @@ class InsertingBookComponent extends BaseComponent {
 		$number = $this->getNumberOfAuthors();
 		if ($number > 1) {
 			$this->setNumberOfAuthors($number - 1);
+			$this->resetAuthor();
 		}
 	}
 
@@ -57,7 +57,13 @@ class InsertingBookComponent extends BaseComponent {
 	}
 
 	public function handleNewAuthor() {
-		$this->getPresenter()->redirect("Author:insert");
+		if ($this->isEditing()) {
+			$values = $this->getValues();
+			$this->getPresenter()->redirect("Author:insert", NULL, $values["id_book_title"]);
+		}
+		else {
+			$this->getPresenter()->redirect("Author:insert");
+		}
 	}
 
 	public function render() {
@@ -95,13 +101,9 @@ class InsertingBookComponent extends BaseComponent {
 	public static function sendSignalWithAuthor(AuthorEntity $author) {
 		$session = Environment::getSession("insertingBook");
 		$session["signal"]  = TRUE;
-		$state		    = $session["state"];
+		$state				= $session["state"];
 		$state["author"]    = $author->getId();
 		$session["state"]   = $state;
-	}
-
-	public function setAuthor(AuthorEntity $author) {
-		$this->author = $author;
 	}
 
 	public function setBookToEdit(BookEntity $book) {
@@ -136,9 +138,11 @@ class InsertingBookComponent extends BaseComponent {
 				$this->handleIncrementNumberOfAuthors();
 			}
 			// This book is edited by user
-			if (isset($this->book)) {
-				$bookAuthors = Leganto::authors()->fetchAndCreateAll(Leganto::authors()->getSelector()->findAllByBook($this->book));
-				$this->setNumberOfAuthors(count($bookAuthors));
+			if ($this->isEditing() && $this->getEditedBook() != NULL) {
+				$bookAuthors = Leganto::authors()->fetchAndCreateAll(Leganto::authors()->getSelector()->findAllByBook($this->getEditedBook()));
+				if ($this->getAuthor() == NULL) {
+					$this->setNumberOfAuthors(count($bookAuthors));
+				}
 			}
 			for($i=0; $i < $this->getNumberOfAuthors(); $i++) {
 				$last = $container->addSelect($i, "Author", $authors)
@@ -161,7 +165,8 @@ class InsertingBookComponent extends BaseComponent {
 			}
 			$form->addSubmit("newAuthor","New")
 					->setValidationScope(FALSE)
-					->getControlPrototype()->setId("newAuthor");
+					->getControlPrototype()->setId("newAuthor")
+					->setHtmlId("newAuthor");
 		}
 
 		// Language
@@ -184,13 +189,13 @@ class InsertingBookComponent extends BaseComponent {
 		// Defaults
 		if ($this->getValues() == NULL) {
 			// The book which is edited
-			if (isset($this->book)) {
+			if ($this->isEditing() && $this->getEditedBook() != NULL) {
 				$defaults = array(
-					"id_book"		=> $this->book->bookNode,
-					"id_book_title"	=> $this->book->getId(),
-					"book_title"	=> $this->book->title,
-					"book_subtitle"	=> $this->book->subtitle,
-					"language"		=> $this->book->languageId
+					"id_book"		=> $this->getEditedBook()->bookNode,
+					"id_book_title"	=> $this->getEditedBook()->getId(),
+					"book_title"	=> $this->getEditedBook()->title,
+					"book_subtitle"	=> $this->getEditedBook()->subtitle,
+					"language"		=> $this->getEditedBook()->languageId
 				);
 				for ($i=0; $i<count($bookAuthors); $i++) {
 					$defaults["authors"][$i] = $bookAuthors[$i]->getId();
@@ -272,6 +277,10 @@ class InsertingBookComponent extends BaseComponent {
 		return isset($this->state["bookNode"]) ? $this->state["bookNode"] : NULL;
 	}
 
+	private function getEditedBook() {
+		return $this->book;
+	}
+
 	private function getNumberOfAuthors() {
 		if (!isset($this->state["numberOfAuthors"])) {
 			$this->state["numberOfAuthors"] = 1;
@@ -295,6 +304,11 @@ class InsertingBookComponent extends BaseComponent {
 
 	private function getValues() {
 		return isset($this->state["values"]) ? $this->state["values"] : NULL;
+	}
+
+	private function isEditing() {
+		$values = $this->getValues();
+		return isset($this->book) || !empty($values["id_book_title"]);
 	}
 
 	private function isInsertedBookRelated() {
@@ -322,6 +336,12 @@ class InsertingBookComponent extends BaseComponent {
 		$session = Environment::getSession("insertingBook");
 		$session->setExpiration(1800); // 30 minutes
 		$session["state"] = $this->state;
+	}
+
+	private function resetAuthor() {
+		if (isset($this->state["author"])) {
+			unset($this->state["author"]);
+		}
 	}
 
 	private function resetBookForm() {

@@ -77,8 +77,8 @@ class InsertingAuthorComponent extends BaseComponent
 		    $this->getPresenter()->redirect("Author:insert");
 		}
 		else {
-		    if ($this->backlink == "Book:insert") {
-			InsertingBookComponent::sendSignalWithAuthor($author);
+		    if ($this->backlink == "Book:insert" || $this->backlink == "Book:edit") {
+				InsertingBookComponent::sendSignalWithAuthor($author);
 		    }
 		    $this->getPresenter()->redirect($this->backlink, $this->backlinkArgs);
 		}

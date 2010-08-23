@@ -62,6 +62,16 @@ class Web_BookPresenter extends Web_BasePresenter {
 		}
 	}
 
+	public function renderEdit($book) {
+		// Edit book
+		$this->getTemplate()->book = $this->getBook();
+		if (!Environment::getUser()->isAllowed(Resource::BOOK, Action::EDIT)) {
+			$this->unauthorized();
+		}
+		$this->getComponent("insertingBook")->setBookToEdit($this->getBook());
+		$this->setPageTitle(System::translate("Edit book '".$this->getBook()->title."'"));
+	}
+
 	public function renderInsert($book, $related = FALSE) {
 		if ($related) {
 			if (!Environment::getUser()->isAllowed(Resource::BOOK, Action::INSERT)) {
@@ -74,19 +84,8 @@ class Web_BookPresenter extends Web_BasePresenter {
 			if (!Environment::getUser()->isAllowed(Resource::BOOK, Action::INSERT)) {
 				$this->unauthorized();
 			}
-			// Edit book
-			if (!empty($book)) {
-				$this->getTemplate()->editing = TRUE;
-				if (!Environment::getUser()->isAllowed(Resource::BOOK, Action::EDIT)) {
-					$this->unauthorized();
-				}
-				$this->getComponent("insertingBook")->setBookToEdit($this->getBook());
-				$this->setPageTitle(System::translate("Edit book '".$this->getBook()->title."'"));
-			}
 			// Insert a new book
-			else {
-				$this->setPageTitle(System::translate("Insert book"));
-			}
+			$this->setPageTitle(System::translate("Insert book"));
 		}
 		
 		$this->setPageDescription(System::translate("On this page you can insert new book, for adding to your logbook please use Add opinion."));
@@ -169,7 +168,7 @@ class Web_BookPresenter extends Web_BasePresenter {
 			$opinion = Leganto::opinions()->getSelector()->findByBookAndUser($this->getBook(), System::user());
 		}
 		if (Environment::getUser()->isAllowed(Resource::BOOK, Action::EDIT)) {
-			$submenu->addEvent("insert", System::translate("Edit book"), $this->getBook()->getId());
+			$submenu->addEvent("edit", System::translate("Edit book"), $this->getBook()->getId());
 		}
 		if (empty($opinion) && Environment::getUser()->isAllowed(Resource::OPINION, Action::INSERT)) {
 			$submenu->addEvent("addOpinion", System::translate("Add opinion"), $this->getBook()->getId());

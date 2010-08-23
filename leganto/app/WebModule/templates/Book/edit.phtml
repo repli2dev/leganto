@@ -1,0 +1,6 @@
+{extends layout.phtml}
+
+{block #subcontent}
+<h1>{_"Editing book '%s'", $book->title . (($book->subtitle == NULL) ? "" : ": " . $book->subtitle)}</h1>
+	{widget insertingBook}
+{/block}

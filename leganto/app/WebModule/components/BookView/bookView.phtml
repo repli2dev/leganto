@@ -10,7 +10,7 @@
 	</div>
 	<!-- BOOK TITLE -->
 	<h1>{$book->title}</h1>
-	{if !empty($book->subtitle)}<h2>{$book->subtitle}</h2>{/if}
+	{if $book->subtitle != NULL}<h2>{$book->subtitle}</h2>{/if}
 	<!-- STATISTICS -->
     {widget bookStatistics}
 
