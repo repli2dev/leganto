@@ -7,6 +7,10 @@
 			<img src="{$edition->image,150|thumbnail}" alt="{$book->title}" {if empty($edition->image)}width="150" height="240"{/if} />
 		{/if}
 		<strong class="rating">{if $book->rating != 0}{=round($book->rating/5*100)}%{/if}</strong>
+		<div class="stats">
+			<span class="readers">20</span>
+			<span class="opinions">12</span>
+		</div>
 	</div>
 	<!-- BOOK TITLE -->
 	<h1>{$book->title}</h1>
