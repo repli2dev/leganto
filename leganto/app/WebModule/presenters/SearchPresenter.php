@@ -81,6 +81,7 @@ class Web_SearchPresenter extends Web_BasePresenter {
 		}
 		// TODO: pridat presmerovani pokud je vysledek jeden
 		$this->getComponent("postList")->setSource($source);
+		$this->getComponent("postList")->enableLinks();
 		$this->getComponent("postList")->disablePosting();
 	}
 

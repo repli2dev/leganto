@@ -27,6 +27,11 @@
 			<div class="content">
 				{!=$post->content|texySafe}
 			</div>
+			<div class="info-bottom">
+				{if $enableLinks}
+					<a class="control" href="{plink Discussion:Posts,$post->discussed,$post->discussionType}" title="{_"This link will only show the thread where the post was found."}">{_"Link to discsussion"}</a>
+				{/if}
+			</div>
 			<div class="clear"></div>
 		</div>
     @{/foreach}

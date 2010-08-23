@@ -8,6 +8,8 @@ class PostListComponent extends BaseListComponent
 
     private $enablePosting = TRUE;
 
+    private $enableLinks = FALSE;
+
     public function handleDelete($post) {
         $postEntity = Leganto::posts()->getSelector()->find($post);
 	if (!Environment::getUser()->isAllowed(Resource::create($postEntity), Action::EDIT)) {
@@ -80,12 +82,17 @@ class PostListComponent extends BaseListComponent
 	    $this->enablePosting = FALSE;
     }
 
+    public function enableLinks() {
+	    $this->enableLinks = TRUE;
+    }
+
     // ---- PROTECTED METHODS
 
     protected function beforeRender() {
 	parent::beforeRender();
 	$this->loadTemplate($this->getSource());
 	$this->getTemplate()->enablePosting = $this->enablePosting;
+	$this->getTemplate()->enableLinks = $this->enableLinks;
     }
 
 
