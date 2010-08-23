@@ -11,7 +11,8 @@
 			    <img src="{$baseUri . 'img/ico/delete.png'}" alt="{_'Delete'}" />
 			</a>
 		    </span>
-		    {$shelf->name}
+			{assign shelfId => $shelf->getId()}
+			<a href="{plink User:shelves#books-in-shelf-$shelfId, System::user()->id}" title="{$shelf->name}">{$shelf->name|hardTruncate:19}</a>
 		</li>
 	    {/foreach}
 	</ul>

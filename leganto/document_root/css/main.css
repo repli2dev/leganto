@@ -358,6 +358,7 @@ a img {
 #book-shelf-control form, #book-shelf-control p{
 	padding: 0;
 	margin: 0;
+	text-align: center;
 }
 #book-shelf-control form label {
 	width: 0;
@@ -365,7 +366,17 @@ a img {
 }
 #book-shelf-control form select {
 	margin: 0;
-	width: 100%;
+	width: 90%;
+}
+#book-shelf-control ul li a {
+	display: block;
+	float: left;
+}
+#book-shelf-control ul li span.control a{
+	margin-right: 5px;
+}
+#book-shelf-control ul li {
+	clear: both;
 }
 .share-box-inner {
 	margin-left: 20px;

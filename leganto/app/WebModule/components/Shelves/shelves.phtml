@@ -6,9 +6,15 @@ $(document).ready(function(){
     //Switch the "Open" and "Close" state per click then slide up/down (depending on open/close state)
     $(".shelf h2").click(function(){
 	$(this).next().slideToggle("slow");
+	
     });
 
-
+    // Find if there is an anchor, if so then try to toogle the shelf
+    var url = document.location.toString();
+    if (url.match('#')) { // the URL contains an anchor
+      var anchor = '#' + url.split('#')[1];
+      $(anchor).parent().slideToggle("slow");
+    }
 });
 </script>
 
@@ -25,6 +31,14 @@ $(document).ready(function(){
     }
     .shelf ul {
 	padding:0;
+	list-style: none;
+	margin-bottom: 20px;
+	border: 2px solid #e9f4f7;
+	border-top: 0px none;
+	-webkit-border-radius: 0px 0px 5px 5px;
+	-moz-border-radius: 0px 0px 5px 5px;
+	border-radius: 0px 0px 5px 5px;
+	padding: 10px;
     }
     .book-in-shelf {
 	display: block;
@@ -40,6 +54,9 @@ $(document).ready(function(){
     }
     .book-in-shelf:hover {
 	background: #F9E7A2;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
     }
     .shelf h2 {
 	margin: 0;
@@ -47,9 +64,9 @@ $(document).ready(function(){
 	padding: 0 10px;
 	line-height: 2em;
 	font-weight: normal;
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
-	border-radius: 5px;
+	-webkit-border-radius: 5px 5px 0px 0px;
+	-moz-border-radius: 5px 5px 0px 0px;
+	border-radius: 5px 5px 0px 0px;
 	border: 2px solid #6699bb;
     }
     .shelf h2 .control {
@@ -59,13 +76,31 @@ $(document).ready(function(){
     .shelf h2 .control a {
 	margin-right: 10px;
     }
+    .shelf h2 span.number {
+	font-size: 90%;
+	color: black;
+    }
+    .new-pos-highlight {
+	    background: #C1833E;
+	    height: 2px;
+	    width: 100%;
+    }
+    .shelf-type-wanted {
+	background: #FDF7CD;
+    }
+    .shelf-type-owned {
+	background: #E9F4F7;
+    }
+    .shelf-type-general {
+	background: white;
+    }
 </style>
 
 {foreach $shelves AS $shelf}
 
 <div class="shelf">
-    <h2>
-	{$shelf->name}
+	<h2 title="{$shelf->name}" class="shelf-type-{$shelf->type}">
+	{$shelf->name|hardTruncate:40}
 	{if Environment::getUser()->isAllowed(Resource::create($shelf), Action::EDIT)}
 	    <span class="control">
 		{assign confirm => System::translate("Are you sure you want to delete a shelf *%s*?", $shelf->name)}
@@ -78,6 +113,7 @@ $(document).ready(function(){
 		</a>
 	    </span>
 	{/if}
+	<span class="number">({? echo count($books[$shelf->getId()]); })</span>
     </h2>
 		    
     <div class="toggle_container">
@@ -86,15 +122,11 @@ $(document).ready(function(){
 		{assign link => $component->link('persist', $shelf->getId())}
 		<script>
 		    $(function() {
-			    $("#books-in-shelf-{!$shelf->getId()}").sortable({ opacity: 0.6, cursor: 'move', update: function() {
+			    $("#books-in-shelf-{!$shelf->getId()}").sortable({ placeholder: 'new-pos-highlight',opacity: 0.6, cursor: 'move', update: function() {
 				    var order = $(this).sortable("serialize");
 				    $.post("{!link}", order);
 			    }
 			    });
-			    $("#books-in-shelf-{!$shelf->getId()}").sortable({
-				placeholder: 'ui-state-highlight'
-			    });
-
 		    });
 		</script>
 	    {/if}
