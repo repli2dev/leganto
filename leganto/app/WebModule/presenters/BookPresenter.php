@@ -14,6 +14,7 @@ class Web_BookPresenter extends Web_BasePresenter {
 				->where("[content] != ''")
 				->applyLimit(5)
 		);
+		$this->getTemplate()->bookId = $this->getBook()->getId();
 		// Editions
 		$this->getComponent("editionList")->setSource(
 			Leganto::editions()->getSelector()->findAllByBook($this->getBook())

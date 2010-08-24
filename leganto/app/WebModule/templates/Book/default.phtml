@@ -4,8 +4,9 @@
     @{widget bookView}
 	<h2>{_'Tags'}</h2>
 	@{widget tagList}
-    <h2>{_'Opinions'}</h2>
-    @{widget opinionList}
+	<h2>{_'Opinions'}</h2>
+	@{widget opinionList}
+	<p>{_"There can be more opinions than you see. Please visit"} <a href="{plink Book:opinions, $bookId}" title="{_"Book opinions"}">{_"Book opinions"}</a>.</p>
 	<h2>{_'Related books'}</h2>
 	{widget relatedBookList}
 	<h2>{_'Editions'}</h2>
