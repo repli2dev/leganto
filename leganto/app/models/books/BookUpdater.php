@@ -90,30 +90,25 @@ class BookUpdater implements IUpdater
 	 * @param array|TagEntity $tag
 	 */
 	public function setTagged(BookEntity $book, $tagged) {
-		if (is_array($tagged)) {
-			dibi::begin();
-			// Delete old relations between tags and books
-			dibi::delete("tagged")
-				->where("[id_book] = %i", $book->bookNode)
-				->execute();
-			// Add new relations
-			foreach($tagged AS $tag) {
+		if (!is_array($tagged) && !($tagged instanceof TagEntity)) {
+			throw new InvalidArgumentException("The argument [tagged] has to be array or TagEntity.");
+		}
+		// Find all tags
+		$tags = Leganto::tags()->getSelector()->findAllByBook($book)->fetchPairs("id_tag", "id_tag");
+		if ($tagged instanceof TagEntity) {
+			$tagged = array($tagged);
+		}
+		dibi::begin();
+		// Add new relations
+		foreach($tagged AS $tag) {
+			if (!in_array($tag->getId(), $tags)) {
 				dibi::insert("tagged", array(
 					"id_tag"	=> $tag->getId(),
 					"id_book"	=> $book->bookNode
 				))->execute();
 			}
-			dibi::commit();
 		}
-		else if ($tagged instanceof TagEntity) {
-			dibi::insert("tagged", array(
-				"id_tag"	=> $tagged->getId(),
-				"id_book"	=> $book->bookNode
-			))->execute();
-		}
-		else {
-			throw new InvalidArgumentException("The argument [tagged] has to be array or TagEntity.");
-		}
+		dibi::commit();
 	}
 
 	/**
