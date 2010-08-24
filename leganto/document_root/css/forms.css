@@ -2,6 +2,10 @@
 form {
 	font: "Trebuchet MS", Arial, Helvetica, sans-serif;
 }
+form p {
+	margin: 0;
+	padding: 3px 0;
+}
 label:after {
 	content: ":";
 }
@@ -22,10 +26,9 @@ legend {
 	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
 	font-weight: bolder;
 	margin: 0 0 0 140px;
-	padding: 24px 0 0 0;
+	padding: 10px 0;
 	color: #336699;
 	font-size: 1.5em;
-	text-shadow: 1px 1px 1px #003;
 	letter-spacing: 1.3px;
 }
 input, textarea {
@@ -140,17 +143,18 @@ textarea {
 }
 
 ul.error {
-	border: 2px solid;
-	padding: 20px;
-	padding-left: 70px;
-	font-size: 1.2em;
-	margin: 15px 10px;
-	background-position: 1% 30%;
-	background-repeat: no-repeat;
-	border-color: #7B0404;
-	color: #7B0404;
-	background-color: #E8B8B1;
-	background-image: url(../img/ico/flash-error.png);
+    padding: 30px;
+    padding-left: 70px;
+    font-size: 1.2em;
+    margin-bottom: 15px;
+    background-position: 1% 50%;
+    background-repeat: no-repeat;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+    color: #7B0404;
+    background-color: #ffeedd;
+    background-image: url(../img/ico/flash-error.png);
 	list-style: none;
 }
 .underForm {
