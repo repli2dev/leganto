@@ -9,7 +9,7 @@ $(function() {
 		minLength: 2,
 		source: function(request, response) {
 			// Turn off when not searching books or authors
-			if($("#frmform-search").val() == "default") {
+			if($("#search input:radio:checked").val() == "default") {
 				if ( request.term in cache ) {
 					response( cache[ request.term ] );
 					return;
@@ -25,7 +25,7 @@ $(function() {
 					}
 				});
 			} else
-			if($("#frmform-search").val() == "author") {
+			if($("#search input:radio:checked").val() == "author") {
 				if ( request.term in authorCache ) {
 					response( authorCache[ request.term ] );
 					return;
@@ -49,7 +49,7 @@ $(function() {
 		minLength: 2,
 		source: function(request, response) {
 			// Turn off when not searching books or authors
-			if($("#frmform-search").val() == "default") {
+			if($("#search input:radio:checked").val() == "default") {
 				if ( request.term in cache ) {
 					response( cache[ request.term ] );
 					return;
@@ -65,7 +65,7 @@ $(function() {
 					}
 				});
 			} else
-			if($("#frmform-search").val() == "author") {
+			if($("#search input:radio:checked").val() == "author") {
 				if ( request.term in authorCache ) {
 					response( authorCache[ request.term ] );
 					return;

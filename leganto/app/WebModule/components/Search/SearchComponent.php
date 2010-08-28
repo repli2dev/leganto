@@ -76,14 +76,17 @@ class SearchComponent extends BaseComponent {
 				"user"	=>	System::translate("Users"),
 				"help"	=>	System::translate("Help")
 			);
-			$form->addSelect("search","In",$in)
+			$form->addRadioList("search","In",$in)
 				->getControlPrototype()->setId("selectIn");
-			$form->addSubmit("search_submit", "");
+			// Remove br after pair
+			$form["search"]->getSeparatorPrototype()->setName("");
+			$form->addSubmit("search_submit", "Search");
 		} else {
 			$form->addText("query","Text to search")
 				->addRule(Form::FILLED, "The search field has to be filled.");
 			$form->addSubmit("search_submit", "Search");
 		}
+		$form->setTranslator(System::translator());
 		$form->onSubmit[] = array($this, "formSubmitted");
 		$form->addProtection("Form timeout, please send form again.");
                 return $form;

@@ -3,6 +3,9 @@
 	<legend></legend>
 	{!$form['query']->control}
 	{!$form['search_submit']->control}
-	{!$form["search"]->control}
+	<div id="search-options">
+		{!$form["search"]->control}
+		&nbsp;
+	</div>
     </fieldset>
 {!$form->render('end')}
