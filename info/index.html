@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+	<head>
+		<title>Leganto</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<link rel="stylesheet" type="text/css" href="css/main.css" />
+		<link rel="shortcut icon" href="favicon.ico" />
+		<meta name="description" content="Leganto je komunitní stránka zaměřená na vytváření a sdílení informací o literatuře jako plnohodnotné části naší kultury. Přidejte se k nám." />
+		<meta name="keywords" content="knihy, jak si vybrat knihu, co čtou mí přátelé, kultura, o knihách, názory na knihy, leganto, čtenáři, preader" />
+		<meta name="authors" content="Jan Papoušek, Jan Drábek a komunita" />
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.min.js"></script>
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.4/jquery-ui.min.js"></script>
+		<script type="text/javascript">
+			$(function() {
+				$("#tabs").tabs();
+			});
+		</script>
+	</head>
+	<body>
+		<div id="wrapper">
+			<div id="leganto">
+				<img src="img/logo.png" alt="Leganto" />
+				<h1>Leganto</h1>
+				<div class="clear"></div>
+			</div>
+			<div id="contact">
+				<a id="email" href="mailto:info@leganto.cz" title="Napište nám">info@leganto.cz</a>
+			</div>
+
+			<div id="tabs">
+				<ul id="tabs-links">
+					<li><a href="#about" title="O projektu">O projektu</a></li>
+					<li><a href="#twitter_div" title="Píšeme na Twitteru">Píšeme na Twitteru</a></li>
+				</ul>
+
+				<!-- INFO -->
+				<div id="about">
+					<p>Leganto je komunitní stránka zaměřená na vytváření a sdílení informací o literatuře jako plnohodnotné části naší kultury.</p>
+					<p><strong>Přidejte se k nám</strong> a ponořte se do krásy knihy.</p>
+
+					<div id="share">
+						<a href="http://www.facebook.com/sharer.php?u=http://leganto.cz" title="Share on facebook"><img src="img/socialnetworks/facebook.png" alt="Share on facebook" /></a>
+						<a href="http://twitter.com/home?status=I like http://leganto.cz" title="Share on twitter" target="_blank"><img src="img/socialnetworks/twitter.png" alt="Share on twitter" /></a>
+						<a href="http://del.icio.us/post?url=http://leganto.cz" title="Save to delicious"><img src="img/socialnetworks/delicious.png" alt="Save to delicious" /></a>
+						<a href="http://digg.com/submit?url=http://leganto.cz" title="Share on digg"><img src="img/socialnetworks/digg.png" alt="Share on digg" /></a>
+						<a href="https://www.google.com/bookmarks/mark?op=edit&bkmk=http://leganto.cz" title="Bookmark on google"><img src="img/socialnetworks/google.png" alt="Bookmark on google" /></a>
+					</div>
+				</div>
+
+				<!-- TWITTER -->
+				<div id="twitter_div">
+					<ul id="twitter_update_list"></ul>
+				</div>
+				<script type="text/javascript" src="http://twitter.com/javascripts/blogger.js"></script>
+				<script type="text/javascript" src="http://twitter.com/statuses/user_timeline/leganto_devel.json?callback=twitterCallback2&amp;count=4"></script>
+			</div>
+
+			<div id="foot">
+				&copy; <a href="http://leganto.cz">leganto.cz</a> - Jan Drábek, Jan Papoušek | <a href="mailto:info@leganto.cz" title="Napište nám!">info@leganto.cz</a>
+			</div>
+		</div>
+	</body>
+</html>

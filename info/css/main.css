@@ -10,6 +10,11 @@ a {
 	color: #336699;
 	outline: none;
 }
+a img {
+	text-decoration: none;
+	outline: none;
+	border: 0;
+}
 a:hover {
 	text-decoration: none;
 }
@@ -40,7 +45,31 @@ a:hover {
 	text-align: center;
 	font-size: 2em;
 }
-#twitter_div, #contact {
+ul#tabs-links {
+	padding: 0;
+	margin: 0 0 10px 10px;
+}
+ul#tabs-links li {
+	list-style: none;
+	display: inline
+}
+ul#tabs-links li a {
+	color: white;
+	text-decoration: none;
+	-webkit-border-radius: 10px 10px 0 0;
+	-moz-border-radius: 10px 10px 0 0;
+	border-radius: 10px 10px 0 0;
+	background: #336699;
+	padding: 10px;
+}
+ul#tabs-links li a:hover, ul#tabs-links li.ui-tabs-selected a {
+	background: #f5d25a;
+	color: #484139;
+}
+.ui-tabs .ui-tabs-hide {
+     display: none;
+}
+#about, #twitter_div, #contact {
 	-webkit-border-radius: 10px;
 	-moz-border-radius: 10px;
 	border-radius: 10px;
@@ -59,6 +88,14 @@ a:hover {
 #twitter_div ul li {
 	padding: 20px 0;
 	border-bottom: 1px dashed #D0ECF0;
+}
+#foot {
+	border-top: 1px dashed white;
+	padding-top: 10px;
+	margin-top: 10px;
+}
+#foot, #foot * {
+	color: white;
 }
 .clear {
 	height: 0;
