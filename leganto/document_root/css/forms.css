@@ -103,7 +103,7 @@ textarea {
 }
 /***************************** SEARCH *****************************************/
 #search {
-	width: 370px;
+	width: 380px;
 	float: right;
 	padding: 25px 0 5px 0;
 }
@@ -118,9 +118,9 @@ textarea {
 #search input[type="submit"] {
 	border: 0px;
 	height: 23px;
-	width: 23px;
+	width: 70px;
 	background: url(../img/header_input_submit_default.gif);
-	margin: 0px 2px;
+	margin: 2px 2px;
 	padding: 0px 5px;
         position: static;
 	text-indent: -10000px;
@@ -128,7 +128,7 @@ textarea {
 #search input[type="text"] {
         float: left;
 	height: 19px;
-	width: 300px;;
+	width: 280px;
 	background: url(../img/header_input_text.gif) no-repeat;
 	border: 0px;
 	margin: 2px 2px;
@@ -148,6 +148,7 @@ textarea {
 	text-align:left;
 	width:auto;
 	float: left;
+	cursor: pointer;
 }
 #header #search label:after {
 	content: "";
@@ -156,10 +157,12 @@ textarea {
 	float: left;
 }
 #search-options {
-	margin-top: 5px;
+	padding-top: 5px;
+	font-size: 110%;
 }
 #selected-search-option {
 	font-weight: bold;
+	color: #F5D25A !important;
 }
 #search #frmform-search {
 	margin: 0px 2px;
