@@ -481,3 +481,36 @@ table.connections-list a.delete {
 	display: block;
 	background: url('/img/ico/logout.png') no-repeat;
 }
+/******************************* PAGINATOR *******************************/
+.paginator {
+	margin: 1em 0;
+	font-size: 90%;
+	font-weight: bold;
+}
+
+.paginator a, .paginator span {
+	margin-right: 0.1em;
+	padding: 0.2em 0.5em;
+}
+
+.paginator a {
+	border: 1px solid ;
+	text-decoration: none;
+	color: #C1823E;
+}
+.paginator a:hover {
+	background: #F5D15A;
+	color: #C1823E;
+}
+
+.paginator span.button {
+	border: 1px solid #DDDDDD;
+	color: #DDDDDD;
+}
+
+.paginator .current {
+	background: #F5D15A;
+	border: 1px solid #C1823E;
+	color: #C1823E;
+	font-weight: bold;
+}
