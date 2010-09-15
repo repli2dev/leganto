@@ -32,7 +32,7 @@ a:hover {
 	text-decoration: none;
 }
 a img {
-    border: none;
+	border: none;
 }
 
 /************************** LAYOUT ********************************************/
@@ -282,6 +282,9 @@ a img {
 #feed p {
 	padding: 0;
 }
+.feed div.item-opinion {
+	
+}
 /************************** HELP **********************************************/
 .help-category {
 	cursor: pointer;
@@ -370,14 +373,14 @@ a img {
 }
 /************************** SUBMENU *******************************************/
 .box {
-    margin-top: 20px;
+	margin-top: 20px;
 }
 .box h3 {
 	font-size: 100%;
 	padding: 5px 0 5px 10px;
 }
 .box ul li {
-    display: block;
+	display: block;
 	text-align: left;
 	padding: 5px 0 5px 10px;
 }
@@ -416,7 +419,7 @@ a img {
 /************************** OTHER *********************************************/
 .icon {
 	float: left;
-	margin: 0px 12px 6px 0; 
+	margin: 0px 12px 6px 0;
 	padding: 1px;
 	border: 1px solid #F5D25A;
 }
@@ -442,4 +445,39 @@ a img {
 	background-image: url('../img/ajax-loader.gif');
 	width: 16px;
 	height: 16px;
+}
+ul.social-networks {
+	margin-left: 20px;
+	list-style: none;
+}
+ul.social-networks li {
+	display: block;
+	line-height: 32px;
+	height: 32px;
+	font-size: 1.1em;
+	margin-bottom: 10px;
+	padding-left: 42px;
+}
+ul.social-networks li.facebook {
+	background: url('/img/socialnetworks/facebook.png') no-repeat;
+}
+ul.social-networks li.twitter {
+	background: url('/img/socialnetworks/twitter.png') no-repeat;
+}
+table.connections-list {
+	width: 100%;
+	border-collapse: collapse;
+}
+table.connections-list thead th {
+	background: #EAF5F7;
+	font-weight: bold;
+}
+table.connections-list td, table.connections-list th {
+	border: 1px solid #8EA5A7;
+	padding: 2px;
+}
+table.connections-list a.delete {
+	text-indent: -10000px;
+	display: block;
+	background: url('/img/ico/logout.png') no-repeat;
 }

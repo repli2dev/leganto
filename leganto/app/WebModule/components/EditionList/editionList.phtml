@@ -33,7 +33,8 @@
 	    <ul>
 		{foreach $editions AS $edition}
 		    <li>
-				<a href="{plink Book:default, $edition->idBookTitle, $edition->getId()}">
+			    <?php $clrf = "\n"; ?>
+			    <a title="{_"ISBN"}: {$edition->isbn10}{$clrf}{_"ISBN"}: {$edition->isbn13}{$clrf}{_"Pages"}: {$edition->pages}{$clrf}{_"Published"}: {$edition->published}" href="{plink Book:default, $edition->idBookTitle, $edition->getId()}">
 			    <img class="icon" src="{$edition->image, 50|thumbnail}" width="50" height="80" />
 			</a>
 		    </li>
