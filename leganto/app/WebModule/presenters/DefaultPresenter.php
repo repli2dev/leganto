@@ -17,6 +17,8 @@
  */
 class Web_DefaultPresenter extends Web_BasePresenter {
 
+	private $firstTime;
+
 	public function renderDefault() {
 		if (Environment::getUser()->isAuthenticated()) {
 			$this->forward("feed");
@@ -26,11 +28,12 @@ class Web_DefaultPresenter extends Web_BasePresenter {
 		$this->setPageKeywords(System::translate("books, how to choose book, what friends reads, what my, culture, about books, opinions on books, leganto, čtenáři, preader"));
 	}
 
-	public function renderFeed() {
+	public function renderFeed($firstTime = FALSE) {
 		if (!Environment::getUser()->isAuthenticated()) {
 			$this->forward("default");
 		}
 		$this->setPageTitle(System::translate("News"));
+		$this->firstTime = $firstTime;
 		$this->setPageDescription(System::translate("Feed page offers you updates from our web, you can watch adding opinions or discussion in one page."));
 		$this->setPageKeywords(System::translate("feed, wall, activity of users, followers."));
 	}
@@ -50,7 +53,9 @@ class Web_DefaultPresenter extends Web_BasePresenter {
 	}
 
 	protected function createComponentFeed($name) {
-		return new FeedComponent($this, $name);
+		$c = new FeedComponent($this, $name);
+		$c->firstTime = $this->firstTime;
+		return $c;
 	}
 
 }

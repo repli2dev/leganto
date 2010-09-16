@@ -17,8 +17,11 @@ class UserAuthenticator
 				);
 			}
 			// Load data connected to that token.
-			$row = Leganto::users()->getSelector()->findAll()->where("[id_user] = %i", $row["id_user"])->fetch();
-			$name = $row['nick'];
+			$row = Leganto::users()
+				->fetchAndCreate(
+					Leganto::users()->getSelector()->findAll()->where("[id_user] = %i", $row["id_user"])->applyLimit(1)
+					);
+			$name = $row->nickname;
 		} else { // Internal login
 			$name = $credentials[IAuthenticator::USERNAME];
 			$password = self::passwordHash($credentials[IAuthenticator::PASSWORD]);

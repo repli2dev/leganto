@@ -43,7 +43,7 @@ class BaseForm extends AppForm
 		if(isSet($session2->values)) { // Data found, restore, unset and invoke error (wrong spam)
 			$this->setValues($session2->values);
 			unset($session2->values);
-			$this->addError("Your answer is wrong, please try it again with defferent question.");
+			$this->addError("Your answer is wrong, please try it again with different question.");
 		}
 		parent::render();
 	}
