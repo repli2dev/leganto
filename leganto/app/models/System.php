@@ -103,7 +103,7 @@ final class System
 			return dibi::insert("user_log",$values)->execute();
 		}
 		catch (Exception $e) {
-			Debug::processException();
+			Debug::processException($e, TRUE);
 		}
 	}
 }
