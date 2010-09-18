@@ -14,7 +14,7 @@
     </table>
 
 {foreach $feed AS $item}
-    <div class="item">
+    <div class="item item-{$item->type}">
 
 		<div class="info-side">
 			<img class="icon" src="{$item->userId, 50|userico}" alt="{$item->userNick}" />

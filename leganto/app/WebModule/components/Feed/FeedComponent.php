@@ -4,6 +4,8 @@ class FeedComponent extends BaseListComponent {
 	/** @persistent */
 	public $allSwitcher;
 
+	public $firstTime;
+
 	public function handleAll() {
 		$this->allSwitcher = TRUE;
 	}
@@ -14,6 +16,10 @@ class FeedComponent extends BaseListComponent {
 
 	protected function beforeRender() {
 		parent::beforeRender();
+		if($this->firstTime) {
+			$this->handleAll();
+			$this->flashMessage(System::translate("To provide you the best experience please fill in additional details in ").Html::el("a")->href($this->getPresenter()->link("Settings:default"))->setText(System::translate("Settings")).".");
+		}
 		$this->getTemplate()->allSwitcher = $this->allSwitcher;
 		if (empty($this->getTemplate()->allSwitcher)) {
 			$users = Leganto::users()->getSelector()->findAllFollowed(System::user())->fetchPairs("id_user", "id_user");

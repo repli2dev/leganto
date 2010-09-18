@@ -162,6 +162,7 @@ class IntroductionComponent extends BaseComponent {
 
 			// Now it is safe to delete twitter data in session
 			$this->twitter->destroyLoginData();
+			$this->getPresenter()->redirect("Default:feed", true);
 			
 		} else {
 			// Show error that same account (probably nick) exists
@@ -200,6 +201,7 @@ class IntroductionComponent extends BaseComponent {
 
 			// Now it is safe to delete facebook data in session
 			$this->facebook->destroyLoginData();
+			$this->getPresenter()->redirect("Default:feed", true);
 
 		} else {
 			// Show error that same account (probably nick) exists
@@ -530,8 +532,8 @@ class IntroductionComponent extends BaseComponent {
 						break;
 				}
 			}
-			$this->getPresenter()->flashMessage(System::translate("Thanks for your registration."));
-			$this->getPresenter()->redirect("this");
+			$this->getPresenter()->flashMessage(System::translate("Thanks for your registration."),"success");
+			$this->getPresenter()->redirect("Default:feed", true);
 		} else {
 			$form->addError("Account with same nickname or email is already registered.");
 		}

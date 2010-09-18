@@ -104,6 +104,17 @@ class Web_UserPresenter extends Web_BasePresenter {
 		$this->setPageDescription(System::translate("On this page you see shelves of user and book in them, owners can re-order theirs book."));
 		$this->setPageKeywords(System::translate("book shelves, update, reorder, manipulation, books"));
 	}
+	public function renderSimilar($user) {
+		$this->getTemplate()->user = $this->getUserEntity();
+		$this->setPageTitle(System::translate("Similar users") . ": " . $this->getUserEntity()->nickname);
+		$this->setPageDescription(System::translate("On this page you see similar users of specific user. This is done on books that both users have read."));
+		$this->setPageKeywords(System::translate("user, books, similarity, similar users, similar"));
+
+		$this->getComponent("userList")->setSource(
+				Leganto::users()->getSelector()
+				->findAllSimilar($this->getUserEntity())
+		);
+	}
 
 	public function renderIcon($id) {
 		if (empty($id)) {
@@ -185,6 +196,7 @@ class Web_UserPresenter extends Web_BasePresenter {
 		$submenu->addLink("shelves", System::translate("Shelves"), $this->getUserEntity()->getId());
 		$submenu->addLink("following", System::translate("Following"), $this->getUserEntity()->getId());
 		$submenu->addLink("followers", System::translate("Followers"), $this->getUserEntity()->getId());
+		$submenu->addLink("similar", System::translate("Similar users"), $this->getUserEntity()->getId());
 		if (Environment::getUser()->isAuthenticated() && System::user()->getId() != $this->getUserEntity()->getId()) {
 			if (Leganto::users()->getSelector()->isFollowedBy($this->getTemplate()->user->getId(), System::user())) {
 				$submenu->addEvent("toogleFollow", System::translate("Unfollow"), $this->getUserEntity()->getId());

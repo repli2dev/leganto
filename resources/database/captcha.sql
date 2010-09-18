@@ -1,5 +1,5 @@
 # Datas for captcha (english and czech)
-INSERT INTO `captcha` (`id`, `question`, `answer`,`id_language`) VALUES
+INSERT INTO `captcha` (`question`, `answer`,`id_language`) VALUES
 ('Kolik je dvě plus 3?', '5',1),
 ('Kolik je 1 plus deset?', '11',1),
 ('Kolik je 8 děleno čtyřmi?', '2',1),

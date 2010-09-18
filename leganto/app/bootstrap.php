@@ -44,6 +44,9 @@ $router[] = WebModule::createRouter();
 dibi::connect(Environment::getConfig('database'));
 error_reporting(E_ALL^E_USER_WARNING);
 
-// Step 6: Run the application!
+// Step 6: Start session
+Environment::getSession()->start();
+
+// Step 7: Run the application!
 $application->run();
 
