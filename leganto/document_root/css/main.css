@@ -267,6 +267,27 @@ a img {
 	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
 	filter: alpha(opacity=50);
 }
+#mentioned-yes, #mentioned-no {
+	background: #f6f6f6;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	border: 1px solid #f6f6f6;
+	padding: 5px 10px;
+	margin: 10px;
+	width: 380px;
+	min-height: 150px;
+}
+#mentioned-yes {
+	float: left;
+}
+#mentioned-no {
+	float: right;
+}
+#mentioned-no a {
+	background: none;
+	text-decoration: none;
+}
 /************************** DISCUSSION ****************************************/
 #topic-insert {
 	margin-top: 30px;

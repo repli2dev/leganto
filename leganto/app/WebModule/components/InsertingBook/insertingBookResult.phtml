@@ -1,9 +1,15 @@
 <h1>{_'Insert book: is mentioned?'}</h1>
-<h2>{_'Yes'}</h2>
-<p>{_'The book alredy exists on our web. You do not have to insert it again. If you want to add your opinion do it from book detail.'}</p>
-<h2>{_'No'}</h2>
-<p>{_'Please continue to the next page where we will obtain some other information.'} <a href="{link continueToInsert, $title}"><button name="continue_button" value="{_'Continue'}">{_'Continue'}</button></a></p>
 
+<div id="mentioned-yes">
+	<h2>{_'Yes'}</h2>
+	<p>{_'The book alredy exists on our web. You do not have to insert it again. If you want to add your opinion do it from book detail.'}</p>
+</div>
+<div id="mentioned-no">
+	<h2>{_'No'}</h2>
+	<p>{_'Please continue to the next page where we will obtain some other information.'}</p>
+	<p><a href="{link continueToInsert, $title}"><button name="continue_button" value="{_'Continue'}">{_'Continue'}</button></a>
+</div>
+<div class="clear"></div>
 <h2>{_'Found books'}</h2>
 {widget searchForm}
 {widget bookList}
