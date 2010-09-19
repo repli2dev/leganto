@@ -9,8 +9,9 @@
 			{$hint->text}
 		</div>
 		@{else}
-				<div id="introduction-form-wrapper">
+				
 			@{if $state == "login"}
+				<div id="introduction-form-wrapper">
 				{if $flashes}
 				<ul>
 					{foreach $flashes as $flash}
@@ -19,46 +20,61 @@
 				</ul>
 				{/if}
 				@{widget "loginForm"}
+				</div>
 			@{/if}
 			@{if $state == "facebook"}
-				<div>
 				@{if $enabled}
 					<h1>{_'Do you have account?'}</h1>
-					<p><strong>{_'Yes...'}</strong> {_'If you want to connect this facebook account please log in.'}</p>
-					@{widget "facebookForm"}
-					<p><strong>{_'No...'}</strong> {_'If you want to create new account please click on button Create new which log in you automatically in just a second.'}</p>
-					<ul>
-						{foreach $flashes as $flash}
-							<li>{$flash->message}</li>
-						{/foreach}
-					</ul>
-					<a href="{link signUpViaFacebook}" id="signup_button">{_'Create new'}</a>
+					<div id="mentioned-yes">
+						<h2>{_'Yes...'}</h2>
+						<p>{_'If you want to connect this facebook account please log in.'}</p>
+						@{widget "facebookForm"}
+					</div>
+					<div id="mentioned-no">
+						<h2>{_'No...'}</h2>
+						<p>{_'If you want to create new account please click on button Create new which log in you automatically in just a second.'}</p>
+						<ul>
+							{foreach $flashes as $flash}
+								<li>{$flash->message}</li>
+							{/foreach}
+						</ul>
+						<a href="{link signUpViaFacebook}" id="signup_button">{_'Create new'}</a>
+					</div>
 				@{/if}
-				</div>
 			@{/if}
 			@{if $state == "twitter"}
-				<div>
 				@{if $enabled}
 					<h1>{_'Do you have account?'}</h1>
-					<p><strong>{_'Yes...'}</strong> {_'If you want to connect this twitter account please log in.'}</p>
-					@{widget "twitterForm"}
-					<p><strong>{_'No...'}</strong> {_'If you want to create new account please click on button Create new which log in you automatically in just a second.'}</p>
-					<ul>
-						{foreach $flashes as $flash}
-							<li>{$flash->message}</li>
-						{/foreach}
-					</ul>
-					<a href="{link signUpViaTwitter}" id="signup_button">{_'Create new'}</a>
+					<div id="mentioned-yes">
+						<h2>{_'Yes...'}</h2>
+						<p>{_'If you want to connect this twitter account please log in.'}</p>
+						@{widget "twitterForm"}
+					</div>
+					<div id="mentioned-no">
+						<h2>{_'No...'}</h2>
+						<p>{_'If you want to create new account please click on button Create new which log in you automatically in just a second.'}</p>
+						<ul>
+							{foreach $flashes as $flash}
+								<li>{$flash->message}</li>
+							{/foreach}
+						</ul>
+						<a href="{link signUpViaTwitter}" id="signup_button">{_'Create new'}</a>
+					</div>
+					<div class="clear"></div>
 				@{/if}
-				</div>
 			@{/if}
 			@{if $state == "signup"}
+				<div id="introduction-form-wrapper">
 				@{widget "signUpForm"}
+				</div>
 			@{/if}
 			@{if $state == "forgotten"}
+				<div id="introduction-form-wrapper">
 				@{widget "forgottenForm"}
+				</div>
 			@{/if}
 			@{if $state == "renew"}
+				<div id="introduction-form-wrapper">
 				{if $flashes}
 				<ul>
 					{foreach $flashes as $flash}
@@ -67,8 +83,8 @@
 				</ul>
 				{/if}
 				@{widget "renewForm"}
-			@{/if}
 				</div>
+			@{/if}
 		@{/if}
 
 		@{if $state != "facebook" && $state != "twitter"}
