@@ -123,6 +123,14 @@ class IntroductionComponent extends BaseComponent {
 			case "twitter":
 			case "forgotten":
 			case "renew":
+				if($state == "facebook" && !$this->facebook->isEnabled()) {
+					$this->getPresenter()->flashMessage(System::translate("Facebook functions are not accessible right now. Please try it later."),"error");
+					$this->getPresenter()->redirect("Default:");
+				} else
+				if($state == "twitter" && !$this->twitter->isEnabled()) {
+					$this->getPresenter()->flashMessage(System::translate("Twitter functions are not accessible right now. Please try it later."),"error");
+					$this->getPresenter()->redirect("Default:");
+				} else
 				$this->state = $state;
 				break;
 			default:
@@ -314,6 +322,7 @@ class IntroductionComponent extends BaseComponent {
 			$template = LegantoTemplate::loadTemplate(new Template());
 			$template->setFile(WebModule::getModuleDir() . "/templates/mails/forgottenPassword.phtml");
 			$template->hash = $hash;
+			$template->url = Environment::getHttpRequest()->uri->getHostUri()."".$this->link("changeState!","renew");
 			// Send mail with new pass key
 			$mail = new Mail();
 			$mail->addTo($user->email);
