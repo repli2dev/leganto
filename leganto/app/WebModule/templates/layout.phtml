@@ -63,6 +63,16 @@
 		</div>
 
 		<div id="footer">
+			<div class="wrapper">
+				&copy; <a href="{$baseUri}" title="{_'Internet reading lists'">{=System::domain()->uri}</a> - {_'Internet reading lists'} - <a href='{link Help:text, 29}'>{_'term of use'}</a>
+				|
+				{assign email => System::domain()->email}
+				{_'contact us at'} <a href='mailto:{$email}'>{$email}</a>
+				|
+				{_'created by'}
+				<a href='http://jandrabek.cz'>Jan Drábek</a>
+				&amp;
+				<a href='mailto:jan.papousek@gmail.com'>Jan Papoušek</a>
 		</div>
 
 	</body>

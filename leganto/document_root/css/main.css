@@ -139,6 +139,8 @@ a img {
 	height: 47px;
 	clear: both;
 	border-top: 2px solid #F9E7A2;
+	padding: 10px;
+	color: #336699;
 }
 /************************** BOOK **********************************************/
 #book-info h1 {

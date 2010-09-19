@@ -25,6 +25,7 @@
 }
 .list .item .control a {
     margin-right: 10px;
+	background: none !important;
 }
 .list .list {
     padding-left: 50px;
