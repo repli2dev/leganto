@@ -196,3 +196,11 @@ ul.error {
 .button[name=no]{
 	margin-left: 0px;
 }
+.spamAnswer {
+	width: 60px !important;
+	margin-left: 140px;
+}
+label[for=frmsignUpForm-captchacode] {
+	width: 100%;
+	text-align: center;
+}

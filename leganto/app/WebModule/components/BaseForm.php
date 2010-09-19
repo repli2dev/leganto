@@ -63,10 +63,11 @@ class BaseForm extends AppForm
 		} else {
 			$data = Leganto::captcha()->getSelector()->find($session->captchaKey);
 		}
-		$this->addText("captchacode",$data->question,10)
+		$a = $this->addText("captchacode",$data->question,10)
 			->addRule(Form::FILLED,"Please answer to captcha question to ensure that you are human.")
 			->addCondition(Form::FILLED)
 				->addRule("BaseForm::validateSpamProtection","Your answer is wrong, please try it again with defferent question.");
+		$this["captchacode"]->getControlPrototype()->class("spamAnswer");
 			
 	}
 
