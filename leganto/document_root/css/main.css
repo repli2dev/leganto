@@ -380,7 +380,7 @@ a img {
 }
 #signup_button {
 	text-decoration: none;
-	background-image: url(../img/main_signupbutton.gif);
+	background-image: url(../img/main_signupbutton.gif) !important;
 }
 #signup_button:hover {
 	background-position: -101px;
