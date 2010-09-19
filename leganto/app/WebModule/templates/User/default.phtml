@@ -4,7 +4,7 @@
     <div id="user-info">
         <img class="icon" src="{$user->getId(),150|userico}" alt="{$user->nickname}" width="150" />
         <h1>{$user->nickname}</h1>
-		{if $user->sex != NULL || $user->year != NULL}
+		{if $user->sex != NULL || $user->birthyear != NULL}
 			<p>
 				{if $user->sex != NULL}
 					<strong>Sex:</strong> {_"$user->sex"}<br />
