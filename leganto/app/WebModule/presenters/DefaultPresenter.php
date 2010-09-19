@@ -38,6 +38,13 @@ class Web_DefaultPresenter extends Web_BasePresenter {
 		$this->setPageKeywords(System::translate("feed, wall, activity of users, followers."));
 	}
 
+	public function renderTopBooks($limit = 200) {
+		$books = Leganto::books()->getSelector()->findAllTop()->applyLimit($limit);
+		$this->setPageTitle(System::translate("Best books"));
+		$this->getComponent("topBookList")->setLimit(18);
+		$this->getComponent("topBookList")->setSource($books);
+	}
+
 	public function renderUnauthorized() {
 		$this->setPageTitle(System::translate("Unauthorized"));
 		$this->setPageDescription(System::translate("Sorry, but you have tried to access protected page, please login."));
@@ -56,6 +63,10 @@ class Web_DefaultPresenter extends Web_BasePresenter {
 		$c = new FeedComponent($this, $name);
 		$c->firstTime = $this->firstTime;
 		return $c;
+	}
+
+	protected function createComponentTopBookList($name) {
+		return new BookListComponent($this, $name);
 	}
 
 }

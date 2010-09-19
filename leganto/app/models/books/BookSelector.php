@@ -80,7 +80,11 @@ class BookSelector implements ISelector
 		}
 		return dibi::dataSource("SELECT * FROM [view_similar_book] WHERE [id_book_from] = %i", $book->bookNode);
 	}
-	
+
+	public function findAllTop() {
+		return dibi::dataSource("SELECT * FROM [view_book] ORDER BY ROUND([rating]) DESC, [number_of_readers] DESC");
+	}
+
 	public function search($keyword) {
 		if (empty($keyword)) {
 			throw new NullPointerException("keyword");
