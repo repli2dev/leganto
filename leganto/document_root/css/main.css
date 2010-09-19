@@ -313,6 +313,9 @@ a img {
 	padding-bottom: 5px;
 	border-bottom: 2px solid #F5D25A;
 }
+#info {
+	min-height: 210px;
+}
 #note {
 	height: 245px;
 	width: 310px;
@@ -347,6 +350,7 @@ a img {
 	line-height: 24px;
 	text-align: center;
 	vertical-align: middle;
+	background-color: white;
 }
 #signup_button, #login_button {
 	text-decoration: none;
