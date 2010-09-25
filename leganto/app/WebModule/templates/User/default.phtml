@@ -7,10 +7,16 @@
 		{if $user->sex != NULL || $user->birthyear != NULL}
 			<p>
 				{if $user->sex != NULL}
-					<strong>Sex:</strong> {_"$user->sex"}<br />
+					<strong>Sex:</strong>
+					{if $user->sex == "female"}
+						{_"Female"}
+					{else}
+						{_"Male"}
+					{/if}
+					<br />
 				{/if}
 				{if $user->birthyear != NULL}
-				<strong>Birth year:</strong> {_"{$user->birthyear}"}<br />
+				<strong>Birth year:</strong> {$user->birthyear}<br />
 				{/if}
 			</p>
 		{/if}

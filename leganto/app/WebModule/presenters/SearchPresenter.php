@@ -135,10 +135,10 @@ class Web_SearchPresenter extends Web_BasePresenter {
 	protected function createComponentSubmenu($name) {
 		$query = $this->getParam("query");
 		$submenu = new SubmenuComponent($this, $name);
-		$submenu->addLink("default", System::translate("Book search"), $query);
-		$submenu->addLink("author", System::translate("Author search"), $query);
-		$submenu->addLink("discussion", System::translate("Discussion search"), $query);
-		$submenu->addLink("user", System::translate("User search"), $query);
+		$submenu->addLink("default", System::translate("Book"), $query);
+		$submenu->addLink("author", System::translate("Author"), $query);
+		$submenu->addLink("discussion", System::translate("Discussion"), $query);
+		$submenu->addLink("user", System::translate("User"), $query);
 		$submenu->addLink("help", System::translate("Help"), $query);
 		return $submenu;
 	}

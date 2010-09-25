@@ -152,10 +152,10 @@ class InsertingBookComponent extends BaseComponent {
 			if (isset($last)) {
 				// Add text saying what to do
 				$el = Html::el("span")->setClass("underForm");
-				$el->setText(System::translate("If the author is not listed, please click on button New."));
+				$el->setText(System::translate("If the author is not listed in the list above, please click on button Create new."));
 				$last->setOption("description", $el);
 			}
-			$form->addSubmit("addAuthor","Add")
+			$form->addSubmit("addAuthor","Add existing")
 					->getControlPrototype()->setId("addAuthor");
 			if ($this->getNumberOfAuthors() > 1) {
 				$form->addSubmit("removeAuthor","Remove")
@@ -163,7 +163,7 @@ class InsertingBookComponent extends BaseComponent {
 						->getControlPrototype()->setId("removeAuthor");
 				$form["removeAuthor"]->getControlPrototype()->setId("removeAuthor");
 			}
-			$form->addSubmit("newAuthor","New")
+			$form->addSubmit("newAuthor","Create new")
 					->setValidationScope(FALSE)
 					->getControlPrototype()->setId("newAuthor")
 					->setHtmlId("newAuthor");
@@ -172,7 +172,8 @@ class InsertingBookComponent extends BaseComponent {
 		// Language
 		$form->addGroup("Other");
 		$languages = Leganto::languages()->getSelector()->findAll()->fetchPairs("id_language", "name");
-		$form->addSelect("language", "Language", $languages);
+		$form->addSelect("language", "Language", $languages)
+			->setOption("description",System::translate("(language of book title and subtitle)"));
 
 		// Book node
 		$form->addHidden("id_book");

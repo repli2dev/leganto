@@ -10,12 +10,12 @@ class Web_AuthorPresenter extends Web_BasePresenter {
 			$this->unauthorized();
 		}
 		if (Leganto::books()->getSelector()->findAllByAuthor($this->getAuthor())->count() != 0) {
-			$this->flashMessage("The author can not be deleted, because the there are some books which are written by this author.", "error");
+			$this->flashMessage(System::translate("The author can not be deleted, because the there are some books which are written by this author."), "error");
 			$this->redirect("default", $author);
 		}
 		try {
 			$this->getAuthor()->delete();
-			$this->flashMessage("The author has been successfuly deleted.", "success");
+			$this->flashMessage(System::translate("The author has been successfuly deleted."), "success");
 		} catch (Exception $e) {
 			$this->unexpectedError($e);
 		}

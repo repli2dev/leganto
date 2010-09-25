@@ -3,7 +3,7 @@
 @{block #subcontent}
 	<h1>{_'Social networks'}</h1>
 	<p>{_'Here you can see and manage connections with social networks.'}</p>
-	<p>{_'Add new social network:'}</p>
+	<p>{_'Add new social network'}:</p>
 	<ul class="social-networks">
 		<li class="facebook">{if isSet($used['facebook'])}{_'Facebook'} | <small>{_'You have already connected to this network.'}</small>{else}<a href="{link facebook}">{_'Facebook'}</a>{/if}</li>
 		<li class="twitter">{if isSet($used['twitter'])}{_'Twitter'} | <small>{_'You have already connected to this network.'}</small>{else}<a href="{link twitter}">{_'Twitter'}</a>{/if}</li>

@@ -132,6 +132,7 @@ a img {
 #content {
 	overflow: hidden;
 	padding: 26px 20px;
+	padding-top: 0px;
 	margin-bottom: 20px;
 	min-height: 500px;
 }
@@ -310,7 +311,6 @@ a img {
 }
 /************************** HELP **********************************************/
 .help-category {
-	cursor: pointer;
 	line-height: 2em;
 	font-weight: normal;
 	-webkit-border-radius: 5px;
@@ -322,12 +322,19 @@ a img {
 .help-category-inner {
 	padding: 10px;
 }
+.help-category-inner p {
+	padding: 0px;
+}
 .help-category h2 {
 	float: left;
 	margin-top: 0px;
 }
+.help-category h3 {
+	margin-bottom: 5px;
+}
 .help-category span.description {
 	float: left;
+	margin-left: 20px;
 }
 /************************** INTRODUCTION **************************************/
 #introduction {
@@ -492,15 +499,17 @@ ul.social-networks li.twitter {
 }
 table.connections-list {
 	width: 100%;
+	margin-top: 10px;
 	border-collapse: collapse;
 }
 table.connections-list thead th {
 	background: #EAF5F7;
 	font-weight: bold;
+	font-size: 120%;
 }
 table.connections-list td, table.connections-list th {
 	border: 1px solid #8EA5A7;
-	padding: 2px;
+	padding: 8px;
 }
 table.connections-list a.delete {
 	text-indent: -10000px;
