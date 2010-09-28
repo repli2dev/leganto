@@ -1,9 +1,0 @@
-#help-container, .wrapper {
-	position: relative;
-	z-index: inherit;
-	zoom: 1;
-}
-.help-category, #content {
-	background: white;
-	behavior:url(/css/border-radius.htc);
-}

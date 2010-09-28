@@ -15,6 +15,20 @@
 
 		<script type="text/javascript" src="/js/jquery-1.4.2.min.js"></script>
 		<script type="text/javascript" src="/js/search.js"></script>
+		{* Trigger correct option in menu where in search section *}
+		{ifCurrent Search:*}
+			<script type="text/javascript">
+			$(function(){
+				// Unset all others
+				$('#search label').each(function() {
+					$(this).attr("id", "");
+				});
+				// Triger the correct one
+				labelId = $("#search input[value=<?php echo $presenter->getAction(); ?>]").attr("id");
+				$("#search label[for="+labelId+"]").attr("id","selected-search-option");
+			});
+			</script>
+		{/if}
 		<link rel="stylesheet" type="text/css" href="/css/jquery.ui.autocomplete.css" />
 		<script type="text/javascript" src="/js/jquery.external.js"></script>
 		<script type="text/javascript" src="/js/jquery-ui-1.8.2.custom.min.js"></script>
@@ -26,7 +40,13 @@
 		<script type="text/javascript" src="/js/jquery.autocomplete.js"></script>
 
 		<!--[if IE]>
-		<link rel="stylesheet" type="text/css" href="/css/ie.css" />
+		<script type="text/javascript" src="/js/dd_roundies.js"></script>
+		<script type="text/javascript">	
+			DD_roundies.addRule('#content', '10px');
+			DD_roundies.addRule('#book-stats h3, #mentioned-yes, #mentioned-no, .help-category, .list .item', '5px');
+			DD_roundies.addRule('#cover .rating', '0px 0px 5px 0px');
+			DD_roundies.addRule('#cover .stats', '5px 0px 0px 0px');
+		</script>
 		<![endif]-->
 	
 
