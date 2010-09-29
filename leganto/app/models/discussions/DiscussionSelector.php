@@ -1,22 +1,22 @@
 <?php
+
 /**
- * The source file is subject to the license located on web
- * "http://code.google.com/p/preader/".
  *
  * @copyright	Copyright (c) 2009 Jan Papoušek (jan.papousek@gmail.com),
- *				Jan Drábek (repli2dev@gmail.com)
+ * 				Jan Drábek (me@jandrabek.cz)
  * @link		http://code.google.com/p/preader/
  * @license		http://code.google.com/p/preader/
- */
-
-/**
  * @author		Jan Papousek
  * @author		Jan Drabek
- * @version		$Id$
+ * @version		$id$
  */
-class DiscussionSelector implements ISelector
-{
+class DiscussionSelector implements ISelector {
 
+	/**
+	 * Find one discussion with certain id
+	 * @param int $id id of discussion
+	 * @return DiscussionEntity
+	 */
 	public function find($id) {
 		if (empty($id)) {
 			throw new NullPointerException("id");
@@ -24,18 +24,28 @@ class DiscussionSelector implements ISelector
 		return Leganto::discussions()->fetchAndCreate($this->findAll()->where("[id_discussion] = %i", $id));
 	}
 
+	/**
+	 * Find all discussions
+	 * @return DibiDataSource
+	 */
 	public function findAll() {
 		return dibi::dataSource("SELECT * FROM [view_discussion]");
 	}
 
-        public function findByDiscussedAndType($discussed, $type) {
+	/**
+	 * Find discussion according to discussed id and type
+	 * @param int $discussed
+	 * @param int $type
+	 * @return DiscussionEntity
+	 */
+	public function findByDiscussedAndType($discussed, $type) {
 		if (empty($discussed)) {
 			throw new NullPointerException("discussed");
 		}
 		if (empty($type)) {
 			throw new NullPointerException("type");
 		}
-                return Leganto::discussions()->fetchAndCreate($this->findAll()->where("[id_discussed] = %i", $discussed, " AND [id_discussable] = %i", $type));
-        }
+		return Leganto::discussions()->fetchAndCreate($this->findAll()->where("[id_discussed] = %i", $discussed, " AND [id_discussable] = %i", $type));
+	}
 
 }

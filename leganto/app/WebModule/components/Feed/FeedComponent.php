@@ -1,9 +1,19 @@
 <?php
+
+/**
+ *
+ * @copyright	Copyright (c) 2009 Jan Papoušek (jan.papousek@gmail.com),
+ * 				Jan Drábek (me@jandrabek.cz)
+ * @link		http://code.google.com/p/preader/
+ * @license		http://code.google.com/p/preader/
+ * @author		Jan Papousek
+ * @author		Jan Drabek
+ * @version		$id$
+ */
 class FeedComponent extends BaseListComponent {
 
 	/** @persistent */
 	public $allSwitcher;
-
 	public $firstTime;
 
 	public function handleAll() {
@@ -16,9 +26,9 @@ class FeedComponent extends BaseListComponent {
 
 	protected function beforeRender() {
 		parent::beforeRender();
-		if($this->firstTime) {
+		if ($this->firstTime) {
 			$this->handleAll();
-			$this->flashMessage(System::translate("To provide you the best experience please fill in additional details in ").Html::el("a")->href($this->getPresenter()->link("Settings:default"))->setText(System::translate("Settings")).".");
+			$this->flashMessage(System::translate("To provide you the best experience please fill in additional details in ") . Html::el("a")->href($this->getPresenter()->link("Settings:default"))->setText(System::translate("Settings")) . ".");
 		}
 		$this->getTemplate()->allSwitcher = $this->allSwitcher;
 		if (empty($this->getTemplate()->allSwitcher)) {
@@ -27,15 +37,13 @@ class FeedComponent extends BaseListComponent {
 				$this->flashMessage(System::translate("Sorry. No events found, probably you do not follow any user."), "error");
 				$this->handleAll();
 				$this->beforeRender();
-			}
-			else {
+			} else {
 				$this->getSource()->where("id_user IN %l", $users);
 			}
 		}
 		$paginator = $this->getPaginator();
 		$this->getSource()->applyLimit($paginator->itemsPerPage, $paginator->offset);
 		$this->getTemplate()->feed = Leganto::feed()->fetchAndCreateAll($this->getSource());
-
 	}
 
 	protected function createComponentFlashMessages($name) {
@@ -45,4 +53,5 @@ class FeedComponent extends BaseListComponent {
 	protected function startUp() {
 		$this->setSource(Leganto::feed()->getSelector()->findAll());
 	}
+
 }

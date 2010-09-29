@@ -1,24 +1,22 @@
 <?php
+
 /**
- * The source file is subject to the license located on web
- * "http://code.google.com/p/preader/".
  *
  * @copyright	Copyright (c) 2009 Jan Papoušek (jan.papousek@gmail.com),
- *				Jan Drábek (repli2dev@gmail.com)
+ * 				Jan Drábek (me@jandrabek.cz)
  * @link		http://code.google.com/p/preader/
  * @license		http://code.google.com/p/preader/
- */
-
-/**
  * @author		Jan Papousek
  * @author		Jan Drabek
- * @version		$Id$
+ * @version		$id$
  */
-class LanguageSelector implements ISelector
-{
-
+class LanguageSelector implements ISelector {
 	/* PUBLIC METHODS */
-	
+
+	/**
+	 * Find all languages
+	 * @return DibiDataSource
+	 */
 	public function findAll() {
 		return dibi::dataSource("SELECT * FROM [language]");
 	}
@@ -28,7 +26,7 @@ class LanguageSelector implements ISelector
 		return Leganto::languages()
 			->fetchAndCreate(
 				dibi::dataSource("SELECT * FROM [language] WHERE [id_language] = %i", $id)
-			);
+		);
 	}
 
 }

@@ -1,41 +1,36 @@
 <?php
+
 /**
- * The source file is subject to the license located on web
- * "http://code.google.com/p/preader/".
+ * Find edition informations for certain book on google books
  *
  * @copyright	Copyright (c) 2009 Jan Papoušek (jan.papousek@gmail.com),
- *				Jan Drábek (repli2dev@gmail.com)
+ * 				Jan Drábek (me@jandrabek.cz)
  * @link		http://code.google.com/p/preader/
  * @license		http://code.google.com/p/preader/
- */
-
-/**
  * @author		Jan Papousek
  * @author		Jan Drabek
- * @version		$Id$
+ * @version		$id$
  */
+class GoogleBooksEditionFinder extends AFinder {
+	const AUTHOR = "author";
 
- class GoogleBooksEditionFinder extends AFinder {
+	const FORMAT = "format";
 
-	const AUTHOR		= "author";
+	const IDENTIFIER = "isbn";
 
-	const FORMAT		= "format";
+	const PAGES = "pages";
 
-	const IDENTIFIER	= "isbn";
+	const PUBLISHED = "publishDate";
 
-	const PAGES			= "pages";
+	const TITLE = "title";
 
-	const PUBLISHED		= "publishDate";
-
-	const TITLE			= "title";
-
-	const XML_URL		= "http://books.google.com/books/feeds/volumes?q=<--QUERY-->&lr=<--LANG-->";
+	const XML_URL = "http://books.google.com/books/feeds/volumes?q=<--QUERY-->&lr=<--LANG-->";
 
 	/**
 	 * Set query language
 	 * @param string $lang google code of language
 	 */
-	public function  __construct($language) {
+	public function __construct($language) {
 		if (empty($language)) {
 			throw new NullPointerException("language");
 		}
@@ -66,16 +61,16 @@
 		// Parsing...
 		$data = @simplexml_load_string($pageContent);
 		$params = $this->getUrlParams();
-		if($data === false || !isSet($data->entry)) {
-			throw new IOException("No results for query: ".urldecode($params['<--QUERY-->']));
+		if ($data === false || !isSet($data->entry)) {
+			throw new IOException("No results for query: " . urldecode($params['<--QUERY-->']));
 		}
 		$i = 0;
 		$output = array();
-		foreach($data->entry as $entry){
+		foreach ($data->entry as $entry) {
 			$output[$i] = array();
 			$entry = $entry->children('http://purl.org/dc/terms'); // Switch the namespaces
 			// FIXME: co prekladatele?!
-			foreach($entry->creator as $creator){
+			foreach ($entry->creator as $creator) {
 				if (!isset($output[$i]['author'])) {
 					$output[$i]['author'] = array();
 				}
@@ -86,11 +81,10 @@
 			preg_match("/\d+/", (string) $entry->format[0], $matches);
 			$output[$i][self::PAGES] = ExtraArray::firstValue($matches);
 			$output[$i][self::TITLE] = (string) $entry->title;
-			foreach($entry->identifier as $identifier){
+			foreach ($entry->identifier as $identifier) {
 				$output[$i][self::IDENTIFIER][] = (string) $identifier;
 			}
 			$i++;
-
 		}
 		return $output;
 	}
@@ -102,8 +96,9 @@
 	 * @return string
 	 */
 	private function makeQuery($gid) {
-		$query = 'editions:'.$gid.'';
+		$query = 'editions:' . $gid . '';
 
 		return urlencode($query);
 	}
- }
+
+}

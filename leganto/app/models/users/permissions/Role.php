@@ -1,66 +1,70 @@
 <?php
-class Role implements IRole
-{
+/**
+ *
+ * @copyright	Copyright (c) 2009 Jan Papoušek (jan.papousek@gmail.com),
+ *				Jan Drábek (me@jandrabek.cz)
+ * @link		http://code.google.com/p/preader/
+ * @license		http://code.google.com/p/preader/
+ * @author		Jan Papousek
+ * @author		Jan Drabek
+ * @version		$id$
+ */
 
-    const COMMON	= "common";
+class Role implements IRole {
+	const COMMON = "common";
 
-    const GUEST		= "guest";
+	const GUEST = "guest";
 
-    const LIMIT_TO_BE_PRIVILEGED = 20;
+	const LIMIT_TO_BE_PRIVILEGED = 20;
 
-    const PRIVILEGED	= "privileged";
+	const PRIVILEGED = "privileged";
 
-    /** @var UserRole */
-    private static $loggedRole;
+	/** @var UserRole */
+	private static $loggedRole;
+	private $id;
+	private $role;
 
-    private $id;
-
-    private $role;
-
-    private final function  __construct($role, $id) {
-	$this->role = $role;
-	$this->id   = $id;
-    }
-
-    /** @return Role */
-    public static function getLoggedRole() {
-	if (!isset(self::$loggedRole)) {
-	    if (Environment::getUser()->isLoggedIn()) {
-		$role = ExtraArray::firstValue(Environment::getUser()->getRoles());
-		$id   = System::user()->getId();
-	    }
-	    else {
-		$role = self::GUEST;
-		$id   = NULL;
-	    }
-	    self::$loggedRole = new Role($role, $id);
+	private final function __construct($role, $id) {
+		$this->role = $role;
+		$this->id = $id;
 	}
-	return self::$loggedRole;
-    }
 
-    /** @return string */
-    public static function getRoleDescriptor(UserEntity $user) {
-	if ($user->role == UserEntity::COMMON) {
-	    $opinions = Leganto::opinions()->getSelector()->findAll()->where("[id_user] = %i", $user->getId());
-	    if ($opinions->count() >= self::LIMIT_TO_BE_PRIVILEGED) {
-		$role = self::PRIVILEGED;
-	    }
-	    else {
-		$role = self::COMMON;
-	    }
+	/** @return Role */
+	public static function getLoggedRole() {
+		if (!isset(self::$loggedRole)) {
+			if (Environment::getUser()->isLoggedIn()) {
+				$role = ExtraArray::firstValue(Environment::getUser()->getRoles());
+				$id = System::user()->getId();
+			} else {
+				$role = self::GUEST;
+				$id = NULL;
+			}
+			self::$loggedRole = new Role($role, $id);
+		}
+		return self::$loggedRole;
 	}
-	else {
-	    $role = self::PRIVILEGED;
+
+	/** @return string */
+	public static function getRoleDescriptor(UserEntity $user) {
+		if ($user->role == UserEntity::COMMON) {
+			$opinions = Leganto::opinions()->getSelector()->findAll()->where("[id_user] = %i", $user->getId());
+			if ($opinions->count() >= self::LIMIT_TO_BE_PRIVILEGED) {
+				$role = self::PRIVILEGED;
+			} else {
+				$role = self::COMMON;
+			}
+		} else {
+			$role = self::PRIVILEGED;
+		}
+		return $role;
 	}
-	return $role;
-    }
 
-    public function getId() {
-	return $this->id;
-    }
+	public function getId() {
+		return $this->id;
+	}
 
-    public function getRoleId() {
-	return $this->role;
-    }
+	public function getRoleId() {
+		return $this->role;
+	}
 
 }

@@ -1,29 +1,24 @@
 <?php
+
 /**
- * The source file is subject to the license located on web
- * "http://code.google.com/p/preader/".
+ * Find book informations on google books
  *
  * @copyright	Copyright (c) 2009 Jan Papoušek (jan.papousek@gmail.com),
- *				Jan Drábek (repli2dev@gmail.com)
+ * 				Jan Drábek (me@jandrabek.cz)
  * @link		http://code.google.com/p/preader/
  * @license		http://code.google.com/p/preader/
- */
-
-/**
  * @author		Jan Papousek
  * @author		Jan Drabek
- * @version		$Id$
+ * @version		$id$
  */
-
- class GoogleBooksBookFinder extends AFinder {
-
-	const XML_URL		= "http://books.google.com/books/feeds/volumes?q=<--QUERY-->&lr=<--LANG-->";
+class GoogleBooksBookFinder extends AFinder {
+	const XML_URL = "http://books.google.com/books/feeds/volumes?q=<--QUERY-->&lr=<--LANG-->";
 
 	/**
 	 * Set query language
 	 * @param string $lang google code of language
 	 */
-	public function  __construct($language) {
+	public function __construct($language) {
 		if (empty($language)) {
 			throw new NullPointerException("language");
 		}
@@ -54,14 +49,14 @@
 		// Parsing...
 		$data = @simplexml_load_string($pageContent);
 		$params = $this->getUrlParams();
-		if($data === false || !isSet($data->entry)) {
-			throw new IOException("No results for query: ".urldecode($params['<--QUERY-->']));
+		if ($data === false || !isSet($data->entry)) {
+			throw new IOException("No results for query: " . urldecode($params['<--QUERY-->']));
 		}
 		// Get Google Book ID of first item
-		$entry	= $data->entry->children('http://purl.org/dc/terms'); // Switch the namespaces
+		$entry = $data->entry->children('http://purl.org/dc/terms'); // Switch the namespaces
 		$gid = $entry->identifier[0];
 
-		if(empty($gid)){
+		if (empty($gid)) {
 			throw new IOException("Unknown error.");
 		} else {
 			// Ask editionFinder to do the job
@@ -84,20 +79,20 @@
 		$query = "";
 
 		// Add title to query
-		$query .= 'intitle:'.$entity->title.'';
+		$query .= 'intitle:' . $entity->title . '';
 
 		// Add author to query
 		$authors = Leganto::authors()->fetchAndCreateAll(
-			Leganto::authors()->getSelector()->findAllByBook($entity)
+				Leganto::authors()->getSelector()->findAllByBook($entity)
 		);
-		foreach($authors AS $author) {
+		foreach ($authors AS $author) {
 			if ($author->type == AuthorEntity::GROUP) {
-				$query .= ' inauthor:' . $author->groupname.'';
-			}
-			else {
-				$query .= ' inauthor:'. $author->firstname . ' ' . $author->lastname;
+				$query .= ' inauthor:' . $author->groupname . '';
+			} else {
+				$query .= ' inauthor:' . $author->firstname . ' ' . $author->lastname;
 			}
 		}
 		return urlencode($query);
 	}
- }
+
+}

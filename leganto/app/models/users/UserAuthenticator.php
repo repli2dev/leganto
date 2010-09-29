@@ -1,10 +1,21 @@
 <?php
 /**
- * @author Jan Papousek
+ *
+ * @copyright	Copyright (c) 2009 Jan Papoušek (jan.papousek@gmail.com),
+ *				Jan Drábek (me@jandrabek.cz)
+ * @link		http://code.google.com/p/preader/
+ * @license		http://code.google.com/p/preader/
+ * @author		Jan Papousek
+ * @author		Jan Drabek
+ * @version		$id$
  */
-class UserAuthenticator
-{
+class UserAuthenticator {
 
+	/**
+	 * Authenticate user according to credentials (name-password or token)
+	 * @param array $credentials credentials
+	 * @return Identity
+	 */
 	public function authenticate(array $credentials) {
 		// External login
 		if(!empty($credentials['extra'])) { // Extra data (possible token) was found in credentials data -> try to find connection and log user in.
@@ -47,6 +58,11 @@ class UserAuthenticator
 		return new Identity($name, $role, array("id" => $row->getId()));
 	}
 
+	/**
+	 * Create password hash (SHA1)
+	 * @param string $password noncrypted password
+	 * @return string sha1ed password
+	 */
 	public static function passwordHash($password) {
 		return sha1($password);
 	}

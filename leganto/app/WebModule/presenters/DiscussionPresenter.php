@@ -1,5 +1,15 @@
 <?php
 
+/**
+ *
+ * @copyright	Copyright (c) 2009 Jan Papoušek (jan.papousek@gmail.com),
+ * 				Jan Drábek (me@jandrabek.cz)
+ * @link		http://code.google.com/p/preader/
+ * @license		http://code.google.com/p/preader/
+ * @author		Jan Papousek
+ * @author		Jan Drabek
+ * @version		$id$
+ */
 class Web_DiscussionPresenter extends Web_BasePresenter {
 
 	public function renderDefault() {
@@ -15,7 +25,7 @@ class Web_DiscussionPresenter extends Web_BasePresenter {
 			$this->flashMessage(System::translate("The discussion does not exist."), "error");
 			$this->redirect("default");
 		}
-		$this->setPageTitle(System::translate("Discussion").": ".$discussionEntity->name);
+		$this->setPageTitle(System::translate("Discussion") . ": " . $discussionEntity->name);
 		$this->setPageDescription(System::translate("This pages shows one topic thread, where all posts are ordered by date, free to join."));
 		$this->setPageKeywords(System::translate("discussion post, thread, forum"));
 		$this->getTemplate()->discussion = $discussionEntity;
@@ -34,7 +44,7 @@ class Web_DiscussionPresenter extends Web_BasePresenter {
 			$this->flashMessage(System::translate("The discussion does not exist."), "error");
 			$this->redirect("default");
 		}
-		$this->setPageTitle(System::translate("Topic").": ".$discussion->name);
+		$this->setPageTitle(System::translate("Topic") . ": " . $discussion->name);
 		$this->setPageDescription(System::translate("This pages shows one topic thread, where all posts are ordered by date, free to join."));
 		$this->setPageKeywords(System::translate("discussion post, thread, forum"));
 		$this->getTemplate()->discussion = $discussion;

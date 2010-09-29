@@ -2,31 +2,31 @@
 	margin-top: 20px;
 }
 #flashes .flash {
-    padding: 30px;
-    padding-left: 70px;
-    font-size: 1.2em;
-    margin-bottom: 15px;
-    background-position: 1% 50%;
-    background-repeat: no-repeat;
+	padding: 30px;
+	padding-left: 70px;
+	font-size: 1.2em;
+	margin-bottom: 15px;
+	background-position: 1% 50%;
+	background-repeat: no-repeat;
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
 	border-radius: 5px;
 }
 
 #flashes .error {
-    color: #7B0404;
-    background-color: #ffeedd;
-    background-image: url(../img/ico/flash-error.png);
+	color: #7B0404;
+	background-color: #ffeedd;
+	background-image: url(../img/ico/flash-error.png);
 }
 
 #flashes .success {
-    color: #1E3712;
-    background-color: #ddffdd;
-    background-image: url(../img/ico/flash-success.png);
+	color: #1E3712;
+	background-color: #ddffdd;
+	background-image: url(../img/ico/flash-success.png);
 }
 
 #flashes .info {
-    color: #0D58A6;
-    background-color: #eeeeff;
-    background-image: url(../img/ico/flash-info.png);
+	color: #0D58A6;
+	background-color: #eeeeff;
+	background-image: url(../img/ico/flash-info.png);
 }

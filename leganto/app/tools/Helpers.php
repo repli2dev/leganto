@@ -1,19 +1,15 @@
 <?php
 
 /**
- * The source file is subject to the license located on web
- * "http://code.google.com/p/preader/".
+ * Helper class to easy things up. Defines specific tasks on texts (texy), images (storage) etc.
  *
  * @copyright	Copyright (c) 2009 Jan Papoušek (jan.papousek@gmail.com),
- * 				Jan Drábek (repli2dev@gmail.com)
+ * 				Jan Drábek (me@jandrabek.cz)
  * @link		http://code.google.com/p/preader/
  * @license		http://code.google.com/p/preader/
- */
-
-/**
  * @author		Jan Papousek
  * @author		Jan Drabek
- * @version		$Id$
+ * @version		$id$
  */
 final class Helpers {
 
@@ -96,9 +92,9 @@ final class Helpers {
 	 * @return string HTML image
 	 */
 	public static function languageHelper($locale) {
-	    $split = explode("_", $locale);
-	    $state = String::lower($split[1]);
-	    return "<img src=\"" . self::thumbnailHelper(WWW_DIR . "/img/flags/$state.png", 16) . "\" title=\"" . System::translate("Language") . "\" />";
+		$split = explode("_", $locale);
+		$state = String::lower($split[1]);
+		return "<img src=\"" . self::thumbnailHelper(WWW_DIR . "/img/flags/$state.png", 16) . "\" title=\"" . System::translate("Language") . "\" />";
 	}
 
 	/**
@@ -129,69 +125,69 @@ final class Helpers {
 		// FIXME: reportovat toto jako chybu.
 		// TexyConfigurator::safeMode(self::$texySafe);
 		self::$texySafe->allowed = array(
-			"script" => false,
-			"html/tag" => true,
-			"html/comment" => false,
-			"image/definition" => false,
-			"image" => false,
-			"phrase/strong+em" => true,
-			"phrase/strong" => true,
-			"phrase/em" => true,
-			"phrase/em-alt" => false,
-			"phrase/em-alt2" => false,
-			"phrase/ins" => false,
-			"phrase/del" => false,
-			"phrase/sup" => false,
-			"phrase/sup-alt" => true,
-			"phrase/sub" => false,
-			"phrase/sub-alt" => true,
-			"phrase/span" => true,
-			"phrase/span-alt" => false,
-			"phrase/cite" => false,
-			"phrase/quote" => true,
-			"phrase/acronym" => true,
-			"phrase/acronym-alt" => false,
-			"phrase/notexy" =>false,
-			"phrase/code" => true,
-			"phrase/quicklink" => true,
-			"link/definition" => true,
-			"link/reference" => true,
-			"link/url" => true,
-			"link/email" => true,
-			"emoticon" => true,
-			"block/default" => true,
-			"block/pre" => false,
-			"block/code" => false,
-			"block/html" => false,
-			"block/text" => true,
-			"block/texysource" => false,
-			"block/comment" => false,
-			"block/div" => false,
-			"blocks" => false,
-			"figure" => false,
-			"horizline" => false,
-			"blockquote" => true,
-			"table" => false,
-			"heading/underlined" => false,
-			"heading/surrounded" => false,
-			"list" => true,
-			"list/definition" => false,
-			"typography" => true,
-			"longwords" => true
+		    "script" => false,
+		    "html/tag" => true,
+		    "html/comment" => false,
+		    "image/definition" => false,
+		    "image" => false,
+		    "phrase/strong+em" => true,
+		    "phrase/strong" => true,
+		    "phrase/em" => true,
+		    "phrase/em-alt" => false,
+		    "phrase/em-alt2" => false,
+		    "phrase/ins" => false,
+		    "phrase/del" => false,
+		    "phrase/sup" => false,
+		    "phrase/sup-alt" => true,
+		    "phrase/sub" => false,
+		    "phrase/sub-alt" => true,
+		    "phrase/span" => true,
+		    "phrase/span-alt" => false,
+		    "phrase/cite" => false,
+		    "phrase/quote" => true,
+		    "phrase/acronym" => true,
+		    "phrase/acronym-alt" => false,
+		    "phrase/notexy" => false,
+		    "phrase/code" => true,
+		    "phrase/quicklink" => true,
+		    "link/definition" => true,
+		    "link/reference" => true,
+		    "link/url" => true,
+		    "link/email" => true,
+		    "emoticon" => true,
+		    "block/default" => true,
+		    "block/pre" => false,
+		    "block/code" => false,
+		    "block/html" => false,
+		    "block/text" => true,
+		    "block/texysource" => false,
+		    "block/comment" => false,
+		    "block/div" => false,
+		    "blocks" => false,
+		    "figure" => false,
+		    "horizline" => false,
+		    "blockquote" => true,
+		    "table" => false,
+		    "heading/underlined" => false,
+		    "heading/surrounded" => false,
+		    "list" => true,
+		    "list/definition" => false,
+		    "typography" => true,
+		    "longwords" => true
 		);
 		// Add smiles
 		//:-)(šťastný) , :-D(vysmátý) , ;-)(šibalský) , :-((smutný) , :,-((plačící) , :-P(vyplazující jazyk) , >:((naštvaný) .
 		$icons = array(
-			':-)' => "01.png",
-			':)' => "01.png",
-			':-D' => "02.png",
-			':D' => "02.png",
-			';-)' => "03.png",
-			';)' => "03.png",
-			':-(' => "04.png",
-			':,-(' => "05.png",
-			':-P' => "06.png",
-			'>:(' => "07.png"
+		    ':-)' => "01.png",
+		    ':)' => "01.png",
+		    ':-D' => "02.png",
+		    ':D' => "02.png",
+		    ';-)' => "03.png",
+		    ';)' => "03.png",
+		    ':-(' => "04.png",
+		    ':,-(' => "05.png",
+		    ':-P' => "06.png",
+		    '>:(' => "07.png"
 		);
 		self::$texySafe->emoticonModule->root = "/img/smiles/";
 		self::$texySafe->emoticonModule->icons = $icons;
@@ -199,20 +195,19 @@ final class Helpers {
 	}
 
 	/**
-         * Translate wiki-like links to real ones
-         * @param string input
-         * @return string ouptu
-         */
-        public static function wikiLinks($string){
-                $patterns[0] = '/\[([^)^\]\|]+)\]/';
-                $patterns[1] = '/\[([\S ^\]]+)\|([\S ^\]]+)\]/';
+	 * Translate wiki-like links to real ones
+	 * @param string input
+	 * @return string ouptu
+	 */
+	public static function wikiLinks($string) {
+		$patterns[0] = '/\[([^)^\]\|]+)\]/';
+		$patterns[1] = '/\[([\S ^\]]+)\|([\S ^\]]+)\]/';
 		// FIXME: jde to jinak než natvrdo?
-                $replacement[0] = '<a href="/search/?query=\\1">\\1</a>';
-                $replacement[1] = '<a href="/search/?query=\\2">\\2</a>';
-                $string = preg_replace($patterns,$replacement,$string);
-                return $string;
-        }
-
+		$replacement[0] = '<a href="/search/?query=\\1">\\1</a>';
+		$replacement[1] = '<a href="/search/?query=\\2">\\2</a>';
+		$string = preg_replace($patterns, $replacement, $string);
+		return $string;
+	}
 
 	/**
 	 * It returns thumbnail URL
@@ -227,20 +222,20 @@ final class Helpers {
 			$image = WWW_DIR . "/img/avatar_placeholder.gif";
 		}
 		$presenter = Environment::getApplication()->getPresenter();
-		if(!is_string($image)){
+		if (!is_string($image)) {
 			$path = $image->path;
-			$path = str_replace(WWW_DIR,"./",$path);
+			$path = str_replace(WWW_DIR, "./", $path);
 		} else {
 			$path = $image;
 		}
 		if (!empty($width) && !empty($height)) {
-			$url = $presenter->link("Thumb:resize",$path,$width,$height);
+			$url = $presenter->link("Thumb:resize", $path, $width, $height);
 		} else
 		if (!empty($width)) {
-			$url = $presenter->link("Thumb:resize",$path,$width,NULL);
+			$url = $presenter->link("Thumb:resize", $path, $width, NULL);
 		} else
 		if (!empty($height)) {
-			$url = $presenter->link("Thumb:resize",$path,NULL,$height);
+			$url = $presenter->link("Thumb:resize", $path, NULL, $height);
 		}
 		return $url;
 	}

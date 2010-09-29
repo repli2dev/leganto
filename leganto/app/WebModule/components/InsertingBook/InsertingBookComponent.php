@@ -1,14 +1,23 @@
 <?php
+
+/**
+ *
+ * @copyright	Copyright (c) 2009 Jan Papoušek (jan.papousek@gmail.com),
+ * 				Jan Drábek (me@jandrabek.cz)
+ * @link		http://code.google.com/p/preader/
+ * @license		http://code.google.com/p/preader/
+ * @author		Jan Papousek
+ * @author		Jan Drabek
+ * @version		$id$
+ */
 class InsertingBookComponent extends BaseComponent {
 
 	private $book;
-
 	/** @persistent */
 	public $phase;
-
 	private $state = array();
 
-	public function  __destruct() {
+	public function __destruct() {
 		$this->persistState();
 	}
 
@@ -60,8 +69,7 @@ class InsertingBookComponent extends BaseComponent {
 		if ($this->isEditing()) {
 			$values = $this->getValues();
 			$this->getPresenter()->redirect("Author:insert", NULL, $values["id_book_title"]);
-		}
-		else {
+		} else {
 			$this->getPresenter()->redirect("Author:insert");
 		}
 	}
@@ -70,15 +78,15 @@ class InsertingBookComponent extends BaseComponent {
 		if (!Environment::getUser()->isAllowed(Resource::BOOK, Action::INSERT)) {
 			return;
 		}
-		switch($this->getPhase()) {
+		switch ($this->getPhase()) {
 			default:
 			case 1:
 				break;
 			case 2:
-				$this->getTemplate()->setFile($this->getPath()."insertingBookResult.phtml");
+				$this->getTemplate()->setFile($this->getPath() . "insertingBookResult.phtml");
 				break;
 			case 3:
-				$this->getTemplate()->setFile($this->getPath()."insertingBookForm.phtml");
+				$this->getTemplate()->setFile($this->getPath() . "insertingBookForm.phtml");
 				break;
 		}
 		return parent::render();
@@ -100,10 +108,10 @@ class InsertingBookComponent extends BaseComponent {
 
 	public static function sendSignalWithAuthor(AuthorEntity $author) {
 		$session = Environment::getSession("insertingBook");
-		$session["signal"]  = TRUE;
-		$state				= $session["state"];
-		$state["author"]    = $author->getId();
-		$session["state"]   = $state;
+		$session["signal"] = TRUE;
+		$state = $session["state"];
+		$state["author"] = $author->getId();
+		$session["state"] = $state;
 	}
 
 	public function setBookToEdit(BookEntity $book) {
@@ -114,7 +122,7 @@ class InsertingBookComponent extends BaseComponent {
 	public function setRelatedBook(BookEntity $book) {
 		$this->setBookNode($book->bookNode);
 	}
-	
+
 	// PROTECTED METHODS
 
 	protected function createComponentBookForm($name) {
@@ -123,14 +131,14 @@ class InsertingBookComponent extends BaseComponent {
 		// Basic information
 		$form->addGroup("Basic information");
 		$form->addText("book_title", "Book title")
-				->addRule(Form::FILLED, "Fill the book title!");
+			->addRule(Form::FILLED, "Fill the book title!");
 		$form->addText("book_subtitle", "Book subtitle");
 
 		// Authors
 		if (!$this->isInsertedBookRelated()) {
 			$form->addGroup("Authors");
 			$authors = array(NULL => "---- " . System::translate("Choose author") . " ----")
-					+ Leganto::authors()->getSelector()->findAll()->orderBy("full_name")->fetchPairs("id_author", "full_name");
+				+ Leganto::authors()->getSelector()->findAll()->orderBy("full_name")->fetchPairs("id_author", "full_name");
 			$container = $form->addContainer("authors");
 			// The user has just inserted a new author
 			if ($this->getAuthor() != NULL) {
@@ -144,10 +152,10 @@ class InsertingBookComponent extends BaseComponent {
 					$this->setNumberOfAuthors(count($bookAuthors));
 				}
 			}
-			for($i=0; $i < $this->getNumberOfAuthors(); $i++) {
+			for ($i = 0; $i < $this->getNumberOfAuthors(); $i++) {
 				$last = $container->addSelect($i, "Author", $authors)
 						->skipFirst()
-						->addRule(Form::FILLED,"Choose the author of the book.");
+						->addRule(Form::FILLED, "Choose the author of the book.");
 			}
 			if (isset($last)) {
 				// Add text saying what to do
@@ -155,25 +163,25 @@ class InsertingBookComponent extends BaseComponent {
 				$el->setText(System::translate("If the author is not listed in the list above, please click on button Create new."));
 				$last->setOption("description", $el);
 			}
-			$form->addSubmit("addAuthor","Add existing")
-					->getControlPrototype()->setId("addAuthor");
+			$form->addSubmit("addAuthor", "Add existing")
+				->getControlPrototype()->setId("addAuthor");
 			if ($this->getNumberOfAuthors() > 1) {
-				$form->addSubmit("removeAuthor","Remove")
-						->setValidationScope(FALSE)
-						->getControlPrototype()->setId("removeAuthor");
+				$form->addSubmit("removeAuthor", "Remove")
+					->setValidationScope(FALSE)
+					->getControlPrototype()->setId("removeAuthor");
 				$form["removeAuthor"]->getControlPrototype()->setId("removeAuthor");
 			}
-			$form->addSubmit("newAuthor","Create new")
-					->setValidationScope(FALSE)
-					->getControlPrototype()->setId("newAuthor")
-					->setHtmlId("newAuthor");
+			$form->addSubmit("newAuthor", "Create new")
+				->setValidationScope(FALSE)
+				->getControlPrototype()->setId("newAuthor")
+				->setHtmlId("newAuthor");
 		}
 
 		// Language
 		$form->addGroup("Other");
 		$languages = Leganto::languages()->getSelector()->findAll()->fetchPairs("id_language", "name");
 		$form->addSelect("language", "Language", $languages)
-			->setOption("description",System::translate("(language of book title and subtitle)"));
+			->setOption("description", System::translate("(language of book title and subtitle)"));
 
 		// Book node
 		$form->addHidden("id_book");
@@ -183,8 +191,8 @@ class InsertingBookComponent extends BaseComponent {
 
 		// Submit button
 		$form->addGroup();
-		$form->addSubmit("save","Save book");
-		$form->onSubmit[] = array($this,"bookFormSubmitted");
+		$form->addSubmit("save", "Save book");
+		$form->onSubmit[] = array($this, "bookFormSubmitted");
 
 
 		// Defaults
@@ -192,17 +200,16 @@ class InsertingBookComponent extends BaseComponent {
 			// The book which is edited
 			if ($this->isEditing() && $this->getEditedBook() != NULL) {
 				$defaults = array(
-					"id_book"		=> $this->getEditedBook()->bookNode,
-					"id_book_title"	=> $this->getEditedBook()->getId(),
-					"book_title"	=> $this->getEditedBook()->title,
-					"book_subtitle"	=> $this->getEditedBook()->subtitle,
-					"language"		=> $this->getEditedBook()->languageId
+				    "id_book" => $this->getEditedBook()->bookNode,
+				    "id_book_title" => $this->getEditedBook()->getId(),
+				    "book_title" => $this->getEditedBook()->title,
+				    "book_subtitle" => $this->getEditedBook()->subtitle,
+				    "language" => $this->getEditedBook()->languageId
 				);
-				for ($i=0; $i<count($bookAuthors); $i++) {
+				for ($i = 0; $i < count($bookAuthors); $i++) {
 					$defaults["authors"][$i] = $bookAuthors[$i]->getId();
 				}
-			}
-			else {
+			} else {
 				$defaults = array();
 				$defaults["language"] = System::domain()->idLanguage;
 				// Firstly user searches the book title and it whould be
@@ -215,8 +222,7 @@ class InsertingBookComponent extends BaseComponent {
 					$defaults["id_book"] = $this->getBookNode();
 				}
 			}
-		}
-		else {
+		} else {
 			$defaults = $this->getValues();
 		}
 		// -1 because of indexing from 0
@@ -234,8 +240,8 @@ class InsertingBookComponent extends BaseComponent {
 		$form = new BaseForm($this, $name);
 
 		$form->addText("book_title", "Book title")
-				->addRule(Form::FILLED, "Fill the book title!")
-				->addRule(Form::MIN_LENGTH, "The book title has to be at least 3 characters long.", 3);
+			->addRule(Form::FILLED, "Fill the book title!")
+			->addRule(Form::MIN_LENGTH, "The book title has to be at least 3 characters long.", 3);
 
 		$form->addSubmit("submit_search", "Search");
 		$form->onSubmit[] = array($this, "searchFormSubmitted");
@@ -261,7 +267,7 @@ class InsertingBookComponent extends BaseComponent {
 		// Clean authors (delete empty select list)
 		$authors = array();
 		foreach ($values["authors"] as $row) {
-			if(!empty($row)) {
+			if (!empty($row)) {
 				$authors[] = $row;
 			}
 		}
@@ -291,10 +297,10 @@ class InsertingBookComponent extends BaseComponent {
 
 	private function getPhase() {
 		if (empty($this->phase)) {
-			$this->phase	    = 1;
+			$this->phase = 1;
 		}
 		if (empty($this->state["phase"])) {
-			$this->state["phase"]   = $this->phase;
+			$this->state["phase"] = $this->phase;
 		}
 		return $this->phase;
 	}
@@ -322,8 +328,7 @@ class InsertingBookComponent extends BaseComponent {
 			unset($session["signal"]);
 			$this->state = $session["state"];
 			$this->setPhase($session["state"]["phase"]);
-		}
-		else {
+		} else {
 			$this->state["numberOfAuthors"] = $session["state"]["numberOfAuthors"];
 		}
 	}
@@ -387,13 +392,11 @@ class InsertingBookComponent extends BaseComponent {
 			}
 			$book->persist();
 			if (empty($values["id_book_title"])) {
-				System::log("INSERT BOOK '". $book->getId()."'");
+				System::log("INSERT BOOK '" . $book->getId() . "'");
+			} else {
+				System::log("UPDATE BOOK '" . $book->getId() . "'");
 			}
-			else {
-				System::log("UPDATE BOOK '". $book->getId()."'");
-			}
-		}
-		catch(Exception $e) {
+		} catch (Exception $e) {
 			$this->unexpectedError($e);
 			return;
 		}
@@ -401,14 +404,13 @@ class InsertingBookComponent extends BaseComponent {
 		// If the book is not relation to another one, insert authors
 		if (!$this->isInsertedBookRelated()) {
 			$authors = Leganto::authors()->fetchAndCreateAll(
-					Leganto::authors()->getSelector()->findAll()
-					->where("id_author IN %l", $values["authors"])
+						Leganto::authors()->getSelector()->findAll()
+						->where("id_author IN %l", $values["authors"])
 			);
 			try {
 				Leganto::books()->getUpdater()->setWrittenBy($book, $authors);
-				System::log("INSERT AUTHORS TO BOOK '". $book->getId()."'");
-			}
-			catch(Exception $e) {
+				System::log("INSERT AUTHORS TO BOOK '" . $book->getId() . "'");
+			} catch (Exception $e) {
 				$this->unexpectedError($e);
 				return;
 			}
@@ -417,16 +419,16 @@ class InsertingBookComponent extends BaseComponent {
 		// Find editions and images
 		try {
 			$language = Leganto::languages()->getSelector()->find($book->languageId);
-			$imageFinder    = new EditionImageFinder();
-			$storage        = new EditionImageStorage();
-			$googleFinder   = new GoogleBooksBookFinder($language->google);
-			$info           = $googleFinder->get($book);
+			$imageFinder = new EditionImageFinder();
+			$storage = new EditionImageStorage();
+			$googleFinder = new GoogleBooksBookFinder($language->google);
+			$info = $googleFinder->get($book);
 			// Get editions
 			if (!empty($info)) {
 				$editions = Leganto::editions()->getInserter()->insertByGoogleBooksInfo($book, $info);
 			}
 			// Try to find image foreach edition
-			foreach($editions AS $edition) {
+			foreach ($editions AS $edition) {
 				// Find images
 				$images = $imageFinder->get($edition);
 				// Store first one
@@ -434,14 +436,13 @@ class InsertingBookComponent extends BaseComponent {
 					$storage->store($edition, new File(ExtraArray::firstValue($images)));
 				}
 			}
-			System::log("LOOKUP FOR EDITIONS AND IMAGES FOR BOOK '". $book->getId()."'");
-		}
-		catch(Exception $e) {
+			System::log("LOOKUP FOR EDITIONS AND IMAGES FOR BOOK '" . $book->getId() . "'");
+		} catch (Exception $e) {
 			$this->unexpectedError($e, FALSE);
 		}
 		$this->getPresenter()->flashMessage(System::translate($flashMessage), "success");
-		$this->getPresenter()->flashMessage(System::translate("The system tried to load editions of the book '".$book->title."', but the process is not reliable and you can insert editions manually."));
-		$this->getPresenter()->redirect("Book:default",$book->getId());
+		$this->getPresenter()->flashMessage(System::translate("The system tried to load editions of the book '" . $book->title . "', but the process is not reliable and you can insert editions manually."));
+		$this->getPresenter()->redirect("Book:default", $book->getId());
 	}
 
 	private function setBookNode($bookNode) {
@@ -453,8 +454,8 @@ class InsertingBookComponent extends BaseComponent {
 	}
 
 	private function setPhase($phase) {
-		$this->phase		= $phase;
-		$this->state["phase"]	= $phase;
+		$this->phase = $phase;
+		$this->state["phase"] = $phase;
 	}
 
 	private function setTitle($title) {
@@ -465,4 +466,5 @@ class InsertingBookComponent extends BaseComponent {
 	private function setValues(array $values) {
 		$this->state["values"] = $values;
 	}
+
 }

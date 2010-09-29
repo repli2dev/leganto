@@ -1,8 +1,22 @@
 <?php
 
-class EditionSelector implements ISelector
-{
+/**
+ *
+ * @copyright	Copyright (c) 2009 Jan Papoušek (jan.papousek@gmail.com),
+ * 				Jan Drábek (me@jandrabek.cz)
+ * @link		http://code.google.com/p/preader/
+ * @license		http://code.google.com/p/preader/
+ * @author		Jan Papousek
+ * @author		Jan Drabek
+ * @version		$id$
+ */
+class EditionSelector implements ISelector {
 
+	/**
+	 * Find one edition
+	 * @param int $id id of edition
+	 * @return EditionEntity
+	 */
 	public function find($id) {
 		if (empty($id)) {
 			throw new NullPointerException("id");
@@ -10,6 +24,10 @@ class EditionSelector implements ISelector
 		return Leganto::editions()->fetchAndCreate(dibi::dataSource("SELECT * FROM [edition] WHERE [id_edition] = %i", $id));
 	}
 
+	/**
+	 * Find all editions
+	 * @return DibiDataSource
+	 */
 	public function findAll() {
 		return dibi::dataSource("SELECT * FROM [edition]");
 	}

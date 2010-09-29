@@ -1,28 +1,31 @@
 <?php
+
 /**
- * The source file is subject to the license located on web
- * "http://code.google.com/p/preader/".
  *
  * @copyright	Copyright (c) 2009 Jan Papoušek (jan.papousek@gmail.com),
- *				Jan Drábek (repli2dev@gmail.com)
+ * 				Jan Drábek (me@jandrabek.cz)
  * @link		http://code.google.com/p/preader/
  * @license		http://code.google.com/p/preader/
- */
-
-/**
  * @author		Jan Papousek
  * @author		Jan Drabek
- * @version		$Id$
+ * @version		$id$
  */
-class AuthorSelector implements ISelector
-{
-
+class AuthorSelector implements ISelector {
 	/* PUBLIC METHODS */
-	
+
+	/**
+	 * Find all authors
+	 * @return DibiDataSource
+	 */
 	public function findAll() {
 		return dibi::dataSource("SELECT * FROM [view_author]");
 	}
-	
+
+	/**
+	 * Find all authors of certain books
+	 * @param BookEntity $book
+	 * @return DibiDataSource
+	 */
 	public function findAllByBook(BookEntity $book) {
 		if (empty($book)) {
 			throw new NullPointerException("book");
@@ -32,7 +35,7 @@ class AuthorSelector implements ISelector
 			WHERE [id_book] = %i", $book->bookNode
 		);
 	}
-	
+
 	/**
 	 * 
 	 * @param object $books books ids
@@ -51,21 +54,26 @@ class AuthorSelector implements ISelector
 		return Leganto::authors()
 			->fetchAndCreate(
 				dibi::dataSource("SELECT * FROM [view_author] WHERE [id_author] = %i", $id)
-			);
+		);
 	}
 
-	public function search($keyword){
+	/**
+	 * Search authors for given keyword(s)
+	 * @param string $keyword
+	 * @return DibiDataSource
+	 */
+	public function search($keyword) {
 		if (empty($keyword)) {
 			throw new NullPointerException("keyword");
 		}
 		$keywords = preg_split('/ /', $keyword);
 		$conditions = "";
-		foreach($keywords AS $word) {
-		    if (!empty($conditions)) {
-			$conditions .= " AND ";
-		    }
-		    $word = "%".mysql_escape_string($word)."%";
-		    $conditions .= "
+		foreach ($keywords AS $word) {
+			if (!empty($conditions)) {
+				$conditions .= " AND ";
+			}
+			$word = "%" . mysql_escape_string($word) . "%";
+			$conditions .= "
 			([first_name] LIKE '$word' OR
 			[last_name] LIKE '$word' OR
 			[group_name] LIKE '$word')";
@@ -73,11 +81,16 @@ class AuthorSelector implements ISelector
 		return dibi::dataSource("SELECT * FROM [view_author] " . (empty($conditions) ? "" : " WHERE " . $conditions) . " GROUP BY [id_author]");
 	}
 
+	/**
+	 * Search for authors starting with given keyword
+	 * @param string $keyword
+	 * @return DibiDataSource
+	 */
 	public function suggest($keyword) {
 		if (empty($keyword)) {
 			throw new NullPointerException("keyword");
 		}
-		$word = "%".mysql_escape_string($keyword)."%";
+		$word = "%" . mysql_escape_string($keyword) . "%";
 		$conditions .= "
 			([first_name] LIKE '$word' OR
 			[last_name] LIKE '$word' OR

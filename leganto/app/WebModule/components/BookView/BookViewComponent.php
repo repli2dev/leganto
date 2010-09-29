@@ -1,8 +1,18 @@
 <?php
+
+/**
+ *
+ * @copyright	Copyright (c) 2009 Jan Papoušek (jan.papousek@gmail.com),
+ * 				Jan Drábek (me@jandrabek.cz)
+ * @link		http://code.google.com/p/preader/
+ * @license		http://code.google.com/p/preader/
+ * @author		Jan Papousek
+ * @author		Jan Drabek
+ * @version		$id$
+ */
 class BookViewComponent extends BaseComponent {
 
 	private $book;
-
 	private $edition;
 
 	public function getEditionId() {
@@ -41,4 +51,5 @@ class BookViewComponent extends BaseComponent {
 		$stats->setBook($this->book);
 		return $stats;
 	}
+
 }

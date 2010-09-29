@@ -1,5 +1,15 @@
 <?php
 
+/**
+ *
+ * @copyright	Copyright (c) 2009 Jan Papoušek (jan.papousek@gmail.com),
+ * 				Jan Drábek (me@jandrabek.cz)
+ * @link		http://code.google.com/p/preader/
+ * @license		http://code.google.com/p/preader/
+ * @author		Jan Papousek
+ * @author		Jan Drabek
+ * @version		$id$
+ */
 class Web_AuthorPresenter extends Web_BasePresenter {
 
 	/** @var AuthorEntity */
@@ -38,8 +48,7 @@ class Web_AuthorPresenter extends Web_BasePresenter {
 			} else {
 				if (empty($editingBook)) {
 					$this->getComponent("insertingAuthor")->setBacklink("Book:insert");
-				}
-				else {
+				} else {
 					$this->getComponent("insertingAuthor")->setBacklink("Book:edit", $editingBook);
 				}
 				$this->setPageTitle(System::translate("Insert author"));

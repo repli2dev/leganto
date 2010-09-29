@@ -1,26 +1,21 @@
 <?php
+
 /**
- * The source file is subject to the license located on web
- * "http://code.google.com/p/preader/".
+ * Abstract layer for finders (for something in internet)
  *
  * @copyright	Copyright (c) 2009 Jan Papoušek (jan.papousek@gmail.com),
- *				Jan Drábek (repli2dev@gmail.com)
+ * 				Jan Drábek (me@jandrabek.cz)
  * @link		http://code.google.com/p/preader/
  * @license		http://code.google.com/p/preader/
- */
-
-/**
  * @author		Jan Papousek
  * @author		Jan Drabek
- * @version		$Id$
+ * @version		$id$
  */
-
 abstract class AFinder implements IFinder {
-
 	const REDIRECTION_LIMIT = 5;
 
 	private $params = array();
-	
+
 	/* PROTECTED METHODS */
 
 	/**
@@ -51,10 +46,9 @@ abstract class AFinder implements IFinder {
 		// Redirection hack
 		if (preg_match("/Object moved to/", $output) == 0) {
 			return $output;
-		}
-		else {
+		} else {
 			preg_match("/http.+\d+\//", $output, $matches);
-			return $this->getURLContent($matches[0], $counter+1);
+			return $this->getURLContent($matches[0], $counter + 1);
 		}
 	}
 
@@ -90,6 +84,5 @@ abstract class AFinder implements IFinder {
 		}
 		$this->params["<--" . String::upper($key) . "-->"] = $value;
 	}
-
 
 }

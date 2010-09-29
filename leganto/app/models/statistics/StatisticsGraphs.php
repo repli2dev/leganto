@@ -1,4 +1,16 @@
 <?php
+
+/**
+ * Tool for generating nice graphs (using google charts)
+ *
+ * @copyright	Copyright (c) 2009 Jan Papoušek (jan.papousek@gmail.com),
+ * 				Jan Drábek (me@jandrabek.cz)
+ * @link		http://code.google.com/p/preader/
+ * @license		http://code.google.com/p/preader/
+ * @author		Jan Papousek
+ * @author		Jan Drabek
+ * @version		$id$
+ */
 class StatisticsGraphs {
 
 	/** @return GoogleChart */
@@ -6,7 +18,7 @@ class StatisticsGraphs {
 		// Load data
 		$res = dibi::query("SELECT COUNT(*) AS number, rating FROM opinion GROUP BY rating");
 		$statistics = array();
-		while($stat = $res->fetch()) {
+		while ($stat = $res->fetch()) {
 			$statistics[$stat->rating] = $stat->number;
 		}
 		// Build chart
@@ -25,20 +37,19 @@ class StatisticsGraphs {
 	}
 
 	public static function getRatingsByBook(BookEntity $book) {
-		$res = dibi::query("SELECT COUNT([id_opinion]) AS [number], [rating] FROM [opinion] WHERE [id_book_title] = %i", $book->getId()," GROUP BY [rating] ORDER BY [rating] DESC");
+		$res = dibi::query("SELECT COUNT([id_opinion]) AS [number], [rating] FROM [opinion] WHERE [id_book_title] = %i", $book->getId(), " GROUP BY [rating] ORDER BY [rating] DESC");
 		$data = array();
-		while($stat = $res->fetch()) {
+		while ($stat = $res->fetch()) {
 			$data[$stat->rating] = $stat->number;
 		}
 		if (empty($data)) {
 			return;
 		}
 		$statistics = array();
-		for($i = 5; $i > 0; $i--) {
+		for ($i = 5; $i > 0; $i--) {
 			if (!isset($data[$i])) {
 				$statistics[$i] = 0;
-			}
-			else {
+			} else {
 				$statistics[$i] = $data[$i];
 			}
 		}
@@ -64,7 +75,7 @@ class StatisticsGraphs {
 				"GROUP BY [sex]"
 		);
 		$data = array();
-		while($stat = $res->fetch()) {
+		while ($stat = $res->fetch()) {
 			$data[$stat->sex] = $stat->number;
 		}
 		if (empty($data)) {
@@ -72,11 +83,10 @@ class StatisticsGraphs {
 		}
 		$sexes = array("male", "female", "unspecified");
 		$statistics = array();
-		foreach($sexes AS $sex) {
+		foreach ($sexes AS $sex) {
 			if (!isset($data[$sex])) {
 				$statistics[System::translate($sex)] = 0;
-			}
-			else {
+			} else {
 				$statistics[System::translate($sex)] = $data[$sex];
 			}
 		}
@@ -96,14 +106,14 @@ class StatisticsGraphs {
 		$day = date("j");
 		$moveddate = "DATE_SUB(CURDATE(), INTERVAL 3 DAY)";
 		$sqls[] = "(SELECT '0' AS [id], COUNT(*) AS [number] FROM [$tablename] WHERE [inserted] >= $moveddate)";
-		for($i = 1; $i < 12; $i++) {
-			$sqls[] = "(SELECT '$i' AS [id], COUNT(*) AS [number] FROM [$tablename] WHERE [inserted] <= DATE_SUB($moveddate, INTERVAL " . ($i - 1) ." MONTH) AND [inserted] >= DATE_SUB($moveddate, INTERVAL $i MONTH))";
+		for ($i = 1; $i < 12; $i++) {
+			$sqls[] = "(SELECT '$i' AS [id], COUNT(*) AS [number] FROM [$tablename] WHERE [inserted] <= DATE_SUB($moveddate, INTERVAL " . ($i - 1) . " MONTH) AND [inserted] >= DATE_SUB($moveddate, INTERVAL $i MONTH))";
 		}
 		$sql = implode(" UNION ALL ", $sqls);
 		$data = dibi::query($sql)->fetchPairs("id", "number");
 		// Get list of months
 		$months = array();
-		for($i = 0; $i < 12; $i++) {
+		for ($i = 0; $i < 12; $i++) {
 			$months[] = System::translate(date("M", strtotime("-$i month")));
 		}
 		// Build chart
@@ -114,4 +124,5 @@ class StatisticsGraphs {
 		$chart->addDataSet(array_reverse($data));
 		return $chart;
 	}
+
 }

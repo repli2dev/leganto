@@ -1,12 +1,23 @@
 <?php
-class EditionImageStorage extends EskymoObject implements IStorage
-{
+
+/**
+ * Storage for images of editions
+ *
+ * @copyright	Copyright (c) 2009 Jan Papoušek (jan.papousek@gmail.com),
+ * 				Jan Drábek (me@jandrabek.cz)
+ * @link		http://code.google.com/p/preader/
+ * @license		http://code.google.com/p/preader/
+ * @author		Jan Papousek
+ * @author		Jan Drabek
+ * @version		$id$
+ */
+class EditionImageStorage extends EskymoObject implements IStorage {
 
 	public function getFile(IEntity $entity) {
 		if ($entity->getState() != IEntity::STATE_PERSISTED) {
 			throw new InvalidArgumentException("The entity has to be in state [persisted].");
 		}
-		switch(get_class($entity)) {
+		switch (get_class($entity)) {
 			case "BookEntity":
 				$file = new File($this->getDirectoryPath() . "/" . $entity->getId());
 				if (!$file->exists()) {
@@ -34,17 +45,17 @@ class EditionImageStorage extends EskymoObject implements IStorage
 			return NULL;
 		}
 		$files = $directory->listFiles();
-		return $files[rand(0,sizeof($files)-1)];
+		return $files[rand(0, sizeof($files) - 1)];
 	}
 
-        public function getRandomFileByBookTitleId($bookTitleId) {
-            $directory = new File($this->getDirectoryPath() . "/" . $bookTitleId);
-            if (!$directory->exists()) {
-                return NULL;
-            }
-            $files = $directory->listFiles();
-            return $files[rand(0,sizeof($files)-1)];
-        }
+	public function getRandomFileByBookTitleId($bookTitleId) {
+		$directory = new File($this->getDirectoryPath() . "/" . $bookTitleId);
+		if (!$directory->exists()) {
+			return NULL;
+		}
+		$files = $directory->listFiles();
+		return $files[rand(0, sizeof($files) - 1)];
+	}
 
 	public function store(IEntity $edition, File $image) {
 		if ($edition->getState() != IEntity::STATE_PERSISTED) {
@@ -64,18 +75,16 @@ class EditionImageStorage extends EskymoObject implements IStorage
 			$fp = fopen($destination, "w+");
 			fwrite($fp, $output);
 			fclose($fp);
-		}
-		else {
+		} else {
 			$image->copy($destination);
 		}
-		
-		$edition->image = strtr($destination, array(WWW_DIR."/" => ""));
+
+		$edition->image = strtr($destination, array(WWW_DIR . "/" => ""));
 		$edition->persist();
 		return new File($destination);
 	}
 
 	/** PRIVATE METHODS */
-
 	private function getDirectoryPath() {
 		return WWW_DIR . "/storage/books";
 	}

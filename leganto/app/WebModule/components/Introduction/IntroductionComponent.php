@@ -1,49 +1,42 @@
 <?php
+
 /**
- * The source file is subject to the license located on web
- * "http://code.google.com/p/preader/".
  *
  * @copyright	Copyright (c) 2009 Jan Papoušek (jan.papousek@gmail.com),
- *				Jan Drábek (repli2dev@gmail.com)
+ * 				Jan Drábek (me@jandrabek.cz)
  * @link		http://code.google.com/p/preader/
  * @license		http://code.google.com/p/preader/
- */
-
-/**
  * @author		Jan Papousek
  * @author		Jan Drabek
- * @version		$Id$
- *
+ * @version		$id$
  */
-
 class IntroductionComponent extends BaseComponent {
+
 	/**
 	 * @persistent
 	 * @var string
 	 */
 	public $state = "default";
-
 	public $twitter;
-
 	public $facebook;
 
-	public function  __construct(/*Nette\*/IComponentContainer $parent = NULL, $name = NULL) {
-		parent::__construct($parent,$name);
+	public function __construct(/* Nette\ */IComponentContainer $parent = NULL, $name = NULL) {
+		parent::__construct($parent, $name);
 
 		// FIXME: toto je opravdu osklivy hack! Jak obejit to ze state jeste nebyl nastaven, ale pri vytvareni komponenty uz je pozde - vystup odchazi?!
-		$newState = Environment::getHttpRequest()->getQuery("introduction-state"); 
-		if($newState == "twitter") {
+		$newState = Environment::getHttpRequest()->getQuery("introduction-state");
+		if ($newState == "twitter") {
 			$this->twitter = new TwitterBridge;
 			$this->twitter->doLoginWithAuthentication();
 		} else
-		if($newState == "facebook") {
+		if ($newState == "facebook") {
 			$this->facebook = new FacebookBridge;
 			$this->facebook->doLoginWithAuthentication();
 		}
 	}
 
 	public function render() {
-		switch($this->state) {
+		switch ($this->state) {
 			case "default":
 				$template = $this->loadDefaultTemplate();
 				break;
@@ -70,52 +63,54 @@ class IntroductionComponent extends BaseComponent {
 	}
 
 	public function loadDefaultTemplate() {
-		$template		= $this->getTemplate();
-		$template->hint		= Leganto::help()->getSelector()->findRandom(System::language());
-		$template->state	= "default";
+		$template = $this->getTemplate();
+		$template->hint = Leganto::help()->getSelector()->findRandom(System::language());
+		$template->state = "default";
 		return $template;
 	}
 
 	public function loadLoginTemplate() {
-		$template			= $this->getTemplate();
-		$template->state	= "login";
+		$template = $this->getTemplate();
+		$template->state = "login";
 		return $template;
 	}
 
 	public function loadSignUpTemplate() {
-		$template			= $this->getTemplate();
-		$template->state	= "signup";
+		$template = $this->getTemplate();
+		$template->state = "signup";
 		return $template;
 	}
 
 	public function loadFacebookTemplate() {
-		$template			= $this->getTemplate();
-		$template->state	= "facebook";
+		$template = $this->getTemplate();
+		$template->state = "facebook";
 		$template->enabled = $this->facebook->isEnabled();
 		return $template;
 	}
 
 	public function loadTwitterTemplate() {
-		$template			= $this->getTemplate();
-		$template->state	= "twitter";
+		$template = $this->getTemplate();
+		$template->state = "twitter";
 		$template->enabled = $this->twitter->isEnabled();
 		return $template;
 	}
 
 	public function loadForgottenTemplate() {
-		$template			= $this->getTemplate();
-		$template->state	= "forgotten";
+		$template = $this->getTemplate();
+		$template->state = "forgotten";
 		return $template;
 	}
+
 	public function loadRenewTemplate() {
-		$template			= $this->getTemplate();
-		$template->state	= "renew";
+		$template = $this->getTemplate();
+		$template->state = "renew";
 		return $template;
 	}
 
 	/* HANDLERS */
+
 	public function handleChangeState($state) {
-		switch($state) {
+		switch ($state) {
 			case "default":
 			case "login":
 			case "signup":
@@ -123,15 +118,15 @@ class IntroductionComponent extends BaseComponent {
 			case "twitter":
 			case "forgotten":
 			case "renew":
-				if($state == "facebook" && !$this->facebook->isEnabled()) {
-					$this->getPresenter()->flashMessage(System::translate("Facebook functions are not accessible right now. Please try it later."),"error");
+				if ($state == "facebook" && !$this->facebook->isEnabled()) {
+					$this->getPresenter()->flashMessage(System::translate("Facebook functions are not accessible right now. Please try it later."), "error");
 					$this->getPresenter()->redirect("Default:");
 				} else
-				if($state == "twitter" && !$this->twitter->isEnabled()) {
-					$this->getPresenter()->flashMessage(System::translate("Twitter functions are not accessible right now. Please try it later."),"error");
+				if ($state == "twitter" && !$this->twitter->isEnabled()) {
+					$this->getPresenter()->flashMessage(System::translate("Twitter functions are not accessible right now. Please try it later."), "error");
 					$this->getPresenter()->redirect("Default:");
 				} else
-				$this->state = $state;
+					$this->state = $state;
 				break;
 			default:
 				throw new InvalidArgumentException("The state can be only default, login, facebook, twitter, signup, forgotten or renew");
@@ -155,7 +150,7 @@ class IntroductionComponent extends BaseComponent {
 
 		// Commit
 		$user = Leganto::users()->getInserter()->insert($user);
-		if($user != -1){
+		if ($user != -1) {
 			// Prepare user connection entity
 			$connection = Leganto::connections()->createEmpty();
 			$connection->user = $user;
@@ -165,19 +160,18 @@ class IntroductionComponent extends BaseComponent {
 			// Commit
 			Leganto::connections()->getInserter()->insert($connection);
 
-			Environment::getUser()->authenticate(null,null,$this->twitter->getToken());
+			Environment::getUser()->authenticate(null, null, $this->twitter->getToken());
 			System::log("SIGN UP VIA TWITTER");
 
 			// Now it is safe to delete twitter data in session
 			$this->twitter->destroyLoginData();
 			$this->getPresenter()->redirect("Default:feed", true);
-			
 		} else {
 			// Show error that same account (probably nick) exists
 			$this->flashMessage(System::translate("Account with same nickname is already registered."));
 		}
-		
 	}
+
 	/**
 	 * Create new account from twitter data (with filled name etc, but empty password and email)
 	 */
@@ -194,7 +188,7 @@ class IntroductionComponent extends BaseComponent {
 
 		// Commit
 		$user = Leganto::users()->getInserter()->insert($user);
-		if($user != -1){
+		if ($user != -1) {
 			// Prepare user connection entity
 			$connection = Leganto::connections()->createEmpty();
 			$connection->user = $user;
@@ -204,43 +198,43 @@ class IntroductionComponent extends BaseComponent {
 			// Commit
 			Leganto::connections()->getInserter()->insert($connection);
 
-			Environment::getUser()->authenticate(null,null,$this->facebook->getToken());
+			Environment::getUser()->authenticate(null, null, $this->facebook->getToken());
 			System::log("SIGN UP VIA FACEBOOK");
 
 			// Now it is safe to delete facebook data in session
 			$this->facebook->destroyLoginData();
 			$this->getPresenter()->redirect("Default:feed", true);
-
 		} else {
 			// Show error that same account (probably nick) exists
 			$this->flashMessage(System::translate("Account with same nickname is already registered."));
 		}
-
 	}
 
 	/* COMPONENTS - FACTORY */
+
 	protected function createComponentTwitterForm($name) {
 		$form = new BaseForm();
-		if($this->twitter->isLogged() == true){
+		if ($this->twitter->isLogged() == true) {
 			// Continue with connecting accounts - show user the options -> form
 			// login part of form
 			$group = $form->addGroup();
 			$form->addText("nickname", "Nickname")
-				->addRule(Form::FILLED,"Please fill the nickname.");
+				->addRule(Form::FILLED, "Please fill the nickname.");
 			$form->addPassword("password", "Password")
-				->addRule(Form::FILLED,"Please fill the password.");
+				->addRule(Form::FILLED, "Please fill the password.");
 			$form->addSubmit("submitted", "Log in");
 			$form->onSubmit[] = array($this, "loginTwitterFormSubmitted");
 		}
 		return $form;
 	}
+
 	protected function createComponentForgottenForm($name) {
 		$form = new BaseForm;
 		$form->getElementPrototype()->setId("sign");
 		$form->addGroup("Forgotten password");
 		$form->addText("email", "Email")
-			->addRule(Form::EMAIL,"Please fill correct email.")
-			->addRule(Form::FILLED,"Please fill the email.");
+			->addRule(Form::EMAIL, "Please fill correct email.")
+			->addRule(Form::FILLED, "Please fill the email.");
 		$form->addSubmit("submitted", "Proceed");
 		$form->onSubmit[] = array($this, "forgottenFormSubmitted");
 		return $form;
@@ -251,10 +245,10 @@ class IntroductionComponent extends BaseComponent {
 		$form->getElementPrototype()->setId("sign");
 		$form->addGroup("Renew password");
 		$form->addText("email", "Email")
-			->addRule(Form::EMAIL,"Please fill correct email.")
-			->addRule(Form::FILLED,"Please fill the email.");
+			->addRule(Form::EMAIL, "Please fill correct email.")
+			->addRule(Form::FILLED, "Please fill the email.");
 		$form->addText("hash", "Code")
-			->addRule(Form::FILLED,"Please fill correct code.");
+			->addRule(Form::FILLED, "Please fill correct code.");
 		$form->addSubmit("submitted", "Finish");
 		$form->onSubmit[] = array($this, "renewFormSubmitted");
 		return $form;
@@ -265,9 +259,9 @@ class IntroductionComponent extends BaseComponent {
 		$form->getElementPrototype()->setId("sign");
 		$form->addGroup("Log in");
 		$form->addText("nickname", "Nickname")
-			->addRule(Form::FILLED,"Please fill the nickname.");
+			->addRule(Form::FILLED, "Please fill the nickname.");
 		$form->addPassword("password", "Password")
-			->addRule(Form::FILLED,"Please fill the password.");
+			->addRule(Form::FILLED, "Please fill the password.");
 		$form->addSubmit("submitted", "Log in");
 		$form->onSubmit[] = array($this, "loginFormSubmitted");
 		return $form;
@@ -275,35 +269,36 @@ class IntroductionComponent extends BaseComponent {
 
 	protected function createComponentSignUpForm($name) {
 		// Create form skeleton
-		$form = new BaseForm($this,$name);
+		$form = new BaseForm($this, $name);
 		$form->addGroup("Sign Up");
 		$form->getElementPrototype()->setId("sign");
 		$form->addText("email", "Email")
-			->addRule(Form::EMAIL,"Please fill correct email.")
-			->addRule(Form::FILLED,"Please fill the email.");
+			->addRule(Form::EMAIL, "Please fill correct email.")
+			->addRule(Form::FILLED, "Please fill the email.");
 		$form->addText("nickname", "Nickname")
-			->addRule(Form::FILLED,"Please fill the nickname.");
+			->addRule(Form::FILLED, "Please fill the nickname.");
 		$form->addPassword("password", "Password")
-			->addRule(Form::FILLED,"Please fill the password.");
+			->addRule(Form::FILLED, "Please fill the password.");
 		$form->addPassword("password2", "Password again")
-			->addRule(Form::FILLED,"Please fill the second password for check.")
+			->addRule(Form::FILLED, "Please fill the second password for check.")
 			->addConditionOn($form["password"], Form::FILLED)
-				->addRule(Form::EQUAL, "Passwords have to match!", $form["password"]);
+			->addRule(Form::EQUAL, "Passwords have to match!", $form["password"]);
 		$form->addSpamProtection();
 		$form->addSubmit("submitted", "Register");
 		$form->onSubmit[] = array($this, "signUpFormSubmitted");
 		return $form;
 	}
+
 	protected function createComponentFacebookForm($name) {
 		$form = new BaseForm();
-		if($this->facebook->isLogged() == true){
+		if ($this->facebook->isLogged() == true) {
 			// Continue with connecting accounts - show user the options -> form
 			// login part of form
 			$group = $form->addGroup();
 			$form->addText("nickname", "Nickname")
-				->addRule(Form::FILLED,"Please fill the nickname.");
+				->addRule(Form::FILLED, "Please fill the nickname.");
 			$form->addPassword("password", "Password")
-				->addRule(Form::FILLED,"Please fill the password.");
+				->addRule(Form::FILLED, "Please fill the password.");
 			$form->addSubmit("submitted", "Log in");
 			$form->onSubmit[] = array($this, "loginFacebookFormSubmitted");
 		}
@@ -311,18 +306,19 @@ class IntroductionComponent extends BaseComponent {
 	}
 
 	/* FORM SIGNALS */
+
 	public function forgottenFormSubmitted(Form $form) {
 		$values = $form->getValues();
 
 		// Look for user
 		$user = Leganto::users()->getSelector()->findByEmail($values["email"]);
-		if($user != NULL){
+		if ($user != NULL) {
 			$hash = Leganto::users()->getUpdater()->generateHashForNewPassword($user);
 			// Prepare mail template
 			$template = LegantoTemplate::loadTemplate(new Template());
 			$template->setFile(WebModule::getModuleDir() . "/templates/mails/forgottenPassword.phtml");
 			$template->hash = $hash;
-			$template->url = Environment::getHttpRequest()->uri->getHostUri()."".$this->link("changeState!","renew");
+			$template->url = Environment::getHttpRequest()->uri->getHostUri() . "" . $this->link("changeState!", "renew");
 			// Send mail with new pass key
 			$mail = new Mail();
 			$mail->addTo($user->email);
@@ -334,7 +330,6 @@ class IntroductionComponent extends BaseComponent {
 			$this->flashMessage(System::translate("The code was sent to account email address."));
 			$this->state = "renew";
 			$this->invalidateControl();
-
 		} else {
 			$form->addError("User with this email address do not exists. Please check for mistakes.");
 		}
@@ -345,9 +340,9 @@ class IntroductionComponent extends BaseComponent {
 
 		// Look for user
 		$user = Leganto::users()->getSelector()->findByEmail($values["email"]);
-		if($user != NULL){
+		if ($user != NULL) {
 			try {
-				$password = Leganto::users()->getUpdater()->confirmNewPassword($user,$values["hash"]);
+				$password = Leganto::users()->getUpdater()->confirmNewPassword($user, $values["hash"]);
 				// Prepare mail template
 				$template = LegantoTemplate::loadTemplate(new Template());
 				$template->setFile(WebModule::getModuleDir() . "/templates/mails/renewPassword.phtml");
@@ -364,8 +359,7 @@ class IntroductionComponent extends BaseComponent {
 				$this->flashMessage(System::translate("Your new password was sent to account email address."));
 				$this->state = "login";
 				$this->invalidateControl();
-			}
-			catch (InvalidStateException $e) {
+			} catch (InvalidStateException $e) {
 				switch ($e->getCode()) {
 					case UserUpdater::ERROR_OLD_HASH:
 						$form->addError("The code is too old. You can try a new request.");
@@ -379,13 +373,15 @@ class IntroductionComponent extends BaseComponent {
 			$form->addError("User with this email address do not exists. Please check for mistakes.");
 		}
 	}
+
 	/*
 	 * This handler take care of choosing screen of facebook login
 	 */
+
 	public function loginFacebookFormSubmitted(Form $form) {
 		$values = $form->getValues();
 		try {
-			Environment::getUser()->authenticate($values['nickname'],$values['password']);
+			Environment::getUser()->authenticate($values['nickname'], $values['password']);
 			Leganto::users()->getUpdater()->removePassCode(System::user());
 		} catch (AuthenticationException $e) {
 			switch ($e->getCode()) {
@@ -399,12 +395,12 @@ class IntroductionComponent extends BaseComponent {
 		}
 		// If user was successfully logged and there were found data in session (namespace facebook) -> add connection
 		$user = Environment::getUser()->getIdentity();
-		if($user != NULL){
+		if ($user != NULL) {
 			$this->twitter = new FacebookBridge;
 			$facebookToken = $this->twitter->getToken();
-			if(!empty($facebookToken)){
-				$exists = Leganto::connections()->getSelector()->exists($user->id,'facebook');
-				if(!$exists){
+			if (!empty($facebookToken)) {
+				$exists = Leganto::connections()->getSelector()->exists($user->id, 'facebook');
+				if (!$exists) {
 					// Prepare user connection entity
 					$connection = Leganto::connections()->createEmpty();
 					$connection->user = $user->id;
@@ -413,7 +409,7 @@ class IntroductionComponent extends BaseComponent {
 
 					// Commit
 					Leganto::connections()->getInserter()->insert($connection);
-					System::log("INSERT CONNECCTION TO FACEBOOK '".$connection->getId()."'");
+					System::log("INSERT CONNECCTION TO FACEBOOK '" . $connection->getId() . "'");
 
 					// Now it is safe to delete facebook data in session
 					$this->facebook->destroyLoginData();
@@ -423,15 +419,16 @@ class IntroductionComponent extends BaseComponent {
 				}
 			}
 		}
-
 	}
+
 	/*
 	 * This handler take care of choosing screen of twitter login
 	 */
+
 	public function loginTwitterFormSubmitted(Form $form) {
 		$values = $form->getValues();
 		try {
-			Environment::getUser()->authenticate($values['nickname'],$values['password']);
+			Environment::getUser()->authenticate($values['nickname'], $values['password']);
 			Leganto::users()->getUpdater()->removePassCode(System::user());
 		} catch (AuthenticationException $e) {
 			switch ($e->getCode()) {
@@ -445,12 +442,12 @@ class IntroductionComponent extends BaseComponent {
 		}
 		// If user was successfully logged and there were found data in session (namespace twitter) -> add connection
 		$user = Environment::getUser()->getIdentity();
-		if($user != NULL){
+		if ($user != NULL) {
 			$this->twitter = new TwitterBridge;
 			$twitterToken = $this->twitter->getToken();
-			if(!empty($twitterToken)){
-				$exists = Leganto::connections()->getSelector()->exists($user->id,'twitter');
-				if(!$exists){
+			if (!empty($twitterToken)) {
+				$exists = Leganto::connections()->getSelector()->exists($user->id, 'twitter');
+				if (!$exists) {
 					// Prepare user connection entity
 					$connection = Leganto::connections()->createEmpty();
 					$connection->user = $user->id;
@@ -459,7 +456,7 @@ class IntroductionComponent extends BaseComponent {
 
 					// Commit
 					Leganto::connections()->getInserter()->insert($connection);
-					System::log("INSERT CONNECTION TO TWITTER '".$connection->getId()."'");
+					System::log("INSERT CONNECTION TO TWITTER '" . $connection->getId() . "'");
 
 					// Now it is safe to delete twitter data in session
 					$this->twitter->destroyLoginData();
@@ -469,13 +466,12 @@ class IntroductionComponent extends BaseComponent {
 				}
 			}
 		}
-
 	}
 
 	public function loginFormSubmitted(Form $form) {
 		$values = $form->getValues();
 		try {
-			Environment::getUser()->authenticate($values['nickname'],$values['password']);
+			Environment::getUser()->authenticate($values['nickname'], $values['password']);
 			Leganto::users()->getUpdater()->removePassCode(System::user());
 			System::log("LOGIN");
 		} catch (AuthenticationException $e) {
@@ -489,6 +485,7 @@ class IntroductionComponent extends BaseComponent {
 			}
 		}
 	}
+
 	public function signUpFormSubmitted(Form $form) {
 		$values = $form->getValues();
 
@@ -505,14 +502,14 @@ class IntroductionComponent extends BaseComponent {
 
 		// Commit & postSignUp
 		// FIXME: hack kvuli tomu ze nick neni v databazi nastaven jako unique (-> je mozne nekomu ukradnout identitu)
-		$nickExists = dibi::dataSource("SELECT * FROM [user] WHERE [nick] = %s",$values["nickname"])->count();
-		if($nickExists == 0) {
+		$nickExists = dibi::dataSource("SELECT * FROM [user] WHERE [nick] = %s", $values["nickname"])->count();
+		if ($nickExists == 0) {
 			$user = Leganto::users()->getInserter()->insert($user);
 		} else {
 			$user = -1;
 			$form->addError("Account with same nickname or email is already registered.");
 		}
-		if($user != -1) {
+		if ($user != -1) {
 			$user = Leganto::users()->getSelector()->find($user);
 
 			$template = LegantoTemplate::loadTemplate(new Template());
@@ -529,7 +526,7 @@ class IntroductionComponent extends BaseComponent {
 
 			// Authentiticate at last
 			try {
-				Environment::getUser()->authenticate($values['nickname'],$values['password']);
+				Environment::getUser()->authenticate($values['nickname'], $values['password']);
 				System::log("INSERT USER");
 			} catch (AuthenticationException $e) {
 				switch ($e->getCode()) {
@@ -541,11 +538,12 @@ class IntroductionComponent extends BaseComponent {
 						break;
 				}
 			}
-			$this->getPresenter()->flashMessage(System::translate("Thanks for your registration."),"success");
+			$this->getPresenter()->flashMessage(System::translate("Thanks for your registration."), "success");
 			$this->getPresenter()->redirect("Default:feed", true);
 		} else {
 			$form->addError("Account with same nickname or email is already registered.");
 		}
 	}
+
 }
 

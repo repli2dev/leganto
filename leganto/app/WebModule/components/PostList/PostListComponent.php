@@ -1,134 +1,136 @@
 <?php
-class PostListComponent extends BaseListComponent
-{
 
-    private $discussed;
+/**
+ *
+ * @copyright	Copyright (c) 2009 Jan Papoušek (jan.papousek@gmail.com),
+ * 				Jan Drábek (me@jandrabek.cz)
+ * @link		http://code.google.com/p/preader/
+ * @license		http://code.google.com/p/preader/
+ * @author		Jan Papousek
+ * @author		Jan Drabek
+ * @version		$id$
+ */
+class PostListComponent extends BaseListComponent {
 
-    private $type;
+	private $discussed;
+	private $type;
+	private $enablePosting = TRUE;
+	private $enableLinks = FALSE;
 
-    private $enablePosting = TRUE;
-
-    private $enableLinks = FALSE;
-
-    public function handleDelete($post) {
-        $postEntity = Leganto::posts()->getSelector()->find($post);
-	if (!Environment::getUser()->isAllowed(Resource::create($postEntity), Action::EDIT)) {
-	    $this->unathorized();
+	public function handleDelete($post) {
+		$postEntity = Leganto::posts()->getSelector()->find($post);
+		if (!Environment::getUser()->isAllowed(Resource::create($postEntity), Action::EDIT)) {
+			$this->unathorized();
+		}
+		if ($postEntity == null) {
+			$this->getPresenter()->flashMessage(System::translate('The post can not be deleted.'), "error");
+			return;
+		}
+		try {
+			$discussion = Leganto::discussions()->getSelector()->find($postEntity->discussion);
+			$postEntity->delete();
+			System::log("DELETE POST '" . $postEntity->getId() . "'");
+			$this->getPresenter()->flashMessage(System::translate("The post has been deleted."), "success");
+			if ($discussion->discussionType == PostSelector::TOPIC && $discussion->numberOfPosts == 1) {
+				$this->getPresenter()->flashMessage(System::translate("The post has been last in the topic, therefore the topic has been also deleted."), "success");
+				$this->getPresenter()->redirect("Discussion:default");
+			}
+		} catch (Expcetion $e) {
+			$this->unexpectedError($e);
+		}
 	}
-        if ($postEntity == null) {
-            $this->getPresenter()->flashMessage(System::translate('The post can not be deleted.'), "error");
-            return;
-        }
-        try {
-            $discussion = Leganto::discussions()->getSelector()->find($postEntity->discussion);
-            $postEntity->delete();
-	    System::log("DELETE POST '".$postEntity->getId()."'");
-            $this->getPresenter()->flashMessage(System::translate("The post has been deleted."), "success");
-            if ($discussion->discussionType == PostSelector::TOPIC && $discussion->numberOfPosts == 1) {
-                $this->getPresenter()->flashMessage(System::translate("The post has been last in the topic, therefore the topic has been also deleted."), "success");
-                $this->getPresenter()->redirect("Discussion:default");
-            }
-        }
-        catch (Expcetion $e) {
-            $this->unexpectedError($e);
-        }
-    }
 
-    public function formSubmitted(Form $form) {
-	if (!Environment::getUser()->isAllowed(Resource::POST, Action::INSERT)) {
-	    $this->unathorized();
+	public function formSubmitted(Form $form) {
+		if (!Environment::getUser()->isAllowed(Resource::POST, Action::INSERT)) {
+			$this->unathorized();
+		}
+		$values = $form->getValues();
+
+		// Check whether discussed item and its type present
+		if (empty($values["discussed"]) || empty($values["type"])) {
+			$form->addError("Unexpected error has happened.", "error");
+			return;
+		}
+
+		// Insert the post
+		$post = Leganto::posts()->createEmpty();
+		$post->user = System::user()->getId();
+		$post->discussed = $values["discussed"];
+		$post->discussionType = $values["type"];
+		$post->content = $values["content"];
+		$post->inserted = new DateTime();
+		$post->language = System::user()->idLanguage;
+		try {
+			$post->persist();
+			System::log("INSERT POST '" . $post->getId() . "'");
+			$this->getPresenter()->flashMessage("The post has been successfuly sent.", "success");
+		} catch (Exception $e) {
+			$this->unexpectedError($e);
+			return;
+		}
+		// Redirect
+		$this->getPresenter()->redirect("this");
 	}
-        $values = $form->getValues();
 
-        // Check whether discussed item and its type present
-        if(empty($values["discussed"]) || empty($values["type"])) {
-            $form->addError("Unexpected error has happened.", "error");
-            return;
-        }
-
-        // Insert the post
-        $post   = Leganto::posts()->createEmpty();
-        $post->user             = System::user()->getId();
-        $post->discussed        = $values["discussed"];
-        $post->discussionType   = $values["type"];
-        $post->content          = $values["content"];
-        $post->inserted         = new DateTime();
-        $post->language         = System::user()->idLanguage;
-	try {
-		$post->persist();
-		System::log("INSERT POST '".$post->getId()."'");
-		$this->getPresenter()->flashMessage("The post has been successfuly sent.", "success");
+	public function setDiscussed($discussed, $type) {
+		if (empty($discussed)) {
+			throw new NullPointerException("Parameter [discussed] is empty.");
+		}
+		if (empty($type)) {
+			throw new NullPointerException("Parameter [type] is empty.");
+		}
+		$this->discussed = $discussed;
+		$this->type = $type;
 	}
-	catch(Exception $e) {
-		$this->unexpectedError($e);
-		return;
+
+	public function disablePosting() {
+		$this->enablePosting = FALSE;
 	}
-        // Redirect
-        $this->getPresenter()->redirect("this");
-    }
 
-    public function setDiscussed($discussed, $type) {
-        if (empty($discussed)) {
-            throw new NullPointerException("Parameter [discussed] is empty.");
-        }
-        if (empty($type)) {
-            throw new NullPointerException("Parameter [type] is empty.");
-        }
-        $this->discussed    = $discussed;
-        $this->type         = $type;
-    }
-
-    public function disablePosting() {
-	    $this->enablePosting = FALSE;
-    }
-
-    public function enableLinks() {
-	    $this->enableLinks = TRUE;
-    }
-
-    // ---- PROTECTED METHODS
-
-    protected function beforeRender() {
-	parent::beforeRender();
-	$this->loadTemplate($this->getSource());
-	$this->getTemplate()->enablePosting = $this->enablePosting;
-	$this->getTemplate()->enableLinks = $this->enableLinks;
-    }
-
-
-    protected function createComponentForm($name) {
-        $form = new BaseForm($this, $name);
-
-        $form->addTextArea("content")
-            ->addRule(Form::FILLED, "Please fill the content.");
-
-        $form->addSubmit("insertPost", "Send post");
-
-        $form->addHidden("discussed");
-        $form->addHidden("type");
-
-        if (!empty($this->discussed)) {
-            $form->setDefaults(array(
-                "discussed" => $this->discussed,
-                "type"      => $this->type
-            ));
-        }
-
-        $form->onSubmit[] = array($this, "formSubmitted");
-        return $form;
-    }
-
-    // ---- PRIVATE METHODS
-
-    private function loadTemplate(DibiDataSource $source) {
-	$paginator = $this->getPaginator();
-	if ($this->getLimit() == 0) {
-	    $this->getPaginator()->itemsPerPage = $paginator->itemCount;
-
+	public function enableLinks() {
+		$this->enableLinks = TRUE;
 	}
-	$source->applyLimit($paginator->itemsPerPage, $paginator->offset);
-	$this->getTemplate()->posts = Leganto::posts()->fetchAndCreateAll($source);
-    }
 
+	// ---- PROTECTED METHODS
+
+	protected function beforeRender() {
+		parent::beforeRender();
+		$this->loadTemplate($this->getSource());
+		$this->getTemplate()->enablePosting = $this->enablePosting;
+		$this->getTemplate()->enableLinks = $this->enableLinks;
+	}
+
+	protected function createComponentForm($name) {
+		$form = new BaseForm($this, $name);
+
+		$form->addTextArea("content")
+			->addRule(Form::FILLED, "Please fill the content.");
+
+		$form->addSubmit("insertPost", "Send post");
+
+		$form->addHidden("discussed");
+		$form->addHidden("type");
+
+		if (!empty($this->discussed)) {
+			$form->setDefaults(array(
+			    "discussed" => $this->discussed,
+			    "type" => $this->type
+			));
+		}
+
+		$form->onSubmit[] = array($this, "formSubmitted");
+		return $form;
+	}
+
+	// ---- PRIVATE METHODS
+
+	private function loadTemplate(DibiDataSource $source) {
+		$paginator = $this->getPaginator();
+		if ($this->getLimit() == 0) {
+			$this->getPaginator()->itemsPerPage = $paginator->itemCount;
+		}
+		$source->applyLimit($paginator->itemsPerPage, $paginator->offset);
+		$this->getTemplate()->posts = Leganto::posts()->fetchAndCreateAll($source);
+	}
 
 }

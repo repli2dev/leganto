@@ -153,18 +153,18 @@ td input[type="submit"] {
 }
 
 ul.error {
-    padding: 30px;
-    padding-left: 70px;
-    font-size: 1.2em;
-    margin-bottom: 15px;
-    background-position: 1% 50%;
-    background-repeat: no-repeat;
+	padding: 30px;
+	padding-left: 70px;
+	font-size: 1.2em;
+	margin-bottom: 15px;
+	background-position: 1% 50%;
+	background-repeat: no-repeat;
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
 	border-radius: 5px;
-    color: #7B0404;
-    background-color: #ffeedd;
-    background-image: url(../img/ico/flash-error.png);
+	color: #7B0404;
+	background-color: #ffeedd;
+	background-image: url(../img/ico/flash-error.png);
 	list-style: none;
 }
 .underForm {

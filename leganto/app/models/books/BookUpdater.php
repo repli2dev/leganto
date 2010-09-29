@@ -1,22 +1,16 @@
 <?php
+
 /**
- * The source file is subject to the license located on web
- * "http://code.google.com/p/preader/".
  *
  * @copyright	Copyright (c) 2009 Jan Papoušek (jan.papousek@gmail.com),
- *				Jan Drábek (repli2dev@gmail.com)
+ * 				Jan Drábek (me@jandrabek.cz)
  * @link		http://code.google.com/p/preader/
  * @license		http://code.google.com/p/preader/
- */
-
-/**
  * @author		Jan Papousek
  * @author		Jan Drabek
- * @version		$Id$
+ * @version		$id$
  */
-class BookUpdater implements IUpdater
-{
-
+class BookUpdater implements IUpdater {
 	/* PUBLIC METHODS */
 
 	public function merge(BookEntity $superior, BookEntity $inferior) {
@@ -34,11 +28,11 @@ class BookUpdater implements IUpdater
 		// Move inferior book tags to superior book
 		dibi::query("
 			UPDATE [tagged] SET
-				[id_book] = %i", $superior->bookNode ,"
+				[id_book] = %i", $superior->bookNode, "
 			WHERE
-				[id_book] = %i", $inferior->bookNode ,"
+				[id_book] = %i", $inferior->bookNode, "
 			AND
-				[id_tag] NOT IN (SELECT [id_tag] FROM [tagged] WHERE [id_book] = %i",$superior->bookNode,")
+				[id_tag] NOT IN (SELECT [id_tag] FROM [tagged] WHERE [id_book] = %i", $superior->bookNode, ")
 		");
 		// Delete tags which overlapped
 		dibi::delete("tagged")
@@ -47,11 +41,11 @@ class BookUpdater implements IUpdater
 		// Set the inferior book in shelves as superior book
 		dibi::query("
 			UPDATE [in_shelf] SET
-				[id_book] = %i", $superior->bookNode ,"
+				[id_book] = %i", $superior->bookNode, "
 			WHERE
-				[id_book] = %i", $inferior->bookNode ,"
+				[id_book] = %i", $inferior->bookNode, "
 			AND
-				[id_shelf] NOT IN (SELECT [id_shelf] FROM [in_shelf] WHERE [id_book] = %i",$superior->bookNode,")
+				[id_shelf] NOT IN (SELECT [id_shelf] FROM [in_shelf] WHERE [id_book] = %i", $superior->bookNode, ")
 		");
 		// Delete books in shelf which overlapped
 		dibi::delete("in_shelf")
@@ -60,11 +54,11 @@ class BookUpdater implements IUpdater
 		// Move opinions from inferior to superior book
 		dibi::query("
 			UPDATE [opinion] SET
-				[id_book] = %i", $superior->bookNode ,"
+				[id_book] = %i", $superior->bookNode, "
 			WHERE
-				[id_book] = %i", $inferior->bookNode ,"
+				[id_book] = %i", $inferior->bookNode, "
 			AND
-				[id_user] NOT IN (SELECT [id_user] FROM [opinion] WHERE [id_book] = %i",$superior->bookNode,")
+				[id_user] NOT IN (SELECT [id_user] FROM [opinion] WHERE [id_book] = %i", $superior->bookNode, ")
 		");
 		// Delete opinions which overlapped
 		dibi::delete("opinion")
@@ -73,7 +67,7 @@ class BookUpdater implements IUpdater
 
 		// Delete book similarity entries
 		dibi::delete("book_similarity")
-			->where("[id_book_from] = %i", $inferior->bookNode, " OR [id_book_to] = %i",  $inferior->bookNode)
+			->where("[id_book_from] = %i", $inferior->bookNode, " OR [id_book_to] = %i", $inferior->bookNode)
 			->execute();
 		// TODO: iniciovat novy vypocet podobnosti u knizky
 		// Delete inferior book
@@ -100,11 +94,11 @@ class BookUpdater implements IUpdater
 		}
 		dibi::begin();
 		// Add new relations
-		foreach($tagged AS $tag) {
+		foreach ($tagged AS $tag) {
 			if (!in_array($tag->getId(), $tags)) {
 				dibi::insert("tagged", array(
-					"id_tag"	=> $tag->getId(),
-					"id_book"	=> $book->bookNode
+				    "id_tag" => $tag->getId(),
+				    "id_book" => $book->bookNode
 				))->execute();
 			}
 		}
@@ -126,31 +120,29 @@ class BookUpdater implements IUpdater
 		if (is_array($writtenBy)) {
 			dibi::begin();
 			// delete all old relations between the book and authors
-			dibi::delete("written_by")->where("[id_book] = %i",$book->bookNode)->execute();
+			dibi::delete("written_by")->where("[id_book] = %i", $book->bookNode)->execute();
 			// add new relations
-			foreach($writtenBy as $author){
+			foreach ($writtenBy as $author) {
 				dibi::insert("written_by",
 					array(
-						"id_book" => $book->bookNode,
-						"id_author" => $author->getId()
+					    "id_book" => $book->bookNode,
+					    "id_author" => $author->getId()
 					)
 				)->execute();
 			}
 			dibi::commit();
 		}
 		// I want to add only one author
-		else if($writtenBy instanceof AuthorEntity) {
+		else if ($writtenBy instanceof AuthorEntity) {
 			SimpleTableModel::createTableModel("written_by")->insert(array(
-				array(
-					"id_book" => $book->bookNode,
-					"id_author" => $author->getId()
-				)
+			    array(
+				"id_book" => $book->bookNode,
+				"id_author" => $author->getId()
+			    )
 			));
-		}
-		else {
+		} else {
 			throw new InvalidArgumentException("The argument [writtenBy] has to be array or AuthorEntity.");
 		}
-	
 	}
 
 	public function update(IEntity $entity) {

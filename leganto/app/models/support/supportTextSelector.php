@@ -1,55 +1,63 @@
 <?php
+
 /**
- * The source file is subject to the license located on web
- * "http://code.google.com/p/preader/".
  *
  * @copyright	Copyright (c) 2009 Jan Papoušek (jan.papousek@gmail.com),
- *				Jan Drábek (repli2dev@gmail.com)
+ * 				Jan Drábek (me@jandrabek.cz)
  * @link		http://code.google.com/p/preader/
  * @license		http://code.google.com/p/preader/
- */
-
-/**
  * @author		Jan Papousek
  * @author		Jan Drabek
- * @version		$Id$
+ * @version		$id$
  */
-class supportTextSelector implements ISelector
-{
-
+class supportTextSelector implements ISelector {
 	/* PUBLIC METHODS */
-	
+
+	/**
+	 * Find all support texts
+	 * @return DibiDataSource
+	 */
 	public function findAll() {
 		return dibi::dataSource("SELECT * FROM [support_text]");
 	}
 
+	/**
+	 * Find all support texts in category
+	 * @param int $category id of category
+	 * @return DibiDataSource
+	 */
 	public function findAllByCategory($category) {
-		if(empty($category)) {
+		if (empty($category)) {
 			throw new NullPointerException("Empty category id.");
 		}
-		return dibi::dataSource("SELECT * FROM [support_text] WHERE id_support_category = %i ORDER BY weight ASC",$category);
+		return dibi::dataSource("SELECT * FROM [support_text] WHERE id_support_category = %i ORDER BY weight ASC", $category);
 	}
-	
-	/** @return BookEntity */
+
+	/** @return SupportTextEntity */
 	public function find($id) {
 		return Leganto::supportText()
 			->fetchAndCreate(
 				dibi::dataSource("SELECT * FROM [support_text] WHERE [id_support_text] = %i", $id)
-			);
+		);
 	}
 
+	/**
+	 * Search by given keyword
+	 * @param string $keyword what to search for
+	 * @return DibiDataSource
+	 */
 	public function search($keyword) {
 		if (empty($keyword)) {
 			throw new NullPointerException("keyword");
 		}
 		$keywords = preg_split('/ /', $keyword);
 		$conditions = "";
-		foreach($keywords AS $word) {
-		    if (!empty($conditions)) {
-			$conditions .= " AND ";
-		    }
-		    $word = "%".mysql_escape_string($word)."%";
-		    $conditions .= "
+		foreach ($keywords AS $word) {
+			if (!empty($conditions)) {
+				$conditions .= " AND ";
+			}
+			$word = "%" . mysql_escape_string($word) . "%";
+			$conditions .= "
 			([name] LIKE '$word' OR
 			[text] LIKE '$word')";
 		}

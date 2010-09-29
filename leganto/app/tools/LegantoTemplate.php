@@ -1,30 +1,28 @@
 <?php
+
 /**
- * The source file is subject to the license located on web
- * "http://code.google.com/p/preader/".
+ * Basic template to register helpers, filters, translator automatically
  *
  * @copyright	Copyright (c) 2009 Jan Papoušek (jan.papousek@gmail.com),
- *				Jan Drábek (repli2dev@gmail.com)
+ * 				Jan Drábek (me@jandrabek.cz)
  * @link		http://code.google.com/p/preader/
  * @license		http://code.google.com/p/preader/
- */
-
-/**
  * @author		Jan Papousek
  * @author		Jan Drabek
- * @version		$Id$
+ * @version		$id$
  */
-final class LegantoTemplate
-{
+final class LegantoTemplate {
 
-	final private function  __construct() {}
+	final private function __construct() {
+
+	}
 
 	/**
 	 * Adding basic helpers and system translator
 	 * @param ITemplate $template
 	 * @return ITemplate
 	 */
-	public static function loadTemplate(ITemplate $template){
+	public static function loadTemplate(ITemplate $template) {
 		// register filters
 		$template->registerFilter('CurlyBracketsFilter::invoke');
 

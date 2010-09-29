@@ -310,7 +310,7 @@ a img {
 	padding: 0;
 }
 .feed div.item-opinion {
-	
+
 }
 /************************** HELP **********************************************/
 .help-category {
@@ -479,6 +479,7 @@ a img {
 	-webkit-border-radius: 5px;
 	border-radius: 5px;
 }
+/******************************* SHELVES ******************************/
 .shelf h2 {
 	margin: 0;
 	cursor: pointer;
@@ -554,6 +555,7 @@ a img {
 	width: 16px;
 	height: 16px;
 }
+/********************** SOCIAL NETWORKS (SETTINGS) *****************************/
 ul.social-networks {
 	margin-left: 20px;
 	list-style: none;

@@ -1,4 +1,6 @@
 <?php
+// Defines basic constants needed by Nette
+
 // absolute filesystem path to the web root
 define('WWW_DIR', dirname(__FILE__));
 

@@ -1,24 +1,24 @@
 <?php
+// Load basic constants for Nette and Nette itself
 require_once(dirname(__FILE__) . "/constants.php");
 require_once LIBS_DIR . '/Nette/loader.php';
 
-// Loader
+// Set loader
 $loader = new RobotLoader();
 $loader->addDirectory(APP_DIR);
 $loader->addDirectory(LIBS_DIR);
 $loader->register();
 
 Debug::enable(Debug::DEVELOPMENT);
-
 Debug::timer();
 
 echo "EXTRACTING ALL TEXT FOR TRANSLATION...";
 
+// Initialize extractor
 $ge = new NetteGettextExtractor();
 
+// Set options
 $ge->setupForms();
-
-// Set Filters
 $ge->setFilter('php', 'PHP');
 $ge->setFilter('phtml','NetteLatte');
 

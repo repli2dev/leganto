@@ -1,22 +1,16 @@
 <?php
-/**
- * The source file is subject to the license located on web
- * "http://code.google.com/p/preader/".
- *
- * @copyright	Copyright (c) 2009 Jan Papoušek (jan.papousek@gmail.com),
- *				Jan Drábek (repli2dev@gmail.com)
- * @link		http://code.google.com/p/preader/
- * @license		http://code.google.com/p/preader/
- */
 
 /**
+ *
+ * @copyright	Copyright (c) 2009 Jan Papoušek (jan.papousek@gmail.com),
+ * 				Jan Drábek (me@jandrabek.cz)
+ * @link		http://code.google.com/p/preader/
+ * @license		http://code.google.com/p/preader/
  * @author		Jan Papousek
  * @author		Jan Drabek
- * @version		$Id$
+ * @version		$id$
  */
- 
-class ShelfUpdater implements IUpdater
-{
+class ShelfUpdater implements IUpdater {
 
 	public function changeOrder(ShelfEntity $shelf, BookEntity $book, $newOrder) {
 		if ($newOrder < 0) {
@@ -27,23 +21,22 @@ class ShelfUpdater implements IUpdater
 		    SELECT [order]
 		    FROM [in_shelf]
 		    WHERE [id_shelf] = %i ", $shelf->getId(),
-		    "AND [id_book] = %i", $book->getId()
-    		)->fetch()->order;
+				"AND [id_book] = %i", $book->getId()
+			)->fetch()->order;
 		if ($oldOrder > $newOrder) {
-		    dibi::query("
+			dibi::query("
 			UPDATE [in_shelf] SET [order] = [order] + 1
 			WHERE [id_shelf] = %i ", $shelf->getId(),
-			"AND [order] >= %i ", $newOrder,
-			"AND [order] < %i", $oldOrder
-		    );
-		}
-		else if($oldOrder < $newOrder) {
-		    dibi::query("
+					"AND [order] >= %i ", $newOrder,
+					"AND [order] < %i", $oldOrder
+			);
+		} else if ($oldOrder < $newOrder) {
+			dibi::query("
 			UPDATE [in_shelf] SET [order] = [order] -1
 			WHERE [id_shelf] = %i ", $shelf->getId(),
-			"AND [order] <= %i ", $newOrder,
-			"AND [order] > %i", $oldOrder
-		    );		    
+					"AND [order] <= %i ", $newOrder,
+					"AND [order] > %i", $oldOrder
+			);
 		}
 		dibi::update("in_shelf", array("order" => $newOrder))
 			->where("[id_book] = %i", $book->bookNode)
@@ -59,12 +52,12 @@ class ShelfUpdater implements IUpdater
 	 * @return int Inserted ID. If the book has been already inserted, it returns -1.
 	 */
 	public function insertToShelf(ShelfEntity $shelf, BookEntity $book) {
-	    return SimpleTableModel::createTableModel("in_shelf")->insert(array(
-		    "id_shelf"		=> $shelf->getId(),
-		    "id_book"		=> $book->bookNode,
-		    "order"		=> $this->getNumberOfBooksInShelf($shelf),
-		    "inserted"		=> new DateTime()
-	    ));
+		return SimpleTableModel::createTableModel("in_shelf")->insert(array(
+		    "id_shelf" => $shelf->getId(),
+		    "id_book" => $book->bookNode,
+		    "order" => $this->getNumberOfBooksInShelf($shelf),
+		    "inserted" => new DateTime()
+		));
 	}
 
 	/**
@@ -74,12 +67,12 @@ class ShelfUpdater implements IUpdater
 	 * @param BookEntity  book
 	 */
 	public function removeBookFromShelf(ShelfEntity $shelf, BookEntity $book) {
-	    // Move the book on the bottom of shelf
-	    $this->changeOrder($shelf, $book, PHP_INT_MAX);
-	    SimpleTableModel::createTableModel("in_shelf")->deleteAll(array(
-		    "id_shelf"  => $shelf->getId(),
-		    "id_book"   => $book->getId()
-	    ));
+		// Move the book on the bottom of shelf
+		$this->changeOrder($shelf, $book, PHP_INT_MAX);
+		SimpleTableModel::createTableModel("in_shelf")->deleteAll(array(
+		    "id_shelf" => $shelf->getId(),
+		    "id_book" => $book->getId()
+		));
 	}
 
 	public function update(IEntity $entity) {
@@ -87,10 +80,11 @@ class ShelfUpdater implements IUpdater
 	}
 
 	private function getNumberOfBooksInShelf(ShelfEntity $shelf) {
-	    return dibi::query("
+		return dibi::query("
 		SELECT COUNT([id_in_shelf]) AS number
 		FROM [in_shelf]
 		WHERE [id_shelf] = %i", $shelf->getId()
-	    )->fetch()->number;
+		)->fetch()->number;
 	}
+
 }

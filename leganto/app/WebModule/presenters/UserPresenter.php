@@ -1,5 +1,15 @@
 <?php
 
+/**
+ *
+ * @copyright	Copyright (c) 2009 Jan Papoušek (jan.papousek@gmail.com),
+ * 				Jan Drábek (me@jandrabek.cz)
+ * @link		http://code.google.com/p/preader/
+ * @license		http://code.google.com/p/preader/
+ * @author		Jan Papousek
+ * @author		Jan Drabek
+ * @version		$id$
+ */
 class Web_UserPresenter extends Web_BasePresenter {
 
 	private $user;
@@ -14,7 +24,7 @@ class Web_UserPresenter extends Web_BasePresenter {
 				Leganto::opinions()->getSelector()
 				->findAllByUser($this->getUserEntity())
 		);
-		$this->setPageTitle(System::translate("Profile and opinions").": ". $this->getUserEntity()->nickname);
+		$this->setPageTitle(System::translate("Profile and opinions") . ": " . $this->getUserEntity()->nickname);
 		$this->setPageDescription(System::translate("Profile page of user where you can track his or hers opinions, look into shelves, find followers and following users."));
 		$this->setPageKeywords(System::translate("followers, following, user profile, user detail, tracking user, users opinion"));
 	}
@@ -24,15 +34,15 @@ class Web_UserPresenter extends Web_BasePresenter {
 			$this->redirect("Default:unauthorized");
 		} else {
 			if ($this->getUserEntity()->getId() == System::user()->getId()) {
-				$this->flashMessage(System::translate("You cannot follow yourself, you egoist!"),"error");
+				$this->flashMessage(System::translate("You cannot follow yourself, you egoist!"), "error");
 			} else {
 				$result = Leganto::users()->getUpdater()->toogleFollow($this->getUserEntity()->getId());
 				if ($result == TRUE) {
 					System::log("FOLLOW USER '" . $this->getUserEntity()->getId() . "'");
-					$this->flashMessage(System::translate("This user is now followed by you."),"success");
+					$this->flashMessage(System::translate("This user is now followed by you."), "success");
 				} else {
 					System::log("UNFOLLOW USER'" . $this->getUserEntity()->getId() . "'");
-					$this->flashMessage(System::translate("This user is no longer followed by you."),"success");
+					$this->flashMessage(System::translate("This user is no longer followed by you."), "success");
 				}
 			}
 			$this->redirect("default", $this->getUserEntity()->getId());
@@ -104,6 +114,7 @@ class Web_UserPresenter extends Web_BasePresenter {
 		$this->setPageDescription(System::translate("On this page you see shelves of user and book in them, owners can re-order theirs book."));
 		$this->setPageKeywords(System::translate("book shelves, update, reorder, manipulation, books"));
 	}
+
 	public function renderSimilar($user) {
 		$this->getTemplate()->user = $this->getUserEntity();
 		$this->setPageTitle(System::translate("Similar users") . ": " . $this->getUserEntity()->nickname);

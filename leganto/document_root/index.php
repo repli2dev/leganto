@@ -1,6 +1,5 @@
 <?php
-
 require_once (dirname(__FILE__) . "/constants.php");
 
-// load bootstrap file
+// Load and execute bootstrap file
 require APP_DIR . '/bootstrap.php';

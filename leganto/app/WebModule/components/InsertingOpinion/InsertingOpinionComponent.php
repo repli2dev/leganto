@@ -1,20 +1,14 @@
 <?php
 
 /**
- * The source file is subject to the license located on web
- * "http://code.google.com/p/preader/".
  *
  * @copyright	Copyright (c) 2009 Jan Papoušek (jan.papousek@gmail.com),
- * 				Jan Drábek (repli2dev@gmail.com)
+ * 				Jan Drábek (me@jandrabek.cz)
  * @link		http://code.google.com/p/preader/
  * @license		http://code.google.com/p/preader/
- */
-
-/**
  * @author		Jan Papousek
  * @author		Jan Drabek
- * @version		$Id$
- *
+ * @version		$id$
  */
 class InsertingOpinionComponent extends BaseComponent {
 
@@ -98,7 +92,7 @@ class InsertingOpinionComponent extends BaseComponent {
 		);
 		$form->addSelect("rating", "Rating", $ratings)
 			->skipFirst()
-			->addRule(array($this,"validateRating"),"Please select rating.");
+			->addRule(array($this, "validateRating"), "Please select rating.");
 		$form->addTextArea("content", "Your opinion", 50, 15);
 		$form->addText("tags", "Tags")->setOption("description", System::translate("(tags will be appended to current ones)"));
 		$languages = Leganto::languages()->getSelector()->findAll()->fetchPairs("id_language", "name");
@@ -127,10 +121,10 @@ class InsertingOpinionComponent extends BaseComponent {
 	public function validateRating($control) {
 		$items = $control->getItems();
 		// Remove first item if we are asked to.
-		if($control->isFirstSkipped()) {
+		if ($control->isFirstSkipped()) {
 			unset($items[key($items)]);
 		}
-		if(isSet($items[$control->getValue()])) {
+		if (isSet($items[$control->getValue()])) {
 			return TRUE;
 		} else {
 			return FALSE;

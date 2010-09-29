@@ -1,5 +1,15 @@
 <?php
 
+/**
+ *
+ * @copyright	Copyright (c) 2009 Jan Papoušek (jan.papousek@gmail.com),
+ * 				Jan Drábek (me@jandrabek.cz)
+ * @link		http://code.google.com/p/preader/
+ * @license		http://code.google.com/p/preader/
+ * @author		Jan Papousek
+ * @author		Jan Drabek
+ * @version		$id$
+ */
 class Web_BookPresenter extends Web_BasePresenter {
 
 	private $book;
@@ -26,7 +36,7 @@ class Web_BookPresenter extends Web_BasePresenter {
 		// Edition?
 		$this->getComponent("bookView")->setEditionId($edition);
 		// Page title
-		$this->setPageTitle(System::translate("General info").": ".$this->getBook()->title);
+		$this->setPageTitle(System::translate("General info") . ": " . $this->getBook()->title);
 		$this->setPageDescription(System::translate("Detail of book where you can find most interesting data such as book cover, tags, opinions, editions, related books etc. "));
 		$this->setPageKeywords(System::translate("book, detail, graphs, opinions, tags, editions, isbn, pages, shelves, share to social network"));
 	}
@@ -36,7 +46,7 @@ class Web_BookPresenter extends Web_BasePresenter {
 			$this->unauthorized();
 		} else {
 			$this->getTemplate()->book = $this->getBook();
-			$this->setPageTitle(System::translate("Add edition").": ".$this->getBook()->title);
+			$this->setPageTitle(System::translate("Add edition") . ": " . $this->getBook()->title);
 			$this->setPageDescription(System::translate("On this page you can add new edition to this book"));
 			$this->setPageKeywords(System::translate("add, edition, insert"));
 		}
@@ -46,7 +56,7 @@ class Web_BookPresenter extends Web_BasePresenter {
 		if (!Environment::getUser()->isAllowed(Resource::EDITION, Action::EDIT)) {
 			$this->unauthorized();
 		} else {
-			$this->setPageTitle(System::translate("Edit edition").": ".$book->title);
+			$this->setPageTitle(System::translate("Edit edition") . ": " . $book->title);
 			$this->setPageDescription(System::translate("On this page you can edit already inserted edition."));
 			$this->setPageKeywords(System::translate("edit, update, edition"));
 		}
@@ -57,7 +67,7 @@ class Web_BookPresenter extends Web_BasePresenter {
 			$this->unauthorized();
 		} else {
 			$this->getTemplate()->book = $this->getBook();
-			$this->setPageTitle(System::translate("Your opinion").": ".$this->getBook()->title);
+			$this->setPageTitle(System::translate("Your opinion") . ": " . $this->getBook()->title);
 			$this->setPageDescription(System::translate("On this page you can insert or change your opinion on certain book."));
 			$this->setPageKeywords(System::translate("opinion, insert, add, book, your opinion"));
 		}
@@ -70,7 +80,7 @@ class Web_BookPresenter extends Web_BasePresenter {
 			$this->unauthorized();
 		}
 		$this->getComponent("insertingBook")->setBookToEdit($this->getBook());
-		$this->setPageTitle(System::translate("Edit book '".$this->getBook()->title."'"));
+		$this->setPageTitle(System::translate("Edit book '" . $this->getBook()->title . "'"));
 	}
 
 	public function renderInsert($book, $related = FALSE) {
@@ -88,7 +98,7 @@ class Web_BookPresenter extends Web_BasePresenter {
 			// Insert a new book
 			$this->setPageTitle(System::translate("Insert book"));
 		}
-		
+
 		$this->setPageDescription(System::translate("On this page you can insert new book, for adding to your logbook please use Add opinion."));
 		$this->setPageKeywords(System::translate("insert, add, new book"));
 	}
@@ -100,7 +110,7 @@ class Web_BookPresenter extends Web_BasePresenter {
 				->findAllByBook($this->getTemplate()->book, System::user())
 				->where("[content] != ''")
 		);
-		$this->setPageTitle(System::translate("Opinions").": ".$this->getTemplate()->book->title);
+		$this->setPageTitle(System::translate("Opinions") . ": " . $this->getTemplate()->book->title);
 		$this->setPageDescription(System::translate("Opinions to certain book from all users, let's choose if it is worth to read!"));
 		$this->setPageKeywords(System::translate("opinion, other users, how to decide what to read"));
 	}
@@ -111,7 +121,7 @@ class Web_BookPresenter extends Web_BasePresenter {
 		$this->getComponent("similarBooks")->setSource(
 			Leganto::books()->getSelector()->findAllSimilar($this->getTemplate()->book)->applyLimit(12)
 		);
-		$this->setPageTitle(System::translate("Similar books").": ".$this->getTemplate()->book->title);
+		$this->setPageTitle(System::translate("Similar books") . ": " . $this->getTemplate()->book->title);
 		$this->setPageDescription(System::translate("Similar books to certain book, generated according to book tags. Choose what to read from what you have read!"));
 		$this->setPageKeywords(System::translate("similar books, tags, how to choose book"));
 	}

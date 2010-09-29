@@ -1,7 +1,16 @@
 <?php
-class EditionImageFinder extends AFinder
-{
 
+/**
+ * Edition image finder from obalkyknih.cz (works only for czech books)
+ * @copyright	Copyright (c) 2009 Jan Papoušek (jan.papousek@gmail.com),
+ * 				Jan Drábek (me@jandrabek.cz)
+ * @link		http://code.google.com/p/preader/
+ * @license		http://code.google.com/p/preader/
+ * @author		Jan Papousek
+ * @author		Jan Drabek
+ * @version		$id$
+ */
+class EditionImageFinder extends AFinder {
 	const URL = "http://obalkyknih.cz/view?isbn=<--ISBN-->";
 
 	public function get($edition) {
@@ -10,11 +19,9 @@ class EditionImageFinder extends AFinder
 		}
 		if ($edition->isbn10 != NULL) {
 			$this->setUrlParam("isbn", $edition->isbn10);
-		}
-		else if($edition->isbn13 != NULL) {
+		} else if ($edition->isbn13 != NULL) {
 			$this->setUrlParam("isbn", $edition->isbn13);
-		}
-		else {
+		} else {
 			throw new InvalidArgumentException("The entity has no ISBN.");
 		}
 		$content = $this->getUrlContent($this->getParsedUrl());
@@ -23,6 +30,7 @@ class EditionImageFinder extends AFinder
 	}
 
 	/* PROTECTED METHODS */
+
 	protected function getUrl() {
 		return self::URL;
 	}

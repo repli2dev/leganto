@@ -1,6 +1,16 @@
 <?php
-class EditionInserter implements IInserter
-{
+
+/**
+ *
+ * @copyright	Copyright (c) 2009 Jan Papoušek (jan.papousek@gmail.com),
+ * 				Jan Drábek (me@jandrabek.cz)
+ * @link		http://code.google.com/p/preader/
+ * @license		http://code.google.com/p/preader/
+ * @author		Jan Papousek
+ * @author		Jan Drabek
+ * @version		$id$
+ */
+class EditionInserter implements IInserter {
 
 	public function insert(IEntity &$entity) {
 		return SimpleInserter::createInserter("edition")->insert($entity);
@@ -19,23 +29,24 @@ class EditionInserter implements IInserter
 		$result = array();
 		foreach ($info AS $edition) {
 			$entity = Leganto::editions()->createEmpty();
-			$entity->idBookTitle	= $book->getId();
-			$entity->pages			= $edition[GoogleBooksEditionFinder::PAGES];
-			$entity->published		= $edition[GoogleBooksEditionFinder::PUBLISHED];
-			if(isSet($edition[GoogleBooksEditionFinder::IDENTIFIER][1])) {
-				$isbn			= strtr($edition[GoogleBooksEditionFinder::IDENTIFIER][1], array("ISBN:" => ""));
+			$entity->idBookTitle = $book->getId();
+			$entity->pages = $edition[GoogleBooksEditionFinder::PAGES];
+			$entity->published = $edition[GoogleBooksEditionFinder::PUBLISHED];
+			if (isSet($edition[GoogleBooksEditionFinder::IDENTIFIER][1])) {
+				$isbn = strtr($edition[GoogleBooksEditionFinder::IDENTIFIER][1], array("ISBN:" => ""));
 				if (strlen($isbn) == 10) {
-					$entity->isbn10	= $isbn;
+					$entity->isbn10 = $isbn;
 				}
 			}
-			if(isSet($edition[GoogleBooksEditionFinder::IDENTIFIER][2])) {
-				$isbn 		= strtr($edition[GoogleBooksEditionFinder::IDENTIFIER][2], array("ISBN:" => ""));
-				if (strlen($isbn) == 13 ) {
-					$entity->isbn13	= $isbn;
+			if (isSet($edition[GoogleBooksEditionFinder::IDENTIFIER][2])) {
+				$isbn = strtr($edition[GoogleBooksEditionFinder::IDENTIFIER][2], array("ISBN:" => ""));
+				if (strlen($isbn) == 13) {
+					$entity->isbn13 = $isbn;
 				}
 			}
-			$entity->inserted		= new DateTime();
-			if ($entity->isbn10 == NULL || $entity->isbn13 == NULL) continue;
+			$entity->inserted = new DateTime();
+			if ($entity->isbn10 == NULL || $entity->isbn13 == NULL)
+				continue;
 			$entity->persist();
 			if ($entity->getId() != -1) {
 				$result[] = $entity;

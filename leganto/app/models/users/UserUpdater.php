@@ -1,18 +1,13 @@
 <?php
 /**
- * The source file is subject to the license located on web
- * "http://code.google.com/p/preader/".
  *
  * @copyright	Copyright (c) 2009 Jan Papoušek (jan.papousek@gmail.com),
- *				Jan Drábek (repli2dev@gmail.com)
+ *				Jan Drábek (me@jandrabek.cz)
  * @link		http://code.google.com/p/preader/
  * @license		http://code.google.com/p/preader/
- */
-
-/**
  * @author		Jan Papousek
  * @author		Jan Drabek
- * @version		$Id$
+ * @version		$id$
  */
  
 class UserUpdater implements IUpdater {
@@ -27,6 +22,11 @@ class UserUpdater implements IUpdater {
 		return SimpleUpdater::createUpdater("user")->update($entity);
 	}
 
+	/**
+	 * Create new pass and store it
+	 * @param UserEntity $entity
+	 * @return string
+	 */
 	public function generateHashForNewPassword(UserEntity $entity){
 		$hash = ExtraString::random(30);
 		dibi::update("user",
@@ -40,6 +40,12 @@ class UserUpdater implements IUpdater {
 		return $hash;
 	}
 
+	/**
+	 * Function for confirming and changing users password
+	 * @param UserEntity $entity
+	 * @param string $hash pass code
+	 * @return string new password
+	 */
 	public function confirmNewPassword(UserEntity $entity,$hash){
 		$row = SimpleTableModel::createTableModel("user")->find($entity->getId());
 		if(!empty($row->new_pass_time) && strtotime($row->new_pass_time) > (time()-24*60*60)){
@@ -63,6 +69,10 @@ class UserUpdater implements IUpdater {
 		}
 	}
 
+	/**
+	 * Remove pass code from from user given by user entity (e.g. after successful login)
+	 * @param UserEntity $entity
+	 */
 	public function removePassCode(UserEntity $entity){
 		if($entity->new_pass_key){
 			dibi::update("user",
@@ -75,6 +85,9 @@ class UserUpdater implements IUpdater {
 				->execute();
 		}
 	}
+	/**
+	 * Remove invalid pass codes (those which expired)
+	 */
 	public function removeOldPassCodes(){
 		dibi::update("user",
 			array(
@@ -86,6 +99,11 @@ class UserUpdater implements IUpdater {
 			->execute();
 	}
 
+	/**
+	 * Toogle follow/unfollow of given user and current logged user
+	 * @param int $user id of user
+	 * @return Boolean
+	 */
 	public function toogleFollow($user) {
 		if(Leganto::users()->getSelector()->isFollowedBy($user,System::user())) {
 			dibi::delete("following")

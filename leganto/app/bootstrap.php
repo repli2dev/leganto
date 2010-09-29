@@ -27,6 +27,8 @@ if ($debug->enable) {
 	if ($debug->profiler) {
 		Debug::enableProfiler();
 	}
+	// Libs contain bunch of function returning warnings
+	error_reporting(E_ALL^E_USER_WARNING);
 }
 
 // Step 3: Get the front controller
@@ -42,7 +44,6 @@ $router[] = WebModule::createRouter();
 // Step 5: Database connection
 // lazy connect should be enabled in config.ini
 dibi::connect(Environment::getConfig('database'));
-error_reporting(E_ALL^E_USER_WARNING);
 
 // Step 6: Start session
 Environment::getSession()->start();
