@@ -149,7 +149,7 @@ class BookSelector implements ISelector {
 		if (empty($keyword)) {
 			throw new NullPointerException("keyword");
 		}
-		$word = "%" . mysql_escape_string($keyword) . "%";
+		$word = mysql_escape_string($keyword) . "%";
 		$conditions = "
 			[title] LIKE '$word'
 		";

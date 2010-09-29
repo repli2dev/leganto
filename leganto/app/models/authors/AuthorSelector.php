@@ -90,7 +90,7 @@ class AuthorSelector implements ISelector {
 		if (empty($keyword)) {
 			throw new NullPointerException("keyword");
 		}
-		$word = "%" . mysql_escape_string($keyword) . "%";
+		$word = mysql_escape_string($keyword) . "%";
 		$conditions .= "
 			([first_name] LIKE '$word' OR
 			[last_name] LIKE '$word' OR
