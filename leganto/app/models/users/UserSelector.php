@@ -122,7 +122,7 @@ class UserSelector implements ISelector {
 		$keyword = "%" . $keyword . "%";
 
 		return dibi::dataSource("SELECT * FROM [view_user] WHERE
-				[email] LIKE %s", $keyword, " OR
+				[about] LIKE %s", $keyword, " OR
 				[nick] LIKE %s", $keyword, "
 		");
 	}
