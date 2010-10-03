@@ -310,7 +310,10 @@ a img {
 	padding: 0;
 }
 .feed div.item-opinion {
-
+	background: #F6F6F6 url('/img/ico/feed-opinion.png') no-repeat 98% 50%;
+}
+.feed div.item-post {
+	background: #F6F6F6 url('/img/ico/feed-post.png') no-repeat 98% 50%;
 }
 /************************** HELP **********************************************/
 .help-category {

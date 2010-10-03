@@ -14,9 +14,13 @@ class Web_DefaultPresenter extends Web_BasePresenter {
 
 	private $firstTime;
 
-	public function renderDefault() {
+	public function renderDefault($login = FALSE) {
 		if (Environment::getUser()->isAuthenticated()) {
 			$this->forward("feed");
+		}
+		if($login) {
+			$component = $this->getComponent("introduction");
+			$component->handleChangeState("login");
 		}
 		$this->setPageTitle(System::translate("Main page"));
 		$this->setPageDescription(System::translate("Leganto is community webpage which aims to create and share informations about literature as valuable part of our culture. Join our effords."));

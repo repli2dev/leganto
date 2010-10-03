@@ -42,6 +42,7 @@ class FeedComponent extends BaseListComponent {
 			}
 		}
 		$paginator = $this->getPaginator();
+		$paginator->itemCount = $this->getSource()->count();	// FIXME: nicer way?
 		$this->getSource()->applyLimit($paginator->itemsPerPage, $paginator->offset);
 		$this->getTemplate()->feed = Leganto::feed()->fetchAndCreateAll($this->getSource());
 	}

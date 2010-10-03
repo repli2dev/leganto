@@ -22,12 +22,18 @@ class TagListComponent extends BaseListComponent {
 			throw new InvalidStateException("The book is not set.");
 		}
 		$values = $form->getValues();
-		$tag = Leganto::tags()->createEmpty();
-		$tag->name = $values["tag"];
-		$tag->languageId = System::user()->idLanguage;
+		$tags = explode(", ",$values["tag"]);
+		$tagsEntities = array();
 		try {
-			$tag->persist();
-			Leganto::books()->getUpdater()->setTagged($this->book, $tag);
+			foreach($tags as $tag) {
+				$tagEntity = Leganto::tags()->createEmpty();
+				$tagEntity->name = $tag;
+				$tagEntity->languageId = System::user()->idLanguage;
+				$tagsEntities[] = $tagEntity;
+				$tagEntity->persist();
+				unset($tagEntity);
+			}
+			Leganto::books()->getUpdater()->setTagged($this->book, $tagsEntities);
 			$this->getPresenter()->flashMessage(System::translate("The tag has been successfuly inserted."), "success");
 		} catch (Exception $e) {
 			$this->unexpectedError($e);
@@ -50,7 +56,8 @@ class TagListComponent extends BaseListComponent {
 		$form = new BaseForm($this, $name);
 
 		$form->addText("tag")
-			->addRule(Form::FILLED, "Tag has to be filled.");
+			->addRule(Form::FILLED, "Tag has to be filled.")
+			->setOption("description",System::translate("Please divide multiple tags with ', ' (by words - comma and space)"));
 
 		$form->onSubmit[] = array($this, "formSubmitted");
 		$form->addSubmit("insert", "Insert tag");
