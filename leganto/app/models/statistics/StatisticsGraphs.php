@@ -27,6 +27,8 @@ class StatisticsGraphs {
 		$chart->setSize(300, 600);
 		$chart->setLegend(array_keys($statistics));
 		$chart->setLabels(GoogleChart::AXES_BOTTOM, $statistics);
+		// Tango pallete
+		$chart->setColors(array("8ae234","3465a4","fce94f","f57900","a40000"));
 		$chart->addDataSet($statistics);
 		return $chart;
 	}
@@ -58,6 +60,8 @@ class StatisticsGraphs {
 		$chart->setAxes(array(GoogleChart::AXES_LEFT, GoogleChart::AXES_BOTTOM));
 		$chart->setSize(120, 240);
 		$chart->setLegend(array_keys($statistics));
+		// Tango pallete
+		$chart->setColors(array("8ae234","3465a4","fce94f","f57900","a40000"));
 		//$chart->setLabels(GoogleChart::AXES_BOTTOM, $statistics);
 		$chart->addDataSet($statistics);
 		//$chart->setName(System::translate("Ratings"));
@@ -95,6 +99,8 @@ class StatisticsGraphs {
 		$chart->setAxes(array(GoogleChart::AXES_LEFT, GoogleChart::AXES_BOTTOM));
 		$chart->setSize(120, 240);
 		$chart->setLegend(array_keys($statistics));
+		// Tango pallete
+		$chart->setColors(array("729fcf","cc0000","d3d7cf"));
 		//$chart->setLabels(GoogleChart::AXES_BOTTOM, $statistics);
 		$chart->addDataSet($statistics);
 		return $chart;

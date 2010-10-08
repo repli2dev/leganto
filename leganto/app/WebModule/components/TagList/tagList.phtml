@@ -1,10 +1,13 @@
 
 <div id="tags">
-    {foreach $tags AS $tag}
-		<a href="{plink Search:default, $tag->name}" class="tag">{$tag->name}</a>
-    {/foreach}
-    {if Environment::getUser()->isAllowed(Resource::TAG, Action::INSERT)}
+	{foreach $tags AS $tag}
+		{if $tag->name != NULL}
+			<a href="{plink Search:default, $tag->name}" class="tag">{$tag->name}</a>
+		{/if}
+	{/foreach}
+
+	{if Environment::getUser()->isAllowed(Resource::TAG, Action::INSERT)}
 		{widget form}
 		<div class="clear"></div>
-    {/if}
+	{/if}
 </div>

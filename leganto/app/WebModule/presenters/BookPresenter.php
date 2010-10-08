@@ -108,7 +108,6 @@ class Web_BookPresenter extends Web_BasePresenter {
 		$this->getComponent("opinionList")->setSource(
 				Leganto::opinions()->getSelector()
 				->findAllByBook($this->getTemplate()->book, System::user())
-				->where("[content] != ''")
 		);
 		$this->setPageTitle(System::translate("Opinions") . ": " . $this->getTemplate()->book->title);
 		$this->setPageDescription(System::translate("Opinions to certain book from all users, let's choose if it is worth to read!"));
@@ -155,7 +154,11 @@ class Web_BookPresenter extends Web_BasePresenter {
 	}
 
 	protected function createComponentOpinionList($name) {
-		return new OpinionListComponent($this, $name);
+		$list =  new OpinionListComponent($this, $name);
+		if ($this->getAction() == "opinions") {
+			$list->showSorting();
+		}
+		return $list;
 	}
 
 	protected function createComponentRelatedBookList($name) {

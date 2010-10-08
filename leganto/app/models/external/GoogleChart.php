@@ -90,7 +90,7 @@ class GoogleChart {
 		}
 		// Set colors
 		if (!empty($this->colors)) {
-			$link .= "&chco=" . implode(",", $this->colors);
+			$link .= "&chco=" . implode("|", $this->colors);
 		}
 		// Set legend
 		if (!empty($this->legend)) {

@@ -14,7 +14,7 @@ $(document).ready(
 	{if !empty($graph['graph'])}
 	    <h3>{$graph['label']}</h3>
 	    <div>
-		<img src="{$graph['graph']->getLink()}" />
+		<img src="{$graph['graph']->getLink()}" alt="{$graph['label']}" />
 	    </div>
 	{/if}
     {/foreach}

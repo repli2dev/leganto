@@ -13,14 +13,19 @@
 
     @{foreach $opinions AS $opinion}
 		<div class="item">
+			
 			<div class="info-side">
-				{if $showedInfo == 'user'}
-					<img class="icon" src="{$opinion->userId, 50|userico}" />
-				{else}
-					<img class="icon" src="{$opinion->bookTitleId, 50|bookcover}" />
+				{if $opinion->content != ""}
+					{if $showedInfo == 'user'}
+						<img class="icon" src="{$opinion->userId, 50|userico}" />
+					{else}
+						<img class="icon" src="{$opinion->bookTitleId, 50|bookcover}" />
+					{/if}
 				{/if}
 				<span class="date">{$opinion->inserted|date}</span>
+
 			</div>
+			
 			<div class="info-top">
 				<img class="rating" src="{$baseUri}img/rating_{$opinion->rating}.png" />
 				{if $showedInfo == 'user'}
@@ -29,9 +34,13 @@
 					<a href="{plink Book:default, $opinion->bookTitleId}">{$opinion->bookTitle}</a>
 				{/if}
 			</div>
-			<div class="content">
-				{!=$opinion->content|texySafe}
-			</div>
+
+			{if $opinion->content != ""}
+				<div class="content">
+					{!=$opinion->content|texySafe}
+				</div>
+			{/if}
+
 			<div class="info-bottom">
 				@{if !isset($showedOpinion) || $showedOpinion != $opinion->getId()}
 					@{if isset($discussions[$opinion->getId()])}
