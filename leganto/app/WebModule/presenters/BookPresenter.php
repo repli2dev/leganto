@@ -37,7 +37,7 @@ class Web_BookPresenter extends Web_BasePresenter {
 		$this->getComponent("bookView")->setEditionId($edition);
 		// Page title
 		$this->setPageTitle(System::translate("General info") . ": " . $this->getBook()->title);
-		$this->setPageDescription(System::translate("Detail of book where you can find most interesting data such as book cover, tags, opinions, editions, related books etc. "));
+		$this->setPageDescription(System::translate("This is the detail of the book where you can find the most interesting data such as the book cover, tags, opinions, editions, related books etc."));
 		$this->setPageKeywords(System::translate("book, detail, graphs, opinions, tags, editions, isbn, pages, shelves, share to social network"));
 	}
 
@@ -47,7 +47,7 @@ class Web_BookPresenter extends Web_BasePresenter {
 		} else {
 			$this->getTemplate()->book = $this->getBook();
 			$this->setPageTitle(System::translate("Add edition") . ": " . $this->getBook()->title);
-			$this->setPageDescription(System::translate("On this page you can add new edition to this book"));
+			$this->setPageDescription(System::translate("You can add a new edition of this book on this page."));
 			$this->setPageKeywords(System::translate("add, edition, insert"));
 		}
 	}
@@ -57,7 +57,7 @@ class Web_BookPresenter extends Web_BasePresenter {
 			$this->unauthorized();
 		} else {
 			$this->setPageTitle(System::translate("Edit edition") . ": " . $book->title);
-			$this->setPageDescription(System::translate("On this page you can edit already inserted edition."));
+			$this->setPageDescription(System::translate("You can edit an already inserted edition on this page."));
 			$this->setPageKeywords(System::translate("edit, update, edition"));
 		}
 	}
@@ -68,7 +68,7 @@ class Web_BookPresenter extends Web_BasePresenter {
 		} else {
 			$this->getTemplate()->book = $this->getBook();
 			$this->setPageTitle(System::translate("Your opinion") . ": " . $this->getBook()->title);
-			$this->setPageDescription(System::translate("On this page you can insert or change your opinion on certain book."));
+			$this->setPageDescription(System::translate("You can insert or change your opinion on a certain book on this page."));
 			$this->setPageKeywords(System::translate("opinion, insert, add, book, your opinion"));
 		}
 	}
@@ -80,7 +80,7 @@ class Web_BookPresenter extends Web_BasePresenter {
 			$this->unauthorized();
 		}
 		$this->getComponent("insertingBook")->setBookToEdit($this->getBook());
-		$this->setPageTitle(System::translate("Edit book '" . $this->getBook()->title . "'"));
+		$this->setPageTitle(System::translate("Edit the book '%s'", $this->getBook()->title));
 	}
 
 	public function renderInsert($book, $related = FALSE) {
@@ -99,7 +99,7 @@ class Web_BookPresenter extends Web_BasePresenter {
 			$this->setPageTitle(System::translate("Insert book"));
 		}
 
-		$this->setPageDescription(System::translate("On this page you can insert new book, for adding to your logbook please use Add opinion."));
+		$this->setPageDescription(System::translate("You can insert a new book on this page. To add an opinion to an already inserted book, please use 'Add opinion'."));
 		$this->setPageKeywords(System::translate("insert, add, new book"));
 	}
 
@@ -110,7 +110,7 @@ class Web_BookPresenter extends Web_BasePresenter {
 				->findAllByBook($this->getTemplate()->book, System::user())
 		);
 		$this->setPageTitle(System::translate("Opinions") . ": " . $this->getTemplate()->book->title);
-		$this->setPageDescription(System::translate("Opinions to certain book from all users, let's choose if it is worth to read!"));
+		$this->setPageDescription(System::translate("Opinions on a certain book from all users, decide if it is worth reading!"));
 		$this->setPageKeywords(System::translate("opinion, other users, how to decide what to read"));
 	}
 

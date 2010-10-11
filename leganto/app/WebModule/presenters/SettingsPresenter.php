@@ -17,7 +17,7 @@ class Web_SettingsPresenter extends Web_BasePresenter {
 			$this->unauthorized();
 		} else {
 			$this->setPageTitle(System::translate("Settings"));
-			$this->setPageDescription(System::translate("On this page you can set your profile, write something about you, fill age and sex to personalise."));
+			$this->setPageDescription(System::translate("You can set your profile, write something about you, fill your age and sex on this page."));
 			$this->setPageKeywords(System::translate("settings, profile, update, edit"));
 		}
 	}
@@ -27,7 +27,7 @@ class Web_SettingsPresenter extends Web_BasePresenter {
 			$this->unauthorized();
 		} else {
 			$this->setPageTitle(System::translate("Social networks"));
-			$this->setPageDescription(System::translate("On this page you can manage your social networks connected to this page."));
+			$this->setPageDescription(System::translate("You can manage your social networks connected to this page here."));
 			$this->setPageKeywords(System::translate("social networks, facebook, twitter, manage, edit, update, remove, add, connect"));
 			$data = Leganto::connections()->getSelector()->findAllFromUser(System::user()->id);
 
@@ -46,7 +46,7 @@ class Web_SettingsPresenter extends Web_BasePresenter {
 			$this->unauthorized();
 		} else {
 			$this->setPageTitle(System::translate("Delete connection"));
-			$this->setPageDescription(System::translate("On this page you can delete connection to social network."));
+			$this->setPageDescription(System::translate("You can delete a connection to social network on this page."));
 			$this->setPageKeywords(System::translate("delete, social network, facebook, twitter, remove"));
 		}
 	}
@@ -136,10 +136,10 @@ class Web_SettingsPresenter extends Web_BasePresenter {
 		// Prepare form
 		$form = new BaseForm;
 		$form->addGroup("Basic information");
-		$form->addText('email', "Email")
-			->addRule(Form::FILLED, "Please fill correct email.")
+		$form->addText('email', "E-mail")
+			->addRule(Form::FILLED, "Please fill correct e-mail.")
 			->addCondition(Form::FILLED)
-			->addRule(Form::EMAIL, 'Please fill email in right format someone@somewhere.tld.');
+			->addRule(Form::EMAIL, 'Please fill e-mail in right format someone@somewhere.tld.');
 
 		$form->addGroup("Extra information");
 		$form->addSelect("sex", "Sex", array("" => "Unknown", "male" => "Male", "female" => "Female"));
@@ -148,10 +148,10 @@ class Web_SettingsPresenter extends Web_BasePresenter {
 			->addRule(Form::INTEGER, "Please correct birth year. Only allowed is integer.");
 		$form->addTextArea('about', 'About');
 
-		$form->addGroup("Change password");
+		$form->addGroup("Change password");email
 		$form->addPassword("old", 'Current password');
 		$form->addPassword("new", 'New password');
-		$form->addPassword("new2", 'New password again');
+		$form->addPassword("new2", 'New password again');email
 		// Get instances of all object to create cross rules!
 		$old = $form["old"];
 		$new = $form["new"];
@@ -175,7 +175,7 @@ class Web_SettingsPresenter extends Web_BasePresenter {
 			->addCondition(Form::FILLED)
 			->addRule(Form::MIME_TYPE, "File must be an image.", 'image/*')
 			->addRule(Form::MAX_FILE_SIZE, "Avatar has to be smaller than 100 KB.", 1024 * 100);
-
+email
 		$form->setCurrentGroup();
 
 		$form->addSubmit("submitted", "Save");
@@ -212,7 +212,7 @@ class Web_SettingsPresenter extends Web_BasePresenter {
 
 		if (isSet($values["new"]) && !empty($values["new"])) {
 			if ($user->password != UserAuthenticator::passwordHash($values["old"])) {
-				$form->addError("Error occured, current password you have entered is wrong.");
+				$form->addError("An error occured, the password you have entered is wrong.");
 				return;
 			} else {
 				$user->password = UserAuthenticator::passwordHash($values["new"]);

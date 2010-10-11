@@ -64,11 +64,11 @@ class EditionComponent extends BaseComponent {
 			->addRule(Form::MAX_FILE_SIZE, "Image has to be smaller than 100 KB.", 1024 * 100);
 		// Add cross rules
 		$form["isbn10"]->addCondition(Form::FILLED)
-			->addRule(Form::MAX_LENGTH, "Maximal length can be 10 characters.", 10)
-			->addRule(Form::MIN_LENGTH, "Minimal length can be 10 characters.", 10);
+			->addRule(Form::MAX_LENGTH, "The maximal length is 10 characters.", 10)
+			->addRule(Form::MIN_LENGTH, "The minimal length is 10 characters.", 10);
 		$form["isbn13"]->addCondition(Form::FILLED)
-			->addRule(Form::MAX_LENGTH, "Maximal length can be 13 characters.", 13)
-			->addRule(Form::MIN_LENGTH, "Minimal length can be 13 characters.", 13);
+			->addRule(Form::MAX_LENGTH, "The maximal length is 13 characters.", 13)
+			->addRule(Form::MIN_LENGTH, "The minimal length is 13 characters.", 13);
 		$form["isbn10"]->addCondition(~Form::FILLED)
 			->addConditionOn($form["isbn13"], ~Form::FILLED)
 			->addRule(Form::FILLED, "Please fill at least one of ISBNs.");

@@ -91,7 +91,7 @@ class Web_UserPresenter extends Web_BasePresenter {
 		}
 		$this->getComponent("insertingShelf")->setShelf($shelfEntity);
 		$this->setPageTitle(System::translate("Edit shelf") . ": " . $this->getUserEntity()->nickname);
-		$this->setPageDescription(System::translate("On this page you can edit shelf."));
+		$this->setPageDescription(System::translate("You can edit a shelf on this page."));
 		$this->setPageKeywords(System::translate("book shelf, edit, update, change"));
 	}
 
@@ -104,21 +104,21 @@ class Web_UserPresenter extends Web_BasePresenter {
 			$this->getComponent("insertingShelf")->setBacklink($backlinkUri);
 		}
 		$this->setPageTitle(System::translate("Insert a new shelf") . ": " . $this->getUserEntity()->nickname);
-		$this->setPageDescription(System::translate("On this page you can insert new shelf."));
+		$this->setPageDescription(System::translate("You can insert a new shelf on this page"));
 		$this->setPageKeywords(System::translate("book shelf, insert, new"));
 	}
 
 	public function renderShelves($user) {
 		$this->getTemplate()->user = $this->getUserEntity();
 		$this->setPageTitle(System::translate("Shelves") . ": " . $this->getUserEntity()->nickname);
-		$this->setPageDescription(System::translate("On this page you see shelves of user and book in them, owners can re-order theirs book."));
+		$this->setPageDescription(System::translate("You can see shelves of the user and books in them on this page. Owners can re-order their books here."));
 		$this->setPageKeywords(System::translate("book shelves, update, reorder, manipulation, books"));
 	}
 
 	public function renderSimilar($user) {
 		$this->getTemplate()->user = $this->getUserEntity();
 		$this->setPageTitle(System::translate("Similar users") . ": " . $this->getUserEntity()->nickname);
-		$this->setPageDescription(System::translate("On this page you see similar users of specific user. This is done on books that both users have read."));
+		$this->setPageDescription(System::translate("You can see similar users to a specific user on this page. The similarity is computed on the base of books users have read."));
 		$this->setPageKeywords(System::translate("user, books, similarity, similar users, similar"));
 
 		$this->getComponent("userList")->setSource(

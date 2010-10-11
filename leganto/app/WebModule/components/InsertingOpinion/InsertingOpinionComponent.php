@@ -97,7 +97,7 @@ class InsertingOpinionComponent extends BaseComponent {
 		$form->addText("tags", "Tags")->setOption("description", System::translate("(tags will be appended to current ones)"));
 		$languages = Leganto::languages()->getSelector()->findAll()->fetchPairs("id_language", "name");
 		$form->addSelect("language", "Language", $languages)
-			->setOption("description", System::translate("(means language of your opinion, your tags)"));
+			->setOption("description", System::translate("(the language of your opinion, your tags)"));
 		$form->addSubmit("submitted", "Add");
 		$form->onSubmit[] = array($this, "addOpinionFormSubmitted");
 

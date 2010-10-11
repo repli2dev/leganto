@@ -14,7 +14,7 @@ class Web_DiscussionPresenter extends Web_BasePresenter {
 
 	public function renderDefault() {
 		$this->setPageTitle(System::translate("Discussion topics"));
-		$this->setPageDescription(System::translate("List of all discussion topic which are currently discussed, free to join."));
+		$this->setPageDescription(System::translate("This is the list of all discussion topics which are currently discussed, feel free to join."));
 		$this->setPageKeywords(System::translate("discussion topics, forum, threads"));
 		$this->getComponent("topicList")->setSource(Leganto::topics()->getSelector()->findAll()->orderBy("inserted", "desc"));
 	}

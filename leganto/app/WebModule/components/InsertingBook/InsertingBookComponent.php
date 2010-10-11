@@ -160,7 +160,7 @@ class InsertingBookComponent extends BaseComponent {
 			if (isset($last)) {
 				// Add text saying what to do
 				$el = Html::el("span")->setClass("underForm");
-				$el->setText(System::translate("If the author is not listed in the list above, please click on button Create new."));
+				$el->setText(System::translate("If the author is not listed in the list above, please click on the button 'Create new'."));
 				$last->setOption("description", $el);
 			}
 			$form->addSubmit("addAuthor", "Add existing")
@@ -181,7 +181,7 @@ class InsertingBookComponent extends BaseComponent {
 		$form->addGroup("Other");
 		$languages = Leganto::languages()->getSelector()->findAll()->fetchPairs("id_language", "name");
 		$form->addSelect("language", "Language", $languages)
-			->setOption("description", System::translate("(language of book title and subtitle)"));
+			->setOption("description", System::translate("(the language of the book title and subtitle)"));
 
 		// Book node
 		$form->addHidden("id_book");

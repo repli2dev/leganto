@@ -2,7 +2,7 @@
 	<div id="introduction">
 		@{if isset($hint)}
 		<div id="note">
-			<h1>{_'Did you know?'}</h1>
+			<h1>{_'Did you know, that ...?'}</h1>
 			<img alt="Tip" src="img/ico/light_bulb.png" />
 			<div class="leftspacer">&nbsp;</div>
 			<div class="rightspacer">&nbsp;</div>
@@ -24,15 +24,15 @@
 			@{/if}
 			@{if $state == "facebook"}
 				@{if $enabled}
-					<h1>{_'Do you have account?'}</h1>
+					<h1>{_'Do you have an account?'}</h1>
 					<div id="mentioned-yes">
 						<h2>{_'Yes...'}</h2>
-						<p>{_'If you want to connect this facebook account please log in.'}</p>
+						<p>{_'If you want to connect this Facebook account please log in.'}</p>
 						@{widget "facebookForm"}
 					</div>
 					<div id="mentioned-no">
 						<h2>{_'No...'}</h2>
-						<p>{_'If you want to create new account please click on button Create new which log in you automatically in just a second.'}</p>
+						<p>{_'If you want to create a new account please click on the button 'Create new' which logs you in automatically in just a second.'}</p>
 						<ul>
 							{foreach $flashes as $flash}
 								<li>{$flash->message}</li>
@@ -44,15 +44,15 @@
 			@{/if}
 			@{if $state == "twitter"}
 				@{if $enabled}
-					<h1>{_'Do you have account?'}</h1>
+					<h1>{_'Do you have an account?'}</h1>
 					<div id="mentioned-yes">
 						<h2>{_'Yes...'}</h2>
-						<p>{_'If you want to connect this twitter account please log in.'}</p>
+						<p>{_'If you want to connect this Twitter account please log in.'}</p>
 						@{widget "twitterForm"}
 					</div>
 					<div id="mentioned-no">
 						<h2>{_'No...'}</h2>
-						<p>{_'If you want to create new account please click on button Create new which log in you automatically in just a second.'}</p>
+						<p>{_'If you want to create a new account please click on the button 'Create new' which logs you in automatically in just a second.'}</p>
 						<ul>
 							{foreach $flashes as $flash}
 								<li>{$flash->message}</li>

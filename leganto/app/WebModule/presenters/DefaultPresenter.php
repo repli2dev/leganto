@@ -23,7 +23,7 @@ class Web_DefaultPresenter extends Web_BasePresenter {
 			$component->handleChangeState("login");
 		}
 		$this->setPageTitle(System::translate("Main page"));
-		$this->setPageDescription(System::translate("Leganto is community webpage which aims to create and share informations about literature as valuable part of our culture. Join our effords."));
+		$this->setPageDescription(System::translate("Leganto is a community webpage which aims to create and share information about literature as a valuable part of our culture. Join our efforts."));
 		$this->setPageKeywords(System::translate("books, how to choose book, what friends reads, what my, culture, about books, opinions on books, leganto, čtenáři, preader"));
 	}
 
@@ -33,13 +33,13 @@ class Web_DefaultPresenter extends Web_BasePresenter {
 		}
 		$this->setPageTitle(System::translate("News"));
 		$this->firstTime = $firstTime;
-		$this->setPageDescription(System::translate("Feed page offers you updates from our web, you can watch adding opinions or discussion in one page."));
+		$this->setPageDescription(System::translate("The feed page offers you updates from our web, you can watch added opinions or the discussion in one page."));
 		$this->setPageKeywords(System::translate("feed, wall, activity of users, followers."));
 	}
 
 	public function renderTopBooks($limit = 200) {
 		$books = Leganto::books()->getSelector()->findAllTop()->applyLimit($limit);
-		$this->setPageTitle(System::translate("Best books"));
+		$this->setPageTitle(System::translate("Top books"));
 		$this->getComponent("topBookList")->setLimit(18);
 		$this->getComponent("topBookList")->setSource($books);
 	}
