@@ -241,7 +241,7 @@ class InsertingBookComponent extends BaseComponent {
 
 		$form->addText("book_title", "Book title")
 			->addRule(Form::FILLED, "Fill the book title!")
-			->addRule(Form::MIN_LENGTH, "The book title has to be at least 3 characters long.", 3);
+			->addRule(Form::MIN_LENGTH, "The book title has to be at least 2 characters long.", 2);
 
 		$form->addSubmit("submit_search", "Search");
 		$form->onSubmit[] = array($this, "searchFormSubmitted");
@@ -442,7 +442,7 @@ class InsertingBookComponent extends BaseComponent {
 			//$this->unexpectedError($e, FALSE);
 		}
 		$this->getPresenter()->flashMessage(System::translate($flashMessage), "success");
-		$this->getPresenter()->flashMessage(System::translate("The system tried to load editions of the book '" . $book->title . "', but the process is not reliable and you can insert editions manually."));
+		$this->getPresenter()->flashMessage(System::translate("The system tried to load editions of the book '%s', but the process is not reliable and you can insert editions manually.", $book->title));
 		$this->getPresenter()->redirect("Book:default", $book->getId());
 	}
 

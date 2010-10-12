@@ -137,15 +137,15 @@ class Web_SettingsPresenter extends Web_BasePresenter {
 		$form = new BaseForm;
 		$form->addGroup("Basic information");
 		$form->addText('email', "E-mail")
-			->addRule(Form::FILLED, "Please fill correct e-mail.")
+			->addRule(Form::FILLED, "Please fill the correct e-mail.")
 			->addCondition(Form::FILLED)
-			->addRule(Form::EMAIL, 'Please fill e-mail in right format someone@somewhere.tld.');
+			->addRule(Form::EMAIL, 'Please fill the e-mail in the right format (someone@somewhere.tld).');
 
 		$form->addGroup("Extra information");
 		$form->addSelect("sex", "Sex", array("" => "Unknown", "male" => "Male", "female" => "Female"));
 		$form->addText("birthyear", "Birth year", 4)
 			->addCondition(Form::FILLED)
-			->addRule(Form::INTEGER, "Please correct birth year. Only allowed is integer.");
+			->addRule(Form::INTEGER, "Please correct the birth year. Only integer is allowed.");
 		$form->addTextArea('about', 'About');
 
 		$form->addGroup("Change password");email
@@ -163,10 +163,10 @@ class Web_SettingsPresenter extends Web_BasePresenter {
 			->addRule(Form::FILLED, "Please fill your current password.");
 
 		$new->addConditionOn($old, Form::FILLED)
-			->addRule(Form::FILLED, "Please fill new password.");
+			->addRule(Form::FILLED, "Please fill a new password.");
 
 		$new2->addConditionOn($old, Form::FILLED)
-			->addRule(Form::FILLED, "Please fill new password for check.");
+			->addRule(Form::FILLED, "Please fill the new password the check it.");
 		$new2->addCondition(Form::FILLED)
 			->addRule(Form::EQUAL, "New passwords have to match. Please type them again.", $new);
 

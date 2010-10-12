@@ -121,7 +121,7 @@ class Web_BookPresenter extends Web_BasePresenter {
 			Leganto::books()->getSelector()->findAllSimilar($this->getTemplate()->book)->applyLimit(12)
 		);
 		$this->setPageTitle(System::translate("Similar books") . ": " . $this->getTemplate()->book->title);
-		$this->setPageDescription(System::translate("Similar books to certain book, generated according to book tags. Choose what to read from what you have read!"));
+		$this->setPageDescription(System::translate("Similar books to a certain book, generated according to book tags. Choose what to read according to what you have read!"));
 		$this->setPageKeywords(System::translate("similar books, tags, how to choose book"));
 	}
 

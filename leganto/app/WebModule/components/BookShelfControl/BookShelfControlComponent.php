@@ -24,13 +24,13 @@ class BookShelfControlComponent extends BaseComponent {
 		}
 		$bookEntity = Leganto::books()->getSelector()->find($book);
 		if (empty($bookEntity)) {
-			$this->getPresenter()->flashMessage(System::translate("The given book does not exist.", "error"));
+			$this->getPresenter()->flashMessage(System::translate("The given book doesn't exist.", "error"));
 			return;
 		}
 		try {
 			Leganto::shelves()->getUpdater()->removeBookFromShelf($shelfEntity, $bookEntity);
 			System::log("REMOVED BOOK '" . $bookEntity->getId() . "' FROM SHELF '" . $shelfEntity->getId() . "'");
-			$this->getPresenter()->flashMessage(System::translate("The book  %s has been removed from shelf %s", $bookEntity->title, $shelfEntity->name), "success");
+			$this->getPresenter()->flashMessage(System::translate("The book  %s has been removed from the shelf %s.", $bookEntity->title, $shelfEntity->name), "success");
 		} catch (Exception $e) {
 			$this->unexpectedError($e);
 			return;

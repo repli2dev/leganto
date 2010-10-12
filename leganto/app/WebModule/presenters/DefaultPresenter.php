@@ -46,7 +46,7 @@ class Web_DefaultPresenter extends Web_BasePresenter {
 
 	public function renderUnauthorized() {
 		$this->setPageTitle(System::translate("Unauthorized"));
-		$this->setPageDescription(System::translate("Sorry, but you have tried to access protected page, please login."));
+		$this->setPageDescription(System::translate("Sorry, but you have tried to access a protected page, please log in."));
 		$this->setPageKeywords(System::translate("error, unauthorized"));
 	}
 

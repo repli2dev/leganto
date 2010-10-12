@@ -25,7 +25,7 @@ class Web_UserPresenter extends Web_BasePresenter {
 				->findAllByUser($this->getUserEntity())
 		);
 		$this->setPageTitle(System::translate("Profile and opinions") . ": " . $this->getUserEntity()->nickname);
-		$this->setPageDescription(System::translate("Profile page of user where you can track his or hers opinions, look into shelves, find followers and following users."));
+		$this->setPageDescription(System::translate("This is the profile page of a user where you can track his or her opinions, look into shelves, find followers and followed users."));
 		$this->setPageKeywords(System::translate("followers, following, user profile, user detail, tracking user, users opinion"));
 	}
 
@@ -81,7 +81,7 @@ class Web_UserPresenter extends Web_BasePresenter {
 
 	public function renderEditShelf($user, $shelf) {
 		if ($this->getUserEntity()->getId() != System::user()->getId()) {
-			$this->flashMessage(System::translate("The authenticated user has to insert shelf with his id."), "error");
+			$this->flashMessage(System::translate("The authenticated user has to insert a shelf with his id."), "error");
 			$this->redirect("default", System::user()->getId());
 		}
 		$shelfEntity = Leganto::shelves()->getSelector()->find($shelf);
@@ -97,7 +97,7 @@ class Web_UserPresenter extends Web_BasePresenter {
 
 	public function renderInsertShelf($user, $backlinkUri = NULL) {
 		if ($this->getUserEntity()->getId() != System::user()->getId()) {
-			$this->flashMessage(System::translate("The authenticated user has to insert shelf with his id."), "error");
+			$this->flashMessage(System::translate("The authenticated user has to insert a shelf with his id."), "error");
 			$this->redirect("default", System::user()->getId());
 		}
 		if (!empty($backlinkUri)) {

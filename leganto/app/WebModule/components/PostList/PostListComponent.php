@@ -23,7 +23,7 @@ class PostListComponent extends BaseListComponent {
 			$this->unathorized();
 		}
 		if ($postEntity == null) {
-			$this->getPresenter()->flashMessage(System::translate('The post can not be deleted.'), "error");
+			$this->getPresenter()->flashMessage(System::translate("The post can't be deleted."), "error");
 			return;
 		}
 		try {
@@ -32,7 +32,7 @@ class PostListComponent extends BaseListComponent {
 			System::log("DELETE POST '" . $postEntity->getId() . "'");
 			$this->getPresenter()->flashMessage(System::translate("The post has been deleted."), "success");
 			if ($discussion->discussionType == PostSelector::TOPIC && $discussion->numberOfPosts == 1) {
-				$this->getPresenter()->flashMessage(System::translate("The post has been last in the topic, therefore the topic has been also deleted."), "success");
+				$this->getPresenter()->flashMessage(System::translate("The post has been the last one in the topic, therefore the topic has been also deleted."), "success");
 				$this->getPresenter()->redirect("Discussion:default");
 			}
 		} catch (Expcetion $e) {

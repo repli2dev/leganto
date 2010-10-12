@@ -90,7 +90,7 @@ class InsertingAuthorComponent extends BaseComponent {
 		);
 		$form->addGroup()->setOption('container', Html::el('div'));
 		$form->addSelect("type", "Type of author", $types)
-			->addRule(Form::FILLED, "Please choose type of author.")
+			->addRule(Form::FILLED, "Please choose the type of the author.")
 			->addCondition(Form::EQUAL, AuthorEntity::PERSON)
 			->toggle("person")
 			->endCondition()

@@ -55,7 +55,7 @@ class EditionComponent extends BaseComponent {
 		$form->addText("isbn10", "ISBN 10", NULL, 10)
 			->setOption("description", System::translate("Nine characters long ISBN."));
 		$form->addText("isbn13", "ISBN 13", NULL, 13)
-			->setOption("description", System::translate("Thirdteen characters long ISBN."));
+			->setOption("description", System::translate("Thirteen characters long ISBN."));
 		$form->addText("pages", "Number of pages");
 		$form->addText("published", "Year of publishing");
 		$form->addFile("image", "Book cover")
@@ -139,9 +139,9 @@ class EditionComponent extends BaseComponent {
 				$storage = new EditionImageStorage();
 				$storage->store($entity, new File($tmpFile));
 			}
-			$this->getPresenter()->flashMessage(System::translate("Thank you. Edition has been successfully updated and you are looking on it now."));
+			$this->getPresenter()->flashMessage(System::translate("Thank you. The edition has been successfully updated and you are looking on it now."));
 		} catch (DuplicityException $e) {
-			$this->getPresenter()->flashMessage(System::translate("Sorry. However edition with this ISBN already exists. Here is form with original values."));
+			$this->getPresenter()->flashMessage(System::translate("Sorry, a edition with this ISBN already exists. Here is a form with original values."));
 			$this->getPresenter()->redirect("this");
 		} catch (Exception $e) {
 			$this->unexpectedError($e);

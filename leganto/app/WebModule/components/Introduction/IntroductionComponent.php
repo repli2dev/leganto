@@ -233,7 +233,7 @@ class IntroductionComponent extends BaseComponent {
 		$form->getElementPrototype()->setId("sign");
 		$form->addGroup("Forgotten password");
 		$form->addText("email", "E-mail")
-			->addRule(Form::EMAIL, "Please fill correct e-mail.")
+			->addRule(Form::EMAIL, "Please fill the correct e-mail.")
 			->addRule(Form::FILLED, "Please fill the e-mail.");
 		$form->addSubmit("submitted", "Proceed");
 		$form->onSubmit[] = array($this, "forgottenFormSubmitted");
@@ -245,10 +245,10 @@ class IntroductionComponent extends BaseComponent {
 		$form->getElementPrototype()->setId("sign");
 		$form->addGroup("Renew password");
 		$form->addText("email", "Email")
-			->addRule(Form::EMAIL, "Please fill correct e-mail.")
+			->addRule(Form::EMAIL, "Please fill the correct e-mail.")
 			->addRule(Form::FILLED, "Please fill the e-mail.");
 		$form->addText("hash", "Code")
-			->addRule(Form::FILLED, "Please fill correct code.");
+			->addRule(Form::FILLED, "Please fill the correct code.");
 		$form->addSubmit("submitted", "Finish");
 		$form->onSubmit[] = array($this, "renewFormSubmitted");
 		return $form;
@@ -273,7 +273,7 @@ class IntroductionComponent extends BaseComponent {
 		$form->addGroup("Sign Up");
 		$form->getElementPrototype()->setId("sign");
 		$form->addText("email", "E-mail")
-			->addRule(Form::EMAIL, "Please fill correct e-mail.")
+			->addRule(Form::EMAIL, "Please fill the correct e-mail.")
 			->addRule(Form::FILLED, "Please fill the e-mail.");
 		$form->addText("nickname", "Nickname")
 			->addRule(Form::FILLED, "Please fill the nickname.");
@@ -327,7 +327,7 @@ class IntroductionComponent extends BaseComponent {
 			$mail->setBody($template);
 			$mail->send();
 			// Presmerovat na renew
-			$this->flashMessage(System::translate("The code was sent to account e-mail address."));
+			$this->flashMessage(System::translate("The code was sent to the account e-mail address."));
 			$this->state = "renew";
 			$this->invalidateControl();
 		} else {
@@ -389,7 +389,7 @@ class IntroductionComponent extends BaseComponent {
 					$form->addError("User not found");
 					break;
 				case IAuthenticator::INVALID_CREDENTIAL:
-					$form->addError("The password is wrong");
+					$form->addError("The password is wrong.");
 					break;
 			}
 		}
@@ -415,7 +415,7 @@ class IntroductionComponent extends BaseComponent {
 					$this->facebook->destroyLoginData();
 				} else {
 					// This twitter id is already connected to some account
-					$form->addError("This facebook account is already connected to an account.");
+					$form->addError("This Facebook account is already connected to an account.");
 				}
 			}
 		}
@@ -436,7 +436,7 @@ class IntroductionComponent extends BaseComponent {
 					$form->addError("User not found");
 					break;
 				case IAuthenticator::INVALID_CREDENTIAL:
-					$form->addError("The password is wrong");
+					$form->addError("The password is wrong.");
 					break;
 			}
 		}
@@ -480,7 +480,7 @@ class IntroductionComponent extends BaseComponent {
 					$form->addError("User not found");
 					break;
 				case IAuthenticator::INVALID_CREDENTIAL:
-					$form->addError("The password is wrong");
+					$form->addError("The password is wrong.");
 					break;
 			}
 		}
@@ -534,7 +534,7 @@ class IntroductionComponent extends BaseComponent {
 						$form->addError("User not found");
 						break;
 					case IAuthenticator::INVALID_CREDENTIAL:
-						$form->addError("The password is wrong");
+						$form->addError("The password is wrong.");
 						break;
 				}
 			}

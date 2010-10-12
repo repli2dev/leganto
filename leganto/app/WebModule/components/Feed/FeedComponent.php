@@ -34,7 +34,7 @@ class FeedComponent extends BaseListComponent {
 		if (empty($this->getTemplate()->allSwitcher)) {
 			$users = Leganto::users()->getSelector()->findAllFollowed(System::user())->fetchPairs("id_user", "id_user");
 			if (empty($users)) {
-				$this->flashMessage(System::translate("Sorry. No events found, probably you do not follow any user."), "error");
+				$this->flashMessage(System::translate("Sorry, no events were found. Probably you don't follow any user."), "error");
 				$this->handleAll();
 				$this->beforeRender();
 			} else {
