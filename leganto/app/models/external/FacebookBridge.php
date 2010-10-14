@@ -19,6 +19,7 @@ class FacebookBridge implements ISocialNetwork {
 	function __construct() {
 		// Open session namespace for facebook data
 		$this->session = Environment::getSession("facebook");
+		$this->session->setExpiration(60*5);
 	}
 
 	/**
@@ -34,7 +35,7 @@ class FacebookBridge implements ISocialNetwork {
 		$session = $this->gate->getSession();
 		if (!$session) {
 			header("Location: " . $this->gate->getLoginUrl(array(
-				    'req_perms' => 'publish_stream,read_stream,offline_access,status_update,share_item"'
+				    'req_perms' => 'publish_stream,read_stream,offline_access,status_update,share_item'
 				)));
 		}
 		// Obtain user ID
@@ -112,6 +113,7 @@ class FacebookBridge implements ISocialNetwork {
 				Environment::getUser()->authenticate(null, null, $this->session->user);
 				$this->destroyLoginData();
 			} catch (AuthenticationException $e) {
+				Debug::processException($e);
 				// Silent error - output is not desired - connection was not found -> show message to let user choose what to do
 			}
 		}

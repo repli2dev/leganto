@@ -20,6 +20,7 @@ class TwitterBridge implements ISocialNetwork {
 	function __construct() {
 		// Open session namespace for twitter data
 		$this->session = Environment::getSession("twitter");
+		$this->session->setExpiration(60*5);
 	}
 
 	/**

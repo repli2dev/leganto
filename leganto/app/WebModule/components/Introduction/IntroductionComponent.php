@@ -232,9 +232,9 @@ class IntroductionComponent extends BaseComponent {
 		$form = new BaseForm;
 		$form->getElementPrototype()->setId("sign");
 		$form->addGroup("Forgotten password");
-		$form->addText("email", "E-mail")
-			->addRule(Form::EMAIL, "Please fill the correct e-mail.")
-			->addRule(Form::FILLED, "Please fill the e-mail.");
+		$form->addText("email", "Email")
+			->addRule(Form::EMAIL, "Please fill correct email.")
+			->addRule(Form::FILLED, "Please fill the email.");
 		$form->addSubmit("submitted", "Proceed");
 		$form->onSubmit[] = array($this, "forgottenFormSubmitted");
 		return $form;
@@ -245,10 +245,10 @@ class IntroductionComponent extends BaseComponent {
 		$form->getElementPrototype()->setId("sign");
 		$form->addGroup("Renew password");
 		$form->addText("email", "Email")
-			->addRule(Form::EMAIL, "Please fill the correct e-mail.")
-			->addRule(Form::FILLED, "Please fill the e-mail.");
+			->addRule(Form::EMAIL, "Please fill correct email.")
+			->addRule(Form::FILLED, "Please fill the email.");
 		$form->addText("hash", "Code")
-			->addRule(Form::FILLED, "Please fill the correct code.");
+			->addRule(Form::FILLED, "Please fill correct code.");
 		$form->addSubmit("submitted", "Finish");
 		$form->onSubmit[] = array($this, "renewFormSubmitted");
 		return $form;
@@ -272,9 +272,9 @@ class IntroductionComponent extends BaseComponent {
 		$form = new BaseForm($this, $name);
 		$form->addGroup("Sign Up");
 		$form->getElementPrototype()->setId("sign");
-		$form->addText("email", "E-mail")
-			->addRule(Form::EMAIL, "Please fill the correct e-mail.")
-			->addRule(Form::FILLED, "Please fill the e-mail.");
+		$form->addText("email", "Email")
+			->addRule(Form::EMAIL, "Please fill correct email.")
+			->addRule(Form::FILLED, "Please fill the email.");
 		$form->addText("nickname", "Nickname")
 			->addRule(Form::FILLED, "Please fill the nickname.");
 		$form->addPassword("password", "Password")
@@ -327,11 +327,11 @@ class IntroductionComponent extends BaseComponent {
 			$mail->setBody($template);
 			$mail->send();
 			// Presmerovat na renew
-			$this->flashMessage(System::translate("The code was sent to the account e-mail address."));
+			$this->flashMessage(System::translate("The code was sent to account email address."));
 			$this->state = "renew";
 			$this->invalidateControl();
 		} else {
-			$form->addError("User with this e-mail address do not exists. Please check for mistakes.");
+			$form->addError("User with this email address do not exists. Please check for mistakes.");
 		}
 	}
 
@@ -356,7 +356,7 @@ class IntroductionComponent extends BaseComponent {
 				$mail->setBody($template);
 				$mail->send();
 				// Presmerovat na login
-				$this->flashMessage(System::translate("Your new password was sent to account e-mail address."));
+				$this->flashMessage(System::translate("Your new password was sent to account email address."));
 				$this->state = "login";
 				$this->invalidateControl();
 			} catch (InvalidStateException $e) {
@@ -370,7 +370,7 @@ class IntroductionComponent extends BaseComponent {
 				}
 			}
 		} else {
-			$form->addError("User with this e-mail address do not exists. Please check for mistakes.");
+			$form->addError("User with this email address do not exists. Please check for mistakes.");
 		}
 	}
 
@@ -389,7 +389,7 @@ class IntroductionComponent extends BaseComponent {
 					$form->addError("User not found");
 					break;
 				case IAuthenticator::INVALID_CREDENTIAL:
-					$form->addError("The password is wrong.");
+					$form->addError("The password is wrong");
 					break;
 			}
 		}
@@ -415,7 +415,7 @@ class IntroductionComponent extends BaseComponent {
 					$this->facebook->destroyLoginData();
 				} else {
 					// This twitter id is already connected to some account
-					$form->addError("This Facebook account is already connected to an account.");
+					$form->addError("This facebook account is already connected to an account.");
 				}
 			}
 		}
@@ -436,7 +436,7 @@ class IntroductionComponent extends BaseComponent {
 					$form->addError("User not found");
 					break;
 				case IAuthenticator::INVALID_CREDENTIAL:
-					$form->addError("The password is wrong.");
+					$form->addError("The password is wrong");
 					break;
 			}
 		}
@@ -480,7 +480,7 @@ class IntroductionComponent extends BaseComponent {
 					$form->addError("User not found");
 					break;
 				case IAuthenticator::INVALID_CREDENTIAL:
-					$form->addError("The password is wrong.");
+					$form->addError("The password is wrong");
 					break;
 			}
 		}
@@ -507,7 +507,7 @@ class IntroductionComponent extends BaseComponent {
 			$user = Leganto::users()->getInserter()->insert($user);
 		} else {
 			$user = -1;
-			$form->addError("Account with same nickname or e-mail is already registered.");
+			$form->addError("Account with same nickname or email is already registered.");
 		}
 		if ($user != -1) {
 			$user = Leganto::users()->getSelector()->find($user);
@@ -534,14 +534,14 @@ class IntroductionComponent extends BaseComponent {
 						$form->addError("User not found");
 						break;
 					case IAuthenticator::INVALID_CREDENTIAL:
-						$form->addError("The password is wrong.");
+						$form->addError("The password is wrong");
 						break;
 				}
 			}
 			$this->getPresenter()->flashMessage(System::translate("Thanks for your registration."), "success");
 			$this->getPresenter()->redirect("Default:feed", true);
 		} else {
-			$form->addError("Account with same nickname or e-mail is already registered.");
+			$form->addError("Account with same nickname or email is already registered.");
 		}
 	}
 

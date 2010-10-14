@@ -44,6 +44,16 @@ class ConnectionSelector implements ISelector {
 		}
 	}
 
+	/** @return boolean */
+	public function tokenExists($type,$token) {
+		$data = dibi::dataSource("SELECT * FROM [connection] WHERE [token] = %i", $token, "AND [type] = %s", $type);
+		if ($data->count() == 1) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	/** @return int */
 	public function getToken($user, $type) {
 		$data = dibi::query("SELECT * FROM [connection] WHERE [id_user] = %i", $user, "AND [type] = %s", $type)->fetch();

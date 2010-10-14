@@ -63,22 +63,29 @@ class Web_SettingsPresenter extends Web_BasePresenter {
 				$twitter->doLogin();
 				$token = $twitter->getToken();
 				if (!empty($token)) {
-					// Prepare user connection entity
-					$connection = Leganto::connections()->createEmpty();
-					$connection->user = $user;
-					$connection->type = 'twitter';
-					$connection->token = $twitter->getToken();
+					// Check if this type and token is NOT in DB. (This statement is only for printing error, because insert do not throw exception.
+					$tokenExists = Leganto::connections()->getSelector()->tokenExists('twitter',$token);
+					if(!$tokenExists) {
+						// Prepare user connection entity
+						$connection = Leganto::connections()->createEmpty();
+						$connection->user = $user;
+						$connection->type = 'twitter';
+						$connection->token = $twitter->getToken();
 
-					try {
-						// Commit
-						Leganto::connections()->getInserter()->insert($connection);
-						System::log("INSERT CONNECTION TO TWITTER '" . $connection->getId() . "'");
-					} catch (Exception $e) {
-						$this->unexpectedError($e);
-						return;
+						try {
+							// Commit
+							Leganto::connections()->getInserter()->insert($connection);
+							System::log("INSERT CONNECTION TO TWITTER '" . $connection->getId() . "'");
+						} catch (Exception $e) {
+							$this->unexpectedError($e);
+							return;
+						}
+						$this->flashMessage(System::translate('Your account was successfully added.'), 'success');
+						$this->redirect('connections');
+					} else {
+						$this->flashMessage(System::translate('Sorry, this account has already connected to different account. To be this possible, please disconnect the account first.'), 'error');
+						$this->redirect('connections');
 					}
-					$this->flashMessage(System::translate('Your account was successfully added.'), 'success');
-					$this->redirect('connections');
 				}
 			} else {
 				$this->flashMessage(System::translate('You already have this type of account.'), 'error');
@@ -98,23 +105,30 @@ class Web_SettingsPresenter extends Web_BasePresenter {
 			if (!$haveOne) {
 				$fb = new FacebookBridge;
 				$fb->doLogin();
-				// Prepare user connection entity
-				$connection = Leganto::connections()->createEmpty();
-				$connection->user = $user;
-				$connection->type = 'facebook';
-				$connection->token = $fb->getToken();
+				// Check if this type and token is NOT in DB. (This statement is only for printing error, because insert do not throw exception.
+				$tokenExists = Leganto::connections()->getSelector()->tokenExists('facebook',$fb->getToken());
+				if(!$tokenExists) {
+					// Prepare user connection entity
+					$connection = Leganto::connections()->createEmpty();
+					$connection->user = $user;
+					$connection->type = 'facebook';
+					$connection->token = $fb->getToken();
 
-				try {
-					// Commit
-					Leganto::connections()->getInserter()->insert($connection);
-					System::log("INSERT CONNECTION TO FACEBOOK '" . $connection->getId() . "'");
-				} catch (Exception $e) {
-					$this->unexpectedError($e);
-					return;
+					try {
+						// Commit
+						Leganto::connections()->getInserter()->insert($connection);
+						System::log("INSERT CONNECTION TO FACEBOOK '" . $connection->getId() . "'");
+					} catch (Exception $e) {
+						$this->unexpectedError($e);
+						return;
+					}
+
+					$this->flashMessage(System::translate('Your account was successfully added.'), 'success');
+					$this->redirect('connections');
+				} else {
+					$this->flashMessage(System::translate('Sorry, this account has already connected to different account. To be this possible, please disconnect the account first.'), 'error');
+					$this->redirect('connections');
 				}
-
-				$this->flashMessage(System::translate('Your account was successfully added.'), 'success');
-				$this->redirect('connections');
 			} else {
 				$this->flashMessage(System::translate('You already have this type of account.'), 'error');
 				$this->redirect('connections');
@@ -148,10 +162,10 @@ class Web_SettingsPresenter extends Web_BasePresenter {
 			->addRule(Form::INTEGER, "Please correct the birth year. Only integer is allowed.");
 		$form->addTextArea('about', 'About');
 
-		$form->addGroup("Change password");email
+		$form->addGroup("Change password");
 		$form->addPassword("old", 'Current password');
 		$form->addPassword("new", 'New password');
-		$form->addPassword("new2", 'New password again');email
+		$form->addPassword("new2", 'New password again');
 		// Get instances of all object to create cross rules!
 		$old = $form["old"];
 		$new = $form["new"];
@@ -175,7 +189,7 @@ class Web_SettingsPresenter extends Web_BasePresenter {
 			->addCondition(Form::FILLED)
 			->addRule(Form::MIME_TYPE, "File must be an image.", 'image/*')
 			->addRule(Form::MAX_FILE_SIZE, "Avatar has to be smaller than 100 KB.", 1024 * 100);
-email
+
 		$form->setCurrentGroup();
 
 		$form->addSubmit("submitted", "Save");
