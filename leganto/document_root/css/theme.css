@@ -7,8 +7,6 @@ a {
 a:hover {
 	color: black;
 	background-color: #F5D25A;
-	padding-left: 1px;
-	padding-right: 1px;
 }
 h1 a:hover, h2 a:hover, h3 a:hover, h4 a:hover {
 	color: #F5D25A;

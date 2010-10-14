@@ -128,7 +128,7 @@ td input[type="submit"] {
 	float:none;
 	font-size:100%;
 	line-height:normal;
-	margin-left:5px;
+	margin-left:-5px;
 	text-align:left;
 	width:auto;
 	float: left;

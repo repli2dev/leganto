@@ -25,9 +25,13 @@ class supportCategorySelector implements ISelector {
 	 * Find all categories in help ordered by weight
 	 * @return DibiDataSource
 	 */
-	public function findAllSortedByWeight() {
-		return dibi::dataSource("SELECT * FROM [support_category]")
-			->orderBy("weight", "ASC");
+	public function findAllSortedByWeight($language = NULL) {
+		$data = dibi::dataSource("SELECT * FROM [support_category]")
+				->orderBy("weight", "ASC");
+		if (!empty($language)) {
+			$data->where("id_language = %i", $language);
+		}
+		return $data;
 	}
 
 	/** @return SuportCategoryEntity */

@@ -41,17 +41,19 @@
 				</div>
 			{/if}
 
-			<div class="info-bottom">
-				@{if !isset($showedOpinion) || $showedOpinion != $opinion->getId()}
-					@{if isset($discussions[$opinion->getId()])}
-						<a href="{link showPosts!, $opinion->getId()}" class="control ajax">{_'Show %d comments',$discussions[$opinion->getId()]}</a>
-					@{else}
-						@{if Environment::getUser()->isAuthenticated()}
-							<a href="{link showPosts!, $opinion->getId()}" class="control ajax">{_'Reply'}</a>
+			@{if $opinion->content != ""}
+				<div class="info-bottom">
+					@{if !isset($showedOpinion) || $showedOpinion != $opinion->getId()}
+						@{if isset($discussions[$opinion->getId()])}
+							<a href="{link showPosts!, $opinion->getId()}" class="control ajax">{_'Show %d comments',$discussions[$opinion->getId()]}</a>
+						@{else}
+							@{if Environment::getUser()->isAuthenticated()}
+								<a href="{link showPosts!, $opinion->getId()}" class="control ajax">{_'Reply'}</a>
+							@{/if}
 						@{/if}
 					@{/if}
-				@{/if}
-			</div>
+				</div>
+			@{/if}
 			<div class="clear"></div>
 		</div>
 		<div class="opinion-posts">

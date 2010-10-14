@@ -386,6 +386,7 @@ a img {
 	text-align: center;
 	vertical-align: middle;
 	background-color: white;
+	padding: 0px;
 }
 #signup_button, #login_button {
 	text-decoration: none;
@@ -628,4 +629,18 @@ table.connections-list a.delete {
 	border: 1px solid #C1823E;
 	color: #C1823E;
 	font-weight: bold;
+}
+#content ol, #content ul {
+	margin-left: 40px;
+	margin-top: 10px;
+}
+
+#content ol li, #content ul li {
+	margin-bottom: 5px;
+}
+
+#content ol p, #content ul p {
+	font-family: "Trebuchet MS";
+	padding-top: 5px;
+	padding-bottom: 5px;
 }

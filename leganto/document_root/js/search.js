@@ -12,7 +12,7 @@
 $(function(){
 	// First hide radios (not done by css - it should work in non JS browsers)
 	$('#search input[type=radio]').each(function() {
-		$(this).css("display","none");
+		$(this).css("visibility","hidden");
 	});
 	// Highlight the default item (the first one)
 	$("#search label").first().attr("id","selected-search-option");

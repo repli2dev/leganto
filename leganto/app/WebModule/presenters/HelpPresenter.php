@@ -16,7 +16,7 @@ class Web_HelpPresenter extends Web_BasePresenter {
 		$this->setPageTitle(System::translate("Help"));
 		$this->setPageDescription(System::translate("Are you lost in our page or do you just miss the last puzzle? This page can answer nearly all questions."));
 		$this->setPageKeywords(System::translate("help, support, faq, how to, actions, how it works, tags, books, engine"));
-		$this->getTemplate()->data = Leganto::supportCategory()->getSelector()->findAllSortedByWeight();
+		$this->getTemplate()->data = Leganto::supportCategory()->getSelector()->findAllSortedByWeight(System::language()->getId());
 		$content = array();
 		foreach ($this->getTemplate()->data as $item) {
 			$content[$item->id_support_category] = Leganto::supportText()->getSelector()->findAllByCategory($item->id_support_category);
@@ -44,7 +44,7 @@ class Web_HelpPresenter extends Web_BasePresenter {
 
 	protected function createComponentSubmenu($name) {
 		$submenu = new SubmenuComponent($this, $name);
-		$data = Leganto::supportCategory()->getSelector()->findAllSortedByWeight();
+		$data = Leganto::supportCategory()->getSelector()->findAllSortedByWeight(System::language()->getId());
 		foreach ($data as $item) {
 			$submenu->addLink("category", $item->name, array("id" => $item->id_support_category));
 		}
