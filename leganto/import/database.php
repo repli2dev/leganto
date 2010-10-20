@@ -12,7 +12,7 @@ $destination = dibi::connect($config, "destination");
 // SOURCE
 $config = new Config();
 $config->add("host", "localhost");
-$config->add("database", "reader");
+$config->add("database", "ctenari");
 $config->add("username", "root");
 $config->add("password", "");
 $config->add("charset", "utf8");
@@ -29,6 +29,7 @@ $books	    = new BooksImport($source, $destination);
 $opinions   = new OpinionsImport($source, $destination);
 $tags       = new TagsImport($source, $destination);
 $discussions= new DiscussionImport($source, $destination);
+$following  = new FollowingImport($source, $destination);
 
 Debug::timer();
 //$schema->import();
@@ -39,7 +40,8 @@ Debug::timer();
 //$books->import();
 //$opinions->import();
 //$tags->import();
-$discussions->import();
+//$discussions->import();
+//$following->import();
 
 echo "-------------------------------------------";
 echo "\nELAPSED TIME: ".Debug::timer()."\n";
