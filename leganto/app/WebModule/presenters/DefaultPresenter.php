@@ -18,8 +18,8 @@ class Web_DefaultPresenter extends Web_BasePresenter {
 		if (Environment::getUser()->isAuthenticated()) {
 			$this->forward("feed");
 		}
-		if($login) {
-			$component = $this->getComponent("introduction");
+		$component = $this->getComponent("introduction");
+		if($login && $component->state == "default") {
 			$component->handleChangeState("login");
 		}
 		$this->setPageTitle(System::translate("Main page"));

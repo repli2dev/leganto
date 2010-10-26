@@ -5,7 +5,9 @@
 
 		<meta name="description" content="{$pageDescription}" n:ifset="$pageDescription" />
 		<meta name="keywords" content="{$pageKeywords}" n:ifset="$pageKeywords" />
-		<meta name="authors" content="Jan Papoušek, Jan Drábek {_"and our community, altogether."}" />
+		<meta name="author" content="Jan Papoušek, Jan Drábek {_"and our community, altogether."}" />
+		<meta name="robots" content="index, follow" />
+		<meta property="fb:app_id" content="175434332634" />
 		
 		<link rel="stylesheet" type="text/css" href="/css/main.css" />
 		<link rel="stylesheet" type="text/css" href="/css/theme.css" />
@@ -32,9 +34,11 @@
 		<link rel="stylesheet" type="text/css" href="/css/jquery.ui.autocomplete.css" />
 		<script type="text/javascript" src="/js/jquery.external.js"></script>
 		<script type="text/javascript" src="/js/jquery-ui-1.8.2.custom.min.js"></script>
-		<script type="text/javascript" src="/js/jquery.ui.stars.min.js"></script>
-		<link rel="stylesheet" type="text/css" href="/css/jquery.ui.stars.min.css" />
-		<script type="text/javascript" src="/js/ratings.js"></script>
+		{ifCurrent Book:*}
+			<script type="text/javascript" src="/js/jquery.ui.stars.min.js"></script>
+			<link rel="stylesheet" type="text/css" href="/css/jquery.ui.stars.min.css" />
+			<script type="text/javascript" src="/js/ratings.js"></script>
+		{/if}
 		<script type="text/javascript" src="/js/jquery.nette.js"></script>
 		<script type="text/javascript" src="/js/jquery.ajaxform.js"></script>
 		<script type="text/javascript" src="/js/jquery.autocomplete.js"></script>
@@ -42,18 +46,11 @@
 		<!--[if IE]>
 		<script type="text/javascript" src="/js/corner.js"></script>
 		<![endif]-->
-	
 
 		<link rel="image_src" href="<? echo Environment::getHttpRequest()->uri->baseUri; ?>img/logoForFB.png" />
 		<link rel="shortcut icon" href="/favicon.ico" />
 
-		<title>
-			{if $pageTitle}
-				{$pageTitle}
-				-
-			{/if}
-			Leganto
-		</title>
+		<title>{if $pageTitle}{$pageTitle} &ndash; {/if}Leganto</title>
 	</head>
 	<body>
 

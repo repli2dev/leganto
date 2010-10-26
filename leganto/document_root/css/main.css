@@ -7,7 +7,6 @@
 	outline: none;
 }
 body {
-	background-color: #FEFCEB;
 	color: #172C46;
 	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
 	font-size: 12px;
@@ -214,7 +213,7 @@ a img {
 	padding: 0 10px;
 	top: 0;
 	left: 0;
-	font-size: 4em;
+	font-size: 350%;
 	-moz-border-radius: 0px 0px 5px 0px;
 	-webkit-border-radius: 0px 0px 5px 0px;
 	border-radius: 0px 0px 5px 0px;
@@ -367,6 +366,8 @@ a img {
 }
 #note p {
 	height: 150px;
+	line-height: 150%;
+	text-align: justify;
 }
 #getin {
 	margin: 0 auto;
@@ -643,4 +644,22 @@ table.connections-list a.delete {
 	font-family: "Trebuchet MS";
 	padding-top: 5px;
 	padding-bottom: 5px;
+}
+
+.stat-graph {
+	text-align: center;
+	margin: 10px 0;
+}
+
+.search-box {
+	width: 100%;
+	padding: 20px;
+	margin-left: 10px;
+	margin-top: 20px;
+}
+
+.support-info {
+	display: block;
+	text-align: right;
+	font-style: italic;
 }

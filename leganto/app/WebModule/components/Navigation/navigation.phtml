@@ -6,21 +6,21 @@
 			{if Environment::getUser()->isAllowed(Resource::SHELF, Action::INSERT)}
 			    <li><a href="{plink Book:insert}" title="{_'Insert book'}">{_'Insert book'}</a></li>
 			{/if}
-			<li><a href="{plink Default:topBooks}" title="{_'Top books'}">{_'Top books'}</a>
+			<li><a href="{plink Default:topBooks}" title="{_'Top books'}">{_'Top books'}</a></li>
 			<li><a href="{plink Help:default}" title="{_'Help'}">{_'Help'}</a></li>
 			<!-- <li><a href="{plink Statistics:default}">{_'Statistics'}</a></li> -->
 		</ul>
 		<div id="user">
 		{if $user != NULL}
 				<a href="{plink User:default, $user->getId()}" title="{$user->nickname}">
-					<img src="/img/ico/reader.png" />
+					<img src="/img/ico/reader.png" alt="{_'Your profile'}" />
 					<span>{$user->nickname|hardTruncate:20}</span>
 				</a>
 				<a href="{plink Settings:}" title="Settings"><img src="/img/ico/settings.png" /><span>{_'Settings'}</span></a>
 				<a class="logout" href="{link logout}" title="{_'Log out'}"><img src="/img/ico/logout.png" /></a>
 		{else}
 		<a href="{$presenter->link('Default:',TRUE)}" title="{_"Log in"}">
-					<img src="/img/ico/reader.png" />
+					<img src="/img/ico/reader.png" alt="{_'Log in'}" />
 					<span>{_"Log in"}</span>
 				</a>
 		{/if}

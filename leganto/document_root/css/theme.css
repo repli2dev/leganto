@@ -1,4 +1,7 @@
 /*************************** LAYOUT *******************************************/
+body {
+	background-color: #FDF7CD;
+}
 a {
 	color: #336699;
 	padding-left: 1px;

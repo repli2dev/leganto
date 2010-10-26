@@ -2,11 +2,9 @@
 	<div id="introduction">
 		@{if isset($hint)}
 		<div id="note">
-			<h1>{_'Did you know, that ...?'}</h1>
+			<h2>{_'Did you know, that ...?'}</h2>
 			<img alt="Tip" src="img/ico/light_bulb.png" />
-			<div class="leftspacer">&nbsp;</div>
-			<div class="rightspacer">&nbsp;</div>
-			{$hint->text}
+			<p>{$hint->text}</p>
 		</div>
 		@{else}
 				

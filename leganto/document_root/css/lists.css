@@ -120,3 +120,22 @@
 .users .item .content {
 	margin-left: 70px;
 }
+.author-item {
+	width: 30%;
+	float: left;
+	margin: 0 1% 20px 1%;
+}
+.author-item .content {
+	margin-left: 70px;
+}
+.author-item .info {
+	margin-left: 70px;
+}
+.book-list-item {
+	width: 30%;
+	float: left;
+	margin: 0 1% 20px 1%;
+}
+.book-list-item h2 a {
+	color: #F1C11B;
+}
