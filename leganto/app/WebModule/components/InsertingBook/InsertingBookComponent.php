@@ -160,10 +160,10 @@ class InsertingBookComponent extends BaseComponent {
 			if (isset($last)) {
 				// Add text saying what to do
 				$el = Html::el("span")->setClass("underForm");
-				$el->setText(System::translate("If the author is not listed in the list above, please click on the button 'Create new'."));
+				$el->setText(System::translate("If the author is not listed in the list above, please click on the button \'Create new author\'."));
 				$last->setOption("description", $el);
 			}
-			$form->addSubmit("addAuthor", "Add existing")
+			$form->addSubmit("addAuthor", "Add existing author")
 				->getControlPrototype()->setId("addAuthor");
 			if ($this->getNumberOfAuthors() > 1) {
 				$form->addSubmit("removeAuthor", "Remove")
@@ -171,7 +171,7 @@ class InsertingBookComponent extends BaseComponent {
 					->getControlPrototype()->setId("removeAuthor");
 				$form["removeAuthor"]->getControlPrototype()->setId("removeAuthor");
 			}
-			$form->addSubmit("newAuthor", "Create new")
+			$form->addSubmit("newAuthor", "Create new author")
 				->setValidationScope(FALSE)
 				->getControlPrototype()->setId("newAuthor")
 				->setHtmlId("newAuthor");

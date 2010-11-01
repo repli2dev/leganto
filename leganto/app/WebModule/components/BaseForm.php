@@ -37,7 +37,7 @@ class BaseForm extends AppForm {
 		if (isSet($session2->values)) { // Data found, restore, unset and invoke error (wrong spam)
 			$this->setValues($session2->values);
 			unset($session2->values);
-			$this->addError("Your answer is wrong, please try it again with different question.");
+			$this->addError("Your answer is wrong, please try it again with a different question.");
 		}
 		parent::render();
 	}
@@ -60,7 +60,7 @@ class BaseForm extends AppForm {
 		$a = $this->addText("captchacode", $data->question, 10)
 				->addRule(Form::FILLED, "Please answer the captcha question to let us know that you are a human.")
 				->addCondition(Form::FILLED)
-				->addRule("BaseForm::validateSpamProtection", "Your answer is wrong, please try it again with defferent question.");
+				->addRule("BaseForm::validateSpamProtection", "Your answer is wrong, please try it again with a different question.");
 		$this["captchacode"]->getControlPrototype()->class("spamAnswer");
 	}
 

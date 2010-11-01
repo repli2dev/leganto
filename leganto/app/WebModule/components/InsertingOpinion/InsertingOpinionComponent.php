@@ -41,7 +41,7 @@ class InsertingOpinionComponent extends BaseComponent {
 			}
 			$opinion = Leganto::opinions()->createEmpty();
 			$opinion->bookTitleId = $this->bookEntity->getId();
-			$message = array(System::translate("Thank you for your opinion. Your opinion has been added and the book has been inserted to your read shelf."), 'success');
+			$message = array(System::translate("Thank you for your opinion."), 'success');
 		} else {
 			if (!Environment::getUser()->isAllowed(Resource::create($opinion), Action::INSERT)) {
 				$this->unauthorized();

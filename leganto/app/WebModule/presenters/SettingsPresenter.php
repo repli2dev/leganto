@@ -46,7 +46,7 @@ class Web_SettingsPresenter extends Web_BasePresenter {
 			$this->unauthorized();
 		} else {
 			$this->setPageTitle(System::translate("Delete connection"));
-			$this->setPageDescription(System::translate("You can delete a connection to social network on this page."));
+			$this->setPageDescription(System::translate("You can delete a connection to a social network on this page."));
 			$this->setPageKeywords(System::translate("delete, social network, facebook, twitter, remove"));
 		}
 	}
@@ -83,12 +83,12 @@ class Web_SettingsPresenter extends Web_BasePresenter {
 						$this->flashMessage(System::translate('Your account was successfully added.'), 'success');
 						$this->redirect('connections');
 					} else {
-						$this->flashMessage(System::translate('Sorry, this account has already connected to different account. To be this possible, please disconnect the account first.'), 'error');
+						$this->flashMessage(System::translate('Sorry, this account has been already connected to a different account.'), 'error');
 						$this->redirect('connections');
 					}
 				}
 			} else {
-				$this->flashMessage(System::translate('You already have this type of account.'), 'error');
+				$this->flashMessage(System::translate('You already have this type of an account.'), 'error');
 				$this->redirect('connections');
 			}
 			exit;
@@ -126,11 +126,11 @@ class Web_SettingsPresenter extends Web_BasePresenter {
 					$this->flashMessage(System::translate('Your account was successfully added.'), 'success');
 					$this->redirect('connections');
 				} else {
-					$this->flashMessage(System::translate('Sorry, this account has already connected to different account. To be this possible, please disconnect the account first.'), 'error');
+					$this->flashMessage(System::translate('Sorry, this account has been already connected to a different account.'), 'error');
 					$this->redirect('connections');
 				}
 			} else {
-				$this->flashMessage(System::translate('You already have this type of account.'), 'error');
+				$this->flashMessage(System::translate('You already have this type of an account.'), 'error');
 				$this->redirect('connections');
 			}
 			exit;
@@ -180,15 +180,15 @@ class Web_SettingsPresenter extends Web_BasePresenter {
 			->addRule(Form::FILLED, "Please fill a new password.");
 
 		$new2->addConditionOn($old, Form::FILLED)
-			->addRule(Form::FILLED, "Please fill the new password the check it.");
+			->addRule(Form::FILLED, "Please fill the new password to check it.");
 		$new2->addCondition(Form::FILLED)
 			->addRule(Form::EQUAL, "New passwords have to match. Please type them again.", $new);
 
 		$form->addGroup("Avatar");
 		$form->addFile("avatar", "Avatar")
 			->addCondition(Form::FILLED)
-			->addRule(Form::MIME_TYPE, "File must be an image.", 'image/*')
-			->addRule(Form::MAX_FILE_SIZE, "Avatar has to be smaller than 100 KB.", 1024 * 100);
+			->addRule(Form::MIME_TYPE, "The file must be an image.", 'image/*')
+			->addRule(Form::MAX_FILE_SIZE, "The avatar has to be smaller than 100 KB.", 1024 * 100);
 
 		$form->setCurrentGroup();
 
@@ -268,14 +268,14 @@ class Web_SettingsPresenter extends Web_BasePresenter {
 			$email = $user->email;
 			// Check if user is allowed to delete connection (he/she isn't where his/her password is empty (-> means registration through SN))
 			if (empty($password) || empty($email)) {
-				$form->addError("Your connection cannot be deleted as you have created account through social network. In order to do so please set your account password and email in Settings tab first.");
+				$form->addError("Your connection cannot be deleted as you have created an account through a social network. In order to do so please set your account password and e-mail in the Settings tab first.");
 			} else
 			if ($data->user == $user->id) {
 				Leganto::connections()->getDeleter()->delete($id);
-				$this->flashMessage(System::translate("Connection was successfully deleted."), 'success');
+				$this->flashMessage(System::translate("The connection has been successfully deleted."), 'success');
 				$this->redirect("connections");
 			} else {
-				$form->addError("You are not owner. Operation could not be performed.");
+				$form->addError("You are not an owner. The operation could not be performed.");
 			}
 		} else {
 			$this->redirect("connections");

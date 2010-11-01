@@ -26,7 +26,7 @@ class Web_UserPresenter extends Web_BasePresenter {
 		);
 		$this->setPageTitle(System::translate("Profile and opinions") . ": " . $this->getUserEntity()->nickname);
 		$this->setPageDescription(System::translate("This is the profile page of a user where you can track his or her opinions, look into shelves, find followers and followed users."));
-		$this->setPageKeywords(System::translate("followers, following, user profile, user detail, tracking user, users opinion"));
+		$this->setPageKeywords(System::translate("followers, following, user profile, user detail, users opinion"));
 	}
 
 	public function renderToogleFollow($user) {
@@ -60,7 +60,7 @@ class Web_UserPresenter extends Web_BasePresenter {
 				->findAllFollowed($this->getUserEntity())
 		);
 		$this->setPageTitle(System::translate("Following") . ": " . $this->getUserEntity()->nickname);
-		$this->setPageDescription(System::translate("Users which certain user follow."));
+		$this->setPageDescription(System::translate("Users who a certain user follows."));
 		$this->setPageKeywords(System::translate("followers, following, user profile, user detail"));
 	}
 

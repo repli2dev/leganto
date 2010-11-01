@@ -56,7 +56,7 @@ class TagListComponent extends BaseListComponent {
 		$form = new BaseForm($this, $name);
 
 		$form->addText("tag")
-			->addRule(Form::FILLED, "Tag has to be filled.")
+			->addRule(Form::FILLED, "A tag has to be filled.")
 			->setOption("description",System::translate("Please seperate multiple tags with ', ' (by words - comma and space)."));
 
 		$form->onSubmit[] = array($this, "formSubmitted");

@@ -48,7 +48,7 @@ class PostListComponent extends BaseListComponent {
 
 		// Check whether discussed item and its type present
 		if (empty($values["discussed"]) || empty($values["type"])) {
-			$form->addError("Unexpected error has happened.", "error");
+			$form->addError("An unexpected error has occurred.", "error");
 			return;
 		}
 

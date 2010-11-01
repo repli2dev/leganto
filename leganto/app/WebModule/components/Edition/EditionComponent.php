@@ -60,7 +60,7 @@ class EditionComponent extends BaseComponent {
 		$form->addText("published", "Year of publishing");
 		$form->addFile("image", "Book cover")
 			->addCondition(Form::FILLED)
-			->addRule(Form::MIME_TYPE, "File must be an image.", 'image/*')
+			->addRule(Form::MIME_TYPE, "The file must be an image.", 'image/*')
 			->addRule(Form::MAX_FILE_SIZE, "Image has to be smaller than 100 KB.", 1024 * 100);
 		// Add cross rules
 		$form["isbn10"]->addCondition(Form::FILLED)
@@ -141,7 +141,7 @@ class EditionComponent extends BaseComponent {
 			}
 			$this->getPresenter()->flashMessage(System::translate("Thank you. The edition has been successfully updated and you are looking on it now."));
 		} catch (DuplicityException $e) {
-			$this->getPresenter()->flashMessage(System::translate("Sorry, a edition with this ISBN already exists. Here is a form with original values."));
+			$this->getPresenter()->flashMessage(System::translate("Sorry, an edition with this ISBN already exists. Here is a form with original values."));
 			$this->getPresenter()->redirect("this");
 		} catch (Exception $e) {
 			$this->unexpectedError($e);
