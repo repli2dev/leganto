@@ -1,15 +1,24 @@
+# Authors:
+# Tereza Doležalová <tereza.dolezalova@gmail.com>
+# Jan Papoušek <jan.papousek@gmail.com>
+# Jan Drábek <repli2dev@gmail.com>
 # APP_DIR/WebModule/components/BaseForm.php:79
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2010-11-02T18:47:27+01:00\n"
+"POT-Creation-Date: \n"
 "PO-Revision-Date: \n"
-"Last-Translator: Tereza Doležalová <tereza.dolezalova@gmail.com>\n"
-"Language-Team: \n"
+"Last-Translator: Jan Drabek <repli2dev@gmail.com>\n"
+"Language-Team: Leganto team <info@leganto.cz>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Language: cs_CZ\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : ((n>=2 && n<=4) ? 1 : 2);\n"
+"X-Poedit-Language: Czech\n"
+"X-Poedit-Country: CZECH REPUBLIC\n"
+"X-Poedit-SourceCharset: utf-8\n"
 
 # APP_DIR/WebModule/presenters/RssPresenter.php:27
 msgid "%s has an opinion on the book %s"
@@ -87,8 +96,7 @@ msgid "Add opinion"
 msgstr ""
 
 # APP_DIR/WebModule/templates/mails/forgottenPassword.phtml:9
-msgid ""
-"Afterwards, a new password will be sent to you. I can be changed in Settings."
+msgid "Afterwards, a new password will be sent to you. I can be changed in Settings."
 msgstr ""
 
 # APP_DIR/WebModule/components/Feed/feed.phtml:6
@@ -107,12 +115,8 @@ msgid "An unexpected error has occurred."
 msgstr ""
 
 # APP_DIR/WebModule/presenters/HelpPresenter.php:17
-msgid ""
-"Are you lost in our page or do you just miss the last puzzle? This page can "
-"answer nearly all questions."
-msgstr ""
-"Jste na našich stránkách ztracený/á nebo jen nemůžete něco najít? Tato "
-"stránka vám může odpovědět na téměř všechny otázky."
+msgid "Are you lost in our page or do you just miss the last puzzle? This page can answer nearly all questions."
+msgstr "Jste na našich stránkách ztracený/á nebo jen nemůžete něco najít? Tato stránka vám může odpovědět na téměř všechny otázky."
 
 # APP_DIR/WebModule/presenters/AuthorPresenter.php:100
 msgid "Are you sure you want to delete this author?"
@@ -294,11 +298,8 @@ msgid "Do you really want to delete this connection to a social network?"
 msgstr "Opravdu chcete smazat připojení k sociální síti?"
 
 # APP_DIR/WebModule/templates/mails/signUp.phtml:7
-msgid ""
-"Don't worry about your password, it has been encrypted just after this "
-"message was sent."
-msgstr ""
-"Neobávejte se o své heslo, bylo zašifrováno ihned po odeslání této zprávy."
+msgid "Don't worry about your password, it has been encrypted just after this message was sent."
+msgstr "Neobávejte se o své heslo, bylo zašifrováno ihned po odeslání této zprávy."
 
 # APP_DIR/WebModule/presenters/SettingsPresenter.php:153
 msgid "E-mail"
@@ -364,8 +365,7 @@ msgstr "Facebook"
 
 # APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:122
 msgid "Facebook functions are not accessible right now. Please try it later."
-msgstr ""
-"Funkce Facebooku nejsou právě teď dostupné. Zkuste to, prosím, později."
+msgstr "Funkce Facebooku nejsou právě teď dostupné. Zkuste to, prosím, později."
 
 # APP_DIR/WebModule/components/InsertingOpinion/InsertingOpinionComponent.php:88
 msgid "Fair"
@@ -393,9 +393,7 @@ msgid "First name"
 msgstr "Jméno"
 
 # APP_DIR/WebModule/components/InsertingBook/insertingBook.phtml:1
-msgid ""
-"Firstly check whether the book has been already inserted by someone else. "
-"Type the book title into the field bellow."
+msgid "Firstly check whether the book has been already inserted by someone else. Type the book title into the field bellow."
 msgstr ""
 
 # APP_DIR/WebModule/presenters/UserPresenter.php:215
@@ -420,12 +418,8 @@ msgid "Following"
 msgstr "Sledovaní"
 
 # APP_DIR/WebModule/templates/mails/forgottenPassword.phtml:5
-msgid ""
-"For finishing your request you have to copy this code and paste it into the "
-"page 'Renew password'."
-msgstr ""
-"K dokončení své žádosti musíte zkopírovat tento kód a vložit jej na stránku "
-"\"Obnov heslo\"."
+msgid "For finishing your request you have to copy this code and paste it into the page 'Renew password'."
+msgstr "K dokončení své žádosti musíte zkopírovat tento kód a vložit jej na stránku \"Obnov heslo\"."
 
 # APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:234
 # APP_DIR/WebModule/components/Introduction/introduction.phtml:100
@@ -486,12 +480,8 @@ msgid "Hide editions without an image"
 msgstr "Skrýt edice bez obrázku."
 
 # APP_DIR/WebModule/presenters/StatisticsPresenter.php:19
-msgid ""
-"How many books, opinions, users are there on our web? How fast do we grow? "
-"This page will answer you!"
-msgstr ""
-"Kolik je knih, názorů, uživatelů na tomto webu? Jak rychle rosteme? Tato "
-"stránka vám odpoví."
+msgid "How many books, opinions, users are there on our web? How fast do we grow? This page will answer you!"
+msgstr "Kolik je knih, názorů, uživatelů na tomto webu? Jak rychle rosteme? Tato stránka vám odpoví."
 
 # APP_DIR/WebModule/components/ShareBox/shareBox.phtml:4
 msgid "I like it!"
@@ -515,18 +505,12 @@ msgid "ISBN 13"
 msgstr "ISBN 13"
 
 # APP_DIR/WebModule/components/InsertingBook/InsertingBookComponent.php:163
-msgid ""
-"If the author is not listed in the list above, please click on the button "
-"'Create new author'."
+msgid "If the author is not listed in the list above, please click on the button 'Create new author'."
 msgstr ""
 
 # APP_DIR/WebModule/templates/mails/forgottenPassword.phtml:3
-msgid ""
-"If you did not ask for a new password, ignore this e-mail. (This code is "
-"valid only for 24 hours since its creation.)"
-msgstr ""
-"Pokud jste si nepožádal(a) o nové heslo, ignorujte tento e-mail. (Tento kód "
-"je platný pouze 24 hodin od svého stvoření.)"
+msgid "If you did not ask for a new password, ignore this e-mail. (This code is valid only for 24 hours since its creation.)"
+msgstr "Pokud jste si nepožádal(a) o nové heslo, ignorujte tento e-mail. (Tento kód je platný pouze 24 hodin od svého stvoření.)"
 
 # APP_DIR/WebModule/components/Introduction/introduction.phtml:27
 msgid "If you want to connect this Facebook account please log in."
@@ -535,13 +519,6 @@ msgstr "Pokud chcete připojit tento Facebook účet, přihlašte se, prosím."
 # APP_DIR/WebModule/components/Introduction/introduction.phtml:47
 msgid "If you want to connect this Twitter account please log in."
 msgstr "okud chcete připojit tento Twitter účet, přihlašte se, prosím."
-
-# APP_DIR/WebModule/components/Introduction/introduction.phtml:32
-# APP_DIR/WebModule/components/Introduction/introduction.phtml:52
-msgid ""
-"If you want to create a new account please click on the button 'Create' "
-"which logs you in automatically in just a second."
-msgstr ""
 
 # APP_DIR/WebModule/components/Edition/EditionComponent.php:64
 msgid "Image has to be smaller than 100 KB."
@@ -602,12 +579,8 @@ msgid "Internet reading lists"
 msgstr "Internetové čtenářské deníky"
 
 # APP_DIR/WebModule/components/InsertingBook/InsertingBookComponent.php:50
-msgid ""
-"It can take a long time to insert a new book because the system tries to "
-"find editions of the book."
-msgstr ""
-"Přidání nové knihy může trvat dlouho, protože se systém pokouší najít edice "
-"této knihy."
+msgid "It can take a long time to insert a new book because the system tries to find editions of the book."
+msgstr "Přidání nové knihy může trvat dlouho, protože se systém pokouší najít edice této knihy."
 
 # APP_DIR/WebModule/components/InsertingBook/InsertingBookComponent.php:183
 # APP_DIR/WebModule/components/InsertingOpinion/InsertingOpinionComponent.php:99
@@ -624,16 +597,11 @@ msgstr "Poslední změna"
 
 # APP_DIR/WebModule/templates/Default/feed.phtml:3
 msgid "Latest updates"
-msgstr ""
+msgstr "Aktuální dění"
 
 # APP_DIR/WebModule/presenters/DefaultPresenter.php:26
-msgid ""
-"Leganto is a community webpage which aims to create and share information "
-"about literature as a valuable part of our culture. Join our efforts."
-msgstr ""
-"Leganto je komunitní webová stránka, jejímž cílem je tvořit a sdílet "
-"informace o literatuře jakožto cenné součásti naší kultury. Připojte se k "
-"našemu úsilí."
+msgid "Leganto is a community webpage which aims to create and share information about literature as a valuable part of our culture. Join our efforts."
+msgstr "Leganto je komunitní webová stránka, jejímž cílem je tvořit a sdílet informace o literatuře jakožto cenné součásti naší kultury. Připojte se k našemu úsilí."
 
 # APP_DIR/WebModule/templates/mails/forgottenPassword.phtml:11
 # APP_DIR/WebModule/templates/mails/signUp.phtml:9
@@ -762,9 +730,7 @@ msgstr "Ne..."
 # APP_DIR/WebModule/presenters/SearchPresenter.php:95
 # APP_DIR/WebModule/presenters/SearchPresenter.php:119
 msgid "Nothing was found for your query, please be less specific."
-msgstr ""
-"Na váš dotaz nebyla nalezena žádná odpověď, zkuste být, prosím, méně "
-"specifický/á."
+msgstr "Na váš dotaz nebyla nalezena žádná odpověď, zkuste být, prosím, méně specifický/á."
 
 # APP_DIR/WebModule/components/BookView/bookView.phtml:11
 msgid "Number of opinions (users are allowed to let opinion empty)"
@@ -778,6 +744,10 @@ msgstr "Počet stránek"
 msgid "Number of readers"
 msgstr "Počet čtenářů"
 
+# APP_DIR/WebModule/templates/Settings/default.phtml:4
+msgid "On this page you can change your profile informations and password. Fill passwords only when you intend to change it. All other informations are alterable without entering password."
+msgstr ""
+
 # APP_DIR/WebModule/templates/Book/default.phtml:6
 # APP_DIR/WebModule/presenters/BookPresenter.php:112
 # APP_DIR/WebModule/presenters/BookPresenter.php:179
@@ -785,11 +755,8 @@ msgid "Opinions"
 msgstr "Názory"
 
 # APP_DIR/WebModule/presenters/BookPresenter.php:113
-msgid ""
-"Opinions on a certain book from all users, decide if it is worth reading!"
-msgstr ""
-"Názory všech uživatelů na určitou knihu, rozhodněte se, zda stojí za to to "
-"číst!"
+msgid "Opinions on a certain book from all users, decide if it is worth reading!"
+msgstr "Názory všech uživatelů na určitou knihu, rozhodněte se, zda stojí za to to číst!"
 
 # APP_DIR/WebModule/templates/Book/default.phtml:8
 # APP_DIR/WebModule/templates/Book/default.phtml:8
@@ -832,21 +799,15 @@ msgstr "Osoba"
 
 # APP_DIR/WebModule/components/BaseForm.php:61
 msgid "Please answer the captcha question to let us know that you are a human."
-msgstr ""
-"Odpovězte, prosím, na tzv. captcha otázku, abychom si mohli být jistí, že "
-"jste člověk."
+msgstr "Odpovězte, prosím, na tzv. captcha otázku, abychom si mohli být jistí, že jste člověk."
 
 # APP_DIR/WebModule/components/InsertingAuthor/InsertingAuthorComponent.php:93
 msgid "Please choose the type of the author."
 msgstr "Vyberte, prosím, typ autora."
 
 # APP_DIR/WebModule/components/InsertingBook/insertingBookResult.phtml:8
-msgid ""
-"Please continue to the next page where you will be asked for some other "
-"information."
-msgstr ""
-"Pokračujte, prosím, na další stránku, kde budete požádán(a) o další "
-"informace."
+msgid "Please continue to the next page where you will be asked for some other information."
+msgstr "Pokračujte, prosím, na další stránku, kde budete požádán(a) o další informace."
 
 # APP_DIR/WebModule/presenters/SettingsPresenter.php:162
 msgid "Please correct the birth year. Only integer is allowed."
@@ -1104,12 +1065,8 @@ msgid "Similar books"
 msgstr "Podobné knihy"
 
 # APP_DIR/WebModule/presenters/BookPresenter.php:124
-msgid ""
-"Similar books to a certain book, generated according to book tags. Choose "
-"what to read according to what you have read!"
-msgstr ""
-"Knihy podobné určité knize, které byly vygenerovány podle štítků knih. "
-"Vyberte si, co budete číst, na základě toho, co jste si již přečetl(a)!"
+msgid "Similar books to a certain book, generated according to book tags. Choose what to read according to what you have read!"
+msgstr "Knihy podobné určité knize, které byly vygenerovány podle štítků knih. Vyberte si, co budete číst, na základě toho, co jste si již přečetl(a)!"
 
 # APP_DIR/WebModule/presenters/UserPresenter.php:120
 # APP_DIR/WebModule/presenters/UserPresenter.php:210
@@ -1127,22 +1084,16 @@ msgid "Social networks"
 msgstr "Sociální sítě"
 
 # APP_DIR/WebModule/components/Edition/EditionComponent.php:144
-msgid ""
-"Sorry, an edition with this ISBN already exists. Here is a form with "
-"original values."
+msgid "Sorry, an edition with this ISBN already exists. Here is a form with original values."
 msgstr ""
 
 # APP_DIR/WebModule/presenters/DefaultPresenter.php:49
 msgid "Sorry, but you have tried to access a protected page, please log in."
-msgstr ""
-"Omlouvám se, ale zkusil(a) jste vstoupit na chráněnou stránku, přihlašte se, "
-"prosím."
+msgstr "Omlouvám se, ale zkusil(a) jste vstoupit na chráněnou stránku, přihlašte se, prosím."
 
 # APP_DIR/WebModule/components/Feed/FeedComponent.php:37
 msgid "Sorry, no events were found. Probably you don't follow any user."
-msgstr ""
-"Omlouváme se, ale nebyly nalezeny žádné události. Možná žádného uživatele "
-"nesledujete."
+msgstr "Omlouváme se, ale nebyly nalezeny žádné události. Možná žádného uživatele nesledujete."
 
 # APP_DIR/WebModule/presenters/SettingsPresenter.php:86
 # APP_DIR/WebModule/presenters/SettingsPresenter.php:129
@@ -1150,9 +1101,7 @@ msgid "Sorry, this account has been already connected to a different account."
 msgstr ""
 
 # APP_DIR/WebModule/templates/Default/unauthorized.phtml:4
-msgid ""
-"Sorry, you were trying to reach a page which can be accessed only by logged "
-"in users. Please log in or sign in on our"
+msgid "Sorry, you were trying to reach a page which can be accessed only by logged in users. Please log in or sign in on our"
 msgstr ""
 
 # APP_DIR/WebModule/components/OpinionList/opinionList.phtml:8
@@ -1188,15 +1137,11 @@ msgid "Thank you for your opinion."
 msgstr "Děkujeme za vaši registraci."
 
 # APP_DIR/WebModule/components/Edition/EditionComponent.php:142
-msgid ""
-"Thank you. The edition has been successfully updated and you are looking on "
-"it now."
+msgid "Thank you. The edition has been successfully updated and you are looking on it now."
 msgstr "Děkujeme. Edice byla úspěšně doplněna a vy se na ni právě díváte."
 
 # APP_DIR/WebModule/components/Edition/EditionComponent.php:112
-msgid ""
-"Thank you. Your edition has been successfully added and you are looking on "
-"it now."
+msgid "Thank you. Your edition has been successfully added and you are looking on it now."
 msgstr "Děkujeme. Vaše edice byla úspěšně doplněna a vy se na ni právě díváte."
 
 # APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:541
@@ -1209,12 +1154,8 @@ msgid "The authenticated user has to insert a shelf with his id."
 msgstr "Autentizovaný uživatel musí vložit poličku se svým id."
 
 # APP_DIR/WebModule/presenters/AuthorPresenter.php:23
-msgid ""
-"The author can't be deleted, because there are some books which are written "
-"by this author."
-msgstr ""
-"Tento autro nemůže být smazán, protože jsou tu nějaké knihy, které byly "
-"tímto autorem napsány."
+msgid "The author can't be deleted, because there are some books which are written by this author."
+msgstr "Tento autro nemůže být smazán, protože jsou tu nějaké knihy, které byly tímto autorem napsány."
 
 # APP_DIR/WebModule/presenters/AuthorPresenter.php:28
 msgid "The author has been successfuly deleted."
@@ -1232,12 +1173,6 @@ msgstr "Obrázek musí být menší než 100 KB."
 # APP_DIR/WebModule/components/BookShelfControl/BookShelfControlComponent.php:33
 msgid "The book  %s has been removed from the shelf %s."
 msgstr "Kniha  %s byla odstraněna z poličky %s."
-
-# APP_DIR/WebModule/components/InsertingBook/insertingBookResult.phtml:4
-msgid ""
-"The book already exists on our web. You don't have to insert it again. If "
-"you want to add your opinion do it from the book detail."
-msgstr ""
 
 # APP_DIR/WebModule/components/BookShelfControl/BookShelfControlComponent.php:67
 msgid "The book has been inserted to the shelf."
@@ -1274,9 +1209,7 @@ msgid "The e-mail is already used by another user."
 msgstr "Tento e-mail je již používán jiným uživatelem."
 
 # APP_DIR/WebModule/presenters/DefaultPresenter.php:36
-msgid ""
-"The feed page offers you updates from our web, you can watch added opinions "
-"or the discussion in one page."
+msgid "The feed page offers you updates from our web, you can watch added opinions or the discussion in one page."
 msgstr ""
 
 # APP_DIR/WebModule/components/Edition/EditionComponent.php:63
@@ -1324,12 +1257,8 @@ msgid "The post has been deleted."
 msgstr "Příspěvek byl smazán."
 
 # APP_DIR/WebModule/components/PostList/PostListComponent.php:35
-msgid ""
-"The post has been the last one in the topic, therefore the topic has been "
-"also deleted."
-msgstr ""
-"Příspěvek byl posledním příspěvkem v tomto tématu, proto bylo smazáno i téma "
-"samotné."
+msgid "The post has been the last one in the topic, therefore the topic has been also deleted."
+msgstr "Příspěvek byl posledním příspěvkem v tomto tématu, proto bylo smazáno i téma samotné."
 
 # APP_DIR/WebModule/components/Search/SearchComponent.php:64
 # APP_DIR/WebModule/components/Search/SearchComponent.php:80
@@ -1349,12 +1278,8 @@ msgid "The shelf has been successfuly saved."
 msgstr "Polička byla úspěšně uložena."
 
 # APP_DIR/WebModule/components/InsertingBook/InsertingBookComponent.php:445
-msgid ""
-"The system tried to load editions of the book '%s', but the process is not "
-"reliable and you can insert editions manually."
-msgstr ""
-"Systém se pokusil nahrát edice knihy '%s', ovšem tento proces není zcela "
-"spolehlivý a můžete edice vložit i ručně."
+msgid "The system tried to load editions of the book '%s', but the process is not reliable and you can insert editions manually."
+msgstr "Systém se pokusil nahrát edice knihy '%s', ovšem tento proces není zcela spolehlivý a můžete edice vložit i ručně."
 
 # APP_DIR/WebModule/components/TagList/TagListComponent.php:37
 msgid "The tag has been successfuly inserted."
@@ -1390,36 +1315,20 @@ msgid "This Twitter account is already connected to an account."
 msgstr "Váš účet není připojen k žádnému účtu na sociálních sítích."
 
 # APP_DIR/WebModule/presenters/BookPresenter.php:40
-msgid ""
-"This is the detail of the book where you can find the most interesting data "
-"such as the book cover, tags, opinions, editions, related books etc."
-msgstr ""
-"Toto je detail knihy, kde můžete najít nejzajímavější data jako např. obal "
-"knihy, štítky, názory, edice, související knihy atd."
+msgid "This is the detail of the book where you can find the most interesting data such as the book cover, tags, opinions, editions, related books etc."
+msgstr "Toto je detail knihy, kde můžete najít nejzajímavější data jako např. obal knihy, štítky, názory, edice, související knihy atd."
 
 # APP_DIR/WebModule/presenters/AuthorPresenter.php:68
-msgid ""
-"This is the detail page about the author, it shows all books by this author, "
-"which have been already inserted in our website."
-msgstr ""
-"Toto je detailní stránka o autorovi. Ukazuje všechny knihy od tohoto autora, "
-"které již byly přidány na naše stránky."
+msgid "This is the detail page about the author, it shows all books by this author, which have been already inserted in our website."
+msgstr "Toto je detailní stránka o autorovi. Ukazuje všechny knihy od tohoto autora, které již byly přidány na naše stránky."
 
 # APP_DIR/WebModule/presenters/DiscussionPresenter.php:17
-msgid ""
-"This is the list of all discussion topics which are currently discussed, "
-"feel free to join."
-msgstr ""
-"Toto je seznam všech diskuzních témat, která jsou nyní diskutována. "
-"Neváhejte se připojit!"
+msgid "This is the list of all discussion topics which are currently discussed, feel free to join."
+msgstr "Toto je seznam všech diskuzních témat, která jsou nyní diskutována. Neváhejte se připojit!"
 
 # APP_DIR/WebModule/presenters/UserPresenter.php:28
-msgid ""
-"This is the profile page of a user where you can track his or her opinions, "
-"look into shelves, find followers and followed users."
-msgstr ""
-"Toto je profilová stránka uživatele, kde můžete sledovat jeho názory, dívat "
-"se do poliček, najít sledující a sledované uživatele."
+msgid "This is the profile page of a user where you can track his or her opinions, look into shelves, find followers and followed users."
+msgstr "Toto je profilová stránka uživatele, kde můžete sledovat jeho názory, dívat se do poliček, najít sledující a sledované uživatele."
 
 # APP_DIR/WebModule/components/PostList/postList.phtml:31
 msgid "This link will only show the thread where the post was found."
@@ -1427,9 +1336,7 @@ msgstr "Odkaz pouze zobrazí vlákno, kde byl příspěvek nalezen."
 
 # APP_DIR/WebModule/presenters/DiscussionPresenter.php:29
 # APP_DIR/WebModule/presenters/DiscussionPresenter.php:48
-msgid ""
-"This page shows one topic thread, where all posts are ordered by date, feel "
-"free to join."
+msgid "This page shows one topic thread, where all posts are ordered by date, feel free to join."
 msgstr ""
 
 # APP_DIR/WebModule/presenters/UserPresenter.php:45
@@ -1445,18 +1352,15 @@ msgid "Tho book has been removed from the shelf."
 msgstr "Kniha byla z poličky odebrána."
 
 # APP_DIR/WebModule/components/Feed/FeedComponent.php:31
-msgid ""
-"To provide you the best experience please fill in additional details in "
-msgstr ""
-"Abychom vám mohli poskytnout nejlepší služby, vyplňte, prosím, doplňkové "
-"detaily na"
+msgid "To provide you the best experience please fill in additional details in "
+msgstr "Abychom vám mohli poskytnout nejlepší služby, vyplňte, prosím, doplňkové detaily na"
 
 # APP_DIR/WebModule/components/Navigation/navigation.phtml:8
 # APP_DIR/WebModule/components/Navigation/navigation.phtml:8
 # APP_DIR/WebModule/templates/Default/topBooks.phtml:3
 # APP_DIR/WebModule/presenters/DefaultPresenter.php:42
 msgid "Top books"
-msgstr "Nejlépe hodnocené knihy"
+msgstr "Nejlepší knihy"
 
 # APP_DIR/WebModule/presenters/DiscussionPresenter.php:47
 msgid "Topic"
@@ -1533,10 +1437,7 @@ msgid "Wanted"
 msgstr "Požadováno"
 
 # APP_DIR/WebModule/templates/Help/default.phtml:5
-msgid ""
-"Welcome in your support section, where you can find answers for nearly all "
-"your questions. The whole support page is divided into several categories. "
-"To continue select and click on one of categories shown below this text."
+msgid "Welcome in your support section, where you can find answers for nearly all your questions. The whole support page is divided into several categories. To continue select and click on one of categories shown below this text."
 msgstr ""
 
 # APP_DIR/WebModule/components/Introduction/introduction.phtml:90
@@ -1592,33 +1493,20 @@ msgid "You can edit an already inserted edition on this page."
 msgstr "Na této stránce můžete upravovat již vloženou edici."
 
 # APP_DIR/WebModule/presenters/HelpPresenter.php:33
-msgid ""
-"You can find all pages which belong to a chosen category on this page. "
-"Select the page which of content interests you."
-msgstr ""
-"Na této stránce můžete najít všechny stránky, které patří do vybrané "
-"kategorie. Vyberte stránku, jejíž obsah vás zajímá."
+msgid "You can find all pages which belong to a chosen category on this page. Select the page which of content interests you."
+msgstr "Na této stránce můžete najít všechny stránky, které patří do vybrané kategorie. Vyberte stránku, jejíž obsah vás zajímá."
 
 # APP_DIR/WebModule/presenters/HelpPresenter.php:40
 msgid "You can find information you were looking for on this page, we hope ;-)"
-msgstr ""
-"Na této stránce můžete najít informace, které jste hledal(a). Doufejme ;)"
+msgstr "Na této stránce můžete najít informace, které jste hledal(a). Doufejme ;)"
 
 # APP_DIR/WebModule/presenters/AuthorPresenter.php:55
-msgid ""
-"You can insert a new author on this page. Please double check if the author "
-"exists."
-msgstr ""
-"Na této stránce můžete vložit nového autora. Dvakrát, prosím, zkontrolujte, "
-"zda tento autor již neexistuje."
+msgid "You can insert a new author on this page. Please double check if the author exists."
+msgstr "Na této stránce můžete vložit nového autora. Dvakrát, prosím, zkontrolujte, zda tento autor již neexistuje."
 
 # APP_DIR/WebModule/presenters/BookPresenter.php:102
-msgid ""
-"You can insert a new book on this page. To add an opinion to an already "
-"inserted book, please use 'Add opinion'."
-msgstr ""
-"Na této stránce můžete vložit novou knihu. K přidání názoru na již vloženou "
-"knihu používejte, prosím, \"Přidat názor\"."
+msgid "You can insert a new book on this page. To add an opinion to an already inserted book, please use 'Add opinion'."
+msgstr "Na této stránce můžete vložit novou knihu. K přidání názoru na již vloženou knihu používejte, prosím, \"Přidat názor\"."
 
 # APP_DIR/WebModule/presenters/UserPresenter.php:107
 msgid "You can insert a new shelf on this page"
@@ -1633,28 +1521,16 @@ msgid "You can manage your social networks connected to this page here."
 msgstr "Zde můžete spravovat své sociální sítě připojené k těmto stránkám."
 
 # APP_DIR/WebModule/presenters/UserPresenter.php:114
-msgid ""
-"You can see shelves of the user and books in them on this page. Owners can "
-"re-order their books here."
-msgstr ""
-"Na této stránce můžete vidět poličky uživatele a knihy v nich. Majitelé zde "
-"mohou své knihy reorganizovat."
+msgid "You can see shelves of the user and books in them on this page. Owners can re-order their books here."
+msgstr "Na této stránce můžete vidět poličky uživatele a knihy v nich. Majitelé zde mohou své knihy reorganizovat."
 
 # APP_DIR/WebModule/presenters/UserPresenter.php:121
-msgid ""
-"You can see similar users to a specific user on this page. The similarity is "
-"computed on the base of books users have read."
-msgstr ""
-"Na této stránce můžete vidět uživatele podobné specifickému uživateli. "
-"Podobnost je počítána na základě knih, které uživatelé přečetli."
+msgid "You can see similar users to a specific user on this page. The similarity is computed on the base of books users have read."
+msgstr "Na této stránce můžete vidět uživatele podobné specifickému uživateli. Podobnost je počítána na základě knih, které uživatelé přečetli."
 
 # APP_DIR/WebModule/presenters/SettingsPresenter.php:20
-msgid ""
-"You can set your profile, write something about you, fill your age and sex "
-"on this page."
-msgstr ""
-"Na této stránce můžete nastavit svůj profil, napsat něco o sobě, vyplnit "
-"svůj věk a pohlaví."
+msgid "You can set your profile, write something about you, fill your age and sex on this page."
+msgstr "Na této stránce můžete nastavit svůj profil, napsat něco o sobě, vyplnit svůj věk a pohlaví."
 
 # APP_DIR/WebModule/presenters/UserPresenter.php:37
 msgid "You cannot follow yourself, you egoist!"
@@ -1680,10 +1556,7 @@ msgid "Your answer is wrong, please try it again with a different question."
 msgstr ""
 
 # APP_DIR/WebModule/presenters/SettingsPresenter.php:271
-msgid ""
-"Your connection cannot be deleted as you have created an account through a "
-"social network. In order to do so please set your account password and "
-"e-mail in the Settings tab first."
+msgid "Your connection cannot be deleted as you have created an account through a social network. In order to do so please set your account password and e-mail in the Settings tab first."
 msgstr ""
 
 # APP_DIR/WebModule/templates/mails/signUp.phtml:3
@@ -1744,17 +1617,11 @@ msgid "book shelves, update, reorder, manipulation, books"
 msgstr "knižní poličky, doplnit, reorganizovat, manipulace, knihy"
 
 # APP_DIR/WebModule/presenters/BookPresenter.php:41
-msgid ""
-"book, detail, graphs, opinions, tags, editions, isbn, pages, shelves, share "
-"to social network"
-msgstr ""
-"kniha, detail, grafy, názory, štítky, edice, isbn, stránky, poličky, sdílet "
-"na sociální síti"
+msgid "book, detail, graphs, opinions, tags, editions, isbn, pages, shelves, share to social network"
+msgstr "kniha, detail, grafy, názory, štítky, edice, isbn, stránky, poličky, sdílet na sociální síti"
 
 # APP_DIR/WebModule/presenters/DefaultPresenter.php:27
-msgid ""
-"books, how to choose a book, what friends read, what my, culture, about "
-"books, opinions on books, leganto, čtenáři, preader"
+msgid "books, how to choose a book, what friends read, what my, culture, about books, opinions on books, leganto, čtenáři, preader"
 msgstr ""
 
 # APP_DIR/WebModule/templates/layout.phtml:83
@@ -1824,8 +1691,7 @@ msgstr "nápověda, podpora, odpovědět, jak to funguje, co dělat když"
 
 # APP_DIR/WebModule/presenters/HelpPresenter.php:18
 msgid "help, support, faq, how to, actions, how it works, tags, books, engine"
-msgstr ""
-"nápověda, podpora, faq, jak, akce, jak to funguje, štítky, knihy, motor"
+msgstr "nápověda, podpora, faq, jak, akce, jak to funguje, štítky, knihy, motor"
 
 # APP_DIR/WebModule/presenters/BookPresenter.php:103
 msgid "insert, add, new book"
@@ -1868,16 +1734,11 @@ msgid "similar books, tags, how to choose book"
 msgstr "podobné knihy, štítky, jak si vybrat knihu"
 
 # APP_DIR/WebModule/presenters/SettingsPresenter.php:31
-msgid ""
-"social networks, facebook, twitter, manage, edit, update, remove, add, "
-"connect"
-msgstr ""
-"sociální sítě, facebook, twitter, spravovat, upravit, doplnit, odstranit, "
-"přidat, připojit"
+msgid "social networks, facebook, twitter, manage, edit, update, remove, add, connect"
+msgstr "sociální sítě, facebook, twitter, spravovat, upravit, doplnit, odstranit, přidat, připojit"
 
 # APP_DIR/WebModule/presenters/StatisticsPresenter.php:20
-msgid ""
-"statistics, graphs, number of books, number of opinions, number of users"
+msgid "statistics, graphs, number of books, number of opinions, number of users"
 msgstr "statistiky, grafy, počet knih, počet názorů, počet uživatelů"
 
 # APP_DIR/WebModule/templates/layout.phtml:80
@@ -1894,7 +1755,6 @@ msgid "validateRating"
 msgstr ""
 
 # APP_DIR/WebModule/templates/mails/renewPassword.phtml:1
-msgid ""
-"your new credentials are shown below this text. For more safety, change your "
-"password immediately."
+msgid "your new credentials are shown below this text. For more safety, change your password immediately."
 msgstr ""
+

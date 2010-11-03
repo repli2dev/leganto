@@ -77,6 +77,7 @@ class NetteLatteFilter implements iFilter
             if (empty($matches[2])) continue;
             
             foreach ($matches[2] as $m) {
+		if(!empty($m))
             	// strips trailing apostrophes or double quotes
             	$data[substr($m, 1, -1)][] = strtr($pInfo['dirname'], array(realpath(APP_DIR) => 'APP_DIR')) . '/' . $pInfo['basename'] . ':' . $line;
             }

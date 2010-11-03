@@ -160,7 +160,7 @@ class InsertingBookComponent extends BaseComponent {
 			if (isset($last)) {
 				// Add text saying what to do
 				$el = Html::el("span")->setClass("underForm");
-				$el->setText(System::translate("If the author is not listed in the list above, please click on the button \'Create new author\'."));
+				$el->setText(System::translate("If the author is not listed in the list above, please click on the button 'Create new author'."));
 				$last->setOption("description", $el);
 			}
 			$form->addSubmit("addAuthor", "Add existing author")
