@@ -197,6 +197,7 @@ class Word extends Object {
 	 * @return string
 	 */
 	public function getTranslation($form = 0) {
+		if($form === NULL) return;
 		return is_array($this->translation) ? $this->translation[$form] : $this->translation;
 	}
 
@@ -205,6 +206,7 @@ class Word extends Object {
 	 * @return string
 	 */
 	public function getMessage($form = 0) {
+		if($form === NULL) return;
 		return is_array($this->message) ? $this->message[$form] : $this->message;
 	}
 

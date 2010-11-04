@@ -80,7 +80,7 @@ class Web_BookPresenter extends Web_BasePresenter {
 			$this->unauthorized();
 		}
 		$this->getComponent("insertingBook")->setBookToEdit($this->getBook());
-		$this->setPageTitle(System::translate("Edit the book '%s'", $this->getBook()->title));
+		$this->setPageTitle(System::translate("Edit the book")." '".$this->getBook()->title."'");
 	}
 
 	public function renderInsert($book, $related = FALSE) {

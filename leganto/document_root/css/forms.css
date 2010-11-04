@@ -99,7 +99,7 @@ td input[type="submit"] {
 #search legend {
 	display: none;
 }
-#search input[type="submit"] {
+#search input.button {
 	border: 0px;
 	height: 23px;
 	width: 70px !important;
@@ -108,6 +108,8 @@ td input[type="submit"] {
 	padding: 0px 5px;
         position: static;
 	text-indent: -10000px;
+	color: #FDF7CD;
+	font-size: 1px;
 }
 #search input[type="text"] {
         float: left;

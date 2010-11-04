@@ -46,6 +46,7 @@
 }
 .list .date {
 	display: block;
+	clear: both;
 }
 .list .info-top {
 	padding-left: 10px;
