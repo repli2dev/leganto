@@ -17,14 +17,26 @@ class BaseForm extends AppForm {
 	public function __construct($parent = NULL, $name = NULL) {
 		parent::__construct($parent, $name);
 		// Do not use tables for forms any more
-		$renderer = $this->getRenderer();
+		self::tuneRenderer($this);
+		$this->setTranslator(System::translator());
+		// Add protection aganist cross site requests
+		$this->addProtection("Form timeout, please send form again.");
+	}
+
+	public static function tuneRenderer($form) {
+		// Do not use tables for forms any more
+		$form->setRenderer(new BaseFormRenderer());
+		$renderer = $form->getRenderer();
 		$renderer->wrappers['controls']['container'] = NULL;
 		$renderer->wrappers['pair']['container'] = 'p';
 		$renderer->wrappers['label']['container'] = NULL;
 		$renderer->wrappers['control']['container'] = NULL;
-		$this->setTranslator(System::translator());
-		// Add protection aganist cross site requests
-		$this->addProtection("Form timeout, please send form again.");
+		// Workaround for using css selectors
+		$renderer->wrappers['control']['.select'] = 'select';
+		$renderer->wrappers['control']['.textarea'] = 'textarea';
+		$renderer->wrappers['control']['.checkbox'] = 'checkbox';
+		$renderer->wrappers['control']['.radio'] = 'radio';
+		return $form;
 	}
 
 	public function render() {

@@ -537,10 +537,6 @@ a img {
 	padding: 1px;
 	border: 1px solid #F5D25A;
 }
-.select {
-	color: #FDF7CC;
-	font-weight: bolder;
-}
 .external {
 	background: url(/img/external.png) no-repeat;
 	background-position: right;

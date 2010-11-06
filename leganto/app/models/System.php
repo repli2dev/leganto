@@ -116,6 +116,9 @@ final class System {
 		}
 		$values["text"] = $text;
 		$values["time"] = new DateTime;
+		// Add tracking data
+		$values["ip"] = $_SERVER["REMOTE_ADDR"];
+		$values["browser"] = $_SERVER['HTTP_USER_AGENT'];
 		try {
 			return dibi::insert("user_log", $values)->execute();
 		} catch (Exception $e) {

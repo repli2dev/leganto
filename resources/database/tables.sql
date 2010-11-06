@@ -301,5 +301,7 @@ CREATE TABLE `user_log` (
 	`url` TEXT NOT NULL ,
 	`text` TEXT NOT NULL ,
 	`time` DATETIME NOT NULL,
+	`ip` VARCHAR(39) NOT NULL,
+	`browser` TEXT NOT NULL,
 	FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`) ON UPDATE CASCADE ON DELETE CASCADE
 ) ENGINE = MYISAM COMMENT = 'Table with user actions log' 
