@@ -168,7 +168,7 @@ class IntroductionComponent extends BaseComponent {
 			$this->getPresenter()->redirect("Default:feed", true);
 		} else {
 			// Show error that same account (probably nick) exists
-			$this->flashMessage(System::translate("Account with same nickname is already registered."));
+			$this->flashMessage(System::translate("An account with the same nickname is already registered."));
 		}
 	}
 
@@ -206,7 +206,7 @@ class IntroductionComponent extends BaseComponent {
 			$this->getPresenter()->redirect("Default:feed", true);
 		} else {
 			// Show error that same account (probably nick) exists
-			$this->flashMessage(System::translate("Account with same nickname is already registered."));
+			$this->flashMessage(System::translate("An account with the same nickname is already registered."));
 		}
 	}
 
@@ -273,7 +273,7 @@ class IntroductionComponent extends BaseComponent {
 		$form->addGroup("Sign Up");
 		$form->getElementPrototype()->setId("sign");
 		$form->addText("email", "E-mail")
-			->addRule(Form::EMAIL, "Please the fill correct e-mail.")
+			->addRule(Form::EMAIL, "Please fill the correct e-mail.")
 			->addRule(Form::FILLED, "Please fill the e-mail.");
 		$form->addText("nickname", "Nickname")
 			->addRule(Form::FILLED, "Please fill the nickname.");
@@ -507,7 +507,7 @@ class IntroductionComponent extends BaseComponent {
 			$user = Leganto::users()->getInserter()->insert($user);
 		} else {
 			$user = -1;
-			$form->addError("Account with same nickname or e-mail is already registered.");
+			$form->addError("An account with the same nickname or e-mail is already registered.");
 		}
 		if ($user != -1) {
 			$user = Leganto::users()->getSelector()->find($user);
@@ -541,7 +541,7 @@ class IntroductionComponent extends BaseComponent {
 			$this->getPresenter()->flashMessage(System::translate("Thanks for your registration."), "success");
 			$this->getPresenter()->redirect("Default:feed", true);
 		} else {
-			$form->addError("Account with same nickname or e-mail is already registered.");
+			$form->addError("An account with the same nickname or e-mail is already registered.");
 		}
 	}
 
