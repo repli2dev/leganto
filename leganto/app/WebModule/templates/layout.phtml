@@ -45,6 +45,12 @@
 
 		<!--[if IE]>
 		<script type="text/javascript" src="/js/corner.js"></script>
+		<script type="text/javascript">
+			DD_roundies.addRule('#content', '10px');
+			DD_roundies.addRule('#book-stats h3, #mentioned-yes, #mentioned-no, .help-category, .list .item,.error,.flash', '5px');
+			DD_roundies.addRule('#cover .rating', '0px 0px 5px 0px');
+			DD_roundies.addRule('#cover .stats', '5px 0px 0px 0px');
+		</script>
 		<![endif]-->
 
 		<link rel="image_src" href="<? echo Environment::getHttpRequest()->uri->baseUri; ?>img/logoForFB.png" />
@@ -53,7 +59,6 @@
 		<title>{if $pageTitle}{$pageTitle} &ndash; {/if}Leganto</title>
 	</head>
 	<body>
-
 		<div id="header">
 			<div class="wrapper">
 				<a href="/" title="Leganto" id="logo">
@@ -89,6 +94,5 @@
 				<a href="mailto:jan.papousek@gmail.com" title="Jan Papoušek">Jan Papoušek</a>
 			</div>
 		</div>
-
 	</body>
 </html>
