@@ -30,7 +30,7 @@ class BookShelfControlComponent extends BaseComponent {
 		try {
 			Leganto::shelves()->getUpdater()->removeBookFromShelf($shelfEntity, $bookEntity);
 			System::log("REMOVED BOOK '" . $bookEntity->getId() . "' FROM SHELF '" . $shelfEntity->getId() . "'");
-			$this->getPresenter()->flashMessage(System::translate("The book  %s has been removed from the shelf %s.", $bookEntity->title, $shelfEntity->name), "success");
+			$this->getPresenter()->flashMessage(System::translate("The book has been removed from the shelf."), "success");
 		} catch (Exception $e) {
 			$this->unexpectedError($e);
 			return;

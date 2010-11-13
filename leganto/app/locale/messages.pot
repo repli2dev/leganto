@@ -1,7 +1,7 @@
 # Gettext keys exported by GettextExtractor
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2010-11-13T10:45:24+01:00\n"
+"POT-Creation-Date: 2010-11-13T20:07:28+01:00\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
@@ -72,7 +72,7 @@ msgstr ""
 msgid "Add new social network"
 msgstr ""
 
-# APP_DIR/WebModule/presenters/BookPresenter.php:188
+# APP_DIR/WebModule/presenters/BookPresenter.php:185
 msgid "Add opinion"
 msgstr ""
 
@@ -119,6 +119,10 @@ msgstr ""
 
 # APP_DIR/WebModule/presenters/AuthorPresenter.php:100
 msgid "Are you sure you want to delete this author?"
+msgstr ""
+
+# APP_DIR/WebModule/components/BookShelfControl/bookShelfControl.phtml:8
+msgid "Are you sure you want to remove a book from shelf"
 msgstr ""
 
 # APP_DIR/WebModule/components/InsertingBook/InsertingBookComponent.php:156
@@ -194,7 +198,7 @@ msgstr ""
 msgid "Change"
 msgstr ""
 
-# APP_DIR/WebModule/presenters/BookPresenter.php:190
+# APP_DIR/WebModule/presenters/BookPresenter.php:187
 msgid "Change opinion"
 msgstr ""
 
@@ -326,7 +330,7 @@ msgstr ""
 msgid "Edit author"
 msgstr ""
 
-# APP_DIR/WebModule/presenters/BookPresenter.php:185
+# APP_DIR/WebModule/presenters/BookPresenter.php:190
 msgid "Edit book"
 msgstr ""
 
@@ -982,7 +986,7 @@ msgstr ""
 msgid "Renew password"
 msgstr ""
 
-# APP_DIR/WebModule/components/OpinionList/opinionList.phtml:50
+# APP_DIR/WebModule/components/OpinionList/opinionList.phtml:52
 msgid "Reply"
 msgstr ""
 
@@ -1092,7 +1096,7 @@ msgstr ""
 msgid "Shelves"
 msgstr ""
 
-# APP_DIR/WebModule/components/OpinionList/opinionList.phtml:47
+# APP_DIR/WebModule/components/OpinionList/opinionList.phtml:49
 msgid "Show"
 msgstr ""
 
@@ -1215,16 +1219,16 @@ msgstr ""
 msgid "The avatar has to be smaller than 100 KB."
 msgstr ""
 
-# APP_DIR/WebModule/components/BookShelfControl/BookShelfControlComponent.php:33
-msgid "The book  %s has been removed from the shelf %s."
-msgstr ""
-
 # APP_DIR/WebModule/components/InsertingBook/insertingBookResult.phtml:4
 msgid "The book already exists on our web. You don't have to insert it again. If you want to add your opinion do it from the book detail."
 msgstr ""
 
 # APP_DIR/WebModule/components/BookShelfControl/BookShelfControlComponent.php:67
 msgid "The book has been inserted to the shelf."
+msgstr ""
+
+# APP_DIR/WebModule/components/BookShelfControl/BookShelfControlComponent.php:33
+msgid "The book has been removed from the shelf."
 msgstr ""
 
 # APP_DIR/WebModule/components/InsertingBook/InsertingBookComponent.php:375
@@ -1356,6 +1360,10 @@ msgstr ""
 msgid "There are no entries in this category."
 msgstr ""
 
+# APP_DIR/WebModule/components/OpinionList/opinionList.phtml:13
+msgid "There are no text opinions, be the one who write the first one!"
+msgstr ""
+
 # APP_DIR/WebModule/templates/Book/default.phtml:8
 msgid "There can be more opinions than you see. Please visit"
 msgstr ""
@@ -1414,7 +1422,7 @@ msgid "Time"
 msgstr ""
 
 # APP_DIR/WebModule/components/Feed/FeedComponent.php:31
-msgid "To provide you the best experience please fill in additional details in "
+msgid "To provide you the best experience please fill in additional details in"
 msgstr ""
 
 # APP_DIR/WebModule/components/Navigation/navigation.phtml:8
@@ -1690,7 +1698,7 @@ msgstr ""
 msgid "books, how to choose a book, what friends read, what my, culture, about books, opinions on books, leganto, čtenáři, preader"
 msgstr ""
 
-# APP_DIR/WebModule/components/OpinionList/opinionList.phtml:47
+# APP_DIR/WebModule/components/OpinionList/opinionList.phtml:49
 msgid "comments"
 msgstr ""
 
