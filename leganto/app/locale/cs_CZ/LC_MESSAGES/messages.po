@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
 "PO-Revision-Date: \n"
-"Last-Translator: Tereza Doležalová <tereza.dolezalova@gmail.com>\n"
+"Last-Translator: Jan Drabek <repli2dev@gmail.com>\n"
 "Language-Team: Leganto team <info@leganto.cz>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
@@ -44,25 +44,18 @@ msgstr "(jazyk názvu a podtitulu knihy)"
 msgid "(the language of your opinion, your tags)"
 msgstr "(jazyk vašeho názoru, vašich štítků)"
 
+# APP_DIR/WebModule/components/InsertingBook/InsertingBookComponent.php:445
+msgid ", but the process is not reliable and you can insert editions manually."
+msgstr ", ovšem tento proces není zcela spolehlivý a můžete edice vložit i ručně."
+
 # APP_DIR/WebModule/components/Search/SearchComponent.php:64
 # APP_DIR/WebModule/components/Search/SearchComponent.php:80
-#, fuzzy
 msgid "A tag has to be filled."
-msgstr "Musí být vyplněno vyhledávací pole."
+msgstr "Název štítku musí být vyplněn."
 
 # APP_DIR/WebModule/presenters/SettingsPresenter.php:163
 msgid "About"
 msgstr "Info"
-
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:171
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:209
-msgid "Account with same nickname is already registered."
-msgstr ""
-
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:510
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:544
-msgid "Account with same nickname or e-mail is already registered."
-msgstr ""
 
 # APP_DIR/WebModule/templates/Settings/connections.phtml:15
 msgid "Action"
@@ -78,9 +71,8 @@ msgid "Add edition"
 msgstr "Přidat edici"
 
 # APP_DIR/WebModule/components/InsertingBook/InsertingBookComponent.php:166
-#, fuzzy
 msgid "Add existing author"
-msgstr "Přidat existující"
+msgstr "Přidat existujícího autora"
 
 # APP_DIR/WebModule/components/Edition/edition.phtml:0
 # APP_DIR/WebModule/presenters/BookPresenter.php:196
@@ -96,13 +88,23 @@ msgid "Add opinion"
 msgstr "Přidat názor"
 
 # APP_DIR/WebModule/templates/mails/forgottenPassword.phtml:9
-msgid "Afterwards, a new password will be sent to you. I can be changed in Settings."
-msgstr ""
+msgid "Afterwards, a new password will be sent to you. It can be changed in Settings."
+msgstr "Následně vám bude zasláno nové heslo. To můžete změnit v sekci Nastavení."
 
 # APP_DIR/WebModule/components/Feed/feed.phtml:6
 # APP_DIR/WebModule/components/Feed/feed.phtml:9
 msgid "All"
 msgstr "Vše"
+
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:171
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:209
+msgid "An account with the same nickname is already registered."
+msgstr "Účet se stejnou přezdívkou je již registrován."
+
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:510
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:544
+msgid "An account with the same nickname or e-mail is already registered."
+msgstr "Účet se stejnou přezdívkou nebo e-mailem je již zaregistrován."
 
 # APP_DIR/WebModule/presenters/SettingsPresenter.php:229
 msgid "An error occured, the password you have entered is wrong."
@@ -119,6 +121,14 @@ msgid "Are you lost in our page or do you just miss the last puzzle? This page c
 msgstr "Jste na našich stránkách ztracený/á nebo jen nemůžete něco najít? Tato stránka vám může odpovědět na téměř všechny otázky."
 
 # APP_DIR/WebModule/presenters/AuthorPresenter.php:100
+msgid "Are you sure you want to delete a discussion post?"
+msgstr "Jste si jistý/á, že chcete tento diskuzní příspěvek smazat?"
+
+# APP_DIR/WebModule/presenters/AuthorPresenter.php:100
+msgid "Are you sure you want to delete a shelf"
+msgstr "Jste si jistý/á, že chcete smazat tuto poličku"
+
+# APP_DIR/WebModule/presenters/AuthorPresenter.php:100
 msgid "Are you sure you want to delete this author?"
 msgstr "Jste si jistý/á, že chcete tohoto autora smazat?"
 
@@ -126,6 +136,10 @@ msgstr "Jste si jistý/á, že chcete tohoto autora smazat?"
 # APP_DIR/WebModule/presenters/SearchPresenter.php:134
 msgid "Author"
 msgstr "Autor"
+
+# APP_DIR/WebModule/presenters/AuthorPresenter.php:28
+msgid "Author has been successfuly updated."
+msgstr "Autor byl úspěšně upraven."
 
 # APP_DIR/WebModule/presenters/SearchPresenter.php:40
 msgid "Author search"
@@ -182,6 +196,10 @@ msgstr "Označit na Googlu"
 msgid "Books"
 msgstr "Knihy"
 
+# APP_DIR/WebModule/templates/Book/similar.phtml:4
+msgid "Books similar to"
+msgstr "Knihy podobné"
+
 # APP_DIR/WebModule/components/InsertingOpinion/InsertingOpinionComponent.php:112
 msgid "Change"
 msgstr "Změnit"
@@ -221,9 +239,8 @@ msgid "Continue"
 msgstr "Pokračovat"
 
 # APP_DIR/WebModule/templates/layout.phtml:85
-#, fuzzy
 msgid "Create"
-msgstr "vytvořeno"
+msgstr "Vytvořit"
 
 # APP_DIR/WebModule/components/BookShelfControl/BookShelfControlComponent.php:86
 msgid "Create a new shelf"
@@ -236,9 +253,8 @@ msgstr "Vytvořit nové téma"
 
 # APP_DIR/WebModule/components/TopicList/TopicListComponent.php:64
 # APP_DIR/WebModule/components/TopicList/topicList.phtml:20
-#, fuzzy
 msgid "Create new author"
-msgstr "Vytvořit nové téma"
+msgstr "Vytvořit nového autora"
 
 # APP_DIR/WebModule/presenters/SettingsPresenter.php:166
 msgid "Current password"
@@ -331,12 +347,16 @@ msgid "Edit shelf"
 msgstr "Upravit poličku"
 
 # APP_DIR/WebModule/presenters/BookPresenter.php:83
-msgid "Edit the book '%s'"
-msgstr "Upravit knihu '%s'"
+msgid "Edit the book"
+msgstr "Upravit knihu"
 
 # APP_DIR/WebModule/presenters/BookPresenter.php:200
 msgid "Edit this edition"
 msgstr "Upravit tuto edici"
+
+# APP_DIR/WebModule/presenters/BookPresenter.php:185
+msgid "Editing book"
+msgstr "Úprava knihy"
 
 # APP_DIR/WebModule/templates/Book/default.phtml:11
 msgid "Editions"
@@ -418,6 +438,10 @@ msgid "Following"
 msgstr "Sledovaní"
 
 # APP_DIR/WebModule/templates/mails/forgottenPassword.phtml:5
+msgid "For changing your e-mail address you have to enter your current and new passwords."
+msgstr "Pro změnu vaší e-mailové adresy musíte zadat své současné a zároveň nová hesla."
+
+# APP_DIR/WebModule/templates/mails/forgottenPassword.phtml:5
 msgid "For finishing your request you have to copy this code and paste it into the page 'Renew password'."
 msgstr "K dokončení své žádosti musíte zkopírovat tento kód a vložit jej na stránku \"Obnov heslo\"."
 
@@ -432,7 +456,7 @@ msgstr "Nalezené knihy"
 
 # APP_DIR/WebModule/components/InsertingShelf/InsertingShelfComponent.php:74
 msgid "General"
-msgstr "Obecně"
+msgstr "Prostě polička"
 
 # APP_DIR/WebModule/presenters/BookPresenter.php:39
 # APP_DIR/WebModule/presenters/BookPresenter.php:178
@@ -520,6 +544,11 @@ msgstr "Pokud chcete připojit tento Facebook účet, přihlašte se, prosím."
 msgid "If you want to connect this Twitter account please log in."
 msgstr "okud chcete připojit tento Twitter účet, přihlašte se, prosím."
 
+# APP_DIR/WebModule/components/Introduction/introduction.phtml:32
+# APP_DIR/WebModule/components/Introduction/introduction.phtml:52
+msgid "If you want to create a new account please click on the button 'Create' which logs you in automatically in just a second."
+msgstr "Pokud chcete vytvořit nový účet klikněte na tlačítko 'Vytvořit', které vás poté automaticky přihlásí."
+
 # APP_DIR/WebModule/components/Edition/EditionComponent.php:64
 msgid "Image has to be smaller than 100 KB."
 msgstr "Obrázek musí být menší než 100 KB."
@@ -535,6 +564,10 @@ msgstr "Info a názory"
 # APP_DIR/WebModule/components/InsertingAuthor/InsertingAuthorComponent.php:112
 msgid "Insert"
 msgstr "Vložit"
+
+# APP_DIR/WebModule/presenters/AuthorPresenter.php:54
+msgid "Insert a new author"
+msgstr "Vložit nového autora"
 
 # APP_DIR/WebModule/templates/User/insertShelf.phtml:3
 # APP_DIR/WebModule/presenters/UserPresenter.php:106
@@ -638,11 +671,11 @@ msgstr "Odkaz na diskuzi"
 # APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:302
 # APP_DIR/WebModule/components/Introduction/introduction.phtml:95
 msgid "Log in"
-msgstr "Přihlásit se"
+msgstr "Přihlásit"
 
 # APP_DIR/WebModule/components/Navigation/navigation.phtml:19
 msgid "Log out"
-msgstr "Odhlásit se"
+msgstr "Odhlásit"
 
 # APP_DIR/WebModule/components/Introduction/introduction.phtml:98
 msgid "Login with Facebook"
@@ -651,6 +684,10 @@ msgstr "Přihlásit se přes Facebook"
 # APP_DIR/WebModule/components/Introduction/introduction.phtml:99
 msgid "Login with Twitter"
 msgstr "Přihlásit se přes Twitter"
+
+# APP_DIR/models/statistics/StatisticsGraphs.php:123
+msgid "M"
+msgstr "M"
 
 # APP_DIR/WebModule/components/Navigation/navigation.phtml:3
 # APP_DIR/WebModule/components/Navigation/navigation.phtml:3
@@ -670,6 +707,10 @@ msgstr "Ne jenom chlebem bude člověk živ"
 # APP_DIR/WebModule/components/InsertingShelf/InsertingShelfComponent.php:70
 msgid "Name"
 msgstr "Jméno"
+
+# APP_DIR/WebModule/presenters/AuthorPresenter.php:28
+msgid "New author has been successfuly inserted."
+msgstr "Nový autor byl úspěšně vložen."
 
 # APP_DIR/WebModule/presenters/SettingsPresenter.php:167
 msgid "New password"
@@ -745,8 +786,8 @@ msgid "Number of readers"
 msgstr "Počet čtenářů"
 
 # APP_DIR/WebModule/templates/Settings/default.phtml:4
-msgid "On this page you can change your profile informations and password. Fill passwords only when you intend to change it. All other informations are alterable without entering password."
-msgstr "x"
+msgid "On this page you can change your profile information and password. Fill password only when you intend to change it or you are changing your e-mail address. All other information is alterable without entering the password."
+msgstr "Na této stránce můžete změnit své profilové informace a heslo. Vyplňte heslo pouze v případě, že jej chcete změnit nebo pokud měníte svou e-mailovou adresu. Všechny ostatní informace jsou upravitelné bez zadávání hesla."
 
 # APP_DIR/WebModule/templates/Book/default.phtml:6
 # APP_DIR/WebModule/presenters/BookPresenter.php:112
@@ -762,6 +803,10 @@ msgstr "Názory všech uživatelů na určitou knihu, rozhodněte se, zda stojí
 # APP_DIR/WebModule/templates/Book/default.phtml:8
 msgid "Opinions on the book"
 msgstr "Názory na knihu"
+
+# APP_DIR/WebModule/components/OpinionList/opinionList.phtml:6
+msgid "Order by"
+msgstr "Řadit podle"
 
 # APP_DIR/WebModule/components/InsertingBook/InsertingBookComponent.php:181
 msgid "Other"
@@ -831,9 +876,8 @@ msgid "Please fill the content."
 msgstr "Vyplňte, prosím, obsah."
 
 # APP_DIR/WebModule/presenters/SettingsPresenter.php:154
-#, fuzzy
 msgid "Please fill the correct code."
-msgstr "Vyplňte, prosím, správný e-mail."
+msgstr "Vyplňte, prosím, správný kód."
 
 # APP_DIR/WebModule/presenters/SettingsPresenter.php:154
 msgid "Please fill the correct e-mail."
@@ -844,7 +888,6 @@ msgid "Please fill the e-mail in the right format (someone@somewhere.tld)."
 msgstr "Vyplňte, prosím, e-mail ve správném formátu (někdo@někde.tld)."
 
 # APP_DIR/WebModule/presenters/SettingsPresenter.php:154
-#, fuzzy
 msgid "Please fill the e-mail."
 msgstr "Vyplňte, prosím, správný e-mail."
 
@@ -853,9 +896,8 @@ msgid "Please fill the group name."
 msgstr "Vyplňte, prosím, název skupiny."
 
 # APP_DIR/WebModule/presenters/SettingsPresenter.php:180
-#, fuzzy
 msgid "Please fill the new password to check it."
-msgstr "Vyplňte, prosím, nové heslo."
+msgstr "Vyplňte, prosím, nové heslo ke kontrole."
 
 # APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:222
 # APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:262
@@ -875,9 +917,8 @@ msgstr "Vyplňte, prosím, heslo."
 # APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:264
 # APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:281
 # APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:301
-#, fuzzy
 msgid "Please fill the second password to check it."
-msgstr "Vyplňte, prosím, heslo."
+msgstr "Vyplňte, prosím, druhé heslo ke kontrole."
 
 # APP_DIR/WebModule/components/TopicList/TopicListComponent.php:60
 msgid "Please fill the topic name."
@@ -888,14 +929,13 @@ msgstr "Vyplňte, prosím, název tématu."
 msgid "Please fill your current password."
 msgstr "Vyplňte, prosím, své současné heslo."
 
+# APP_DIR/WebModule/presenters/SettingsPresenter.php:154
+msgid "Please select rating."
+msgstr "Vyplňte, prosím, vaše hodnocení."
+
 # APP_DIR/WebModule/components/TagList/TagListComponent.php:60
 msgid "Please seperate multiple tags with ', ' (by words - comma and space)."
-msgstr "Oddělujte, prosím, jednotlivé štítky čárkou a mezerou \", \""
-
-# APP_DIR/WebModule/presenters/SettingsPresenter.php:154
-#, fuzzy
-msgid "Please the fill correct e-mail."
-msgstr "Vyplňte, prosím, správný e-mail."
+msgstr "Oddělujte, prosím, jednotlivé štítky čárkou a mezerou \", \"."
 
 # APP_DIR/WebModule/components/InsertingOpinion/InsertingOpinionComponent.php:87
 msgid "Poor"
@@ -934,9 +974,9 @@ msgstr "Registrovat"
 msgid "Related books"
 msgstr "Související knihy"
 
-# APP_DIR/WebModule/components/InsertingBook/InsertingBookComponent.php:169
-msgid "Remove"
-msgstr "Odstranit"
+# APP_DIR/WebModule/presenters/AuthorPresenter.php:100
+msgid "Remove bottom author"
+msgstr "Smazat spodního autora"
 
 # APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:246
 msgid "Renew password"
@@ -967,6 +1007,10 @@ msgstr "Uložit knihu"
 # APP_DIR/WebModule/components/ShareBox/shareBox.phtml:5
 msgid "Save to Delicious"
 msgstr "Uloži na Delicious"
+
+# APP_DIR/WebModule/components/OpinionList/opinionList.phtml:8
+msgid "Score"
+msgstr "Hodnocení"
 
 # APP_DIR/WebModule/components/InsertingBook/InsertingBookComponent.php:246
 # APP_DIR/WebModule/components/Search/SearchComponent.php:77
@@ -1046,6 +1090,10 @@ msgstr "Sdílet na Twitteru"
 msgid "Shelves"
 msgstr "Poličky"
 
+# APP_DIR/WebModule/components/OpinionList/opinionList.phtml:47
+msgid "Show"
+msgstr "Zobrazit"
+
 # APP_DIR/WebModule/components/EditionList/editionList.phtml:47
 # APP_DIR/WebModule/components/EditionList/editionList.phtml:47
 msgid "Show editions without an image"
@@ -1053,11 +1101,7 @@ msgstr "Ukázat edice bez obrázků"
 
 # APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:273
 msgid "Sign Up"
-msgstr "Zaregistrovat se"
-
-# APP_DIR/WebModule/components/Introduction/introduction.phtml:94
-msgid "Sign up"
-msgstr "Zaregistrovat se"
+msgstr "Registrovat"
 
 # APP_DIR/WebModule/presenters/BookPresenter.php:123
 # APP_DIR/WebModule/presenters/BookPresenter.php:180
@@ -1132,9 +1176,8 @@ msgid "Text to search"
 msgstr "Text k vyhledávání"
 
 # APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:541
-#, fuzzy
 msgid "Thank you for your opinion."
-msgstr "Děkujeme za vaši registraci."
+msgstr "Děkujeme za váš názor."
 
 # APP_DIR/WebModule/components/Edition/EditionComponent.php:142
 msgid "Thank you. The edition has been successfully updated and you are looking on it now."
@@ -1166,7 +1209,6 @@ msgid "The avatar has been successfuly changed."
 msgstr "Avatar byl úspěšně změněn."
 
 # APP_DIR/WebModule/components/Edition/EditionComponent.php:64
-#, fuzzy
 msgid "The avatar has to be smaller than 100 KB."
 msgstr "Obrázek musí být menší než 100 KB."
 
@@ -1174,9 +1216,21 @@ msgstr "Obrázek musí být menší než 100 KB."
 msgid "The book  %s has been removed from the shelf %s."
 msgstr "Kniha  %s byla odstraněna z poličky %s."
 
+# APP_DIR/WebModule/components/InsertingBook/insertingBookResult.phtml:4
+msgid "The book already exists on our web. You don't have to insert it again. If you want to add your opinion do it from the book detail."
+msgstr "Tato kniha již na našem webu existuje. Nemusíte ji tedy vkládat znovu. Pro přidání názoru přejděte na detail knihy."
+
 # APP_DIR/WebModule/components/BookShelfControl/BookShelfControlComponent.php:67
 msgid "The book has been inserted to the shelf."
 msgstr "Kniha byla vložena do poličky."
+
+# APP_DIR/WebModule/components/TagList/TagListComponent.php:37
+msgid "The book has been successfuly inserted."
+msgstr "Kniha byla úspěšně vložena."
+
+# APP_DIR/WebModule/presenters/AuthorPresenter.php:28
+msgid "The book has been successfuly updated."
+msgstr "Kniha byla úspěšně upravena."
 
 # APP_DIR/WebModule/components/InsertingBook/InsertingBookComponent.php:244
 msgid "The book title has to be at least 2 characters long."
@@ -1195,9 +1249,8 @@ msgid "The code was sent to an account e-mail address."
 msgstr "Kód byl odeslán na e-mailovou adresu."
 
 # APP_DIR/WebModule/presenters/AuthorPresenter.php:28
-#, fuzzy
 msgid "The connection has been successfully deleted."
-msgstr "Autor byl úspěšně smazán."
+msgstr "Připojení bylo úspěšně smazáno."
 
 # APP_DIR/WebModule/presenters/DiscussionPresenter.php:25
 # APP_DIR/WebModule/presenters/DiscussionPresenter.php:44
@@ -1256,6 +1309,10 @@ msgstr "Příspěvek nemůže být smazán."
 msgid "The post has been deleted."
 msgstr "Příspěvek byl smazán."
 
+# APP_DIR/WebModule/components/TagList/TagListComponent.php:37
+msgid "The post has been successfuly sent."
+msgstr "Příspěvek byl úspěšně odeslán."
+
 # APP_DIR/WebModule/components/PostList/PostListComponent.php:35
 msgid "The post has been the last one in the topic, therefore the topic has been also deleted."
 msgstr "Příspěvek byl posledním příspěvkem v tomto tématu, proto bylo smazáno i téma samotné."
@@ -1278,8 +1335,8 @@ msgid "The shelf has been successfuly saved."
 msgstr "Polička byla úspěšně uložena."
 
 # APP_DIR/WebModule/components/InsertingBook/InsertingBookComponent.php:445
-msgid "The system tried to load editions of the book '%s', but the process is not reliable and you can insert editions manually."
-msgstr "Systém se pokusil nahrát edice knihy '%s', ovšem tento proces není zcela spolehlivý a můžete edice vložit i ručně."
+msgid "The system tried to load editions of the book"
+msgstr "Systém se pokusil načíst edice knihy"
 
 # APP_DIR/WebModule/components/TagList/TagListComponent.php:37
 msgid "The tag has been successfuly inserted."
@@ -1305,14 +1362,12 @@ msgid "Thirteen characters long ISBN."
 msgstr "ISBN dlouhé 13 číslic"
 
 # APP_DIR/WebModule/templates/Settings/connections.phtml:28
-#, fuzzy
 msgid "This Facebook account is already connected to an account."
-msgstr "Váš účet není připojen k žádnému účtu na sociálních sítích."
+msgstr "Tento účet na Facebooku je již spojen s jiným účtem."
 
 # APP_DIR/WebModule/templates/Settings/connections.phtml:28
-#, fuzzy
 msgid "This Twitter account is already connected to an account."
-msgstr "Váš účet není připojen k žádnému účtu na sociálních sítích."
+msgstr "Tento účet na Twitteru je již spojen s jiným účtem."
 
 # APP_DIR/WebModule/presenters/BookPresenter.php:40
 msgid "This is the detail of the book where you can find the most interesting data such as the book cover, tags, opinions, editions, related books etc."
@@ -1350,6 +1405,10 @@ msgstr "Tento uživatel je vámi nyní sledován."
 # APP_DIR/WebModule/components/BookShelfControl/BookShelfControlComponent.php:62
 msgid "Tho book has been removed from the shelf."
 msgstr "Kniha byla z poličky odebrána."
+
+# APP_DIR/WebModule/components/OpinionList/opinionList.phtml:7
+msgid "Time"
+msgstr "Času"
 
 # APP_DIR/WebModule/components/Feed/FeedComponent.php:31
 msgid "To provide you the best experience please fill in additional details in "
@@ -1395,6 +1454,10 @@ msgstr "Neautorizováno"
 # APP_DIR/WebModule/presenters/UserPresenter.php:213
 msgid "Unfollow"
 msgstr "Přestat sledovat"
+
+# APP_DIR/models/statistics/StatisticsGraphs.php:88
+msgid "Unspecified"
+msgstr "Neurčeno"
 
 # APP_DIR/WebModule/presenters/SearchPresenter.php:136
 msgid "User"
@@ -1442,7 +1505,7 @@ msgstr "Vítejte v nápovědě, kde můžete najít odpovědi na téměř všech
 
 # APP_DIR/WebModule/components/Introduction/introduction.phtml:90
 msgid "Welcome text. Put introduction text here!"
-msgstr "Uvítací text. Sem vložte uvítací text!"
+msgstr "Právě se nacházíte na stránkách Internetového čtenářského deníku, který Vám umožní sdílet názory na knihy s ostatními a nacházet literaturu podle Vašeho vkusu. Podívejte se, co čte Váš soused, kamarád a další lidé z Vašeho okolí i neokolí."
 
 # APP_DIR/WebModule/components/Introduction/introduction.phtml:89
 msgid "Welcome!"
@@ -1476,9 +1539,8 @@ msgid "You can add a new edition of this book on this page."
 msgstr "Na této stránce můžete přidat novou edici knihy."
 
 # APP_DIR/WebModule/templates/Settings/delete.phtml:5
-#, fuzzy
 msgid "You can delete a connection to a social network on this page."
-msgstr "Opravdu chcete smazat připojení k sociální síti?"
+msgstr "Na této stránce můžete smazat připojení k sociálním sítím."
 
 # APP_DIR/WebModule/presenters/UserPresenter.php:94
 msgid "You can edit a shelf on this page."
@@ -1624,6 +1686,10 @@ msgstr "kniha, detail, grafy, názory, štítky, edice, isbn, stránky, poličky
 msgid "books, how to choose a book, what friends read, what my, culture, about books, opinions on books, leganto, čtenáři, preader"
 msgstr "knihy, jak si vybrat knihu, co kamarádi čtou, co moji, kultura, o knihách, názory na knihy, leganto, čtenáři, preader"
 
+# APP_DIR/WebModule/components/OpinionList/opinionList.phtml:47
+msgid "comments"
+msgstr "komentářů"
+
 # APP_DIR/WebModule/templates/layout.phtml:83
 msgid "contact us at"
 msgstr "kontaktujte nás na"
@@ -1677,9 +1743,8 @@ msgstr "sledující, sledovaní, profil uživatele, detail uživatele"
 
 # APP_DIR/WebModule/presenters/UserPresenter.php:64
 # APP_DIR/WebModule/presenters/UserPresenter.php:79
-#, fuzzy
 msgid "followers, following, user profile, user detail, users opinion"
-msgstr "sledující, sledovaní, profil uživatele, detail uživatele"
+msgstr "sledující, sledovaní, profil uživatele, detail uživatele, názory uživatele"
 
 # APP_DIR/WebModule/presenters/SearchPresenter.php:109
 msgid "help section, search, find"
@@ -1750,11 +1815,15 @@ msgstr "smluvní podmínky"
 msgid "user, books, similarity, similar users, similar"
 msgstr "uživatel, knihy, podobnost, podobní uživatelé, podobný"
 
-# APP_DIR/WebModule/components/InsertingOpinion/InsertingOpinionComponent.php:95
-msgid "validateRating"
-msgstr ""
-
 # APP_DIR/WebModule/templates/mails/renewPassword.phtml:1
 msgid "your new credentials are shown below this text. For more safety, change your password immediately."
 msgstr "vaše nové přihlašovací údaje jsou zobrazeny pod tímto textem. Pro zvýšení bezpečnosti si ihned změňte heslo."
 
+# APP_DIR/WebModule/components/InsertingBook/InsertingBookComponent.php:169
+#~ msgid "Remove"
+#~ msgstr "Odstranit"
+# APP_DIR/WebModule/templates/Book/default.phtml:8
+# APP_DIR/WebModule/templates/Book/default.phtml:8
+#, fuzzy
+#~ msgid "Opinions on book"
+#~ msgstr "Názory na knihu"

@@ -37,11 +37,11 @@ class InsertingAuthorComponent extends BaseComponent {
 		// Prepare entity and persist it
 		if (empty($values["id_author"])) {
 			$author = Leganto::authors()->createEmpty();
-			$flashMessage = "New author has been successfuly inserted.";
+			$flashMessage = System::translate("New author has been successfuly inserted.");
 			$logMessage = "INSERT AUTHOR '" . $author->getId() . "'";
 		} else {
 			$author = Leganto::authors()->getSelector()->find($values["id_author"]);
-			$flashMessage = "Author has been successfuly updated.";
+			$flashMessage = System::translate("Author has been successfuly updated.");
 			$logMessage = "UPDATE AUTHOR '" . $author->getId() . "'";
 		}
 
@@ -56,7 +56,7 @@ class InsertingAuthorComponent extends BaseComponent {
 		try {
 			$author->persist();
 			System::log($logMessage);
-			$this->getPresenter()->flashMessage(System::translate($flashMessage), 'success');
+			$this->getPresenter()->flashMessage($flashMessage, 'success');
 		} catch (Exception $e) {
 			$this->unexpectedError($e);
 			return;

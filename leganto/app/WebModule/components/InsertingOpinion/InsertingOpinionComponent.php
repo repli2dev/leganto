@@ -90,9 +90,11 @@ class InsertingOpinionComponent extends BaseComponent {
 		    4 => System::translate("Very good"),
 		    5 => System::translate("Excellent")
 		);
+		// Next line is needed due the wrong parameter count in translator
+		$cb = array($this, "validateRating");
 		$form->addSelect("rating", "Rating", $ratings)
 			->skipFirst()
-			->addRule(array($this, "validateRating"), "Please select rating.");
+			->addRule($cb, "Please select rating.");
 		$form->addTextArea("content", "Your opinion", 50, 15);
 		$form->addText("tags", "Tags")->setOption("description", System::translate("(tags will be appended to current ones)"));
 		$languages = Leganto::languages()->getSelector()->findAll()->fetchPairs("id_language", "name");

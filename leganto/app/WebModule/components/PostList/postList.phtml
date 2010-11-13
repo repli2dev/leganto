@@ -16,7 +16,7 @@
 				<a href="{plink User:default, $post->user}" title="{$post->userName}">{$post->userName|hardTruncate, 20}</a>
 				{if Environment::getUser()->isAllowed(Resource::create($post), Action::EDIT)}
 					<div class="control">
-						{assign confirm => System::translate("Are you sure you want to delete a discussion post?")}
+						<?php $confirm = System::translate("Are you sure you want to delete a discussion post?"); ?>
 						{assign link    => $component->link('delete', $post->getId())}
 						<a onclick="return confirm('{!$confirm}')" href="{!$link}" title="{_'Delete'}">
 							<img src="{$baseUri . 'img/ico/delete.png'}" alt="{_'Delete'}" />

@@ -24,6 +24,7 @@ $ge->setFilter('phtml','NetteLatte');
 
 echo "<pre>";
 $ge->scan(APP_DIR . '/WebModule');
+$ge->scan(APP_DIR . '/models');
 
 $ge->save(APP_DIR . '/locale/messages.pot');
 echo "</pre>";

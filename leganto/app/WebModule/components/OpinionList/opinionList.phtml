@@ -4,9 +4,9 @@
     {if !empty($sorting)}
     <table class="navigation">
         <tr>
-            <th>Order by:</th>
-            <th><a href="{link sortByTime!}" title="{_'Sort by time'}">Time</a></th>
-            <th><a href="{link sortByScore!}" title="{_'Sort by score'}">Score</a></th>
+            <th>{_"Order by"}:</th>
+            <th><a href="{link sortByTime!}" title="{_'Sort by time'}">{_"Time"}</a></th>
+            <th><a href="{link sortByScore!}" title="{_'Sort by score'}">{_"Score"}</a></th>
         </tr>
     </table>
     {/if}
@@ -45,7 +45,7 @@
 				<div class="info-bottom">
 					@{if !isset($showedOpinion) || $showedOpinion != $opinion->getId()}
 						@{if isset($discussions[$opinion->getId()])}
-							<a href="{link showPosts!, $opinion->getId()}" class="control ajax">{_'Show %d comments',$discussions[$opinion->getId()]}</a>
+							<a href="{link showPosts!, $opinion->getId()}" class="control ajax">{_'Show'} {$discussions[$opinion->getId()]} {_'comments'}</a>
 						@{else}
 							@{if Environment::getUser()->isAuthenticated()}
 								<a href="{link showPosts!, $opinion->getId()}" class="control ajax">{_'Reply'}</a>

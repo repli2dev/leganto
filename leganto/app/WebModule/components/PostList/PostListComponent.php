@@ -63,7 +63,7 @@ class PostListComponent extends BaseListComponent {
 		try {
 			$post->persist();
 			System::log("INSERT POST '" . $post->getId() . "'");
-			$this->getPresenter()->flashMessage("The post has been successfuly sent.", "success");
+			$this->getPresenter()->flashMessage(System::translate("The post has been successfuly sent."), "success");
 		} catch (Exception $e) {
 			$this->unexpectedError($e);
 			return;

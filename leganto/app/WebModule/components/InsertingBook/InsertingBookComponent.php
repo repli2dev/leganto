@@ -166,7 +166,7 @@ class InsertingBookComponent extends BaseComponent {
 			$form->addSubmit("addAuthor", "Add existing author")
 				->getControlPrototype()->setId("addAuthor");
 			if ($this->getNumberOfAuthors() > 1) {
-				$form->addSubmit("removeAuthor", "Remove")
+				$form->addSubmit("removeAuthor", "Remove bottom author")
 					->setValidationScope(FALSE)
 					->getControlPrototype()->setId("removeAuthor");
 				$form["removeAuthor"]->getControlPrototype()->setId("removeAuthor");
@@ -313,7 +313,7 @@ class InsertingBookComponent extends BaseComponent {
 		return isset($this->state["values"]) ? $this->state["values"] : NULL;
 	}
 
-	private function isEditing() {
+	public function isEditing() {
 		$values = $this->getValues();
 		return isset($this->book) || !empty($values["id_book_title"]);
 	}
@@ -372,7 +372,7 @@ class InsertingBookComponent extends BaseComponent {
 			}
 			$book = Leganto::books()->createEmpty();
 			$book->inserted = new DateTime;
-			$flashMessage = "The book has been successfuly inserted.";
+			$flashMessage = System::translate("The book has been successfuly inserted.");
 		}
 		// Edit already inserted book
 		else {
@@ -380,7 +380,7 @@ class InsertingBookComponent extends BaseComponent {
 				$this->unathorized();
 			}
 			$book = Leganto::books()->getSelector()->find($values["id_book_title"]);
-			$flashMessage = "The book has been successfuly updated.";
+			$flashMessage = System::translate("The book has been successfuly updated.");
 		}
 		// Persist the book
 		try {
@@ -441,8 +441,8 @@ class InsertingBookComponent extends BaseComponent {
 			// Silent error
 			//$this->unexpectedError($e, FALSE);
 		}
-		$this->getPresenter()->flashMessage(System::translate($flashMessage), "success");
-		$this->getPresenter()->flashMessage(System::translate("The system tried to load editions of the book '%s', but the process is not reliable and you can insert editions manually.", $book->title));
+		$this->getPresenter()->flashMessage($flashMessage, "success");
+		$this->getPresenter()->flashMessage(System::translate("The system tried to load editions of the book")." ".$book->title.System::translate(", but the process is not reliable and you can insert editions manually."));
 		$this->getPresenter()->redirect("Book:default", $book->getId());
 	}
 
