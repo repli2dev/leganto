@@ -44,9 +44,10 @@ CREATE TABLE `connection` (
 	`id_connection` INT(25) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'identifikator',
 	`id_user` INT(25) UNSIGNED NOT NULL COMMENT 'uzivatel',
 	`type`	ENUM('facebook','twitter') NOT NULL COMMENT 'typ propojeni - sluzba na ktere se autorizuje',
-	`token` TEXT NOT NULL COMMENT 'cizi klic, ktery je dostupny - hash, id uzivatele na cizim serveru...',
+	`token` VARCHAR(255) NOT NULL COMMENT 'cizi klic, ktery je dostupny - hash, id uzivatele na cizim serveru...',
 	FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`) ON UPDATE CASCADE ON DELETE CASCADE,
-	UNIQUE(`id_user`,`type`)
+	UNIQUE(`id_user`,`type`),
+	UNIQUE  `one_account_in_system` (  `type` ,  `token` )
 ) ENGINE = InnoDB COMMENT = 'propojeni s ucty uzivatelu na jinych serverech, napriklad facebook';
 
 DROP TABLE IF EXISTS `book`;
