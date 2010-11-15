@@ -17,14 +17,26 @@ class BaseForm extends AppForm {
 	public function __construct($parent = NULL, $name = NULL) {
 		parent::__construct($parent, $name);
 		// Do not use tables for forms any more
-		$renderer = $this->getRenderer();
+		self::tuneRenderer($this);
+		$this->setTranslator(System::translator());
+		// Add protection aganist cross site requests
+		$this->addProtection("Form timeout, please send form again.");
+	}
+
+	public static function tuneRenderer($form) {
+		// Do not use tables for forms any more
+		$form->setRenderer(new BaseFormRenderer());
+		$renderer = $form->getRenderer();
 		$renderer->wrappers['controls']['container'] = NULL;
 		$renderer->wrappers['pair']['container'] = 'p';
 		$renderer->wrappers['label']['container'] = NULL;
 		$renderer->wrappers['control']['container'] = NULL;
-		$this->setTranslator(System::translator());
-		// Add protection aganist cross site requests
-		$this->addProtection("Form timeout, please send form again.");
+		// Workaround for using css selectors
+		$renderer->wrappers['control']['.select'] = 'select';
+		$renderer->wrappers['control']['.textarea'] = 'textarea';
+		$renderer->wrappers['control']['.checkbox'] = 'checkbox';
+		$renderer->wrappers['control']['.radio'] = 'radio';
+		return $form;
 	}
 
 	public function render() {
@@ -37,7 +49,7 @@ class BaseForm extends AppForm {
 		if (isSet($session2->values)) { // Data found, restore, unset and invoke error (wrong spam)
 			$this->setValues($session2->values);
 			unset($session2->values);
-			$this->addError("Your answer is wrong, please try it again with different question.");
+			$this->addError("Your answer is wrong, please try it again with a different question.");
 		}
 		parent::render();
 	}
@@ -60,7 +72,7 @@ class BaseForm extends AppForm {
 		$a = $this->addText("captchacode", $data->question, 10)
 				->addRule(Form::FILLED, "Please answer the captcha question to let us know that you are a human.")
 				->addCondition(Form::FILLED)
-				->addRule("BaseForm::validateSpamProtection", "Your answer is wrong, please try it again with defferent question.");
+				->addRule("BaseForm::validateSpamProtection", "Your answer is wrong, please try it again with a different question.");
 		$this["captchacode"]->getControlPrototype()->class("spamAnswer");
 	}
 

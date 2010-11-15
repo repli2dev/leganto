@@ -56,6 +56,7 @@ class SearchComponent extends BaseComponent {
 	protected function createComponentForm($name) {
 		// AppForm used because header search form
 		$form = new AppForm($this, $name);
+		$form = BaseForm::tuneRenderer($form);
 		if ($this->compact) {
 			$form->getElementPrototype()->setId("search");
 		}

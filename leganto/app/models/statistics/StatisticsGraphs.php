@@ -56,7 +56,7 @@ class StatisticsGraphs {
 			}
 		}
 		// Build chart
-		$chart = new GoogleChart(GoogleChart::TYPE_TWO_DIMENSIONAL_PIE);
+		$chart = new GoogleChart(GoogleChart::TYPE_VERTICAL_BAR_STACKED);
 		$chart->setAxes(array(GoogleChart::AXES_LEFT, GoogleChart::AXES_BOTTOM));
 		$chart->setSize(120, 240);
 		$chart->setLegend(array_keys($statistics));
@@ -85,13 +85,15 @@ class StatisticsGraphs {
 		if (empty($data)) {
 			return;
 		}
-		$sexes = array("male", "female", "unspecified");
+		$sexes = array("Male", "Female", "Unspecified");
+		// Due gettext extractor
+		System::translate("Unspecified");
 		$statistics = array();
 		foreach ($sexes AS $sex) {
-			if (!isset($data[$sex])) {
+			if (!isset($data[strtolower($sex)])) {
 				$statistics[System::translate($sex)] = 0;
 			} else {
-				$statistics[System::translate($sex)] = $data[$sex];
+				$statistics[System::translate($sex)] = $data[strtolower($sex)];
 			}
 		}
 		// Build chart

@@ -23,6 +23,8 @@ class GoogleChart {
 
 	const TYPE_VERTICAL_BAR_GROUPED = 'bvg';
 
+	const TYPE_VERTICAL_BAR_STACKED = 'bvs';
+
 	const TYPE_TWO_DIMENSIONAL_PIE = 'p';
 
 	private $axes;

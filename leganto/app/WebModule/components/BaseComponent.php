@@ -54,7 +54,7 @@ abstract class BaseComponent extends Control {
 	}
 
 	protected final function unexpectedError(Exception $e, $display = TRUE) {
-		$this->getPresenter()->flashMessage(System::translate('Unexpected error happened.'), "error");
+		$this->getPresenter()->flashMessage(System::translate('An unexpected error has occurred.'), "error");
 		Debug::processException($e, $display);
 	}
 

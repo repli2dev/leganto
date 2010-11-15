@@ -26,7 +26,7 @@ class Web_DiscussionPresenter extends Web_BasePresenter {
 			$this->redirect("default");
 		}
 		$this->setPageTitle(System::translate("Discussion") . ": " . $discussionEntity->name);
-		$this->setPageDescription(System::translate("This pages shows one topic thread, where all posts are ordered by date, free to join."));
+		$this->setPageDescription(System::translate("This page shows one topic thread, where all posts are ordered by date, feel free to join."));
 		$this->setPageKeywords(System::translate("discussion post, thread, forum"));
 		$this->getTemplate()->discussion = $discussionEntity;
 		$this->getComponent("postList")->setSource(
@@ -45,7 +45,7 @@ class Web_DiscussionPresenter extends Web_BasePresenter {
 			$this->redirect("default");
 		}
 		$this->setPageTitle(System::translate("Topic") . ": " . $discussion->name);
-		$this->setPageDescription(System::translate("This pages shows one topic thread, where all posts are ordered by date, free to join."));
+		$this->setPageDescription(System::translate("This page shows one topic thread, where all posts are ordered by date, feel free to join."));
 		$this->setPageKeywords(System::translate("discussion post, thread, forum"));
 		$this->getTemplate()->discussion = $discussion;
 		$this->getComponent("postList")->setSource(

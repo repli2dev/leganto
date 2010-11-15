@@ -2,7 +2,7 @@
 
 @{block #subcontent}
 
-<h1>{_"Books similar to '%s'", $book->title . (($book->subtitle == NULL) ? "" : ": " . $book->subtitle)}</h1>
+<h1>{_"Books similar to"}: {$book->title . (($book->subtitle == NULL) ? "" : ": " . $book->subtitle)}</h1>
 
 <div id="feed">
 @{widget similarBooks}

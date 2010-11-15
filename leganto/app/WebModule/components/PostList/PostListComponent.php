@@ -48,7 +48,7 @@ class PostListComponent extends BaseListComponent {
 
 		// Check whether discussed item and its type present
 		if (empty($values["discussed"]) || empty($values["type"])) {
-			$form->addError("Unexpected error has happened.", "error");
+			$form->addError("An unexpected error has occurred.", "error");
 			return;
 		}
 
@@ -63,7 +63,7 @@ class PostListComponent extends BaseListComponent {
 		try {
 			$post->persist();
 			System::log("INSERT POST '" . $post->getId() . "'");
-			$this->getPresenter()->flashMessage("The post has been successfuly sent.", "success");
+			$this->getPresenter()->flashMessage(System::translate("The post has been successfuly sent."), "success");
 		} catch (Exception $e) {
 			$this->unexpectedError($e);
 			return;

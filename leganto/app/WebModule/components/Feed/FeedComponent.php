@@ -28,7 +28,7 @@ class FeedComponent extends BaseListComponent {
 		parent::beforeRender();
 		if ($this->firstTime) {
 			$this->handleAll();
-			$this->flashMessage(System::translate("To provide you the best experience please fill in additional details in ") . Html::el("a")->href($this->getPresenter()->link("Settings:default"))->setText(System::translate("Settings")) . ".");
+			$this->flashMessage(System::translate("To provide you the best experience please fill in additional details in") ." ". Html::el("a")->href($this->getPresenter()->link("Settings:default"))->setText(System::translate("Settings")) . ".");
 		}
 		$this->getTemplate()->allSwitcher = $this->allSwitcher;
 		if (empty($this->getTemplate()->allSwitcher)) {

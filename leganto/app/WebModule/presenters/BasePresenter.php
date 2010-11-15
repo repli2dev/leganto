@@ -58,7 +58,7 @@ class Web_BasePresenter extends BasePresenter {
 	}
 
 	protected final function unexpectedError(Exception $e) {
-		$this->flashMessage(System::translate('Unexpected error happened.'), "error");
+		$this->flashMessage(System::translate('An unexpected error has occurred.'), "error");
 		Debug::processException($e);
 	}
 

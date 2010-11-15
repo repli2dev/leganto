@@ -19,13 +19,13 @@ $(document).ready(function(){
 </script>
 
 {foreach $shelves AS $shelf}
-
+<?php System::translate("Are you sure you want to delete a shelf"); ?>
 <div class="shelf">
 	<h2 title="{$shelf->name}" class="shelf-type-{$shelf->type}">
 	{$shelf->name|hardTruncate:40}
 	{if Environment::getUser()->isAllowed(Resource::create($shelf), Action::EDIT)}
 	    <span class="control">
-		{assign confirm => System::translate("Are you sure you want to delete a shelf *%s*?", $shelf->name)}
+		{assign confirm => System::translate("Are you sure you want to delete a shelf").": ".$shelf->name}
 		{assign link    => $component->link('remove', $shelf->getId())}
 		<a href="{plink User:editShelf, System::user()->getId(), $shelf->getId()}" title="{_'Edit'}">
 		    <img src="{$baseUri . 'img/ico/edit.png'}" alt="{_'Edit'}" />
@@ -35,7 +35,13 @@ $(document).ready(function(){
 		</a>
 	    </span>
 	{/if}
-	<span class="number">({? echo count($books[$shelf->getId()]); })</span>
+	<span class="number">(<?php
+		if(isSet($books[$shelf->getId()])) {
+			echo count($books[$shelf->getId()]);
+		} else {
+			echo "0";
+		}
+		?>)</span>
     </h2>
 		    
     <div class="toggle_container">

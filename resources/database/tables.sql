@@ -121,7 +121,7 @@ CREATE TABLE `opinion` (
 	`id_language` INT(25) UNSIGNED NOT NULL COMMENT 'jazyk, kterym je nazor napsany',
 	`id_book_title` INT(25) UNSIGNED NOT NULL COMMENT 'kniha, ke ktere je nazor napsany',
 	`rating` ENUM('1','2','3','4','5') NOT NULL DEFAULT '1' COMMENT 'hodnoceni',
-	`content` TEXT NOT NULL COMMENT 'slovni vyjadreni nazoru na knihu',
+	`content` TEXT NULL COMMENT 'slovni vyjadreni nazoru na knihu',
 	`inserted` DATETIME NOT NULL COMMENT 'cas, kdy byla polozka vlozena do systemu',
 	`updated` TIMESTAMP COMMENT 'cas, kdy byla polozka naposledy zmenena',
 	FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`) ON UPDATE CASCADE ON DELETE CASCADE,
@@ -302,5 +302,7 @@ CREATE TABLE `user_log` (
 	`url` TEXT NOT NULL ,
 	`text` TEXT NOT NULL ,
 	`time` DATETIME NOT NULL,
+	`ip` VARCHAR(39) NOT NULL,
+	`browser` TEXT NOT NULL,
 	FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`) ON UPDATE CASCADE ON DELETE CASCADE
 ) ENGINE = MYISAM COMMENT = 'Table with user actions log' 

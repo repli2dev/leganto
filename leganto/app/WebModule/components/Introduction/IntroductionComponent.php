@@ -168,7 +168,7 @@ class IntroductionComponent extends BaseComponent {
 			$this->getPresenter()->redirect("Default:feed", true);
 		} else {
 			// Show error that same account (probably nick) exists
-			$this->flashMessage(System::translate("Account with same nickname is already registered."));
+			$this->flashMessage(System::translate("An account with the same nickname is already registered."));
 		}
 	}
 
@@ -206,7 +206,7 @@ class IntroductionComponent extends BaseComponent {
 			$this->getPresenter()->redirect("Default:feed", true);
 		} else {
 			// Show error that same account (probably nick) exists
-			$this->flashMessage(System::translate("Account with same nickname is already registered."));
+			$this->flashMessage(System::translate("An account with the same nickname is already registered."));
 		}
 	}
 
@@ -232,9 +232,9 @@ class IntroductionComponent extends BaseComponent {
 		$form = new BaseForm;
 		$form->getElementPrototype()->setId("sign");
 		$form->addGroup("Forgotten password");
-		$form->addText("email", "Email")
-			->addRule(Form::EMAIL, "Please fill correct email.")
-			->addRule(Form::FILLED, "Please fill the email.");
+		$form->addText("email", "E-mail")
+			->addRule(Form::EMAIL, "Please fill the correct e-mail.")
+			->addRule(Form::FILLED, "Please fill the e-mail.");
 		$form->addSubmit("submitted", "Proceed");
 		$form->onSubmit[] = array($this, "forgottenFormSubmitted");
 		return $form;
@@ -244,11 +244,11 @@ class IntroductionComponent extends BaseComponent {
 		$form = new BaseForm;
 		$form->getElementPrototype()->setId("sign");
 		$form->addGroup("Renew password");
-		$form->addText("email", "Email")
-			->addRule(Form::EMAIL, "Please fill correct email.")
-			->addRule(Form::FILLED, "Please fill the email.");
+		$form->addText("email", "E-mail")
+			->addRule(Form::EMAIL, "Please fill the correct e-mail.")
+			->addRule(Form::FILLED, "Please fill the e-mail.");
 		$form->addText("hash", "Code")
-			->addRule(Form::FILLED, "Please fill correct code.");
+			->addRule(Form::FILLED, "Please fill the correct code.");
 		$form->addSubmit("submitted", "Finish");
 		$form->onSubmit[] = array($this, "renewFormSubmitted");
 		return $form;
@@ -272,15 +272,15 @@ class IntroductionComponent extends BaseComponent {
 		$form = new BaseForm($this, $name);
 		$form->addGroup("Sign Up");
 		$form->getElementPrototype()->setId("sign");
-		$form->addText("email", "Email")
-			->addRule(Form::EMAIL, "Please fill correct email.")
-			->addRule(Form::FILLED, "Please fill the email.");
+		$form->addText("email", "E-mail")
+			->addRule(Form::EMAIL, "Please fill the correct e-mail.")
+			->addRule(Form::FILLED, "Please fill the e-mail.");
 		$form->addText("nickname", "Nickname")
 			->addRule(Form::FILLED, "Please fill the nickname.");
 		$form->addPassword("password", "Password")
 			->addRule(Form::FILLED, "Please fill the password.");
 		$form->addPassword("password2", "Password again")
-			->addRule(Form::FILLED, "Please fill the second password for check.")
+			->addRule(Form::FILLED, "Please fill the second password to check it.")
 			->addConditionOn($form["password"], Form::FILLED)
 			->addRule(Form::EQUAL, "Passwords have to match!", $form["password"]);
 		$form->addSpamProtection();
@@ -327,11 +327,11 @@ class IntroductionComponent extends BaseComponent {
 			$mail->setBody($template);
 			$mail->send();
 			// Presmerovat na renew
-			$this->flashMessage(System::translate("The code was sent to account email address."));
+			$this->flashMessage(System::translate("The code was sent to an account e-mail address."));
 			$this->state = "renew";
 			$this->invalidateControl();
 		} else {
-			$form->addError("User with this email address do not exists. Please check for mistakes.");
+			$form->addError("No user with this e-mail address exists. Please check for mistakes.");
 		}
 	}
 
@@ -356,7 +356,7 @@ class IntroductionComponent extends BaseComponent {
 				$mail->setBody($template);
 				$mail->send();
 				// Presmerovat na login
-				$this->flashMessage(System::translate("Your new password was sent to account email address."));
+				$this->flashMessage(System::translate("Your new password was sent to an account e-mail address."));
 				$this->state = "login";
 				$this->invalidateControl();
 			} catch (InvalidStateException $e) {
@@ -370,7 +370,7 @@ class IntroductionComponent extends BaseComponent {
 				}
 			}
 		} else {
-			$form->addError("User with this email address do not exists. Please check for mistakes.");
+			$form->addError("No user with this e-mail address exists. Please check for mistakes.");
 		}
 	}
 
@@ -415,7 +415,7 @@ class IntroductionComponent extends BaseComponent {
 					$this->facebook->destroyLoginData();
 				} else {
 					// This twitter id is already connected to some account
-					$form->addError("This facebook account is already connected to an account.");
+					$form->addError("This Facebook account is already connected to an account.");
 				}
 			}
 		}
@@ -462,7 +462,7 @@ class IntroductionComponent extends BaseComponent {
 					$this->twitter->destroyLoginData();
 				} else {
 					// This twitter id is already connected to some account
-					$form->addError("This twitter account is already connected to an account.");
+					$form->addError("This Twitter account is already connected to an account.");
 				}
 			}
 		}
@@ -507,7 +507,7 @@ class IntroductionComponent extends BaseComponent {
 			$user = Leganto::users()->getInserter()->insert($user);
 		} else {
 			$user = -1;
-			$form->addError("Account with same nickname or email is already registered.");
+			$form->addError("An account with the same nickname or e-mail is already registered.");
 		}
 		if ($user != -1) {
 			$user = Leganto::users()->getSelector()->find($user);
@@ -541,7 +541,7 @@ class IntroductionComponent extends BaseComponent {
 			$this->getPresenter()->flashMessage(System::translate("Thanks for your registration."), "success");
 			$this->getPresenter()->redirect("Default:feed", true);
 		} else {
-			$form->addError("Account with same nickname or email is already registered.");
+			$form->addError("An account with the same nickname or e-mail is already registered.");
 		}
 	}
 

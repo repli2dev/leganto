@@ -7,7 +7,7 @@
 		{if $user->sex != NULL || $user->birthyear != NULL}
 			<p>
 				{if $user->sex != NULL}
-					<strong>Sex:</strong>
+					<strong>{_"Sex"}:</strong>
 					{if $user->sex == "female"}
 						{_"Female"}
 					{else}
@@ -16,18 +16,18 @@
 					<br />
 				{/if}
 				{if $user->birthyear != NULL}
-				<strong>Birth year:</strong> {$user->birthyear}<br />
+				<strong>{_"Birth year"}:</strong> {$user->birthyear}<br />
 				{/if}
 			</p>
 		{/if}
 		<div class="clear">&nbsp;</div>
 		{if $user->about != NULL}
-			<h2>About</h2>
+			<h2>{_"About"}</h2>
 			{!$user->about|texySafe}
 		{/if}
 	</div>
 	<div class="clear">&nbsp;</div>
-	<h2>Opinions</h2>
+	<h2>{_"Opinions"}</h2>
 	@{widget opinionList}
 
 {/block}
