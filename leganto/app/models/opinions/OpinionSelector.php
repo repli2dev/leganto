@@ -54,9 +54,13 @@ class OpinionSelector implements ISelector {
 		if ($book->getId() == NULL) {
 			throw new NullPointerException("book:id");
 		}
+		return dibi::dataSource("SELECT * FROM [view_opinion] WHERE [id_book_title] = %i", $book->getId(), " AND [id_language] = %i", $book->languageId);
+/*
+		It doesn't work
 		if (!empty($user) && $user->getId() == NULL) {
 			throw new NullPointerException("user:id");
 		}
+
 		// In case that user does not have any opinions cause the same view as for unregistered user
 		if (isSet($user) && count($this->findAllByUser($user)) == 0) {
 			unset($user);
@@ -66,6 +70,8 @@ class OpinionSelector implements ISelector {
 		} else {
 			return dibi::dataSource("SELECT * FROM [view_similar_opinion] WHERE [id_book_title] = %i", $book->getId(), " AND [id_language] = %i", $book->languageId, " AND [id_user_from] = %i", $user->getId());
 		}
+
+ */
 	}
 
 	/**
