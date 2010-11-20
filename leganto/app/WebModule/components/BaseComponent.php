@@ -25,7 +25,7 @@ abstract class BaseComponent extends Control {
 	protected function createTemplate() {
 		$template = parent::createTemplate();
 
-		$componentName = strtr($this->getClass(), array("Component" => ""));
+		$componentName = strtr($this->getReflection()->getName(), array("Component" => ""));
 
 		$template->setFile(
 			dirname(__FILE__) . "/" .
@@ -37,7 +37,7 @@ abstract class BaseComponent extends Control {
 	}
 
 	protected function getPath() {
-		$componentName = strtr($this->getClass(), array("Component" => ""));
+		$componentName = strtr($this->getReflection()->getName(), array("Component" => ""));
 		return dirname(__FILE__) . "/" . $componentName . "/";
 	}
 

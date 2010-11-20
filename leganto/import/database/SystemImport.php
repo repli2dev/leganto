@@ -27,7 +27,8 @@ class SystemImport implements IImportable
 	    "preader"               => "en_US",
             "leganto"               => "en_US",
 	    "leganto.yavanna.cz"    => "en_US",
-	    "ctenari.cz"            => "cs_CZ"
+	    "ctenari.cz"            => "cs_CZ",
+	    "leganto.cz"            => "cs_CZ"
 	);
 	foreach($domains AS $domain => $language) {
 	    $this->connection->insert("domain", array(

@@ -14,7 +14,7 @@ $author = Leganto::authors()->getSelector()->find(5);
 $help = $author->firstname;
 $author->firstname = $author->lastname;
 $author->lastname = $help;
-//$author->persist();
+$author->persist();
 
 // Sergej Vasil'jevič Luk'janenko
 $author = Leganto::authors()->getSelector()->find(619);
