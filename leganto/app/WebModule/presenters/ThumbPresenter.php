@@ -20,6 +20,7 @@ class Web_ThumbPresenter extends Presenter {
 	 * @param int $height Height of image
 	 */
 	public function renderResize($path, $w = NULL, $h = NULL) {
+		error_reporting(0);
 		if (empty($path)) {
 			throw new NullPointerException("Specify path.");
 		}
