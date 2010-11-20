@@ -5,9 +5,9 @@
 	    {foreach $shelves AS $shelf}
 		<li>
 		    <span class="control">
-			<?php $confirm = System::translate("Are you sure you want to remove a book from shelf")." ".$shelf->name; ?>
+			<?php $confirm = System::translate("Are you sure you want to remove a book from shelf %s?", $shelf->name); ?>
 			{assign link    => $component->link('removeFromShelf', $book->getId(), $shelf->getId())}
-			<a onclick="return confirm('{$confirm}')" href="{!$link}">
+			<a onclick="return confirm('{!$confirm}')" href="{!$link}">
 			    <img src="{$baseUri . 'img/ico/delete.png'}" alt="{_'Delete'}" />
 			</a>
 		    </span>

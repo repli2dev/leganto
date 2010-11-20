@@ -47,11 +47,11 @@ class GettextTranslator extends Object implements ITranslator {
 	 * @param int count (positive number)
 	 * @return string
 	 */
-	public function translate($message, $count = 1) {
+	public function translate($message, $params = 1) {
 		$message = (string) $message;
 		if (!empty($message) && isset($this->dictionary[$message])) {
 			$word = $this->dictionary[$message];
-			if ($count === NULL) $count = 1;
+			$count = 1;
 
 			$s = preg_replace('/([a-z]+)/', '$$1', "n=$count;" . $this->meta['Plural-Forms']);
 			eval($s);

@@ -38,3 +38,6 @@ $author->persist();
 $book = Leganto::books()->getSelector()->find(60);
 $book->title = "Kronika rodu Spiderwicků";
 $book->persist();
+
+// Discussion when opinion is empty
+// SELECT DISTINCT (follow) FROM  `reader_discussion` LEFT JOIN reader_opinion ON follow = reader_opinion.book WHERE TYPE =  'book' AND reader_opinion.id IS NULL

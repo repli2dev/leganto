@@ -129,12 +129,16 @@ msgid "Are you sure you want to delete a shelf"
 msgstr "Jste si jistý/á, že chcete smazat tuto poličku"
 
 # APP_DIR/WebModule/presenters/AuthorPresenter.php:100
+msgid "Are you sure you want to delete a shelf %s?"
+msgstr "Jste si jistý/á, že chcete smazat poličku %s?"
+
+# APP_DIR/WebModule/presenters/AuthorPresenter.php:100
 msgid "Are you sure you want to delete this author?"
 msgstr "Jste si jistý/á, že chcete tohoto autora smazat?"
 
 # APP_DIR/WebModule/presenters/AuthorPresenter.php:100
-msgid "Are you sure you want to remove a book from shelf"
-msgstr "Jste si jistý/á, že chcete odebrat knihu z poličky"
+msgid "Are you sure you want to remove a book from shelf %s?"
+msgstr "Jste si jistý/á, že chcete odebrat knihu z poličky %s?"
 
 # APP_DIR/WebModule/components/InsertingBook/InsertingBookComponent.php:156
 # APP_DIR/WebModule/presenters/SearchPresenter.php:134

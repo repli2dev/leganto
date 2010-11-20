@@ -25,7 +25,7 @@ $(document).ready(function(){
 	{$shelf->name|hardTruncate:40}
 	{if Environment::getUser()->isAllowed(Resource::create($shelf), Action::EDIT)}
 	    <span class="control">
-		{assign confirm => System::translate("Are you sure you want to delete a shelf").": ".$shelf->name}
+		<?php $confirm = System::translate("Are you sure you want to delete a shelf %s?",$shelf->name); ?>
 		{assign link    => $component->link('remove', $shelf->getId())}
 		<a href="{plink User:editShelf, System::user()->getId(), $shelf->getId()}" title="{_'Edit'}">
 		    <img src="{$baseUri . 'img/ico/edit.png'}" alt="{_'Edit'}" />

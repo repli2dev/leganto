@@ -23,7 +23,7 @@ class UsersImport extends DatabaseTableImport {
 					))->execute();
 
 			$this->getDestination()->insert("shelf", array(
-					"id_shelf"	=> $user["id"] + 3000,		// HACK
+					"id_shelf"	=> $user["id"],		// HACK
 					"id_user"	=> $user["id"],
 					"type"		=> "wanted",
 					"name"		=> "Chci si přečíst",

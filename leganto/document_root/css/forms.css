@@ -72,8 +72,8 @@ input.button {
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
 	background: #F9E599;
-	font-size: 15px;
 	font-weight: bold;
+	cursor: pointer;
 }
 input.button:active {
 	background: #F5D362;

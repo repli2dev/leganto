@@ -11,10 +11,10 @@ $destination = dibi::connect($config, "destination");
 
 // SOURCE
 $config = new Config();
-$config->add("host", "localhost");
+$config->add("host", "zimodej.cz");
 $config->add("database", "ctenari");
-$config->add("username", "root");
-$config->add("password", "");
+$config->add("username", "ctenari");
+$config->add("password", "Vmvt8jsvt0.");
 $config->add("charset", "utf8");
 $source = dibi::connect($config, "source");
 
@@ -30,6 +30,7 @@ $opinions   = new OpinionsImport($source, $destination);
 $tags       = new TagsImport($source, $destination);
 $discussions= new DiscussionImport($source, $destination);
 $following  = new FollowingImport($source, $destination);
+$readlist   = new ShelvesImport($source, $destination);
 
 Debug::timer();
 //$schema->import();
@@ -42,6 +43,7 @@ Debug::timer();
 //$tags->import();
 //$discussions->import();
 //$following->import();
+$readlist->import();
 
 echo "-------------------------------------------";
 echo "\nELAPSED TIME: ".Debug::timer()."\n";

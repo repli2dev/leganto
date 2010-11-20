@@ -16,14 +16,14 @@ class Web_BookPresenter extends Web_BasePresenter {
 
 	public function renderDefault($book, $edition = NULL) {
 		// Opinions
+		$opinions = Leganto::opinions()->getSelector()
+			->findAllByBook($this->getBook())
+			->where("[content] != ''")
+			->applyLimit(5);
 		$this->getComponent("opinionList")->setLimit(5);
 		$this->getComponent("opinionList")->showPaginator(FALSE);
-		$this->getComponent("opinionList")->setSource(
-				Leganto::opinions()->getSelector()
-				->findAllByBook($this->getBook())
-				->where("[content] != ''")
-				->applyLimit(5)
-		);
+		$this->getComponent("opinionList")->setSource($opinions);
+		$this->getTemplate()->opinionCount = $opinions->count();
 		$this->getTemplate()->bookId = $this->getBook()->getId();
 		// Editions
 		$this->getComponent("editionList")->setSource(
@@ -104,11 +104,11 @@ class Web_BookPresenter extends Web_BasePresenter {
 	}
 
 	public function renderOpinions($book) {
+		$opinions = Leganto::opinions()->getSelector()
+				->findAllByBook($this->getTemplate()->book, System::user());
 		$this->getTemplate()->book = $this->getBook();
-		$this->getComponent("opinionList")->setSource(
-				Leganto::opinions()->getSelector()
-				->findAllByBook($this->getTemplate()->book, System::user())
-		);
+		$this->getComponent("opinionList")->setSource($opinions);
+		$this->getTemplate()->opinionCount = $opinions->count();
 		$this->setPageTitle(System::translate("Opinions") . ": " . $this->getTemplate()->book->title);
 		$this->setPageDescription(System::translate("Opinions on a certain book from all users, decide if it is worth reading!"));
 		$this->setPageKeywords(System::translate("opinion, other users, how to decide what to read"));
