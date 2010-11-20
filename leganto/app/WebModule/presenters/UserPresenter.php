@@ -124,6 +124,7 @@ class Web_UserPresenter extends Web_BasePresenter {
 		$this->getComponent("userList")->setSource(
 				Leganto::users()->getSelector()
 				->findAllSimilar($this->getUserEntity())
+				->applyLimit(12)
 		);
 	}
 
