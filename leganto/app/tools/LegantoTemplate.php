@@ -24,7 +24,7 @@ final class LegantoTemplate {
 	 */
 	public static function loadTemplate(ITemplate $template) {
 		// register filters
-		$template->registerFilter('CurlyBracketsFilter::invoke');
+		$template->registerFilter(new LatteFilter);
 
 		// register custom helpers
 		$template->registerHelper("date", Helpers::getHelper('date'));
