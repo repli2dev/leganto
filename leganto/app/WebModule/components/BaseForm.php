@@ -36,6 +36,7 @@ class BaseForm extends AppForm {
 		$renderer->wrappers['control']['.textarea'] = 'textarea';
 		$renderer->wrappers['control']['.checkbox'] = 'checkbox';
 		$renderer->wrappers['control']['.radio'] = 'radio';
+		$renderer->wrappers['control']['.file'] = '';
 		return $form;
 	}
 
