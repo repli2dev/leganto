@@ -229,7 +229,7 @@ class Web_SettingsPresenter extends Web_BasePresenter {
 			$values = $form->getValues();
 			// Firstly check if user is not trying to change e-mail
 			if($user->email != $values["email"] && $user->password != UserAuthenticator::passwordHash($values["old"])) {
-				$form->addError("For changing your e-mail address you have to enter your current and new passwords.");
+				$form->addError(System::translate("For changing your e-mail address you have to enter your current and new passwords."));
 				return;
 			}
 			$user->email = $values["email"];

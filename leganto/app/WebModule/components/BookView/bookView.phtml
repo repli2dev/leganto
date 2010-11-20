@@ -31,21 +31,21 @@
     {if !empty($edition)}
 		<p>
 			{if $edition->isbn10 != NULL}
-				<strong>ISBN:</strong>&nbsp;
+				<strong>{_'ISBN'}:</strong>&nbsp;
 				{$edition->isbn10}
 				<br />
 			{/if}
 			{if $edition->isbn13 != NULL}
-				<strong>ISBN:</strong>&nbsp;
+				<strong>{_'ISBN'}:</strong>&nbsp;
 				{$edition->isbn13}
 				<br />
 			{/if}
 			{if $edition->pages != NULL}
-				<strong>Pages:</strong>&nbsp;{$edition->pages}
+				<strong>{_'Pages'}:</strong>&nbsp;{$edition->pages}
 				<br />
 			{/if}
 			{if $edition->published}
-				<strong>Published:</strong>&nbsp;{$edition->published}
+				<strong>{_'Published'}:</strong>&nbsp;{$edition->published}
 			{/if}
 		</p>
     {/if}
