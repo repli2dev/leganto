@@ -200,6 +200,9 @@ a img {
 	border: 1px solid #F5D25A;
 	margin-right: 10px;
 }
+#cover img {
+	width: 150px;
+}
 #cover .rating, #cover .stats {
 	opacity: .6;
 	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=60)";
