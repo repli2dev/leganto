@@ -40,6 +40,7 @@ $router = $application->getRouter();
 $router[] = ApiModule::createRouter();
 $router[] = TestModule::createRouter();
 $router[] = WebModule::createRouter();
+$router[] = CronModule::createRouter();
 
 // Step 5: Database connection
 // lazy connect should be enabled in config.ini
