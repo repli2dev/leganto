@@ -54,7 +54,8 @@ class OpinionSelector implements ISelector {
 		if ($book->getId() == NULL) {
 			throw new NullPointerException("book:id");
 		}
-		return dibi::dataSource("SELECT * FROM [view_opinion] WHERE [id_book_title] = %i", $book->getId(), " AND [id_language] = %i", $book->languageId);
+		// FIXME: odstranit zavislost na tride System
+		return dibi::dataSource("SELECT * FROM [view_opinion] WHERE [id_book_title] = %i", $book->getId(), " AND [id_language] = %i", System::domain()->idLanguage);
 /*
 		It doesn't work
 		if (!empty($user) && $user->getId() == NULL) {

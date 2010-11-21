@@ -8,8 +8,8 @@
 			<a href="{plink Book:default,$book->getId()}" title="{$book->title}{if !empty($book->subtitle)}: {$book->subtitle}{/if}" class="book-title">{$book->title}{if !empty($book->subtitle)}: {$book->subtitle}{/if}</a>
 		</div>
 		<div class="content">
-		<strong><a href="{plink User:default, $opinions[$book->bookNode]->userId}" title="{$opinions[$book->bookNode]->userName}">{$opinions[$book->bookNode]->userName}</a></strong>:
-		{!=String::truncate($opinions[$book->bookNode]->content,120)|texySafe|stripTags}
+		<strong><a href="{plink User:default, $opinions[$book->getId()]->userId}" title="{$opinions[$book->getId()]->userName}">{$opinions[$book->getId()]->userName}</a></strong>:
+		{!=String::truncate($opinions[$book->getId()]->content,120)|texySafe|stripTags}
 		</div>
 		<div class="clear"></div>
 	</div>

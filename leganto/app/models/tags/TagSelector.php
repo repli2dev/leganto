@@ -28,7 +28,7 @@ class TagSelector implements ISelector {
 		}
 		return dibi::dataSource("SELECT * FROM [view_book_tag]")
 			->where("[id_book] = %i", $book->bookNode)
-			->where("[id_language] = %i", $book->languageId)
+			->where("[id_language] = %i", System::domain()->idLanguage) // FIXME: odstranit zavislost na tride System
 			->orderBy("name");
 	}
 
