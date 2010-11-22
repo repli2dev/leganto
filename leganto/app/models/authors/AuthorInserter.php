@@ -25,7 +25,8 @@ class AuthorInserter implements IInserter {
 		} elseif ($entity->type == AuthorEntity::PERSON) {
 			$firstname = $entity->firstname;
 			$lastname = $entity->lastname;
-			if (!empty($fistname)) {
+			// TODO: Check for non deterministic behaviour (add else branches for first_name = "" etc?)
+			if (!empty($firstname)) {
 				$source->where("[first_name] = %s", $firstname);
 			}
 			if (!empty($lastname)) {

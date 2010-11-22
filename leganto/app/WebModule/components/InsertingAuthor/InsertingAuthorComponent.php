@@ -38,11 +38,9 @@ class InsertingAuthorComponent extends BaseComponent {
 		if (empty($values["id_author"])) {
 			$author = Leganto::authors()->createEmpty();
 			$flashMessage = System::translate("New author has been successfuly inserted.");
-			$logMessage = "INSERT AUTHOR '" . $author->getId() . "'";
 		} else {
 			$author = Leganto::authors()->getSelector()->find($values["id_author"]);
 			$flashMessage = System::translate("Author has been successfuly updated.");
-			$logMessage = "UPDATE AUTHOR '" . $author->getId() . "'";
 		}
 
 		$author->type = $values["type"];
@@ -55,6 +53,12 @@ class InsertingAuthorComponent extends BaseComponent {
 		$author->inserted = new DateTime;
 		try {
 			$author->persist();
+			// Filling of log messages has to be after persisting
+			if (empty($values["id_author"])) {
+				$logMessage = "INSERT AUTHOR '" . $author->getId() . "'";
+			} else {
+				$logMessage = "UPDATE AUTHOR '" . $author->getId() . "'";
+			}
 			System::log($logMessage);
 			$this->getPresenter()->flashMessage($flashMessage, 'success');
 		} catch (Exception $e) {
