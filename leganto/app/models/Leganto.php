@@ -132,4 +132,11 @@ class Leganto {
 		return SimpleEntityFactory::createEntityFactory("connection");
 	}
 
+	/**
+	 * @return IEntityFactory
+	 */
+	public static function messages() {
+		return SimpleEntityFactory::createEntityFactory("message");
+	}
+
 }

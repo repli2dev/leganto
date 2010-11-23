@@ -16,7 +16,7 @@
 					<img src="/img/ico/reader.png" alt="{_'Your profile'}" />
 					<span>{$user->nickname|hardTruncate:20}</span>
 				</a>
-				<a href="{plink Settings:}" title="Settings"><img src="/img/ico/settings.png" /><span>{_'Settings'}</span></a>
+				<a href="{plink Settings:}" title="{_'Settings'}"><img src="/img/ico/settings.png" /><span>{_'Settings'}</span></a>
 				<a class="logout" href="{link logout}" title="{_'Log out'}"><img src="/img/ico/logout.png" /></a>
 		{else}
 		<a href="{$presenter->link('Default:',TRUE)}" title="{_"Log in"}">

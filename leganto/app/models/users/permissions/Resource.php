@@ -29,6 +29,8 @@ class Resource implements IResource {
 
 	const USER = "user";
 
+	const MESSAGE = "message";
+
 	private $ownerId;
 	private $resource;
 

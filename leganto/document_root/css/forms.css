@@ -188,6 +188,15 @@ ul.error {
 .tags {
 	width: auto;
 }
+/******************************************************************************/
+#message-form-wrapper input.button {
+	margin-left: 150px;
+}
+#message-form-wrapper input,
+#message-form-wrapper textarea {
+	margin-left: 20px;
+	margin-bottom: 10px;
+}
 
 /***************************** POSTS ******************************************/
 #post-form-wrapper label {

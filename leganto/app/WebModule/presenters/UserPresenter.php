@@ -128,6 +128,26 @@ class Web_UserPresenter extends Web_BasePresenter {
 		);
 	}
 
+	public function renderMessages($toUser = null) {
+		if (!Environment::getUser()->isAuthenticated()) {
+			$this->redirect("Default:unauthorized");
+		} else {
+			$this->setPageTitle(System::translate("Private messaging"));
+			$this->setPageDescription(System::translate("You can write to other users and change your thought privately. However you have to known the nickname of user you want to write to."));
+			$this->setPageKeywords(System::translate("user, private messaging, private message, write to other users, chat, similar users"));
+			// For submenu of current logged user
+			$this->user = System::user();
+			// Fetch data
+			$this->getComponent("messageList")->setSource(
+				Leganto::messages()->getSelector()
+				->findAllWithUser($this->getUserEntity())
+			);
+			if($toUser != NULL) {
+				$this->getComponent("messageList")->setRecipient($toUser);
+			}
+		}
+	}
+
 	public function renderIcon($id) {
 		if (empty($id)) {
 			$this->redirect("Default:");
@@ -215,9 +235,11 @@ class Web_UserPresenter extends Web_BasePresenter {
 			} else {
 				$submenu->addEvent("toogleFollow", System::translate("Follow"), $this->getUserEntity()->getId());
 			}
+			$submenu->addEvent("messages", System::translate("Write message"), $this->getUserEntity()->getId());
 		}
 		if (Environment::getUser()->isAuthenticated() && System::user()->getId() == $this->getUserEntity()->getId()) {
 			$submenu->addEvent("insertShelf", System::translate("Insert a new shelf"), $this->getUserEntity()->getId());
+			$submenu->addEvent("messages", System::translate("Messaging"));
 		}
 		return $submenu;
 	}
@@ -232,6 +254,9 @@ class Web_UserPresenter extends Web_BasePresenter {
 	protected function createComponentUserList($name) {
 		$list = new UserListComponent($this, $name);
 		return $list;
+	}
+	protected function createComponentMessageList($name) {
+		return new MessageListComponent($this, $name);
 	}
 
 	// PRIVATE METHODS

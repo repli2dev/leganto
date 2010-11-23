@@ -317,6 +317,12 @@ a img {
 .feed div.item-post {
 	background: #F6F6F6 url('/img/ico/feed-post.png') no-repeat 98% 50%;
 }
+.list div.mail-out {
+	background: #F6F6F6 url('/img/ico/mail-out.png') no-repeat 98% 50%;
+}
+.list div.mail-in {
+	background: #F6F6F6 url('/img/ico/mail-in.png') no-repeat 98% 50%;
+}
 /************************** HELP **********************************************/
 .help-category {
 	line-height: 2em;

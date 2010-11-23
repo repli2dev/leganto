@@ -1,0 +1,37 @@
+<div class="posts list">
+    @{if Environment::getUser()->isAuthenticated()}
+    <h2>{_'New message'}</h2>
+	<div id="message-form-wrapper">
+	    @{widget form}
+	</div>
+    @{/if}
+
+    <h2>{_'Messages'}</h2>
+    @{if !isSet($messages) || count($messages) == 0}
+	<p>{_'You do not have any messages.'}</p>
+    @{else}
+	    @{foreach $messages AS $message}
+			<div class="clear"></div>
+			<div class="item {if System::user()->getId() == $message->idUserFrom}mail-out{else}mail-in{/if}">
+				<div class="info-side">
+					<img class="icon" src="{$message->idUserFrom, 50|userico}" />
+					<span class="date">{$message->inserted|date}</span>
+				</div>
+				<div clas="info-top">
+					{_'Message from'}: <a href="{plink User:default, $message->idUserFrom}" title="{$control->getUserEntity($message->idUserFrom)}->nickname">{$control->getUserEntity($message->idUserFrom)->nickname|hardTruncate, 20}</a>
+				</div>
+				<div class="content">
+					{!=$message->content|texySafe}
+				</div>
+				<div class="info-bottom">
+					<a class="control" href="{plink User:messages, $message->idUserFrom}" title="{_"Reply"}">{_"Reply"}</a>
+				</div>
+				<div class="clear"></div>
+				
+			</div>
+	    @{/foreach}
+	@{/if}
+
+</div>
+
+@{widget paginator}

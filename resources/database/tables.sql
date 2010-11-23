@@ -305,4 +305,16 @@ CREATE TABLE `user_log` (
 	`ip` VARCHAR(39) NOT NULL,
 	`browser` TEXT NOT NULL,
 	FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`) ON UPDATE CASCADE ON DELETE CASCADE
-) ENGINE = MYISAM COMMENT = 'Table with user actions log' 
+) ENGINE = InnoDB COMMENT = 'Table with user actions log'
+
+DROP TABLE IF EXISTS `message`;
+CREATE TABLE `message` (
+	`id_message` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	`id_user_from` INT UNSIGNED NOT NULL,
+	`id_user_to` INT UNSIGNED NOT NULL,
+	`text` TEXT NOT NULL,
+	`read` TINYINT(1) NULL DEFAULT  '0',
+	`inserted` DATETIME NOT NULL COMMENT 'cas, kdy byla polozka vlozena do systemu',
+	FOREIGN KEY (`id_user_from`) REFERENCES `user` (`id_user`) ON UPDATE CASCADE ON DELETE CASCADE,
+	FOREIGN KEY (`id_user_to`) REFERENCES `user` (`id_user`) ON UPDATE CASCADE ON DELETE CASCADE
+) ENGINE = InnoDB COMMENT = 'Table with users private messages'

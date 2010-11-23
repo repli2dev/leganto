@@ -31,6 +31,7 @@ $tags       = new TagsImport($source, $destination);
 $discussions= new DiscussionImport($source, $destination);
 $following  = new FollowingImport($source, $destination);
 $readlist   = new ShelvesImport($source, $destination);
+$messages   = new MessagesImport($source, $destination);
 
 Debug::timer();
 //$schema->import();
@@ -43,7 +44,8 @@ Debug::timer();
 //$tags->import();
 //$discussions->import();
 //$following->import();
-$readlist->import();
+//$readlist->import();
+$messages->import();
 
 echo "-------------------------------------------";
 echo "\nELAPSED TIME: ".Debug::timer()."\n";
