@@ -97,15 +97,18 @@
 
 		<div id="footer">
 			<div class="wrapper">
-				&copy; <a href="{$baseUri}" title="Leganto - {_'Internet reading lists'}">{=System::domain()->uri}</a> - {_'Internet reading lists'} - <a href="{link Help:text, 56}" title="{_'terms of use'}">{_'terms of use'}</a>
+				&copy; <a href="{$baseUri}" title="Leganto - {_'Internet reading lists'}">{=System::domain()->uri}</a> - {_'Internet reading lists'} - <a href="{link Help:text, 56}" title="{_'Terms of use'}">{_'Terms of use'}</a>
 				|
 				{assign email => System::domain()->email}
-				{_'contact us at'} <a href="mailto:{$email}">{$email}</a>
+				<a href="mailto:{$email}">{_'Contact us'}</a>
 				|
+				<a href="{plink Statistics:}">{_'Statistics'}</a>
 				{_'created by'}
 				<a href="http://jandrabek.cz" title="Jan Drábek">Jan Drábek</a>
 				&amp;
 				<a href="mailto:jan.papousek@gmail.com" title="Jan Papoušek">Jan Papoušek</a>
+				&amp;
+				<span title="Richard Šefr, Tereza Doležalová">{_'and others'}</span>.
 			</div>
 		</div>
 	</body>

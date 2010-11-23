@@ -127,6 +127,16 @@ class Web_SearchPresenter extends Web_BasePresenter {
 		$this->getComponent("helpList")->setSource($source);
 	}
 
+	public function renderAllBooks() {
+		$source = Leganto::books()->getSelector()->findAll()->orderBy("inserted","DESC");
+		$this->getComponent("searchList")->setSource($source);
+
+		$this->getTemplate()->title = System::translate("All books");
+		$this->setPageTitle(System::translate("All books"));
+		$this->setPageDescription(System::translate("This is page where you can find all books in the system."));
+		$this->setPageKeywords(System::translate("book, detail, graphs, opinions, tags, editions, isbn, pages"));
+	}
+
 	protected function createComponentSubmenu($name) {
 		$query = $this->getParam("query");
 		$submenu = new SubmenuComponent($this, $name);

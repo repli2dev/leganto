@@ -1,0 +1,9 @@
+@{extends ../layout.phtml}
+
+@{block #content}
+<div id="content">
+	{widget flashMessages}
+	<h2>{_'All books'}</h2>
+	<p>{_'All books sorted from the newest to the oldest.'}</p>
+	@{widget searchList}
+</div>

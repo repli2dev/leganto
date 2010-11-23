@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
 "PO-Revision-Date: \n"
-"Last-Translator: Jan Drabek <repli2dev@gmail.com>\n"
+"Last-Translator: Jan Drábek <repli2dev@gmail.com>\n"
 "Language-Team: Leganto team <info@leganto.cz>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
@@ -95,6 +95,17 @@ msgstr "Následně vám bude zasláno nové heslo. To můžete změnit v sekci N
 # APP_DIR/WebModule/components/Feed/feed.phtml:9
 msgid "All"
 msgstr "Vše"
+
+# APP_DIR/WebModule/components/Navigation/navigation.phtml:8
+# APP_DIR/WebModule/components/Navigation/navigation.phtml:8
+# APP_DIR/WebModule/templates/Default/topBooks.phtml:3
+# APP_DIR/WebModule/presenters/DefaultPresenter.php:42
+msgid "All books"
+msgstr "Všechny knihy"
+
+# APP_DIR/WebModule/templates/Search/allBooks.phtml:6
+msgid "All books sorted from the newest to the oldest."
+msgstr "Všechny knihy seřazené od nejnovější po nejstarší."
 
 # APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:171
 # APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:209
@@ -236,6 +247,10 @@ msgstr "Vybrat autora knihy."
 # APP_DIR/WebModule/templates/mails/forgottenPassword.phtml:7
 msgid "Code"
 msgstr "Kód"
+
+# APP_DIR/WebModule/templates/layout.phtml:83
+msgid "Contact us"
+msgstr "Kontaktujte nás"
 
 # APP_DIR/WebModule/components/TopicList/TopicListComponent.php:61
 msgid "Content"
@@ -1179,6 +1194,11 @@ msgstr "Nápověda"
 msgid "Tags"
 msgstr "Štítky"
 
+# APP_DIR/WebModule/templates/layout.phtml:80
+# APP_DIR/WebModule/templates/layout.phtml:80
+msgid "Terms of use"
+msgstr "Podmínky"
+
 # APP_DIR/WebModule/components/Search/SearchComponent.php:79
 msgid "Text to search"
 msgstr "Text k vyhledávání"
@@ -1381,6 +1401,10 @@ msgstr "Tento účet na Facebooku je již spojen s jiným účtem."
 msgid "This Twitter account is already connected to an account."
 msgstr "Tento účet na Twitteru je již spojen s jiným účtem."
 
+# APP_DIR/WebModule/presenters/SearchPresenter.php:136
+msgid "This is page where you can find all books in the system."
+msgstr "Na této stránce můžete najít všechny přidané knihy."
+
 # APP_DIR/WebModule/presenters/BookPresenter.php:40
 msgid "This is the detail of the book where you can find the most interesting data such as the book cover, tags, opinions, editions, related books etc."
 msgstr "Toto je detail knihy, kde můžete najít nejzajímavější data jako např. obal knihy, štítky, názory, edice, související knihy atd."
@@ -1467,6 +1491,10 @@ msgstr "Neautorizováno"
 msgid "Unfollow"
 msgstr "Přestat sledovat"
 
+# APP_DIR/WebModule/presenters/SettingsPresenter.php:169
+msgid "Unknown"
+msgstr "Neznámé"
+
 # APP_DIR/models/statistics/StatisticsGraphs.php:88
 msgid "Unspecified"
 msgstr "Neurčeno"
@@ -1549,6 +1577,11 @@ msgstr "Nejste vlastníkem. Operace nemůže být provedena."
 # APP_DIR/WebModule/presenters/BookPresenter.php:50
 msgid "You can add a new edition of this book on this page."
 msgstr "Na této stránce můžete přidat novou edici knihy."
+
+# APP_DIR/WebModule/templates/Book/insert.phtml:6
+# APP_DIR/WebModule/templates/Default/topBooks.phtml:5
+msgid "You can browse all books on our website on page"
+msgstr "Můžete procházet všechny přidané knihy na stránce"
 
 # APP_DIR/WebModule/templates/Settings/delete.phtml:5
 msgid "You can delete a connection to a social network on this page."
@@ -1670,6 +1703,10 @@ msgstr "Vaše nastavení bylo uloženo."
 msgid "add, edition, insert"
 msgstr "přidat, edice, vložit"
 
+# APP_DIR/WebModule/templates/layout.phtml:110
+msgid "and others"
+msgstr "a další"
+
 # APP_DIR/WebModule/templates/layout.phtml:7
 msgid "and our community, altogether."
 msgstr "a naší komunitou, společně."
@@ -1691,6 +1728,10 @@ msgid "book shelves, update, reorder, manipulation, books"
 msgstr "knižní poličky, doplnit, reorganizovat, manipulace, knihy"
 
 # APP_DIR/WebModule/presenters/BookPresenter.php:41
+msgid "book, detail, graphs, opinions, tags, editions, isbn, pages"
+msgstr "kniha, detail, grafy, názory, štítky, edice, isbn, stránky"
+
+# APP_DIR/WebModule/presenters/BookPresenter.php:41
 msgid "book, detail, graphs, opinions, tags, editions, isbn, pages, shelves, share to social network"
 msgstr "kniha, detail, grafy, názory, štítky, edice, isbn, stránky, poličky, sdílet na sociální síti"
 
@@ -1701,10 +1742,6 @@ msgstr "knihy, jak si vybrat knihu, co kamarádi čtou, co moji, kultura, o knih
 # APP_DIR/WebModule/components/OpinionList/opinionList.phtml:47
 msgid "comments"
 msgstr "komentářů"
-
-# APP_DIR/WebModule/templates/layout.phtml:83
-msgid "contact us at"
-msgstr "kontaktujte nás na"
 
 # APP_DIR/WebModule/templates/layout.phtml:85
 msgid "created by"
@@ -1757,6 +1794,14 @@ msgstr "sledující, sledovaní, profil uživatele, detail uživatele"
 # APP_DIR/WebModule/presenters/UserPresenter.php:79
 msgid "followers, following, user profile, user detail, users opinion"
 msgstr "sledující, sledovaní, profil uživatele, detail uživatele, názory uživatele"
+
+# APP_DIR/WebModule/presenters/RssPresenter.php:27
+msgid "has an opinion on the book"
+msgstr " má názor na knihu"
+
+# APP_DIR/WebModule/presenters/RssPresenter.php:35
+msgid "has contributed to the discussion"
+msgstr "přispěl(a) do diskuze"
 
 # APP_DIR/WebModule/presenters/SearchPresenter.php:109
 msgid "help section, search, find"
@@ -1817,11 +1862,6 @@ msgstr "sociální sítě, facebook, twitter, spravovat, upravit, doplnit, odstr
 # APP_DIR/WebModule/presenters/StatisticsPresenter.php:20
 msgid "statistics, graphs, number of books, number of opinions, number of users"
 msgstr "statistiky, grafy, počet knih, počet názorů, počet uživatelů"
-
-# APP_DIR/WebModule/templates/layout.phtml:80
-# APP_DIR/WebModule/templates/layout.phtml:80
-msgid "terms of use"
-msgstr "smluvní podmínky"
 
 # APP_DIR/WebModule/presenters/UserPresenter.php:122
 msgid "user, books, similarity, similar users, similar"

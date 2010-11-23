@@ -2,7 +2,7 @@
 
 @{block #subcontent}
     <div id="user-info">
-        <img class="icon" src="{$user->getId(),150|userico}" alt="{$user->nickname}" width="150" />
+        <img class="icon" src="{$user->getId(),150|userico}" alt="{$user->nickname}" />
         <h1>{$user->nickname}</h1>
 		{if $user->sex != NULL || $user->birthyear != NULL}
 			<p>

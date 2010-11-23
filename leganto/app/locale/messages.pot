@@ -1,11 +1,11 @@
 # Gettext keys exported by GettextExtractor
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2010-11-20T15:31:49+01:00\n"
+"POT-Creation-Date: 2010-11-23T14:33:46+01:00\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-# APP_DIR/WebModule/components/BaseForm.php:91
+# APP_DIR/WebModule/components/BaseForm.php:92
 msgid ""
 msgstr ""
 
@@ -41,8 +41,8 @@ msgstr ""
 msgid "A tag has to be filled."
 msgstr ""
 
-# APP_DIR/WebModule/templates/User/default.phtml:24
 # APP_DIR/WebModule/presenters/SettingsPresenter.php:173
+# APP_DIR/WebModule/templates/User/default.phtml:24
 msgid "About"
 msgstr ""
 
@@ -54,8 +54,8 @@ msgstr ""
 msgid "Add"
 msgstr ""
 
-# APP_DIR/WebModule/components/Edition/EditionComponent.php:32
 # APP_DIR/WebModule/presenters/BookPresenter.php:49
+# APP_DIR/WebModule/components/Edition/EditionComponent.php:32
 msgid "Add edition"
 msgstr ""
 
@@ -63,8 +63,8 @@ msgstr ""
 msgid "Add existing author"
 msgstr ""
 
+# APP_DIR/WebModule/presenters/BookPresenter.php:197
 # APP_DIR/WebModule/components/Edition/edition.phtml:0
-# APP_DIR/WebModule/presenters/BookPresenter.php:196
 msgid "Add new edition"
 msgstr ""
 
@@ -72,7 +72,7 @@ msgstr ""
 msgid "Add new social network"
 msgstr ""
 
-# APP_DIR/WebModule/presenters/BookPresenter.php:185
+# APP_DIR/WebModule/presenters/BookPresenter.php:186
 msgid "Add opinion"
 msgstr ""
 
@@ -83,6 +83,21 @@ msgstr ""
 # APP_DIR/WebModule/components/Feed/feed.phtml:6
 # APP_DIR/WebModule/components/Feed/feed.phtml:9
 msgid "All"
+msgstr ""
+
+# APP_DIR/WebModule/presenters/BookPresenter.php:181
+# APP_DIR/WebModule/presenters/SearchPresenter.php:134
+# APP_DIR/WebModule/presenters/SearchPresenter.php:135
+# APP_DIR/WebModule/templates/Book/insert.phtml:6
+# APP_DIR/WebModule/templates/Book/insert.phtml:6
+# APP_DIR/WebModule/templates/Default/topBooks.phtml:5
+# APP_DIR/WebModule/templates/Default/topBooks.phtml:5
+# APP_DIR/WebModule/templates/Search/allBooks.phtml:5
+msgid "All books"
+msgstr ""
+
+# APP_DIR/WebModule/templates/Search/allBooks.phtml:6
+msgid "All books sorted from the newest to the oldest."
 msgstr ""
 
 # APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:171
@@ -99,9 +114,9 @@ msgstr ""
 msgid "An error occured, the password you have entered is wrong."
 msgstr ""
 
+# APP_DIR/WebModule/presenters/BasePresenter.php:61
 # APP_DIR/WebModule/components/PostList/PostListComponent.php:51
 # APP_DIR/WebModule/components/BaseComponent.php:57
-# APP_DIR/WebModule/presenters/BasePresenter.php:61
 msgid "An unexpected error has occurred."
 msgstr ""
 
@@ -129,12 +144,12 @@ msgstr ""
 msgid "Are you sure you want to remove a book from shelf %s?"
 msgstr ""
 
+# APP_DIR/WebModule/presenters/SearchPresenter.php:144
 # APP_DIR/WebModule/components/InsertingBook/InsertingBookComponent.php:156
-# APP_DIR/WebModule/presenters/SearchPresenter.php:134
 msgid "Author"
 msgstr ""
 
-# APP_DIR/WebModule/components/InsertingAuthor/InsertingAuthorComponent.php:44
+# APP_DIR/WebModule/components/InsertingAuthor/InsertingAuthorComponent.php:43
 msgid "Author has been successfuly updated."
 msgstr ""
 
@@ -152,18 +167,18 @@ msgstr ""
 msgid "Avatar"
 msgstr ""
 
-# APP_DIR/WebModule/components/InsertingBook/InsertingBookComponent.php:132
 # APP_DIR/WebModule/presenters/SettingsPresenter.php:162
+# APP_DIR/WebModule/components/InsertingBook/InsertingBookComponent.php:132
 msgid "Basic information"
 msgstr ""
 
-# APP_DIR/WebModule/templates/User/default.phtml:18
 # APP_DIR/WebModule/presenters/SettingsPresenter.php:170
+# APP_DIR/WebModule/templates/User/default.phtml:18
 msgid "Birth year"
 msgstr ""
 
+# APP_DIR/WebModule/presenters/SearchPresenter.php:143
 # APP_DIR/WebModule/components/ShareBox/ShareBoxComponent.php:20
-# APP_DIR/WebModule/presenters/SearchPresenter.php:133
 msgid "Book"
 msgstr ""
 
@@ -189,8 +204,8 @@ msgstr ""
 msgid "Bookmark on Google"
 msgstr ""
 
-# APP_DIR/WebModule/components/Search/SearchComponent.php:68
 # APP_DIR/WebModule/presenters/AuthorPresenter.php:97
+# APP_DIR/WebModule/components/Search/SearchComponent.php:68
 msgid "Books"
 msgstr ""
 
@@ -202,7 +217,7 @@ msgstr ""
 msgid "Change"
 msgstr ""
 
-# APP_DIR/WebModule/presenters/BookPresenter.php:187
+# APP_DIR/WebModule/presenters/BookPresenter.php:188
 msgid "Change opinion"
 msgstr ""
 
@@ -227,6 +242,10 @@ msgstr ""
 msgid "Code"
 msgstr ""
 
+# APP_DIR/WebModule/templates/layout.phtml:102
+msgid "Contact us"
+msgstr ""
+
 # APP_DIR/WebModule/components/TopicList/TopicListComponent.php:61
 msgid "Content"
 msgstr ""
@@ -245,8 +264,8 @@ msgstr ""
 msgid "Create a new shelf"
 msgstr ""
 
-# APP_DIR/WebModule/components/TopicList/TopicListComponent.php:64
 # APP_DIR/WebModule/components/TopicList/topicList.phtml:20
+# APP_DIR/WebModule/components/TopicList/TopicListComponent.php:64
 msgid "Create a new topic"
 msgstr ""
 
@@ -258,9 +277,9 @@ msgstr ""
 msgid "Current password"
 msgstr ""
 
+# APP_DIR/WebModule/components/BookShelfControl/bookShelfControl.phtml:10
 # APP_DIR/WebModule/components/PostList/postList.phtml:20
 # APP_DIR/WebModule/components/PostList/postList.phtml:21
-# APP_DIR/WebModule/components/BookShelfControl/bookShelfControl.phtml:10
 # APP_DIR/WebModule/components/Shelves/shelves.phtml:32
 # APP_DIR/WebModule/components/Shelves/shelves.phtml:33
 # APP_DIR/WebModule/templates/Settings/connections.phtml:22
@@ -283,11 +302,11 @@ msgstr ""
 msgid "Did you know, that ...?"
 msgstr ""
 
+# APP_DIR/WebModule/presenters/DiscussionPresenter.php:28
+# APP_DIR/WebModule/presenters/SearchPresenter.php:145
 # APP_DIR/WebModule/components/Navigation/navigation.phtml:4
 # APP_DIR/WebModule/components/Navigation/navigation.phtml:4
 # APP_DIR/WebModule/templates/Discussion/default.phtml:3
-# APP_DIR/WebModule/presenters/DiscussionPresenter.php:28
-# APP_DIR/WebModule/presenters/SearchPresenter.php:135
 msgid "Discussion"
 msgstr ""
 
@@ -316,10 +335,10 @@ msgstr ""
 msgid "Don't worry about your password, it has been encrypted just after this message was sent."
 msgstr ""
 
+# APP_DIR/WebModule/presenters/SettingsPresenter.php:163
 # APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:235
 # APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:247
 # APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:275
-# APP_DIR/WebModule/presenters/SettingsPresenter.php:163
 msgid "E-mail"
 msgstr ""
 
@@ -328,24 +347,24 @@ msgstr ""
 msgid "Edit"
 msgstr ""
 
-# APP_DIR/WebModule/templates/Author/insert.phtml:4
 # APP_DIR/WebModule/presenters/AuthorPresenter.php:45
 # APP_DIR/WebModule/presenters/AuthorPresenter.php:99
+# APP_DIR/WebModule/templates/Author/insert.phtml:4
 msgid "Edit author"
 msgstr ""
 
-# APP_DIR/WebModule/presenters/BookPresenter.php:190
+# APP_DIR/WebModule/presenters/BookPresenter.php:191
 msgid "Edit book"
 msgstr ""
 
+# APP_DIR/WebModule/presenters/BookPresenter.php:59
 # APP_DIR/WebModule/components/Edition/EditionComponent.php:40
 # APP_DIR/WebModule/components/Edition/editEdition.phtml:0
-# APP_DIR/WebModule/presenters/BookPresenter.php:59
 msgid "Edit edition"
 msgstr ""
 
-# APP_DIR/WebModule/templates/User/editShelf.phtml:3
 # APP_DIR/WebModule/presenters/UserPresenter.php:93
+# APP_DIR/WebModule/templates/User/editShelf.phtml:3
 msgid "Edit shelf"
 msgstr ""
 
@@ -353,7 +372,7 @@ msgstr ""
 msgid "Edit the book"
 msgstr ""
 
-# APP_DIR/WebModule/presenters/BookPresenter.php:200
+# APP_DIR/WebModule/presenters/BookPresenter.php:201
 msgid "Edit this edition"
 msgstr ""
 
@@ -386,8 +405,8 @@ msgstr ""
 msgid "Facebook"
 msgstr ""
 
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:122
 # APP_DIR/WebModule/presenters/SettingsPresenter.php:137
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:122
 msgid "Facebook functions are not accessible right now. Please try it later."
 msgstr ""
 
@@ -412,7 +431,7 @@ msgstr ""
 msgid "Finish"
 msgstr ""
 
-# APP_DIR/WebModule/components/InsertingAuthor/InsertingAuthorComponent.php:101
+# APP_DIR/WebModule/components/InsertingAuthor/InsertingAuthorComponent.php:105
 msgid "First name"
 msgstr ""
 
@@ -420,7 +439,7 @@ msgstr ""
 msgid "Firstly check whether the book has been already inserted by someone else. Type the book title into the field bellow."
 msgstr ""
 
-# APP_DIR/WebModule/presenters/UserPresenter.php:215
+# APP_DIR/WebModule/presenters/UserPresenter.php:216
 msgid "Follow"
 msgstr ""
 
@@ -429,15 +448,15 @@ msgstr ""
 msgid "Followed"
 msgstr ""
 
-# APP_DIR/WebModule/templates/User/followers.phtml:3
 # APP_DIR/WebModule/presenters/UserPresenter.php:77
-# APP_DIR/WebModule/presenters/UserPresenter.php:209
+# APP_DIR/WebModule/presenters/UserPresenter.php:210
+# APP_DIR/WebModule/templates/User/followers.phtml:3
 msgid "Followers"
 msgstr ""
 
-# APP_DIR/WebModule/templates/User/following.phtml:3
 # APP_DIR/WebModule/presenters/UserPresenter.php:62
-# APP_DIR/WebModule/presenters/UserPresenter.php:208
+# APP_DIR/WebModule/presenters/UserPresenter.php:209
+# APP_DIR/WebModule/templates/User/following.phtml:3
 msgid "Following"
 msgstr ""
 
@@ -471,20 +490,20 @@ msgstr ""
 msgid "Good"
 msgstr ""
 
-# APP_DIR/WebModule/components/InsertingAuthor/InsertingAuthorComponent.php:89
+# APP_DIR/WebModule/components/InsertingAuthor/InsertingAuthorComponent.php:93
 msgid "Group"
 msgstr ""
 
-# APP_DIR/WebModule/components/InsertingAuthor/InsertingAuthorComponent.php:107
+# APP_DIR/WebModule/components/InsertingAuthor/InsertingAuthorComponent.php:111
 msgid "Group name"
 msgstr ""
 
+# APP_DIR/WebModule/presenters/HelpPresenter.php:16
+# APP_DIR/WebModule/presenters/SearchPresenter.php:147
 # APP_DIR/WebModule/components/Navigation/navigation.phtml:9
 # APP_DIR/WebModule/components/Navigation/navigation.phtml:9
 # APP_DIR/WebModule/components/Search/SearchComponent.php:72
 # APP_DIR/WebModule/templates/Help/default.phtml:4
-# APP_DIR/WebModule/presenters/HelpPresenter.php:16
-# APP_DIR/WebModule/presenters/SearchPresenter.php:137
 msgid "Help"
 msgstr ""
 
@@ -496,8 +515,8 @@ msgstr ""
 msgid "Here you can see and manage connections with social networks."
 msgstr ""
 
-# APP_DIR/WebModule/templates/mails/forgottenPassword.phtml:0
 # APP_DIR/WebModule/templates/mails/signUp.phtml:0
+# APP_DIR/WebModule/templates/mails/forgottenPassword.phtml:0
 # APP_DIR/WebModule/templates/mails/renewPassword.phtml:0
 msgid "Hi,"
 msgstr ""
@@ -519,6 +538,8 @@ msgstr ""
 msgid "ID"
 msgstr ""
 
+# APP_DIR/WebModule/components/BookView/bookView.phtml:33
+# APP_DIR/WebModule/components/BookView/bookView.phtml:38
 # APP_DIR/WebModule/components/EditionList/editionList.phtml:36
 # APP_DIR/WebModule/components/EditionList/editionList.phtml:36
 msgid "ISBN"
@@ -561,11 +582,11 @@ msgstr ""
 msgid "In"
 msgstr ""
 
-# APP_DIR/WebModule/presenters/UserPresenter.php:206
+# APP_DIR/WebModule/presenters/UserPresenter.php:207
 msgid "Info and opinions"
 msgstr ""
 
-# APP_DIR/WebModule/components/InsertingAuthor/InsertingAuthorComponent.php:112
+# APP_DIR/WebModule/components/InsertingAuthor/InsertingAuthorComponent.php:116
 msgid "Insert"
 msgstr ""
 
@@ -573,9 +594,9 @@ msgstr ""
 msgid "Insert a new author"
 msgstr ""
 
-# APP_DIR/WebModule/templates/User/insertShelf.phtml:3
 # APP_DIR/WebModule/presenters/UserPresenter.php:106
-# APP_DIR/WebModule/presenters/UserPresenter.php:219
+# APP_DIR/WebModule/presenters/UserPresenter.php:220
+# APP_DIR/WebModule/templates/User/insertShelf.phtml:3
 msgid "Insert a new shelf"
 msgstr ""
 
@@ -583,10 +604,10 @@ msgstr ""
 msgid "Insert author"
 msgstr ""
 
-# APP_DIR/WebModule/components/Navigation/navigation.phtml:6
-# APP_DIR/WebModule/components/Navigation/navigation.phtml:6
 # APP_DIR/WebModule/presenters/BookPresenter.php:93
 # APP_DIR/WebModule/presenters/BookPresenter.php:99
+# APP_DIR/WebModule/components/Navigation/navigation.phtml:6
+# APP_DIR/WebModule/components/Navigation/navigation.phtml:6
 msgid "Insert book"
 msgstr ""
 
@@ -602,7 +623,7 @@ msgstr ""
 msgid "Insert book: look if it is mentioned"
 msgstr ""
 
-# APP_DIR/WebModule/presenters/BookPresenter.php:193
+# APP_DIR/WebModule/presenters/BookPresenter.php:194
 msgid "Insert related book"
 msgstr ""
 
@@ -610,8 +631,8 @@ msgstr ""
 msgid "Insert tag"
 msgstr ""
 
-# APP_DIR/WebModule/templates/layout.phtml:85
-# APP_DIR/WebModule/templates/layout.phtml:85
+# APP_DIR/WebModule/templates/layout.phtml:99
+# APP_DIR/WebModule/templates/layout.phtml:99
 msgid "Internet reading lists"
 msgstr ""
 
@@ -619,12 +640,12 @@ msgstr ""
 msgid "It can take a long time to insert a new book because the system tries to find editions of the book."
 msgstr ""
 
-# APP_DIR/WebModule/components/InsertingBook/InsertingBookComponent.php:183
 # APP_DIR/WebModule/components/InsertingOpinion/InsertingOpinionComponent.php:101
+# APP_DIR/WebModule/components/InsertingBook/InsertingBookComponent.php:183
 msgid "Language"
 msgstr ""
 
-# APP_DIR/WebModule/components/InsertingAuthor/InsertingAuthorComponent.php:102
+# APP_DIR/WebModule/components/InsertingAuthor/InsertingAuthorComponent.php:106
 msgid "Last name"
 msgstr ""
 
@@ -640,8 +661,8 @@ msgstr ""
 msgid "Leganto is a community webpage which aims to create and share information about literature as a valuable part of our culture. Join our efforts."
 msgstr ""
 
-# APP_DIR/WebModule/templates/mails/forgottenPassword.phtml:11
 # APP_DIR/WebModule/templates/mails/signUp.phtml:9
+# APP_DIR/WebModule/templates/mails/forgottenPassword.phtml:11
 # APP_DIR/WebModule/templates/mails/renewPassword.phtml:6
 msgid "Leganto team"
 msgstr ""
@@ -693,10 +714,10 @@ msgstr ""
 msgid "M"
 msgstr ""
 
+# APP_DIR/WebModule/presenters/DefaultPresenter.php:25
 # APP_DIR/WebModule/components/Navigation/navigation.phtml:3
 # APP_DIR/WebModule/components/Navigation/navigation.phtml:3
 # APP_DIR/WebModule/templates/Default/unauthorized.phtml:4
-# APP_DIR/WebModule/presenters/DefaultPresenter.php:25
 msgid "Main page"
 msgstr ""
 
@@ -704,7 +725,7 @@ msgstr ""
 msgid "Male"
 msgstr ""
 
-# APP_DIR/WebModule/templates/layout.phtml:65
+# APP_DIR/WebModule/templates/layout.phtml:79
 msgid "Man shall not live by bread alone"
 msgstr ""
 
@@ -750,12 +771,12 @@ msgstr ""
 msgid "Nine characters long ISBN."
 msgstr ""
 
-# APP_DIR/WebModule/components/InsertingBook/insertingBookResult.phtml:7
 # APP_DIR/WebModule/presenters/SettingsPresenter.php:154
+# APP_DIR/WebModule/components/InsertingBook/insertingBookResult.phtml:7
 msgid "No"
 msgstr ""
 
-# APP_DIR/WebModule/templates/layout.phtml:77
+# APP_DIR/WebModule/templates/layout.phtml:91
 msgid "No content"
 msgstr ""
 
@@ -793,10 +814,10 @@ msgstr ""
 msgid "On this page you can change your profile information and password. Fill password only when you intend to change it or you are changing your e-mail address. All other information is alterable without entering the password."
 msgstr ""
 
-# APP_DIR/WebModule/templates/Book/default.phtml:6
-# APP_DIR/WebModule/templates/User/default.phtml:29
 # APP_DIR/WebModule/presenters/BookPresenter.php:112
 # APP_DIR/WebModule/presenters/BookPresenter.php:179
+# APP_DIR/WebModule/templates/Book/default.phtml:6
+# APP_DIR/WebModule/templates/User/default.phtml:29
 msgid "Opinions"
 msgstr ""
 
@@ -822,6 +843,7 @@ msgstr ""
 msgid "Owned"
 msgstr ""
 
+# APP_DIR/WebModule/components/BookView/bookView.phtml:43
 # APP_DIR/WebModule/components/EditionList/editionList.phtml:36
 # APP_DIR/WebModule/templates/Help/default.phtml:15
 msgid "Pages"
@@ -844,15 +866,15 @@ msgstr ""
 msgid "Passwords have to match!"
 msgstr ""
 
-# APP_DIR/WebModule/components/InsertingAuthor/InsertingAuthorComponent.php:88
+# APP_DIR/WebModule/components/InsertingAuthor/InsertingAuthorComponent.php:92
 msgid "Person"
 msgstr ""
 
-# APP_DIR/WebModule/components/BaseForm.php:73
+# APP_DIR/WebModule/components/BaseForm.php:74
 msgid "Please answer the captcha question to let us know that you are a human."
 msgstr ""
 
-# APP_DIR/WebModule/components/InsertingAuthor/InsertingAuthorComponent.php:93
+# APP_DIR/WebModule/components/InsertingAuthor/InsertingAuthorComponent.php:97
 msgid "Please choose the type of the author."
 msgstr ""
 
@@ -872,12 +894,12 @@ msgstr ""
 msgid "Please fill at least one of ISBNs."
 msgstr ""
 
-# APP_DIR/WebModule/components/InsertingAuthor/InsertingAuthorComponent.php:104
+# APP_DIR/WebModule/components/InsertingAuthor/InsertingAuthorComponent.php:108
 msgid "Please fill at least the last name."
 msgstr ""
 
-# APP_DIR/WebModule/components/TopicList/TopicListComponent.php:62
 # APP_DIR/WebModule/components/PostList/PostListComponent.php:107
+# APP_DIR/WebModule/components/TopicList/TopicListComponent.php:62
 msgid "Please fill the content."
 msgstr ""
 
@@ -885,10 +907,10 @@ msgstr ""
 msgid "Please fill the correct code."
 msgstr ""
 
+# APP_DIR/WebModule/presenters/SettingsPresenter.php:164
 # APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:236
 # APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:248
 # APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:276
-# APP_DIR/WebModule/presenters/SettingsPresenter.php:164
 msgid "Please fill the correct e-mail."
 msgstr ""
 
@@ -902,7 +924,7 @@ msgstr ""
 msgid "Please fill the e-mail."
 msgstr ""
 
-# APP_DIR/WebModule/components/InsertingAuthor/InsertingAuthorComponent.php:109
+# APP_DIR/WebModule/components/InsertingAuthor/InsertingAuthorComponent.php:113
 msgid "Please fill the group name."
 msgstr ""
 
@@ -962,6 +984,7 @@ msgstr ""
 msgid "Profile and opinions"
 msgstr ""
 
+# APP_DIR/WebModule/components/BookView/bookView.phtml:47
 # APP_DIR/WebModule/components/EditionList/editionList.phtml:36
 msgid "Published"
 msgstr ""
@@ -994,16 +1017,16 @@ msgstr ""
 msgid "Reply"
 msgstr ""
 
-# APP_DIR/WebModule/templates/Search/discussion.phtml:4
-# APP_DIR/WebModule/templates/Search/help.phtml:4
-# APP_DIR/WebModule/templates/Search/default.phtml:4
 # APP_DIR/WebModule/templates/Search/user.phtml:4
 # APP_DIR/WebModule/templates/Search/author.phtml:4
+# APP_DIR/WebModule/templates/Search/default.phtml:4
+# APP_DIR/WebModule/templates/Search/help.phtml:4
+# APP_DIR/WebModule/templates/Search/discussion.phtml:4
 msgid "Results"
 msgstr ""
 
-# APP_DIR/WebModule/components/InsertingShelf/InsertingShelfComponent.php:83
 # APP_DIR/WebModule/presenters/SettingsPresenter.php:205
+# APP_DIR/WebModule/components/InsertingShelf/InsertingShelfComponent.php:83
 msgid "Save"
 msgstr ""
 
@@ -1058,16 +1081,16 @@ msgstr ""
 msgid "Service/website"
 msgstr ""
 
+# APP_DIR/WebModule/presenters/SettingsPresenter.php:17
+# APP_DIR/WebModule/presenters/SettingsPresenter.php:219
 # APP_DIR/WebModule/components/Feed/FeedComponent.php:31
 # APP_DIR/WebModule/components/Navigation/navigation.phtml:18
 # APP_DIR/WebModule/templates/Settings/default.phtml:3
-# APP_DIR/WebModule/presenters/SettingsPresenter.php:17
-# APP_DIR/WebModule/presenters/SettingsPresenter.php:219
 msgid "Settings"
 msgstr ""
 
-# APP_DIR/WebModule/templates/User/default.phtml:9
 # APP_DIR/WebModule/presenters/SettingsPresenter.php:169
+# APP_DIR/WebModule/templates/User/default.phtml:9
 msgid "Sex"
 msgstr ""
 
@@ -1094,9 +1117,9 @@ msgstr ""
 msgid "Share on Twitter"
 msgstr ""
 
-# APP_DIR/WebModule/components/BookShelfControl/bookShelfControl.phtml:1
 # APP_DIR/WebModule/presenters/UserPresenter.php:113
-# APP_DIR/WebModule/presenters/UserPresenter.php:207
+# APP_DIR/WebModule/presenters/UserPresenter.php:208
+# APP_DIR/WebModule/components/BookShelfControl/bookShelfControl.phtml:1
 msgid "Shelves"
 msgstr ""
 
@@ -1124,7 +1147,7 @@ msgid "Similar books to a certain book, generated according to book tags. Choose
 msgstr ""
 
 # APP_DIR/WebModule/presenters/UserPresenter.php:120
-# APP_DIR/WebModule/presenters/UserPresenter.php:210
+# APP_DIR/WebModule/presenters/UserPresenter.php:211
 msgid "Similar users"
 msgstr ""
 
@@ -1132,9 +1155,9 @@ msgstr ""
 msgid "Similar users to"
 msgstr ""
 
-# APP_DIR/WebModule/templates/Settings/connections.phtml:3
 # APP_DIR/WebModule/presenters/SettingsPresenter.php:27
 # APP_DIR/WebModule/presenters/SettingsPresenter.php:220
+# APP_DIR/WebModule/templates/Settings/connections.phtml:3
 msgid "Social networks"
 msgstr ""
 
@@ -1167,9 +1190,10 @@ msgstr ""
 msgid "Sort by time"
 msgstr ""
 
+# APP_DIR/WebModule/presenters/StatisticsPresenter.php:18
 # APP_DIR/WebModule/components/Navigation/navigation.phtml:10
 # APP_DIR/WebModule/templates/Statistics/default.phtml:4
-# APP_DIR/WebModule/presenters/StatisticsPresenter.php:18
+# APP_DIR/WebModule/templates/layout.phtml:104
 msgid "Statistics"
 msgstr ""
 
@@ -1180,6 +1204,11 @@ msgstr ""
 # APP_DIR/WebModule/components/InsertingOpinion/InsertingOpinionComponent.php:99
 # APP_DIR/WebModule/templates/Book/default.phtml:4
 msgid "Tags"
+msgstr ""
+
+# APP_DIR/WebModule/templates/layout.phtml:99
+# APP_DIR/WebModule/templates/layout.phtml:99
+msgid "Terms of use"
 msgstr ""
 
 # APP_DIR/WebModule/components/Search/SearchComponent.php:80
@@ -1276,8 +1305,8 @@ msgstr ""
 msgid "The feed page offers you updates from our web, you can watch added opinions or the discussion in one page."
 msgstr ""
 
-# APP_DIR/WebModule/components/Edition/EditionComponent.php:63
 # APP_DIR/WebModule/presenters/SettingsPresenter.php:200
+# APP_DIR/WebModule/components/Edition/EditionComponent.php:63
 msgid "The file must be an image."
 msgstr ""
 
@@ -1356,7 +1385,7 @@ msgstr ""
 # APP_DIR/WebModule/presenters/UserPresenter.php:20
 # APP_DIR/WebModule/presenters/UserPresenter.php:55
 # APP_DIR/WebModule/presenters/UserPresenter.php:70
-# APP_DIR/WebModule/presenters/UserPresenter.php:245
+# APP_DIR/WebModule/presenters/UserPresenter.php:246
 msgid "The user does not exist."
 msgstr ""
 
@@ -1383,6 +1412,10 @@ msgstr ""
 
 # APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:465
 msgid "This Twitter account is already connected to an account."
+msgstr ""
+
+# APP_DIR/WebModule/presenters/SearchPresenter.php:136
+msgid "This is page where you can find all books in the system."
 msgstr ""
 
 # APP_DIR/WebModule/presenters/BookPresenter.php:40
@@ -1430,10 +1463,10 @@ msgstr ""
 msgid "To provide you the best experience please fill in additional details in"
 msgstr ""
 
+# APP_DIR/WebModule/presenters/DefaultPresenter.php:42
 # APP_DIR/WebModule/components/Navigation/navigation.phtml:8
 # APP_DIR/WebModule/components/Navigation/navigation.phtml:8
 # APP_DIR/WebModule/templates/Default/topBooks.phtml:3
-# APP_DIR/WebModule/presenters/DefaultPresenter.php:42
 msgid "Top books"
 msgstr ""
 
@@ -1450,8 +1483,8 @@ msgstr ""
 msgid "Twitter"
 msgstr ""
 
-# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:126
 # APP_DIR/WebModule/presenters/SettingsPresenter.php:91
+# APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:126
 msgid "Twitter functions are not accessible right now. Please try it later."
 msgstr ""
 
@@ -1459,24 +1492,28 @@ msgstr ""
 msgid "Type"
 msgstr ""
 
-# APP_DIR/WebModule/components/InsertingAuthor/InsertingAuthorComponent.php:92
+# APP_DIR/WebModule/components/InsertingAuthor/InsertingAuthorComponent.php:96
 msgid "Type of author"
 msgstr ""
 
-# APP_DIR/WebModule/templates/Default/unauthorized.phtml:3
 # APP_DIR/WebModule/presenters/DefaultPresenter.php:48
+# APP_DIR/WebModule/templates/Default/unauthorized.phtml:3
 msgid "Unauthorized"
 msgstr ""
 
-# APP_DIR/WebModule/presenters/UserPresenter.php:213
+# APP_DIR/WebModule/presenters/UserPresenter.php:214
 msgid "Unfollow"
+msgstr ""
+
+# APP_DIR/WebModule/presenters/SettingsPresenter.php:169
+msgid "Unknown"
 msgstr ""
 
 # APP_DIR/models/statistics/StatisticsGraphs.php:90
 msgid "Unspecified"
 msgstr ""
 
-# APP_DIR/WebModule/presenters/SearchPresenter.php:136
+# APP_DIR/WebModule/presenters/SearchPresenter.php:146
 msgid "User"
 msgstr ""
 
@@ -1499,8 +1536,8 @@ msgstr ""
 msgid "Users which are followed by this user."
 msgstr ""
 
-# APP_DIR/WebModule/templates/User/followers.phtml:4
 # APP_DIR/WebModule/presenters/UserPresenter.php:78
+# APP_DIR/WebModule/templates/User/followers.phtml:4
 msgid "Users which follow this user."
 msgstr ""
 
@@ -1532,8 +1569,8 @@ msgstr ""
 msgid "Year of publishing"
 msgstr ""
 
-# APP_DIR/WebModule/components/InsertingBook/insertingBookResult.phtml:3
 # APP_DIR/WebModule/presenters/SettingsPresenter.php:153
+# APP_DIR/WebModule/components/InsertingBook/insertingBookResult.phtml:3
 msgid "Yes"
 msgstr ""
 
@@ -1553,6 +1590,11 @@ msgstr ""
 
 # APP_DIR/WebModule/presenters/BookPresenter.php:50
 msgid "You can add a new edition of this book on this page."
+msgstr ""
+
+# APP_DIR/WebModule/templates/Book/insert.phtml:6
+# APP_DIR/WebModule/templates/Default/topBooks.phtml:5
+msgid "You can browse all books on our website on page"
 msgstr ""
 
 # APP_DIR/WebModule/presenters/SettingsPresenter.php:48
@@ -1629,8 +1671,8 @@ msgstr ""
 msgid "Your account was successfully added."
 msgstr ""
 
-# APP_DIR/WebModule/components/BaseForm.php:52
-# APP_DIR/WebModule/components/BaseForm.php:75
+# APP_DIR/WebModule/components/BaseForm.php:53
+# APP_DIR/WebModule/components/BaseForm.php:76
 msgid "Your answer is wrong, please try it again with a different question."
 msgstr ""
 
@@ -1646,8 +1688,8 @@ msgstr ""
 msgid "Your new password was sent to an account e-mail address."
 msgstr ""
 
-# APP_DIR/WebModule/components/InsertingOpinion/InsertingOpinionComponent.php:98
 # APP_DIR/WebModule/presenters/BookPresenter.php:70
+# APP_DIR/WebModule/components/InsertingOpinion/InsertingOpinionComponent.php:98
 msgid "Your opinion"
 msgstr ""
 
@@ -1675,6 +1717,10 @@ msgstr ""
 msgid "add, edition, insert"
 msgstr ""
 
+# APP_DIR/WebModule/templates/layout.phtml:110
+msgid "and others"
+msgstr ""
+
 # APP_DIR/WebModule/templates/layout.phtml:7
 msgid "and our community, altogether."
 msgstr ""
@@ -1695,6 +1741,10 @@ msgstr ""
 msgid "book shelves, update, reorder, manipulation, books"
 msgstr ""
 
+# APP_DIR/WebModule/presenters/SearchPresenter.php:137
+msgid "book, detail, graphs, opinions, tags, editions, isbn, pages"
+msgstr ""
+
 # APP_DIR/WebModule/presenters/BookPresenter.php:41
 msgid "book, detail, graphs, opinions, tags, editions, isbn, pages, shelves, share to social network"
 msgstr ""
@@ -1707,11 +1757,7 @@ msgstr ""
 msgid "comments"
 msgstr ""
 
-# APP_DIR/WebModule/templates/layout.phtml:88
-msgid "contact us at"
-msgstr ""
-
-# APP_DIR/WebModule/templates/layout.phtml:90
+# APP_DIR/WebModule/templates/layout.phtml:105
 msgid "created by"
 msgstr ""
 
@@ -1760,6 +1806,14 @@ msgstr ""
 
 # APP_DIR/WebModule/presenters/UserPresenter.php:29
 msgid "followers, following, user profile, user detail, users opinion"
+msgstr ""
+
+# APP_DIR/WebModule/components/Feed/feed.phtml:26
+msgid "has an opinion on the book"
+msgstr ""
+
+# APP_DIR/WebModule/components/Feed/feed.phtml:29
+msgid "has contributed to the discussion"
 msgstr ""
 
 # APP_DIR/WebModule/presenters/SearchPresenter.php:109
@@ -1820,11 +1874,6 @@ msgstr ""
 
 # APP_DIR/WebModule/presenters/StatisticsPresenter.php:20
 msgid "statistics, graphs, number of books, number of opinions, number of users"
-msgstr ""
-
-# APP_DIR/WebModule/templates/layout.phtml:85
-# APP_DIR/WebModule/templates/layout.phtml:85
-msgid "terms of use"
 msgstr ""
 
 # APP_DIR/WebModule/presenters/UserPresenter.php:122

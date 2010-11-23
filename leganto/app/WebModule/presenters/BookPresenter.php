@@ -178,6 +178,7 @@ class Web_BookPresenter extends Web_BasePresenter {
 		$submenu->addLink("default", System::translate("General info"), $this->getBook()->getId());
 		$submenu->addLink("opinions", System::translate("Opinions"), $this->getBook()->getId());
 		$submenu->addLink("similar", System::translate("Similar books"), $this->getBook()->getId());
+		$submenu->addLink("Search:allBooks", System::translate("All books"));
 		if (System::user() != NULL) {
 			$opinion = Leganto::opinions()->getSelector()->findByBookAndUser($this->getBook(), System::user());
 		}
