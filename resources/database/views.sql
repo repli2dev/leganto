@@ -250,3 +250,13 @@ CREATE VIEW `view_following` AS
 	`view_user`.*
     FROM `following`
     INNER JOIN `view_user` ON `view_user`.`id_user` =  `following`.`id_user`;
+
+DROP VIEW IF EXISTS `view_message`;
+CREATE VIEW `view_message` AS
+    SELECT
+	`message`.*,
+	`u1`.`nick` as nickname_user_from,
+	`u2`.`nick` as nickname_user_to
+    FROM `message`
+    INNER JOIN `user` AS `u1` ON `u1`.`id_user` = `message`.`id_user_from`
+    INNER JOIN `user` AS `u2` ON `u2`.`id_user` = `message`.`id_user_to`;

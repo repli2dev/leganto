@@ -15,7 +15,32 @@ class MessageListComponent extends BaseListComponent {
 	private $toUser;
 
 	public function handleDelete($message) {
-		throw new NotImplementedException();
+		if(empty($message)) {
+			$this->getPresenter()->flashMessage(System::translate("Message you are trying to delete does not exist."),"error");
+			$this->getPresenter()->redirect("this");
+			return;
+		}
+		$entity = Leganto::messages()->getSelector()->find($message);
+		if($entity == NULL || !Environment::getUser()->isAllowed(Resource::create($entity), Action::EDIT)) {
+			$this->getPresenter()->flashMessage(System::translate("Message you are trying to delete does not exist."),"error");
+			$this->getPresenter()->redirect("this");
+			return;
+		}
+		$user = System::user();
+		if($entity->idUserFrom == $user->getId()) {
+			$entity->deletedByOwner = 1;
+		}
+		if($entity->idUserTo == $user->getId()) {
+			$entity->deletedByRecipient = 1;
+		}
+		// Both decided to delete -> delete
+		if($entity->deletedByOwner == 1&& $entity->deletedByRecipient == 1) {
+			$entity->delete();
+		} else {
+			$entity->persist();
+		}
+		$this->getPresenter()->flashMessage(System::translate("Message has been successfuly deleted."),"success");
+		$this->getPresenter()->redirect("this");
 	}
 
 	public function formSubmitted(Form $form) {
@@ -68,19 +93,11 @@ class MessageListComponent extends BaseListComponent {
 		$form->onSubmit[] = array($this, "formSubmitted");
 
 		if(!empty($this->toUser)) {
-			$values["recipient"] = $this->getUserEntity($this->toUser)->nickname;
+			$values["recipient"] = Leganto::users()->getSelector()->find($this->toUser)->nickname;
 			$form->setValues($values);
 		}
 		
 		return $form;
-	}
-
-	public function getUserEntity($userId) {
-		if (empty($userId)) {
-			throw new NullPointerException("User id is null.");
-		}
-		$user = Leganto::users()->getSelector()->find($userId);
-		return $user;
 	}
 
 	public function setRecipient($toUser) {
@@ -99,6 +116,7 @@ class MessageListComponent extends BaseListComponent {
 		}
 		$source->applyLimit($paginator->itemsPerPage, $paginator->offset);
 		$this->getTemplate()->messages = Leganto::messages()->fetchAndCreateAll($source);
+		Leganto::messages()->getUpdater()->markRead($paginator->itemsPerPage,$paginator->offset);
 	}
 
 }

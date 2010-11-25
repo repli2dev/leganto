@@ -33,4 +33,24 @@ class MessageEntity extends AEntity {
 	protected $content;
 
 	protected $read;
+
+	/**
+	 * @Translate(nickname_user_from)
+	 */
+	protected $nicknameUserFrom;
+
+	/**
+	 * @Translate(nickname_user_to)
+	 */
+	protected $nicknameUserTo;
+
+	/**
+	 * @Translate(deleted_by_owner)
+	 */
+	protected $deletedByOwner;
+
+	/**
+	 * @Translate(deleted_by_recipient)
+	 */
+	protected $deletedByRecipient;
 }

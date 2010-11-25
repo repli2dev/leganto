@@ -41,6 +41,10 @@ class FeedComponent extends BaseListComponent {
 				$this->getSource()->where("id_user IN %l", $users);
 			}
 		}
+		// Check for new messages
+		if(Leganto::messages()->getSelector()->hasNewMessage(System::user()) != FALSE) {
+			$this->flashMessage(System::translate("You have a new message. Read it in") ." ". Html::el("a")->href($this->getPresenter()->link("User:messages"))->setText(System::translate("Messaging")) . ".");
+		}
 		$paginator = $this->getPaginator();
 		$paginator->itemCount = $this->getSource()->count();	// FIXME: nicer way?
 		$this->getSource()->applyLimit($paginator->itemsPerPage, $paginator->offset);

@@ -312,8 +312,10 @@ CREATE TABLE `message` (
 	`id_message` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	`id_user_from` INT UNSIGNED NOT NULL,
 	`id_user_to` INT UNSIGNED NOT NULL,
-	`text` TEXT NOT NULL,
+	`content` TEXT NOT NULL,
 	`read` TINYINT(1) NULL DEFAULT  '0',
+	`deleted_by_owner` TINYINT( 1 ) NOT NULL DEFAULT  '0',
+	`deleted_by_recipient` TINYINT( 1 ) NOT NULL DEFAULT  '0',
 	`inserted` DATETIME NOT NULL COMMENT 'cas, kdy byla polozka vlozena do systemu',
 	FOREIGN KEY (`id_user_from`) REFERENCES `user` (`id_user`) ON UPDATE CASCADE ON DELETE CASCADE,
 	FOREIGN KEY (`id_user_to`) REFERENCES `user` (`id_user`) ON UPDATE CASCADE ON DELETE CASCADE

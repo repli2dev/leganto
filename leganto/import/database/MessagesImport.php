@@ -12,7 +12,9 @@ class MessagesImport extends DatabaseTableImport {
 				"id_user_to"	=> $message["usTo"],
 				"content"	=> $message["content"],
 				"read"		=> $message["isRead"]-1,
-				"inserted"	=> $message["date"]
+				"inserted"	=> $message["date"],
+				"deleted_by_recipient" => $message["toDestroy"],
+				"deleted_by_owner" => $message["fromDestroy"]
 			))->execute();
 		}
 		echo $this->getDestination()->dataSource("SELECT * FROM [message]")->count() . " MESSAGES TO READ IMPORTED\n";

@@ -54,6 +54,14 @@ class Resource implements IResource {
 			case "user":
 				return new Resource($resource, $entity->getId());
 				break;
+			case "message":
+				if(System::user()->getId() == $entity->idUserFrom) {
+					$id = $entity->idUserFrom;
+				} else {
+					$id = $entity->idUserTo;
+				}
+				return new Resource($resource, $id);
+				break;
 			default:
 				throw new NotSupportedException("The resource [$resource] is not supported.");
 		}

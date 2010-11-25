@@ -544,6 +544,9 @@ class IntroductionComponent extends BaseComponent {
 			$form->addError("An account with the same nickname or e-mail is already registered.");
 		}
 	}
+	public function handleNextHint() {
+		$this->invalidateControl("introduction-block");
+	}
 
 }
 

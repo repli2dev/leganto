@@ -104,13 +104,15 @@ a img {
 }
 #user {
 	height: 21px;
-	background-color: #C1833E;
+	background-color: #E9F4F7;
 	padding: 7px 0;
 	float: right;
-	color: #F4D259;
+	color: #336699;
 	font-weight: bolder;
-	font-size: 15px;
+	font-size: 13px;
 	line-height: 15px;
+	border-left: 1px solid #F1C11D;
+	border-right: 1px solid #F1C11D;
 }
 #user img {
 	width: 16px;
@@ -118,6 +120,9 @@ a img {
 }
 #user span {
 	margin-left: 10px;
+}
+#user a {
+	color: #336699;
 }
 #main {
 	padding-top: 20px;
@@ -322,6 +327,9 @@ a img {
 }
 .list div.mail-in {
 	background: #F6F6F6 url('/img/ico/mail-in.png') no-repeat 98% 50%;
+}
+.list div.mail-unread {
+	border: 1px dashed #C1833E;
 }
 /************************** HELP **********************************************/
 .help-category {

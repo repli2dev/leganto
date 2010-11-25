@@ -130,6 +130,8 @@ class Web_SearchPresenter extends Web_BasePresenter {
 	public function renderAllBooks() {
 		$source = Leganto::books()->getSelector()->findAll()->orderBy("inserted","DESC");
 		$this->getComponent("searchList")->setSource($source);
+		$this->getTemplate()->numOfAllBooks = $source->count();
+		$this->getTemplate()->numOfAllAuthors = Leganto::authors()->getSelector()->findAll()->count();
 
 		$this->getTemplate()->title = System::translate("All books");
 		$this->setPageTitle(System::translate("All books"));
