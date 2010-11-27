@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
 "PO-Revision-Date: \n"
-"Last-Translator: Jan Drábek <repli2dev@gmail.com>\n"
+"Last-Translator: Jan Drabek <repli2dev@gmail.com>\n"
 "Language-Team: Leganto team <info@leganto.cz>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
@@ -1348,9 +1348,9 @@ msgstr "Kniha byla vložena do poličky."
 msgid "The book has been removed from the shelf."
 msgstr "Kniha byla z poličky odebrána."
 
-# APP_DIR/WebModule/components/TagList/TagListComponent.php:37
-msgid "The book has been successfuly inserted."
-msgstr "Kniha byla úspěšně vložena."
+# APP_DIR/WebModule/components/InsertingBook/InsertingBookComponent.php:375
+msgid "The book has been successfuly inserted. If you have read the book, please add also your opinion."
+msgstr "Kniha byla úspěšně vložena. Pokud jste ji četli nezapomeňte také přidat svůj názor."
 
 # APP_DIR/WebModule/presenters/AuthorPresenter.php:28
 msgid "The book has been successfuly updated."
@@ -1482,8 +1482,8 @@ msgid "There are no text opinions, be the one who write the first one!"
 msgstr "K této knize nejsou žádné textové názory, buďte první!"
 
 # APP_DIR/WebModule/templates/Book/default.phtml:8
-msgid "There can be more opinions than you see. Please visit"
-msgstr "Může existovat více názorů, než vidíte. Navštivte, prosím"
+msgid "There can be more opinions (even non text) than you see. Please visit"
+msgstr "Může existovat více názorů (i netextových), než vidíte. Navštivte, prosím"
 
 # APP_DIR/WebModule/components/Edition/EditionComponent.php:58
 msgid "Thirteen characters long ISBN."
@@ -1995,6 +1995,9 @@ msgstr "uživatel, soukromé zprávy, zprávy, napište ostatním uživatelům, 
 msgid "your new credentials are shown below this text. For more safety, change your password immediately."
 msgstr "vaše nové přihlašovací údaje jsou zobrazeny pod tímto textem. Pro zvýšení bezpečnosti si ihned změňte heslo."
 
+# APP_DIR/WebModule/components/TagList/TagListComponent.php:37
+#~ msgid "The book has been successfuly inserted."
+#~ msgstr "Kniha byla úspěšně vložena."
 # APP_DIR/WebModule/components/BookShelfControl/BookShelfControlComponent.php:33
 #~ msgid "The book  %s has been removed from the shelf %s."
 #~ msgstr "Kniha  %s byla odstraněna z poličky %s."

@@ -139,7 +139,12 @@ class GoogleChart {
 	private function autoLabels() {
 		if (empty($this->labels[self::AXES_LEFT])) {
 			$step = $this->maxvalue / 5;
-			$this->setLabels(self::AXES_LEFT, array(0 * $step, 1 * $step, 2 * $step, 3 * $step, 4 * $step, 5 * $step));
+			// Check if step would be float (does not make sense)
+			if (is_float($step)) {
+				$this->setLabels(self::AXES_LEFT,array(0,$this->maxvalue));
+			} else {
+				$this->setLabels(self::AXES_LEFT, array(0 * $step, 1 * $step, 2 * $step, 3 * $step, 4 * $step, 5 * $step));
+			}
 		}
 	}
 

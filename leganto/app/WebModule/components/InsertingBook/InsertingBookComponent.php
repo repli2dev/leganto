@@ -372,7 +372,7 @@ class InsertingBookComponent extends BaseComponent {
 			}
 			$book = Leganto::books()->createEmpty();
 			$book->inserted = new DateTime;
-			$flashMessage = System::translate("The book has been successfuly inserted.");
+			$flashMessage = System::translate("The book has been successfuly inserted. If you have read the book, please add also your opinion.");
 		}
 		// Edit already inserted book
 		else {

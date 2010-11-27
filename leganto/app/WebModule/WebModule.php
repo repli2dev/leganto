@@ -25,16 +25,17 @@ class WebModule {
 		// about.php
 		// discussion.php
 		// discussion.php?action=readDis&follow=1222&type=discussion
-		$router[] = new Route($prefix.'book.php?action=searchBook', array(
-			"module" => "web",
-			'presenter' => 'Book',
-			'action' => 'insert',
-		), Route::ONE_WAY);
 		$router[] = new Route($prefix.'book.php?book=<book>', array(
 			"module" => "web",
 			'presenter' => 'Book',
 			'action' => 'default',
 		), Route::ONE_WAY);
+// Cause problem
+//		$router[] = new Route($prefix.'book.php?action=searchBook', array(
+//			"module" => "web",
+//			'presenter' => 'Book',
+//			'action' => 'insert',
+//		), Route::ONE_WAY);
 		$router[] = new Route($prefix.'search.php?searchWord=<query>&column=writer&order=writer', array(
 			"module" => "web",
 			'presenter' => 'Search',
@@ -45,16 +46,17 @@ class WebModule {
 			'presenter' => 'Search',
 			'action' => 'default',
 		), Route::ONE_WAY);
-		$router[] = new Route($prefix.'user.php?action=search', array(
-			"module" => "web",
-			'presenter' => 'Search',
-			'action' => 'user',
-		), Route::ONE_WAY);
 		$router[] = new Route($prefix.'user.php?user=<user>', array(
 			"module" => "web",
 			'presenter' => 'User',
 			'action' => 'default',
 		), Route::ONE_WAY);
+// Cause problem
+//		$router[] = new Route($prefix.'user.php?action=search', array(
+//			"module" => "web",
+//			'presenter' => 'Search',
+//			'action' => 'user',
+//		), Route::ONE_WAY);
 		$router[] = new Route($prefix.'about.php', array(
 			"module" => "web",
 			'presenter' => 'Help',
