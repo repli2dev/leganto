@@ -1,11 +1,16 @@
 {snippet introduction-block}
 	<div id="introduction">
 		@{if isset($hint)}
-		<div id="note">
+		<div style="margin-top: -20px; width: 400px; float:right">
+			<h2>{_'What is new?'}</h2>
+			<object width="400" height="230"><param name="movie" value="http://www.youtube.com/v/9JJHQW4iQHc?fs=1&amp;hl=cs_CZ"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/9JJHQW4iQHc?fs=1&amp;hl=cs_CZ" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="400" height="230"></embed></object>
+		</div>
+{*		<div id="note">
 			<h2>{_'Did you know, that ...?'}</h2>
 			<img alt="Tip" src="img/ico/light_bulb.png" />
 			<p>{$hint->text}<br /><a href="{link nextHint!}">{_'Next tip'} &raquo;</a></p>
-		</div>
+
+		</div>*}
 		@{else}
 				
 			@{if $state == "login"}

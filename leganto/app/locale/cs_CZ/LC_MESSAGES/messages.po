@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
 "PO-Revision-Date: \n"
-"Last-Translator: Jan Drabek <repli2dev@gmail.com>\n"
+"Last-Translator: Jan Drábek <repli2dev@gmail.com>\n"
 "Language-Team: Leganto team <info@leganto.cz>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
@@ -1650,6 +1650,10 @@ msgstr "Právě se nacházíte na stránkách Internetového čtenářského den
 # APP_DIR/WebModule/components/Introduction/introduction.phtml:89
 msgid "Welcome!"
 msgstr "Vítejte!"
+
+# APP_DIR/WebModule/components/Introduction/introduction.phtml:4
+msgid "What is new?"
+msgstr "Co je nového?"
 
 # APP_DIR/WebModule/presenters/UserPresenter.php:243
 msgid "Write message"
