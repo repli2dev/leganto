@@ -24,7 +24,8 @@ class Web_UserPresenter extends Web_BasePresenter {
 		$this->getComponent("opinionList")->setSource($source);
 		// Set stats
 		$this->getTemplate()->numOfBooks = $source->count();
-		$this->getTemplate()->numOfOpinions = $source->where("content != ''")->count();
+		// TODO: zpusobovalo chybu
+		// $this->getTemplate()->numOfOpinions = $source->where("content != ''")->count();
 		$this->getTemplate()->numOfPosts = Leganto::posts()->getSelector()->findAll()->where("id_user = %i",$this->getUserEntity()->getId())->count();
 		$this->getTemplate()->numOfShelves = Leganto::shelves()->getSelector()->findAll()->where("id_user = %i",$this->getUserEntity()->getId())->count();
 		

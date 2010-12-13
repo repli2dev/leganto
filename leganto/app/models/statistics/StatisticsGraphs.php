@@ -112,7 +112,7 @@ class StatisticsGraphs {
 		// Load data
 		$sqls = array();
 		$day = date("j");
-		$moveddate = "DATE_SUB(CURDATE(), INTERVAL 3 DAY)";
+		$moveddate = "DATE_SUB(CURDATE(), INTERVAL $day DAY)";
 		$sqls[] = "(SELECT '0' AS [id], COUNT(*) AS [number] FROM [$tablename] WHERE [inserted] >= $moveddate)";
 		for ($i = 1; $i < 12; $i++) {
 			$sqls[] = "(SELECT '$i' AS [id], COUNT(*) AS [number] FROM [$tablename] WHERE [inserted] <= DATE_SUB($moveddate, INTERVAL " . ($i - 1) . " MONTH) AND [inserted] >= DATE_SUB($moveddate, INTERVAL $i MONTH))";
