@@ -47,7 +47,10 @@ $router[] = CronModule::createRouter();
 dibi::connect(Environment::getConfig('database'));
 
 // Step 6: Start session
+Environment::getSession()->setExpiration("+7 days");
 Environment::getSession()->start();
+
+Environment::getUser()->setExpiration("+ 7 days", FALSE);
 
 // Step 7: Run the application!
 $application->run();
