@@ -32,10 +32,14 @@ final class System {
 			$source = SimpleEntityFactory::createEntityFactory("domain")
 					->getSelector()
 					->findAll()
-					->where("[uri] = %s", @$_SERVER['HTTP_HOST']);
+					->where("[uri] = %s", self::getHTTPHost());
 			self::$domain = SimpleEntityFactory::createEntityFactory("domain")->fetchAndCreate($source);
 		}
 		return self::$domain;
+	}
+
+	private static function getHTTPHost() {
+		return ltrim(@$_SERVER['HTTP_HOST'],"www.");
 	}
 
 	/** @return IEntity */
