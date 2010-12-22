@@ -21,27 +21,27 @@ class ShelfUpdater implements IUpdater {
 		    SELECT [order]
 		    FROM [in_shelf]
 		    WHERE [id_shelf] = %i ", $shelf->getId(),
-				"AND [id_book] = %i", $book->getId()
-			)->fetch()->order;
+						"AND [id_book] = %i", $book->getId()
+				)->fetch()->order;
 		if ($oldOrder > $newOrder) {
 			dibi::query("
 			UPDATE [in_shelf] SET [order] = [order] + 1
 			WHERE [id_shelf] = %i ", $shelf->getId(),
-					"AND [order] >= %i ", $newOrder,
-					"AND [order] < %i", $oldOrder
+							"AND [order] >= %i ", $newOrder,
+							"AND [order] < %i", $oldOrder
 			);
 		} else if ($oldOrder < $newOrder) {
 			dibi::query("
 			UPDATE [in_shelf] SET [order] = [order] -1
 			WHERE [id_shelf] = %i ", $shelf->getId(),
-					"AND [order] <= %i ", $newOrder,
-					"AND [order] > %i", $oldOrder
+							"AND [order] <= %i ", $newOrder,
+							"AND [order] > %i", $oldOrder
 			);
 		}
 		dibi::update("in_shelf", array("order" => $newOrder))
-			->where("[id_book] = %i", $book->bookNode)
-			->where("[id_shelf] = %i", $shelf->getId())
-			->execute();
+				->where("[id_book] = %i", $book->bookNode)
+				->where("[id_shelf] = %i", $shelf->getId())
+				->execute();
 	}
 
 	/**
@@ -53,10 +53,10 @@ class ShelfUpdater implements IUpdater {
 	 */
 	public function insertToShelf(ShelfEntity $shelf, BookEntity $book) {
 		return SimpleTableModel::createTableModel("in_shelf")->insert(array(
-		    "id_shelf" => $shelf->getId(),
-		    "id_book" => $book->bookNode,
-		    "order" => $this->getNumberOfBooksInShelf($shelf),
-		    "inserted" => new DateTime()
+			"id_shelf" => $shelf->getId(),
+			"id_book" => $book->bookNode,
+			"order" => $this->getNumberOfBooksInShelf($shelf),
+			"inserted" => new DateTime()
 		));
 	}
 
@@ -70,9 +70,24 @@ class ShelfUpdater implements IUpdater {
 		// Move the book on the bottom of shelf
 		$this->changeOrder($shelf, $book, PHP_INT_MAX);
 		SimpleTableModel::createTableModel("in_shelf")->deleteAll(array(
-		    "id_shelf" => $shelf->getId(),
-		    "id_book" => $book->getId()
+			"id_shelf" => $shelf->getId(),
+			"id_book" => $book->getId()
 		));
+	}
+
+	public function removeReadBookFromShelves($bookTitleId, $userId) {
+		$shelves = dibi::query("
+            SELECT [id_shelf]
+            FROM [shelf]
+            WHERE [id_user] = %", $userId,
+			" AND [type] IN ('wanted', 'reading')"
+		)->fetchPairs("id_shelf", "id_shelf");
+		if (!empty($shelves)) {
+			dibi::query("
+				DELETE FROM [in_shelf] WHERE [id_shelf] IN %l", $shelves,
+				" AND [id_book_title] = %", $bookTitleId
+			);
+		}
 	}
 
 	public function update(IEntity $entity) {
