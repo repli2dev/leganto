@@ -35,7 +35,8 @@ class BookShelfControlComponent extends BaseComponent {
 			$this->unexpectedError($e);
 			return;
 		}
-		$this->getPresenter()->redirect("this");
+                // FIXME: lepsi rozliseni navratove stranky (viz FIXME v shelvesComponent)
+		$this->getPresenter()->redirect("this#books-in-shelf-".$shelf);
 	}
 
 	public function setBook(BookEntity $book) {
