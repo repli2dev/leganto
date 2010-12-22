@@ -29,6 +29,7 @@ class SubmenuComponent extends BaseComponent {
 	public function equalArgs($args, $presenter) {
 		$params = $presenter->getParam();
 		unset($params["action"]);
+                unset($params["_fid"]);
 		// Array and not array args!
 		if (!is_array($args) && count($params) == 1) {
 			$params = end($params);

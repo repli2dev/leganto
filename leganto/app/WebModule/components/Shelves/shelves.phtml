@@ -66,7 +66,7 @@ $(document).ready(function(){
 		    <h3><a href="{plink Book:default, $book->getId()}">{$book->title}</a></h3>
 		    <?php $confirm = System::translate("Are you sure you want to remove a book from shelf %s?", $shelf->name); ?>
 			{assign link    => $component->link('removeFromShelf', $book->getId(), $shelf->getId())}
-			<a style="float: right;" onclick="return confirm('{!$confirm}')" href="{!$link}" title="{_'Delete from shelf'}">
+			<a class="book-remove-from-shelf" onclick="return confirm('{!$confirm}')" href="{!$link}" title="{_'Delete from shelf'}">
 			    <img src="{$baseUri . 'img/ico/delete.png'}" alt="{_'Delete from shelf'}" />
 			</a>
 		    <hr style="clear:both; visibility:hidden;" />

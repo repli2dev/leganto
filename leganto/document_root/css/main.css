@@ -494,12 +494,18 @@ a img {
 }
 .book-in-shelf h3 {
 	margin: 0;
+        width: 80%;
+        float: left;
 }
 .book-in-shelf:hover {
 	background: #F9E7A2;
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
 	border-radius: 5px;
+}
+.book-in-shelf a.book-remove-from-shelf {
+        display: block;
+        float: right;
 }
 /******************************* SHELVES ******************************/
 .shelf h2 {
@@ -536,7 +542,7 @@ a img {
 	background: #E9F4F7;
 }
 .shelf-type-reading {
-	background: #FF9E96;
+	background: #FFF0E4;
 }
 .shelf-type-general {
 	background: white;
