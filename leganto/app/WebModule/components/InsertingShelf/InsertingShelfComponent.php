@@ -74,6 +74,7 @@ class InsertingShelfComponent extends BaseComponent {
 		    "general" => System::translate("General"),
 		    "owned" => System::translate("Owned"),
 		    "wanted" => System::translate("Wanted"),
+		    "reading" => System::translate("Reading just now"),
 		);
 		$form->addSelect("type", "Type", $type);
 		// ID?

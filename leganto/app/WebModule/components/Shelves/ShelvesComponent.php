@@ -57,6 +57,13 @@ class ShelvesComponent extends BaseComponent {
 		$this->user = $user;
 	}
 
+	public function handleRemoveFromShelf($book, $shelf) {
+		// FIXME: lepsi zpusob, nekam to osamostatnit
+		$component = new BookShelfControlComponent($this,"bookShelfControl");
+		$component->handleRemoveFromShelf($book,$shelf);
+		unset($component);
+	}
+
 	protected function beforeRender() {
 		// Check whether the user is set
 		if ($this->user == null) {

@@ -1,14 +1,15 @@
 <div id="book-shelf-control" class="box">
     <h3>{_'Shelves'}</h3>
     {if !empty($shelves)}
+	<p><em>{_'Click on name of the shelf to show its content.'}</em></p>
 	<ul>
 	    {foreach $shelves AS $shelf}
 		<li>
 		    <span class="control">
 			<?php $confirm = System::translate("Are you sure you want to remove a book from shelf %s?", $shelf->name); ?>
 			{assign link    => $component->link('removeFromShelf', $book->getId(), $shelf->getId())}
-			<a onclick="return confirm('{!$confirm}')" href="{!$link}" title="{_'Delete'}">
-			    <img src="{$baseUri . 'img/ico/delete.png'}" alt="{_'Delete'}" />
+			<a onclick="return confirm('{!$confirm}')" href="{!$link}" title="{_'Delete from shelf'}">
+			    <img src="{$baseUri . 'img/ico/delete.png'}" alt="{_'Delete from shelf'}" />
 			</a>
 		    </span>
 			{assign shelfId => $shelf->getId()}
@@ -16,6 +17,9 @@
 		</li>
 	    {/foreach}
 	</ul>
+    {else}
+	<p><em>{_'Not in any shelf'} &ndash; {_'select shelf to place into.'}</em></p>
+	<br />
     {/if}
 	{widget form}
 </div>

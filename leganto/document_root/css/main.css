@@ -535,6 +535,9 @@ a img {
 .shelf-type-owned {
 	background: #E9F4F7;
 }
+.shelf-type-reading {
+	background: #FF9E96;
+}
 .shelf-type-general {
 	background: white;
 }

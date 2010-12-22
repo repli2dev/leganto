@@ -95,7 +95,7 @@ DROP TABLE IF EXISTS `shelf`;
 CREATE TABLE `shelf` (
 	`id_shelf` INT(25) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'identifikator',
 	`id_user` INT(25) UNSIGNED NOT NULL,
-	`type` ENUM('general','read','wanted','owned') NOT NULL DEFAULT 'general' COMMENT 'typ policky - obecna, precteno, poptavano, vlastneno',
+	`type` ENUM('general','read','wanted','owned','reading') NOT NULL DEFAULT 'general' COMMENT 'typ policky - obecna, precteno, poptavano, vlastneno, prave cteno',
 	`name` VARCHAR(255) NULL COMMENT 'nazev policky',
 	`inserted` DATETIME NOT NULL COMMENT 'cas, kdy byla polozka vlozena do systemu',
 	`updated` TIMESTAMP COMMENT 'cas, kdy byla polozka naposledy zmenena',
