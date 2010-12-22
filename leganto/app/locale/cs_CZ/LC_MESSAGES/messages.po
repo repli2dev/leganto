@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
 "PO-Revision-Date: \n"
-"Last-Translator: Jan Drábek <repli2dev@gmail.com>\n"
+"Last-Translator: Jan Drabek <me@jandrabek.cz>\n"
 "Language-Team: Leganto team <info@leganto.cz>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
@@ -1637,7 +1637,7 @@ msgstr "Vynikající"
 
 # APP_DIR/WebModule/components/InsertingShelf/InsertingShelfComponent.php:76
 msgid "Wanted"
-msgstr "Požadováno"
+msgstr "Chci si přečíst"
 
 # APP_DIR/WebModule/templates/Help/default.phtml:5
 msgid "Welcome in your support section, where you can find answers for nearly all your questions. The whole support page is divided into several categories. To continue select and click on one of categories shown below this text."
