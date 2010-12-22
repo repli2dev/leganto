@@ -56,7 +56,7 @@ class Web_BookPresenter extends Web_BasePresenter {
 		if (!Environment::getUser()->isAllowed(Resource::EDITION, Action::EDIT)) {
 			$this->unauthorized();
 		} else {
-			$this->setPageTitle(System::translate("Edit edition") . ": " . $book->title);
+			$this->setPageTitle(System::translate("Edit edition") . ": " . $this->getBook()->title);
 			$this->setPageDescription(System::translate("You can edit an already inserted edition on this page."));
 			$this->setPageKeywords(System::translate("edit, update, edition"));
 		}

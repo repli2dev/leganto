@@ -53,7 +53,7 @@ class EditionComponent extends BaseComponent {
 	protected function prepareForm($owner = "add") {
 		$form = new BaseForm;
 		$form->addText("isbn10", "ISBN 10", NULL, 10)
-			->setOption("description", System::translate("Nine characters long ISBN."));
+			->setOption("description", System::translate("Ten characters long ISBN."));
 		$form->addText("isbn13", "ISBN 13", NULL, 13)
 			->setOption("description", System::translate("Thirteen characters long ISBN."));
 		$form->addText("pages", "Number of pages");
