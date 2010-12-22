@@ -79,13 +79,13 @@ class ShelfUpdater implements IUpdater {
 		$shelves = dibi::query("
             SELECT [id_shelf]
             FROM [shelf]
-            WHERE [id_user] = %", $userId,
+            WHERE [id_user] = %i", $userId,
 			" AND [type] IN ('wanted', 'reading')"
 		)->fetchPairs("id_shelf", "id_shelf");
 		if (!empty($shelves)) {
 			dibi::query("
 				DELETE FROM [in_shelf] WHERE [id_shelf] IN %l", $shelves,
-				" AND [id_book_title] = %", $bookTitleId
+				" AND [id_book_title] = %i", $bookTitleId
 			);
 		}
 	}

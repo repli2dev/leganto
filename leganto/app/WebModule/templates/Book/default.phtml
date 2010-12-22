@@ -8,8 +8,9 @@
 	@{widget opinionList}
 	{if $opinionCount == 0}
 		<p>{_"There are no text opinions, be the one who write the first one!"}</p>
+	{else}
+		<p>{_"There can be more opinions (even non text) than you see. Please visit"} <a href="{plink Book:opinions, $bookId}" title="{_"Opinions on the book"}">{_"Opinions on the book"}</a>.</p>
 	{/if}
-	<p>{_"There can be more opinions (even non text) than you see. Please visit"} <a href="{plink Book:opinions, $bookId}" title="{_"Opinions on the book"}">{_"Opinions on the book"}</a>.</p>
 	<h2>{_'Related books'}</h2>
 	{widget relatedBookList}
 	<h2>{_'Editions'}</h2>
