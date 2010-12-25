@@ -138,7 +138,7 @@ class InsertingBookComponent extends BaseComponent {
 		if (!$this->isInsertedBookRelated()) {
 			$form->addGroup("Authors");
 			$authors = array(NULL => "---- " . System::translate("Choose author") . " ----")
-				+ Leganto::authors()->getSelector()->findAll()->orderBy("full_name")->fetchPairs("id_author", "full_name");
+				+ Leganto::authors()->getSelector()->findAll()->orderBy("librarian_name")->fetchPairs("id_author", "librarian_name");
 			$container = $form->addContainer("authors");
 			// The user has just inserted a new author
 			if ($this->getAuthor() != NULL) {
@@ -440,6 +440,7 @@ class InsertingBookComponent extends BaseComponent {
 		} catch (Exception $e) {
 			// Silent error
 			//$this->unexpectedError($e, FALSE);
+			System::log("LOOKUP FOR EDITIONS AND IMAGES FOR BOOK '" . $book->getId() . "' FAILED");
 		}
 		$this->getPresenter()->flashMessage($flashMessage, "success");
 		$this->getPresenter()->flashMessage(System::translate("The system tried to load editions of the book")." ".$book->title.System::translate(", but the process is not reliable and you can insert editions manually."));

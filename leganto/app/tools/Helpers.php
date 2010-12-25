@@ -83,7 +83,7 @@ final class Helpers {
 	 * @return string Formated date.
 	 */
 	public static function dateFormatHelper($date) {
-		return date('d.m.Y', strtotime($date));
+		return date('j.n.Y', strtotime($date));
 	}
 
 	/**
@@ -247,7 +247,7 @@ final class Helpers {
 	 * @return string Formated time.
 	 */
 	public static function timeFormatHelper($time) {
-		return date('d.m.Y H:i', $time);
+		return date('j.n.Y H:i', strtotime($time));
 	}
 
 	/**

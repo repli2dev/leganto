@@ -30,7 +30,8 @@ DROP VIEW IF EXISTS `view_author`;
 CREATE VIEW `view_author` AS
 	SELECT
 		`author`.*,
-		IF (`author`.`type` = 'person', CONCAT(`author`.`first_name`, CONCAT(' ', `author`.`last_name`)), `group_name`) AS `full_name`
+		IF (`author`.`type` = 'person', CONCAT(`author`.`first_name`, CONCAT(' ', `author`.`last_name`)), `group_name`) AS `full_name`,
+		IF (`author`.`type` = 'person', CONCAT(`author`.`last_name`, CONCAT(', ', `author`.`first_name`)), `group_name`) AS `librarian_name`
 	FROM `author`;
 
 DROP VIEW IF EXISTS `view_book_author`;
@@ -137,14 +138,6 @@ CREATE VIEW `view_post` AS
 	INNER JOIN `user` USING (`id_user`)
 	INNER JOIN `discussion` USING (`id_discussion`);
 
-DROP VIEW IF EXISTS `view_topic`;
-CREATE VIEW `view_topic` AS
-	SELECT
-		`topic`.*,
-		`user`.`nick`					AS `user_name`
-	FROM `topic`
-	INNER JOIN `user` USING (`id_user`);
-
 DROP VIEW IF EXISTS `view_discussion`;
 CREATE VIEW `view_discussion` AS
 	SELECT
@@ -155,6 +148,18 @@ CREATE VIEW `view_discussion` AS
 	INNER JOIN `post` USING(`id_discussion`)
 	GROUP BY `id_discussion`
 	ORDER BY `last_post_inserted` DESC;
+
+-- View_discussion must be created first
+DROP VIEW IF EXISTS `view_topic`;
+CREATE VIEW `view_topic` AS
+	SELECT
+		`topic`.*,
+		`user`.`nick` AS `user_name`,
+		`view_discussion`.`last_post_inserted`,
+		`view_discussion`.`number_of_posts`
+	FROM `topic`
+	INNER JOIN `user` USING (`id_user`)
+	LEFT OUTER JOIN `view_discussion` ON id_topic = id_discussed
 
 DROP VIEW IF EXISTS `view_similar_book`;
 CREATE VIEW `view_similar_book` AS

@@ -27,6 +27,7 @@ final class LegantoTemplate {
 		$template->registerFilter(new LatteFilter);
 
 		// register custom helpers
+		// Better to use Nette date helper
 		$template->registerHelper("date", Helpers::getHelper('date'));
 		$template->registerHelper("time", Helpers::getHelper('time'));
 		$template->registerHelper("texy", Helpers::getHelper('texy'));

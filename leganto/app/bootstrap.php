@@ -46,6 +46,9 @@ $router[] = CronModule::createRouter();
 // lazy connect should be enabled in config.ini
 dibi::connect(Environment::getConfig('database'));
 
+// Profiling SQL queries
+//dibi::getProfiler()->setFile(APP_DIR.'/temp/log.sql');
+
 // Step 6: Start session
 Environment::getSession()->setExpiration("+7 days");
 Environment::getSession()->start();

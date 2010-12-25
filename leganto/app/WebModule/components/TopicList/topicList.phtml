@@ -3,12 +3,17 @@
 		<div class="item">
 			<div class="info-side">
 				<img class="icon" src="{$topic->userId, 50|userico}" />
-				<span class="date">{$topic->inserted|date}</span>
 			</div>
 			<div class="content">
 				<a href="{plink Discussion:posts, $topic->getId(), PostSelector::TOPIC}" class="topic-name">{$topic->name}</a>
 				<br />
 				<a href="{plink User:default, $topic->userId}" title="{$topic->userName}" class="user-name">{$topic->userName|hardTruncate:20}</a>
+				<br />
+				{_'Created'}: {$topic->inserted|time}
+				<br />
+				{_'Last post inserted'}: {$topic->lastPostInserted|time}
+				<br />
+				{_'Number of posts'}: {$topic->numberOfPosts}
 			</div>
 			<div class="clear"></div>
 		</div>

@@ -26,4 +26,16 @@ class TopicEntity extends AEntity {
 	 */
 	protected $userName;
 
+	/**
+	 * @Skip(Save)
+	 * @Translate(last_post_inserted)
+	 */
+	protected $lastPostInserted;
+
+	/**
+	 * @Skip(Save)
+	 * @Translate(number_of_posts)
+	 */
+	protected $numberOfPosts;
+
 }
