@@ -316,6 +316,14 @@ a img {
 #feed p {
 	padding: 0;
 }
+.feed {
+	width: 75%;
+	float: left;
+}
+.recommend  {
+	width: 23%;
+	float: right;
+}
 .feed div.item-opinion {
 	background: #F6F6F6 url('/img/ico/feed-opinion.png') no-repeat 98% 50%;
 }
@@ -684,4 +692,9 @@ table.connections-list a.delete {
 	display: block;
 	text-align: right;
 	font-style: italic;
+}
+.cleaner {
+	clear: both;
+	height: 1px;
+	border: 0px none;
 }

@@ -58,5 +58,14 @@ class FeedComponent extends BaseListComponent {
 	protected function startUp() {
 		$this->setSource(Leganto::feed()->getSelector()->findAll());
 	}
+	/**
+	 * Doporučené knihy
+	 * SELECT DISTINCT id_book_title FROM opinion WHERE id_book_title NOT IN (
+	 *	SELECT id_book_title FROM opinion WHERE id_user=445) AND id_book_title IN (
+	 *		SELECT id_book_title FROM opinion WHERE id_user = (
+	 *			SELECT id_user_to FROM user_similarity WHERE id_user_from=445 ORDER BY value DESC LIMIT 1
+	 *		)
+	 *	)
+	 */
 
 }
