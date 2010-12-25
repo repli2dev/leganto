@@ -73,6 +73,10 @@ class Web_BookPresenter extends Web_BasePresenter {
 		}
 	}
 
+	public function actionRandom() {
+		$this->redirect("default",Leganto::books()->getSelector()->findRandom()->id_book_title);
+	}
+
 	public function renderEdit($book) {
 		// Edit book
 		$this->getTemplate()->book = $this->getBook();
@@ -179,6 +183,7 @@ class Web_BookPresenter extends Web_BasePresenter {
 		$submenu->addLink("opinions", System::translate("Opinions"), $this->getBook()->getId());
 		$submenu->addLink("similar", System::translate("Similar books"), $this->getBook()->getId());
 		$submenu->addLink("Search:allBooks", System::translate("All books"));
+		$submenu->addLink("random", System::translate("Random book"));
 		if (System::user() != NULL) {
 			$opinion = Leganto::opinions()->getSelector()->findByBookAndUser($this->getBook(), System::user());
 		}

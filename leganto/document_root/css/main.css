@@ -317,12 +317,16 @@ a img {
 	padding: 0;
 }
 .feed {
-	width: 75%;
+	width: 600px;
 	float: left;
 }
 .recommend  {
-	width: 23%;
-	float: right;
+	width: 230px;
+	float: left;
+	margin-left: 20px;
+}
+.recommend .books .item {
+	width: 210px;
 }
 .feed div.item-opinion {
 	background: #F6F6F6 url('/img/ico/feed-opinion.png') no-repeat 98% 50%;

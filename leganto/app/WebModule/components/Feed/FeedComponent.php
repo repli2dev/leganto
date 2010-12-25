@@ -41,6 +41,7 @@ class FeedComponent extends BaseListComponent {
 				$this->getSource()->where("id_user IN %l", $users);
 			}
 		}
+		$this->getComponent("bookList")->setSource(Leganto::books()->getSelector()->findRecommendedBook());
 		// Check for new messages
 		if(Leganto::messages()->getSelector()->hasNewMessage(System::user()) != FALSE) {
 			$this->flashMessage(System::translate("You have a new message. Read it in") ." ". Html::el("a")->href($this->getPresenter()->link("User:messages"))->setText(System::translate("Messaging")) . ".");
@@ -58,14 +59,10 @@ class FeedComponent extends BaseListComponent {
 	protected function startUp() {
 		$this->setSource(Leganto::feed()->getSelector()->findAll());
 	}
-	/**
-	 * Doporučené knihy
-	 * SELECT DISTINCT id_book_title FROM opinion WHERE id_book_title NOT IN (
-	 *	SELECT id_book_title FROM opinion WHERE id_user=445) AND id_book_title IN (
-	 *		SELECT id_book_title FROM opinion WHERE id_user = (
-	 *			SELECT id_user_to FROM user_similarity WHERE id_user_from=445 ORDER BY value DESC LIMIT 1
-	 *		)
-	 *	)
-	 */
+
+	protected function createComponentBookList($name) {
+		return new BookListComponent($this, $name);
+	}
+	
 
 }
