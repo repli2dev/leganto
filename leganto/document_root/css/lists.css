@@ -38,7 +38,8 @@
 	padding: 10px;
 }
 .list .item .content{
-	margin-left: 75px;
+	margin-left: 92px;
+	min-height: 60px;
 }
 .list .info-side {
 	float: left;
@@ -90,7 +91,7 @@
 	vertical-align: middle;
 }
 .opinions .item .content {
-	min-height: 70px;
+	min-height: 60px;
 }
 /************************** TOPICS ********************************************/
 .topics .item {
