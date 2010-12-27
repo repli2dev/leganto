@@ -442,6 +442,7 @@ class InsertingBookComponent extends BaseComponent {
 			//$this->unexpectedError($e, FALSE);
 			System::log("LOOKUP FOR EDITIONS AND IMAGES FOR BOOK '" . $book->getId() . "' FAILED");
 		}
+		$this->setNumberOfAuthors(1);
 		$this->getPresenter()->flashMessage($flashMessage, "success");
 		$this->getPresenter()->flashMessage(System::translate("The system tried to load editions of the book")." ".$book->title.System::translate(", but the process is not reliable and you can insert editions manually."));
 		$this->getPresenter()->redirect("Book:default", $book->getId());

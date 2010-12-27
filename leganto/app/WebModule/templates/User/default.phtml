@@ -20,6 +20,7 @@
 			<strong>{_"Read books"}:</strong> {$numOfBooks}<br />
 			<strong>{_"Discussion posts"}:</strong> {$numOfPosts}<br />
 			<strong>{_"Shelves"}:</strong> {$numOfShelves}<br />
+			<strong>{_"Last logged"}:</strong> {$user->lastLogged|time}<br />
 		</p>
 		<div class="clear">&nbsp;</div>
 		{if $user->about != NULL}

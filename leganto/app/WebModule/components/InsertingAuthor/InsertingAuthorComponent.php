@@ -113,7 +113,7 @@ class InsertingAuthorComponent extends BaseComponent {
 			->addRule(Form::FILLED, "Please fill the group name.");
 
 		$form->addGroup()->setOption('container', Html::el('div'));
-		$form->addSubmit("insert", "Insert");
+		$form->addSubmit("insert", "Save");
 		$form->onSubmit[] = array($this, "formSubmitted");
 
 		$form->addHidden("id_author");
