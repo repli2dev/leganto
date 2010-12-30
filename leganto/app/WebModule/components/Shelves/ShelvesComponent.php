@@ -73,7 +73,7 @@ class ShelvesComponent extends BaseComponent {
 		$this->getTemplate()->shelves = Leganto::shelves()->fetchAndCreateAll(Leganto::shelves()->getSelector()->findByUser($this->user));
 		// Books in shelves
 		// FIXME: The books should be represented as entities
-		$this->getTemplate()->books = Leganto::books()->getSelector()->findAllInShelvesByUser($this->user)->fetchAssoc("id_shelf,id_book");
+		$this->getTemplate()->books = Leganto::books()->getSelector()->findAllInShelvesByUser($this->user)->fetchAssoc("id_shelf,id_book_title");
 	}
 
 	private function computeNewOrder(array $order, array $books) {

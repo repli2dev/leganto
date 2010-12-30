@@ -28,7 +28,7 @@ class ShelfSelector implements ISelector {
 		if ($book->getId() == NULL) {
 			throw new NullPointerException("The book has no ID");
 		}
-		return dibi::dataSource("SELECT * FROM [view_shelf] WHERE [id_book] = %i", $book->getId());
+		return dibi::dataSource("SELECT * FROM [view_shelf] WHERE [id_book_title] = %i", $book->getId());
 	}
 
 	/**

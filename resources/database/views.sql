@@ -61,7 +61,7 @@ CREATE VIEW `view_shelf_book` AS
 		`view_book`.*
 	FROM `in_shelf`
 	INNER JOIN `shelf` USING (`id_shelf`)
-	INNER JOIN `view_book` USING (`id_book`)
+	INNER JOIN `view_book` USING (`id_book_title`)
 	ORDER BY `in_shelf`.`order`;
 
 DROP VIEW IF EXISTS `view_author_book`;
@@ -159,7 +159,7 @@ CREATE VIEW `view_topic` AS
 		`view_discussion`.`number_of_posts`
 	FROM `topic`
 	INNER JOIN `user` USING (`id_user`)
-	LEFT OUTER JOIN `view_discussion` ON id_topic = id_discussed
+	LEFT OUTER JOIN `view_discussion` ON id_topic = id_discussed;
 
 DROP VIEW IF EXISTS `view_similar_book`;
 CREATE VIEW `view_similar_book` AS
