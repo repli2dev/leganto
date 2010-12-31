@@ -23,8 +23,8 @@ class Web_DefaultPresenter extends Web_BasePresenter {
 			$component->handleChangeState("login");
 		}
 		$this->setPageTitle(System::translate("Main page"));
-		$this->setPageDescription(System::translate("Leganto is a community webpage which aims to create and share information about literature as a valuable part of our culture. Join our efforts."));
-		$this->setPageKeywords(System::translate("books, how to choose a book, what friends read, what my, culture, about books, opinions on books, leganto, čtenáři, preader"));
+		$this->setPageDescription(System::translate("Leganto is a community webpage (of readers) which aims to create and share information about literature as a valuable part of our culture. Join our efforts."));
+		$this->setPageKeywords(System::translate("books, how to choose a book, what friends read, culture, about books, opinions on books, leganto, čtenáři, reader"));
 	}
 
 	public function renderFeed($firstTime = FALSE) {

@@ -27,4 +27,24 @@ $(function(){
 		// Set this one as current
 		$(this).attr("id", "selected-search-option");
 	});
+
+	// Nice example text
+	function switchText()
+	{
+		if ($(this).val() == $(this).attr('title'))
+			$(this).val('').removeClass('shaded-text');
+		else if ($.trim($(this).val()) == '')
+			$(this).addClass('shaded-text').val($(this).attr('title'));
+	}
+
+	$('input[type=text][title!=""]').each(function() {
+		if ($.trim($(this).val()) == '') $(this).val($(this).attr('title'));
+		if ($(this).val() == $(this).attr('title')) $(this).addClass('shaded-text');
+	}).focus(switchText).blur(switchText);
+
+	$('form').submit(function() {
+		$(this).find('input[type=text][title!=""]').each(function() {
+			if ($(this).val() == $(this).attr('title')) $(this).val('');
+		});
+	});
 });

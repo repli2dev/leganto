@@ -1,5 +1,4 @@
 <?php
-
 /**
  *
  * @copyright	Copyright (c) 2009 Jan Papoušek (jan.papousek@gmail.com),
