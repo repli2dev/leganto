@@ -1,0 +1,41 @@
+<style>
+#book-merger-box .master a {
+	font-size: 120%;
+}
+</style>
+
+{snippet bookMerger}
+<div class="box" id="book-merger-box">
+	<h3>{_'Merge books'}</h3>
+	<ul>
+		{if !empty($master)}
+			<li class="master">
+				<?php $confirm = System::translate("Are you sure you want to remove the book \'%s\' from merging?", $master->title); ?>
+				<a onclick="return confirm('{!$confirm}')" href="{link removeMasterBook}" title="{_'Remove the book from merging'}">
+					<img src="{$baseUri . 'img/ico/delete.png'}" alt="{_'Remove the book from merging'}" />
+				</a>
+				<a href="{plink Book:default, $master->getId()}" title="{$master->title . ($master->subtitle != NULL ? ': ' . $master->subtitle : '') }">{$master->title|hardTruncate, 20}</a>
+			</li>
+		{/if}
+		{foreach $slave AS $b}
+			<?php $confirm = System::translate("Are you sure you want to remove the book \'%s\' from merging?", $b->title); ?>
+			<li class="slave">
+				<a onclick="return confirm('{!$confirm}')" href="{link removeSlaveBook, $b->getId()}" title="{_'Remove the book from merging'}">
+					<img src="{$baseUri . 'img/ico/delete.png'}" alt="{_'Remove the book from merging'}" />
+				</a>
+				<a href="{plink Book:default, $b->getId()}" title="{$b->title . ($b->subtitle != NULL ? ': ' . $b->subtitle : '') }">{$b->title|hardTruncate, 20}</a>
+			</li>
+		{/foreach}
+		{if (empty($master) || $master->getId() != $book->getId()) && !in_array($book->getId(), array_keys($slave))}
+			<li><a href="{link setMasterBook, $book->getId()}" title="{_'Set as a master book'}" class="ajax">{_'Set as a master book'}</a></li>
+			<li><a href="{link addSlaveBook, $book->getId()}" title="{_'Add as a slave book'}" class="ajax">{_'Add as a slave book'}</a></li>
+		{/if}
+		{if !empty($master) && !empty($slave)}
+			<?php $confirm = System::translate("Are you sure you want to merge the books?"); ?>
+			<li>
+				<a onclick="return confirm('{!$confirm}')" href="{link merge}" title="{_'Merge'}">{_'Merge'}</a>
+			</li>
+		{/if}
+	</ul>
+</div>
+{/snippet}
