@@ -245,6 +245,9 @@ class BookSelector implements ISelector {
 				SELECT id_book_title FROM opinion WHERE id_user = %i ",$user,"
 			) AND rating BETWEEN 4 AND 5
 			ORDER BY RAND() LIMIT 2");
+		 if($result->count() == 0) {
+			 return;
+		 }
 		 return $this->findAll()->where("[id_book_title] IN %l",$result->fetchAll());
 	 }
 
