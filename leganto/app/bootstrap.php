@@ -38,7 +38,6 @@ $application = Environment::getApplication();
 $router = $application->getRouter();
 
 $router[] = ApiModule::createRouter();
-$router[] = TestModule::createRouter();
 $router[] = WebModule::createRouter();
 $router[] = CronModule::createRouter();
 
