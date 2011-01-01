@@ -5,7 +5,7 @@ CREATE TABLE `language` (
 	`locale` VARCHAR (10) NOT NULL COMMENT 'zkratka jazyka',
 	`google` VARCHAR (10) NOT NULL COMMENT 'zkratka jazyka pro google (cs,en...)',
 	UNIQUE (`name`), UNIQUE (`locale`)
-) ENGINE = InnoDB COMMENT = 'Obsahuje pouzivane jazyky';
+) ENGINE = InnoDB COMMENT = 'Obsahuje pouzivane jazyky' CHARACTER SET utf8 COLLATE utf8_czech_ci;
 
 DROP TABLE IF EXISTS `domain`;
 CREATE TABLE `domain` (
@@ -15,7 +15,7 @@ CREATE TABLE `domain` (
 	`email` VARCHAR(100) NOT NULL COMMENT 'e-mail webu',
 	FOREIGN KEY (`id_language`) REFERENCES `language`(`id_language`) ON UPDATE CASCADE ON DELETE CASCADE,
 	UNIQUE (`uri`)
-) ENGINE = InnoDB COMMENT = 'Jednotlive instance webu.';
+) ENGINE = InnoDB COMMENT = 'Jednotlive instance webu.' CHARACTER SET utf8 COLLATE utf8_czech_ci;
 
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
@@ -37,7 +37,7 @@ CREATE TABLE `user` (
 	UNIQUE(`email`),
 	UNIQUE(`nick`),
 	INDEX(`nick`)
-) ENGINE = InnoDB COMMENT = 'uzivatele';
+) ENGINE = InnoDB COMMENT = 'uzivatele' CHARACTER SET utf8 COLLATE utf8_czech_ci;
 
 DROP TABLE IF EXISTS `connection`;
 CREATE TABLE `connection` (
@@ -48,14 +48,14 @@ CREATE TABLE `connection` (
 	FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`) ON UPDATE CASCADE ON DELETE CASCADE,
 	UNIQUE(`id_user`,`type`),
 	UNIQUE  `one_account_in_system` (  `type` ,  `token` )
-) ENGINE = InnoDB COMMENT = 'propojeni s ucty uzivatelu na jinych serverech, napriklad facebook';
+) ENGINE = InnoDB COMMENT = 'propojeni s ucty uzivatelu na jinych serverech, napriklad facebook' CHARACTER SET utf8 COLLATE utf8_czech_ci;
 
 DROP TABLE IF EXISTS `book`;
 CREATE TABLE `book` (
 	`id_book` INT(25) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'identifikator',
 	`inserted` DATETIME NOT NULL COMMENT 'cas, kdy byla polozka vlozena do systemu',
 	`updated` TIMESTAMP COMMENT 'cas, kdy byla polozka naposledy zmenena'
-) ENGINE = InnoDB COMMENT = 'knihy nezavisle na lokalizaci';
+) ENGINE = InnoDB COMMENT = 'knihy nezavisle na lokalizaci' CHARACTER SET utf8 COLLATE utf8_czech_ci;
 
 DROP TABLE IF EXISTS `book_title`;
 CREATE TABLE `book_title` (
@@ -68,7 +68,7 @@ CREATE TABLE `book_title` (
 	`updated` TIMESTAMP COMMENT 'cas, kdy byla polozka naposledy zmenena',
 	FOREIGN KEY (`id_language`) REFERENCES `language` (`id_language`) ON UPDATE CASCADE ON DELETE CASCADE,
 	FOREIGN KEY (`id_book`) REFERENCES `book` (`id_book`) ON UPDATE CASCADE ON DELETE CASCADE
-) ENGINE = InnoDB COMMENT = 'knizni tituly v jiz lokalizovanych nazvech';
+) ENGINE = InnoDB COMMENT = 'knizni tituly v jiz lokalizovanych nazvech' CHARACTER SET utf8 COLLATE utf8_czech_ci;
 
 DROP TABLE IF EXISTS `author`;
 CREATE TABLE `author` (
@@ -79,7 +79,7 @@ CREATE TABLE `author` (
 	`group_name` VARCHAR(255) NULL COMMENT 'nazev skupiny, vyplneno v pripade, ze type = group',
 	`inserted` DATETIME NOT NULL COMMENT 'cas, kdy byla polozka vlozena do systemu',
 	`updated` TIMESTAMP COMMENT 'cas, kdy byla polozka naposledy zmenena'
-) ENGINE = InnoDB COMMENT = 'spisovatele - lide, skupiny';
+) ENGINE = InnoDB COMMENT = 'spisovatele - lide, skupiny' CHARACTER SET utf8 COLLATE utf8_czech_ci;
 
 DROP TABLE IF EXISTS `written_by`;
 CREATE TABLE `written_by` (
@@ -89,7 +89,7 @@ CREATE TABLE `written_by` (
 	FOREIGN KEY (`id_book`) REFERENCES `book` (`id_book`) ON UPDATE CASCADE ON DELETE CASCADE,
 	FOREIGN KEY (`id_author`) REFERENCES `author` (`id_author`) ON UPDATE CASCADE ON DELETE CASCADE,
 	UNIQUE (`id_book`, `id_author`)
-) ENGINE = InnoDB COMMENT = 'vztah mezi spisovateli a knihami';
+) ENGINE = InnoDB COMMENT = 'vztah mezi spisovateli a knihami' CHARACTER SET utf8 COLLATE utf8_czech_ci;
 
 DROP TABLE IF EXISTS `shelf`;
 CREATE TABLE `shelf` (
@@ -100,7 +100,7 @@ CREATE TABLE `shelf` (
 	`inserted` DATETIME NOT NULL COMMENT 'cas, kdy byla polozka vlozena do systemu',
 	`updated` TIMESTAMP COMMENT 'cas, kdy byla polozka naposledy zmenena',
 	FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`) ON UPDATE CASCADE ON DELETE CASCADE
-) ENGINE = InnoDB COMMENT = 'uzivatelovi policky, do kterych si pridava knihy';
+) ENGINE = InnoDB COMMENT = 'uzivatelovi policky, do kterych si pridava knihy' CHARACTER SET utf8 COLLATE utf8_czech_ci;
 
 DROP TABLE IF EXISTS `in_shelf`;
 CREATE TABLE `in_shelf` (
@@ -112,7 +112,7 @@ CREATE TABLE `in_shelf` (
 	FOREIGN KEY (`id_book_title`) REFERENCES `book_title` (`id_book_title`) ON UPDATE CASCADE ON DELETE CASCADE,
 	FOREIGN KEY (`id_shelf`) REFERENCES `shelf` (`id_shelf`) ON UPDATE CASCADE ON DELETE CASCADE,
 	UNIQUE (`id_book_title`,`id_shelf`)
-) ENGINE = InnoDB COMMENT = 'ulozene knihy v uzivetelskych policich';
+) ENGINE = InnoDB COMMENT = 'ulozene knihy v uzivetelskych policich' CHARACTER SET utf8 COLLATE utf8_czech_ci;
 
 DROP TABLE IF EXISTS `opinion`;
 CREATE TABLE `opinion` (
@@ -130,7 +130,7 @@ CREATE TABLE `opinion` (
 	UNIQUE (`id_user`,`id_book_title`),
 	INDEX(`id_user`),
 	INDEX(`id_book_title`)
-) ENGINE = InnoDB COMMENT = 'hodnocene nazory uzivatelu na knihy';
+) ENGINE = InnoDB COMMENT = 'hodnocene nazory uzivatelu na knihy' CHARACTER SET utf8 COLLATE utf8_czech_ci;
 
 DROP TABLE IF EXISTS topic;
 CREATE TABLE topic (
@@ -140,7 +140,7 @@ CREATE TABLE topic (
 	`inserted` DATETIME NOT NULL COMMENT 'cas, kdy byla polozka vlozena do systemu',
 	`updated` TIMESTAMP COMMENT 'cas, kdy byla polozka naposledy zmenena',
 	FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`) ON UPDATE CASCADE ON DELETE CASCADE
-) ENGINE = InnoDB COMMENT = 'diskusni temata';
+) ENGINE = InnoDB COMMENT = 'diskusni temata' CHARACTER SET utf8 COLLATE utf8_czech_ci;
 
 
 DROP TABLE IF EXISTS discussable;
@@ -152,7 +152,7 @@ CREATE TABLE discussable (
 	`column_subname` VARCHAR(255) NULL COMMENT 'nazev sloupce, ze ktereho se bere pripadny podnazev diskuse',
 	`inserted` DATETIME NOT NULL COMMENT 'cas, kdy byla polozka vlozena do systemu',
 	`updated` TIMESTAMP COMMENT 'cas, kdy byla polozka naposledy zmenena'
-) ENGINE = InnoDB COMMENT = 'typy entit, ke kterym mohou byt vedeny diskuse';
+) ENGINE = InnoDB COMMENT = 'typy entit, ke kterym mohou byt vedeny diskuse' CHARACTER SET utf8 COLLATE utf8_czech_ci;
 
 DROP TABLE IF EXISTS discussion;
 CREATE TABLE discussion (
@@ -164,7 +164,7 @@ CREATE TABLE discussion (
 	`inserted` DATETIME NOT NULL COMMENT 'cas, kdy byla polozka vlozena do systemu',
 	`updated` TIMESTAMP COMMENT 'cas, kdy byla polozka naposledy zmenena',
 	FOREIGN KEY (`id_discussable`) REFERENCES `discussable`(`id_discussable`) ON UPDATE CASCADE ON DELETE CASCADE
-) ENGINE = InnoDB COMMENT = 'odkazy na diskutovane entity, tvori vlakno diskuse';
+) ENGINE = InnoDB COMMENT = 'odkazy na diskutovane entity, tvori vlakno diskuse' CHARACTER SET utf8 COLLATE utf8_czech_ci;
 
 DROP TABLE IF EXISTS `post`;
 CREATE TABLE `post` (
@@ -181,7 +181,7 @@ CREATE TABLE `post` (
 	FOREIGN KEY (`reply`) REFERENCES `discussion` (`id_discussion`) ON UPDATE CASCADE ON DELETE CASCADE,
 	FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`) ON UPDATE CASCADE ON DELETE CASCADE,
 	FOREIGN KEY (`id_language`) REFERENCES `language` (`id_language`) ON UPDATE CASCADE ON DELETE CASCADE
-) ENGINE = InnoDB COMMENT = 'diskusni prispevky';
+) ENGINE = InnoDB COMMENT = 'diskusni prispevky' CHARACTER SET utf8 COLLATE utf8_czech_ci;
 
 DROP TABLE IF EXISTS `tag`;
 CREATE TABLE `tag` (
@@ -190,7 +190,7 @@ CREATE TABLE `tag` (
 	`name` VARCHAR(255) NOT NULL COMMENT 'samotne klicove slovo',
 	`updated` TIMESTAMP NOT NULL COMMENT 'cas, kdy byla polozka naposledy zmenena',
 	FOREIGN KEY (`id_language`) REFERENCES `language` (`id_language`) ON UPDATE CASCADE ON DELETE CASCADE
-) ENGINE = InnoDB COMMENT = 'klicova slova pouzita k oznaceni knih';
+) ENGINE = InnoDB COMMENT = 'klicova slova pouzita k oznaceni knih' CHARACTER SET utf8 COLLATE utf8_czech_ci;
 
 DROP TABLE IF EXISTS `tagged`;
 CREATE TABLE `tagged` (
@@ -203,7 +203,7 @@ CREATE TABLE `tagged` (
 	UNIQUE(`id_tag`, `id_book`),
 	INDEX(`id_tag`),
 	INDEX(`id_book`)
-) ENGINE = InnoDB COMMENT = 'vztah mezi knihami a klicovymi slovy';
+) ENGINE = InnoDB COMMENT = 'vztah mezi knihami a klicovymi slovy' CHARACTER SET utf8 COLLATE utf8_czech_ci;
 
 DROP TABLE IF EXISTS `book_similarity`;
 CREATE TABLE `book_similarity` (
@@ -214,7 +214,7 @@ CREATE TABLE `book_similarity` (
 	`updated` TIMESTAMP COMMENT 'cas, kdy byla polozka naposledy zmenena',
 	FOREIGN KEY (`id_book_from`) REFERENCES `book` (`id_book`) ON UPDATE CASCADE ON DELETE CASCADE,
 	FOREIGN KEY (`id_book_to`) REFERENCES `book` (`id_book`) ON UPDATE CASCADE ON DELETE CASCADE
-) ENGINE = InnoDB COMMENT = 'podobnost knih';
+) ENGINE = InnoDB COMMENT = 'podobnost knih' CHARACTER SET utf8 COLLATE utf8_czech_ci;
 
 DROP TABLE IF EXISTS `user_similarity`;
 CREATE TABLE `user_similarity` (
@@ -225,7 +225,7 @@ CREATE TABLE `user_similarity` (
 	`updated` TIMESTAMP COMMENT 'cas, kdy byla polozka naposledy zmenena',
 	FOREIGN KEY (`id_user_from`) REFERENCES `user` (`id_user`) ON UPDATE CASCADE ON DELETE CASCADE,
 	FOREIGN KEY (`id_user_to`) REFERENCES `user` (`id_user`) ON UPDATE CASCADE ON DELETE CASCADE
-) ENGINE = InnoDB COMMENT = 'podobnost uzivatelu';
+) ENGINE = InnoDB COMMENT = 'podobnost uzivatelu' CHARACTER SET utf8 COLLATE utf8_czech_ci;
 
 DROP TABLE IF EXISTS `help`;
 CREATE TABLE `help` (
@@ -235,7 +235,7 @@ CREATE TABLE `help` (
 	`text` TEXT NOT NULL,
 	`image` TEXT NULL,
 	FOREIGN KEY (`id_language`) REFERENCES `language` (`id_language`) ON UPDATE CASCADE ON DELETE CASCADE
-) ENGINE = InnoDB COMMENT = 'vestavena napoveda';
+) ENGINE = InnoDB COMMENT = 'vestavena napoveda' CHARACTER SET utf8 COLLATE utf8_czech_ci;
 
 DROP TABLE IF EXISTS `edition`;
 CREATE TABLE `edition` (
@@ -252,7 +252,7 @@ CREATE TABLE `edition` (
 	UNIQUE(`isbn10`),
 	UNIQUE(`isbn13`),
 	INDEX(`id_book_title`)
-) ENGINE = InnoDB COMMENT = 'Vydani knih';
+) ENGINE = InnoDB COMMENT = 'Vydani knih' CHARACTER SET utf8 COLLATE utf8_czech_ci;
 
 DROP TABLE IF EXISTS `following`;
 CREATE TABLE `following` (
@@ -262,7 +262,7 @@ CREATE TABLE `following` (
     FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`) ON UPDATE CASCADE ON DELETE CASCADE,
     FOREIGN KEY (`id_user_followed`) REFERENCES `user` (`id_user`) ON UPDATE CASCADE ON DELETE CASCADE,
     UNIQUE(`id_user`, `id_user_followed`)
-) ENGINE = InnoDB COMMENT = 'followers';
+) ENGINE = InnoDB COMMENT = 'followers' CHARACTER SET utf8 COLLATE utf8_czech_ci;
 
 DROP TABLE IF EXISTS `support_category`;
 CREATE TABLE `support_category` (
@@ -273,7 +273,7 @@ CREATE TABLE `support_category` (
 	`weight` TINYINT NOT NULL COMMENT 'tiha dane kategorie (aby slo urcit poradi)',
 	`updated` TIMESTAMP COMMENT 'cas, kdy byla polozka naposledy zmenena',
 	FOREIGN KEY (`id_language`) REFERENCES `language` (`id_language`) ON UPDATE CASCADE ON DELETE CASCADE
-) ENGINE = InnoDB COMMENT = 'kategorie napovedy';
+) ENGINE = InnoDB COMMENT = 'kategorie napovedy' CHARACTER SET utf8 COLLATE utf8_czech_ci;
 
 DROP TABLE IF EXISTS `support_text`;
 CREATE TABLE `support_text` (
@@ -284,7 +284,7 @@ CREATE TABLE `support_text` (
 	`updated` TIMESTAMP COMMENT 'cas, kdy byla polozka naposledy zmenena',
 	`weight` TINYINT NOT NULL COMMENT 'tiha dane kategorie (aby slo urcit poradi)',
 	FOREIGN KEY (`id_support_category`) REFERENCES `support_category` (`id_support_category`) ON UPDATE CASCADE ON DELETE CASCADE
-) ENGINE = InnoDB COMMENT = 'texty napovedy';
+) ENGINE = InnoDB COMMENT = 'texty napovedy' CHARACTER SET utf8 COLLATE utf8_czech_ci;
 
 DROP TABLE IF EXISTS `captcha`;
 CREATE TABLE `captcha` (
@@ -293,7 +293,7 @@ CREATE TABLE `captcha` (
 	`answer` TEXT NOT NULL COMMENT 'jedina odpoved',
 	`id_language` INT(25) UNSIGNED NOT NULL COMMENT 'preferovany jazyk uzivatele',
 	FOREIGN KEY (`id_language`) REFERENCES `language` (`id_language`) ON UPDATE CASCADE ON DELETE CASCADE
-) ENGINE = InnoDB COMMENT = 'Tabulka s textovymi otazkami pro captchu.';
+) ENGINE = InnoDB COMMENT = 'Tabulka s textovymi otazkami pro captchu.' CHARACTER SET utf8 COLLATE utf8_czech_ci;
 
 DROP TABLE IF EXISTS `user_log`;
 CREATE TABLE `user_log` (
@@ -305,7 +305,7 @@ CREATE TABLE `user_log` (
 	`ip` VARCHAR(39) NOT NULL,
 	`browser` TEXT NOT NULL,
 	FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`) ON UPDATE CASCADE ON DELETE CASCADE
-) ENGINE = InnoDB COMMENT = 'Table with user actions log'
+) ENGINE = InnoDB COMMENT = 'Table with user actions log' CHARACTER SET utf8 COLLATE utf8_czech_ci;
 
 DROP TABLE IF EXISTS `message`;
 CREATE TABLE `message` (
@@ -319,4 +319,4 @@ CREATE TABLE `message` (
 	`inserted` DATETIME NOT NULL COMMENT 'cas, kdy byla polozka vlozena do systemu',
 	FOREIGN KEY (`id_user_from`) REFERENCES `user` (`id_user`) ON UPDATE CASCADE ON DELETE CASCADE,
 	FOREIGN KEY (`id_user_to`) REFERENCES `user` (`id_user`) ON UPDATE CASCADE ON DELETE CASCADE
-) ENGINE = InnoDB COMMENT = 'Table with users private messages'
+) ENGINE = InnoDB COMMENT = 'Table with users private messages' CHARACTER SET utf8 COLLATE utf8_czech_ci;
