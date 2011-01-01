@@ -459,6 +459,9 @@ a img {
 	margin: 0;
 	text-align: center;
 }
+#share-box p {
+	text-align: center;
+}
 #book-shelf-control form label {
 	width: 0;
 	visibility: hidden;

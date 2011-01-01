@@ -41,7 +41,13 @@ class FeedComponent extends BaseListComponent {
 				$this->getSource()->where("id_user IN %l", $users);
 			}
 		}
-		$this->getComponent("bookList")->setSource(Leganto::books()->getSelector()->findRecommendedBook());
+		$recommend = Leganto::books()->getSelector()->findRecommendedBook();
+		if($recommend !== null) {
+			$this->getComponent("bookList")->setSource($recommend);
+			$this->getTemplate()->recommend = true;
+		} else {
+			$this->getTemplate()->recommend = false;
+		}
 		// Check for new messages
 		if(Leganto::messages()->getSelector()->hasNewMessage(System::user()) != FALSE) {
 			$this->flashMessage(System::translate("You have a new message. Read it in") ." ". Html::el("a")->href($this->getPresenter()->link("User:messages"))->setText(System::translate("Messaging")) . ".");
