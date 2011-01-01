@@ -477,6 +477,12 @@ a img {
 #book-shelf-control ul li {
 	clear: both;
 }
+#book-merger-box h3 {
+	margin-bottom: 0;
+}
+#book-merger-box .master {
+	background-color: #F5D25A;
+}
 .shelf {
 	margin-top: 5px;
 	margin-left: 20px;
