@@ -7,8 +7,8 @@ class OpinionInserter implements IInserter {
 			throw new InvalidArgumentException("The entity can not be inserted because it is not in state [NEW].");
 		}
 		$opinionId = SimpleTableModel::createTableModel("opinion")->insert($entity->getData("Save"));
-		// TODO: zmenit id_book na id_book_title
-		//Leganto::shelves()->getUpdater()->removeReadBookFromShelves($entity->bookTitleId, $entity->userId);
+		Leganto::shelves()->getUpdater()->removeReadBookFromShelves($entity->bookTitleId, $entity->userId);
+		return $opinionId;
 	}
 
 }
