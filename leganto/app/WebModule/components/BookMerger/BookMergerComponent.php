@@ -38,7 +38,9 @@ class BookMergerComponent extends BaseComponent
 		foreach($slaves AS $slave) {
 			Leganto::books()->getUpdater()->merge($master, $slave);
 		}
-		// redirect
+
+		// success
+		$this->getPresenter()->flashMessage(System::translate("The books have been merged successfully."), "success");
 		$this->getPresenter()->redirect("Book:default", $master->getId());
 	}
 
