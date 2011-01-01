@@ -78,8 +78,8 @@ class GoogleBooksBookFinder extends AFinder {
 		}
 		$query = "";
 
-		// Add title to query
-		$query .= 'intitle:' . $entity->title . '';
+		// Add title (and subtitle) to query
+		$query .= 'intitle:' . $entity->title . ($entity->subtitle != null ? ' ' . $entity->subtitle : '') ;
 
 		// Add author to query
 		$authors = Leganto::authors()->fetchAndCreateAll(
@@ -89,7 +89,7 @@ class GoogleBooksBookFinder extends AFinder {
 			if ($author->type == AuthorEntity::GROUP) {
 				$query .= ' inauthor:' . $author->groupname . '';
 			} else {
-				$query .= ' inauthor:' . $author->firstname . ' ' . $author->lastname;
+				$query .= ' inauthor:' . $author->lastname;
 			}
 		}
 		return urlencode($query);
