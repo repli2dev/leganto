@@ -14,66 +14,43 @@ class BookUpdater implements IUpdater {
 	/* PUBLIC METHODS */
 
 	public function merge(BookEntity $superior, BookEntity $inferior) {
-		// Smazat vztahy s autory s podrizenou knihou
+		
 		// book_title, tagged, in_shelf, opinion, book_similarity
-		dibi::begin();
-		// Delete relations between authors and inferior book
-		dibi::delete("written_by")
-			->where("[id_book] = %i", $inferior->bookNode)
-			->execute();
-		// Move inferior book titles to superior book
-		dibi::update("book_title", array("id_book" => $superior->bookNode))
-			->where("[id_book] = %i", $inferior->bookNode)
-			->execute();
-		// Move inferior book tags to superior book
-		dibi::query("
-			UPDATE [tagged] SET
-				[id_book] = %i", $superior->bookNode, "
-			WHERE
-				[id_book] = %i", $inferior->bookNode, "
-			AND
-				[id_tag] NOT IN (SELECT [id_tag] FROM [tagged] WHERE [id_book] = %i", $superior->bookNode, ")
-		");
-		// Delete tags which overlapped
-		dibi::delete("tagged")
-			->where("[id_book] = %i", $inferior->bookNode)
-			->execute();
-		// Set the inferior book in shelves as superior book
-		dibi::query("
-			UPDATE [in_shelf] SET
-				[id_book] = %i", $superior->bookNode, "
-			WHERE
-				[id_book] = %i", $inferior->bookNode, "
-			AND
-				[id_shelf] NOT IN (SELECT [id_shelf] FROM [in_shelf] WHERE [id_book] = %i", $superior->bookNode, ")
-		");
-		// Delete books in shelf which overlapped
-		dibi::delete("in_shelf")
-			->where("[id_book] = %i", $inferior->bookNode)
-			->execute();
-		// Move opinions from inferior to superior book
-		dibi::query("
-			UPDATE [opinion] SET
-				[id_book] = %i", $superior->bookNode, "
-			WHERE
-				[id_book] = %i", $inferior->bookNode, "
-			AND
-				[id_user] NOT IN (SELECT [id_user] FROM [opinion] WHERE [id_book] = %i", $superior->bookNode, ")
-		");
-		// Delete opinions which overlapped
-		dibi::delete("opinion")
-			->where("[id_book] = %i", $inferior->bookNode)
-			->execute();
 
-		// Delete book similarity entries
-		dibi::delete("book_similarity")
-			->where("[id_book_from] = %i", $inferior->bookNode, " OR [id_book_to] = %i", $inferior->bookNode)
-			->execute();
-		// TODO: iniciovat novy vypocet podobnosti u knizky
-		// Delete inferior book
-		dibi::delete("book")
-			->where("[id_book] = %i", $inferior->bookNode)
-			->execute();
+		dibi::begin();
+
+		$supIds["tags"]		= dibi::query("SELECT [id_tag] FROM [tagged] WHERE [id_book] = %i", $superior->bookNode)->fetchPairs("id_tag", "id_tag");
+		$supIds["opinions"]	= dibi::query("SELECT [id_user] FROM [opinion] WHERE [id_book_title] = %i", $superior->getId())->fetchPairs("id_user", "id_user");
+		$supIds["shelves"]	= dibi::query("SELECT [id_shelf] FROM [in_shelf] WHERE [id_book_title] = %i", $superior->getId())->fetchPairs("id_shelf", "id_shelf");
+
+		$mergeQueries["tags"]		= dibi::update("tagged", array("id_book" => $superior->bookNode))->where("[id_book] = %i", $inferior->bookNode);
+		$mergeQueries["opinions"]	= dibi::update("opinion", array("id_book_title" => $superior->getId()))->where("[id_book_title] = %i", $inferior->getId());
+		$mergeQueries["shelves"]	= dibi::update("in_shelf", array("id_book_title" => $superior->getId()))->where("[id_book_title] = %i", $inferior->getId());
+
+		$cleanQueries["tags"]		= dibi::delete("tagged")->where("[id_book] = %i", $inferior->bookNode);
+		$cleanQueries["opinions"]	= dibi::delete("opinion")->where("[id_book_title] = %i", $inferior->getId());
+		$cleanQueries["shelves"]	= dibi::delete("in_shelf")->where("[id_book_title] = %i", $inferior->getId());
+
+		$conflictCols["tags"]		= "id_tag";
+		$conflictCols["opinions"]	= "id_user";
+		$conflictCols["shelves"]	= "id_shelf";
+
+		foreach($mergeQueries AS $type => $query) {
+			if (!empty($supIds[$type])) {
+				$query->where("[".$conflictCols[$type]."] NOT IN %l", $supIds[$type]);
+			}
+			$query->execute();
+			$cleanQueries[$type]->execute();
+		}
+
+		dibi::delete("book_title")->where("[id_book_title] = %i", $inferior->getId())->execute();
+
+		$titlesOfBook = dibi::dataSource("SELECT [id_book_title] FROM [book_title] WHERE [id_book] = %i", $inferior->bookNode);
+		// titul je poslednim titulem daneho knizniho uzlu
+		if ($superior->bookNode != $inferior->bookNode && $titlesOfBook->count() == 0) {
+			dibi::delete("book")->where("[id_book] = %i", $inferior->bookNode)->execute();
+		}
+
 		dibi::commit();
 	}
 
