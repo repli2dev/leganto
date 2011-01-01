@@ -111,12 +111,12 @@ class BookUpdater implements IUpdater {
 		}
 		// I want to add only one author
 		else if ($writtenBy instanceof AuthorEntity) {
-			SimpleTableModel::createTableModel("written_by")->insert(array(
-			    array(
-				"id_book" => $book->bookNode,
-				"id_author" => $author->getId()
-			    )
-			));
+			dibi::insert("written_by",
+				array(
+					"id_book"	=> $book->bookNode,
+					"id_author" => $writtenBy->getId()
+				)
+			)->execute();
 		} else {
 			throw new InvalidArgumentException("The argument [writtenBy] has to be array or AuthorEntity.");
 		}
