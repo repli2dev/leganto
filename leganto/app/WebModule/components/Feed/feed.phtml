@@ -52,6 +52,12 @@
 		<p>{_'Until you provide your opinions, the books can\'t be recommend to you.'}</p>
 	{/if}
 	<p>{_'Or you can try'} <a href="{plink Book:random}">{_'random book'}</a>.</p>
+
+	<h3>{_'Did you know, that ...?'}</h3>
+	<div class="hint">
+		<img alt="Tip" src="img/ico/light_bulb.png" />
+		<p>{$hint->text}</p>
+	</div>
 </div>
 <hr class="cleaner" />
 {widget paginator}

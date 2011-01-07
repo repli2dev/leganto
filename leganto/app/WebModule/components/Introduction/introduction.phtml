@@ -7,7 +7,7 @@
 		</div>
 {*		<div id="note">
 			<h2>{_'Did you know, that ...?'}</h2>
-			<img alt="Tip" src="img/ico/light_bulb.png" />
+			<img alt="{_'Tip'}" src="img/ico/light_bulb.png" />
 			<p>{$hint->text}<br /><a href="{link nextHint!}">{_'Next tip'} &raquo;</a></p>
 
 		</div>*}
@@ -97,13 +97,13 @@
 				<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.facebook.com%2F%23%21%2Fpages%2FCtenari%2F137156876307890%3Fref%3Dts&amp;layout=standard&amp;show_faces=true&amp;width=450&amp;action=like&amp;colorscheme=light&amp;height=80" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:450px; margin-top: 20px; height:80px;" allowTransparency="true"></iframe>
 			</div>
 			<div id="getin">
-				<a href="{link changeState,'signup'}" class="ajax" id="signup_button">{_'Sign Up'}</a>
-				<a href="{link changeState,'login'}" class="ajax" id="login_button">{_'Log in'}</a>
+				<a href="{link changeState,'signup'}" title="{_'Shows form for creating new account.'}" class="ajax" id="signup_button">{_'Sign Up'}</a>
+				<a href="{link changeState,'login'}" title="{_'Shows form for login.'}" class="ajax" id="login_button">{_'Log in'}</a>
 			</div>
 			<div class="clear"></div>
-			<a href="{link changeState, 'facebook'}">{_'Login with Facebook'}</a> |
-			<a href="{link changeState, 'twitter'}">{_'Login with Twitter'}</a> |
-			<a href="{link changeState, 'forgotten'}" class="">{_'Forgotten password'}</a>
+			<a href="{link changeState, 'facebook'}" title="{_'Use your facebook account to login or sign up.'}">{_'Login with Facebook'}</a> |
+			<a href="{link changeState, 'twitter'}" title="{_'Use your twitter account to login or sign up.'}">{_'Login with Twitter'}</a> |
+			<a href="{link changeState, 'forgotten'}" title="{_'Change your forgotten password.'}" class="">{_'Forgotten password'}</a>
 		@{/if}
 	</div>
 {/snippet}

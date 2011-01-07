@@ -711,3 +711,12 @@ table.connections-list a.delete {
 	height: 1px;
 	border: 0px none;
 }
+.hint img {
+	float: left;
+	width: auto;
+}
+.hint p {
+	float: left;
+	width: 75%;
+	padding-top: 0px;
+}

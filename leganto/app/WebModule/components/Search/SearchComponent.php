@@ -63,7 +63,7 @@ class SearchComponent extends BaseComponent {
 		if ($this->compact) {
 			$form->addText("query")
 				->addRule(Form::FILLED, "The search field has to be filled.");
-			$form["query"]->getControlPrototype()->title(System::translate("Enter your query and click on type"));
+			$form["query"]->getControlPrototype()->title(System::translate("Enter query >> Select content >> Submit"));
 			// Key has to be same as name of action in search presenter
 			$in = array(
 			    "default" => System::translate("Books"),

@@ -7,5 +7,12 @@
 	({$discussion->subname})
     {/if}
 </h1>
+<p>
+{_'Created'}: {$discussion->inserted|time}
+<br />
+{_'Last post inserted'}: {$discussion->lastPostInserted|time}
+<br />
+{_'Number of posts'}: {$discussion->numberOfPosts}
+</p>
 {widget postList}
 {/block}

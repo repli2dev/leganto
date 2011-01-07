@@ -56,6 +56,9 @@ class FeedComponent extends BaseListComponent {
 		$paginator->itemCount = $this->getSource()->count();	// FIXME: nicer way?
 		$this->getSource()->applyLimit($paginator->itemsPerPage, $paginator->offset);
 		$this->getTemplate()->feed = Leganto::feed()->fetchAndCreateAll($this->getSource());
+
+		// Find random "did you know"
+		$this->getTemplate()->hint = Leganto::help()->getSelector()->findRandom(System::language());
 	}
 
 	protected function createComponentFlashMessages($name) {

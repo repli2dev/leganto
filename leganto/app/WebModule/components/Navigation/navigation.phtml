@@ -12,14 +12,14 @@
 		</ul>
 		<div id="user">
 		{if $user != NULL}
-				<a href="{plink User:default, $user->getId()}" title="{$user->nickname}">
+				<a href="{plink User:default, $user->getId()}" title="{_'Show my profile'}">
 					<img src="/img/ico/reader.png" alt="{_'Your profile'}" />
 					<span>{$user->nickname|hardTruncate:20}</span>
 				</a>
-				<a href="{plink Settings:}" title="{_'Settings'}"><img src="/img/ico/settings.png" /><span>{_'Settings'}</span></a>
+				<a href="{plink Settings:}" title="{_'Edit settings'}"><img src="/img/ico/settings.png" /><span>{_'Settings'}</span></a>
 				<a class="logout" href="{link logout}" title="{_'Log out'}"><img src="/img/ico/logout.png" /></a>
 		{else}
-		<a href="{$presenter->link('Default:',TRUE)}" title="{_"Log in"}">
+		<a href="{$presenter->link('Default:',TRUE)}" title="{_"Shows form for login."}">
 					<img src="/img/ico/reader.png" alt="{_'Log in'}" />
 					<span>{_"Log in"}</span>
 				</a>
