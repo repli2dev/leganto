@@ -51,6 +51,8 @@ class UserAuthenticator {
 				IAuthenticator::INVALID_CREDENTIAL
 			);
 		}
+		$row->lastLogged = new DateTime();
+		$row->persist();
 		// Role
 		$role = Role::getRoleDescriptor($row);
 
