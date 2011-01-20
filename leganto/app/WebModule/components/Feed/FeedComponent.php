@@ -65,6 +65,10 @@ class FeedComponent extends BaseListComponent {
 		return new FlashMessagesComponent($this, $name);
 	}
 
+	protected function createComponentTwitter($name) {
+		return new TwitterComponent($this, $name);
+	}
+
 	protected function startUp() {
 		$this->setSource(Leganto::feed()->getSelector()->findAll());
 	}
