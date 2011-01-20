@@ -1,0 +1,12 @@
+<div class="box" id="user-icon">
+	<h3>{_'User\'s icon'}</h3>
+	<div id="user-icon-img">
+		<a href="{plink User:default, System::user()->getId()}" title="{_'Readers'} &ndash; Leganto">
+			<img src="{plink User:icon, System::user()->getId()}" alt="{_'Readers'} &ndash; Leganto" />
+		</a>
+	</div>
+	<div id="user-icon-src">
+		&lt;a&nbsp;href="http://www.leganto.cz/user/icon/?id={=System::user()->getId()}" title="{_'Readers'} &ndash; Leganto"&gt;
+		&lt;img&nbsp;src="http://www.leganto.cz/user/icon/?id={=System::user()->getId()}" alt="{_'Readers'} &ndash; normal" /&gt;&lt;/a&gt;
+	</div>
+</div>

@@ -221,6 +221,12 @@ class Web_UserPresenter extends Web_BasePresenter {
 		return new InsertingShelfComponent($this, $name);
 	}
 
+	protected function createComponentUserIcon($name) {
+		$icon = new UserIconComponent($this, $name);
+		$icon->setUser($this->getUserEntity());
+		return $icon;
+	}
+
 	protected function createComponentShelves($name) {
 		$shelves = new ShelvesComponent($this, $name);
 		$shelves->setUser($this->getUserEntity());

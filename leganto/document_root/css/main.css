@@ -486,6 +486,19 @@ a img {
 #book-merger-box .master {
 	background-color: #F5D25A;
 }
+#user-icon #user-icon-img {
+	text-align: center;
+}
+#user-icon #user-icon-src {
+	overflow: auto;
+	margin-top: 10px;
+	margin-left:  5px;
+	background: white;
+	padding: 5px 10px;
+}
+#user-icon a {
+	background: none;
+}
 .shelf {
 	margin-top: 5px;
 	margin-left: 20px;
@@ -515,8 +528,8 @@ a img {
 }
 .book-in-shelf h3 {
 	margin: 0;
-        width: 80%;
-        float: left;
+    width: 80%;
+    float: left;
 }
 .book-in-shelf:hover {
 	background: #F9E7A2;
@@ -525,8 +538,8 @@ a img {
 	border-radius: 5px;
 }
 .book-in-shelf a.book-remove-from-shelf {
-        display: block;
-        float: right;
+	display: block;
+	float: right;
 }
 /******************************* SHELVES ******************************/
 .shelf h2 {
