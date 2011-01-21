@@ -21,11 +21,11 @@ INSERT INTO `help` (`id_help`, `id_language`, `category`, `text`, `image`) VALUE
 (16, 1, 'book', 'Můžete řadit názory na stránce knihy (na podstránce názory) podle času nebo hodnocení.', NULL),
 (17, 1, 'book', 'Můžete zobrazit podobné knihy nějaké vybrané knihy. Najdete je seřazené od nejpodobnější na stránce knihy na podstránce podobné knihy.', NULL),
 (18, 1, 'other', 'Na hlavní stránce se pod tipy nebo videem zobrazují poslední přidané názory? ', NULL),
-(19, 1, 'user', 'Můžete na svou osobní stránku nebo blog umístit ikonku čtenáře (obrázek) s třemi knihami, které jste přidali do svého deníku jako poslední. Kód ikonky najdete ve svém profilu.', NULL);
-(20, 1, 'user', 'Můžete si s ostatními uživateli vyměňovat soukromé zprávy? Napsat jim můžete ze svého profilu, stačí pouze znát jejich přezdívku.', NULL);
-(21, 1, 'other', 'Můžete vidět u jednotlivých diskuzí čas přidání nejnovějšího příspěvku? Nebo, že můžete vidět počet příspěvků?', NULL);
-(22, 1, 'other', 'Diskuze v sekci Diskuze jsou nahoře ty diskuze v nich přibyly nové příspěvky? Díky tomu je snadné lehkce zkontrolovat nové příspěvky.', NULL);
-(23, 1, 'book', 'Vám na základě podobných uživatelů můžeme doporučit knihu, která by se vám mohla líbit?', NULL);
-(24, 1, 'other', 'Více než dva autoři se sbalí a zobrazí se až po najetí myší?', NULL);
-(25, 1, 'book', 'Pokud nastavíte typ poličky na Chci si přečíst nebo Právě čtu, pak se při přidání názoru kniha vyhodí sama?', NULL);
+(19, 1, 'user', 'Můžete na svou osobní stránku nebo blog umístit ikonku čtenáře (obrázek) s třemi knihami, které jste přidali do svého deníku jako poslední. Kód ikonky najdete ve svém profilu.', NULL),
+(20, 1, 'user', 'Můžete si s ostatními uživateli vyměňovat soukromé zprávy? Napsat jim můžete ze svého profilu, stačí pouze znát jejich přezdívku.', NULL),
+(21, 1, 'other', 'Můžete vidět u jednotlivých diskuzí čas přidání nejnovějšího příspěvku? Nebo, že můžete vidět počet příspěvků?', NULL),
+(22, 1, 'other', 'Diskuze v sekci Diskuze jsou nahoře ty diskuze v nich přibyly nové příspěvky? Díky tomu je snadné lehkce zkontrolovat nové příspěvky.', NULL),
+(23, 1, 'book', 'Vám na základě podobných uživatelů můžeme doporučit knihu, která by se vám mohla líbit?', NULL),
+(24, 1, 'other', 'Více než dva autoři se sbalí a zobrazí se až po najetí myší?', NULL),
+(25, 1, 'book', 'Pokud nastavíte typ poličky na Chci si přečíst nebo Právě čtu, pak se při přidání názoru kniha vyhodí sama?', NULL),
 (26, 1, 'book', 'Můžete zobrazit náhodnou knihu kliknutím na odkaz Náhodná kniha na stránce Aktuální dění nebo na detailu jiné knihy?', NULL);
