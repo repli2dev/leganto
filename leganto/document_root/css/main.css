@@ -540,6 +540,7 @@ a img {
 .book-in-shelf a.book-remove-from-shelf {
 	display: block;
 	float: right;
+	background: none;
 }
 /******************************* SHELVES ******************************/
 .shelf h2 {
