@@ -14,6 +14,7 @@ $(function(){
 	$('#search input[type=radio]').each(function() {
 		//$(this).css("visibility","hidden");
 		$(this).css("height","0px");
+		$(this).css("width","0px");
 		$(this).css("margin","-10px");
 	});
 	// Highlight the default item (the first one)

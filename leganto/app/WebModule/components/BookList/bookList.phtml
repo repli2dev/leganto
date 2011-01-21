@@ -8,12 +8,20 @@
 				<a href="{plink Book:default,$book->getId()}" title="{$book->title}{if !empty($book->subtitle)}: {$book->subtitle}{/if}" class="book-title">{$book->title}{if !empty($book->subtitle)}: {$book->subtitle}{/if}</a>
 			</div>
 			<div class="content">
-				{foreach $authors[$book->bookNode] AS $author}
-					<a href="{plink Author:default, $author->getId()}" title="{$author->fullname}" class="author">
-					{$author->fullname}
-					</a>
-					<br />
-				{/foreach}
+				{if count($authors[$book->bookNode]) > 2}
+				<div class="authors-hide">
+					<span>
+				{/if}
+					{foreach $authors[$book->bookNode] AS $author}
+						<a href="{plink Author:default, $author->getId()}" title="{$author->fullname}" class="author">
+						{$author->fullname}
+						</a>
+						<br />
+					{/foreach}
+				{if count($authors[$book->bookNode]) > 2}
+					</span>
+				</div>
+				{/if}
 				<img src="{$baseUri}img/rating_{=round($book->rating)}.png" class="rating" />
 			</div>
 

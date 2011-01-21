@@ -129,12 +129,12 @@ class Web_BookPresenter extends Web_BasePresenter {
 		$this->setPageKeywords(System::translate("similar books, tags, how to choose book"));
 	}
 
-	protected function createComponentBookMerger($name) {
-		$merger = new BookMergerComponent($this, $name);
-		$merger->setBook($this->getBook());
-		return $merger;
-	}
-
+//	protected function createComponentBookMerger($name) {
+//		$merger = new BookMergerComponent($this, $name);
+//		$merger->setBook($this->getBook());
+//		return $merger;
+//	}
+ 
 	protected function createComponentBookView($name) {
 		$view = new BookViewComponent($this, $name);
 		$view->setBook($this->getBook());

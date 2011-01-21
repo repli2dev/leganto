@@ -4,7 +4,7 @@
 	<ul>
 		{if !empty($master)}
 			<li class="master">
-				<?php $confirm = System::translate("Are you sure you want to remove the book \'%s\' from merging?", $master->title); ?>
+				<?php $confirm = System::translate("Are you sure you want to remove the book '%s' from merging?", $master->title); ?>
 				<a onclick="return confirm('{!$confirm}')" href="{link removeMasterBook}" title="{_'Remove the book from merging'}">
 					<img src="{$baseUri . 'img/ico/delete.png'}" alt="{_'Remove the book from merging'}" />
 				</a>
@@ -12,7 +12,7 @@
 			</li>
 		{/if}
 		{foreach $slave AS $b}
-			<?php $confirm = System::translate("Are you sure you want to remove the book \'%s\' from merging?", $b->title); ?>
+			<?php $confirm = System::translate("Are you sure you want to remove the book '%s' from merging?", $b->title); ?>
 			<li class="slave">
 				<a onclick="return confirm('{!$confirm}')" href="{link removeSlaveBook, $b->getId()}" title="{_'Remove the book from merging'}">
 					<img src="{$baseUri . 'img/ico/delete.png'}" alt="{_'Remove the book from merging'}" />
