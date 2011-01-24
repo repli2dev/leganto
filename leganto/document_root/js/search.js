@@ -12,7 +12,12 @@
 $(function(){
 	// First hide radios (not done by css - it should work in non JS browsers)
 	$('#search input[type=radio]').each(function() {
-		//$(this).css("visibility","hidden");
+		// In mozilla, hiding is problem
+		if ($.browser.mozilla) {
+			$(this).css("visibility","hidden");
+		}
+		$(this).css("position","absolute");
+		$(this).css("top","-100px");
 		$(this).css("height","0px");
 		$(this).css("width","0px");
 		$(this).css("margin","-10px");
