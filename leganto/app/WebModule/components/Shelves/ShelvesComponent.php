@@ -70,7 +70,7 @@ class ShelvesComponent extends BaseComponent {
 			throw new InvalidStateException("The component [$name] can not be rendered, because the user is not set.");
 		}
 		// Set if this shelves are currently logged user
-		if($this->user->getId() === System::user()->getId()) {
+		if(System::user() !== null && $this->user->getId() === System::user()->getId()) {
 			$this->getTemplate()->own = true;
 		} else {
 			$this->getTemplate()->own = false;
