@@ -18,16 +18,19 @@ class BookMergerComponent extends BaseComponent
 	public function handleMerge() {
 		if (empty($this->state["master"]) || empty($this->state["slave"])) {
 			$this->getPresenter()->flashMessage(System::translate('An unexpected error has occurred.'), "error");
+			return;
 		}
 		if (!Environment::getUser()->isAllowed(Resource::BOOK, Action::EDIT)) {
 			$this->getPresenter()->redirect("Default:unauthorized");
+			return;
 		}
 		// get books
-		$master = Leganto::books()->getSelector()->find($this->state["master"]);
+		$master		= Leganto::books()->getSelector()->find($this->state["master"]);
+		$bookIds	= array_keys($this->state["slave"]);
 		$slaves = Leganto::books()->fetchAndCreateAll(
 			Leganto::books()->getSelector()
 				->findAll()
-				->where("[id_book_title] IN %l", array_keys($this->state["slave"]))
+				->where("[id_book_title] IN %l", $bookIds)
 		);
 
 		// reset state
@@ -40,6 +43,7 @@ class BookMergerComponent extends BaseComponent
 		}
 
 		// success
+		System::log("MERGING SLAVE BOOKS [" . implode(',', $bookIds) . "] WITH MASTER BOOK [" . $master->getId() . "]");
 		$this->getPresenter()->flashMessage(System::translate("The books have been merged successfully."), "success");
 		$this->getPresenter()->redirect("Book:default", $master->getId());
 	}
@@ -55,7 +59,7 @@ class BookMergerComponent extends BaseComponent
 	public function handleRemoveMasterBook() {
 		unset($this->state["master"]);
 		$this->persistState();
-		$this->invalidateControl("bookMerger");
+		$this->getPresenter()->redirect("this");
 	}
 
 	public function handleSetMasterBook($book) {

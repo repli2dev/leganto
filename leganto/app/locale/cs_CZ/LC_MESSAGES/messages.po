@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
 "PO-Revision-Date: \n"
-"Last-Translator: Jan Drabek <repli2dev@gmail.com>\n"
+"Last-Translator: Jan Papoušek <jan.papousek@gmail.com>\n"
 "Language-Team: Leganto team <info@leganto.cz>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
@@ -169,8 +169,8 @@ msgid "Are you sure you want to remove a book from shelf %s?"
 msgstr "Jste si jistý/á, že chcete odebrat knihu z poličky %s?"
 
 # APP_DIR/WebModule/presenters/AuthorPresenter.php:100
-msgid "Are you sure you want to remove the book '%s' from merging?"
-msgstr "Jste si jistý/á, že chcete odebrat knihu '%s' ze slučování?"
+msgid "Are you sure you want to remove the book [%s] from merging?"
+msgstr "Jste si jistý/á, že chcete odebrat knihu [%s] ze slučování?"
 
 # APP_DIR/WebModule/components/InsertingBook/InsertingBookComponent.php:156
 # APP_DIR/WebModule/presenters/SearchPresenter.php:134
@@ -817,11 +817,11 @@ msgstr "Ne jenom chlebem živ je člověk"
 # APP_DIR/WebModule/components/BookMerger/bookMerger.phtml:29
 # APP_DIR/WebModule/components/BookMerger/bookMerger.phtml:29
 msgid "Merge"
-msgstr "Slučování"
+msgstr "Sloučit"
 
 # APP_DIR/WebModule/templates/Book/default.phtml:9
 msgid "Merge books"
-msgstr "Slučování knih"
+msgstr "Sloučit knihy"
 
 # APP_DIR/WebModule/components/MessageList/messageList.phtml:27
 msgid "Message from"
@@ -2233,3 +2233,4 @@ msgstr "vaše nové přihlašovací údaje jsou zobrazeny pod tímto textem. Pro
 #, fuzzy
 #~ msgid "Opinions on book"
 #~ msgstr "Názory na knihu"
+
