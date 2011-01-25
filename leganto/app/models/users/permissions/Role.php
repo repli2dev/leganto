@@ -15,7 +15,7 @@ class Role implements IRole {
 
 	const GUEST = "guest";
 
-	const LIMIT_TO_BE_PRIVILEGED = 20;
+	const LIMIT_TO_BE_PRIVILEGED = 40;
 
 	const PRIVILEGED = "privileged";
 
