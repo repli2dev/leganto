@@ -305,33 +305,49 @@ a img {
 	border-top: 1px dotted #bbbbbb;
 }
 /************************** FEED **********************************************/
-#feed h2 {
-	font-size: 110%;
-	/*height: 40px;*/
-	/*display: inline;*/
-	/*vertical-align: bottom;*/
+#feed {
 	margin: 0 0 5px 0;
 	padding: 0;
-}
-#feed p {
-	padding: 0;
-}
-.feed {
 	width: 600px;
 	float: left;
 }
-.recommend  {
+#main-info  {
 	width: 230px;
 	float: left;
 	margin-left: 20px;
 }
-.recommend .books .item {
-	width: 210px;
+#main-info h3 {
+	text-align: center;
+	margin-bottom: 10px;
+	font-size: 110%;
 }
-.feed div.item-opinion {
+#main-info .books .item {
+	width: 210px;
+	margin: 0;
+	background: #FDF7CD;
+	border: 1px solid #FDF7CD;
+}
+#main-info .hint {
+	background: #FDF7CD;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	border: 1px solid #FDF7CD;
+	padding: 5px;
+}
+#main-info .hint img {
+	float: left;
+	width: auto;
+}
+#main-info .hint p {
+	padding-top: 0px;
+	padding-left: 50px;
+	background: url('/img/ico/light_bulb.png') no-repeat 0% 0% ;
+}
+#feed div.item-opinion {
 	background: #F6F6F6 url('/img/ico/feed-opinion.png') no-repeat 98% 50%;
 }
-.feed div.item-post {
+#feed div.item-post {
 	background: #F6F6F6 url('/img/ico/feed-post.png') no-repeat 98% 50%;
 }
 .list div.mail-out {
@@ -725,21 +741,7 @@ table.connections-list a.delete {
 	height: 1px;
 	border: 0px none;
 }
-.hint img {
-	float: left;
-	width: auto;
-}
-.hint p {
-	float: left;
-	width: 75%;
-	padding-top: 0px;
-}
 /******************************* TWITTER *******************************/
-#twitter h3 {
-	background: url('/img/twitter.gif') no-repeat left bottom;
-	padding-left: 40px;
-	line-height: 22px;
-}
 #twitter_div {
 	margin-bottom: 30px;
 }
@@ -747,9 +749,15 @@ table.connections-list a.delete {
 	list-style: none;
 	margin: 10px 0;
 	padding: 0;
-	border-top: 1px dashed #D0ECF0;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	border: 1px solid #FDF7CD;
+	padding: 5px 10px;
+	background: #FDF7CD;
 }
 #twitter_div ul li {
-	padding: 10px 0;
-	border-bottom: 1px dashed #D0ECF0;
+	overflow: hidden;
+	padding-left: 40px;
+	background: url('/img/twitter.gif') no-repeat 0% 0%;
 }

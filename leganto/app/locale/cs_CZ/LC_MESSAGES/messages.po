@@ -10,10 +10,10 @@ msgstr ""
 "PO-Revision-Date: \n"
 "Last-Translator: Jan Papoušek <jan.papousek@gmail.com>\n"
 "Language-Team: Leganto team <info@leganto.cz>\n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: \n"
 "X-Language: cs_CZ\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : ((n>=2 && n<=4) ? 1 : 2);\n"
 "X-Poedit-Language: Czech\n"
@@ -981,10 +981,6 @@ msgstr "Názory všech uživatelů na určitou knihu, rozhodněte se, zda stojí
 msgid "Opinions on the book"
 msgstr "Názory na knihu"
 
-# APP_DIR/WebModule/components/Feed/feed.phtml:53
-msgid "Or you can try"
-msgstr "Nebo můžete vyzkoušet"
-
 # APP_DIR/WebModule/components/OpinionList/opinionList.phtml:6
 msgid "Order by"
 msgstr "Řadit podle"
@@ -1187,10 +1183,6 @@ msgstr "Právě čtu"
 # APP_DIR/WebModule/components/MessageList/MessageListComponent.php:85
 msgid "Recipient"
 msgstr "Příjemce"
-
-# APP_DIR/WebModule/templates/Book/default.phtml:9
-msgid "Recommended books"
-msgstr "Doporučené knihy"
 
 # APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:287
 msgid "Register"
@@ -1651,10 +1643,6 @@ msgstr "Toto jsou nejnovější názory, připojte se k naší komunitě a ukaž
 msgid "These books showed below are similar to current one according the tags attached to this book."
 msgstr "Tyto knihy zobrazené níže jsou podobné na základě štítků podobné k právě prohlížené knize."
 
-# APP_DIR/WebModule/components/Feed/feed.phtml:48
-msgid "These books were good rated by your users similar to you. Try them."
-msgstr "Tyto knihy byly dobře hodnoceny vašimi podobnými uživateli. Zkuste je."
-
 # APP_DIR/WebModule/templates/Book/default.phtml:10
 msgid "These opinions we choosed for faster overview."
 msgstr "Tyto názory jsme vybrali pro rychlý přehled."
@@ -1781,10 +1769,6 @@ msgstr "Neznámé"
 msgid "Unspecified"
 msgstr "Neurčeno"
 
-# APP_DIR/WebModule/components/Feed/feed.phtml:51
-msgid "Until you provide your opinions, the books can't be recommend to you."
-msgstr "Dokud nepřidáte vaše názory, nemohou vám být doporučeny žádné knihy."
-
 # APP_DIR/WebModule/components/Introduction/introduction.phtml:103
 msgid "Use your facebook account to login or sign up."
 msgstr "Použít svůj účet na facebooku k přihlášení nebo registraci."
@@ -1836,6 +1820,10 @@ msgstr "Vynikající"
 # APP_DIR/WebModule/components/InsertingShelf/InsertingShelfComponent.php:76
 msgid "Wanted"
 msgstr "Chci si přečíst"
+
+# APP_DIR/WebModule/components/Introduction/introduction.phtml:89
+msgid "We recommend"
+msgstr "Doporučujeme"
 
 # APP_DIR/WebModule/templates/Help/default.phtml:5
 msgid "Welcome in your support section, where you can find answers for nearly all your questions. The whole support page is divided into several categories. To continue select and click on one of categories shown below this text."
@@ -2173,10 +2161,6 @@ msgstr "pravděpodobně jste si právě požádal(a) o nové heslo na stránkác
 msgid "problems, help, support, answers, how it works"
 msgstr "problémy, nápověda, podpora, odpovědi, jak to funguje"
 
-# APP_DIR/WebModule/templates/Book/default.phtml:9
-msgid "random book"
-msgstr "náhodnou knihu"
-
 # APP_DIR/WebModule/presenters/SearchPresenter.php:19
 msgid "search, find, books"
 msgstr "vyhledat, najít, knihy"
@@ -2213,6 +2197,24 @@ msgstr "uživatel, soukromé zprávy, zprávy, napište ostatním uživatelům, 
 msgid "your new credentials are shown below this text. For more safety, change your password immediately."
 msgstr "vaše nové přihlašovací údaje jsou zobrazeny pod tímto textem. Pro zvýšení bezpečnosti si ihned změňte heslo."
 
+# APP_DIR/WebModule/components/Feed/feed.phtml:53
+#~ msgid "Or you can try"
+#~ msgstr "Nebo můžete vyzkoušet"
+# APP_DIR/WebModule/templates/Book/default.phtml:9
+#~ msgid "Recommended books"
+#~ msgstr "Doporučené knihy"
+# APP_DIR/WebModule/components/Feed/feed.phtml:48
+#~ msgid "These books were good rated by your users similar to you. Try them."
+#~ msgstr ""
+#~ "Tyto knihy byly dobře hodnoceny vašimi podobnými uživateli. Zkuste je."
+# APP_DIR/WebModule/components/Feed/feed.phtml:51
+#~ msgid ""
+#~ "Until you provide your opinions, the books can't be recommend to you."
+#~ msgstr ""
+#~ "Dokud nepřidáte vaše názory, nemohou vám být doporučeny žádné knihy."
+# APP_DIR/WebModule/templates/Book/default.phtml:9
+#~ msgid "random book"
+#~ msgstr "náhodnou knihu"
 # APP_DIR/WebModule/components/InsertingAuthor/InsertingAuthorComponent.php:112
 #~ msgid "Insert"
 #~ msgstr "Vložit"

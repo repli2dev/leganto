@@ -1,6 +1,6 @@
 {widget flashMessages}
 
-<div class="feed list">
+<div id="feed" class="list">
     <table class="navigation">
         <tr>
 			{if !empty($allSwitcher)}
@@ -43,21 +43,18 @@
     
 {/foreach}
 </div>
-<div class="recommend">
-	<h3>{_'Recommended books'}</h3>
-	{if isSet($recommend) && $recommend != false}
-		<p>{_'These books were good rated by your users similar to you. Try them.'}</p>
-		{widget bookList}
-	{else}
-		<p>{_"Until you provide your opinions, the books can't be recommend to you."}</p>
-	{/if}
-	<p>{_'Or you can try'} <a href="{plink Book:random}">{_'random book'}</a>.</p>
-
+<div id="main-info">
+	
 	<h3>{_'Did you know, that ...?'}</h3>
 	<div class="hint">
-		<img alt="Tip" src="{$baseUri}img/ico/light_bulb.png" />
 		<p>{$hint->text}</p>
+		<div class="clear"></div>
 	</div>
+
+	{if isSet($recommend) && $recommend != false}
+		<h3 style="text-align: center">{_'We recommend'}</h3>
+		{widget bookList}
+	{/if}
 
 	{widget twitter}
 </div>

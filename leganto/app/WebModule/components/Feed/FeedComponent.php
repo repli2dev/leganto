@@ -26,10 +26,12 @@ class FeedComponent extends BaseListComponent {
 
 	protected function beforeRender() {
 		parent::beforeRender();
+		// First time?
 		if ($this->firstTime) {
 			$this->handleAll();
 			$this->flashMessage(System::translate("To provide you the best experience please fill in additional details in") ." ". Html::el("a")->href($this->getPresenter()->link("Settings:default"))->setText(System::translate("Settings")) . ".");
 		}
+		// All or followed user?
 		$this->getTemplate()->allSwitcher = $this->allSwitcher;
 		if (empty($this->getTemplate()->allSwitcher)) {
 			$users = Leganto::users()->getSelector()->findAllFollowed(System::user())->fetchPairs("id_user", "id_user");
@@ -41,6 +43,14 @@ class FeedComponent extends BaseListComponent {
 				$this->getSource()->where("id_user IN %l", $users);
 			}
 		}
+		// Set a limit
+		$paginator = $this->getPaginator();
+		if ($this->getLimit() == 0) {
+			$paginator->itemsPerPage = $paginator->itemCount;
+		}
+		$feed = $this->getSource()->applyLimit($paginator->itemsPerPage, $paginator->offset);
+		$this->getTemplate()->feed = Leganto::feed()->fetchAndCreateAll($feed);
+		// Recommended books
 		$recommend = Leganto::books()->getSelector()->findRecommendedBook();
 		if($recommend !== null) {
 			$this->getComponent("bookList")->setSource($recommend);
@@ -52,11 +62,6 @@ class FeedComponent extends BaseListComponent {
 		if(Leganto::messages()->getSelector()->hasNewMessage(System::user()) != FALSE) {
 			$this->flashMessage(System::translate("You have a new message. Read it in") ." ". Html::el("a")->href($this->getPresenter()->link("User:messages"))->setText(System::translate("Messaging")) . ".");
 		}
-		$paginator = $this->getPaginator();
-		$paginator->itemCount = $this->getSource()->count();	// FIXME: nicer way?
-		$this->getSource()->applyLimit($paginator->itemsPerPage, $paginator->offset);
-		$this->getTemplate()->feed = Leganto::feed()->fetchAndCreateAll($this->getSource());
-
 		// Find random "did you know"
 		$this->getTemplate()->hint = Leganto::help()->getSelector()->findRandom(System::language());
 	}

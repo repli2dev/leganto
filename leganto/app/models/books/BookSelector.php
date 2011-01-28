@@ -244,7 +244,7 @@ class BookSelector implements ISelector {
 			WHERE id_book_title NOT IN (
 				SELECT id_book_title FROM opinion WHERE id_user = %i ",$user,"
 			) AND rating BETWEEN 4 AND 5
-			ORDER BY RAND() LIMIT 2");
+			ORDER BY RAND() LIMIT 1");
 		 if($result->count() == 0) {
 			 return;
 		 }
