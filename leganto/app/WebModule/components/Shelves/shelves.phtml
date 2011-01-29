@@ -18,6 +18,10 @@ $(document).ready(function(){
 });
 </script>
 
+{if System::isCurrentlyLogged($user->getId()) && count($shelves) == 0}
+	<p>{_"You haven't created any shelf. For creating the first one, follow"} <a href="{plink User:insertShelf,$user->getId()}">{_"this link"}</a>. {_"For creating more, follow the link from right submenu."}</p>
+{/if}
+
 {foreach $shelves AS $shelf}
 <?php System::translate("Are you sure you want to delete a shelf"); ?>
 <div class="shelf">

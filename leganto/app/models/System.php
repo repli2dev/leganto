@@ -101,15 +101,29 @@ final class System {
 		$data = Leganto::captcha()->getSelector()->findFromLanguageRandom(self::language()->getId());
 		return $data;
 	}
+	
+	/** @return bool */
+	public static function isCurrentlyLogged($user) {
+		if(System::user() !== null && $user === System::user()->getId()) {
+			return TRUE;
+		} else {
+			return FALSE;
+		}
+	}
 
 	/**
 	 * Log text into db along with id_user, url and time
 	 * @param string $text text to be logged
+	 * @param int $suser Only when need different one than currently logged user!
 	 * @return NULL
 	 */
-	public static function log($text = NULL) {
+	public static function log($text = NULL,$user = NULL) {
 		// Prepare for insertion and do it without System::user and entities to save time
-		$values["id_user"] = Environment::getUser()->getIdentity()->id;
+		if(!empty($user)) {
+			$values["id_user"] = $user;
+		} else {
+			$values["id_user"] = Environment::getUser()->getIdentity()->id;
+		}
 		if (empty($values["id_user"])) {
 			return;
 		}

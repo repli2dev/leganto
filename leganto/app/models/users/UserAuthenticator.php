@@ -51,7 +51,10 @@ class UserAuthenticator {
 				IAuthenticator::INVALID_CREDENTIAL
 			);
 		}
+		// Update datas (remove key for new password)
 		$row->lastLogged = new DateTime();
+		$row->newPassTime = 'NULL';
+		$row->newPassKey = 'NULL';
 		$row->persist();
 		// Role
 		$role = Role::getRoleDescriptor($row);

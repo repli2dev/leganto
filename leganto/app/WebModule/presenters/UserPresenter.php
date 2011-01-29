@@ -101,8 +101,8 @@ class Web_UserPresenter extends Web_BasePresenter {
 	}
 
 	public function renderInsertShelf($user, $backlinkUri = NULL) {
-		if ($this->getUserEntity()->getId() != System::user()->getId()) {
-			$this->flashMessage(System::translate("The authenticated user has to insert a shelf with his id."), "error");
+		if (!System::isCurrentlyLogged($this->getUserEntity()->getId())) {
+			$this->flashMessage(System::translate("The authenticated user can't insert shelf to other users."), "error");
 			$this->redirect("default", System::user()->getId());
 		}
 		if (!empty($backlinkUri)) {

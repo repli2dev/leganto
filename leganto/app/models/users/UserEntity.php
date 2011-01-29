@@ -52,7 +52,15 @@ class UserEntity extends AEntity {
 
 	protected $password;
 
-	protected $new_pass_key;
+	/**
+	 * @Translate(new_pass_key)
+	 */
+	protected $newPassKey;
+
+	/**
+	 * @Translate(new_pass_time)
+	 */
+	protected $newPassTime;
 	
 	/**
 	 * @Translate(num_opinions)

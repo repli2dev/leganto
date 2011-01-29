@@ -326,6 +326,8 @@ class IntroductionComponent extends BaseComponent {
 			$mail->setSubject(System::translate("Leganto: request for new password"));
 			$mail->setBody($template);
 			$mail->send();
+			// Log action
+			System::log("REQUESTED NEW PASSWORD FOR USER '".$user->getId()."'",$user->getId());
 			// Presmerovat na renew
 			$this->flashMessage(System::translate("The code was sent to an account e-mail address."));
 			$this->state = "renew";
@@ -355,6 +357,8 @@ class IntroductionComponent extends BaseComponent {
 				$mail->setSubject(System::translate("Leganto: new password"));
 				$mail->setBody($template);
 				$mail->send();
+				// Log action
+				System::log("SETTNG NEW PASSWORD FOR USER '".$user->getId()."'",$user->getId());
 				// Presmerovat na login
 				$this->flashMessage(System::translate("Your new password was sent to an account e-mail address."));
 				$this->state = "login";
@@ -368,6 +372,8 @@ class IntroductionComponent extends BaseComponent {
 						$form->addError("The code is wrong. Have you typed it correctly?");
 						break;
 				}
+				// Log action
+				System::log("INVALID SETTING OF NEW PASSWORD FOR USER '".$user->getId()."'",$user->getId());
 			}
 		} else {
 			$form->addError("No user with this e-mail address exists. Please check for mistakes.");
@@ -382,7 +388,6 @@ class IntroductionComponent extends BaseComponent {
 		$values = $form->getValues();
 		try {
 			Environment::getUser()->authenticate($values['nickname'], $values['password']);
-			Leganto::users()->getUpdater()->removePassCode(System::user());
 		} catch (AuthenticationException $e) {
 			switch ($e->getCode()) {
 				case IAuthenticator::IDENTITY_NOT_FOUND:
@@ -429,7 +434,6 @@ class IntroductionComponent extends BaseComponent {
 		$values = $form->getValues();
 		try {
 			Environment::getUser()->authenticate($values['nickname'], $values['password']);
-			Leganto::users()->getUpdater()->removePassCode(System::user());
 		} catch (AuthenticationException $e) {
 			switch ($e->getCode()) {
 				case IAuthenticator::IDENTITY_NOT_FOUND:
@@ -472,7 +476,6 @@ class IntroductionComponent extends BaseComponent {
 		$values = $form->getValues();
 		try {
 			Environment::getUser()->authenticate($values['nickname'], $values['password']);
-			Leganto::users()->getUpdater()->removePassCode(System::user());
 			System::log("LOGIN");
 		} catch (AuthenticationException $e) {
 			switch ($e->getCode()) {

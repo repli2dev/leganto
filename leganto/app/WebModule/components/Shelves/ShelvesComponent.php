@@ -70,11 +70,8 @@ class ShelvesComponent extends BaseComponent {
 			throw new InvalidStateException("The component [$name] can not be rendered, because the user is not set.");
 		}
 		// Set if this shelves are currently logged user
-		if(System::user() !== null && $this->user->getId() === System::user()->getId()) {
-			$this->getTemplate()->own = true;
-		} else {
-			$this->getTemplate()->own = false;
-		}
+		$this->getTemplate()->own = System::isCurrentlyLogged($this->user->getId());
+		$this->getTemplate()->user = $this->user;
 		// Shelves
 		$this->getTemplate()->shelves = Leganto::shelves()->fetchAndCreateAll(Leganto::shelves()->getSelector()->findByUser($this->user));
 		// Books in shelves
