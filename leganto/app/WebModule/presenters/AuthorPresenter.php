@@ -60,9 +60,8 @@ class Web_AuthorPresenter extends Web_BasePresenter {
 
 	public function renderDefault($author) {
 		$this->getTemplate()->author = $this->getAuthor();
-		$this->getComponent("bookList")->setLimit(0);
 		$this->getComponent("bookList")->setSource(
-			Leganto::books()->getSelector()->findAllByAuthor($this->getAuthor())->applyLimit(12)
+			Leganto::books()->getSelector()->findAllByAuthor($this->getAuthor())
 		);
 		$this->setPageTitle($this->getTemplate()->author->fullname);
 		$this->setPageDescription(System::translate("This is the detail page about the author, it shows all books by this author, which have been already inserted in our website."));

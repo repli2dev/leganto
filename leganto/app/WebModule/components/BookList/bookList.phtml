@@ -5,7 +5,8 @@
 				<img class="icon" src="{$covers[$book->getId()],50|thumbnail}" alt="{$book->title}" width="50" height="80" />
 			</div>
 			<div class="info-top">
-				<a href="{plink Book:default,$book->getId()}" title="{$book->title}{if !empty($book->subtitle)}: {$book->subtitle}{/if}" class="book-title">{$book->title}{if !empty($book->subtitle)}: {$book->subtitle}{/if}</a>
+				<a href="{plink Book:default,$book->getId()}" title="{$book->title}{if $book->subtitle !== NULL}: {$book->subtitle}{/if}" class="book-title">{$book->title}</a>
+				<br /><em>{if $book->subtitle !== NULL}{$book->subtitle}{/if}</em>
 			</div>
 			<div class="content">
 				{if count($authors[$book->bookNode]) > 2}
