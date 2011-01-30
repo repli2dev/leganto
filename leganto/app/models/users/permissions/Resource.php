@@ -31,6 +31,8 @@ class Resource implements IResource {
 
 	const MESSAGE = "message";
 
+	const HELP = "help";
+
 	private $ownerId;
 	private $resource;
 

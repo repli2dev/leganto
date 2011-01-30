@@ -45,6 +45,10 @@ input.checkbox, input.text, .textarea {
 textarea {
 	height: 120px;
 }
+textarea.help-text {
+	height: 600px;
+	width: 500px;
+}
 input.text {
 	height: 20px;
 	width: 200px;

@@ -19,6 +19,8 @@ class Role implements IRole {
 
 	const PRIVILEGED = "privileged";
 
+	const ADMIN = "admin";
+
 	/** @var UserRole */
 	private static $loggedRole;
 	private $id;
@@ -46,6 +48,9 @@ class Role implements IRole {
 
 	/** @return string */
 	public static function getRoleDescriptor(UserEntity $user) {
+		if ($user->role == UserEntity::ADMIN) {
+			$role = self::ADMIN;
+		} else
 		if ($user->role == UserEntity::COMMON) {
 			$opinions = Leganto::opinions()->getSelector()->findAll()->where("[id_user] = %i", $user->getId());
 			if ($opinions->count() >= self::LIMIT_TO_BE_PRIVILEGED) {

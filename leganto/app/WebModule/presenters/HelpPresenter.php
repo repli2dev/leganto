@@ -42,13 +42,51 @@ class Web_HelpPresenter extends Web_BasePresenter {
 		$this->setPageTitle($this->getTemplate()->data->name);
 	}
 
+	public function actionEditText($id) {
+		if (!Environment::getUser()->isAllowed(Resource::HELP, Action::EDIT)) {
+			$this->unauthorized();
+		} else {
+			$data = Leganto::supportText()->getSelector()->find($id);
+			$this->getTemplate()->name = $data->name;
+			$this->setPageTitle(System::translate("Edit help text") . ": " . $data->name);
+			$this->setPageDescription(System::translate("You can edit text of help page."));
+			$this->setPageKeywords(System::translate("edit, update, help"));
+			// Set data to form
+			$form = $this->getComponent("editForm");
+			$data = Leganto::supportText()->getSelector()->find($this->getParam("id"));
+			$values["text"] = $data->text;
+			$form->setDefaults($values);
+		}
+	}
+
 	protected function createComponentSubmenu($name) {
 		$submenu = new SubmenuComponent($this, $name);
 		$data = Leganto::supportCategory()->getSelector()->findAllSortedByWeight(System::language()->getId());
 		foreach ($data as $item) {
 			$submenu->addLink("category", $item->name, array("id" => $item->id_support_category));
 		}
+		if(System::isCurrentUserAdmin() && $this->getAction() == "text") {
+			$submenu->addEvent("editText", System::translate("Upravit"),array("id" => $this->getParam("id")));
+		}
 		return $submenu;
+	}
+
+	protected function createComponentEditForm($name) {
+		$form = new BaseForm($this, $name);
+		$form->addTextArea("text","Page text")->getControlPrototype()->class("help-text");
+		$form->addSubmit("submitted", "Edit");
+		$form->onSubmit[] = array($this,"editFormSubmitted");
+		return $form;
+	}
+
+	public function editFormSubmitted(Form $form) {
+		$values = $form->getValues();
+		$id = $this->getParam("id");
+		$entity = Leganto::supportText()->getSelector()->find($id);
+		$entity->text = $values["text"];
+		Leganto::supportText()->getUpdater()->update($entity);
+		$this->flashMessage(System::translate("Help text has been successfully updated."));
+		$this->redirect("text",$id);
 	}
 
 }

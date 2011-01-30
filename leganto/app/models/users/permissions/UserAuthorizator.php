@@ -43,6 +43,7 @@ class UserAuthorizator implements IAuthorizator {
 			$this->permission->addRole(Role::GUEST);
 			$this->permission->addRole(Role::COMMON, Role::GUEST);
 			$this->permission->addRole(Role::PRIVILEGED, Role::COMMON);
+			$this->permission->addRole(Role::ADMIN, Role::PRIVILEGED);
 
 			$this->permission->addResource(Resource::AUTHOR);
 			$this->permission->addResource(Resource::BOOK);
@@ -54,6 +55,7 @@ class UserAuthorizator implements IAuthorizator {
 			$this->permission->addResource(Resource::TOPIC);
 			$this->permission->addResource(Resource::USER);
 			$this->permission->addResource(Resource::MESSAGE);
+			$this->permission->addResource(Resource::HELP);
 
 			$this->permission->allow(Role::GUEST, IAuthorizator::ALL, Action::READ);
 
@@ -70,6 +72,8 @@ class UserAuthorizator implements IAuthorizator {
 			$this->permission->allow(Role::PRIVILEGED, Resource::AUTHOR, Action::EDIT);
 			$this->permission->allow(Role::PRIVILEGED, Resource::BOOK, Action::EDIT);
 			$this->permission->allow(Role::PRIVILEGED, Resource::TAG, Action::EDIT);
+
+			$this->permission->allow(Role::ADMIN, Resource::HELP, Action::EDIT);
 		}
 		return $this->permission;
 	}

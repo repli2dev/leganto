@@ -110,6 +110,15 @@ final class System {
 			return FALSE;
 		}
 	}
+	/** @return bool */
+	public static function isCurrentUserAdmin() {
+		$user = System::user();
+		if($user !== null && $user->role == UserEntity::ADMIN) {
+			return TRUE;
+		} else {
+			return FALSE;
+		}
+	}
 
 	/**
 	 * Log text into db along with id_user, url and time
