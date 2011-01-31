@@ -80,14 +80,18 @@ class OpinionSelector implements ISelector {
 	 * @param UserEntity $user
 	 * @return DibiDataSource
 	 */
-	public function findAllByUser(UserEntity $user) {
+	public function findAllByUser(UserEntity $user,$empty = TRUE) {
 		if (empty($user)) {
 			throw new NullPointerException("user");
 		}
 		if ($user->getId() == NULL) {
 			throw new NullPointerException("user:id");
 		}
-		return dibi::dataSource("SELECT * FROM [view_opinion] WHERE [id_user] = %i", $user->getId());
+		if ($empty) {
+			return dibi::dataSource("SELECT * FROM [view_opinion] WHERE [id_user] = %i", $user->getId());
+		} else {
+			return dibi::dataSource("SELECT * FROM [view_opinion] WHERE [id_user] = %i AND [content] IS NOT NULL AND LENGTH(TRIM([content])) > 0", $user->getId());
+		}
 	}
 
 	/**

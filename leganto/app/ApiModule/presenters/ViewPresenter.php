@@ -109,7 +109,37 @@ class Api_ViewPresenter extends Api_BasePresenter
 		}
 	}
 
-	public function renderOpinions($book, $user = NULL, $offset = 0, $limit = 10) {
+	public function renderUserOpinions($user, $empty = TRUE, $offset = 0, $limit = 10) {
+		if (empty($user)) {
+			$this->code(404);
+		}
+		if ($limit > 100) {
+			$limit = 100;
+		}
+		try {
+			// Fetch user entity
+			$userEntity = Leganto::users()->getSelector()->find($user);
+			if ($userEntity == NULL) {
+				$this->code(404);
+			}
+			$this->getTemplate()->user = $userEntity;
+			// Book
+			$rows = Leganto::opinions()->getSelector()->findAllByUser($userEntity,$empty)->applyLimit($limit,$offset);
+			$this->getTemplate()->opinions = array();
+			while ($opinion = Leganto::opinions()->fetchAndCreate($rows)) {
+				$this->getTemplate()->opinions[] = $opinion;
+			}
+			if ($this->getTemplate()->opinions === NULL)  {
+				$this->code(404);
+			}
+		}
+		catch(DibiDriverException $e) {
+			Debug::processException($e);
+			$this->code(500, "Database error.");
+		}
+	}
+
+	public function renderBookOpinions($book, $user = NULL, $offset = 0, $limit = 10) {
 		if (empty($book)) {
 			$this->code(404);
 		}

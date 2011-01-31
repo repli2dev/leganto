@@ -1,0 +1,24 @@
+<?php echo '<?xml version="1.0" encoding="UTF-8"?>' ?>
+
+<user xmlns="http://leganto.com/api">
+
+	<id>{$user->getId()}</id>
+
+	<name>{$user->nickname}</name>
+
+	{if !empty($opinions)}
+	<opinions>
+		{foreach $opinions AS $opinion}
+		<opinion>
+			<id>{$opinion->getId()}</id>
+			<id-book-title>{$opinion->bookTitleId}</id-book-title>
+			<title>{$opinion->bookTitle}</title>
+			<inserted>{$opinion->inserted}</inserted>
+			<rating>{$opinion->rating}</rating>
+			<content>{$opinion->content}</content>
+		</opinion>
+		{/foreach}
+	</opinions>
+	{/if}
+
+</user>

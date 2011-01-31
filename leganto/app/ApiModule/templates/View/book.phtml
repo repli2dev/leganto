@@ -36,7 +36,9 @@
 
 	<tags>
 		{foreach $tags AS $tag}
-		<tag>{$tag->name}</tag>
+			{if $tag->name != NULL}
+			<tag>{$tag->name}</tag>
+			{/if}
 		{/foreach}
 	</tags>
 

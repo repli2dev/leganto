@@ -21,6 +21,7 @@ class Api_BasePresenter extends BasePresenter
 
 	protected function beforeRender() {
 		Header("Content-type: text/xml");
+		error_reporting(0);
 	}
 
 	protected function code($code, $msg = NULL) {
