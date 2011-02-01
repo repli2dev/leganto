@@ -769,7 +769,6 @@ table.connections-list a.delete {
 	margin-top: -20px;
 	height: 300px;
 	width: 400px;
-	overflow: show;
 	float:right;
 }
 .slider {
@@ -806,6 +805,9 @@ a.nivo-prevNav {
 .nivo-caption {
     text-shadow:none;
     font-family: Helvetica, Arial, sans-serif;
+    background: #F5D25A !important;
+    color: black !important;
+    font-weight: bold;
 }
 .nivo-controlNav {
 	text-align: center;
