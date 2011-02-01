@@ -10,19 +10,11 @@
  * @author		Jan Drabek
  * @version		$id$
  */
+class supportTextDeleter implements IDeleter {
+	/* PUBLIC METHODS */
 
-/**
- * @Id(translate=id_support_text)
- */
-class SupportTextEntity extends AEntity {
-
-	/**
-	 * @Translate(id_support_category)
-	 */
-	protected $id_support_category;
-	protected $name;
-	protected $text;
-	protected $updated;
-	protected $weight;
+	public function delete($id){
+		return SimpleDeleter::createDeleter("support_text")->delete($id);
+	}
 
 }

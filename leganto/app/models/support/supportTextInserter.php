@@ -10,19 +10,16 @@
  * @author		Jan Drabek
  * @version		$id$
  */
-
-/**
- * @Id(translate=id_support_text)
- */
-class SupportTextEntity extends AEntity {
+class SupportTextInserter implements IInserter {
+	/* PUBLIC METHODS */
 
 	/**
-	 * @Translate(id_support_category)
+	 * Insert supportText entity
+	 * @param IEntity $entity
+	 * @return int supportText id
 	 */
-	protected $id_support_category;
-	protected $name;
-	protected $text;
-	protected $updated;
-	protected $weight;
+	public function insert(IEntity &$entity) {
+		return SimpleInserter::createInserter("support_text")->insert($entity);
+	}
 
 }

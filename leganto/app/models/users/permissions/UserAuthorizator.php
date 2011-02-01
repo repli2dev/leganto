@@ -68,12 +68,15 @@ class UserAuthorizator implements IAuthorizator {
 			$this->permission->allow(Role::COMMON, Resource::SHELF, Action::EDIT, $ownership);
 			$this->permission->allow(Role::COMMON, Resource::USER, Action::EDIT, $ownership);
 			$this->permission->allow(Role::COMMON, Resource::MESSAGE, Action::EDIT, $ownership);
+			// Deny inserting of help pages
+			$this->permission->deny(Role::COMMON, Resource::HELP, Action::INSERT);
 
 			$this->permission->allow(Role::PRIVILEGED, Resource::AUTHOR, Action::EDIT);
 			$this->permission->allow(Role::PRIVILEGED, Resource::BOOK, Action::EDIT);
 			$this->permission->allow(Role::PRIVILEGED, Resource::TAG, Action::EDIT);
 
 			$this->permission->allow(Role::ADMIN, Resource::HELP, Action::EDIT);
+			$this->permission->allow(Role::ADMIN, Resource::HELP, Action::INSERT);
 		}
 		return $this->permission;
 	}
