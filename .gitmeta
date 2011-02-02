@@ -230,6 +230,7 @@ leganto/app/WebModule/templates/User/editShelf.phtml  mode=0644  uid=500  gid=10
 leganto/app/WebModule/templates/User/followers.phtml  mode=0644  uid=500  gid=100
 leganto/app/WebModule/templates/User/following.phtml  mode=0644  uid=500  gid=100
 leganto/app/WebModule/templates/User/insertShelf.phtml  mode=0644  uid=500  gid=100
+leganto/app/WebModule/templates/User/lastOpinions.phtml  mode=0644  uid=500  gid=100
 leganto/app/WebModule/templates/User/layout.phtml  mode=0644  uid=500  gid=100
 leganto/app/WebModule/templates/User/messages.phtml  mode=0644  uid=500  gid=100
 leganto/app/WebModule/templates/User/shelves.phtml  mode=0644  uid=500  gid=100
@@ -728,6 +729,7 @@ leganto/document_root/js/jquery.nivo.slider.pack.js  mode=0644  uid=500  gid=100
 leganto/document_root/js/jquery.ui.stars.min.js  mode=0644  uid=500  gid=100
 leganto/document_root/js/jquery.unhide.js  mode=0644  uid=500  gid=100
 leganto/document_root/js/ratings.js  mode=0644  uid=500  gid=100
+leganto/document_root/js/read-books.js  mode=0644  uid=500  gid=100
 leganto/document_root/js/search.js  mode=0644  uid=500  gid=100
 leganto/document_root/phpinfo.php  mode=0644  uid=500  gid=100
 leganto/document_root/robots.txt  mode=0644  uid=500  gid=100
@@ -1831,6 +1833,8 @@ resources/graphics/user-icon.png  mode=0644  uid=500  gid=100
 resources/howto  mode=0755  uid=500  gid=100
 resources/howto/LIBRARIES  mode=0644  uid=500  gid=100
 resources/howto/README_TWITTER  mode=0644  uid=500  gid=100
+resources/playground  mode=0755  uid=500  gid=100
+resources/playground/read-books.html  mode=0644  uid=500  gid=100
 resources/poster  mode=0755  uid=500  gid=100
 resources/poster/logo.png  mode=0644  uid=500  gid=100
 resources/poster/poster-small-2x2.pdf  mode=0644  uid=500  gid=100
@@ -1840,8 +1844,3 @@ resources/poster/poster.pdf  mode=0644  uid=500  gid=100
 resources/poster/poster.tex  mode=0644  uid=500  gid=100
 resources/poster/screenshot-part.png  mode=0644  uid=500  gid=100
 resources/poster/screenshot.png  mode=0644  uid=500  gid=100
-resources/sketches  mode=0755  uid=500  gid=100
-resources/sketches/index-repli.png  mode=0644  uid=500  gid=100
-resources/sketches/papi-index.png  mode=0644  uid=500  gid=100
-resources/tools  mode=0755  uid=500  gid=100
-resources/tools/preader_deploy  mode=0755  uid=500  gid=100

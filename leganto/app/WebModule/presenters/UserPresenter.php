@@ -215,6 +215,59 @@ class Web_UserPresenter extends Web_BasePresenter {
 		die;
 	}
 
+	public function renderLastOpinions($user,$callback,$limit = 3, $empty = TRUE) {
+		if (empty($user) || !is_numeric($user)) {
+			throw new BadRequestException("User id not set.");
+		}
+		if (empty($callback)) {
+			throw new BadRequestException("Callback name not set.");
+		}
+		if ($limit > 50) {
+			$limit = 50;
+		}
+		try {
+			// Fetch user entity
+			$userEntity = Leganto::users()->getSelector()->find($user);
+			if ($userEntity == NULL) {
+				throw new BadRequestException("No such user.");
+			}
+			// Prepare for creating callback
+			$this->getTemplate()->callback = $callback;
+			// Prepare object to be jsoned
+			$jUser["nick"] = $userEntity->nickname;
+			$jUser["birthyear"] = $userEntity->birthyear;
+			$jUser["numberOfOpinions"] = $userEntity->numberOfOpinions;
+			$jUser["about"] = $userEntity->about;
+			$jUser["sex"] = $userEntity->sex;
+			$this->getTemplate()->jUser = json_encode($jUser);
+			// Book
+			$rows = Leganto::opinions()->getSelector()->findAllByUser($userEntity,$empty)->applyLimit($limit);
+			$opinions = array();
+			while ($opinion = Leganto::opinions()->fetchAndCreate($rows)) {
+				$temp["bookTitleId"] = $opinion->bookTitleId;
+				$temp["bookTitle"] = $opinion->bookTitle;
+				$temp["content"] = $opinion->content;
+				$temp["rating"] = $opinion->rating;
+				$temp["inserted"] = $opinion->inserted;
+				$opinions[] = $temp;
+				unset($temp);
+			}
+			if ($opinions === NULL)  {
+				throw new BadRequestException("No results");
+			}
+			$this->getTemplate()->opinions = json_encode($opinions);
+			// service variables
+			$service["domain"] = Environment::getHttpRequest()->uri->hostUri;
+			$service["bookLink"] = $this->link("Book:default",'ID');
+			$this->getTemplate()->service = json_encode($service);
+		}
+		catch(DibiDriverException $e) {
+			Debug::processException($e);
+			throw new BadRequestException("Database error");
+		}
+		
+	}
+
 	// COMPONENTS
 
 	protected function createComponentInsertingShelf($name) {
