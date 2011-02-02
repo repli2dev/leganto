@@ -1,27 +1,38 @@
 <?php
 
 /**
- * Nette Framework
+ * This file is part of the "dibi" - smart database abstraction layer.
  *
- * @copyright  Copyright (c) 2004, 2010 David Grudl
- * @license    http://nette.org/license  Nette license
- * @link       http://nette.org
- * @category   Nette
- * @package    Nette
+ * Copyright (c) 2005, 2010 David Grudl (http://davidgrudl.com)
+ *
+ * This source file is subject to the "dibi license", and/or
+ * GPL license. For more information please see http://dibiphp.com
+ * @package    dibi
  */
-
-// no namespace
 
 
 
 /**
  * DateTime with serialization and timestamp support for PHP 5.2.
  *
- * @copyright  Copyright (c) 2004, 2010 David Grudl
- * @package    Nette
+ * @author     David Grudl
  */
-class DateTime53 extends DateTime
+class DibiDateTime extends DateTime
 {
+
+	public function __construct($time = 'now', DateTimeZone $timezone = NULL)
+	{
+		if (is_numeric($time)) {
+			$time = date('Y-m-d H:i:s', $time);
+		}
+		if ($timezone === NULL) {
+			parent::__construct($time);
+		} else {
+			parent::__construct($time, $timezone);
+		}
+	}
+
+
 
 	public function __sleep()
 	{

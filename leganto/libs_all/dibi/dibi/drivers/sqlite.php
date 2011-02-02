@@ -1,34 +1,37 @@
 <?php
 
 /**
- * dibi - tiny'n'smart database abstraction layer
- * ----------------------------------------------
+ * This file is part of the "dibi" - smart database abstraction layer.
  *
- * @copyright  Copyright (c) 2005, 2010 David Grudl
- * @license    http://dibiphp.com/license  dibi license
- * @link       http://dibiphp.com
+ * Copyright (c) 2005, 2010 David Grudl (http://davidgrudl.com)
+ *
+ * This source file is subject to the "dibi license", and/or
+ * GPL license. For more information please see http://dibiphp.com
  * @package    dibi\drivers
  */
+
+
+require_once dirname(__FILE__) . '/sqlite.reflector.php';
 
 
 /**
  * The dibi driver for SQLite database.
  *
- * Connection options:
- *   - 'database' (or 'file') - the filename of the SQLite database
- *   - 'persistent' - try to find a persistent link?
- *   - 'unbuffered' - sends query without fetching and buffering the result rows automatically?
- *   - 'lazy' - if TRUE, connection will be established only when required
- *   - 'formatDate' - how to format date in SQL (@see date)
- *   - 'formatDateTime' - how to format datetime in SQL (@see date)
- *   - 'dbcharset' - database character encoding (will be converted to 'charset')
- *   - 'charset' - character encoding to set (default is UTF-8)
- *   - 'resource' - connection resource (optional)
+ * Driver options:
+ *   - database (or file) => the filename of the SQLite database
+ *   - persistent (bool) => try to find a persistent link?
+ *   - unbuffered (bool) => sends query without fetching and buffering the result rows automatically?
+ *   - formatDate => how to format date in SQL (@see date)
+ *   - formatDateTime => how to format datetime in SQL (@see date)
+ *   - dbcharset => database character encoding (will be converted to 'charset')
+ *   - charset => character encoding to set (default is UTF-8)
+ *   - resource (resource) => existing connection resource
+ *   - lazy, profiler, result, substitutes, ... => see DibiConnection options
  *
- * @copyright  Copyright (c) 2005, 2010 David Grudl
+ * @author     David Grudl
  * @package    dibi\drivers
  */
-class DibiSqliteDriver extends DibiObject implements IDibiDriver, IDibiReflector
+class DibiSqliteDriver extends DibiObject implements IDibiDriver, IDibiResultDriver
 {
 	/** @var resource  Connection resource */
 	private $connection;
@@ -48,12 +51,12 @@ class DibiSqliteDriver extends DibiObject implements IDibiDriver, IDibiReflector
 
 
 	/**
-	 * @throws DibiException
+	 * @throws NotSupportedException
 	 */
 	public function __construct()
 	{
 		if (!extension_loaded('sqlite')) {
-			throw new DibiDriverException("PHP extension 'sqlite' is not loaded.");
+			throw new NotSupportedException("PHP extension 'sqlite' is not loaded.");
 		}
 	}
 
@@ -108,7 +111,7 @@ class DibiSqliteDriver extends DibiObject implements IDibiDriver, IDibiReflector
 	/**
 	 * Executes the SQL query.
 	 * @param  string      SQL statement.
-	 * @return IDibiDriver|NULL
+	 * @return IDibiResultDriver|NULL
 	 * @throws DibiDriverException
 	 */
 	public function query($sql)
@@ -119,15 +122,16 @@ class DibiSqliteDriver extends DibiObject implements IDibiDriver, IDibiReflector
 
 		DibiDriverException::tryError();
 		if ($this->buffered) {
-			$this->resultSet = sqlite_query($this->connection, $sql);
+			$res = sqlite_query($this->connection, $sql);
 		} else {
-			$this->resultSet = sqlite_unbuffered_query($this->connection, $sql);
+			$res = sqlite_unbuffered_query($this->connection, $sql);
 		}
 		if (DibiDriverException::catchError($msg)) {
 			throw new DibiDriverException($msg, sqlite_last_error($this->connection), $sql);
-		}
 
-		return is_resource($this->resultSet) ? clone $this : NULL;
+		} elseif (is_resource($res)) {
+			return $this->createResultDriver($res);
+		}
 	}
 
 
@@ -204,6 +208,31 @@ class DibiSqliteDriver extends DibiObject implements IDibiDriver, IDibiReflector
 
 
 
+	/**
+	 * Returns the connection reflector.
+	 * @return IDibiReflector
+	 */
+	public function getReflector()
+	{
+		return new DibiSqliteReflector($this);
+	}
+
+
+
+	/**
+	 * Result set driver factory.
+	 * @param  resource
+	 * @return IDibiResultDriver
+	 */
+	public function createResultDriver($resource)
+	{
+		$res = clone $this;
+		$res->resultSet = $resource;
+		return $res;
+	}
+
+
+
 	/********************* SQL ****************d*g**/
 
 
@@ -237,6 +266,19 @@ class DibiSqliteDriver extends DibiObject implements IDibiDriver, IDibiReflector
 		default:
 			throw new InvalidArgumentException('Unsupported type.');
 		}
+	}
+
+
+
+	/**
+	 * Encodes string for use in a LIKE statement.
+	 * @param  string
+	 * @param  int
+	 * @return string
+	 */
+	public function escapeLike($value, $pos)
+	{
+		throw new NotSupportedException;
 	}
 
 
@@ -284,7 +326,7 @@ class DibiSqliteDriver extends DibiObject implements IDibiDriver, IDibiReflector
 	public function getRowCount()
 	{
 		if (!$this->buffered) {
-			throw new DibiDriverException('Row count is not available for unbuffered queries.');
+			throw new NotSupportedException('Row count is not available for unbuffered queries.');
 		}
 		return sqlite_num_rows($this->resultSet);
 	}
@@ -295,7 +337,6 @@ class DibiSqliteDriver extends DibiObject implements IDibiDriver, IDibiReflector
 	 * Fetches the row at current position and moves the internal cursor to the next position.
 	 * @param  bool     TRUE for associative array, FALSE for numeric
 	 * @return array    array on success, nonarray if no next record
-	 * @internal
 	 */
 	public function fetch($assoc)
 	{
@@ -325,7 +366,7 @@ class DibiSqliteDriver extends DibiObject implements IDibiDriver, IDibiReflector
 	public function seek($row)
 	{
 		if (!$this->buffered) {
-			throw new DibiDriverException('Cannot seek an unbuffered result set.');
+			throw new NotSupportedException('Cannot seek an unbuffered result set.');
 		}
 		return sqlite_seek($this->resultSet, $row);
 	}
@@ -347,21 +388,21 @@ class DibiSqliteDriver extends DibiObject implements IDibiDriver, IDibiReflector
 	 * Returns metadata for all columns in a result set.
 	 * @return array
 	 */
-	public function getColumnsMeta()
+	public function getResultColumns()
 	{
 		$count = sqlite_num_fields($this->resultSet);
-		$res = array();
+		$columns = array();
 		for ($i = 0; $i < $count; $i++) {
 			$name = str_replace(array('[', ']'), '', sqlite_field_name($this->resultSet, $i));
 			$pair = explode('.', $name);
-			$res[] = array(
+			$columns[] = array(
 				'name'  => isset($pair[1]) ? $pair[1] : $pair[0],
 				'table' => isset($pair[1]) ? $pair[0] : NULL,
 				'fullname' => $name,
 				'nativetype' => NULL,
 			);
 		}
-		return $res;
+		return $columns;
 	}
 
 
@@ -373,126 +414,6 @@ class DibiSqliteDriver extends DibiObject implements IDibiDriver, IDibiReflector
 	public function getResultResource()
 	{
 		return $this->resultSet;
-	}
-
-
-
-	/********************* IDibiReflector ****************d*g**/
-
-
-
-	/**
-	 * Returns list of tables.
-	 * @return array
-	 */
-	public function getTables()
-	{
-		$this->query("
-			SELECT name, type = 'view' as view FROM sqlite_master WHERE type IN ('table', 'view')
-			UNION ALL
-			SELECT name, type = 'view' as view FROM sqlite_temp_master WHERE type IN ('table', 'view')
-			ORDER BY name
-		");
-		$res = array();
-		while ($row = $this->fetch(TRUE)) {
-			$res[] = $row;
-		}
-		$this->free();
-		return $res;
-	}
-
-
-
-	/**
-	 * Returns metadata for all columns in a table.
-	 * @param  string
-	 * @return array
-	 */
-	public function getColumns($table)
-	{
-		$this->query("
-			SELECT sql FROM sqlite_master WHERE type = 'table' AND name = '$table'
-			UNION ALL
-			SELECT sql FROM sqlite_temp_master WHERE type = 'table' AND name = '$table'"
-		);
-		$meta = $this->fetch(TRUE);
-		$this->free();
-
-		$this->query("PRAGMA table_info([$table])");
-		$res = array();
-		while ($row = $this->fetch(TRUE)) {
-			$column = $row['name'];
-			$pattern = "/(\"$column\"|\[$column\]|$column)\s+[^,]+\s+PRIMARY\s+KEY\s+AUTOINCREMENT/Ui";
-			$type = explode('(', $row['type']);
-
-			$res[] = array(
-				'name' => $column,
-				'table' => $table,
-				'fullname' => "$table.$column",
-				'nativetype' => strtoupper($type[0]),
-				'size' => isset($type[1]) ? (int) $type[1] : NULL,
-				'nullable' => $row['notnull'] == '0',
-				'default' => $row['dflt_value'],
-				'autoincrement' => (bool) preg_match($pattern, $meta['sql']),
-				'vendor' => $row,
-			);
-		}
-		$this->free();
-		return $res;
-	}
-
-
-
-	/**
-	 * Returns metadata for all indexes in a table.
-	 * @param  string
-	 * @return array
-	 */
-	public function getIndexes($table)
-	{
-		$this->query("PRAGMA index_list([$table])");
-		$res = array();
-		while ($row = $this->fetch(TRUE)) {
-			$res[$row['name']]['name'] = $row['name'];
-			$res[$row['name']]['unique'] = (bool) $row['unique'];
-		}
-		$this->free();
-
-		foreach ($res as $index => $values) {
-			$this->query("PRAGMA index_info([$index])");
-			while ($row = $this->fetch(TRUE)) {
-				$res[$index]['columns'][$row['seqno']] = $row['name'];
-			}
-		}
-		$this->free();
-
-		$columns = $this->getColumns($table);
-		foreach ($res as $index => $values) {
-			$column = $res[$index]['columns'][0];
-			$primary = FALSE;
-			foreach ($columns as $info) {
-				if ($column == $info['name']) {
-					$primary = $info['vendor']['pk'];
-					break;
-				}
-			}
-			$res[$index]['primary'] = (bool) $primary;
-		}
-
-		return array_values($res);
-	}
-
-
-
-	/**
-	 * Returns metadata for all foreign keys in a table.
-	 * @param  string
-	 * @return array
-	 */
-	public function getForeignKeys($table)
-	{
-		// @see http://www.sqlite.org/foreignkeys.html
-		throw new NotSupportedException;
 	}
 
 

@@ -1,12 +1,12 @@
 <?php
 
 /**
- * dibi - tiny'n'smart database abstraction layer
- * ----------------------------------------------
+ * This file is part of the "dibi" - smart database abstraction layer.
  *
- * @copyright  Copyright (c) 2005, 2010 David Grudl
- * @license    http://dibiphp.com/license  dibi license
- * @link       http://dibiphp.com
+ * Copyright (c) 2005, 2010 David Grudl (http://davidgrudl.com)
+ *
+ * This source file is subject to the "dibi license", and/or
+ * GPL license. For more information please see http://dibiphp.com
  * @package    dibi\drivers
  */
 
@@ -14,19 +14,19 @@
 /**
  * The dibi driver for PostgreSQL database.
  *
- * Connection options:
- *   - 'host','hostaddr','port','dbname','user','password','connect_timeout','options','sslmode','service' - see PostgreSQL API
- *   - 'string' - or use connection string
- *   - 'persistent' - try to find a persistent link?
- *   - 'charset' - character encoding to set
- *   - 'schema' - the schema search path
- *   - 'lazy' - if TRUE, connection will be established only when required
- *   - 'resource' - connection resource (optional)
+ * Driver options:
+ *   - host, hostaddr, port, dbname, user, password, connect_timeout, options, sslmode, service => see PostgreSQL API
+ *   - string => or use connection string
+ *   - schema => the schema search path
+ *   - charset => character encoding to set (default is utf8)
+ *   - persistent (bool) => try to find a persistent link?
+ *   - resource (resource) => existing connection resource
+ *   - lazy, profiler, result, substitutes, ... => see DibiConnection options
  *
- * @copyright  Copyright (c) 2005, 2010 David Grudl
+ * @author     David Grudl
  * @package    dibi\drivers
  */
-class DibiPostgreDriver extends DibiObject implements IDibiDriver, IDibiReflector
+class DibiPostgreDriver extends DibiObject implements IDibiDriver, IDibiResultDriver, IDibiReflector
 {
 	/** @var resource  Connection resource */
 	private $connection;
@@ -34,18 +34,21 @@ class DibiPostgreDriver extends DibiObject implements IDibiDriver, IDibiReflecto
 	/** @var resource  Resultset resource */
 	private $resultSet;
 
+	/** @var int|FALSE  Affected rows */
+	private $affectedRows = FALSE;
+
 	/** @var bool  Escape method */
 	private $escMethod = FALSE;
 
 
 
 	/**
-	 * @throws DibiException
+	 * @throws NotSupportedException
 	 */
 	public function __construct()
 	{
 		if (!extension_loaded('pgsql')) {
-			throw new DibiDriverException("PHP extension 'pgsql' is not loaded.");
+			throw new NotSupportedException("PHP extension 'pgsql' is not loaded.");
 		}
 	}
 
@@ -62,6 +65,7 @@ class DibiPostgreDriver extends DibiObject implements IDibiDriver, IDibiReflecto
 			$this->connection = $config['resource'];
 
 		} else {
+			if (!isset($config['charset'])) $config['charset'] = 'utf8';
 			if (isset($config['string'])) {
 				$string = $config['string'];
 			} else {
@@ -119,19 +123,23 @@ class DibiPostgreDriver extends DibiObject implements IDibiDriver, IDibiReflecto
 	/**
 	 * Executes the SQL query.
 	 * @param  string      SQL statement.
-	 * @param  bool        update affected rows?
-	 * @return IDibiDriver|NULL
+	 * @return IDibiResultDriver|NULL
 	 * @throws DibiDriverException
 	 */
 	public function query($sql)
 	{
-		$this->resultSet = @pg_query($this->connection, $sql); // intentionally @
+		$this->affectedRows = FALSE;
+		$res = @pg_query($this->connection, $sql); // intentionally @
 
-		if ($this->resultSet === FALSE) {
+		if ($res === FALSE) {
 			throw new DibiDriverException(pg_last_error($this->connection), 0, $sql);
-		}
 
-		return is_resource($this->resultSet) && pg_num_fields($this->resultSet) ? clone $this : NULL;
+		} elseif (is_resource($res)) {
+			$this->affectedRows = pg_affected_rows($res);
+			if (pg_num_fields($res)) {
+				return $this->createResultDriver($res);
+			}
+		}
 	}
 
 
@@ -142,7 +150,7 @@ class DibiPostgreDriver extends DibiObject implements IDibiDriver, IDibiReflecto
 	 */
 	public function getAffectedRows()
 	{
-		return pg_affected_rows($this->resultSet);
+		return $this->affectedRows;
 	}
 
 
@@ -155,15 +163,14 @@ class DibiPostgreDriver extends DibiObject implements IDibiDriver, IDibiReflecto
 	{
 		if ($sequence === NULL) {
 			// PostgreSQL 8.1 is needed
-			$has = $this->query("SELECT LASTVAL()");
+			$res = $this->query("SELECT LASTVAL()");
 		} else {
-			$has = $this->query("SELECT CURRVAL('$sequence')");
+			$res = $this->query("SELECT CURRVAL('$sequence')");
 		}
 
-		if (!$has) return FALSE;
+		if (!$res) return FALSE;
 
-		$row = $this->fetch(FALSE);
-		$this->free();
+		$row = $res->fetch(FALSE);
 		return is_array($row) ? $row[0] : FALSE;
 	}
 
@@ -209,12 +216,48 @@ class DibiPostgreDriver extends DibiObject implements IDibiDriver, IDibiReflecto
 
 
 	/**
+	 * Is in transaction?
+	 * @return bool
+	 */
+	public function inTransaction()
+	{
+		return !in_array(pg_transaction_status($this->connection), array(PGSQL_TRANSACTION_UNKNOWN, PGSQL_TRANSACTION_IDLE), TRUE);
+	}
+
+
+
+	/**
 	 * Returns the connection resource.
 	 * @return mixed
 	 */
 	public function getResource()
 	{
 		return $this->connection;
+	}
+
+
+
+	/**
+	 * Returns the connection reflector.
+	 * @return IDibiReflector
+	 */
+	public function getReflector()
+	{
+		return $this;
+	}
+
+
+
+	/**
+	 * Result set driver factory.
+	 * @param  resource
+	 * @return IDibiResultDriver
+	 */
+	public function createResultDriver($resource)
+	{
+		$res = clone $this;
+		$res->resultSet = $resource;
+		return $res;
 	}
 
 
@@ -268,6 +311,19 @@ class DibiPostgreDriver extends DibiObject implements IDibiDriver, IDibiReflecto
 
 
 	/**
+	 * Encodes string for use in a LIKE statement.
+	 * @param  string
+	 * @param  int
+	 * @return string
+	 */
+	public function escapeLike($value, $pos)
+	{
+		throw new NotImplementedException;
+	}
+
+
+
+	/**
 	 * Decodes data from result set.
 	 * @param  string    value
 	 * @param  string    type (dibi::BINARY)
@@ -307,6 +363,17 @@ class DibiPostgreDriver extends DibiObject implements IDibiDriver, IDibiReflecto
 
 
 	/**
+	 * Automatically frees the resources allocated for this result set.
+	 * @return void
+	 */
+	public function __destruct()
+	{
+		$this->resultSet && @$this->free();
+	}
+
+
+
+	/**
 	 * Returns the number of rows in a result set.
 	 * @return int
 	 */
@@ -321,7 +388,6 @@ class DibiPostgreDriver extends DibiObject implements IDibiDriver, IDibiReflecto
 	 * Fetches the row at current position and moves the internal cursor to the next position.
 	 * @param  bool     TRUE for associative array, FALSE for numeric
 	 * @return array    array on success, nonarray if no next record
-	 * @internal
 	 */
 	public function fetch($assoc)
 	{
@@ -358,11 +424,11 @@ class DibiPostgreDriver extends DibiObject implements IDibiDriver, IDibiReflecto
 	 * Returns metadata for all columns in a result set.
 	 * @return array
 	 */
-	public function getColumnsMeta()
+	public function getResultColumns()
 	{
 		$hasTable = version_compare(PHP_VERSION , '5.2.0', '>=');
 		$count = pg_num_fields($this->resultSet);
-		$res = array();
+		$columns = array();
 		for ($i = 0; $i < $count; $i++) {
 			$row = array(
 				'name'      => pg_field_name($this->resultSet, $i),
@@ -370,9 +436,9 @@ class DibiPostgreDriver extends DibiObject implements IDibiDriver, IDibiReflecto
 				'nativetype'=> pg_field_type($this->resultSet, $i),
 			);
 			$row['fullname'] = $row['table'] ? $row['table'] . '.' . $row['name'] : $row['name'];
-			$res[] = $row;
+			$columns[] = $row;
 		}
-		return $res;
+		return $columns;
 	}
 
 
@@ -403,14 +469,13 @@ class DibiPostgreDriver extends DibiObject implements IDibiDriver, IDibiReflecto
 			throw new DibiDriverException('Reflection requires PostgreSQL 8.');
 		}
 
-		$this->query("
+		$res = $this->query("
 			SELECT table_name as name, CAST(table_type = 'VIEW' AS INTEGER) as view
 			FROM information_schema.tables
 			WHERE table_schema = current_schema()
 		");
-		$res = pg_fetch_all($this->resultSet);
-		$this->free();
-		return $res ? $res : array();
+		$tables = pg_fetch_all($res->resultSet);
+		return $tables ? $tables : array();
 	}
 
 
@@ -423,24 +488,24 @@ class DibiPostgreDriver extends DibiObject implements IDibiDriver, IDibiReflecto
 	public function getColumns($table)
 	{
 		$_table = $this->escape($table, dibi::TEXT);
-		$this->query("
+		$res = $this->query("
 			SELECT indkey
 			FROM pg_class
 			LEFT JOIN pg_index on pg_class.oid = pg_index.indrelid AND pg_index.indisprimary
 			WHERE pg_class.relname = $_table
 		");
-		$primary = (int) pg_fetch_object($this->resultSet)->indkey;
+		$primary = (int) pg_fetch_object($res->resultSet)->indkey;
 
-		$this->query("
+		$res = $this->query("
 			SELECT *
 			FROM information_schema.columns
 			WHERE table_name = $_table AND table_schema = current_schema()
 			ORDER BY ordinal_position
 		");
-		$res = array();
-		while ($row = $this->fetch(TRUE)) {
+		$columns = array();
+		while ($row = $res->fetch(TRUE)) {
 			$size = (int) max($row['character_maximum_length'], $row['numeric_precision']);
-			$res[] = array(
+			$columns[] = array(
 				'name' => $row['column_name'],
 				'table' => $table,
 				'nativetype' => strtoupper($row['udt_name']),
@@ -451,8 +516,7 @@ class DibiPostgreDriver extends DibiObject implements IDibiDriver, IDibiReflecto
 				'vendor' => $row,
 			);
 		}
-		$this->free();
-		return $res;
+		return $columns;
 	}
 
 
@@ -465,7 +529,7 @@ class DibiPostgreDriver extends DibiObject implements IDibiDriver, IDibiReflecto
 	public function getIndexes($table)
 	{
 		$_table = $this->escape($table, dibi::TEXT);
-		$this->query("
+		$res = $this->query("
 			SELECT ordinal_position, column_name
 			FROM information_schema.columns
 			WHERE table_name = $_table AND table_schema = current_schema()
@@ -473,11 +537,11 @@ class DibiPostgreDriver extends DibiObject implements IDibiDriver, IDibiReflecto
 		");
 
 		$columns = array();
-		while ($row = $this->fetch(TRUE)) {
+		while ($row = $res->fetch(TRUE)) {
 			$columns[$row['ordinal_position']] = $row['column_name'];
 		}
 
-		$this->query("
+		$res = $this->query("
 			SELECT pg_class2.relname, indisunique, indisprimary, indkey
 			FROM pg_class
 			LEFT JOIN pg_index on pg_class.oid = pg_index.indrelid
@@ -485,17 +549,16 @@ class DibiPostgreDriver extends DibiObject implements IDibiDriver, IDibiReflecto
 			WHERE pg_class.relname = $_table
 		");
 
-		$res = array();
-		while ($row = $this->fetch(TRUE)) {
-			$res[$row['relname']]['name'] = $row['relname'];
-			$res[$row['relname']]['unique'] = $row['indisunique'] === 't';
-			$res[$row['relname']]['primary'] = $row['indisprimary'] === 't';
+		$indexes = array();
+		while ($row = $res->fetch(TRUE)) {
+			$indexes[$row['relname']]['name'] = $row['relname'];
+			$indexes[$row['relname']]['unique'] = $row['indisunique'] === 't';
+			$indexes[$row['relname']]['primary'] = $row['indisprimary'] === 't';
 			foreach (explode(' ', $row['indkey']) as $index) {
-				$res[$row['relname']]['columns'][] = $columns[$index];
+				$indexes[$row['relname']]['columns'][] = $columns[$index];
 			}
 		}
-		$this->free();
-		return array_values($res);
+		return array_values($indexes);
 	}
 
 

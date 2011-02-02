@@ -1,19 +1,12 @@
 <?php
 
 /**
- * dibi - tiny'n'smart database abstraction layer
- * ----------------------------------------------
+ * dibi - smart database abstraction layer.
  *
  * Copyright (c) 2005, 2010 David Grudl (http://davidgrudl.com)
  *
- * This source file is subject to the "dibi license" that is bundled
- * with this package in the file license.txt, and/or GPL license.
- *
- * For more information please see http://dibiphp.com
- *
- * @copyright  Copyright (c) 2005, 2010 David Grudl
- * @license    http://dibiphp.com/license  dibi license
- * @link       http://dibiphp.com
+ * This source file is subject to the "dibi license", and/or
+ * GPL license. For more information please see http://dibiphp.com
  * @package    dibi
  */
 
@@ -32,73 +25,38 @@ if (version_compare(PHP_VERSION, '5.2.0', '<')) {
 /**
  * Compatibility with Nette
  */
-if (!class_exists('NotImplementedException', FALSE)) {
-	/** @package exceptions */
+if (interface_exists('Nette\\IDebugPanel')) {
+	class_alias('Nette\\IDebugPanel', 'IDebugPanel');
+
+} elseif (!interface_exists('IDebugPanel')) {
+	interface IDebugPanel {}
+}
+
+if (!defined('NETTE')) {
+	/**#@+ @package exceptions */
 	class NotImplementedException extends LogicException {}
-}
-
-if (!class_exists('NotSupportedException', FALSE)) {
-	/** @package exceptions */
 	class NotSupportedException extends LogicException {}
-}
-
-if (!class_exists('MemberAccessException', FALSE)) {
-	/** @package exceptions */
 	class MemberAccessException extends LogicException {}
-}
-
-if (!class_exists('InvalidStateException', FALSE)) {
-	/** @package exceptions */
 	class InvalidStateException extends RuntimeException {}
-}
-
-if (!class_exists('IOException', FALSE)) {
-	/** @package exceptions */
 	class IOException extends RuntimeException {}
-}
-
-if (!class_exists('FileNotFoundException', FALSE)) {
-	/** @package exceptions */
 	class FileNotFoundException extends IOException {}
-}
-
-if (!class_exists('PcreException', FALSE)) {
-	/** @package exceptions */
-	class PcreException extends Exception {
-
-		public function __construct()
-		{
-			static $messages = array(
-				PREG_INTERNAL_ERROR => 'Internal error.',
-				PREG_BACKTRACK_LIMIT_ERROR => 'Backtrack limit was exhausted.',
-				PREG_RECURSION_LIMIT_ERROR => 'Recursion limit was exhausted.',
-				PREG_BAD_UTF8_ERROR => 'Malformed UTF-8 data.',
-				5 => 'Offset didn\'t correspond to the begin of a valid UTF-8 code point.', // PREG_BAD_UTF8_OFFSET_ERROR
-			);
-			$code = preg_last_error();
-			parent::__construct(isset($messages[$code]) ? $messages[$code] : 'Unknown error.', $code);
-		}
-	}
-}
-
-if (!interface_exists(/*Nette\*/'IDebugPanel', FALSE)) {
-	require_once dirname(__FILE__) . '/Nette/IDebugPanel.php';
-}
-
-if (!class_exists('DateTime53', FALSE)) {
-	require_once dirname(__FILE__) . '/Nette/DateTime53.php';
+	/**#@-*/
 }
 
 
+class DibiPcreException extends Exception {
 
-/**
- * @deprecated
- */
-class DibiVariable extends DateTime53
-{
-	function __construct($val)
+	public function __construct($message = '%msg.')
 	{
-		parent::__construct($val);
+		static $messages = array(
+			PREG_INTERNAL_ERROR => 'Internal error',
+			PREG_BACKTRACK_LIMIT_ERROR => 'Backtrack limit was exhausted',
+			PREG_RECURSION_LIMIT_ERROR => 'Recursion limit was exhausted',
+			PREG_BAD_UTF8_ERROR => 'Malformed UTF-8 data',
+			5 => 'Offset didn\'t correspond to the begin of a valid UTF-8 code point', // PREG_BAD_UTF8_OFFSET_ERROR
+		);
+		$code = preg_last_error();
+		parent::__construct(str_replace('%msg', isset($messages[$code]) ? $messages[$code] : 'Unknown error', $message), $code);
 	}
 }
 
@@ -106,7 +64,9 @@ class DibiVariable extends DateTime53
 
 // dibi libraries
 require_once dirname(__FILE__) . '/libs/interfaces.php';
+require_once dirname(__FILE__) . '/libs/DibiDateTime.php';
 require_once dirname(__FILE__) . '/libs/DibiObject.php';
+require_once dirname(__FILE__) . '/libs/DibiHashMap.php';
 require_once dirname(__FILE__) . '/libs/DibiException.php';
 require_once dirname(__FILE__) . '/libs/DibiConnection.php';
 require_once dirname(__FILE__) . '/libs/DibiResult.php';
@@ -120,6 +80,20 @@ require_once dirname(__FILE__) . '/libs/DibiProfiler.php';
 
 
 
+/**
+ * @deprecated
+ */
+class DibiVariable extends DibiDateTime
+{
+	function __construct($val)
+	{
+		parent::__construct($val);
+		trigger_error(__CLASS__ . ' is deprecated; use class DateTime instead.', E_USER_WARNING);
+	}
+}
+
+
+
 
 
 /**
@@ -128,8 +102,7 @@ require_once dirname(__FILE__) . '/libs/DibiProfiler.php';
  * This class is static container class for creating DB objects and
  * store connections info.
  *
- * @copyright  Copyright (c) 2005, 2010 David Grudl
- * @package    dibi
+ * @author     David Grudl
  */
 class dibi
 {
@@ -163,8 +136,8 @@ class dibi
 	/**#@+
 	 * dibi version
 	 */
-	const VERSION = '1.3-dev';
-	const REVISION = '8c99f0c released on 2010-05-26';
+	const VERSION = '1.5-rc1';
+	const REVISION = 'faf4445 released on 2011-01-25';
 	/**#@-*/
 
 	const ASC = 'ASC', DESC = 'DESC';
@@ -174,12 +147,6 @@ class dibi
 
 	/** @var DibiConnection  Current connection */
 	private static $connection;
-
-	/** @var array  Substitutions for identifiers */
-	public static $substs = array();
-
-	/** @var callback  Substitution fallback */
-	public static $substFallBack = array(__CLASS__, 'defaultSubstFallback');
 
 	/** @var array  @see addHandler */
 	private static $handlers = array();
@@ -272,6 +239,18 @@ class dibi
 		}
 
 		return self::$registry[$name];
+	}
+
+
+
+	/**
+	 * Sets connection.
+	 * @param  DibiConnection
+	 * @return DibiConnection
+	 */
+	public static function setConnection(DibiConnection $connection)
+	{
+		return self::$connection = $connection;
 	}
 
 
@@ -606,11 +585,12 @@ class dibi
 
 
 	/**
-	 * @deprecated
+	 * @return DibiDateTime
 	 */
 	public static function datetime($time = NULL)
 	{
-		return new DateTime53(is_numeric($time) ? date('Y-m-d H:i:s', $time) : $time);
+		trigger_error(__METHOD__ . '() is deprecated; create DibiDateTime object instead.', E_USER_WARNING);
+		return new DibiDateTime($time);
 	}
 
 
@@ -620,7 +600,8 @@ class dibi
 	 */
 	public static function date($date = NULL)
 	{
-		return new DateTime53(is_numeric($date) ? date('Y-m-d', $date) : $date);
+		trigger_error(__METHOD__ . '() is deprecated; create DibiDateTime object instead.', E_USER_WARNING);
+		return new DibiDateTime($date);
 	}
 
 
@@ -630,59 +611,46 @@ class dibi
 
 
 	/**
-	 * Create a new substitution pair for indentifiers.
-	 * @param  string from
-	 * @param  string to
-	 * @return void
+	 * Returns substitution hashmap - Monostate for DibiConnection::getSubstitutes().
+	 * @return DibiHashMap
 	 */
+	public static function getSubstitutes()
+	{
+		return self::getConnection()->getSubstitutes();
+	}
+
+
+
+	/** @deprecated */
 	public static function addSubst($expr, $subst)
 	{
-		self::$substs[$expr] = $subst;
+		trigger_error(__METHOD__ . '() is deprecated; use dibi::getSubstitutes()->expr = val; instead.', E_USER_WARNING);
+		self::getSubstitutes()->$expr = $subst;
 	}
 
 
 
-	/**
-	 * Remove substitution pair.
-	 * @param  mixed from or TRUE
-	 * @return void
-	 */
+	/** @deprecated */
 	public static function removeSubst($expr)
 	{
+		trigger_error(__METHOD__ . '() is deprecated; use unset(dibi::getSubstitutes()->expr) instead.', E_USER_WARNING);
+		$substitutes = self::getSubstitutes();
 		if ($expr === TRUE) {
-			self::$substs = array();
+			foreach ($substitutes as $expr => $foo) {
+				unset($substitutes->$expr);
+			}
 		} else {
-			unset(self::$substs[':'.$expr.':']);
+			unset($substitutes->$expr);
 		}
 	}
 
 
 
-	/**
-	 * Sets substitution fallback handler.
-	 * @param  callback
-	 * @return void
-	 */
+	/** @deprecated */
 	public static function setSubstFallback($callback)
 	{
-		if (!is_callable($callback)) {
-			$able = is_callable($callback, TRUE, $textual);
-			throw new InvalidArgumentException("Handler '$textual' is not " . ($able ? 'callable.' : 'valid PHP callback.'));
-		}
-
-		self::$substFallBack = $callback;
-	}
-
-
-
-	/**
-	 * Default substitution fallback handler.
-	 * @param  string
-	 * @return mixed
-	 */
-	public static function defaultSubstFallback($expr)
-	{
-		throw new InvalidStateException("Missing substitution for '$expr' expression.");
+		trigger_error(__METHOD__ . '() is deprecated; use dibi::getSubstitutes()->setCallback() instead.', E_USER_WARNING);
+		self::getSubstitutes()->setCallback($callback);
 	}
 
 
@@ -706,7 +674,7 @@ class dibi
 		} else {
 			if ($sql === NULL) $sql = self::$sql;
 
-			static $keywords1 = 'SELECT|UPDATE|INSERT(?:\s+INTO)?|REPLACE(?:\s+INTO)?|DELETE|FROM|WHERE|HAVING|GROUP\s+BY|ORDER\s+BY|LIMIT|SET|VALUES|LEFT\s+JOIN|INNER\s+JOIN|TRUNCATE';
+			static $keywords1 = 'SELECT|UPDATE|INSERT(?:\s+INTO)?|REPLACE(?:\s+INTO)?|DELETE|FROM|WHERE|HAVING|GROUP\s+BY|ORDER\s+BY|LIMIT|OFFSET|SET|VALUES|LEFT\s+JOIN|INNER\s+JOIN|TRUNCATE';
 			static $keywords2 = 'ALL|DISTINCT|DISTINCTROW|AS|USING|ON|AND|OR|IN|IS|NOT|NULL|LIKE|TRUE|FALSE';
 
 			// insert new lines
@@ -717,13 +685,16 @@ class dibi
 			$sql = preg_replace('#[ \t]{2,}#', " ", $sql);
 
 			$sql = wordwrap($sql, 100);
-			$sql = htmlSpecialChars($sql);
 			$sql = preg_replace("#([ \t]*\r?\n){2,}#", "\n", $sql);
 
-			// syntax highlight
-			$sql = preg_replace_callback("#(/\\*.+?\\*/)|(\\*\\*.+?\\*\\*)|(?<=[\\s,(])($keywords1)(?=[\\s,)])|(?<=[\\s,(=])($keywords2)(?=[\\s,)=])#is", array('dibi', 'highlightCallback'), $sql);
-			$sql = trim($sql);
-			echo '<pre class="dump">', $sql, "</pre>\n";
+			if (PHP_SAPI === 'cli') {
+				echo trim($sql) . "\n\n";
+			} else {
+				// syntax highlight
+				$sql = htmlSpecialChars($sql);
+				$sql = preg_replace_callback("#(/\\*.+?\\*/)|(\\*\\*.+?\\*\\*)|(?<=[\\s,(])($keywords1)(?=[\\s,)])|(?<=[\\s,(=])($keywords2)(?=[\\s,)=])#is", array('dibi', 'highlightCallback'), $sql);
+				echo '<pre class="dump">', trim($sql), "</pre>\n";
+			}
 		}
 
 		if ($return) {

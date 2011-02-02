@@ -1,12 +1,12 @@
 <?php
 
 /**
- * dibi - tiny'n'smart database abstraction layer
- * ----------------------------------------------
+ * This file is part of the "dibi" - smart database abstraction layer.
  *
- * @copyright  Copyright (c) 2005, 2010 David Grudl
- * @license    http://dibiphp.com/license  dibi license
- * @link       http://dibiphp.com
+ * Copyright (c) 2005, 2010 David Grudl (http://davidgrudl.com)
+ *
+ * This source file is subject to the "dibi license", and/or
+ * GPL license. For more information please see http://dibiphp.com
  * @package    dibi
  */
 
@@ -15,8 +15,7 @@
 /**
  * Reflection metadata class for a database.
  *
- * @copyright  Copyright (c) 2005, 2010 David Grudl
- * @package    dibi
+ * @author     David Grudl
  *
  * @property-read string $name
  * @property-read array $tables
@@ -25,7 +24,7 @@
 class DibiDatabaseInfo extends DibiObject
 {
 	/** @var IDibiReflector */
-	private $driver;
+	private $reflector;
 
 	/** @var string */
 	private $name;
@@ -35,9 +34,9 @@ class DibiDatabaseInfo extends DibiObject
 
 
 
-	public function __construct(IDibiReflector $driver, $name)
+	public function __construct(IDibiReflector $reflector, $name)
 	{
-		$this->driver = $driver;
+		$this->reflector = $reflector;
 		$this->name = $name;
 	}
 
@@ -85,7 +84,6 @@ class DibiDatabaseInfo extends DibiObject
 	 */
 	public function getTable($name)
 	{
-		$name = DibiTranslator::substitute($name);
 		$this->init();
 		$l = strtolower($name);
 		if (isset($this->tables[$l])) {
@@ -104,7 +102,6 @@ class DibiDatabaseInfo extends DibiObject
 	 */
 	public function hasTable($name)
 	{
-		$name = DibiTranslator::substitute($name);
 		$this->init();
 		return isset($this->tables[strtolower($name)]);
 	}
@@ -118,8 +115,8 @@ class DibiDatabaseInfo extends DibiObject
 	{
 		if ($this->tables === NULL) {
 			$this->tables = array();
-			foreach ($this->driver->getTables() as $info) {
-				$this->tables[strtolower($info['name'])] = new DibiTableInfo($this->driver, $info);
+			foreach ($this->reflector->getTables() as $info) {
+				$this->tables[strtolower($info['name'])] = new DibiTableInfo($this->reflector, $info);
 			}
 		}
 	}
@@ -132,8 +129,7 @@ class DibiDatabaseInfo extends DibiObject
 /**
  * Reflection metadata class for a database table.
  *
- * @copyright  Copyright (c) 2005, 2010 David Grudl
- * @package    dibi
+ * @author     David Grudl
  *
  * @property-read string $name
  * @property-read bool $view
@@ -146,7 +142,7 @@ class DibiDatabaseInfo extends DibiObject
 class DibiTableInfo extends DibiObject
 {
 	/** @var IDibiReflector */
-	private $driver;
+	private $reflector;
 
 	/** @var string */
 	private $name;
@@ -168,9 +164,9 @@ class DibiTableInfo extends DibiObject
 
 
 
-	public function __construct(IDibiReflector $driver, array $info)
+	public function __construct(IDibiReflector $reflector, array $info)
 	{
-		$this->driver = $driver;
+		$this->reflector = $reflector;
 		$this->name = $info['name'];
 		$this->view = !empty($info['view']);
 	}
@@ -229,7 +225,6 @@ class DibiTableInfo extends DibiObject
 	 */
 	public function getColumn($name)
 	{
-		$name = DibiTranslator::substitute($name);
 		$this->initColumns();
 		$l = strtolower($name);
 		if (isset($this->columns[$l])) {
@@ -248,7 +243,6 @@ class DibiTableInfo extends DibiObject
 	 */
 	public function hasColumn($name)
 	{
-		$name = DibiTranslator::substitute($name);
 		$this->initColumns();
 		return isset($this->columns[strtolower($name)]);
 	}
@@ -295,8 +289,8 @@ class DibiTableInfo extends DibiObject
 	{
 		if ($this->columns === NULL) {
 			$this->columns = array();
-			foreach ($this->driver->getColumns($this->name) as $info) {
-				$this->columns[strtolower($info['name'])] = new DibiColumnInfo($this->driver, $info);
+			foreach ($this->reflector->getColumns($this->name) as $info) {
+				$this->columns[strtolower($info['name'])] = new DibiColumnInfo($this->reflector, $info);
 			}
 		}
 	}
@@ -311,7 +305,7 @@ class DibiTableInfo extends DibiObject
 		if ($this->indexes === NULL) {
 			$this->initColumns();
 			$this->indexes = array();
-			foreach ($this->driver->getIndexes($this->name) as $info) {
+			foreach ($this->reflector->getIndexes($this->name) as $info) {
 				foreach ($info['columns'] as $key => $name) {
 					$info['columns'][$key] = $this->columns[strtolower($name)];
 				}
@@ -341,15 +335,14 @@ class DibiTableInfo extends DibiObject
 /**
  * Reflection metadata class for a result set.
  *
- * @copyright  Copyright (c) 2005, 2010 David Grudl
- * @package    dibi
+ * @author     David Grudl
  *
  * @property-read array $columns
  * @property-read array $columnNames
  */
 class DibiResultInfo extends DibiObject
 {
-	/** @var IDibiReflector */
+	/** @var IDibiResultDriver */
 	private $driver;
 
 	/** @var array */
@@ -360,7 +353,7 @@ class DibiResultInfo extends DibiObject
 
 
 
-	public function __construct(IDibiReflector $driver)
+	public function __construct(IDibiResultDriver $driver)
 	{
 		$this->driver = $driver;
 	}
@@ -400,7 +393,6 @@ class DibiResultInfo extends DibiObject
 	 */
 	public function getColumn($name)
 	{
-		$name = DibiTranslator::substitute($name);
 		$this->initColumns();
 		$l = strtolower($name);
 		if (isset($this->names[$l])) {
@@ -419,7 +411,6 @@ class DibiResultInfo extends DibiObject
 	 */
 	public function hasColumn($name)
 	{
-		$name = DibiTranslator::substitute($name);
 		$this->initColumns();
 		return isset($this->names[strtolower($name)]);
 	}
@@ -433,8 +424,9 @@ class DibiResultInfo extends DibiObject
 	{
 		if ($this->columns === NULL) {
 			$this->columns = array();
-			foreach ($this->driver->getColumnsMeta() as $info) {
-				$this->columns[] = $this->names[$info['name']] = new DibiColumnInfo($this->driver, $info);
+			$reflector = $this->driver instanceof IDibiReflector ? $this->driver : NULL;
+			foreach ($this->driver->getResultColumns() as $info) {
+				$this->columns[] = $this->names[$info['name']] = new DibiColumnInfo($reflector, $info);
 			}
 		}
 	}
@@ -447,8 +439,7 @@ class DibiResultInfo extends DibiObject
 /**
  * Reflection metadata class for a table or result set column.
  *
- * @copyright  Copyright (c) 2005, 2010 David Grudl
- * @package    dibi
+ * @author     David Grudl
  *
  * @property-read string $name
  * @property-read string $fullName
@@ -466,20 +457,17 @@ class DibiColumnInfo extends DibiObject
 	/** @var array */
 	private static $types;
 
-	/** @var IDibiReflector */
-	private $driver;
+	/** @var IDibiReflector|NULL when created by DibiResultInfo */
+	private $reflector;
 
 	/** @var array (name, nativetype, [table], [fullname], [size], [nullable], [default], [autoincrement], [vendor]) */
 	private $info;
 
-	/** @var string */
-	private $type;
 
 
-
-	public function __construct(IDibiReflector $driver, array $info)
+	public function __construct(IDibiReflector $reflector = NULL, array $info)
 	{
-		$this->driver = $driver;
+		$this->reflector = $reflector;
 		$this->info = $info;
 	}
 
@@ -500,7 +488,7 @@ class DibiColumnInfo extends DibiObject
 	 */
 	public function getFullName()
 	{
-		return $this->info['fullname'];
+		return isset($this->info['fullname']) ? $this->info['fullname'] : NULL;
 	}
 
 
@@ -520,10 +508,20 @@ class DibiColumnInfo extends DibiObject
 	 */
 	public function getTable()
 	{
-		if (empty($this->info['table'])) {
-			throw new DibiException("Table name is unknown.");
+		if (empty($this->info['table']) || !$this->reflector) {
+			throw new DibiException("Table is unknown or not available.");
 		}
-		return new DibiTableInfo($this->driver, array('name' => $this->info['table']));
+		return new DibiTableInfo($this->reflector, array('name' => $this->info['table']));
+	}
+
+
+
+	/**
+	 * @return string
+	 */
+	public function getTableName()
+	{
+		return isset($this->info['table']) ? $this->info['table'] : NULL;
 	}
 
 
@@ -533,10 +531,10 @@ class DibiColumnInfo extends DibiObject
 	 */
 	public function getType()
 	{
-		if ($this->type === NULL) {
-			$this->type = self::detectType($this->info['nativetype']);
+		if (self::$types === NULL) {
+			self::$types = new DibiHashMap(array(__CLASS__, 'detectType'));
 		}
-		return $this->type;
+		return self::$types->{$this->info['nativetype']};
 	}
 
 
@@ -616,12 +614,13 @@ class DibiColumnInfo extends DibiObject
 	 * Heuristic type detection.
 	 * @param  string
 	 * @return string
+	 * @internal
 	 */
-	private static function detectType($type)
+	public static function detectType($type)
 	{
 		static $patterns = array(
 			'BYTEA|BLOB|BIN' => dibi::BINARY,
-			'TEXT|CHAR' => dibi::TEXT,
+			'TEXT|CHAR|BIGINT|LONGLONG' => dibi::TEXT,
 			'BYTE|COUNTER|SERIAL|INT|LONG' => dibi::INTEGER,
 			'CURRENCY|REAL|MONEY|FLOAT|DOUBLE|DECIMAL|NUMERIC|NUMBER' => dibi::FLOAT,
 			'^TIME$' => dibi::TIME,
@@ -630,15 +629,12 @@ class DibiColumnInfo extends DibiObject
 			'BOOL|BIT' => dibi::BOOL,
 		);
 
-		if (!isset(self::$types[$type])) {
-			self::$types[$type] = dibi::TEXT;
-			foreach ($patterns as $s => $val) {
-				if (preg_match("#$s#i", $type)) {
-					return self::$types[$type] = $val;
-				}
+		foreach ($patterns as $s => $val) {
+			if (preg_match("#$s#i", $type)) {
+				return $val;
 			}
 		}
-		return self::$types[$type];
+		return dibi::TEXT;
 	}
 
 }
@@ -649,8 +645,7 @@ class DibiColumnInfo extends DibiObject
 /**
  * Reflection metadata class for a foreign key.
  *
- * @copyright  Copyright (c) 2005, 2010 David Grudl
- * @package    dibi
+ * @author     David Grudl
  * @todo
  *
  * @property-read string $name
@@ -700,8 +695,7 @@ class DibiForeignKeyInfo extends DibiObject
 /**
  * Reflection metadata class for a index or primary key.
  *
- * @copyright  Copyright (c) 2005, 2010 David Grudl
- * @package    dibi
+ * @author     David Grudl
  *
  * @property-read string $name
  * @property-read array $columns

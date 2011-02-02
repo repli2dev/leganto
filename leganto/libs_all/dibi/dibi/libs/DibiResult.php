@@ -1,19 +1,19 @@
 <?php
 
 /**
- * dibi - tiny'n'smart database abstraction layer
- * ----------------------------------------------
+ * This file is part of the "dibi" - smart database abstraction layer.
  *
- * @copyright  Copyright (c) 2005, 2010 David Grudl
- * @license    http://dibiphp.com/license  dibi license
- * @link       http://dibiphp.com
+ * Copyright (c) 2005, 2010 David Grudl (http://davidgrudl.com)
+ *
+ * This source file is subject to the "dibi license", and/or
+ * GPL license. For more information please see http://dibiphp.com
  * @package    dibi
  */
 
 
 
 /**
- * dibi result-set.
+ * dibi result set.
  *
  * <code>
  * $result = dibi::query('SELECT * FROM [table]');
@@ -28,15 +28,10 @@
  * unset($result);
  * </code>
  *
- * Result options:
- *   - 'detectTypes' - whether call automatically detectTypes()
- *   - 'formatDateTime' - how to format datetime
- *
- * @copyright  Copyright (c) 2005, 2010 David Grudl
- * @package    dibi
+ * @author     David Grudl
  *
  * @property-read mixed $resource
- * @property-read IDibiDriver $driver
+ * @property-read IDibiResultDriver $driver
  * @property-read int $rowCount
  * @property-read DibiResultIterator $iterator
  * @property string $rowClass
@@ -44,7 +39,7 @@
  */
 class DibiResult extends DibiObject implements IDataSource
 {
-	/** @var array  IDibiDriver */
+	/** @var array  IDibiResultDriver */
 	private $driver;
 
 	/** @var array  Translate table */
@@ -65,7 +60,7 @@ class DibiResult extends DibiObject implements IDataSource
 
 
 	/**
-	 * @param  IDibiDriver
+	 * @param  IDibiResultDriver
 	 * @param  array
 	 */
 	public function __construct($driver, $config)
@@ -110,7 +105,7 @@ class DibiResult extends DibiObject implements IDataSource
 
 	/**
 	 * Safe access to property $driver.
-	 * @return IDibiDriver
+	 * @return IDibiResultDriver
 	 * @throws InvalidStateException
 	 */
 	private function getDriver()
@@ -169,6 +164,7 @@ class DibiResult extends DibiObject implements IDataSource
 	 */
 	final public function rowCount()
 	{
+		trigger_error(__METHOD__ . '() is deprecated; use count($res) or $res->getRowCount() instead.', E_USER_WARNING);
 		return $this->getDriver()->getRowCount();
 	}
 
@@ -176,13 +172,14 @@ class DibiResult extends DibiObject implements IDataSource
 
 	/**
 	 * Required by the IteratorAggregate interface.
-	 * @param  int  offset
-	 * @param  int  limit
 	 * @return DibiResultIterator
 	 */
-	final public function getIterator($offset = NULL, $limit = NULL)
+	final public function getIterator()
 	{
-		return new DibiResultIterator($this, $offset, $limit);
+		if (func_num_args()) {
+			trigger_error(__METHOD__ . ' arguments $offset & $limit have been dropped; use SQL clauses instead.', E_USER_WARNING);
+		}
+		return new DibiResultIterator($this);
 	}
 
 
@@ -585,7 +582,7 @@ class DibiResult extends DibiObject implements IDataSource
 				return NULL;
 
 			} elseif ($this->dateFormat === '') { // return DateTime object (default)
-				return new DateTime53(is_numeric($value) ? date('Y-m-d H:i:s', $value) : $value);
+				return new DibiDateTime(is_numeric($value) ? date('Y-m-d H:i:s', $value) : $value);
 
 			} elseif ($this->dateFormat === 'U') { // return timestamp
 				return is_numeric($value) ? (int) $value : strtotime($value);
@@ -594,7 +591,7 @@ class DibiResult extends DibiObject implements IDataSource
 				return date($this->dateFormat, $value);
 
 			} else {
-				$value = new DateTime53($value);
+				$value = new DibiDateTime($value);
 				return $value->format($this->dateFormat);
 			}
 
@@ -637,6 +634,7 @@ class DibiResult extends DibiObject implements IDataSource
 	 */
 	public function getColumnNames($fullNames = FALSE)
 	{
+		trigger_error(__METHOD__ . '() is deprecated; use $res->getInfo()->getColumnNames() instead.', E_USER_WARNING);
 		return $this->getInfo()->getColumnNames($fullNames);
 	}
 
@@ -647,7 +645,7 @@ class DibiResult extends DibiObject implements IDataSource
 
 
 	/**
-	 * Displays complete result-set as HTML table for debug purposes.
+	 * Displays complete result set as HTML table for debug purposes.
 	 * @return void
 	 */
 	final public function dump()

@@ -1,3 +1,86 @@
+Version 1.3dev on 2011-01-25 (faf4445): released 1.5-rc1
+Version 1.3dev on 2011-01-25 (018b9da): used NotSupportedException at appropriate places
+Version 1.3dev on 2011-01-25 (9c52b8e): renamed DibiLazyStorage to DibiHashMap
+Version 1.3dev on 2011-01-25 (1ada6fa): removed DibiConnection::sql()
+Version 1.3dev on 2011-01-25 (0dc9db1): some stuff is deprecated and throws E_USER_WARNING: dibi::datetime(), dibi::date(), dibi::addSubst(), dibi::removeSubst(), dibi::setSubstFallback(), DibiResult::rowCount(), DibiResult::getColumnNames(), DibiVariable
+Version 1.3dev on 2011-01-25 (0809981): DibiDatabaseInfo: removed support for substitutions
+Version 1.3dev on 2011-01-25 (26de1ae): Substitution moved from class dibi to DibiConnection
+Version 1.3dev on 2011-01-25 (88cccc0): DibiConnection refactoring
+Version 1.3dev on 2011-01-25 (0b15478): DibiDateTime::__construct accepts unix timestamp
+Version 1.3dev on 2011-01-25 (e0d1109): MSSQL2005 driver: added alias charset -> options|CharacterSet
+Version 1.3dev on 2011-01-24 (ae00fed): fixed regexp for profiler
+Version 1.3dev on 2011-01-24 (af715a8): fixed sql injection vulnerability through conditions and comments [closes #30]
+Version 1.3dev on 2010-11-10 (af6352d): removed czech license
+Version 1.3dev on 2010-11-07 (14fee47): DibiProfiler: added HTML title for Debug bar
+Version 1.3dev on 2010-11-02 (ec82eda): DibiResult destructor moved to individual IDibiResultDriver drivers
+Version 1.3dev on 2010-11-02 (087734f): drivers implementing IDibiDriver and IDibiResultDriver together do not use $resultSet in IDibiDriver part
+Version 1.3dev on 2010-11-02 (32baabd): added low-level methods createResultDriver() and DibiConnection::createResultSet()
+Version 1.3dev on 2010-11-02 (33ef22b): fixed compatibility with Nette / RobotLoader
+Version 1.3dev on 2010-10-25 (36fe9d4): PcreException renamed to DibiPcreException
+Version 1.3dev on 2010-10-06 (0c4f343): Firebird driver: added missing getReflector()
+Version 1.3dev on 2010-10-06 (8d6639f): DateTime53 renamed to DibiDateTime
+Version 1.3dev on 2010-09-28 (9059292): fixed Nette compatibility [Closes #23]
+Version 1.3dev on 2010-09-15 (c052582): DibiProfiler: the file can be specified in a configuration
+Version 1.3dev on 2010-09-14 (e6e7bab): simplified phpDoc comments
+Version 1.3dev on 2010-09-07 (056a680): DibiProfiler & Debug: compatible with XHTML
+Version 1.3dev on 2010-09-07 (6d94afd): added dibi::setConnection()
+Version 1.3dev on 2010-08-27 (b1156e5): drivers meta function refactoring
+Version 1.3dev on 2010-08-27 (39add9b): dibi::dump() fixed in CLI mode
+Version 1.3dev on 2010-08-27 (b8e518f): implemented escapeLike() and modifiers %~like, %like~, %~like~
+Version 1.3dev on 2010-08-25 (46a3b8a): now compatible with Debug / NDebug / Nette\Debug
+Version 1.3dev on 2010-08-25 (310d43f): DibiTranslator: temporary removed delimite() cache [Closes #21]
+Version 1.3dev on 2010-08-25 (a64c227): Revert "DibiResult: removed destructor"
+Version 1.3dev on 2010-08-25 (16dd0c7): dibi::$substs & fall-back provided via DibiLazyStorage
+Version 1.3dev on 2010-08-25 (79735e9): DibiLazyStorage: allows empty string as property name for reading
+Version 1.3dev on 2010-08-25 (3253053): missing substitutions no longer throw exception
+Version 1.3dev on 2010-08-25 (ff3ca38): typos
+Version 1.3dev on 2010-08-25 (f651d9f): Revert "empty substitutions are going to be deprecated" commit e50b1a0b5acbf356f3ff811676ac37c383c2ada0.
+Version 1.3dev on 2010-08-25 (3568e04): MSSQL: delimited name in mssql_select_db
+Version 1.3dev on 2010-08-25 (6430573): MySQL & MySQLi, SQLite & SQLite3 reflectors moved do external classes DibiMySqlReflector and DibiSqliteReflector
+Version 1.3dev on 2010-08-05 (65b5e2e): added IDibiDriver::getReflector()
+Version 1.3dev on 2010-08-04 (9f982cb): MySQL, MySQLi & PostgreSql drivers: default character set is 'utf8' (BC break)
+Version 1.3dev on 2010-08-04 (76783b3): DibiDatabaseInfo: better IDibiReflector vs. IDibiResultDriver handling
+Version 1.3dev on 2010-08-04 (de85d38): IDibiDriver splitted into IDibiDriver & IDibiResultDriver
+Version 1.3dev on 2010-08-04 (5cce595): DibiConnection::sql() renamed to verb translate()
+Version 1.3dev on 2010-08-03 (746a553): IDibiDriver::getColumnsMeta() renamed to getResultColumns() (BC break!)
+Version 1.3dev on 2010-08-03 (0d7b9c3): updated phpDoc
+Version 1.3dev on 2010-08-03 (9a4f1e6): DibiFluent: allowed multiple ->from('table')
+Version 1.3dev on 2010-08-03 (204c4cd): DibiConnection: fixed processing of profiler configuration
+Version 1.3dev on 2010-08-03 (6b166af): SQLite & SQLite3: improved primary key detection for ROWID
+Version 1.3dev on 2010-08-03 (f3c2c27): examples: added new
+Version 1.3dev on 2010-08-03 (dc62e87): PostgreSQL: implemented inTransaction()
+Version 1.3dev on 2010-08-03 (66e709e): MySQL & MySQLi drivers: configuration items 'options' renamed to 'flags' (old name is alias); added array 'options' for MySQLi
+Version 1.3dev on 2010-08-03 (dc3b1ff): DibiConnection::getDriver() automatically connects lazy connection; connect() and disconnect() are imperative now!
+Version 1.3dev on 2010-08-03 (6bb2bc4): DibiTranslator: removed getDriver() (it is private)
+Version 1.3dev on 2010-08-03 (019f686): DibiResult::getIterator() - removed optional $offset and $limit parameters (BC break!)
+Version 1.3dev on 2010-08-03 (792a25d): added tests
+Version 1.3dev on 2010-08-03 (759b8d4): removed directory "icon"
+Version 1.3dev on 2010-08-03 (3f59475): examples: removed unnecessary delimiters []
+Version 1.3dev on 2010-08-03 (beee4ee): examples: files renamed
+Version 1.3dev on 2010-08-03 (8f9435b): examples: better headings and comments
+Version 1.3dev on 2010-08-03 (65dba03): examples: added CSS style
+Version 1.3dev on 2010-08-03 (6e35a78): examples: data files moved to directory "data"
+Version 1.3dev on 2010-08-03 (914f7d3): DibiLazyStorage: empty string as property name throws exception; fixed in DibiDatabaseInfo too
+Version 1.3dev on 2010-08-03 (e50b1a0): empty substitutions are going to be deprecated
+Version 1.3dev on 2010-08-03 (8f358ca): dibi::dump() turns off HTML tags in CLI mode
+Version 1.3dev on 2010-08-03 (9d27c7c): DibiFluent: speed optimizations
+Version 1.3dev on 2010-08-03 (bcee7bb): DibiFluent::__class() small refactoring
+Version 1.3dev on 2010-08-03 (8c5dc15): DibiDatabaseInfo: uses DibiLazyStorage for column type detecting
+Version 1.3dev on 2010-08-03 (c931373): DibiTranslator: uses DibiLazyStorage as caching layer over delimite()
+Version 1.3dev on 2010-08-03 (84e0f0e): added DibiLazyStorage, simple caching layer
+Version 1.3dev on 2010-08-03 (3b87d71): MySQLi: fixed columns types detection [Closes #6]
+Version 1.3dev on 2010-08-03 (df02cf1): dibi::dump highlights keyword OFFSET [Closes #15]
+Version 1.3dev on 2010-08-03 (e8990c9): DibiProfiler: explain query doesn't overwrite `dibi::$sql`
+Version 1.3dev on 2010-08-03 (e8de6f2): Mysql & Mysqli drivers: fixed bug in detection unsigned columns
+Version 1.3dev on 2010-08-03 (8082489): DibiConnection: connect() is public
+Version 1.3dev on 2010-08-03 (63163de): DibiDatabaseInfo: BIGINT is treated as string [Closes #18]
+Version 1.3dev on 2010-08-03 (1b62385): typos
+Version 1.3dev on 2010-08-03 (6288dc8): DibiConnection: removed old deprecated methods
+Version 1.3dev on 2010-08-03 (20d0163): DibiTranslator: speed optimizations
+Version 1.3dev on 2010-08-03 (97da612): DibiConnection: driver name is case insensitive
+Version 1.3dev on 2010-08-03 (2ed67c1): DibiConnection: uses single DibiTranslator object (per-connection)
+Version 1.3dev on 2010-08-03 (a0a1270): DibiPdoDriver: speed optimization
+Version 1.3dev on 2010-07-21 (739994d): MySQLi driver: sets mysqli_report(MYSQLI_REPORT_OFF)
 Version 1.3dev on 2010-05-26 (8c99f0c): Driver's reflection capabilities moved to IDibiReflector
 Version 1.3dev on 2010-05-25 (7bac2ef): typos, changed nettephp.com -> nette.org
 Version 1.3dev on 2010-05-19 (651c0f8): DibiProfiler is configurable via DibiConnection $config
