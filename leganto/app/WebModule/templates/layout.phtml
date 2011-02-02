@@ -49,7 +49,11 @@
 			<link rel="stylesheet" type="text/css" href="/css/nivo-slider.css" />
 			<script type="text/javascript">
 				$(window).load(function() {
-					$('.slider').nivoSlider();
+					$('.slider').nivoSlider({
+						 effect:'fade',
+						 pauseTime:5000,
+						 captionOpacity:1
+					});
 				});
 			</script>
 		{/if}
