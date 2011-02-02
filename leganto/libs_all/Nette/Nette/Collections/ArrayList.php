@@ -1,13 +1,13 @@
 <?php
 
 /**
- * Nette Framework
+ * This file is part of the Nette Framework (http://nette.org)
  *
- * @copyright  Copyright (c) 2004, 2010 David Grudl
- * @license    http://nettephp.com/license  Nette license
- * @link       http://nettephp.com
- * @category   Nette
- * @package    Nette\Collections
+ * Copyright (c) 2004, 2010 David Grudl (http://davidgrudl.com)
+ *
+ * For the full copyright and license information, please view
+ * the file license.txt that was distributed with this source code.
+ * @package Nette\Collections
  */
 
 
@@ -15,8 +15,7 @@
 /**
  * Provides the base class for a generic list (items can be accessed by index).
  *
- * @copyright  Copyright (c) 2004, 2010 David Grudl
- * @package    Nette\Collections
+ * @author     David Grudl
  */
 class ArrayList extends Collection implements IList
 {
@@ -84,16 +83,16 @@ class ArrayList extends Collection implements IList
 
 
 
-	/********************* interface \ArrayAccess ****************d*g**/
+	/********************* interface ArrayAccess ****************d*g**/
 
 
 
 	/**
-	 * Replaces (or appends) the item (\ArrayAccess implementation).
+	 * Replaces (or appends) the item (ArrayAccess implementation).
 	 * @param  int index
 	 * @param  object
 	 * @return void
-	 * @throws InvalidArgumentException, \NotSupportedException, \ArgumentOutOfRangeException
+	 * @throws InvalidArgumentException, NotSupportedException, ArgumentOutOfRangeException
 	 */
 	public function offsetSet($index, $item)
 	{
@@ -114,7 +113,7 @@ class ArrayList extends Collection implements IList
 
 
 	/**
-	 * Returns item (\ArrayAccess implementation).
+	 * Returns item (ArrayAccess implementation).
 	 * @param  int index
 	 * @return mixed
 	 * @throws ArgumentOutOfRangeException
@@ -132,7 +131,7 @@ class ArrayList extends Collection implements IList
 
 
 	/**
-	 * Exists item? (\ArrayAccess implementation).
+	 * Exists item? (ArrayAccess implementation).
 	 * @param  int index
 	 * @return bool
 	 */
@@ -148,7 +147,7 @@ class ArrayList extends Collection implements IList
 	 * Removes the element at the specified position in this list.
 	 * @param  int index
 	 * @return void
-	 * @throws NotSupportedException, \ArgumentOutOfRangeException
+	 * @throws NotSupportedException, ArgumentOutOfRangeException
 	 */
 	public function offsetUnset($index)
 	{

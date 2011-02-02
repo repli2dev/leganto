@@ -1,17 +1,16 @@
 <?php
 
 /**
- * Test: Nette\Templates\LatteFilter and macros test.
+ * Test: LatteFilter and macros test.
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette\Templates
  * @subpackage UnitTests
  */
 
 
 
-require dirname(__FILE__) . '/../NetteTest/initialize.php';
+require dirname(__FILE__) . '/../bootstrap.php';
 
 require dirname(__FILE__) . '/Template.inc';
 
@@ -59,34 +58,8 @@ $template->presenter = new MockPresenter;
 $template->action = 'login';
 $template->arr = array('link' => 'login', 'param' => 123);
 
-$template->render(NetteTestHelpers::getSection(__FILE__, 'template'));
+Assert::match(<<<EOD
 
-
-
-__halt_compiler();
-
------template-----
-{plink Homepage:}
-
-{plink  Homepage: }
-
-{plink Homepage:action }
-
-{plink 'Homepage:action' }
-
-{plink Homepage:action 10, 20, '{one}&two'}
-
-{plink : 10 }
-
-{plink default 10, 'a' => 20, 'b' => 30}
-
-{link  $action}
-
-{plink $arr['link'], $arr['param']}
-
-{link default 10, 'a' => 20, 'b' => 30}
-
-------EXPECT------
 PLINK(Homepage:)
 
 PLINK(Homepage:)
@@ -106,3 +79,26 @@ LINK(login)
 PLINK(login, 123)
 
 LINK(default, 10, 20, 30)
+EOD
+
+, $template->render("
+{plink Homepage:}
+
+{plink  Homepage: }
+
+{plink Homepage:action }
+
+{plink 'Homepage:action' }
+
+{plink Homepage:action 10, 20, '{one}&two'}
+
+{plink : 10 }
+
+{plink default 10, 'a' => 20, 'b' => 30}
+
+{link  \$action}
+
+{plink \$arr['link'], \$arr['param']}
+
+{link default 10, 'a' => 20, 'b' => 30}
+"));

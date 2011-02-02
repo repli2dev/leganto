@@ -1,17 +1,16 @@
 <?php
 
 /**
- * Test: Nette\Forms naming container.
+ * Test: Forms naming container.
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette\Forms
  * @subpackage UnitTests
  */
 
 
 
-require dirname(__FILE__) . '/../NetteTest/initialize.php';
+require dirname(__FILE__) . '/../bootstrap.php';
 
 
 
@@ -88,38 +87,29 @@ $form->addText('age', 'Your age:', 5);
 
 $form->addSubmit('submit1', 'Send');
 
-dump( (bool) $form->isSubmitted() );
-dump( $form->getValues() );
-
-
-
-__halt_compiler();
-
-------EXPECT------
-bool(TRUE)
-
-array(7) {
-	"name" => string(3) "jim"
-	"text1" => string(5) "hello"
-	"text2" => string(5) "world"
-	"formCont" => array(2) {
-		"name" => string(4) "jack"
-		"age" => string(2) "23"
-	}
-	"firstperson" => array(2) {
-		"name" => string(5) "david"
-		"age" => string(2) "30"
-	}
-	"secondperson" => array(3) {
-		"name" => string(3) "jim"
-		"age" => string(2) "40"
-		"avatar" => object(%ns%HttpUploadedFile) (5) {
-			"name" private => string(11) "license.txt"
-			"type" private => NULL
-			"size" private => int(3013)
-			"tmpName" private => string(23) "C:\PHP\temp\php1D5C.tmp"
-			"error" private => int(0)
-		}
-	}
-	"age" => string(2) "50"
-}
+Assert::true( (bool) $form->isSubmitted() );
+Assert::equal( array(
+	'name' => 'jim',
+	'text1' => 'hello',
+	'text2' => 'world',
+	'formCont' => array(
+		'name' => 'jack',
+		'age' => '23',
+	),
+	'firstperson' => array(
+		'name' => 'david',
+		'age' => '30',
+	),
+	'secondperson' => array(
+		'name' => 'jim',
+		'age' => '40',
+		'avatar' => new HttpUploadedFile(array(
+			'name' => 'license.txt',
+			'type' => '',
+			'size' => 3013,
+			'tmp_name' => 'C:\PHP\temp\php1D5C.tmp',
+			'error' => 0,
+		)),
+	),
+	'age' => '50',
+), $form->getValues() );

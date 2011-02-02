@@ -1,28 +1,20 @@
 <?php
 
 /**
- * Test: Nette\Security\Permission Ensures that removal of all Roles works.
+ * Test: Permission Ensures that removal of all Roles works.
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette\Security
  * @subpackage UnitTests
  */
 
 
 
-require dirname(__FILE__) . '/../NetteTest/initialize.php';
+require dirname(__FILE__) . '/../bootstrap.php';
 
 
 
 $acl = new Permission;
 $acl->addRole('guest');
 $acl->removeAllRoles();
-dump( $acl->hasRole('guest') );
-
-
-
-__halt_compiler();
-
-------EXPECT------
-bool(FALSE)
+Assert::false( $acl->hasRole('guest') );

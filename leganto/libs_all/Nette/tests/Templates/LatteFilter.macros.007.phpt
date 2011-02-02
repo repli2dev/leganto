@@ -1,17 +1,16 @@
 <?php
 
 /**
- * Test: Nette\Templates\LatteFilter and macros test.
+ * Test: LatteFilter and macros test.
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette\Templates
  * @subpackage UnitTests
  */
 
 
 
-require dirname(__FILE__) . '/../NetteTest/initialize.php';
+require dirname(__FILE__) . '/../bootstrap.php';
 
 require dirname(__FILE__) . '/Template.inc';
 
@@ -30,34 +29,30 @@ class MockTexy
 $template = new MockTemplate;
 $template->registerFilter(new LatteFilter);
 $template->registerHelper('texy', array(new MockTexy, 'process'));
-$template->registerHelperLoader('Nette\Templates\TemplateHelpers::loader');
+$template->registerHelperLoader('TemplateHelpers::loader');
 
 $template->hello = '<i>Hello</i>';
 $template->people = array('John', 'Mary', 'Paul');
 
-$template->render(NetteTestHelpers::getSection(__FILE__, 'template'));
-
-
-
-__halt_compiler();
-
------template-----
+$result = $template->render('
 {block|lower|texy}
 {$hello}
 ---------
 - Escaped: {$hello}
 - Non-escaped: {!$hello}
 
-- Escaped expression: {='<' . 'b' . '>hello' . '</b>'}
+- Escaped expression: {="<" . "b" . ">hello" . "</b>"}
 
-- Non-escaped expression: {!='<' . 'b' . '>hello' . '</b>'}
+- Non-escaped expression: {!="<" . "b" . ">hello" . "</b>"}
 
 - Array access: {$people[1]}
 
 [* image.jpg *]
 {/block}
+');
 
-------EXPECT------
+Assert::match(<<<EOD
+
 <pre>&lt;i&gt;hello&lt;/i&gt;
 ---------
 - escaped: &lt;i&gt;hello&lt;/i&gt;
@@ -71,3 +66,5 @@ __halt_compiler();
 
 [* image.jpg *]
 </pre>
+EOD
+, $result);

@@ -1,17 +1,16 @@
 <?php
 
 /**
- * Test: Nette\Collections\ArrayList and getting items & contains(), indexOf()
+ * Test: ArrayList and getting items & contains(), indexOf()
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette\Collections
  * @subpackage UnitTests
  */
 
 
 
-require dirname(__FILE__) . '/../NetteTest/initialize.php';
+require dirname(__FILE__) . '/../bootstrap.php';
 
 require dirname(__FILE__) . '/Collections.inc';
 
@@ -24,65 +23,33 @@ $foo = new ArrayObject();
 
 
 
-dump( $list->contains($jack), "Contains Jack?" );
+Assert::true( $list->contains($jack), "Contains Jack?" );
 
-dump( $list->indexOf($jack), "indexOf Jack:" );
+Assert::same( 0, $list->indexOf($jack), "indexOf Jack:" );
 
-dump( $list->contains($mary), "Contains Mary?" );
+Assert::true( $list->contains($mary), "Contains Mary?" );
 
-dump( $list->indexOf($mary), "indexOf Mary:" );
+Assert::same( 1, $list->indexOf($mary), "indexOf Mary:" );
 
-dump( $list->contains($foo), "Contains foo?" );
+Assert::false( $list->contains($foo), "Contains foo?" );
 
-dump( $list->indexOf($foo), "indexOf foo?" );
+Assert::false( $list->indexOf($foo), "indexOf foo?" );
 
 
 
-dump( isset($list[-1]), "Contains index -1?" );
+Assert::false( isset($list[-1]), "Contains index -1?" );
 
-dump( isset($list[0]), "Contains index 0?" );
+Assert::true( isset($list[0]), "Contains index 0?" );
 
-dump( isset($list[5]), "Contains index 5?" );
+Assert::false( isset($list[5]), "Contains index 5?" );
 
 
 
 try {
-	dump( $list[-1], "Getting index -1" );
+	$list[-1];
+	Assert::fail('Expected exception');
 } catch (Exception $e) {
-	dump( $e );
+	Assert::exception('ArgumentOutOfRangeException', '', $e );
 }
 
-try {
-	dump( $list[0], "Getting index 0" );
-} catch (Exception $e) {
-	dump( $e );
-}
-
-
-
-__halt_compiler();
-
-------EXPECT------
-Contains Jack? bool(TRUE)
-
-indexOf Jack: int(0)
-
-Contains Mary? bool(TRUE)
-
-indexOf Mary: int(1)
-
-Contains foo? bool(FALSE)
-
-indexOf foo? bool(FALSE)
-
-Contains index -1? bool(FALSE)
-
-Contains index 0? bool(TRUE)
-
-Contains index 5? bool(FALSE)
-
-Exception ArgumentOutOfRangeException:
-
-Getting index 0: object(Person) (1) {
-	"name" private => string(4) "Jack"
-}
+Assert::equal( new Person("Jack"), $list[0], "Getting index 0" );

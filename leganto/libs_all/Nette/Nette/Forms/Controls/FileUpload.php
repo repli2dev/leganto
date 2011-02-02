@@ -1,13 +1,13 @@
 <?php
 
 /**
- * Nette Framework
+ * This file is part of the Nette Framework (http://nette.org)
  *
- * @copyright  Copyright (c) 2004, 2010 David Grudl
- * @license    http://nettephp.com/license  Nette license
- * @link       http://nettephp.com
- * @category   Nette
- * @package    Nette\Forms
+ * Copyright (c) 2004, 2010 David Grudl (http://davidgrudl.com)
+ *
+ * For the full copyright and license information, please view
+ * the file license.txt that was distributed with this source code.
+ * @package Nette\Forms
  */
 
 
@@ -15,8 +15,7 @@
 /**
  * Text box and browse button that allow users to select a file to upload to the server.
  *
- * @copyright  Copyright (c) 2004, 2010 David Grudl
- * @package    Nette\Forms
+ * @author     David Grudl
  */
 class FileUpload extends FormControl
 {
@@ -53,7 +52,7 @@ class FileUpload extends FormControl
 
 	/**
 	 * Sets control's value.
-	 * @param  array|Nette\Web\HttpUploadedFile
+	 * @param  array|HttpUploadedFile
 	 * @return FileUpload  provides a fluent interface
 	 */
 	public function setValue($value)
@@ -109,11 +108,7 @@ class FileUpload extends FormControl
 	{
 		$file = $control->getValue();
 		if ($file instanceof HttpUploadedFile) {
-			$type = $file->getContentType();
-			$type = strtolower(preg_replace('#\s*;.*$#', '', $type));
-			if (!$type) {
-				return FALSE; // cannot verify :-(
-			}
+			$type = strtolower($file->getContentType());
 			$mimeTypes = is_array($mimeType) ? $mimeType : explode(',', $mimeType);
 			if (in_array($type, $mimeTypes, TRUE)) {
 				return TRUE;

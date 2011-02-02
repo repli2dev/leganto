@@ -8,18 +8,18 @@
 
 class MockAssertion implements IPermissionAssertion
 {
-    private $returnValue;
+	private $returnValue;
 
 
-    public function __construct($returnValue)
-    {
-        $this->returnValue = (bool) $returnValue;
-    }
+	public function __construct($returnValue)
+	{
+		$this->returnValue = (bool) $returnValue;
+	}
 
 
 	public function assert(Permission $acl, $roleId, $resourceId, $privilege)
-    {
-       return $this->returnValue;
-    }
+	{
+	return $this->returnValue;
+	}
 
 }

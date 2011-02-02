@@ -1,17 +1,16 @@
 <?php
 
 /**
- * Test: Nette\Collections\ArrayList readonly collection.
+ * Test: ArrayList readonly collection.
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette\Collections
  * @subpackage UnitTests
  */
 
 
 
-require dirname(__FILE__) . '/../NetteTest/initialize.php';
+require dirname(__FILE__) . '/../bootstrap.php';
 
 require dirname(__FILE__) . '/Collections.inc';
 
@@ -22,59 +21,38 @@ $jack = new Person('Jack');
 $list[] = new Person('Mary');
 $list[] = new Person('Larry');
 
-dump( $list->isFrozen() );
+Assert::false( $list->isFrozen() );
 $list->freeze();
-dump( $list->isFrozen() );
+Assert::true( $list->isFrozen() );
 
 try {
-	output("Adding Jack using []");
+	// Adding Jack using []
 	$list[] = $jack;
+	Assert::fail('Expected exception');
 } catch (Exception $e) {
-	dump( $e );
+	Assert::exception('InvalidStateException', "Cannot modify a frozen object '%ns%ArrayList'.", $e );
 }
 
 try {
-	output("Adding Jack using insertAt");
+	// Adding Jack using insertAt
 	$list->insertAt(0, $jack);
+	Assert::fail('Expected exception');
 } catch (Exception $e) {
-	dump( $e );
+	Assert::exception('InvalidStateException', "Cannot modify a frozen object '%ns%ArrayList'.", $e );
 }
 
 try {
-	output("Removing using unset");
+	// Removing using unset
 	unset($list[1]);
+	Assert::fail('Expected exception');
 } catch (Exception $e) {
-	dump( $e );
+	Assert::exception('InvalidStateException', "Cannot modify a frozen object '%ns%ArrayList'.", $e);
 }
 
 try {
-	output("Changing using []");
+	// Changing using []
 	$list[1] = $jack;
+	Assert::fail('Expected exception');
 } catch (Exception $e) {
-	dump( $e );
+	Assert::exception('InvalidStateException', "Cannot modify a frozen object '%ns%ArrayList'.", $e );
 }
-
-
-
-__halt_compiler();
-
-------EXPECT------
-bool(FALSE)
-
-bool(TRUE)
-
-Adding Jack using []
-
-Exception InvalidStateException: Cannot modify a frozen object '%ns%ArrayList'.
-
-Adding Jack using insertAt
-
-Exception InvalidStateException: Cannot modify a frozen object '%ns%ArrayList'.
-
-Removing using unset
-
-Exception InvalidStateException: Cannot modify a frozen object '%ns%ArrayList'.
-
-Changing using []
-
-Exception InvalidStateException: Cannot modify a frozen object '%ns%ArrayList'.

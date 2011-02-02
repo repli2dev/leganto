@@ -1,13 +1,13 @@
 <?php
 
 /**
- * Nette Framework
+ * This file is part of the Nette Framework (http://nette.org)
  *
- * @copyright  Copyright (c) 2004, 2010 David Grudl
- * @license    http://nettephp.com/license  Nette license
- * @link       http://nettephp.com
- * @category   Nette
- * @package    Nette\Collections
+ * Copyright (c) 2004, 2010 David Grudl (http://davidgrudl.com)
+ *
+ * For the full copyright and license information, please view
+ * the file license.txt that was distributed with this source code.
+ * @package Nette\Collections
  */
 
 
@@ -15,8 +15,7 @@
 /**
  * SPL ArrayObject customization.
  *
- * @copyright  Copyright (c) 2004, 2010 David Grudl
- * @package    Nette\Collections
+ * @author     David Grudl
  *
  * @property-read bool $frozen
  */
@@ -128,7 +127,7 @@ abstract class Collection extends ArrayObject implements ICollection
 
 	/**
 	 * Import from array or any traversable object.
-	 * @param  array|\Traversable
+	 * @param  array|Traversable
 	 * @return void
 	 * @throws InvalidArgumentException
 	 */
@@ -185,7 +184,7 @@ abstract class Collection extends ArrayObject implements ICollection
 	 * Responds when the item is about to be added to the collection.
 	 * @param  mixed
 	 * @return void
-	 * @throws InvalidArgumentException, \NotSupportedException
+	 * @throws InvalidArgumentException, NotSupportedException
 	 */
 	protected function beforeAdd($item)
 	{
@@ -245,7 +244,7 @@ abstract class Collection extends ArrayObject implements ICollection
 
 
 
-	/********************* Nette\Object behaviour ****************d*g**/
+	/********************* Object behaviour ****************d*g**/
 
 
 
@@ -261,7 +260,6 @@ abstract class Collection extends ArrayObject implements ICollection
 
 	/**
 	 * Call to undefined method.
-	 *
 	 * @throws MemberAccessException
 	 */
 	public function __call($name, $args)
@@ -273,7 +271,6 @@ abstract class Collection extends ArrayObject implements ICollection
 
 	/**
 	 * Call to undefined static method.
-	 *
 	 * @throws MemberAccessException
 	 */
 	public static function __callStatic($name, $args)
@@ -286,7 +283,6 @@ abstract class Collection extends ArrayObject implements ICollection
 
 	/**
 	 * Returns property value. Do not call directly.
-	 *
 	 * @throws MemberAccessException if the property is not defined.
 	 */
 	public function &__get($name)
@@ -298,7 +294,6 @@ abstract class Collection extends ArrayObject implements ICollection
 
 	/**
 	 * Sets value of a property. Do not call directly.
-	 *
 	 * @throws MemberAccessException if the property is not defined or is read-only
 	 */
 	public function __set($name, $value)
@@ -310,7 +305,6 @@ abstract class Collection extends ArrayObject implements ICollection
 
 	/**
 	 * Is property defined?
-	 *
 	 * @param  string  property name
 	 * @return bool
 	 */
@@ -323,7 +317,6 @@ abstract class Collection extends ArrayObject implements ICollection
 
 	/**
 	 * Access to undeclared property.
-	 *
 	 * @throws MemberAccessException
 	 */
 	public function __unset($name)
@@ -333,7 +326,7 @@ abstract class Collection extends ArrayObject implements ICollection
 
 
 
-	/********************* Nette\FreezableObject behaviour ****************d*g**/
+	/********************* FreezableObject behaviour ****************d*g**/
 
 
 

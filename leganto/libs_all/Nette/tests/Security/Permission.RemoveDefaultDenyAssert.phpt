@@ -1,17 +1,16 @@
 <?php
 
 /**
- * Test: Nette\Security\Permission Ensures that removing the default deny rule results in assertion method being removed.
+ * Test: Permission Ensures that removing the default deny rule results in assertion method being removed.
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette\Security
  * @subpackage UnitTests
  */
 
 
 
-require dirname(__FILE__) . '/../NetteTest/initialize.php';
+require dirname(__FILE__) . '/../bootstrap.php';
 
 require dirname(__FILE__) . '/MockAssertion.inc';
 

@@ -1,13 +1,13 @@
 <?php
 
 /**
- * Nette Framework
+ * This file is part of the Nette Framework (http://nette.org)
  *
- * @copyright  Copyright (c) 2004, 2010 David Grudl
- * @license    http://nettephp.com/license  Nette license
- * @link       http://nettephp.com
- * @category   Nette
- * @package    Nette\Loaders
+ * Copyright (c) 2004, 2010 David Grudl (http://davidgrudl.com)
+ *
+ * For the full copyright and license information, please view
+ * the file license.txt that was distributed with this source code.
+ * @package Nette\Loaders
  */
 
 
@@ -15,8 +15,7 @@
 /**
  * Limited scope for PHP code evaluation and script including.
  *
- * @copyright  Copyright (c) 2004, 2010 David Grudl
- * @package    Nette\Loaders
+ * @author     David Grudl
  */
 final class LimitedScope
 {
@@ -41,9 +40,8 @@ final class LimitedScope
 	public static function evaluate(/*$code, array $vars = NULL*/)
 	{
 		if (func_num_args() > 1) {
-			extract(func_get_arg(1));
-			
-			
+			self::$vars = func_get_arg(1);
+			extract(self::$vars);
 		}
 		return eval('?>' . func_get_arg(0));
 	}
@@ -59,9 +57,8 @@ final class LimitedScope
 	public static function load(/*$file, array $vars = NULL*/)
 	{
 		if (func_num_args() > 1) {
-			extract(func_get_arg(1));
-			
-			
+			self::$vars = func_get_arg(1);
+			extract(self::$vars);
 		}
 		return include func_get_arg(0);
 	}

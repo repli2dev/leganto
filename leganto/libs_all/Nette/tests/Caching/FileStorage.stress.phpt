@@ -1,17 +1,16 @@
 <?php
 
 /**
- * Test: Nette\Caching\FileStorage sliding expiration test.
+ * Test: FileStorage sliding expiration test.
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette\Caching
  * @subpackage UnitTests
  */
 
 
 
-require dirname(__FILE__) . '/../NetteTest/initialize.php';
+require dirname(__FILE__) . '/../bootstrap.php';
 
 
 
@@ -71,30 +70,20 @@ for ($counter=0; $counter<1000; $counter++) {
 $time = Debug::timer();
 
 
-dump( $hits );
+Assert::same( array(
+	'ok' => 1000,
+	'notfound' => 0,
+	'error' => 0,
+	'cantwrite' => 0,
+	'cantdelete' => 0,
+), $hits );
+
 // expected results are:
 //    [ok] => 1000       // should be 1000. If unlink() is used, sum [ok] + [notfound] should be 1000
-//    [notfound] => 0    // means "file not found", should be 0 if delete() is not used
-//    [error] => 0,      // means "file contents is damaged", MUST be 0
-//    [cantwrite] => ?,  // means "somebody else is writing this file"
-//    [cantdelete] => 0  // means "delete() has timeout",  should be 0
+//    [notfound] => 0    // means 'file not found', should be 0 if delete() is not used
+//    [error] => 0,      // means 'file contents is damaged', MUST be 0
+//    [cantwrite] => ?,  // means 'somebody else is writing this file'
+//    [cantdelete] => 0  // means 'delete() has timeout',  should be 0
 
-output($hits['error'] == 0 ? 'PASSED' : 'NOT PASSED!');
-output("takes $time ms");
-
-
-
-__halt_compiler();
-
-------EXPECT------
-array(5) {
-	"ok" => int(1000)
-	"notfound" => int(0)
-	"error" => int(0)
-	"cantwrite" => int(0)
-	"cantdelete" => int(0)
-}
-
-PASSED
-
-takes %f% ms
+Assert::same(0, $hits['error']);
+// takes $time ms

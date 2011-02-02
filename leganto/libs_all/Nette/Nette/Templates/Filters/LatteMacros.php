@@ -1,13 +1,13 @@
 <?php
 
 /**
- * Nette Framework
+ * This file is part of the Nette Framework (http://nette.org)
  *
- * @copyright  Copyright (c) 2004, 2010 David Grudl
- * @license    http://nettephp.com/license  Nette license
- * @link       http://nettephp.com
- * @category   Nette
- * @package    Nette\Templates
+ * Copyright (c) 2004, 2010 David Grudl (http://davidgrudl.com)
+ *
+ * For the full copyright and license information, please view
+ * the file license.txt that was distributed with this source code.
+ * @package Nette\Templates
  */
 
 
@@ -38,13 +38,11 @@
  * - {status ...} HTTP status
  * - {capture ?} ... {/capture} capture block to parameter
  * - {var var => value} set template parameter
- * - {assign var => value} set template parameter
  * - {default var => value} set default template parameter
  * - {dump $var}
  * - {debugbreak}
  *
- * @copyright  Copyright (c) 2004, 2010 David Grudl
- * @package    Nette\Templates
+ * @author     David Grudl
  */
 class LatteMacros extends Object
 {
@@ -88,6 +86,7 @@ class LatteMacros extends Object
 		'plink' => '<?php echo %:macroEscape%(%:macroPlink%) ?>',
 		'link' => '<?php echo %:macroEscape%(%:macroLink%) ?>',
 		'ifCurrent' => '<?php %:macroIfCurrent%; if ($presenter->getLastCreatedRequestFlag("current")): ?>',
+		'/ifCurrent' => '<?php endif ?>',
 		'widget' => '<?php %:macroWidget% ?>',
 		'control' => '<?php %:macroWidget% ?>',
 
@@ -131,7 +130,7 @@ class LatteMacros extends Object
 	/** @var string */
 	private $uniq;
 
-	/**#@+ @ignore internal block type */
+	/**#@+ @internal block type */
 	const BLOCK_NAMED = 1;
 	const BLOCK_CAPTURE = 2;
 	const BLOCK_ANONYMOUS = 3;
@@ -172,7 +171,7 @@ class LatteMacros extends Object
 		// snippets support (temporary solution)
 		$s = preg_replace(
 			'#@(\\{[^}]+?\\})#s',
-			'<?php } ?>$1<?php if (SnippetHelper::\\$outputAllowed) { ?>',
+			'<?php } ?>$1<?php if (SnippetHelper::$outputAllowed) { ?>',
 			$s
 		);
 	}
@@ -195,7 +194,7 @@ class LatteMacros extends Object
 		}
 
 		// snippets support (temporary solution)
-		$s = "<?php\nif (SnippetHelper::\$outputAllowed) {\n?>$s<?php\n}\n?>";
+		$s = "<?php\nif (" . 'SnippetHelper::$outputAllowed' . ") {\n?>$s<?php\n}\n?>";
 
 		// extends support
 		if ($this->namedBlocks || $this->extends) {
@@ -216,8 +215,7 @@ class LatteMacros extends Object
 
 		// internal state holder
 		$s = "<?php\n"
-			
-			. "\$_cb = LatteMacros::initRuntime(\$template, " . var_export($this->extends, TRUE) . ", " . var_export($this->uniq, TRUE) . "); unset(\$_extends);\n"
+			. '$_cb = LatteMacros::initRuntime($template, ' . var_export($this->extends, TRUE) . ', ' . var_export($this->uniq, TRUE) . "); unset(\$_extends);\n"
 			. '?>' . $s;
 	}
 
@@ -410,7 +408,7 @@ class LatteMacros extends Object
 
 		} elseif ($destination[0] === '#') { // include #block
 			$destination = ltrim($destination, '#');
-			if (!preg_match('#^'.LatteFilter::RE_IDENTIFIER.'$#', $destination)) {
+			if (!preg_match('#^' . LatteFilter::RE_IDENTIFIER . '$#', $destination)) {
 				throw new InvalidStateException("Included block name must be alphanumeric string, '$destination' given on line {$this->filter->line}.");
 			}
 
@@ -427,7 +425,7 @@ class LatteMacros extends Object
 			$params .= 'get_defined_vars()';
 			$cmd = isset($this->namedBlocks[$destination]) && !$parent
 				? "call_user_func(reset(\$_cb->blocks[$name]), $params)"
-				: "LatteMacros::callBlock" . ($parent ? 'Parent' : '') . "(\$_cb->blocks, $name, $params)";
+				: 'LatteMacros::callBlock' . ($parent ? 'Parent' : '') . "(\$_cb->blocks, $name, $params)";
 			return $modifiers
 				? "ob_start(); $cmd; echo " . LatteFilter::formatModifiers('ob_get_clean()', $modifiers)
 				: $cmd;
@@ -436,8 +434,8 @@ class LatteMacros extends Object
 			$destination = LatteFilter::formatString($destination);
 			$params .= '$template->getParams()';
 			return $modifiers
-				? 'echo ' . LatteFilter::formatModifiers('LatteMacros::includeTemplate(' . $destination . ', ' . $params . ', $_cb->templates[' . var_export($this->uniq, TRUE) . '])->__toString(TRUE)', $modifiers)
-				: 'LatteMacros::includeTemplate(' . $destination . ', ' . $params . ', $_cb->templates[' . var_export($this->uniq, TRUE) . '])->render()';
+				? 'echo ' . LatteFilter::formatModifiers('LatteMacros::includeTemplate' . "($destination, $params, \$_cb->templates[" . var_export($this->uniq, TRUE) . '])->__toString(TRUE)', $modifiers)
+				: 'LatteMacros::includeTemplate' . "($destination, $params, \$_cb->templates[" . var_export($this->uniq, TRUE) . '])->render()';
 		}
 	}
 
@@ -482,7 +480,7 @@ class LatteMacros extends Object
 
 		} else { // #block
 			$name = ltrim($name, '#');
-			if (!preg_match('#^'.LatteFilter::RE_IDENTIFIER.'$#', $name)) {
+			if (!preg_match('#^' . LatteFilter::RE_IDENTIFIER . '$#', $name)) {
 				throw new InvalidStateException("Block name must be alphanumeric string, '$name' given on line {$this->filter->line}.");
 
 			} elseif (isset($this->namedBlocks[$name])) {
@@ -599,7 +597,7 @@ class LatteMacros extends Object
 		list(, $name, $content) = $matches;
 		$func = '_cbb' . substr(md5($this->uniq . $name), 0, 10) . '_' . preg_replace('#[^a-z0-9_]#i', '_', $name);
 		$this->namedBlocks[$name] = "//\n// block $name\n//\n"
-			. "if (!function_exists(\$_cb->blocks[" . var_export($name, TRUE) . "][] = '$func')) { function $func() { extract(func_get_arg(0))\n?>$content<?php\n}}";
+			. "if (!function_exists(\$_cb->blocks[" . var_export($name, TRUE) . "][] = '$func')) { function $func(\$_args) { extract(\$_args)\n?>$content<?php\n}}";
 		return '';
 	}
 
@@ -683,7 +681,7 @@ class LatteMacros extends Object
 		$pair = explode(':', $pair, 2);
 		$widget = LatteFilter::formatString($pair[0]);
 		$method = isset($pair[1]) ? ucfirst($pair[1]) : '';
-		$method = preg_match('#^('.LatteFilter::RE_IDENTIFIER.'|)$#', $method) ? "render$method" : "{\"render$method\"}";
+		$method = preg_match('#^(' . LatteFilter::RE_IDENTIFIER . '|)$#', $method) ? "render$method" : "{\"render$method\"}";
 		$param = LatteFilter::formatArray($content);
 		if (strpos($content, '=>') === FALSE) $param = substr($param, 6, -1); // removes array()
 		return ($widget[0] === '$' ? "if (is_object($widget)) {$widget}->$method($param); else " : '')

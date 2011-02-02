@@ -1,17 +1,16 @@
 <?php
 
 /**
- * Test: Nette\Caching\FileStorage items dependency test.
+ * Test: FileStorage items dependency test.
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette\Caching
  * @subpackage UnitTests
  */
 
 
 
-require dirname(__FILE__) . '/../NetteTest/initialize.php';
+require dirname(__FILE__) . '/../bootstrap.php';
 
 
 
@@ -20,74 +19,56 @@ $value = 'rulez';
 
 // temporary directory
 define('TEMP_DIR', dirname(__FILE__) . '/tmp');
-NetteTestHelpers::purge(TEMP_DIR);
+TestHelpers::purge(TEMP_DIR);
 
 
 $cache = new Cache(new FileStorage(TEMP_DIR));
 
 
-output('Writing cache...');
+// Writing cache...
 $cache->save($key, $value, array(
 	Cache::ITEMS => array('dependent'),
 ));
+$cache->release();
 
-dump( isset($cache[$key]), 'Is cached?' );
+Assert::true( isset($cache[$key]), 'Is cached?' );
 
-output('Modifing dependent cached item');
+
+// Modifing dependent cached item
 $cache['dependent'] = 'hello world';
+$cache->release();
 
-dump( isset($cache[$key]), 'Is cached?' );
+Assert::false( isset($cache[$key]), 'Is cached?' );
 
-output('Writing cache...');
+
+// Writing cache...
 $cache->save($key, $value, array(
 	Cache::ITEMS => 'dependent',
 ));
+$cache->release();
 
-dump( isset($cache[$key]), 'Is cached?' );
+Assert::true( isset($cache[$key]), 'Is cached?' );
 
-output('Modifing dependent cached item');
+
+// Modifing dependent cached item
 sleep(2);
 $cache['dependent'] = 'hello europe';
+$cache->release();
 
-dump( isset($cache[$key]), 'Is cached?' );
+Assert::false( isset($cache[$key]), 'Is cached?' );
 
-output('Writing cache...');
+
+// Writing cache...
 $cache->save($key, $value, array(
 	Cache::ITEMS => 'dependent',
 ));
+$cache->release();
 
-dump( isset($cache[$key]), 'Is cached?' );
+Assert::true( isset($cache[$key]), 'Is cached?' );
 
-output('Deleting dependent cached item');
+
+// Deleting dependent cached item
 $cache['dependent'] = NULL;
+$cache->release();
 
-dump( isset($cache[$key]), 'Is cached?' );
-
-
-
-__halt_compiler();
-
-------EXPECT------
-Writing cache...
-
-Is cached? bool(TRUE)
-
-Modifing dependent cached item
-
-Is cached? bool(FALSE)
-
-Writing cache...
-
-Is cached? bool(TRUE)
-
-Modifing dependent cached item
-
-Is cached? bool(FALSE)
-
-Writing cache...
-
-Is cached? bool(TRUE)
-
-Deleting dependent cached item
-
-Is cached? bool(FALSE)
+Assert::false( isset($cache[$key]), 'Is cached?' );

@@ -1,13 +1,13 @@
 <?php
 
 /**
- * Nette Framework
+ * This file is part of the Nette Framework (http://nette.org)
  *
- * @copyright  Copyright (c) 2004, 2010 David Grudl
- * @license    http://nettephp.com/license  Nette license
- * @link       http://nettephp.com
- * @category   Nette
- * @package    Nette\Application
+ * Copyright (c) 2004, 2010 David Grudl (http://davidgrudl.com)
+ *
+ * For the full copyright and license information, please view
+ * the file license.txt that was distributed with this source code.
+ * @package Nette\Application
  */
 
 
@@ -15,8 +15,7 @@
 /**
  * Presenter object represents a webpage instance. It executes all the logic for the request.
  *
- * @copyright  Copyright (c) 2004, 2010 David Grudl
- * @package    Nette\Application
+ * @author     David Grudl
  *
  * @property-read PresenterRequest $request
  * @property-read int $phase
@@ -42,7 +41,7 @@ abstract class Presenter extends Control implements IPresenter
 	const INVALID_LINK_EXCEPTION = 3;
 	/**#@-*/
 
-	/**#@+ @ignore internal special parameter key */
+	/**#@+ @internal special parameter key */
 	const SIGNAL_KEY = 'do';
 	const ACTION_KEY = 'action';
 	const FLASH_KEY = '_fid';
@@ -811,12 +810,12 @@ abstract class Presenter extends Control implements IPresenter
 	/**
 	 * PresenterRequest/URL factory.
 	 * @param  PresenterComponent  base
-	 * @param  string   destination in format "[[module:]presenter:]action" or "signal!"
+	 * @param  string   destination in format "[[module:]presenter:]action" or "signal!" or "this"
 	 * @param  array    array of arguments
 	 * @param  string   forward|redirect|link
 	 * @return string   URL
 	 * @throws InvalidLinkException
-	 * @ignore internal
+	 * @internal
 	 */
 	final protected function createRequest($component, $destination, array $args, $mode)
 	{
@@ -941,7 +940,6 @@ abstract class Presenter extends Control implements IPresenter
 		// PROCESS ARGUMENTS
 		if (is_subclass_of($presenterClass, __CLASS__)) {
 			if ($action === '') {
-				/*$action = $presenterClass::$defaultAction;*/ // in PHP 5.3
 				$action = self::$defaultAction;
 			}
 
@@ -950,10 +948,8 @@ abstract class Presenter extends Control implements IPresenter
 			$reflection = new PresenterComponentReflection($presenterClass);
 			if ($args || $destination === 'this') {
 				// counterpart of run() & tryCall()
-				 // in PHP 5.3
 				$method = call_user_func(array($presenterClass, 'formatActionMethod'), $action);
 				if (!$reflection->hasCallableMethod($method)) {
-					 // in PHP 5.3
 					$method = call_user_func(array($presenterClass, 'formatRenderMethod'), $action);
 					if (!$reflection->hasCallableMethod($method)) {
 						$method = NULL;
@@ -1150,7 +1146,7 @@ abstract class Presenter extends Control implements IPresenter
 			}
 
 			$components = $this->getReflection()->getPersistentComponents();
-			$iterator = $this->getComponents(TRUE, 'Nette\Application\IStatePersistent');
+			$iterator = $this->getComponents(TRUE, 'IStatePersistent');
 			foreach ($iterator as $name => $component)
 			{
 				if ($iterator->getDepth() === 0) {

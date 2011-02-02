@@ -6,9 +6,9 @@
 
 
 
-function testRouteIn(Route $route, $uri)
+function testRouteIn(Route $route, $uri, $expectedPresenter=NULL, $expectedParams=NULL, $expectedUri=NULL)
 {
-	output("==> $uri");
+	// ==> $uri
 
 	$uri = new UriScript("http://example.com$uri");
 	$uri->scriptPath = '/';
@@ -26,17 +26,18 @@ function testRouteIn(Route $route, $uri)
 	if ($request) { // matched
 		$params = $request->getParams();
 		//asort($params);
-		dump( $request->getPresenterName() );
-		dump( $params );
+		Assert::same( $expectedPresenter, $request->getPresenterName() );
+		Assert::same( $expectedParams, $params );
 
 		unset($params['extra']);
 		$request->setParams($params);
 		$result = $route->constructUrl($request, $httpRequest);
 		$result = strncmp($result, 'http://example.com', 18) ? $result : substr($result, 18);
-		dump( $result );
+		Assert::same( $expectedUri, $result );
 
 	} else { // not matched
-		output('not matched');
+		// not matched
+		Assert::null( $expectedPresenter );
 	}
 }
 
@@ -44,17 +45,13 @@ function testRouteIn(Route $route, $uri)
 
 function testRouteOut(Route $route, $link, $params = array())
 {
-	output("==> [$link]");
-
-	$uri = new UriScript("http://example.com");
+	$uri = new UriScript('http://example.com');
 	$uri->scriptPath = '/';
 	$httpRequest = new HttpRequest;
 	$httpRequest->initialize();
 	$httpRequest->setUri($uri);
 
 	$request = new PresenterRequest($link, 'GET', $params);
-	$result = $route->constructUrl($request, $httpRequest);
-
-	dump( $result );
+	return $route->constructUrl($request, $httpRequest);
 }
 

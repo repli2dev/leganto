@@ -1,13 +1,13 @@
 <?php
 
 /**
- * Nette Framework
+ * This file is part of the Nette Framework (http://nette.org)
  *
- * @copyright  Copyright (c) 2004, 2010 David Grudl
- * @license    http://nettephp.com/license  Nette license
- * @link       http://nettephp.com
- * @category   Nette
- * @package    Nette\Templates
+ * Copyright (c) 2004, 2010 David Grudl (http://davidgrudl.com)
+ *
+ * For the full copyright and license information, please view
+ * the file license.txt that was distributed with this source code.
+ * @package Nette\Templates
  */
 
 
@@ -15,18 +15,17 @@
 /**
  * Compile-time filter Latte.
  *
- * @copyright  Copyright (c) 2004, 2010 David Grudl
- * @package    Nette\Templates
+ * @author     David Grudl
  */
 class LatteFilter extends Object
 {
-	/** @ignore internal single & double quoted PHP string */
+	/** @internal single & double quoted PHP string */
 	const RE_STRING = '\'(?:\\\\.|[^\'\\\\])*\'|"(?:\\\\.|[^"\\\\])*"';
 
-	/** @ignore internal PHP identifier */
+	/** @internal PHP identifier */
 	const RE_IDENTIFIER = '[_a-zA-Z\x7F-\xFF][_a-zA-Z0-9\x7F-\xFF]*';
 
-	/** @ignore internal special HTML tag or attribute prefix */
+	/** @internal special HTML tag or attribute prefix */
 	const HTML_PREFIX = 'n:';
 
 	/** @var ILatteHandler */
@@ -50,7 +49,7 @@ class LatteFilter extends Object
 	/** @var string */
 	public $context, $escape;
 
-	/**#@+ @ignore internal Context-aware escaping states */
+	/**#@+ @internal Context-aware escaping states */
 	const CONTEXT_TEXT = 'text';
 	const CONTEXT_CDATA = 'cdata';
 	const CONTEXT_TAG = 'tag';

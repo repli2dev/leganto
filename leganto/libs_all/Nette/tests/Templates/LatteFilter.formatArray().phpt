@@ -1,17 +1,16 @@
 <?php
 
 /**
- * Test: Nette\Templates\LatteFilter::formatArray()
+ * Test: LatteFilter::formatArray()
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette\Templates
  * @subpackage UnitTests
  */
 
 
 
-require dirname(__FILE__) . '/../NetteTest/initialize.php';
+require dirname(__FILE__) . '/../bootstrap.php';
 
 
 

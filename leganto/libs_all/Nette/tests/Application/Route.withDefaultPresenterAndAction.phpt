@@ -1,17 +1,16 @@
 <?php
 
 /**
- * Test: Nette\Application\Route with WithDefaultPresenterAndAction
+ * Test: Route with WithDefaultPresenterAndAction
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette\Application
  * @subpackage UnitTests
  */
 
 
 
-require dirname(__FILE__) . '/../NetteTest/initialize.php';
+require dirname(__FILE__) . '/../bootstrap.php';
 
 require dirname(__FILE__) . '/Route.inc';
 
@@ -22,60 +21,22 @@ $route = new Route('<presenter>/<action>', array(
 	'action' => 'default',
 ));
 
+testRouteIn($route, '/presenter/action/', 'Presenter', array(
+	'action' => 'action',
+	'test' => 'testvalue',
+), '/presenter/action?test=testvalue');
 
-testRouteIn($route, '/presenter/action/');
+testRouteIn($route, '/default/default/', 'Default', array(
+	'action' => 'default',
+	'test' => 'testvalue',
+), '/?test=testvalue');
 
-testRouteIn($route, '/default/default/');
+testRouteIn($route, '/presenter', 'Presenter', array(
+	'action' => 'default',
+	'test' => 'testvalue',
+), '/presenter/?test=testvalue');
 
-testRouteIn($route, '/presenter');
-
-testRouteIn($route, '/');
-
-
-
-__halt_compiler();
-
-------EXPECT------
-==> /presenter/action/
-
-string(9) "Presenter"
-
-array(2) {
-	"action" => string(6) "action"
-	"test" => string(9) "testvalue"
-}
-
-string(32) "/presenter/action?test=testvalue"
-
-==> /default/default/
-
-string(7) "Default"
-
-array(2) {
-	"action" => string(7) "default"
-	"test" => string(9) "testvalue"
-}
-
-string(16) "/?test=testvalue"
-
-==> /presenter
-
-string(9) "Presenter"
-
-array(2) {
-	"action" => string(7) "default"
-	"test" => string(9) "testvalue"
-}
-
-string(26) "/presenter/?test=testvalue"
-
-==> /
-
-string(7) "Default"
-
-array(2) {
-	"action" => string(7) "default"
-	"test" => string(9) "testvalue"
-}
-
-string(16) "/?test=testvalue"
+testRouteIn($route, '/', 'Default', array(
+	'action' => 'default',
+	'test' => 'testvalue',
+), '/?test=testvalue');

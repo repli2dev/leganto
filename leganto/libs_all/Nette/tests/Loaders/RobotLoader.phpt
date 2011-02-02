@@ -1,23 +1,22 @@
 <?php
 
 /**
- * Test: Nette\Loaders\RobotLoader basic usage.
+ * Test: RobotLoader basic usage.
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette\Loaders
  * @subpackage UnitTests
  */
 
 
 
-require dirname(__FILE__) . '/../NetteTest/initialize.php';
+require dirname(__FILE__) . '/../bootstrap.php';
 
 
 
 // temporary directory
 define('TEMP_DIR', dirname(__FILE__) . '/tmp');
-NetteTestHelpers::purge(TEMP_DIR);
+TestHelpers::purge(TEMP_DIR);
 Environment::setVariable('tempDir', TEMP_DIR);
 
 
@@ -27,10 +26,7 @@ $loader->addDirectory(dirname(__FILE__));
 $loader->addDirectory(dirname(__FILE__)); // purposely doubled
 $loader->register();
 
-dump( class_exists('TestClass'), 'Class Nette\TestClass loaded?' );
-
-
-__halt_compiler();
-
-------EXPECT------
-Class Nette\TestClass loaded? bool(TRUE)
+Assert::false( class_exists('ConditionalClass') );
+Assert::true( class_exists('TestClass') );
+Assert::true( class_exists('MySpace1\TestClass') );
+Assert::true( class_exists('MySpace2\TestClass') );

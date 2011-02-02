@@ -1,17 +1,16 @@
 <?php
 
 /**
- * Test: Nette\Templates\LatteFilter and macros test.
+ * Test: LatteFilter and macros test.
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette\Templates
  * @subpackage UnitTests
  */
 
 
 
-require dirname(__FILE__) . '/../NetteTest/initialize.php';
+require dirname(__FILE__) . '/../bootstrap.php';
 
 require dirname(__FILE__) . '/Template.inc';
 
@@ -19,14 +18,8 @@ require dirname(__FILE__) . '/Template.inc';
 
 $template = new MockTemplate;
 $template->registerFilter(new LatteFilter);
-$template->render(NetteTestHelpers::getSection(__FILE__, 'template'));
-echo $template->compiled;
 
-
-
-__halt_compiler();
-
------template-----
+$template->render(<<<EOD
 {* kód  *}
 
 @{if TRUE}
@@ -37,15 +30,18 @@ __halt_compiler();
 
 {* kód  *}
 
-------EXPECT------
+EOD
+);
 
-<?php
+Assert::match('<?php
 %A%
 
-if (SnippetHelper::$outputAllowed) {
-} if (TRUE): if (SnippetHelper::$outputAllowed) { ?>
-		<?php } ;else: if (SnippetHelper::$outputAllowed) { ?>
-		<?php } endif ;if (SnippetHelper::$outputAllowed) { ?>
+if (%ns%SnippetHelper::$outputAllowed) {
+} if (TRUE): if (%ns%SnippetHelper::$outputAllowed) { ?>
+		<?php } ;else: if (%ns%SnippetHelper::$outputAllowed) { ?>
+		<?php } endif ;if (%ns%SnippetHelper::$outputAllowed) { ?>
 
 <?php
 }
+
+', $template->compiled);

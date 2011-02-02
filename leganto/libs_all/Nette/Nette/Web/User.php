@@ -1,13 +1,13 @@
 <?php
 
 /**
- * Nette Framework
+ * This file is part of the Nette Framework (http://nette.org)
  *
- * @copyright  Copyright (c) 2004, 2010 David Grudl
- * @license    http://nettephp.com/license  Nette license
- * @link       http://nettephp.com
- * @category   Nette
- * @package    Nette\Web
+ * Copyright (c) 2004, 2010 David Grudl (http://davidgrudl.com)
+ *
+ * For the full copyright and license information, please view
+ * the file license.txt that was distributed with this source code.
+ * @package Nette\Web
  */
 
 
@@ -15,8 +15,7 @@
 /**
  * User authentication and authorization.
  *
- * @copyright  Copyright (c) 2004, 2010 David Grudl
- * @package    Nette\Web
+ * @author     David Grudl
  *
  * @property-read IIdentity $identity
  * @property   IAuthenticator $authenticationHandler
@@ -171,7 +170,7 @@ class User extends Object implements IUser
 	final public function getAuthenticationHandler()
 	{
 		if ($this->authenticationHandler === NULL) {
-			$this->authenticationHandler = Environment::getService('Nette\Security\IAuthenticator');
+			$this->authenticationHandler = Environment::getService('Nette\\Security\\IAuthenticator');
 		}
 		return $this->authenticationHandler;
 	}
@@ -375,7 +374,7 @@ class User extends Object implements IUser
 	 * @param  string  privilege
 	 * @return bool
 	 */
-	public function isAllowed($resource = NULL, $privilege = NULL)
+	public function isAllowed($resource = IAuthorizator::ALL, $privilege = IAuthorizator::ALL)
 	{
 		$handler = $this->getAuthorizationHandler();
 		if (!$handler) {
@@ -411,7 +410,7 @@ class User extends Object implements IUser
 	final public function getAuthorizationHandler()
 	{
 		if ($this->authorizationHandler === NULL) {
-			$this->authorizationHandler = Environment::getService('Nette\Security\IAuthorizator');
+			$this->authorizationHandler = Environment::getService('Nette\\Security\\IAuthorizator');
 		}
 		return $this->authorizationHandler;
 	}
@@ -433,24 +432,28 @@ class User extends Object implements IUser
 
 
 
-	/**#@+ deprecated method - use login(), logout(), isLoggedIn() */
+	/**#@+ @deprecated */
 	function authenticate($username, $password, $extra = NULL)
 	{
+		trigger_error(__METHOD__ . '() is deprecated; use login() instead.', E_USER_WARNING);
 		return $this->login($username, $password, $extra);
 	}
 
 	function signOut($clearIdentity = FALSE)
 	{
+		trigger_error(__METHOD__ . '() is deprecated; use logout() instead.', E_USER_WARNING);
 		return $this->logout($clearIdentity);
 	}
 
 	function isAuthenticated()
 	{
+		trigger_error(__METHOD__ . '() is deprecated; use isLoggedIn() instead.', E_USER_WARNING);
 		return $this->isLoggedIn();
 	}
 
 	function getSignOutReason()
 	{
+		trigger_error(__METHOD__ . '() is deprecated; use getLogoutReason() instead.', E_USER_WARNING);
 		return $this->getLogoutReason();
 	}
 	/**#@-*/

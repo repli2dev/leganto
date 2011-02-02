@@ -1,13 +1,13 @@
 <?php
 
 /**
- * Nette Framework
+ * This file is part of the Nette Framework (http://nette.org)
  *
- * @copyright  Copyright (c) 2004, 2010 David Grudl
- * @license    http://nettephp.com/license  Nette license
- * @link       http://nettephp.com
- * @category   Nette
- * @package    Nette\Web
+ * Copyright (c) 2004, 2010 David Grudl (http://davidgrudl.com)
+ *
+ * For the full copyright and license information, please view
+ * the file license.txt that was distributed with this source code.
+ * @package Nette\Web
  */
 
 
@@ -16,17 +16,16 @@
  * URI Syntax (RFC 3986).
  *
  * <pre>
- * http://user:password@nettephp.com:8042/en/manual.html?name=param#fragment
- * \__/^^^\_____________________________/\_____________/^\________/^\______/
- *   |                    |                     |            |         |
- * scheme             authority               path         query    fragment
+ * http://user:password@nette.org:8042/en/manual.html?name=param#fragment
+ * \__/^^^\__________________________/\_____________/^\________/^\______/
+ *   |                 |                     |            |         |
+ * scheme          authority               path         query    fragment
  * </pre>
  *
  * - authority:   [user[:password]@]host[:port]
- * - hostUri:     http://user:password@nettephp.com:8042
+ * - hostUri:     http://user:password@nette.org:8042
  *
- * @copyright  Copyright (c) 2004, 2010 David Grudl
- * @package    Nette\Web
+ * @author     David Grudl
  *
  * @property   string $scheme
  * @property   string $user
@@ -84,7 +83,7 @@ class Uri extends FreezableObject
 	public function __construct($uri = NULL)
 	{
 		if (is_string($uri)) {
-			$parts = @parse_url($uri); // intentionally @
+			$parts = @parse_url($uri); // @ - is escalated to exception
 			if ($parts === FALSE) {
 				throw new InvalidArgumentException("Malformed or unsupported URI '$uri'.");
 			}
@@ -406,8 +405,11 @@ class Uri extends FreezableObject
 		}
 
 		// compare query strings
-		$part = self::unescape(strtr((string) strtok('?#'), '+', ' '), '%&;=+');
-		return $part === $this->query;
+		$part = preg_split('#[&;]#', self::unescape(strtr((string) strtok('?#'), '+', ' '), '%&;=+'));
+		sort($part);
+		$query = preg_split('#[&;]#', $this->query);
+		sort($query);
+		return $part === $query;
 	}
 
 

@@ -1,17 +1,16 @@
 <?php
 
 /**
- * Test: Nette\Security\Permission Ensure that basic rule removal works.
+ * Test: Permission Ensure that basic rule removal works.
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette\Security
  * @subpackage UnitTests
  */
 
 
 
-require dirname(__FILE__) . '/../NetteTest/initialize.php';
+require dirname(__FILE__) . '/../bootstrap.php';
 
 
 

@@ -1,13 +1,13 @@
 <?php
 
 /**
- * Nette Framework
+ * This file is part of the Nette Framework (http://nette.org)
  *
- * @copyright  Copyright (c) 2004, 2010 David Grudl
- * @license    http://nettephp.com/license  Nette license
- * @link       http://nettephp.com
- * @category   Nette
- * @package    Nette\Forms
+ * Copyright (c) 2004, 2010 David Grudl (http://davidgrudl.com)
+ *
+ * For the full copyright and license information, please view
+ * the file license.txt that was distributed with this source code.
+ * @package Nette\Forms
  */
 
 
@@ -15,8 +15,7 @@
 /**
  * Base class that implements the basic functionality common to form controls.
  *
- * @copyright  Copyright (c) 2004, 2010 David Grudl
- * @package    Nette\Forms
+ * @author     David Grudl
  *
  * @property-read Form $form
  * @property-read mixed $control
@@ -79,7 +78,7 @@ abstract class FormControl extends Component implements IFormControl
 	 */
 	public function __construct($caption = NULL)
 	{
-		$this->monitor('Nette\Forms\Form');
+		$this->monitor('Form');
 		parent::__construct();
 		$this->control = Html::el('input');
 		$this->label = Html::el('label');
@@ -111,7 +110,7 @@ abstract class FormControl extends Component implements IFormControl
 	 */
 	public function getForm($need = TRUE)
 	{
-		return $this->lookup('Nette\Forms\Form', $need);
+		return $this->lookup('Form', $need);
 	}
 
 
@@ -125,11 +124,11 @@ abstract class FormControl extends Component implements IFormControl
 		if ($this->htmlName === NULL) {
 			$s = '';
 			$name = $this->getName();
-			$obj = $this->lookup('Nette\Forms\INamingContainer', TRUE);
+			$obj = $this->lookup('INamingContainer', TRUE);
 			while (!($obj instanceof Form)) {
 				$s = "[$name]$s";
 				$name = $obj->getName();
-				$obj = $obj->lookup('Nette\Forms\INamingContainer', TRUE);
+				$obj = $obj->lookup('INamingContainer', TRUE);
 			}
 			$name .= $s;
 			if ($name === 'submit') {
@@ -175,12 +174,10 @@ abstract class FormControl extends Component implements IFormControl
 
 	/**
 	 * Sets user-specific option.
-	 *
 	 * Common options:
 	 * - 'rendered' - indicate if method getControl() have been called
 	 * - 'required' - indicate if ':required' rule has been applied
 	 * - 'description' - textual or Html object description (recognized by ConventionalRenderer)
-	 *
 	 * @param  string key
 	 * @param  mixed  value
 	 * @return FormControl  provides a fluent interface
@@ -262,7 +259,7 @@ abstract class FormControl extends Component implements IFormControl
 	public function translate($s, $count = NULL)
 	{
 		$translator = $this->getTranslator();
-		return $translator === NULL ? $s : $translator->translate($s, $count);
+		return $translator === NULL || $s == NULL ? $s : $translator->translate($s, $count); // intentionally ==
 	}
 
 
@@ -502,7 +499,7 @@ abstract class FormControl extends Component implements IFormControl
 	 */
 	final public function setRequired($message = NULL)
 	{
-		$this->rules->addRule(':Filled', $message);
+		$this->rules->addRule(Form::FILLED, $message);
 		return $this;
 	}
 

@@ -1,13 +1,13 @@
 <?php
 
 /**
- * Nette Framework
+ * This file is part of the Nette Framework (http://nette.org)
  *
- * @copyright  Copyright (c) 2004, 2010 David Grudl
- * @license    http://nettephp.com/license  Nette license
- * @link       http://nettephp.com
- * @category   Nette
- * @package    Nette\Application
+ * Copyright (c) 2004, 2010 David Grudl (http://davidgrudl.com)
+ *
+ * For the full copyright and license information, please view
+ * the file license.txt that was distributed with this source code.
+ * @package Nette\Application
  */
 
 
@@ -16,8 +16,7 @@
  * The bidirectional route is responsible for mapping
  * HTTP request to a PresenterRoute object for dispatch and vice-versa.
  *
- * @copyright  Copyright (c) 2004, 2010 David Grudl
- * @package    Nette\Application
+ * @author     David Grudl
  */
 class Route extends Object implements IRouter
 {
@@ -28,7 +27,7 @@ class Route extends Object implements IRouter
 	const CASE_SENSITIVE = 256;
 	const FULL_META = 128;
 
-	/**#@+ @ignore internal uri type */
+	/**#@+ @internal uri type */
 	const HOST = 1;
 	const PATH = 2;
 	const RELATIVE = 3;
@@ -42,7 +41,7 @@ class Route extends Object implements IRouter
 	const FILTER_TABLE = 'filterTable';
 	/**#@-*/
 
-	/**#@+ @ignore internal fixity types - how to handle default value? {@link Route::$metadata} */
+	/**#@+ @internal fixity types - how to handle default value? {@link Route::$metadata} */
 	const OPTIONAL = 0;
 	const PATH_OPTIONAL = 1;
 	const CONSTANT = 2;

@@ -1,13 +1,13 @@
 <?php
 
 /**
- * Nette Framework
+ * This file is part of the Nette Framework (http://nette.org)
  *
- * @copyright  Copyright (c) 2004, 2010 David Grudl
- * @license    http://nettephp.com/license  Nette license
- * @link       http://nettephp.com
- * @category   Nette
- * @package    Nette\Mail
+ * Copyright (c) 2004, 2010 David Grudl (http://davidgrudl.com)
+ *
+ * For the full copyright and license information, please view
+ * the file license.txt that was distributed with this source code.
+ * @package Nette\Mail
  */
 
 
@@ -15,8 +15,7 @@
 /**
  * Mail provides functionality to compose and send both text and MIME-compliant multipart e-mail messages.
  *
- * @copyright  Copyright (c) 2004, 2010 David Grudl
- * @package    Nette\Mail
+ * @author     David Grudl
  *
  * @property   string $from
  * @property   string $subject
@@ -33,7 +32,7 @@ class Mail extends MailMimePart
 	/**#@-*/
 
 	/** @var IMailer */
-	public static $defaultMailer = 'Nette\Mail\SendmailMailer';
+	public static $defaultMailer = 'SendmailMailer';
 
 	/** @var array */
 	public static $defaultHeaders = array(
@@ -43,9 +42,6 @@ class Mail extends MailMimePart
 
 	/** @var IMailer */
 	private $mailer;
-
-	/** @var string */
-	private $charset = 'UTF-8';
 
 	/** @var array */
 	private $attachments = array();
@@ -243,7 +239,7 @@ class Mail extends MailMimePart
 
 	/**
 	 * Sets HTML body.
-	 * @param  string|Nette\Templates\ITemplate
+	 * @param  string|ITemplate
 	 * @param  mixed base-path or FALSE to disable parsing
 	 * @return Mail  provides a fluent interface
 	 */
@@ -276,13 +272,8 @@ class Mail extends MailMimePart
 	 */
 	public function addEmbeddedFile($file, $content = NULL, $contentType = NULL)
 	{
-		$part = new MailMimePart;
-		$part->setBody($content === NULL ? $this->readFile($file, $contentType) : (string) $content);
-		$part->setContentType($contentType ? $contentType : 'application/octet-stream');
-		$part->setEncoding(self::ENCODING_BASE64);
-		$part->setHeader('Content-Disposition', 'inline; filename="' . basename($file) . '"');
-		$part->setHeader('Content-ID', '<' . md5(uniqid('', TRUE)) . '>');
-		return $this->inlines[$file] = $part;
+		return $this->inlines[$file] = $this->createAttachment($file, $content, $contentType, 'inline')
+			->setHeader('Content-ID', '<' . md5(uniqid('', TRUE)) . '>');
 	}
 
 
@@ -296,31 +287,33 @@ class Mail extends MailMimePart
 	 */
 	public function addAttachment($file, $content = NULL, $contentType = NULL)
 	{
-		$part = new MailMimePart;
-		$part->setBody($content === NULL ? $this->readFile($file, $contentType) : (string) $content);
-		$part->setContentType($contentType ? $contentType : 'application/octet-stream');
-		$part->setEncoding(self::ENCODING_BASE64);
-		$part->setHeader('Content-Disposition', 'attachment; filename="' . basename($file) . '"');
-		return $this->attachments[] = $part;
+		return $this->attachments[] = $this->createAttachment($file, $content, $contentType, 'attachment');
 	}
 
 
 
 	/**
 	 * Creates file MIME part.
-	 * @param  string
-	 * @param  string
-	 * @return string
+	 * @return MailMimePart
 	 */
-	private function readFile($file, & $contentType)
+	private function createAttachment($file, $content, $contentType, $disposition)
 	{
-		if (!is_file($file)) {
-			throw new FileNotFoundException("File '$file' not found.");
+		$part = new MailMimePart;
+		if ($content === NULL) {
+			if (!is_file($file)) {
+				throw new FileNotFoundException("File '$file' not found.");
+			}
+			if (!$contentType && $info = getimagesize($file)) {
+				$contentType = $info['mime'];
+			}
+			$part->setBody(file_get_contents($file));
+		} else {
+			$part->setBody((string) $content);
 		}
-		if (!$contentType && $info = getimagesize($file)) {
-			$contentType = $info['mime'];
-		}
-		return file_get_contents($file);
+		$part->setContentType($contentType ? $contentType : 'application/octet-stream');
+		$part->setEncoding(preg_match('#(multipart|message)/#A', $contentType) ? self::ENCODING_8BIT : self::ENCODING_BASE64);
+		$part->setHeader('Content-Disposition', $disposition . '; filename="' . String::fixEncoding(basename($file)) . '"');
+		return $part;
 	}
 
 
@@ -360,7 +353,7 @@ class Mail extends MailMimePart
 	public function getMailer()
 	{
 		if ($this->mailer === NULL) {
-			Framework::fixNamespace(self::$defaultMailer);
+			if (is_string(self::$defaultMailer) && $a = strrpos(self::$defaultMailer, '\\')) self::$defaultMailer = substr(self::$defaultMailer, $a + 1); // fix namespace
 			$this->mailer = is_object(self::$defaultMailer) ? self::$defaultMailer : new self::$defaultMailer;
 		}
 		return $this->mailer;
@@ -375,7 +368,7 @@ class Mail extends MailMimePart
 	protected function build()
 	{
 		$mail = clone $this;
-		$hostname = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : isset($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : 'localhost';
+		$hostname = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : (isset($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : 'localhost');
 		$mail->setHeader('Message-ID', '<' . md5(uniqid('', TRUE)) . "@$hostname>");
 
 		$mail->buildHtml();
@@ -401,14 +394,14 @@ class Mail extends MailMimePart
 					$tmp->addPart($value);
 				}
 			}
-			$alt->setContentType('text/html', $mail->charset)
+			$alt->setContentType('text/html', 'UTF-8')
 				->setEncoding(preg_match('#[\x80-\xFF]#', $mail->html) ? self::ENCODING_8BIT : self::ENCODING_7BIT)
 				->setBody($mail->html);
 		}
 
 		$text = $mail->getBody();
 		$mail->setBody(NULL);
-		$cursor->setContentType('text/plain', $mail->charset)
+		$cursor->setContentType('text/plain', 'UTF-8')
 			->setEncoding(preg_match('#[\x80-\xFF]#', $text) ? self::ENCODING_8BIT : self::ENCODING_7BIT)
 			->setBody($text);
 
@@ -442,7 +435,7 @@ class Mail extends MailMimePart
 		}
 
 		if (!$this->getSubject() && preg_match('#<title>(.+?)</title>#is', $this->html, $matches)) {
-			$this->setSubject(html_entity_decode($matches[1], ENT_QUOTES, $this->charset));
+			$this->setSubject(html_entity_decode($matches[1], ENT_QUOTES, 'UTF-8'));
 		}
 	}
 
@@ -463,8 +456,9 @@ class Mail extends MailMimePart
 			$text = preg_replace('#<(style|script|head).*</\\1>#Uis', '', $this->html);
 			$text = preg_replace('#<t[dh][ >]#i', " $0", $text);
 			$text = preg_replace('#[ \t\r\n]+#', ' ', $text);
-			$text = preg_replace('#<(/?p|/?h\d|li|br|/tr)[ >]#i', "\n$0", $text);
-			$text = html_entity_decode(strip_tags($text), ENT_QUOTES, $this->charset);
+			$text = preg_replace('#<(/?p|/?h\d|li|br|/tr)[ >/]#i', "\n$0", $text);
+
+			$text = html_entity_decode(strip_tags($text), ENT_QUOTES, 'UTF-8');
 			$this->setBody(trim($text));
 		}
 	}

@@ -1,17 +1,16 @@
 <?php
 
 /**
- * Test: Nette\Forms example.
+ * Test: Forms example.
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette\Forms
  * @subpackage UnitTests
  */
 
 
 
-require dirname(__FILE__) . '/../NetteTest/initialize.php';
+require dirname(__FILE__) . '/../bootstrap.php';
 
 
 
@@ -21,8 +20,7 @@ $_POST = array('name'=>'Žlu&#357;ou&#269;ký k&#367;&#328;','country'=>array(0=>'
 Debug::$productionMode = FALSE;
 Debug::$consoleMode = TRUE;
 
+
+ob_start();
 require '../../examples/forms/custom-encoding.php';
-
-
-
-__halt_compiler();
+Assert::match( file_get_contents(dirname(__FILE__) . '/Forms.example.submit.003.expect'), ob_get_clean() );

@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Nette Framework Requirements Checker.
  *
  * This script will check if your system meets the requirements for running Nette Framework.
  *
- * @copyright  Copyright (c) 2004, 2010 David Grudl
+ * This file is part of the Nette Framework.
+ * Copyright (c) 2004, 2010 David Grudl (http://davidgrudl.com)
  */
 
 
@@ -179,13 +181,13 @@ paint(array(
 		'title' => 'Bundled GD extension',
 		'required' => FALSE,
 		'passed' => extension_loaded('gd') && GD_BUNDLED,
-		'description' => 'Bundled GD extension is absent. You will not be able to use some function as <code>Nette\Image::filter()</code> or <code>Nette\Image::rotate()</code>.',
+		'description' => 'Bundled GD extension is absent. You will not be able to use some function as <code>Image::filter()</code> or <code>Image::rotate()</code>.',
 	),
 
 	array(
 		'title' => 'ImageMagick library',
 		'required' => FALSE,
-		'passed' => @exec('identify -format "%w,%h,%m" ' . addcslashes(dirname(__FILE__) . '/assets/logo.gif', ' ')) === '176,104,GIF', // intentionally @
+		'passed' => @exec('identify -format "%w,%h,%m" ' . addcslashes(dirname(__FILE__) . '/assets/logo.gif', ' ')) === '176,104,GIF', // @ - may be disabled
 		'description' => 'ImageMagick server library is absent. You will not be able to use <code>Nette\ImageMagick</code>.',
 	),
 
@@ -204,7 +206,6 @@ paint(array(
 		'errorMessage' => 'Enabled',
 		'description' => 'HTTP extension has naming conflict with Nette Framework. You have to disable this extension or use „prefixed“ version.',
 	),
-	
 	array(
 		'title' => 'HTTP_HOST or SERVER_NAME',
 		'required' => TRUE,

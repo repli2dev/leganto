@@ -1,13 +1,13 @@
 <?php
 
 /**
- * Nette Framework
+ * This file is part of the Nette Framework (http://nette.org)
  *
- * @copyright  Copyright (c) 2004, 2010 David Grudl
- * @license    http://nettephp.com/license  Nette license
- * @link       http://nettephp.com
- * @category   Nette
- * @package    Nette\Web
+ * Copyright (c) 2004, 2010 David Grudl (http://davidgrudl.com)
+ *
+ * For the full copyright and license information, please view
+ * the file license.txt that was distributed with this source code.
+ * @package Nette\Web
  */
 
 
@@ -15,8 +15,7 @@
 /**
  * Session namespace for Session.
  *
- * @copyright  Copyright (c) 2004, 2010 David Grudl
- * @package    Nette\Web
+ * @author     David Grudl
  */
 final class SessionNamespace extends Object implements IteratorAggregate, ArrayAccess
 {
@@ -59,7 +58,6 @@ final class SessionNamespace extends Object implements IteratorAggregate, ArrayA
 
 	/**
 	 * Sets a variable in this session namespace.
-	 *
 	 * @param  string  name
 	 * @param  mixed   value
 	 * @return void
@@ -76,7 +74,6 @@ final class SessionNamespace extends Object implements IteratorAggregate, ArrayA
 
 	/**
 	 * Gets a variable from this session namespace.
-	 *
 	 * @param  string    name
 	 * @return mixed
 	 */
@@ -93,7 +90,6 @@ final class SessionNamespace extends Object implements IteratorAggregate, ArrayA
 
 	/**
 	 * Determines whether a variable in this session namespace is set.
-	 *
 	 * @param  string    name
 	 * @return bool
 	 */
@@ -106,7 +102,6 @@ final class SessionNamespace extends Object implements IteratorAggregate, ArrayA
 
 	/**
 	 * Unsets a variable in this session namespace.
-	 *
 	 * @param  string    name
 	 * @return void
 	 */
@@ -119,7 +114,6 @@ final class SessionNamespace extends Object implements IteratorAggregate, ArrayA
 
 	/**
 	 * Sets a variable in this session namespace.
-	 *
 	 * @param  string  name
 	 * @param  mixed   value
 	 * @return void
@@ -133,7 +127,6 @@ final class SessionNamespace extends Object implements IteratorAggregate, ArrayA
 
 	/**
 	 * Gets a variable from this session namespace.
-	 *
 	 * @param  string    name
 	 * @return mixed
 	 */
@@ -146,7 +139,6 @@ final class SessionNamespace extends Object implements IteratorAggregate, ArrayA
 
 	/**
 	 * Determines whether a variable in this session namespace is set.
-	 *
 	 * @param  string    name
 	 * @return bool
 	 */
@@ -159,7 +151,6 @@ final class SessionNamespace extends Object implements IteratorAggregate, ArrayA
 
 	/**
 	 * Unsets a variable in this session namespace.
-	 *
 	 * @param  string    name
 	 * @return void
 	 */

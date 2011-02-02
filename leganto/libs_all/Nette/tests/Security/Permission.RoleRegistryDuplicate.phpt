@@ -1,17 +1,16 @@
 <?php
 
 /**
- * Test: Nette\Security\Permission Ensures that the same Role cannot be registered more than once to the registry.
+ * Test: Permission Ensures that the same Role cannot be registered more than once to the registry.
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette\Security
  * @subpackage UnitTests
  */
 
 
 
-require dirname(__FILE__) . '/../NetteTest/initialize.php';
+require dirname(__FILE__) . '/../bootstrap.php';
 
 
 
@@ -19,13 +18,7 @@ $acl = new Permission;
 try {
 	$acl->addRole('guest');
 	$acl->addRole('guest');
-} catch (InvalidStateException $e) {
-	dump( $e );
+	Assert::fail('Expected exception');
+} catch (Exception $e) {
+	Assert::exception('InvalidStateException', "Role 'guest' already exists in the list.", $e );
 }
-
-
-
-__halt_compiler();
-
-------EXPECT------
-Exception InvalidStateException: Role 'guest' already exists in the list.

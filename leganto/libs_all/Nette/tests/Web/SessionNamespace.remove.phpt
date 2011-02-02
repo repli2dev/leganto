@@ -1,17 +1,16 @@
 <?php
 
 /**
- * Test: Nette\Web\SessionNamespace remove.
+ * Test: SessionNamespace remove.
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette\Web
  * @subpackage UnitTests
  */
 
 
 
-require dirname(__FILE__) . '/../NetteTest/initialize.php';
+require dirname(__FILE__) . '/../bootstrap.php';
 
 
 
@@ -22,19 +21,9 @@ $namespace->p = 'papaya';
 $namespace['c'] = 'cherry';
 
 $namespace = $session->getNamespace('three');
-dump( http_build_query($namespace->getIterator()) );
+Assert::same( 'a=apple&p=papaya&c=cherry', http_build_query($namespace->getIterator()) );
 
-output('removing');
+
+// removing
 $namespace->remove();
-dump( http_build_query($namespace->getIterator()) );
-
-
-
-__halt_compiler();
-
-------EXPECT------
-string(25) "a=apple&p=papaya&c=cherry"
-
-removing
-
-string(0) ""
+Assert::same( '', http_build_query($namespace->getIterator()) );

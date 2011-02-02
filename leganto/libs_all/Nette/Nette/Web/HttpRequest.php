@@ -1,13 +1,13 @@
 <?php
 
 /**
- * Nette Framework
+ * This file is part of the Nette Framework (http://nette.org)
  *
- * @copyright  Copyright (c) 2004, 2010 David Grudl
- * @license    http://nettephp.com/license  Nette license
- * @link       http://nettephp.com
- * @category   Nette
- * @package    Nette\Web
+ * Copyright (c) 2004, 2010 David Grudl (http://davidgrudl.com)
+ *
+ * For the full copyright and license information, please view
+ * the file license.txt that was distributed with this source code.
+ * @package Nette\Web
  */
 
 
@@ -15,8 +15,7 @@
 /**
  * HttpRequest provides access scheme for request sent via HTTP.
  *
- * @copyright  Copyright (c) 2004, 2010 David Grudl
- * @package    Nette\Web
+ * @author     David Grudl
  *
  * @property   UriScript $uri
  * @property-read Uri $originalUri
@@ -200,11 +199,11 @@ class HttpRequest extends Object implements IHttpRequest
 		$requestUri = preg_replace(array_keys($this->uriFilter[0]), array_values($this->uriFilter[0]), $requestUri);
 		$tmp = explode('?', $requestUri, 2);
 		$uri->path = preg_replace(array_keys($this->uriFilter[PHP_URL_PATH]), array_values($this->uriFilter[PHP_URL_PATH]), $tmp[0]);
-		$uri->path = String::fixEncoding($uri->path);
 		$uri->query = isset($tmp[1]) ? $tmp[1] : '';
 
 		// normalized uri
 		$uri->canonicalize();
+		$uri->path = String::fixEncoding($uri->path);
 
 		// detect base URI-path - inspired by Zend Framework (c) Zend Technologies USA Inc. (http://www.zend.com), new BSD license
 		$filename = isset($_SERVER['SCRIPT_FILENAME']) ? basename($_SERVER['SCRIPT_FILENAME']) : NULL;

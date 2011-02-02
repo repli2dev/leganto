@@ -1,13 +1,13 @@
 <?php
 
 /**
- * Nette Framework
+ * This file is part of the Nette Framework (http://nette.org)
  *
- * @copyright  Copyright (c) 2004, 2010 David Grudl
- * @license    http://nettephp.com/license  Nette license
- * @link       http://nettephp.com
- * @category   Nette
- * @package    Nette\Forms
+ * Copyright (c) 2004, 2010 David Grudl (http://davidgrudl.com)
+ *
+ * For the full copyright and license information, please view
+ * the file license.txt that was distributed with this source code.
+ * @package Nette\Forms
  */
 
 
@@ -15,8 +15,7 @@
 /**
  * Creates, validates and renders HTML forms.
  *
- * @copyright  Copyright (c) 2004, 2010 David Grudl
- * @package    Nette\Forms
+ * @author     David Grudl
  *
  * @example    forms/basic-example.php  Form definition using fluent interfaces
  * @example    forms/manual-rendering.php  Manual form rendering and separated form and rules definition
@@ -66,7 +65,7 @@ class Form extends FormContainer
 	const MIME_TYPE = ':mimeType';
 
 	// special case
-	const SCRIPT = 'Nette\Forms\InstantClientScript::javascript';
+	const SCRIPT = 'Nette\\Forms\\InstantClientScript::javascript';
 	/**#@-*/
 
 	/**#@+ method */
@@ -74,10 +73,10 @@ class Form extends FormContainer
 	const POST = 'post';
 	/**#@-*/
 
-	/** @ignore internal tracker ID */
+	/** @internal tracker ID */
 	const TRACKER_ID = '_form_';
 
-	/** @ignore internal protection token ID */
+	/** @internal protection token ID */
 	const PROTECTOR_ID = '_token_';
 
 	/** @var array of function(Form $sender); Occurs when the form is submitted and successfully validated */

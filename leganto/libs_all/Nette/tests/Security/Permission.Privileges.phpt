@@ -1,17 +1,16 @@
 <?php
 
 /**
- * Test: Nette\Security\Permission Ensures that multiple privileges work properly.
+ * Test: Permission Ensures that multiple privileges work properly.
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette\Security
  * @subpackage UnitTests
  */
 
 
 
-require dirname(__FILE__) . '/../NetteTest/initialize.php';
+require dirname(__FILE__) . '/../bootstrap.php';
 
 
 

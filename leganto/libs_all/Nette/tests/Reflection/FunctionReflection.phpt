@@ -4,32 +4,21 @@
  * Test: FunctionReflection tests.
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette\Reflection
  * @subpackage UnitTests
  */
 
 
 
-require dirname(__FILE__) . '/../NetteTest/initialize.php';
+require dirname(__FILE__) . '/../bootstrap.php';
 
 
 
 function bar() {}
 
 $function = new FunctionReflection('bar');
-dump( $function->getExtension() );
+Assert::null( $function->getExtension() );
+
 
 $function = new FunctionReflection('sort');
-dump( $function->getExtension() );
-
-
-
-__halt_compiler();
-
-------EXPECT------
-NULL
-
-object(%ns%ExtensionReflection) (1) {
-	"name" => string(8) "standard"
-}
+Assert::equal( new ExtensionReflection('standard'), $function->getExtension() );

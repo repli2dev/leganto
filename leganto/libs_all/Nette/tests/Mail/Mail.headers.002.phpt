@@ -1,17 +1,16 @@
 <?php
 
 /**
- * Test: Nette\Mail\Mail valid headers.
+ * Test: Mail valid headers.
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette\Application
  * @subpackage UnitTests
  */
 
 
 
-require dirname(__FILE__) . '/../NetteTest/initialize.php';
+require dirname(__FILE__) . '/../bootstrap.php';
 
 require dirname(__FILE__) . '/Mail.inc';
 
@@ -34,11 +33,7 @@ $mail->setHeader('X-Gmail-Label', 'love');
 
 $mail->send();
 
-
-
-__halt_compiler();
-
-------EXPECT------
+Assert::match( <<<EOD
 MIME-Version: 1.0
 X-Mailer: Nette Framework
 Date: %a%
@@ -54,3 +49,5 @@ X-Gmail-Label: love
 Message-ID: <%a%@%a%>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+EOD
+, TestMailer::$output );

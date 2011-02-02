@@ -1,13 +1,13 @@
 <?php
 
 /**
- * Nette Framework
+ * This file is part of the Nette Framework (http://nette.org)
  *
- * @copyright  Copyright (c) 2004, 2010 David Grudl
- * @license    http://nettephp.com/license  Nette license
- * @link       http://nettephp.com
- * @category   Nette
- * @package    Nette\Application
+ * Copyright (c) 2004, 2010 David Grudl (http://davidgrudl.com)
+ *
+ * For the full copyright and license information, please view
+ * the file license.txt that was distributed with this source code.
+ * @package Nette\Application
  */
 
 
@@ -15,8 +15,7 @@
 /**
  * Control is renderable component.
  *
- * @copyright  Copyright (c) 2004, 2010 David Grudl
- * @package    Nette\Application
+ * @author     David Grudl
  *
  * @property-read ITemplate $template
  */
@@ -43,7 +42,7 @@ abstract class Control extends PresenterComponent implements IPartiallyRenderabl
 			$value = $this->createTemplate();
 			if (!($value instanceof ITemplate || $value === NULL)) {
 				$class = get_class($value);
-				throw new UnexpectedValueException("Object returned by {$this->reflection->name}::createTemplate() must be instance of Nette\\Templates\\ITemplate, '$class' given.");
+				throw new UnexpectedValueException("Object returned by {$this->reflection->name}::createTemplate() must be instance of ITemplate, '$class' given.");
 			}
 			$this->template = $value;
 		}
@@ -78,7 +77,7 @@ abstract class Control extends PresenterComponent implements IPartiallyRenderabl
 		}
 
 		// default helpers
-		$template->registerHelper('escape', 'Nette\Templates\TemplateHelpers::escapeHtml');
+		$template->registerHelper('escape', 'TemplateHelpers::escapeHtml');
 		$template->registerHelper('escapeUrl', 'rawurlencode');
 		$template->registerHelper('stripTags', 'strip_tags');
 		$template->registerHelper('nl2br', 'nl2br');
@@ -86,7 +85,7 @@ abstract class Control extends PresenterComponent implements IPartiallyRenderabl
 		$template->registerHelper('repeat', 'str_repeat');
 		$template->registerHelper('implode', 'implode');
 		$template->registerHelper('number', 'number_format');
-		$template->registerHelperLoader('Nette\Templates\TemplateHelpers::loader');
+		$template->registerHelperLoader('TemplateHelpers::loader');
 
 		return $template;
 	}

@@ -1,17 +1,16 @@
 <?php
 
 /**
- * Test: Nette\Web\Session namespaces.
+ * Test: Session namespaces.
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette\Web
  * @subpackage UnitTests
  */
 
 
 
-require dirname(__FILE__) . '/../NetteTest/initialize.php';
+require dirname(__FILE__) . '/../bootstrap.php';
 
 
 
@@ -31,13 +30,7 @@ Assert::true( $namespace instanceof SessionNamespace );
 
 try {
 	$namespace = $session->getNamespace('');
+	Assert::fail('Expected exception');
 } catch (Exception $e) {
-	dump( $e );
+	Assert::exception('InvalidArgumentException', 'Session namespace must be a non-empty string.', $e );
 }
-
-
-
-__halt_compiler();
-
-------EXPECT------
-Exception InvalidArgumentException: Session namespace must be a non-empty string.

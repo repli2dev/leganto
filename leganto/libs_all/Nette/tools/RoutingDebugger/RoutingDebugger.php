@@ -5,9 +5,10 @@
 /**
  * Routing debugger for Nette Framework.
  *
- * @copyright  Copyright (c) 2010 David Grudl
- * @license    http://nettephp.com/license  Nette license
- * @link       http://nettephp.com
+ * This file is part of the Nette Framework.
+ * Copyright (c) 2004, 2010 David Grudl (http://davidgrudl.com)
+ *
+ * @author     David Grudl
  */
 class RoutingDebugger extends Object
 {

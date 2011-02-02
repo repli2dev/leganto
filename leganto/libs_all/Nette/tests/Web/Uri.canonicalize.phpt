@@ -1,17 +1,16 @@
 <?php
 
 /**
- * Test: Nette\Web\Uri canonicalize.
+ * Test: Uri canonicalize.
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette\Web
  * @subpackage UnitTests
  */
 
 
 
-require dirname(__FILE__) . '/../NetteTest/initialize.php';
+require dirname(__FILE__) . '/../bootstrap.php';
 
 
 

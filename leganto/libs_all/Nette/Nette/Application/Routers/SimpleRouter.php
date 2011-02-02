@@ -1,13 +1,13 @@
 <?php
 
 /**
- * Nette Framework
+ * This file is part of the Nette Framework (http://nette.org)
  *
- * @copyright  Copyright (c) 2004, 2010 David Grudl
- * @license    http://nettephp.com/license  Nette license
- * @link       http://nettephp.com
- * @category   Nette
- * @package    Nette\Application
+ * Copyright (c) 2004, 2010 David Grudl (http://davidgrudl.com)
+ *
+ * For the full copyright and license information, please view
+ * the file license.txt that was distributed with this source code.
+ * @package Nette\Application
  */
 
 
@@ -15,8 +15,7 @@
 /**
  * The bidirectional route for trivial routing via query string.
  *
- * @copyright  Copyright (c) 2004, 2010 David Grudl
- * @package    Nette\Application
+ * @author     David Grudl
  */
 class SimpleRouter extends Object implements IRouter
 {
@@ -42,9 +41,12 @@ class SimpleRouter extends Object implements IRouter
 	{
 		if (is_string($defaults)) {
 			$a = strrpos($defaults, ':');
+			if (!$a) {
+				throw new InvalidArgumentException("Argument must be array or string in format Presenter:action, '$defaults' given.");
+			}
 			$defaults = array(
 				self::PRESENTER_KEY => substr($defaults, 0, $a),
-				'action' => substr($defaults, $a + 1),
+				'action' => $a === strlen($defaults) - 1 ? 'default' : substr($defaults, $a + 1),
 			);
 		}
 

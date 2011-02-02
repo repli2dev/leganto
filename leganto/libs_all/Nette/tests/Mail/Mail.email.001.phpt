@@ -1,141 +1,101 @@
 <?php
 
 /**
- * Test: Nette\Mail\Mail invalid email addresses.
+ * Test: Mail invalid email addresses.
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette\Application
  * @subpackage UnitTests
  */
 
 
 
-require dirname(__FILE__) . '/../NetteTest/initialize.php';
+require dirname(__FILE__) . '/../bootstrap.php';
 
 
 
 $mail = new Mail();
 
 try {
-	output('From');
+	// From
 	$mail->setFrom('John Doe <doe@example. com>');
+	Assert::fail('Expected exception');
 } catch (Exception $e) {
-	dump( $e );
+	Assert::exception('InvalidArgumentException', "Email address 'doe@example. com' is not valid.", $e );
 }
 
 
 try {
-	output();
 	$mail->setFrom('John Doe <>');
+	Assert::fail('Expected exception');
 } catch (Exception $e) {
-	dump( $e );
+	Assert::exception('InvalidArgumentException', "Email address '' is not valid.", $e );
 }
 
 
 try {
-	output();
 	$mail->setFrom('John Doe <doe@examplecom>');
+	Assert::fail('Expected exception');
 } catch (Exception $e) {
-	dump( $e );
+	Assert::exception('InvalidArgumentException', "Email address 'doe@examplecom' is not valid.", $e );
 }
 
 
 try {
-	output();
 	$mail->setFrom('John Doe <doe@examplecom>');
+	Assert::fail('Expected exception');
 } catch (Exception $e) {
-	dump( $e );
+	Assert::exception('InvalidArgumentException', "Email address 'doe@examplecom' is not valid.", $e );
 }
 
 
 try {
-	output();
 	$mail->setFrom('John Doe');
+	Assert::fail('Expected exception');
 } catch (Exception $e) {
-	dump( $e );
+	Assert::exception('InvalidArgumentException', "Email address 'John Doe' is not valid.", $e );
 }
 
 
 try {
-	output();
 	$mail->setFrom('doe;@examplecom');
+	Assert::fail('Expected exception');
 } catch (Exception $e) {
-	dump( $e );
+	Assert::exception('InvalidArgumentException', "Email address 'doe;@examplecom' is not valid.", $e );
 }
 
 
 try {
-	output('addReplyTo');
+	// addReplyTo
 	$mail->addReplyTo('@');
+	Assert::fail('Expected exception');
 } catch (Exception $e) {
-	dump( $e );
+	Assert::exception('InvalidArgumentException', "Email address '@' is not valid.", $e );
 }
 
 
 try {
-	output('addTo');
+	// addTo
 	$mail->addTo('@');
+	Assert::fail('Expected exception');
 } catch (Exception $e) {
-	dump( $e );
+	Assert::exception('InvalidArgumentException', "Email address '@' is not valid.", $e );
 }
 
 
 try {
-	output('addCc');
+	// addCc
 	$mail->addCc('@');
+	Assert::fail('Expected exception');
 } catch (Exception $e) {
-	dump( $e );
+	Assert::exception('InvalidArgumentException', "Email address '@' is not valid.", $e );
 }
 
 
 try {
-	output('addBcc');
+	// addBcc
 	$mail->addBcc('@');
+	Assert::fail('Expected exception');
 } catch (Exception $e) {
-	dump( $e );
+	Assert::exception('InvalidArgumentException', "Email address '@' is not valid.", $e );
 }
-
-
-__halt_compiler();
-
-------EXPECT------
-From
-
-Exception InvalidArgumentException: Email address 'doe@example. com' is not valid.
-
-===
-
-Exception InvalidArgumentException: Email address '' is not valid.
-
-===
-
-Exception InvalidArgumentException: Email address 'doe@examplecom' is not valid.
-
-===
-
-Exception InvalidArgumentException: Email address 'doe@examplecom' is not valid.
-
-===
-
-Exception InvalidArgumentException: Email address 'John Doe' is not valid.
-
-===
-
-Exception InvalidArgumentException: Email address 'doe;@examplecom' is not valid.
-
-addReplyTo
-
-Exception InvalidArgumentException: Email address '@' is not valid.
-
-addTo
-
-Exception InvalidArgumentException: Email address '@' is not valid.
-
-addCc
-
-Exception InvalidArgumentException: Email address '@' is not valid.
-
-addBcc
-
-Exception InvalidArgumentException: Email address '@' is not valid.

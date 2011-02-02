@@ -1,22 +1,21 @@
 <?php
 
 /**
- * Test: Nette\Caching\Memcached files dependency test.
+ * Test: Memcached files dependency test.
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette\Caching
  * @subpackage UnitTests
  */
 
 
 
-require dirname(__FILE__) . '/../NetteTest/initialize.php';
+require dirname(__FILE__) . '/../bootstrap.php';
 
 
 
 if (!MemcachedStorage::isAvailable()) {
-	NetteTestHelpers::skip('Requires PHP extension Memcache.');
+	TestHelpers::skip('Requires PHP extension Memcache.');
 }
 
 
@@ -30,52 +29,38 @@ $cache = new Cache(new MemcachedStorage('localhost'));
 $dependentFile = dirname(__FILE__) . '/tmp/spec.file';
 @unlink($dependentFile);
 
-output('Writing cache...');
+// Writing cache...
 $cache->save($key, $value, array(
 	Cache::FILES => array(
 		__FILE__,
 		$dependentFile,
 	),
 ));
+$cache->release();
 
-dump( isset($cache[$key]), 'Is cached?' );
+Assert::true( isset($cache[$key]), 'Is cached?' );
 
-output('Modifing dependent file');
+
+// Modifing dependent file
 file_put_contents($dependentFile, 'a');
+$cache->release();
 
-dump( isset($cache[$key]), 'Is cached?' );
+Assert::false( isset($cache[$key]), 'Is cached?' );
 
-output('Writing cache...');
+
+// Writing cache...
 $cache->save($key, $value, array(
 	Cache::FILES => $dependentFile,
 ));
+$cache->release();
 
-dump( isset($cache[$key]), 'Is cached?' );
+Assert::true( isset($cache[$key]), 'Is cached?' );
 
-output('Modifing dependent file');
+
+// Modifing dependent file
 sleep(2);
 file_put_contents($dependentFile, 'b');
 clearstatcache();
+$cache->release();
 
-dump( isset($cache[$key]), 'Is cached?' );
-
-
-
-__halt_compiler();
-
-------EXPECT------
-Writing cache...
-
-Is cached? bool(TRUE)
-
-Modifing dependent file
-
-Is cached? bool(FALSE)
-
-Writing cache...
-
-Is cached? bool(TRUE)
-
-Modifing dependent file
-
-Is cached? bool(FALSE)
+Assert::false( isset($cache[$key]), 'Is cached?' );

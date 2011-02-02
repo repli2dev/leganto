@@ -4,6 +4,7 @@
 
 /**
  * @author john
+ * @package Nette
  */
 class AnnotatedClass1
 {

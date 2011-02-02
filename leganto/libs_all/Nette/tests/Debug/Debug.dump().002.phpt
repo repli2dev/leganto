@@ -1,17 +1,16 @@
 <?php
 
 /**
- * Test: Nette\Debug::dump() with $showLocation.
+ * Test: Debug::dump() with $showLocation.
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette
  * @subpackage UnitTests
  */
 
 
 
-require dirname(__FILE__) . '/../NetteTest/initialize.php';
+require dirname(__FILE__) . '/../bootstrap.php';
 
 
 
@@ -22,12 +21,7 @@ Debug::$productionMode = FALSE;
 
 Debug::$showLocation = TRUE;
 
+ob_start();
 Debug::dump('xxx');
-
-
-
-__halt_compiler();
-
-------EXPECT------
-<pre class="dump"><span>string</span>(3) "xxx" <small>in file %a%</small>
-</pre>
+Assert::match( '<pre class="dump">"xxx" (3) <small>in file %a% on line %d%</small>
+</pre>', ob_get_clean() );

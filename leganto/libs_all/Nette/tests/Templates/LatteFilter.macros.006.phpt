@@ -1,17 +1,17 @@
 <?php
 
 /**
- * Test: Nette\Templates\LatteFilter and macros test.
+ * Test: LatteFilter and macros test.
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette\Templates
  * @subpackage UnitTests
+ * @keepTrailingSpaces
  */
 
 
 
-require dirname(__FILE__) . '/../NetteTest/initialize.php';
+require dirname(__FILE__) . '/../bootstrap.php';
 
 require dirname(__FILE__) . '/Template.inc';
 
@@ -34,8 +34,4 @@ $template->registerFilter(new LatteFilter);
 $template->control = new MockControl;
 $template->render(file_get_contents(dirname(__FILE__) . '/templates/latte.snippet.phtml'));
 
-echo $template->compiled;
-
-
-
-__halt_compiler();
+Assert::match(file_get_contents(dirname(__FILE__) . '/LatteFilter.macros.006.expect'), $template->compiled);

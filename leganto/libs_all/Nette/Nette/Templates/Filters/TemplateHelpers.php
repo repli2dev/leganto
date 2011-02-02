@@ -1,22 +1,21 @@
 <?php
 
 /**
- * Nette Framework
+ * This file is part of the Nette Framework (http://nette.org)
  *
- * @copyright  Copyright (c) 2004, 2010 David Grudl
- * @license    http://nettephp.com/license  Nette license
- * @link       http://nettephp.com
- * @category   Nette
- * @package    Nette\Templates
+ * Copyright (c) 2004, 2010 David Grudl (http://davidgrudl.com)
+ *
+ * For the full copyright and license information, please view
+ * the file license.txt that was distributed with this source code.
+ * @package Nette\Templates
  */
 
 
 
 /**
- * Standard template run-time helpers shipped with Nette Framework.
+ * Standard template run-time helpers shipped with Nette Framework (http://nette.org)
  *
- * @copyright  Copyright (c) 2004, 2010 David Grudl
- * @package    Nette\Templates
+ * @author     David Grudl
  */
 final class TemplateHelpers
 {
@@ -73,7 +72,7 @@ final class TemplateHelpers
 	public static function escapeHtmlComment($s)
 	{
 		// -- has special meaning in different browsers
-		return str_replace('--', '--><!--', $s); // HTML tags have no meaning inside comments
+		return str_replace('--', '--><!-- ', $s); // HTML tags have no meaning inside comments
 	}
 
 
@@ -100,7 +99,7 @@ final class TemplateHelpers
 	public static function escapeCss($s)
 	{
 		// http://www.w3.org/TR/2006/WD-CSS21-20060411/syndata.html#q6
-		return addcslashes($s, "\x00..\x2C./:;<=>?@[\\]^`{|}~");
+		return addcslashes($s, "\x00..\x1F!\"#$%&'()*+,./:;<=>?@[\\]^`{|}~");
 	}
 
 

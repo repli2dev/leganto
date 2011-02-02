@@ -1,17 +1,16 @@
 <?php
 
 /**
- * Test: Nette\Web\Session::regenerateId()
+ * Test: Session::regenerateId()
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette\Web
  * @subpackage UnitTests
  */
 
 
 
-require dirname(__FILE__) . '/../NetteTest/initialize.php';
+require dirname(__FILE__) . '/../bootstrap.php';
 
 
 
@@ -20,11 +19,4 @@ $session->start();
 $oldId = $session->getId();
 $session->regenerateId();
 $newId = $session->getId();
-dump( $newId != $oldId );
-
-
-
-__halt_compiler();
-
-------EXPECT------
-bool(TRUE)
+Assert::true( $newId != $oldId );

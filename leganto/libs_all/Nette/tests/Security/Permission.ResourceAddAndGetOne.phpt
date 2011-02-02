@@ -1,34 +1,24 @@
 <?php
 
 /**
- * Test: Nette\Security\Permission Ensures that basic addition and retrieval of a single Resource works.
+ * Test: Permission Ensures that basic addition and retrieval of a single Resource works.
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette\Security
  * @subpackage UnitTests
  */
 
 
 
-require dirname(__FILE__) . '/../NetteTest/initialize.php';
+require dirname(__FILE__) . '/../bootstrap.php';
 
 
 
 $acl = new Permission;
-dump( $acl->hasResource('area') );
+Assert::false( $acl->hasResource('area') );
+
 $acl->addResource('area');
-dump( $acl->hasResource('area') );
+Assert::true( $acl->hasResource('area') );
+
 $acl->removeResource('area');
-dump( $acl->hasResource('area') );
-
-
-
-__halt_compiler();
-
-------EXPECT------
-bool(FALSE)
-
-bool(TRUE)
-
-bool(FALSE)
+Assert::false( $acl->hasResource('area') );

@@ -4,14 +4,13 @@
  * Test: Annotations comment parser II.
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette\Reflection
  * @subpackage UnitTests
  */
 
 
 
-require dirname(__FILE__) . '/../NetteTest/initialize.php';
+require dirname(__FILE__) . '/../bootstrap.php';
 
 
 
@@ -37,60 +36,31 @@ class TestClass3 {
 
 
 $rc = new ClassReflection('TestClass1');
-dump( $rc->getAnnotations() );
+Assert::equal( array(
+	'one' => array('value'),
+	'two' => array('value'),
+	'three' => array(TRUE),
+	'five' => array(TRUE),
+	'brackets' => array(
+		new ArrayObject(array(
+			'single' => "()@'\"",
+			'double' => "()@'\"",
+		)),
+	),
+	'line1' => array(TRUE),
+	'line2' => array(TRUE),
+	'line3' => array('value'),
+	'line4' => array(TRUE),
+), $rc->getAnnotations() );
+
 
 $rc = new ClassReflection('TestClass2');
-dump( $rc->getAnnotations() );
+Assert::same( array(
+	'one' => array('value'),
+), $rc->getAnnotations() );
+
 
 $rc = new ClassReflection('TestClass3');
-dump( $rc->getAnnotations() );
-
-
-
-__halt_compiler();
-
-------EXPECT------
-array(9) {
-	"one" => array(1) {
-		0 => string(5) "value"
-	}
-	"two" => array(1) {
-		0 => string(5) "value"
-	}
-	"three" => array(1) {
-		0 => bool(TRUE)
-	}
-	"five" => array(1) {
-		0 => bool(TRUE)
-	}
-	"brackets" => array(1) {
-		0 => object(ArrayObject) (2) {
-			"single" => string(6) "()@\'""
-			"double" => string(6) "()@'\""
-		}
-	}
-	"line1" => array(1) {
-		0 => bool(TRUE)
-	}
-	"line2" => array(1) {
-		0 => bool(TRUE)
-	}
-	"line3" => array(1) {
-		0 => string(5) "value"
-	}
-	"line4" => array(1) {
-		0 => bool(TRUE)
-	}
-}
-
-array(1) {
-	"one" => array(1) {
-		0 => string(5) "value"
-	}
-}
-
-array(1) {
-	"one" => array(1) {
-		0 => bool(TRUE)
-	}
-}
+Assert::same( array(
+	'one' => array(TRUE),
+), $rc->getAnnotations() );

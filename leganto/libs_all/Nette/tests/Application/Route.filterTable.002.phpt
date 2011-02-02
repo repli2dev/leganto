@@ -1,17 +1,16 @@
 <?php
 
 /**
- * Test: Nette\Application\Route with FilterTable
+ * Test: Route with FilterTable
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette\Application
  * @subpackage UnitTests
  */
 
 
 
-require dirname(__FILE__) . '/../NetteTest/initialize.php';
+require dirname(__FILE__) . '/../bootstrap.php';
 
 require dirname(__FILE__) . '/Route.inc';
 
@@ -27,19 +26,6 @@ Route::setStyleProperty('#xlat', Route::FILTER_TABLE, array(
 
 $route = new Route(' ? action=<presenter #xlat>', array());
 
-testRouteIn($route, '/?action=kategorie');
-
-
-
-__halt_compiler();
-
-------EXPECT------
-==> /?action=kategorie
-
-string(8) "Category"
-
-array(1) {
-	"test" => string(9) "testvalue"
-}
-
-string(33) "/?test=testvalue&action=kategorie"
+testRouteIn($route, '/?action=kategorie', 'Category', array(
+	'test' => 'testvalue',
+), '/?test=testvalue&action=kategorie');

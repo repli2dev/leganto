@@ -1,13 +1,13 @@
 <?php
 
 /**
- * Nette Framework
+ * This file is part of the Nette Framework (http://nette.org)
  *
- * @copyright  Copyright (c) 2004, 2010 David Grudl
- * @license    http://nettephp.com/license  Nette license
- * @link       http://nettephp.com
- * @category   Nette
- * @package    Nette\Forms
+ * Copyright (c) 2004, 2010 David Grudl (http://davidgrudl.com)
+ *
+ * For the full copyright and license information, please view
+ * the file license.txt that was distributed with this source code.
+ * @package Nette\Forms
  */
 
 
@@ -15,8 +15,7 @@
 /**
  * Single line text input control.
  *
- * @copyright  Copyright (c) 2004, 2010 David Grudl
- * @package    Nette\Forms
+ * @author     David Grudl
  */
 class TextInput extends TextBase
 {
@@ -33,23 +32,22 @@ class TextInput extends TextBase
 		$this->control->type = 'text';
 		$this->control->size = $cols;
 		$this->control->maxlength = $maxLength;
-		$this->filters[] = callback('String', 'trim');
-		$this->filters[] = callback($this, 'checkMaxLength');
+		$this->filters[] = callback($this, 'sanitize');
 		$this->value = '';
 	}
 
 
 
 	/**
-	 * Filter: shortens value to control's max length.
+	 * Filter: removes unnecessary whitespace and shortens value to control's max length.
 	 * @return string
 	 */
-	public function checkMaxLength($value)
+	public function sanitize($value)
 	{
 		if ($this->control->maxlength && iconv_strlen($value, 'UTF-8') > $this->control->maxlength) {
 			$value = iconv_substr($value, 0, $this->control->maxlength, 'UTF-8');
 		}
-		return $value;
+		return String::trim(strtr($value, "\r\n", '  '));
 	}
 
 

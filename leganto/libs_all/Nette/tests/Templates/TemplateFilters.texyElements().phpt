@@ -1,17 +1,16 @@
 <?php
 
 /**
- * Test: Nette\Templates\TemplateFilters::texyElements()
+ * Test: TemplateFilters::texyElements()
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette\Templates
  * @subpackage UnitTests
  */
 
 
 
-require dirname(__FILE__) . '/../NetteTest/initialize.php';
+require dirname(__FILE__) . '/../bootstrap.php';
 
 require dirname(__FILE__) . '/Template.inc';
 
@@ -29,14 +28,19 @@ class MockTexy
 TemplateFilters::$texy = new MockTexy;
 
 $template = new MockTemplate;
-$template->registerFilter(array('Nette\Templates\TemplateFilters', 'texyElements'));
-$template->render(NetteTestHelpers::getSection(__FILE__, 'template'));
+$template->registerFilter(array('TemplateFilters', 'texyElements'));
+
+Assert::match(<<<EOD
+<...>
 
 
+<...>
 
-__halt_compiler();
 
------template-----
+<...>
+EOD
+
+, $template->render(<<<EOD
 <texy>**Hello World**</texy>
 
 
@@ -54,12 +58,5 @@ Second multi line
 
 example
 </texy>
-
-------EXPECT------
-<...>
-
-
-<...>
-
-
-<...>
+EOD
+));

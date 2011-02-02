@@ -1,17 +1,16 @@
 <?php
 
 /**
- * Test: Nette\Application\SimpleRouter with secured connection.
+ * Test: SimpleRouter with secured connection.
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette\Application
  * @subpackage UnitTests
  */
 
 
 
-require dirname(__FILE__) . '/../NetteTest/initialize.php';
+require dirname(__FILE__) . '/../bootstrap.php';
 
 require dirname(__FILE__) . '/SimpleRouter.inc';
 
@@ -34,4 +33,4 @@ $req = new PresenterRequest(
 );
 
 $url = $router->constructUrl($req, $httpRequest);
-Assert::same( "https://nettephp.com/file.php?presenter=othermodule%3Apresenter",  $url );
+Assert::same( 'https://nette.org/file.php?presenter=othermodule%3Apresenter',  $url );

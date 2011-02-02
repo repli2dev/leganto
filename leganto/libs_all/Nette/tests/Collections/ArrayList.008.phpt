@@ -1,17 +1,16 @@
 <?php
 
 /**
- * Test: Nette\Collections\ArrayList and extension method.
+ * Test: ArrayList and extension method.
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette\Collections
  * @subpackage UnitTests
  */
 
 
 
-require dirname(__FILE__) . '/../NetteTest/initialize.php';
+require dirname(__FILE__) . '/../bootstrap.php';
 
 require dirname(__FILE__) . '/Collections.inc';
 
@@ -20,31 +19,18 @@ require dirname(__FILE__) . '/Collections.inc';
 function ICollection_prototype_join(ICollection $that, $separator)
 {
 	return implode($separator, (array) $that);
-}
-
-
-
-$list = new ArrayList(NULL, 'Person');
+}$list = new ArrayList(NULL, 'Person');
 
 $list[] = new Person('Jack');
 $list[] = new Person('Mary');
 $list[] = new Person('Larry');
 
-dump( $list->join(', ') );
+Assert::same( "Jack, Mary, Larry", $list->join(', ') );
 
 // undeclared method
 try {
 	$list->test();
-
+	Assert::fail('Expected exception');
 } catch (Exception $e) {
-	dump( $e );
+	Assert::exception('MemberAccessException', "Call to undefined method %ns%ArrayList::test().", $e );
 }
-
-
-
-__halt_compiler();
-
-------EXPECT------
-string(17) "Jack, Mary, Larry"
-
-Exception MemberAccessException: Call to undefined method %ns%ArrayList::test().

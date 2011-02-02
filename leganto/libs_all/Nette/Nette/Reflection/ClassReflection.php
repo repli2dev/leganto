@@ -1,13 +1,13 @@
 <?php
 
 /**
- * Nette Framework
+ * This file is part of the Nette Framework (http://nette.org)
  *
- * @copyright  Copyright (c) 2004, 2010 David Grudl
- * @license    http://nettephp.com/license  Nette license
- * @link       http://nettephp.com
- * @category   Nette
- * @package    Nette\Reflection
+ * Copyright (c) 2004, 2010 David Grudl (http://davidgrudl.com)
+ *
+ * For the full copyright and license information, please view
+ * the file license.txt that was distributed with this source code.
+ * @package Nette\Reflection
  */
 
 
@@ -15,8 +15,7 @@
 /**
  * Reports information about a class.
  *
- * @copyright  Copyright (c) 2004, 2010 David Grudl
- * @package    Nette\Reflection
+ * @author     David Grudl
  */
 class ClassReflection extends ReflectionClass
 {
@@ -92,7 +91,6 @@ class ClassReflection extends ReflectionClass
 			}
 			if ($name === NULL) return NULL;
 		}
-		
 
 		$class = strtolower($this->getName());
 		$l = & self::$extMethods[strtolower($name)];
@@ -127,17 +125,6 @@ class ClassReflection extends ReflectionClass
 
 
 	/**
-	 * @return ClassReflection
-	 * @ignore internal
-	 */
-	public static function import(ReflectionClass $ref)
-	{
-		return new self($ref->getName());
-	}
-
-
-
-	/**
 	 * @return MethodReflection
 	 */
 	public function getConstructor()
@@ -152,14 +139,18 @@ class ClassReflection extends ReflectionClass
 	 */
 	public function getExtension()
 	{
-		return ($ref = parent::getExtension()) ? ExtensionReflection::import($ref) : NULL;
+		return ($name = $this->getExtensionName()) ? new ExtensionReflection($name) : NULL;
 	}
 
 
 
 	public function getInterfaces()
 	{
-		return array_map(array('ClassReflection', 'import'), parent::getInterfaces());
+		$res = array();
+		foreach (parent::getInterfaceNames() as $val) {
+			$res[$val] = new self($val);
+		}
+		return $res;
 	}
 
 
@@ -169,14 +160,17 @@ class ClassReflection extends ReflectionClass
 	 */
 	public function getMethod($name)
 	{
-		return MethodReflection::import(parent::getMethod($name));
+		return new MethodReflection($this->getName(), $name);
 	}
 
 
 
 	public function getMethods($filter = -1)
 	{
-		return array_map(array('MethodReflection', 'import'), parent::getMethods($filter));
+		foreach ($res = parent::getMethods($filter) as $key => $val) {
+			$res[$key] = new MethodReflection($this->getName(), $val->getName());
+		}
+		return $res;
 	}
 
 
@@ -186,14 +180,17 @@ class ClassReflection extends ReflectionClass
 	 */
 	public function getParentClass()
 	{
-		return ($ref = parent::getParentClass()) ? self::import($ref) : NULL;
+		return ($ref = parent::getParentClass()) ? new self($ref->getName()) : NULL;
 	}
 
 
 
 	public function getProperties($filter = -1)
 	{
-		return array_map(array('PropertyReflection', 'import'), parent::getProperties($filter));
+		foreach ($res = parent::getProperties($filter) as $key => $val) {
+			$res[$key] = new PropertyReflection($this->getName(), $val->getName());
+		}
+		return $res;
 	}
 
 
@@ -203,12 +200,12 @@ class ClassReflection extends ReflectionClass
 	 */
 	public function getProperty($name)
 	{
-		return PropertyReflection::import(parent::getProperty($name));
+		return new PropertyReflection($this->getName(), $name);
 	}
 
 
 
-	/********************* Nette\Annotations support ****************d*g**/
+	/********************* Annotations support ****************d*g**/
 
 
 
@@ -249,7 +246,7 @@ class ClassReflection extends ReflectionClass
 
 
 
-	/********************* Nette\Object behaviour ****************d*g**/
+	/********************* Object behaviour ****************d*g**/
 
 
 

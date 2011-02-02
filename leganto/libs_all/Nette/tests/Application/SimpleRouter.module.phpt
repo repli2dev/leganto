@@ -1,17 +1,16 @@
 <?php
 
 /**
- * Test: Nette\Application\SimpleRouter and modules.
+ * Test: SimpleRouter and modules.
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette\Application
  * @subpackage UnitTests
  */
 
 
 
-require dirname(__FILE__) . '/../NetteTest/initialize.php';
+require dirname(__FILE__) . '/../bootstrap.php';
 
 require dirname(__FILE__) . '/SimpleRouter.inc';
 
@@ -27,10 +26,10 @@ $httpRequest->setQuery(array(
 ));
 
 $req = $router->match($httpRequest);
-Assert::same( "main:sub:myPresenter",  $req->getPresenterName() );
+Assert::same( 'main:sub:myPresenter',  $req->getPresenterName() );
 
 $url = $router->constructUrl($req, $httpRequest);
-Assert::same( "http://nettephp.com/file.php?presenter=myPresenter",  $url );
+Assert::same( 'http://nette.org/file.php?presenter=myPresenter',  $url );
 
 $req = new PresenterRequest(
 	'othermodule:presenter',

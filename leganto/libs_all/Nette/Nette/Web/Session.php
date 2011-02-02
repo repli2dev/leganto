@@ -1,13 +1,13 @@
 <?php
 
 /**
- * Nette Framework
+ * This file is part of the Nette Framework (http://nette.org)
  *
- * @copyright  Copyright (c) 2004, 2010 David Grudl
- * @license    http://nettephp.com/license  Nette license
- * @link       http://nettephp.com
- * @category   Nette
- * @package    Nette\Web
+ * Copyright (c) 2004, 2010 David Grudl (http://davidgrudl.com)
+ *
+ * For the full copyright and license information, please view
+ * the file license.txt that was distributed with this source code.
+ * @package Nette\Web
  */
 
 
@@ -15,8 +15,7 @@
 /**
  * Provides access to session namespaces as well as session settings and management methods.
  *
- * @copyright  Copyright (c) 2004, 2010 David Grudl
- * @package    Nette\Web
+ * @author     David Grudl
  */
 class Session extends Object
 {
@@ -65,7 +64,7 @@ class Session extends Object
 	public function start()
 	{
 		if (self::$started) {
-			throw new InvalidStateException('Session has already been started.');
+			return;
 
 		} elseif (self::$started === NULL && defined('SID')) {
 			throw new InvalidStateException('A session had already been started by session.auto-start or session_start().');
@@ -461,7 +460,7 @@ class Session extends Object
 			));
 
 		} else {
-			$time = Tools::createDateTime($time)->format('U');
+			$time = Tools::createDateTime($time)->format('U') - time();
 			return $this->setOptions(array(
 				'gc_maxlifetime' => $time,
 				'cookie_lifetime' => $time,
@@ -520,8 +519,8 @@ class Session extends Object
 	private function sendCookie()
 	{
 		$cookie = $this->getCookieParams();
-		$this->getHttpResponse()->setCookie(session_name(), session_id(), $cookie['lifetime'], $cookie['path'], $cookie['domain'], $cookie['secure'], $cookie['httponly']);
-		$this->getHttpResponse()->setCookie('nette-browser', $_SESSION['__NF']['B'], HttpResponse::BROWSER, $cookie['path'], $cookie['domain'], $cookie['secure'], $cookie['httponly']);
+		$this->getHttpResponse()->setCookie(session_name(), session_id(), $cookie['lifetime'] ? $cookie['lifetime'] + time() : 0, $cookie['path'], $cookie['domain'], $cookie['secure'], $cookie['httponly']);
+		$this->getHttpResponse()->setCookie('nette-browser', $_SESSION['__NF']['B'], HttpResponse::BROWSER, $cookie['path'], $cookie['domain']);
 	}
 
 

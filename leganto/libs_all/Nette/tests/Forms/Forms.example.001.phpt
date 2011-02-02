@@ -1,22 +1,18 @@
 <?php
 
 /**
- * Test: Nette\Forms example.
+ * Test: Forms example.
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette\Forms
  * @subpackage UnitTests
  */
 
 
 
-require dirname(__FILE__) . '/../NetteTest/initialize.php';
+require dirname(__FILE__) . '/../bootstrap.php';
 
 
-
+ob_start();
 require '../../examples/forms/basic-example.php';
-
-
-
-__halt_compiler();
+Assert::match( file_get_contents(dirname(__FILE__) . '/Forms.example.001.expect'), ob_get_clean() );

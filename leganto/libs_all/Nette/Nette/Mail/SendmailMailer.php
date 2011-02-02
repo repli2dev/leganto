@@ -1,13 +1,13 @@
 <?php
 
 /**
- * Nette Framework
+ * This file is part of the Nette Framework (http://nette.org)
  *
- * @copyright  Copyright (c) 2004, 2010 David Grudl
- * @license    http://nettephp.com/license  Nette license
- * @link       http://nettephp.com
- * @category   Nette
- * @package    Nette\Mail
+ * Copyright (c) 2004, 2010 David Grudl (http://davidgrudl.com)
+ *
+ * For the full copyright and license information, please view
+ * the file license.txt that was distributed with this source code.
+ * @package Nette\Mail
  */
 
 
@@ -15,8 +15,7 @@
 /**
  * Sends e-mails via the PHP internal mail() function.
  *
- * @copyright  Copyright (c) 2004, 2010 David Grudl
- * @package    Nette\Mail
+ * @author     David Grudl
  */
 class SendmailMailer extends Object implements IMailer
 {
@@ -33,14 +32,13 @@ class SendmailMailer extends Object implements IMailer
 		$tmp->setHeader('To', NULL);
 
 		$parts = explode(Mail::EOL . Mail::EOL, $tmp->generateMessage(), 2);
-		$linux = strncasecmp(PHP_OS, 'win', 3);
 
 		Tools::tryError();
 		$res = mail(
-			$mail->getEncodedHeader('To'),
-			$mail->getEncodedHeader('Subject'),
-			$linux ? str_replace(Mail::EOL, "\n", $parts[1]) : $parts[1],
-			$linux ? str_replace(Mail::EOL, "\n", $parts[0]) : $parts[0]
+			str_replace(Mail::EOL, PHP_EOL, $mail->getEncodedHeader('To')),
+			str_replace(Mail::EOL, PHP_EOL, $mail->getEncodedHeader('Subject')),
+			str_replace(Mail::EOL, PHP_EOL, $parts[1]),
+			str_replace(Mail::EOL, PHP_EOL, $parts[0])
 		);
 
 		if (Tools::catchError($msg)) {

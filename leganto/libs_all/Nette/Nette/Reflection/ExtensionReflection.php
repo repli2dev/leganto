@@ -1,13 +1,13 @@
 <?php
 
 /**
- * Nette Framework
+ * This file is part of the Nette Framework (http://nette.org)
  *
- * @copyright  Copyright (c) 2004, 2010 David Grudl
- * @license    http://nettephp.com/license  Nette license
- * @link       http://nettephp.com
- * @category   Nette
- * @package    Nette\Reflection
+ * Copyright (c) 2004, 2010 David Grudl (http://davidgrudl.com)
+ *
+ * For the full copyright and license information, please view
+ * the file license.txt that was distributed with this source code.
+ * @package Nette\Reflection
  */
 
 
@@ -15,8 +15,7 @@
 /**
  * Reports information about a extension.
  *
- * @copyright  Copyright (c) 2004, 2010 David Grudl
- * @package    Nette\Reflection
+ * @author     David Grudl
  */
 class ExtensionReflection extends ReflectionExtension
 {
@@ -32,32 +31,28 @@ class ExtensionReflection extends ReflectionExtension
 
 
 
-	/**
-	 * @return ExtensionReflection
-	 * @ignore internal
-	 */
-	public static function import(ReflectionExtension $ref)
-	{
-		return new self($ref->getName());
-	}
-
-
-
 	public function getClasses()
 	{
-		return array_map(array('ClassReflection', 'import'), parent::getClasses());
+		$res = array();
+		foreach (parent::getClassNames() as $val) {
+			$res[$val] = new ClassReflection($val);
+		}
+		return $res;
 	}
 
 
 
 	public function getFunctions()
 	{
-		return array_map(array('FunctionReflection', 'import'), parent::getFunctions());
+		foreach ($res = parent::getFunctions() as $key => $val) {
+			$res[$key] = new FunctionReflection($key);
+		}
+		return $res;
 	}
 
 
 
-	/********************* Nette\Object behaviour ****************d*g**/
+	/********************* Object behaviour ****************d*g**/
 
 
 

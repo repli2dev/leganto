@@ -1,17 +1,16 @@
 <?php
 
 /**
- * Test: Nette\Security\Permission Ensures that removing the default allow rule results in default deny rule being assigned.
+ * Test: Permission Ensures that removing the default allow rule results in default deny rule being assigned.
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette\Security
  * @subpackage UnitTests
  */
 
 
 
-require dirname(__FILE__) . '/../NetteTest/initialize.php';
+require dirname(__FILE__) . '/../bootstrap.php';
 
 
 

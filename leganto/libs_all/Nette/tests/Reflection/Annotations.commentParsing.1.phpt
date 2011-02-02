@@ -4,14 +4,13 @@
  * Test: Annotations comment parser I.
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette\Reflection
  * @subpackage UnitTests
  */
 
 
 
-require dirname(__FILE__) . '/../NetteTest/initialize.php';
+require dirname(__FILE__) . '/../bootstrap.php';
 
 
 
@@ -48,38 +47,38 @@ class TestClass {
 $rc = new ClassReflection('TestClass');
 $tmp = $rc->getAnnotations();
 
-Assert::same( "Johno's addendum",  $tmp["title"][0]->value );
-Assert::true( $tmp["title"][0]->mode );
-Assert::same( "One, Two",  $tmp["title"][1]->value );
-Assert::same( "true or false",  $tmp["title"][1]->mode );
-Assert::same( "Three (Four)",  $tmp["title"][2]->value );
-Assert::same( "false",  $tmp["title"][2]->mode );
-Assert::same( "item 1",  $tmp["components"][0] );
-Assert::true( $tmp["persistent"][0], 'persistent' );
-Assert::false( $tmp["persistent"][1] );
-Assert::null( $tmp["persistent"][2] );
-Assert::true( $tmp["author"][0], 'author' );
-Assert::false( $tmp["author"][1] );
-Assert::null( $tmp["author"][2] );
-Assert::true( $tmp["author"][3] );
-Assert::same( "John Doe",  $tmp["author"][4] );
-Assert::true( $tmp["renderable"][0] );
+Assert::same( "Johno's addendum",  $tmp['title'][0]->value );
+Assert::true( $tmp['title'][0]->mode );
+Assert::same( 'One, Two',  $tmp['title'][1]->value );
+Assert::same( 'true or false',  $tmp['title'][1]->mode );
+Assert::same( 'Three (Four)',  $tmp['title'][2]->value );
+Assert::same( 'false',  $tmp['title'][2]->mode );
+Assert::same( 'item 1',  $tmp['components'][0] );
+Assert::true( $tmp['persistent'][0], 'persistent' );
+Assert::false( $tmp['persistent'][1] );
+Assert::null( $tmp['persistent'][2] );
+Assert::true( $tmp['author'][0], 'author' );
+Assert::false( $tmp['author'][1] );
+Assert::null( $tmp['author'][2] );
+Assert::true( $tmp['author'][3] );
+Assert::same( 'John Doe',  $tmp['author'][4] );
+Assert::true( $tmp['renderable'][0] );
 
 Assert::true( $tmp === $rc->getAnnotations(), 'cache test' );
 Assert::true( $tmp !== ClassReflection::from('ReflectionClass')->getAnnotations(), 'cache test' );
 
-Assert::true( $rc->hasAnnotation('title'), "has('title')" );
-Assert::same( "Three (Four)",  $rc->getAnnotation('title')->value );
-Assert::same( "false",  $rc->getAnnotation('title')->mode );
+Assert::true( $rc->hasAnnotation('title'), "has('title')' );
+Assert::same( 'Three (Four)",  $rc->getAnnotation('title')->value );
+Assert::same( 'false',  $rc->getAnnotation('title')->mode );
 
 $tmp = $rc->getAnnotations('title');
 /*
 Assert::same( "Johno's addendum",  $tmp[0]->value );
 Assert::true( $tmp[0]->mode );
-Assert::same( "One, Two",  $tmp[1]->value );
-Assert::same( "true or false",  $tmp[1]->mode );
-Assert::same( "Three (Four)",  $tmp[2]->value );
-Assert::same( "false",  $tmp[2]->mode );
+Assert::same( 'One, Two',  $tmp[1]->value );
+Assert::same( 'true or false',  $tmp[1]->mode );
+Assert::same( 'Three (Four)',  $tmp[2]->value );
+Assert::same( 'false',  $tmp[2]->mode );
 */
 
 Assert::true( $rc->hasAnnotation('renderable'), "has('renderable')" );
@@ -105,8 +104,8 @@ Assert::null( $rc->getAnnotation('xxx'), "get('xxx')" );
 $rm = $rc->getMethod('foo');
 $tmp = $rm->getAnnotations();
 
-Assert::same( 'admin',  $tmp["RolesAllowed"][0][0] );
-Assert::same( 'web editor',  $tmp["RolesAllowed"][0][1] );
+Assert::same( 'admin',  $tmp['RolesAllowed'][0][0] );
+Assert::same( 'web editor',  $tmp['RolesAllowed'][0][1] );
 
 
 // Property annotations
@@ -114,5 +113,5 @@ Assert::same( 'web editor',  $tmp["RolesAllowed"][0][1] );
 $rp = $rc->getProperty('foo');
 $tmp = $rp->getAnnotations();
 
-Assert::same( "admin",  $tmp["secured"][0]->role );
-Assert::same( 2,  $tmp["secured"][0]->level );
+Assert::same( 'admin',  $tmp['secured'][0]->role );
+Assert::same( 2,  $tmp['secured'][0]->level );

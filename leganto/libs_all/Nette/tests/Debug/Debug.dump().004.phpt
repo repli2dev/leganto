@@ -1,17 +1,16 @@
 <?php
 
 /**
- * Test: Nette\Debug::dump() and $maxDepth and $maxLen.
+ * Test: Debug::dump() and $maxDepth and $maxLen.
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette
  * @subpackage UnitTests
  */
 
 
 
-require dirname(__FILE__) . '/../NetteTest/initialize.php';
+require dirname(__FILE__) . '/../bootstrap.php';
 
 
 
@@ -39,79 +38,54 @@ $arr = array(
 );
 
 $arr[] = &$arr;
+Assert::match( 'array(5) {
+   "long" => "Nette FrameworkNette FrameworkNette FrameworkNette FrameworkNette FrameworkNette FrameworkNette FrameworkNette FrameworkNette FrameworkNette Framework ... " (15000)
+   0 => array(1) [
+      0 => array(1) [
+         0 => array(1) { ... }
+      ]
+   ]
+   "long2" => "Nette FrameworkNette FrameworkNette FrameworkNette FrameworkNette FrameworkNette FrameworkNette FrameworkNette FrameworkNette FrameworkNette Framework ... " (15000)
+   1 => stdClass(1) {
+      "0" => stdClass(1) {
+         "0" => stdClass(1) { ... }
+      }
+   }
+   2 => array(5) {
+      "long" => "Nette FrameworkNette FrameworkNette FrameworkNette FrameworkNette FrameworkNette FrameworkNette FrameworkNette FrameworkNette FrameworkNette Framework ... " (15000)
+      0 => array(1) [
+         0 => array(1) [ ... ]
+      ]
+      "long2" => "Nette FrameworkNette FrameworkNette FrameworkNette FrameworkNette FrameworkNette FrameworkNette FrameworkNette FrameworkNette FrameworkNette Framework ... " (15000)
+      1 => stdClass(1) {
+         "0" => stdClass(1) { ... }
+      }
+      2 => array(6) { *RECURSION* }
+   }
+}
 
-Debug::dump($arr);
+', Debug::dump($arr, TRUE) );
+
+
 
 Debug::$maxDepth = 2;
 Debug::$maxLen = 50;
-
-Debug::dump($arr);
-
-
-
-__halt_compiler();
-
-------EXPECT------
-array(5) {
-   "long" => string(15000) "Nette FrameworkNette FrameworkNette FrameworkNette FrameworkNette FrameworkNette FrameworkNette FrameworkNette FrameworkNette FrameworkNette Framework ... "
-   0 => array(1) {
-      0 => array(1) {
-         0 => array(1) {
-            ...
-         }
-      }
-   }
-   "long2" => string(15000) "Nette FrameworkNette FrameworkNette FrameworkNette FrameworkNette FrameworkNette FrameworkNette FrameworkNette FrameworkNette FrameworkNette Framework ... "
-   1 => object(stdClass) (1) {
-      "0" => object(stdClass) (1) {
-         "0" => object(stdClass) (1) {
-            ...
-         }
-      }
+Assert::match( 'array(5) {
+   "long" => "Nette FrameworkNette FrameworkNette FrameworkNette ... " (15000)
+   0 => array(1) [
+      0 => array(1) [ ... ]
+   ]
+   "long2" => "Nette FrameworkNette FrameworkNette FrameworkNette ... " (15000)
+   1 => stdClass(1) {
+      "0" => stdClass(1) { ... }
    }
    2 => array(5) {
-      "long" => string(15000) "Nette FrameworkNette FrameworkNette FrameworkNette FrameworkNette FrameworkNette FrameworkNette FrameworkNette FrameworkNette FrameworkNette Framework ... "
-      0 => array(1) {
-         0 => array(1) {
-            ...
-         }
-      }
-      "long2" => string(15000) "Nette FrameworkNette FrameworkNette FrameworkNette FrameworkNette FrameworkNette FrameworkNette FrameworkNette FrameworkNette FrameworkNette Framework ... "
-      1 => object(stdClass) (1) {
-         "0" => object(stdClass) (1) {
-            ...
-         }
-      }
-      2 => array(6) {
-         *RECURSION*
-      }
+      "long" => "Nette FrameworkNette FrameworkNette FrameworkNette ... " (15000)
+      0 => array(1) [ ... ]
+      "long2" => "Nette FrameworkNette FrameworkNette FrameworkNette ... " (15000)
+      1 => stdClass(1) { ... }
+      2 => array(6) { *RECURSION* }
    }
 }
 
-array(5) {
-   "long" => string(15000) "Nette FrameworkNette FrameworkNette FrameworkNette ... "
-   0 => array(1) {
-      0 => array(1) {
-         ...
-      }
-   }
-   "long2" => string(15000) "Nette FrameworkNette FrameworkNette FrameworkNette ... "
-   1 => object(stdClass) (1) {
-      "0" => object(stdClass) (1) {
-         ...
-      }
-   }
-   2 => array(5) {
-      "long" => string(15000) "Nette FrameworkNette FrameworkNette FrameworkNette ... "
-      0 => array(1) {
-         ...
-      }
-      "long2" => string(15000) "Nette FrameworkNette FrameworkNette FrameworkNette ... "
-      1 => object(stdClass) (1) {
-         ...
-      }
-      2 => array(6) {
-         *RECURSION*
-      }
-   }
-}
+', Debug::dump($arr, TRUE) );

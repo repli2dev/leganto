@@ -1,13 +1,13 @@
 <?php
 
 /**
- * Nette Framework
+ * This file is part of the Nette Framework (http://nette.org)
  *
- * @copyright  Copyright (c) 2004, 2010 David Grudl
- * @license    http://nettephp.com/license  Nette license
- * @link       http://nettephp.com
- * @category   Nette
- * @package    Nette\Caching
+ * Copyright (c) 2004, 2010 David Grudl (http://davidgrudl.com)
+ *
+ * For the full copyright and license information, please view
+ * the file license.txt that was distributed with this source code.
+ * @package Nette\Caching
  */
 
 
@@ -15,8 +15,7 @@
 /**
  * Cache file storage.
  *
- * @copyright  Copyright (c) 2004, 2010 David Grudl
- * @package    Nette\Caching
+ * @author     David Grudl
  */
 class FileStorage extends Object implements ICacheStorage
 {
@@ -31,7 +30,7 @@ class FileStorage extends Object implements ICacheStorage
 	 * delete* = try unlink, if fails (on NTFS) { lock(EX), truncate, close, unlink } else close (on ext3)
 	 */
 
-	/**#@+ @ignore internal cache file structure */
+	/**#@+ @internal cache file structure */
 	const META_HEADER_LEN = 28; // 22b signature + 6b meta-struct size + serialized meta-struct + data
 	// meta structure: array of
 	const META_TIME = 'time'; // timestamp
@@ -71,17 +70,17 @@ class FileStorage extends Object implements ICacheStorage
 			// checks whether directory is writable
 			$uniq = uniqid('_', TRUE);
 			umask(0000);
-			if (!@mkdir("$dir/$uniq", 0777)) { // intentionally @
+			if (!@mkdir("$dir/$uniq", 0777)) { // @ - is escalated to exception
 				throw new InvalidStateException("Unable to write to directory '$dir'. Make this directory writable.");
 			}
 
 			// tests subdirectory mode
 			self::$useDirectories = !ini_get('safe_mode');
-			if (!self::$useDirectories && @file_put_contents("$dir/$uniq/_", '') !== FALSE) { // intentionally @
+			if (!self::$useDirectories && @file_put_contents("$dir/$uniq/_", '') !== FALSE) { // @ - error is expected
 				self::$useDirectories = TRUE;
 				unlink("$dir/$uniq/_");
 			}
-			rmdir("$dir/$uniq");
+			@rmdir("$dir/$uniq"); // @ - directory may not already exist
 		}
 
 		$this->dir = $dir;
@@ -163,15 +162,15 @@ class FileStorage extends Object implements ICacheStorage
 			self::META_TIME => microtime(),
 		);
 
-		if (!empty($dp[Cache::EXPIRE])) {
+		if (isset($dp[Cache::EXPIRATION])) {
 			if (empty($dp[Cache::SLIDING])) {
-				$meta[self::META_EXPIRE] = $dp[Cache::EXPIRE] + time(); // absolute time
+				$meta[self::META_EXPIRE] = $dp[Cache::EXPIRATION] + time(); // absolute time
 			} else {
-				$meta[self::META_DELTA] = (int) $dp[Cache::EXPIRE]; // sliding time
+				$meta[self::META_DELTA] = (int) $dp[Cache::EXPIRATION]; // sliding time
 			}
 		}
 
-		if (!empty($dp[Cache::ITEMS])) {
+		if (isset($dp[Cache::ITEMS])) {
 			foreach ((array) $dp[Cache::ITEMS] as $item) {
 				$depFile = $this->getCacheFile($item);
 				$m = $this->readMeta($depFile, LOCK_SH);
@@ -180,26 +179,26 @@ class FileStorage extends Object implements ICacheStorage
 			}
 		}
 
-		if (!empty($dp[Cache::CALLBACKS])) {
+		if (isset($dp[Cache::CALLBACKS])) {
 			$meta[self::META_CALLBACKS] = $dp[Cache::CALLBACKS];
 		}
 
 		$cacheFile = $this->getCacheFile($key);
 		if ($this->useDirs && !is_dir($dir = dirname($cacheFile))) {
 			umask(0000);
-			if (!mkdir($dir, 0777, TRUE)) {
+			if (!mkdir($dir, 0777)) {
 				return;
 			}
 		}
-		$handle = @fopen($cacheFile, 'r+b'); // intentionally @
+		$handle = @fopen($cacheFile, 'r+b'); // @ - file may not exist
 		if (!$handle) {
-			$handle = fopen($cacheFile, 'wb'); // intentionally @
+			$handle = fopen($cacheFile, 'wb');
 			if (!$handle) {
 				return;
 			}
 		}
 
-		if (!empty($dp[Cache::TAGS]) || isset($dp[Cache::PRIORITY])) {
+		if (isset($dp[Cache::TAGS]) || isset($dp[Cache::PRIORITY])) {
 			$db = $this->getDb();
 			$dbFile = sqlite_escape_string($cacheFile);
 			$query = '';
@@ -220,9 +219,6 @@ class FileStorage extends Object implements ICacheStorage
 		flock($handle, LOCK_EX);
 		ftruncate($handle, 0);
 
-		if ($data instanceof Callback || $data instanceof Closure) {
-			$data = $data->__invoke();
-		}
 		if (!is_string($data)) {
 			$data = serialize($data);
 			$meta[self::META_SERIALIZED] = TRUE;
@@ -247,6 +243,7 @@ class FileStorage extends Object implements ICacheStorage
 				break;
 			}
 
+			flock($handle, LOCK_UN);
 			fclose($handle);
 			return TRUE;
 		} while (FALSE);
@@ -289,7 +286,7 @@ class FileStorage extends Object implements ICacheStorage
 					continue;
 				}
 				if ($entry->isDir()) { // collector: remove empty dirs
-					@rmdir($path); // intentionally @
+					@rmdir($path); // @ - removing dirs is not necessary
 					continue;
 				}
 				if ($all) {
@@ -304,6 +301,7 @@ class FileStorage extends Object implements ICacheStorage
 						continue;
 					}
 
+					flock($meta[self::HANDLE], LOCK_UN);
 					fclose($meta[self::HANDLE]);
 				}
 			}
@@ -348,7 +346,7 @@ class FileStorage extends Object implements ICacheStorage
 	 */
 	protected function readMeta($file, $lock)
 	{
-		$handle = @fopen($file, 'r+b'); // intentionally @
+		$handle = @fopen($file, 'r+b'); // @ - file may not exist
 		if (!$handle) return NULL;
 
 		flock($handle, $lock);
@@ -366,6 +364,7 @@ class FileStorage extends Object implements ICacheStorage
 			}
 		}
 
+		flock($handle, LOCK_UN);
 		fclose($handle);
 		return NULL;
 	}
@@ -380,6 +379,7 @@ class FileStorage extends Object implements ICacheStorage
 	protected function readData($meta)
 	{
 		$data = stream_get_contents($meta[self::HANDLE]);
+		flock($meta[self::HANDLE], LOCK_UN);
 		fclose($meta[self::HANDLE]);
 
 		if (empty($meta[self::META_SERIALIZED])) {
@@ -416,19 +416,23 @@ class FileStorage extends Object implements ICacheStorage
 	 */
 	private static function delete($file, $handle = NULL)
 	{
-		if (@unlink($file)) { // intentionally @
-			if ($handle) fclose($handle);
+		if (@unlink($file)) { // @ - file may not already exist
+			if ($handle) {
+				flock($handle, LOCK_UN);
+				fclose($handle);
+			}
 			return;
 		}
 
 		if (!$handle) {
-			$handle = @fopen($file, 'r+'); // intentionally @
+			$handle = @fopen($file, 'r+'); // @ - file may not exist
 		}
 		if ($handle) {
 			flock($handle, LOCK_EX);
 			ftruncate($handle, 0);
+			flock($handle, LOCK_UN);
 			fclose($handle);
-			@unlink($file); // intentionally @; not atomic
+			@unlink($file); // @ - file may not already exist
 		}
 	}
 
@@ -446,7 +450,7 @@ class FileStorage extends Object implements ICacheStorage
 			}
 			$this->db = sqlite_open($this->dir . '/cachejournal.sdb');
 			@sqlite_exec($this->db, 'CREATE TABLE cache (file VARCHAR NOT NULL, priority, tag VARCHAR);
-			CREATE INDEX IDX_FILE ON cache (file); CREATE INDEX IDX_PRI ON cache (priority); CREATE INDEX IDX_TAG ON cache (tag);'); // intentionally @
+			CREATE INDEX IDX_FILE ON cache (file); CREATE INDEX IDX_PRI ON cache (priority); CREATE INDEX IDX_TAG ON cache (tag);'); // @ - table may already exist
 		}
 		return $this->db;
 	}

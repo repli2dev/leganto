@@ -1,31 +1,32 @@
 <?php
 
 /**
- * dibi - tiny'n'smart database abstraction layer
- * ----------------------------------------------
+ * This file is part of the "dibi" - smart database abstraction layer.
  *
- * @copyright  Copyright (c) 2005, 2010 David Grudl
- * @license    http://dibiphp.com/license  dibi license
- * @link       http://dibiphp.com
- * @package    dibi\drivers
+ * Copyright (c) 2005, 2010 David Grudl (http://davidgrudl.com)
+ *
+ * For the full copyright and license information, please view
+ * the file license.txt that was distributed with this source code.
+ *
+ * @package    drivers
  */
 
 
 /**
  * The dibi driver interacting with databases via ODBC connections.
  *
- * Connection options:
- *   - 'dsn' - driver specific DSN
- *   - 'username' (or 'user')
- *   - 'password' (or 'pass')
- *   - 'persistent' - try to find a persistent link?
- *   - 'lazy' - if TRUE, connection will be established only when required
- *   - 'resource' - connection resource (optional)
+ * Driver options:
+ *   - dsn => driver specific DSN
+ *   - username (or user)
+ *   - password (or pass)
+ *   - persistent (bool) => try to find a persistent link?
+ *   - resource (resource) => existing connection resource
+ *   - lazy, profiler, result, substitutes, ... => see DibiConnection options
  *
- * @copyright  Copyright (c) 2005, 2010 David Grudl
- * @package    dibi\drivers
+ * @author     David Grudl
+ * @package    drivers
  */
-class DibiOdbcDriver extends DibiObject implements IDibiDriver
+class DibiOdbcDriver extends DibiObject implements IDibiDriver, IDibiResultDriver, IDibiReflector
 {
 	/** @var resource  Connection resource */
 	private $connection;
@@ -33,18 +34,21 @@ class DibiOdbcDriver extends DibiObject implements IDibiDriver
 	/** @var resource  Resultset resource */
 	private $resultSet;
 
+	/** @var int|FALSE  Affected rows */
+	private $affectedRows = FALSE;
+
 	/** @var int  Cursor */
 	private $row = 0;
 
 
 
 	/**
-	 * @throws DibiException
+	 * @throws NotSupportedException
 	 */
 	public function __construct()
 	{
 		if (!extension_loaded('odbc')) {
-			throw new DibiDriverException("PHP extension 'odbc' is not loaded.");
+			throw new NotSupportedException("PHP extension 'odbc' is not loaded.");
 		}
 	}
 
@@ -93,18 +97,21 @@ class DibiOdbcDriver extends DibiObject implements IDibiDriver
 	/**
 	 * Executes the SQL query.
 	 * @param  string      SQL statement.
-	 * @return IDibiDriver|NULL
+	 * @return IDibiResultDriver|NULL
 	 * @throws DibiDriverException
 	 */
 	public function query($sql)
 	{
-		$this->resultSet = @odbc_exec($this->connection, $sql); // intentionally @
+		$this->affectedRows = FALSE;
+		$res = @odbc_exec($this->connection, $sql); // intentionally @
 
-		if ($this->resultSet === FALSE) {
+		if ($res === FALSE) {
 			throw new DibiDriverException(odbc_errormsg($this->connection) . ' ' . odbc_error($this->connection), 0, $sql);
-		}
 
-		return is_resource($this->resultSet) ? clone $this : NULL;
+		} elseif (is_resource($res)) {
+			$this->affectedRows = odbc_num_rows($res);
+			return $this->createResultDriver($res);
+		}
 	}
 
 
@@ -115,7 +122,7 @@ class DibiOdbcDriver extends DibiObject implements IDibiDriver
 	 */
 	public function getAffectedRows()
 	{
-		return odbc_num_rows($this->resultSet);
+		return $this->affectedRows;
 	}
 
 
@@ -184,7 +191,7 @@ class DibiOdbcDriver extends DibiObject implements IDibiDriver
 	 */
 	public function inTransaction()
 	{
-		return (bool) odbc_autocommit($this->connection);
+		return !odbc_autocommit($this->connection);
 	}
 
 
@@ -196,6 +203,31 @@ class DibiOdbcDriver extends DibiObject implements IDibiDriver
 	public function getResource()
 	{
 		return $this->connection;
+	}
+
+
+
+	/**
+	 * Returns the connection reflector.
+	 * @return IDibiReflector
+	 */
+	public function getReflector()
+	{
+		return $this;
+	}
+
+
+
+	/**
+	 * Result set driver factory.
+	 * @param  resource
+	 * @return IDibiResultDriver
+	 */
+	public function createResultDriver($resource)
+	{
+		$res = clone $this;
+		$res->resultSet = $resource;
+		return $res;
 	}
 
 
@@ -219,8 +251,7 @@ class DibiOdbcDriver extends DibiObject implements IDibiDriver
 			return "'" . str_replace("'", "''", $value) . "'";
 
 		case dibi::IDENTIFIER:
-			$value = str_replace(array('[', ']'), array('[[', ']]'), $value);
-			return '[' . str_replace('.', '].[', $value) . ']';
+			return '[' . str_replace(array('[', ']'), array('[[', ']]'), $value) . ']';
 
 		case dibi::BOOL:
 			return $value ? 1 : 0;
@@ -234,6 +265,20 @@ class DibiOdbcDriver extends DibiObject implements IDibiDriver
 		default:
 			throw new InvalidArgumentException('Unsupported type.');
 		}
+	}
+
+
+
+	/**
+	 * Encodes string for use in a LIKE statement.
+	 * @param  string
+	 * @param  int
+	 * @return string
+	 */
+	public function escapeLike($value, $pos)
+	{
+		$value = strtr($value, array("'" => "''", '%' => '[%]', '_' => '[_]', '[' => '[[]'));
+		return ($pos <= 0 ? "'%" : "'") . $value . ($pos >= 0 ? "%'" : "'");
 	}
 
 
@@ -269,12 +314,23 @@ class DibiOdbcDriver extends DibiObject implements IDibiDriver
 			$sql = 'SELECT TOP ' . (int) $limit . ' * FROM (' . $sql . ')';
 		}
 
-		if ($offset) throw new InvalidArgumentException('Offset is not implemented in driver odbc.');
+		if ($offset) throw new NotSupportedException('Offset is not implemented in driver odbc.');
 	}
 
 
 
 	/********************* result set ****************d*g**/
+
+
+
+	/**
+	 * Automatically frees the resources allocated for this result set.
+	 * @return void
+	 */
+	public function __destruct()
+	{
+		$this->resultSet && @$this->free();
+	}
 
 
 
@@ -294,7 +350,6 @@ class DibiOdbcDriver extends DibiObject implements IDibiDriver
 	 * Fetches the row at current position and moves the internal cursor to the next position.
 	 * @param  bool     TRUE for associative array, FALSE for numeric
 	 * @return array    array on success, nonarray if no next record
-	 * @ignore internal
 	 */
 	public function fetch($assoc)
 	{
@@ -341,19 +396,19 @@ class DibiOdbcDriver extends DibiObject implements IDibiDriver
 	 * Returns metadata for all columns in a result set.
 	 * @return array
 	 */
-	public function getColumnsMeta()
+	public function getResultColumns()
 	{
 		$count = odbc_num_fields($this->resultSet);
-		$res = array();
+		$columns = array();
 		for ($i = 1; $i <= $count; $i++) {
-			$res[] = array(
+			$columns[] = array(
 				'name'      => odbc_field_name($this->resultSet, $i),
 				'table'     => NULL,
 				'fullname'  => odbc_field_name($this->resultSet, $i),
 				'nativetype'=> odbc_field_type($this->resultSet, $i),
 			);
 		}
-		return $res;
+		return $columns;
 	}
 
 
@@ -369,7 +424,7 @@ class DibiOdbcDriver extends DibiObject implements IDibiDriver
 
 
 
-	/********************* reflection ****************d*g**/
+	/********************* IDibiReflector ****************d*g**/
 
 
 
@@ -379,18 +434,18 @@ class DibiOdbcDriver extends DibiObject implements IDibiDriver
 	 */
 	public function getTables()
 	{
-		$result = odbc_tables($this->connection);
-		$res = array();
-		while ($row = odbc_fetch_array($result)) {
+		$res = odbc_tables($this->connection);
+		$tables = array();
+		while ($row = odbc_fetch_array($res)) {
 			if ($row['TABLE_TYPE'] === 'TABLE' || $row['TABLE_TYPE'] === 'VIEW') {
-				$res[] = array(
+				$tables[] = array(
 					'name' => $row['TABLE_NAME'],
 					'view' => $row['TABLE_TYPE'] === 'VIEW',
 				);
 			}
 		}
-		odbc_free_result($result);
-		return $res;
+		odbc_free_result($res);
+		return $tables;
 	}
 
 
@@ -402,11 +457,11 @@ class DibiOdbcDriver extends DibiObject implements IDibiDriver
 	 */
 	public function getColumns($table)
 	{
-		$result = odbc_columns($this->connection);
-		$res = array();
-		while ($row = odbc_fetch_array($result)) {
+		$res = odbc_columns($this->connection);
+		$columns = array();
+		while ($row = odbc_fetch_array($res)) {
 			if ($row['TABLE_NAME'] === $table) {
-				$res[] = array(
+				$columns[] = array(
 					'name' => $row['COLUMN_NAME'],
 					'table' => $table,
 					'nativetype' => $row['TYPE_NAME'],
@@ -416,8 +471,8 @@ class DibiOdbcDriver extends DibiObject implements IDibiDriver
 				);
 			}
 		}
-		odbc_free_result($result);
-		return $res;
+		odbc_free_result($res);
+		return $columns;
 	}
 
 

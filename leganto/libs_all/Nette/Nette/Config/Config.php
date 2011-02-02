@@ -1,13 +1,13 @@
 <?php
 
 /**
- * Nette Framework
+ * This file is part of the Nette Framework (http://nette.org)
  *
- * @copyright  Copyright (c) 2004, 2010 David Grudl
- * @license    http://nettephp.com/license  Nette license
- * @link       http://nettephp.com
- * @category   Nette
- * @package    Nette\Config
+ * Copyright (c) 2004, 2010 David Grudl (http://davidgrudl.com)
+ *
+ * For the full copyright and license information, please view
+ * the file license.txt that was distributed with this source code.
+ * @package Nette\Config
  */
 
 
@@ -15,8 +15,7 @@
 /**
  * Configuration storage.
  *
- * @copyright  Copyright (c) 2004, 2010 David Grudl
- * @package    Nette\Config
+ * @author     David Grudl
  */
 class Config extends Hashtable
 {
@@ -45,7 +44,7 @@ class Config extends Hashtable
 		}
 
 		if (!ClassReflection::from($class)->implementsInterface('IConfigAdapter')) {
-			throw new InvalidArgumentException("Configuration adapter '$class' is not Nette\\Config\\IConfigAdapter implementor.");
+			throw new InvalidArgumentException("Configuration adapter '$class' is not IConfigAdapter implementor.");
 		}
 
 		self::$extensions[strtolower($extension)] = $class;
@@ -141,7 +140,7 @@ class Config extends Hashtable
 
 	/**
 	 * Import from array or any traversable object.
-	 * @param  array|\Traversable
+	 * @param  array|Traversable
 	 * @return void
 	 * @throws InvalidArgumentException
 	 */

@@ -1,28 +1,20 @@
 <?php
 
 /**
- * Test: Nette\Security\Permission Ensures that removal of all Resources works.
+ * Test: Permission Ensures that removal of all Resources works.
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette\Security
  * @subpackage UnitTests
  */
 
 
 
-require dirname(__FILE__) . '/../NetteTest/initialize.php';
+require dirname(__FILE__) . '/../bootstrap.php';
 
 
 
 $acl = new Permission;
 $acl->addResource('area');
 $acl->removeAllResources();
-dump( $acl->hasResource('area') );
-
-
-
-__halt_compiler();
-
-------EXPECT------
-bool(FALSE)
+Assert::false( $acl->hasResource('area') );

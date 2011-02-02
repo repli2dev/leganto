@@ -1,17 +1,16 @@
 <?php
 
 /**
- * Test: Nette\Security\Permission Ensures that removal of a Resource results in its rules being removed.
+ * Test: Permission Ensures that removal of a Resource results in its rules being removed.
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette\Security
  * @subpackage UnitTests
  */
 
 
 
-require dirname(__FILE__) . '/../NetteTest/initialize.php';
+require dirname(__FILE__) . '/../bootstrap.php';
 
 
 
@@ -22,16 +21,10 @@ Assert::true( $acl->isAllowed(NULL, 'area') );
 $acl->removeResource('area');
 try {
 	$acl->isAllowed(NULL, 'area');
-} catch (InvalidStateException $e) {
-	dump( $e );
+	Assert::fail('Expected exception');
+} catch (Exception $e) {
+	Assert::exception('InvalidStateException', "Resource 'area' does not exist.", $e );
 }
 
 $acl->addResource('area');
 Assert::false( $acl->isAllowed(NULL, 'area') );
-
-
-
-__halt_compiler();
-
-------EXPECT------
-Exception InvalidStateException: Resource 'area' does not exist.

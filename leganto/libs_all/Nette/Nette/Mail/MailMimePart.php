@@ -1,13 +1,13 @@
 <?php
 
 /**
- * Nette Framework
+ * This file is part of the Nette Framework (http://nette.org)
  *
- * @copyright  Copyright (c) 2004, 2010 David Grudl
- * @license    http://nettephp.com/license  Nette license
- * @link       http://nettephp.com
- * @category   Nette
- * @package    Nette\Mail
+ * Copyright (c) 2004, 2010 David Grudl (http://davidgrudl.com)
+ *
+ * For the full copyright and license information, please view
+ * the file license.txt that was distributed with this source code.
+ * @package Nette\Mail
  */
 
 
@@ -15,8 +15,7 @@
 /**
  * MIME message part.
  *
- * @copyright  Copyright (c) 2004, 2010 David Grudl
- * @package    Nette\Mail
+ * @author     David Grudl
  *
  * @property   string $encoding
  * @property   string $body
@@ -31,7 +30,7 @@ class MailMimePart extends Object
 	const ENCODING_QUOTED_PRINTABLE = 'quoted-printable';
 	/**#@-*/
 
-	/**#@+ @ignore internal */
+	/**#@+ @internal */
 	const EOL = "\r\n";
 	const LINE_LENGTH = 76;
 	/**#@-*/
@@ -72,6 +71,10 @@ class MailMimePart extends Object
 			}
 
 			foreach ($value as $email => $name) {
+				if ($name !== NULL && !String::checkEncoding($name)) {
+					throw new InvalidArgumentException("Name is not valid UTF-8 string.");
+				}
+
 				if (!preg_match('#^[^@",\s]+@[^@",\s]+\.[a-z]{2,10}$#i', $email)) {
 					throw new InvalidArgumentException("Email address '$email' is not valid.");
 				}
@@ -83,6 +86,10 @@ class MailMimePart extends Object
 			}
 
 		} else {
+			$value = (string) $value;
+			if (!String::checkEncoding($value)) {
+				throw new InvalidArgumentException("Header is not valid UTF-8 string.");
+			}
 			$this->headers[$name] = preg_replace('#[\r\n]+#', ' ', $value);
 		}
 		return $this;
@@ -121,9 +128,9 @@ class MailMimePart extends Object
 	 * @param  string
 	 * @return string
 	 */
-	public function getEncodedHeader($name, $charset = 'UTF-8')
+	public function getEncodedHeader($name)
 	{
-		$len = strlen($name) + 2;
+		$offset = strlen($name) + 2; // color + space
 
 		if (!isset($this->headers[$name])) {
 			return NULL;
@@ -132,23 +139,24 @@ class MailMimePart extends Object
 			$s = '';
 			foreach ($this->headers[$name] as $email => $name) {
 				if ($name != NULL) { // intentionally ==
-					$s .= self::encodeQuotedPrintableHeader(
-						strspn($name, '.,;<@>()[]"=?') ? '"' . addcslashes($name, '"\\') . '"' : $name,
-						$charset, $len
+					$s .= self::encodeHeader(
+						strpbrk($name, '.,;<@>()[]"=?') ? '"' . addcslashes($name, '"\\') . '"' : $name,
+						$offset
 					);
 					$email = " <$email>";
 				}
-				if ($len + strlen($email) + 1 > self::LINE_LENGTH) {
+				$email .= ',';
+				if ($s !== '' && $offset + strlen($email) > self::LINE_LENGTH) {
 					$s .= self::EOL . "\t";
-					$len = 1;
+					$offset = 1;
 				}
-				$s .= "$email,";
-				$len += strlen($email) + 1;
+				$s .= $email;
+				$offset += strlen($email);
 			}
-			return substr($s, 0, -1);
+			return substr($s, 0, -1); // last comma
 
 		} else {
-			return self::encodeQuotedPrintableHeader($this->headers[$name], $charset, $len);
+			return self::encodeHeader($this->headers[$name], $offset);
 		}
 	}
 
@@ -311,44 +319,22 @@ class MailMimePart extends Object
 	 * @param  int
 	 * @return string
 	 */
-	private static function encodeQuotedPrintableHeader($s, $charset = 'UTF-8', & $len = 0)
+	private static function encodeHeader($s, & $offset = 0)
 	{
-		$range = '!"#$%&\'()*+,-./0123456789:;<>@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^`abcdefghijklmnopqrstuvwxyz{|}'; // \x21-\x7E without \x3D \x3F \x5F
-
-		if (strspn($s, $range . "=? _\r\n\t") === strlen($s)) {
+		if (strspn($s, "!\"#$%&\'()*+,-./0123456789:;<>@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^`abcdefghijklmnopqrstuvwxyz{|}=? _\r\n\t") === strlen($s)
+			&& ($offset + strlen($s) <= self::LINE_LENGTH)) {
+			$offset += strlen($s);
 			return $s;
 		}
 
-		$prefix = "=?$charset?Q?";
-		$pos = 0;
-		$len += strlen($prefix);
-		$o = $prefix;
-		$size = strlen($s);
-		while ($pos < $size) {
-			if ($l = strspn($s, $range, $pos)) {
-				while ($len + $l > self::LINE_LENGTH - 2) { // 2 = length of suffix ?=
-					$lx = self::LINE_LENGTH - $len - 2;
-					$o .= substr($s, $pos, $lx) . '?=' . self::EOL . "\t" . $prefix;
-					$pos += $lx;
-					$l -= $lx;
-					$len = strlen($prefix) + 1;
-				}
-				$o .= substr($s, $pos, $l);
-				$len += $l;
-				$pos += $l;
+		$o = str_replace("\n ", "\n\t", substr(iconv_mime_encode(str_repeat(' ', $offset), $s, array(
+			'scheme' => 'B', // Q is broken
+			'input-charset' => 'UTF-8',
+			'output-charset' => 'UTF-8',
+		)), $offset + 2));
 
-			} else {
-				$len += 3;
-				// \xC0 tests UTF-8 character boudnary; 9 is reserved space for 4bytes UTF-8 character
-				if (($s[$pos] & "\xC0") !== "\x80" && $len > self::LINE_LENGTH - 2 - 9) {
-					$o .= '?=' . self::EOL . "\t" . $prefix;
-					$len = strlen($prefix) + 1 + 3;
-				}
-				$o .= '=' . strtoupper(bin2hex($s[$pos]));
-				$pos++;
-			}
-		}
-		return $o . '?=';
+		$offset = strlen($o) - strrpos($o, "\n");
+		return $o;
 	}
 
 
@@ -357,8 +343,7 @@ class MailMimePart extends Object
 	 * Converts a 8 bit string to a quoted-printable string.
 	 * @param  string
 	 * @return string
-	 */
-	public static function encodeQuotedPrintable($s)
+	 */public static function encodeQuotedPrintable($s)
 	{
 		$range = '!"#$%&\'()*+,-./0123456789:;<>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}'; // \x21-\x7E without \x3D
 		$pos = 0;

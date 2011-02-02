@@ -1,23 +1,19 @@
 <?php
 
 /**
- * Test: Nette\Templates\BaseTemplate::optimizePhp()
+ * Test: BaseTemplate::optimizePhp()
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette\Templates
  * @subpackage UnitTests
  */
 
 
 
-require dirname(__FILE__) . '/../NetteTest/initialize.php';
+require dirname(__FILE__) . '/../bootstrap.php';
 
 
 
 $input = file_get_contents(dirname(__FILE__) . '/templates/optimize.phtml');
-echo BaseTemplate::optimizePhp($input);
-
-
-
-__halt_compiler();
+$expected = file_get_contents(dirname(__FILE__) . '/BaseTemplate.optimizePhp().expect');
+Assert::match($expected, BaseTemplate::optimizePhp($input));

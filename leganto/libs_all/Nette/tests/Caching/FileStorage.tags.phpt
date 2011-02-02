@@ -1,23 +1,23 @@
 <?php
 
 /**
- * Test: Nette\Caching\FileStorage tags dependency test.
+ * Test: FileStorage tags dependency test.
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette\Caching
  * @subpackage UnitTests
  */
 
 
 
-require dirname(__FILE__) . '/../NetteTest/initialize.php';
+require dirname(__FILE__) . '/../bootstrap.php';
 
 
 
 // temporary directory
 define('TEMP_DIR', dirname(__FILE__) . '/tmp');
-NetteTestHelpers::purge(TEMP_DIR);
+Environment::setVariable('tempDir', TEMP_DIR);
+TestHelpers::purge(TEMP_DIR);
 
 
 
@@ -25,7 +25,7 @@ $storage = new FileStorage(TEMP_DIR);
 $cache = new Cache($storage);
 
 
-output('Writing cache...');
+// Writing cache...
 $cache->save('key1', 'value1', array(
 	Cache::TAGS => array('one', 'two'),
 ));
@@ -41,29 +41,12 @@ $cache->save('key3', 'value3', array(
 $cache['key4'] = 'value4';
 
 
-output('Cleaning by tags...');
+// Cleaning by tags...
 $cache->clean(array(
 	Cache::TAGS => 'one',
 ));
 
-dump( isset($cache['key1']), 'Is cached key1?' );
-dump( isset($cache['key2']), 'Is cached key2?' );
-dump( isset($cache['key3']), 'Is cached key3?' );
-dump( isset($cache['key4']), 'Is cached key4?' );
-
-
-
-__halt_compiler();
-
-------EXPECT------
-Writing cache...
-
-Cleaning by tags...
-
-Is cached key1? bool(FALSE)
-
-Is cached key2? bool(FALSE)
-
-Is cached key3? bool(TRUE)
-
-Is cached key4? bool(TRUE)
+Assert::false( isset($cache['key1']), 'Is cached key1?' );
+Assert::false( isset($cache['key2']), 'Is cached key2?' );
+Assert::true( isset($cache['key3']), 'Is cached key3?' );
+Assert::true( isset($cache['key4']), 'Is cached key4?' );

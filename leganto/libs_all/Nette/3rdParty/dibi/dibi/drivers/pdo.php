@@ -1,31 +1,32 @@
 <?php
 
 /**
- * dibi - tiny'n'smart database abstraction layer
- * ----------------------------------------------
+ * This file is part of the "dibi" - smart database abstraction layer.
  *
- * @copyright  Copyright (c) 2005, 2010 David Grudl
- * @license    http://dibiphp.com/license  dibi license
- * @link       http://dibiphp.com
- * @package    dibi\drivers
+ * Copyright (c) 2005, 2010 David Grudl (http://davidgrudl.com)
+ *
+ * For the full copyright and license information, please view
+ * the file license.txt that was distributed with this source code.
+ *
+ * @package    drivers
  */
 
 
 /**
  * The dibi driver for PDO.
  *
- * Connection options:
- *   - 'dsn' - driver specific DSN
- *   - 'username' (or 'user')
- *   - 'password' (or 'pass')
- *   - 'options' - driver specific options array
- *   - 'resource' - PDO object (optional)
- *   - 'lazy' - if TRUE, connection will be established only when required
+ * Driver options:
+ *   - dsn => driver specific DSN
+ *   - username (or user)
+ *   - password (or pass)
+ *   - options (array) => driver specific options {@see PDO::__construct}
+ *   - resource (PDO) => existing connection
+ *   - lazy, profiler, result, substitutes, ... => see DibiConnection options
  *
- * @copyright  Copyright (c) 2005, 2010 David Grudl
- * @package    dibi\drivers
+ * @author     David Grudl
+ * @package    drivers
  */
-class DibiPdoDriver extends DibiObject implements IDibiDriver
+class DibiPdoDriver extends DibiObject implements IDibiDriver, IDibiResultDriver
 {
 	/** @var PDO  Connection resource */
 	private $connection;
@@ -36,15 +37,18 @@ class DibiPdoDriver extends DibiObject implements IDibiDriver
 	/** @var int|FALSE  Affected rows */
 	private $affectedRows = FALSE;
 
+	/** @var string */
+	private $driverName;
+
 
 
 	/**
-	 * @throws DibiException
+	 * @throws NotSupportedException
 	 */
 	public function __construct()
 	{
 		if (!extension_loaded('pdo')) {
-			throw new DibiDriverException("PHP extension 'pdo' is not loaded.");
+			throw new NotSupportedException("PHP extension 'pdo' is not loaded.");
 		}
 	}
 
@@ -57,9 +61,9 @@ class DibiPdoDriver extends DibiObject implements IDibiDriver
 	 */
 	public function connect(array &$config)
 	{
-		DibiConnection::alias($config, 'dsn');
+		$foo = & $config['dsn'];
+		$foo = & $config['options'];
 		DibiConnection::alias($config, 'resource', 'pdo');
-		DibiConnection::alias($config, 'options');
 
 		if ($config['resource'] instanceof PDO) {
 			$this->connection = $config['resource'];
@@ -74,6 +78,8 @@ class DibiPdoDriver extends DibiObject implements IDibiDriver
 		if (!$this->connection) {
 			throw new DibiDriverException('Connecting error.');
 		}
+
+		$this->driverName = $this->connection->getAttribute(PDO::ATTR_DRIVER_NAME);
 	}
 
 
@@ -92,17 +98,17 @@ class DibiPdoDriver extends DibiObject implements IDibiDriver
 	/**
 	 * Executes the SQL query.
 	 * @param  string      SQL statement.
-	 * @return IDibiDriver|NULL
+	 * @return IDibiResultDriver|NULL
 	 * @throws DibiDriverException
 	 */
 	public function query($sql)
 	{
 		// must detect if SQL returns result set or num of affected rows
 		$cmd = strtoupper(substr(ltrim($sql), 0, 6));
-		$list = array('UPDATE'=>1, 'DELETE'=>1, 'INSERT'=>1, 'REPLAC'=>1);
+		static $list = array('UPDATE'=>1, 'DELETE'=>1, 'INSERT'=>1, 'REPLAC'=>1);
+		$this->affectedRows = FALSE;
 
 		if (isset($list[$cmd])) {
-			$this->resultSet = NULL;
 			$this->affectedRows = $this->connection->exec($sql);
 
 			if ($this->affectedRows === FALSE) {
@@ -110,18 +116,15 @@ class DibiPdoDriver extends DibiObject implements IDibiDriver
 				throw new DibiDriverException("SQLSTATE[$err[0]]: $err[2]", $err[1], $sql);
 			}
 
-			return NULL;
-
 		} else {
-			$this->resultSet = $this->connection->query($sql);
-			$this->affectedRows = FALSE;
+			$res = $this->connection->query($sql);
 
-			if ($this->resultSet === FALSE) {
+			if ($res === FALSE) {
 				$err = $this->connection->errorInfo();
 				throw new DibiDriverException("SQLSTATE[$err[0]]: $err[2]", $err[1], $sql);
+			} else {
+				return $this->createResultDriver($res);
 			}
-
-			return clone $this;
 		}
 	}
 
@@ -198,23 +201,37 @@ class DibiPdoDriver extends DibiObject implements IDibiDriver
 
 
 	/**
-	 * Is in transaction?
-	 * @return bool
-	 */
-	public function inTransaction()
-	{
-		return (bool) $this->connection->getAttribute(PDO::ATTR_AUTOCOMMIT);
-	}
-
-
-
-	/**
 	 * Returns the connection resource.
 	 * @return PDO
 	 */
 	public function getResource()
 	{
 		return $this->connection;
+	}
+
+
+
+	/**
+	 * Returns the connection reflector.
+	 * @return IDibiReflector
+	 */
+	public function getReflector()
+	{
+		throw new NotSupportedException;
+	}
+
+
+
+	/**
+	 * Result set driver factory.
+	 * @param  PDOStatement
+	 * @return IDibiResultDriver
+	 */
+	public function createResultDriver(PDOStatement $resource)
+	{
+		$res = clone $this;
+		$res->resultSet = $resource;
+		return $res;
 	}
 
 
@@ -240,27 +257,21 @@ class DibiPdoDriver extends DibiObject implements IDibiDriver
 			return $this->connection->quote($value, PDO::PARAM_LOB);
 
 		case dibi::IDENTIFIER:
-			switch ($this->connection->getAttribute(PDO::ATTR_DRIVER_NAME)) {
+			switch ($this->driverName) {
 			case 'mysql':
-				$value = str_replace('`', '``', $value);
-				return '`' . str_replace('.', '`.`', $value) . '`';
+				return '`' . str_replace('`', '``', $value) . '`';
 
 			case 'pgsql':
-				$a = strrpos($value, '.');
-				if ($a === FALSE) {
-					return '"' . str_replace('"', '""', $value) . '"';
-				} else {
-					return substr($value, 0, $a) . '."' . str_replace('"', '""', substr($value, $a + 1)) . '"';
-				}
+				return '"' . str_replace('"', '""', $value) . '"';
 
 			case 'sqlite':
 			case 'sqlite2':
-				$value = strtr($value, '[]', '  ');
+				return '[' . strtr($value, '[]', '  ') . ']';
+
 			case 'odbc':
 			case 'oci': // TODO: not tested
 			case 'mssql':
-				$value = str_replace(array('[', ']'), array('[[', ']]'), $value);
-				return '[' . str_replace('.', '].[', $value) . ']';
+				return '[' . str_replace(array('[', ']'), array('[[', ']]'), $value) . ']';
 
 			default:
 				return $value;
@@ -278,6 +289,19 @@ class DibiPdoDriver extends DibiObject implements IDibiDriver
 		default:
 			throw new InvalidArgumentException('Unsupported type.');
 		}
+	}
+
+
+
+	/**
+	 * Encodes string for use in a LIKE statement.
+	 * @param  string
+	 * @param  int
+	 * @return string
+	 */
+	public function escapeLike($value, $pos)
+	{
+		throw new NotImplementedException;
 	}
 
 
@@ -310,7 +334,7 @@ class DibiPdoDriver extends DibiObject implements IDibiDriver
 	{
 		if ($limit < 0 && $offset < 1) return;
 
-		switch ($this->connection->getAttribute(PDO::ATTR_DRIVER_NAME)) {
+		switch ($this->driverName) {
 		case 'mysql':
 			$sql .= ' LIMIT ' . ($limit < 0 ? '18446744073709551615' : (int) $limit)
 				. ($offset > 0 ? ' OFFSET ' . (int) $offset : '');
@@ -368,7 +392,6 @@ class DibiPdoDriver extends DibiObject implements IDibiDriver
 	 * Fetches the row at current position and moves the internal cursor to the next position.
 	 * @param  bool     TRUE for associative array, FALSE for numeric
 	 * @return array    array on success, nonarray if no next record
-	 * @ignore internal
 	 */
 	public function fetch($assoc)
 	{
@@ -405,16 +428,20 @@ class DibiPdoDriver extends DibiObject implements IDibiDriver
 	 * @return array
 	 * @throws DibiException
 	 */
-	public function getColumnsMeta()
+	public function getResultColumns()
 	{
 		$count = $this->resultSet->columnCount();
-		$res = array();
+		$columns = array();
 		for ($i = 0; $i < $count; $i++) {
 			$row = @$this->resultSet->getColumnMeta($i); // intentionally @
 			if ($row === FALSE) {
-				throw new DibiDriverException('Driver does not support meta data.');
+				throw new NotSupportedException('Driver does not support meta data.');
 			}
-			$res[] = array(
+			// PHP < 5.2.3 compatibility
+			// @see: http://php.net/manual/en/pdostatement.getcolumnmeta.php#pdostatement.getcolumnmeta.changelog
+			$row['table'] = isset($row['table']) ? $row['table'] : NULL;
+
+			$columns[] = array(
 				'name' => $row['name'],
 				'table' => $row['table'],
 				'nativetype' => $row['native_type'],
@@ -422,7 +449,7 @@ class DibiPdoDriver extends DibiObject implements IDibiDriver
 				'vendor' => $row,
 			);
 		}
-		return $res;
+		return $columns;
 	}
 
 
@@ -434,57 +461,6 @@ class DibiPdoDriver extends DibiObject implements IDibiDriver
 	public function getResultResource()
 	{
 		return $this->resultSet;
-	}
-
-
-
-	/********************* reflection ****************d*g**/
-
-
-
-	/**
-	 * Returns list of tables.
-	 * @return array
-	 */
-	public function getTables()
-	{
-		throw new NotImplementedException;
-	}
-
-
-
-	/**
-	 * Returns metadata for all columns in a table.
-	 * @param  string
-	 * @return array
-	 */
-	public function getColumns($table)
-	{
-		throw new NotImplementedException;
-	}
-
-
-
-	/**
-	 * Returns metadata for all indexes in a table.
-	 * @param  string
-	 * @return array
-	 */
-	public function getIndexes($table)
-	{
-		throw new NotImplementedException;
-	}
-
-
-
-	/**
-	 * Returns metadata for all foreign keys in a table.
-	 * @param  string
-	 * @return array
-	 */
-	public function getForeignKeys($table)
-	{
-		throw new NotImplementedException;
 	}
 
 }

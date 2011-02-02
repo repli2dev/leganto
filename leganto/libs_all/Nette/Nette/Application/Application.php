@@ -1,13 +1,13 @@
 <?php
 
 /**
- * Nette Framework
+ * This file is part of the Nette Framework (http://nette.org)
  *
- * @copyright  Copyright (c) 2004, 2010 David Grudl
- * @license    http://nettephp.com/license  Nette license
- * @link       http://nettephp.com
- * @category   Nette
- * @package    Nette\Application
+ * Copyright (c) 2004, 2010 David Grudl (http://davidgrudl.com)
+ *
+ * For the full copyright and license information, please view
+ * the file license.txt that was distributed with this source code.
+ * @package Nette\Application
  */
 
 
@@ -15,8 +15,7 @@
 /**
  * Front Controller.
  *
- * @copyright  Copyright (c) 2004, 2010 David Grudl
- * @package    Nette\Application
+ * @author     David Grudl
  */
 class Application extends Object
 {
@@ -25,8 +24,8 @@ class Application extends Object
 
 	/** @var array */
 	public $defaultServices = array(
-		'Nette\Application\IRouter' => 'Nette\Application\MultiRouter',
-		'Nette\Application\IPresenterLoader' => array(__CLASS__, 'createPresenterLoader'),
+		'Nette\\Application\\IRouter' => 'MultiRouter',
+		'Nette\\Application\\IPresenterLoader' => array(__CLASS__, 'createPresenterLoader'),
 	);
 
 	/** @var bool enable fault barrier? */
@@ -38,13 +37,13 @@ class Application extends Object
 	/** @var array of function(Application $sender); Occurs before the application loads presenter */
 	public $onStartup;
 
-	/** @var array of function(Application $sender, \Exception $e = NULL); Occurs before the application shuts down */
+	/** @var array of function(Application $sender, Exception $e = NULL); Occurs before the application shuts down */
 	public $onShutdown;
 
 	/** @var array of function(Application $sender, PresenterRequest $request); Occurs when a new request is ready for dispatch */
 	public $onRequest;
 
-	/** @var array of function(Application $sender, \Exception $e); Occurs when an unhandled exception occurs in the application */
+	/** @var array of function(Application $sender, Exception $e); Occurs when an unhandled exception occurs in the application */
 	public $onError;
 
 	/** @var array of string */
@@ -160,11 +159,12 @@ class Application extends Object
 					$this->catchExceptions = Environment::isProduction();
 				}
 
+				$this->onError($this, $e);
+
 				if (!$this->catchExceptions) {
+					$this->onShutdown($this, $e);
 					throw $e;
 				}
-
-				$this->onError($this, $e);
 
 				if ($repeatedError) {
 					$e = new ApplicationException('An error occured while executing error-presenter', 0, $e);
@@ -269,7 +269,7 @@ class Application extends Object
 	 */
 	public function getRouter()
 	{
-		return $this->getServiceLocator()->getService('Nette\Application\IRouter');
+		return $this->getServiceLocator()->getService('Nette\\Application\\IRouter');
 	}
 
 
@@ -281,7 +281,7 @@ class Application extends Object
 	 */
 	public function setRouter(IRouter $router)
 	{
-		$this->getServiceLocator()->addService('Nette\Application\IRouter', $router);
+		$this->getServiceLocator()->addService('Nette\\Application\\IRouter', $router);
 		return $this;
 	}
 
@@ -293,7 +293,7 @@ class Application extends Object
 	 */
 	public function getPresenterLoader()
 	{
-		return $this->getServiceLocator()->getService('Nette\Application\IPresenterLoader');
+		return $this->getServiceLocator()->getService('Nette\\Application\\IPresenterLoader');
 	}
 
 

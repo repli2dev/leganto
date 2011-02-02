@@ -1,13 +1,13 @@
 <?php
 
 /**
- * Nette Framework
+ * This file is part of the Nette Framework (http://nette.org)
  *
- * @copyright  Copyright (c) 2004, 2010 David Grudl
- * @license    http://nettephp.com/license  Nette license
- * @link       http://nettephp.com
- * @category   Nette
- * @package    Nette\Caching
+ * Copyright (c) 2004, 2010 David Grudl (http://davidgrudl.com)
+ *
+ * For the full copyright and license information, please view
+ * the file license.txt that was distributed with this source code.
+ * @package Nette\Caching
  */
 
 
@@ -15,12 +15,11 @@
 /**
  * Memcached storage.
  *
- * @copyright  Copyright (c) 2004, 2010 David Grudl
- * @package    Nette\Caching
+ * @author     David Grudl
  */
 class MemcachedStorage extends Object implements ICacheStorage
 {
-	/**#@+ @ignore internal cache structure */
+	/**#@+ @internal cache structure */
 	const META_CALLBACKS = 'callbacks';
 	const META_DATA = 'data';
 	const META_DELTA = 'delta';
@@ -78,7 +77,7 @@ class MemcachedStorage extends Object implements ICacheStorage
 
 		// verify dependencies
 		if (!empty($meta[self::META_CALLBACKS]) && !Cache::checkCallbacks($meta[self::META_CALLBACKS])) {
-			$this->memcache->delete($key);
+			$this->memcache->delete($key, 0);
 			return NULL;
 		}
 
@@ -105,18 +104,18 @@ class MemcachedStorage extends Object implements ICacheStorage
 		}
 
 		$meta = array(
-			self::META_DATA => $data instanceof Callback || $data instanceof Closure ? $data->__invoke() : $data,
+			self::META_DATA => $data,
 		);
 
 		$expire = 0;
-		if (!empty($dp[Cache::EXPIRE])) {
-			$expire = (int) $dp[Cache::EXPIRE];
+		if (isset($dp[Cache::EXPIRATION])) {
+			$expire = (int) $dp[Cache::EXPIRATION];
 			if (!empty($dp[Cache::SLIDING])) {
 				$meta[self::META_DELTA] = $expire; // sliding time
 			}
 		}
 
-		if (!empty($dp[Cache::CALLBACKS])) {
+		if (isset($dp[Cache::CALLBACKS])) {
 			$meta[self::META_CALLBACKS] = $dp[Cache::CALLBACKS];
 		}
 
@@ -132,7 +131,7 @@ class MemcachedStorage extends Object implements ICacheStorage
 	 */
 	public function remove($key)
 	{
-		$this->memcache->delete($this->prefix . $key);
+		$this->memcache->delete($this->prefix . $key, 0);
 	}
 
 

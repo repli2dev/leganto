@@ -1,23 +1,23 @@
 <h2>Form was submitted and successfully validated</h2>array(13) {
-   "name" => string(8) "John Doe"
-   "age" => string(2) "12"
+   "name" => "John Doe" (8)
+   "age" => "12" (2)
    "gender" => NULL
-   "email" => string(0) ""
-   "send" => bool(FALSE)
-   "street" => string(0) ""
-   "city" => string(0) ""
-   "country" => string(2) "CZ"
-   "password" => string(3) "xxx"
-   "password2" => string(3) "xxx"
-   "avatar" => object(%ns%HttpUploadedFile) (5) {
+   "email" => ""
+   "send" => FALSE
+   "street" => ""
+   "city" => ""
+   "country" => "CZ" (2)
+   "password" => "xxx" (3)
+   "password2" => "xxx" (3)
+   "avatar" => %ns%HttpUploadedFile(5) {
       "name" private => NULL
       "type" private => NULL
       "size" private => NULL
       "tmpName" private => NULL
-      "error" private => int(4)
+      "error" private => 4
    }
-   "userid" => string(3) "231"
-   "note" => string(0) ""
+   "userid" => "231" (3)
+   "note" => ""
 }
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -57,17 +57,17 @@
 	<h1>Nette\Forms manual form rendering</h1>
 
 	<form action="" method="post" id="frm-" enctype="multipart/form-data" onsubmit="return nette.validateForm(this)">
-	
+
 	<fieldset>
 		<legend>Personal data</legend>
 		<table>
 		<tr class="required">
 			<th><label class="required" for="frm-name">Your name:</label></th>
-			<td><input type="text" size="35" class="text" name="name" id="frm-name" value="John Doe " /></td>
+			<td><input type="text" class="text" name="name" id="frm-name" value="John Doe " cols="35" /></td>
 		</tr>
 		<tr class="required">
 			<th><label class="required" for="frm-age">Your age:</label></th>
-			<td><input type="text" size="5" class="text" name="age" id="frm-age" value="  12 " /></td>
+			<td><input type="text" class="text" name="age" id="frm-age" value="  12 " cols="5" /></td>
 		</tr>
 		<tr>
 			<th><label>Your gender:</label></th>
@@ -75,7 +75,7 @@
 		</tr>
 		<tr>
 			<th><label for="frm-email">E-mail:</label></th>
-			<td><input type="text" size="35" class="text" name="email" id="frm-email" value="&#64;" /></td>
+			<td><input type="text" class="text" name="email" id="frm-email" value="&#64;" cols="35" /></td>
 		</tr>
 		</table>
 	</fieldset>
@@ -89,11 +89,11 @@
 		<table id="sendBox">
 		<tr>
 			<th><label for="frm-street">Street:</label></th>
-			<td><input type="text" size="35" class="text" name="street" id="frm-street" value="" /></td>
+			<td><input type="text" class="text" name="street" id="frm-street" value="" cols="35" /></td>
 		</tr>
 		<tr class="required">
 			<th><label for="frm-city">City:</label></th>
-			<td><input type="text" size="35" class="text" name="city" id="frm-city" value="" /></td>
+			<td><input type="text" class="text" name="city" id="frm-city" value="" cols="35" /></td>
 		</tr>
 		<tr class="required">
 			<th><label onclick="document.getElementById(this.htmlFor).focus();return false" for="frm-country">Country:</label></th>
@@ -109,11 +109,11 @@
 		<table>
 		<tr class="required">
 			<th><label class="required" for="frm-password">Choose password:</label></th>
-			<td><input type="password" size="20" class="text" name="password" id="frm-password" /></td>
+			<td><input type="password" class="text" name="password" id="frm-password" cols="20" /></td>
 		</tr>
 		<tr class="required">
 			<th><label for="frm-password2">Reenter password:</label></th>
-			<td><input type="password" size="20" class="text" name="password2" id="frm-password2" /></td>
+			<td><input type="password" class="text" name="password2" id="frm-password2" cols="20" /></td>
 		</tr>
 		<tr>
 			<th><label for="frm-avatar">Picture:</label></th>

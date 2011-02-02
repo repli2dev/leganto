@@ -1,12 +1,13 @@
 <?php
 
 /**
- * dibi - tiny'n'smart database abstraction layer
- * ----------------------------------------------
+ * This file is part of the "dibi" - smart database abstraction layer.
  *
- * @copyright  Copyright (c) 2005, 2010 David Grudl
- * @license    http://dibiphp.com/license  dibi license
- * @link       http://dibiphp.com
+ * Copyright (c) 2005, 2010 David Grudl (http://davidgrudl.com)
+ *
+ * For the full copyright and license information, please view
+ * the file license.txt that was distributed with this source code.
+ *
  * @package    dibi
  */
 
@@ -15,7 +16,7 @@
 /**
  * DibiObject is the ultimate ancestor of all instantiable classes.
  *
- * DibiObject is copy of Nette\Object from Nette Framework (http://nettephp.com).
+ * DibiObject is copy of Object from Nette Framework (http://nette.org).
  *
  * It defines some handful methods and enhances object core of PHP:
  *   - access to undeclared members throws exceptions
@@ -45,13 +46,12 @@
  * Adding method to class (i.e. to all instances) works similar to JavaScript
  * prototype property. The syntax for adding a new method is:
  * <code>
- * MyClass::extensionMethod('newMethod', function(MyClass $obj, $arg, ...) { ... });
+ * MyClass::extensionMethod('newMethod', create_function('MyClass $obj, $arg, ...', ' ... '));
  * $obj = new MyClass;
  * $obj->newMethod($x);
  * </code>
  *
- * @copyright  Copyright (c) 2005, 2010 David Grudl
- * @package    dibi
+ * @author     David Grudl
  */
 abstract class DibiObject
 {
@@ -64,9 +64,9 @@ abstract class DibiObject
 	 * Returns the name of the class of this object.
 	 * @return string
 	 */
-	final public  function getClass()
+	final public /*static*/ function getClass()
 	{
-		return  get_class($this);
+		return /*get_called_class()*/ ;
 	}
 
 
@@ -104,10 +104,7 @@ abstract class DibiObject
 				$list = $this->$name;
 				if (is_array($list) || $list instanceof Traversable) {
 					foreach ($list as $handler) {
-						if (is_object($handler)) {
-							call_user_func_array(array($handler, '__invoke'), $args);
-
-						} else {
+						{
 							call_user_func_array($handler, $args);
 						}
 					}
@@ -223,7 +220,7 @@ abstract class DibiObject
 		$m = 'get' . $name;
 		if (self::hasAccessor($class, $m)) {
 			// ampersands:
-			// - uses &__get() because declaration should be forward compatible (e.g. with Nette\Web\Html)
+			// - uses &__get() because declaration should be forward compatible (e.g. with Html)
 			// - doesn't call &$this->$m because user could bypass property setter by: $x = & $obj->property; $x = 'new value';
 			$val = $this->$m();
 			return $val;

@@ -1,13 +1,13 @@
 <?php
 
 /**
- * Nette Framework
+ * This file is part of the Nette Framework (http://nette.org)
  *
- * @copyright  Copyright (c) 2004, 2010 David Grudl
- * @license    http://nettephp.com/license  Nette license
- * @link       http://nettephp.com
- * @category   Nette
- * @package    Nette\Forms
+ * Copyright (c) 2004, 2010 David Grudl (http://davidgrudl.com)
+ *
+ * For the full copyright and license information, please view
+ * the file license.txt that was distributed with this source code.
+ * @package Nette\Forms
  */
 
 
@@ -15,8 +15,7 @@
 /**
  * Instant validation JavaScript generator.
  *
- * @copyright  Copyright (c) 2004, 2010 David Grudl
- * @package    Nette\Forms
+ * @author     David Grudl
  */
 final class InstantClientScript extends Object
 {
@@ -64,7 +63,7 @@ final class InstantClientScript extends Object
 				$this->form->getElementPrototype()->onsubmit("return nette.validateForm(this)", TRUE);
 
 			} else {
-				foreach ($this->form->getComponents(TRUE, 'Nette\Forms\ISubmitterControl') as $control) {
+				foreach ($this->form->getComponents(TRUE, 'ISubmitterControl') as $control) {
 					if ($control->getValidationScope()) {
 						$control->getControlPrototype()->onclick("return nette.validateForm(this)", TRUE);
 					}
@@ -87,7 +86,7 @@ final class InstantClientScript extends Object
 
 		$formName = json_encode((string) $this->form->getElementPrototype()->id);
 		ob_start();
-		include dirname(__FILE__) . '/InstantClientScript.phtml';
+		require dirname(__FILE__) . '/InstantClientScript.phtml';
 		return ob_get_clean();
 	}
 
@@ -99,7 +98,7 @@ final class InstantClientScript extends Object
 		foreach ($rules as $rule) {
 			if (!is_string($rule->operation)) continue;
 
-			if (strcasecmp($rule->operation, 'Nette\Forms\InstantClientScript::javascript') === 0) {
+			if (strcasecmp($rule->operation, 'Nette\\Forms\\InstantClientScript::javascript') === 0) {
 				$res .= "$rule->arg\n";
 				continue;
 			}
@@ -107,14 +106,13 @@ final class InstantClientScript extends Object
 			$script = $this->getClientScript($rule->control, $rule->operation, $rule->arg);
 			if (!$script) continue;
 
-			if (!empty($rule->message)) { // this is rule
+			if ($rule->type === Rule::VALIDATOR && !empty($rule->message)) {
 				$message = Rules::formatMessage($rule, FALSE);
 				$res .= "$script\n"
 					. "if (" . ($rule->isNegative ? '' : '!') . "res) "
 					. "return " . json_encode((string) $message) . (strpos($message, '%value') === FALSE ? '' : ".replace('%value', val);\n") . ";\n";
-			}
 
-			if ($rule->type === Rule::CONDITION) { // this is condition
+			} elseif ($rule->type === Rule::CONDITION) {
 				$innerScript = $this->getValidateScript($rule->subRules);
 				if ($innerScript) {
 					$res .= "$script\nif (" . ($rule->isNegative ? '!' : '') . "res) {\n" . String::indent($innerScript) . "}\n";

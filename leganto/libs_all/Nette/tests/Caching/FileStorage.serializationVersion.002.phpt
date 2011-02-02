@@ -1,17 +1,16 @@
 <?php
 
 /**
- * Test: Nette\Caching\FileStorage @serializationVersion dependency test (continue...).
+ * Test: FileStorage @serializationVersion dependency test (continue...).
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette\Caching
  * @subpackage UnitTests
  */
 
 
 
-require dirname(__FILE__) . '/../NetteTest/initialize.php';
+require dirname(__FILE__) . '/../bootstrap.php';
 
 
 
@@ -33,15 +32,6 @@ class Foo
 }
 
 
-output('Changed @serializationVersion');
+// Changed @serializationVersion
 
-dump( isset($cache[$key]), 'Is cached?' );
-
-
-
-__halt_compiler();
-
-------EXPECT------
-Changed @serializationVersion
-
-Is cached? bool(FALSE)
+Assert::false( isset($cache[$key]), 'Is cached?' );

@@ -1,10 +1,9 @@
 <?php
 
 /**
- * Test: Nette\Templates\LatteFilter and macros test.
+ * Test: LatteFilter and macros test.
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette\Templates
  * @subpackage UnitTests
  * @phpini     short_open_tag=on
@@ -12,7 +11,7 @@
 
 
 
-require dirname(__FILE__) . '/../NetteTest/initialize.php';
+require dirname(__FILE__) . '/../bootstrap.php';
 
 require dirname(__FILE__) . '/Template.inc';
 
@@ -21,18 +20,17 @@ function xml($v) { echo $v; }
 
 $template = new MockTemplate;
 $template->registerFilter(new LatteFilter);
-$template->render(NetteTestHelpers::getSection(__FILE__, 'template'));
 
+Assert::match(<<<EOD
+<?xml version="1.0" ?>
+12ok
 
+EOD
 
-__halt_compiler();
-
------template-----
+, $template->render(<<<EOD
 <?xml version="1.0" ?>
 <?php xml(1) ?>
 <? xml(2) ?>
 <?php echo 'ok' ?>
-
-------EXPECT------
-<?xml version="1.0" ?>
-12ok
+EOD
+));

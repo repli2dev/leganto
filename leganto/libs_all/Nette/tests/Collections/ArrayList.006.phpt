@@ -1,17 +1,16 @@
 <?php
 
 /**
- * Test: Nette\Collections\ArrayList::__construct()
+ * Test: ArrayList::__construct()
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette\Collections
  * @subpackage UnitTests
  */
 
 
 
-require dirname(__FILE__) . '/../NetteTest/initialize.php';
+require dirname(__FILE__) . '/../bootstrap.php';
 
 require dirname(__FILE__) . '/Collections.inc';
 
@@ -24,33 +23,9 @@ $arr = array(
 );
 
 try {
-	output("Construct from array");
+	// Construct from array
 	$list = new ArrayList($arr, 'Person');
+	Assert::fail('Expected exception');
 } catch (Exception $e) {
-	dump( $e );
-}
-
-output("Construct from array II.");
-$list = new ArrayList($arr);
-dump( $list );
-
-
-
-__halt_compiler();
-
-------EXPECT------
-Construct from array
-
-Exception InvalidArgumentException: Item must be 'Person' object.
-
-Construct from array II.
-
-object(%ns%ArrayList) (3) {
-	"0" => object(Person) (1) {
-		"name" private => string(4) "Jack"
-	}
-	"1" => object(Person) (1) {
-		"name" private => string(4) "Mary"
-	}
-	"2" => object(ArrayObject) (0) {}
+	Assert::exception('InvalidArgumentException', "Item must be 'Person' object.", $e );
 }

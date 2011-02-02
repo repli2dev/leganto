@@ -1,17 +1,16 @@
 <?php
 
 /**
- * Test: Nette\Collections\Set adding numeric items.
+ * Test: Set adding numeric items.
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette\Collections
  * @subpackage UnitTests
  */
 
 
 
-require dirname(__FILE__) . '/../NetteTest/initialize.php';
+require dirname(__FILE__) . '/../bootstrap.php';
 
 require dirname(__FILE__) . '/Collections.inc';
 
@@ -19,28 +18,16 @@ require dirname(__FILE__) . '/Collections.inc';
 
 $set = new Set(NULL, ':numeric');
 
-output("Adding numeric");
+// Adding numeric
 $set->append('10.3');
 
-output("Adding numeric");
+// Adding numeric
 $set->append(12.2);
 
 try {
-	output("Adding non-numeric");
+	// Adding non-numeric
 	$set->append('hello');
+	Assert::fail('Expected exception');
 } catch (Exception $e) {
-	dump( $e );
+	Assert::exception('InvalidArgumentException', "Item must be numeric type.", $e );
 }
-
-
-
-__halt_compiler();
-
-------EXPECT------
-Adding numeric
-
-Adding numeric
-
-Adding non-numeric
-
-Exception InvalidArgumentException: Item must be numeric type.

@@ -1,13 +1,13 @@
 <?php
 
 /**
- * Nette Framework
+ * This file is part of the Nette Framework (http://nette.org)
  *
- * @copyright  Copyright (c) 2004, 2010 David Grudl
- * @license    http://nettephp.com/license  Nette license
- * @link       http://nettephp.com
- * @category   Nette
- * @package    Nette\Application
+ * Copyright (c) 2004, 2010 David Grudl (http://davidgrudl.com)
+ *
+ * For the full copyright and license information, please view
+ * the file license.txt that was distributed with this source code.
+ * @package Nette\Application
  */
 
 
@@ -19,8 +19,7 @@
  * other child components, and interact with user. Components have properties
  * for storing their status, and responds to user command.
  *
- * @copyright  Copyright (c) 2004, 2010 David Grudl
- * @package    Nette\Application
+ * @author     David Grudl
  *
  * @property-read Presenter $presenter
  */
@@ -35,7 +34,7 @@ abstract class PresenterComponent extends ComponentContainer implements ISignalR
 	 */
 	public function __construct(IComponentContainer $parent = NULL, $name = NULL)
 	{
-		$this->monitor('Nette\Application\Presenter');
+		$this->monitor('Presenter');
 		parent::__construct($parent, $name);
 	}
 
@@ -48,7 +47,7 @@ abstract class PresenterComponent extends ComponentContainer implements ISignalR
 	 */
 	public function getPresenter($need = TRUE)
 	{
-		return $this->lookup('Nette\Application\Presenter', $need);
+		return $this->lookup('Presenter', $need);
 	}
 
 
@@ -60,7 +59,7 @@ abstract class PresenterComponent extends ComponentContainer implements ISignalR
 	 */
 	public function getUniqueId()
 	{
-		return $this->lookupPath('Nette\Application\Presenter', TRUE);
+		return $this->lookupPath('Presenter', TRUE);
 	}
 
 
@@ -272,7 +271,7 @@ abstract class PresenterComponent extends ComponentContainer implements ISignalR
 
 	/**
 	 * Generates URL to presenter, action or signal.
-	 * @param  string   destination in format "[[module:]presenter:]action" or "signal!"
+	 * @param  string   destination in format "[[module:]presenter:]action" or "signal!" or "this"
 	 * @param  array|mixed
 	 * @return string
 	 * @throws InvalidLinkException
@@ -349,7 +348,7 @@ abstract class PresenterComponent extends ComponentContainer implements ISignalR
 
 
 
-	/********************* interface \ArrayAccess ****************d*g**/
+	/********************* interface ArrayAccess ****************d*g**/
 
 
 
@@ -357,7 +356,7 @@ abstract class PresenterComponent extends ComponentContainer implements ISignalR
 	 * Adds the component to the container.
 	 * @param  string  component name
 	 * @param  IComponent
-	 * @return void.
+	 * @return void
 	 */
 	final public function offsetSet($name, $component)
 	{
@@ -392,7 +391,7 @@ abstract class PresenterComponent extends ComponentContainer implements ISignalR
 
 
 	/**
-	 * Removes component from the container. Throws exception if component doesn't exist.
+	 * Removes component from the container.
 	 * @param  string  component name
 	 * @return void
 	 */

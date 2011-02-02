@@ -1,17 +1,16 @@
 <?php
 
 /**
- * Test: Nette\Collections\Set readonly collection.
+ * Test: Set readonly collection.
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette\Collections
  * @subpackage UnitTests
  */
 
 
 
-require dirname(__FILE__) . '/../NetteTest/initialize.php';
+require dirname(__FILE__) . '/../bootstrap.php';
 
 require dirname(__FILE__) . '/Collections.inc';
 
@@ -22,45 +21,29 @@ $set->append($jack = new Person('Jack'));
 $set->append(new Person('Mary'));
 $set->append(new Person('Larry'));
 
-dump( $set->isFrozen() );
+Assert::false( $set->isFrozen() );
 $set->freeze();
-dump( $set->isFrozen() );
+Assert::true( $set->isFrozen() );
 
 try {
-	dump( $set->append($jack), "Adding Jack" );
+	$set->append($jack);
+	Assert::fail('Expected exception');
 } catch (Exception $e) {
-	dump( $e );
+	Assert::exception('InvalidStateException', "Cannot modify a frozen object '%ns%Set'.", $e );
 }
 
 try {
-	output("Removing Jack");
+	// Removing Jack
 	$set->remove($jack);
+	Assert::fail('Expected exception');
 } catch (Exception $e) {
-	dump( $e );
+	Assert::exception('InvalidStateException', "Cannot modify a frozen object '%ns%Set'.", $e );
 }
 
 try {
-	output("Clearing");
+	// Clearing
 	$set->clear();
+	Assert::fail('Expected exception');
 } catch (Exception $e) {
-	dump( $e );
+	Assert::exception('InvalidStateException', "Cannot modify a frozen object '%ns%Set'.", $e );
 }
-
-
-
-__halt_compiler();
-
-------EXPECT------
-bool(FALSE)
-
-bool(TRUE)
-
-Exception InvalidStateException: Cannot modify a frozen object '%ns%Set'.
-
-Removing Jack
-
-Exception InvalidStateException: Cannot modify a frozen object '%ns%Set'.
-
-Clearing
-
-Exception InvalidStateException: Cannot modify a frozen object '%ns%Set'.

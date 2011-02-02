@@ -1,17 +1,16 @@
 <?php
 
 /**
- * Test: Nette\Mail\Mail invalid headers.
+ * Test: Mail invalid headers.
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette\Application
  * @subpackage UnitTests
  */
 
 
 
-require dirname(__FILE__) . '/../NetteTest/initialize.php';
+require dirname(__FILE__) . '/../bootstrap.php';
 
 require dirname(__FILE__) . '/Mail.inc';
 
@@ -20,39 +19,22 @@ require dirname(__FILE__) . '/Mail.inc';
 $mail = new Mail();
 
 try {
-	output();
 	$mail->setHeader('', 'value');
+	Assert::fail('Expected exception');
 } catch (Exception $e) {
-	dump( $e );
+	Assert::exception('InvalidArgumentException', "Header name must be non-empty alphanumeric string, '' given.", $e );
 }
 
 try {
-	output();
 	$mail->setHeader(' name', 'value');
+	Assert::fail('Expected exception');
 } catch (Exception $e) {
-	dump( $e );
+	Assert::exception('InvalidArgumentException', "Header name must be non-empty alphanumeric string, ' name' given.", $e );
 }
 
 try {
-	output();
 	$mail->setHeader('n*ame', 'value');
+	Assert::fail('Expected exception');
 } catch (Exception $e) {
-	dump( $e );
+	Assert::exception('InvalidArgumentException', "Header name must be non-empty alphanumeric string, 'n*ame' given.", $e );
 }
-
-
-
-__halt_compiler();
-
-------EXPECT------
-===
-
-Exception InvalidArgumentException: Header name must be non-empty alphanumeric string, '' given.
-
-===
-
-Exception InvalidArgumentException: Header name must be non-empty alphanumeric string, ' name' given.
-
-===
-
-Exception InvalidArgumentException: Header name must be non-empty alphanumeric string, 'n*ame' given.

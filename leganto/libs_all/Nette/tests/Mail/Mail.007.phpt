@@ -1,17 +1,16 @@
 <?php
 
 /**
- * Test: Nette\Mail\Mail - textual and HTML body with embedded image and attachment.
+ * Test: Mail - textual and HTML body with embedded image and attachment.
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette\Application
  * @subpackage UnitTests
  */
 
 
 
-require dirname(__FILE__) . '/../NetteTest/initialize.php';
+require dirname(__FILE__) . '/../bootstrap.php';
 
 require dirname(__FILE__) . '/Mail.inc';
 
@@ -32,6 +31,4 @@ $mail->addAttachment('files/example.zip');
 
 $mail->send();
 
-
-
-__halt_compiler();
+Assert::match(file_get_contents(dirname(__FILE__) . '/Mail.007.expect'), TestMailer::$output);

@@ -1,17 +1,16 @@
 <?php
 
 /**
- * Test: Nette\Caching\DummyStorage test.
+ * Test: DummyStorage test.
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette\Caching
  * @subpackage UnitTests
  */
 
 
 
-require dirname(__FILE__) . '/../NetteTest/initialize.php';
+require dirname(__FILE__) . '/../bootstrap.php';
 
 
 
@@ -22,48 +21,30 @@ $value = '"Hello World"';
 $cache = new Cache(new DummyStorage, 'myspace');
 
 
-dump( isset($cache[$key]), "Is cached?" );
-dump( $cache[$key], "Cache content:" );
+Assert::false( isset($cache[$key]), 'Is cached?' );
 
-output("Writing cache...");
+Assert::null( $cache[$key], 'Cache content:' );
+
+
+// Writing cache...
 $cache[$key] = $value;
 $cache->release();
 
-dump( isset($cache[$key]), "Is cached?" );
-dump( $cache[$key] === $value, "Is cache ok?" );
+Assert::false( isset($cache[$key]), 'Is cached?' );
 
-output("Removing from cache using unset()...");
+Assert::false( $cache[$key] === $value, 'Is cache ok?' );
+
+
+// Removing from cache using unset()...
 unset($cache[$key]);
 $cache->release();
 
-dump( isset($cache[$key]), "Is cached?" );
+Assert::false( isset($cache[$key]), 'Is cached?' );
 
-output("Removing from cache using set NULL...");
+
+// Removing from cache using set NULL...
 $cache[$key] = $value;
 $cache[$key] = NULL;
 $cache->release();
 
-dump( isset($cache[$key]), "Is cached?" );
-
-
-
-__halt_compiler();
-
-------EXPECT------
-Is cached? bool(FALSE)
-
-Cache content: NULL
-
-Writing cache...
-
-Is cached? bool(FALSE)
-
-Is cache ok? bool(FALSE)
-
-Removing from cache using unset()...
-
-Is cached? bool(FALSE)
-
-Removing from cache using set NULL...
-
-Is cached? bool(FALSE)
+Assert::false( isset($cache[$key]), 'Is cached?' );

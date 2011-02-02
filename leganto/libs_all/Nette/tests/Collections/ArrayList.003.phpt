@@ -1,17 +1,16 @@
 <?php
 
 /**
- * Test: Nette\Collections\ArrayList::insertAt()
+ * Test: ArrayList::insertAt()
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette\Collections
  * @subpackage UnitTests
  */
 
 
 
-require dirname(__FILE__) . '/../NetteTest/initialize.php';
+require dirname(__FILE__) . '/../bootstrap.php';
 
 require dirname(__FILE__) . '/Collections.inc';
 
@@ -23,52 +22,24 @@ $list[] = new Person('Mary');
 
 $larry = new Person('Larry');
 
-dump( $list->insertAt(0, $larry) );
-dump( (array) $list);
+Assert::true( $list->insertAt(0, $larry) );
+Assert::equal( array(
+	new Person("Larry"),
+	new Person("Jack"),
+	new Person("Mary"),
+), (array) $list );
 
-dump( $list->insertAt(3, $larry) );
-dump( (array) $list);
+Assert::true( $list->insertAt(3, $larry) );
+Assert::equal( array(
+	new Person("Larry"),
+	new Person("Jack"),
+	new Person("Mary"),
+	new Person("Larry"),
+), (array) $list );
 
 try {
-	dump( $list->insertAt(6, $larry) );
+	$list->insertAt(6, $larry);
+	Assert::fail('Expected exception');
 } catch (Exception $e) {
-	dump( $e );
+	Assert::exception('ArgumentOutOfRangeException', '', $e );
 }
-
-
-
-__halt_compiler();
-
-------EXPECT------
-bool(TRUE)
-
-array(3) {
-	0 => object(Person) (1) {
-		"name" private => string(5) "Larry"
-	}
-	1 => object(Person) (1) {
-		"name" private => string(4) "Jack"
-	}
-	2 => object(Person) (1) {
-		"name" private => string(4) "Mary"
-	}
-}
-
-bool(TRUE)
-
-array(4) {
-	0 => object(Person) (1) {
-		"name" private => string(5) "Larry"
-	}
-	1 => object(Person) (1) {
-		"name" private => string(4) "Jack"
-	}
-	2 => object(Person) (1) {
-		"name" private => string(4) "Mary"
-	}
-	3 => object(Person) (1) {
-		"name" private => string(5) "Larry"
-	}
-}
-
-Exception ArgumentOutOfRangeException:

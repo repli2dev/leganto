@@ -1,30 +1,34 @@
 <?php
 
 /**
- * dibi - tiny'n'smart database abstraction layer
- * ----------------------------------------------
+ * This file is part of the "dibi" - smart database abstraction layer.
  *
- * @copyright  Copyright (c) 2005, 2010 David Grudl
- * @license    http://dibiphp.com/license  dibi license
- * @link       http://dibiphp.com
- * @package    dibi\drivers
+ * Copyright (c) 2005, 2010 David Grudl (http://davidgrudl.com)
+ *
+ * For the full copyright and license information, please view
+ * the file license.txt that was distributed with this source code.
+ *
+ * @package    drivers
  */
 
 
 /**
  * The dibi driver for MS SQL Driver 2005 database.
  *
- * Connection options:
- *   - 'host' - the MS SQL server host name. It can also include a port number (hostname:port)
- *   - 'options' - connection info array {@link http://msdn.microsoft.com/en-us/library/cc296161(SQL.90).aspx}
- *   - 'lazy' - if TRUE, connection will be established only when required
- *   - 'charset' - character encoding to set (default is UTF-8)
- *   - 'resource' - connection resource (optional)
+ * Driver options:
+ *   - host => the MS SQL server host name. It can also include a port number (hostname:port)
+ *   - username (or user)
+ *   - password (or pass)
+ *   - database => the database name to select
+ *   - options (array) => connection options {@link http://msdn.microsoft.com/en-us/library/cc296161(SQL.90).aspx}
+ *   - charset => character encoding to set (default is UTF-8)
+ *   - resource (resource) => existing connection resource
+ *   - lazy, profiler, result, substitutes, ... => see DibiConnection options
  *
- * @copyright  Copyright (c) 2005, 2010 David Grudl
- * @package    dibi\drivers
+ * @author     David Grudl
+ * @package    drivers
  */
-class DibiMsSql2005Driver extends DibiObject implements IDibiDriver
+class DibiMsSql2005Driver extends DibiObject implements IDibiDriver, IDibiResultDriver
 {
 	/** @var resource  Connection resource */
 	private $connection;
@@ -32,15 +36,18 @@ class DibiMsSql2005Driver extends DibiObject implements IDibiDriver
 	/** @var resource  Resultset resource */
 	private $resultSet;
 
+	/** @var int|FALSE  Affected rows */
+	private $affectedRows = FALSE;
+
 
 
 	/**
-	 * @throws DibiException
+	 * @throws NotSupportedException
 	 */
 	public function __construct()
 	{
 		if (!extension_loaded('sqlsrv')) {
-			throw new DibiDriverException("PHP extension 'sqlsrv' is not loaded.");
+			throw new NotSupportedException("PHP extension 'sqlsrv' is not loaded.");
 		}
 	}
 
@@ -53,14 +60,16 @@ class DibiMsSql2005Driver extends DibiObject implements IDibiDriver
 	 */
 	public function connect(array &$config)
 	{
+		DibiConnection::alias($config, 'options|UID', 'username');
+		DibiConnection::alias($config, 'options|PWD', 'password');
+		DibiConnection::alias($config, 'options|Database', 'database');
+		DibiConnection::alias($config, 'options|CharacterSet', 'charset');
+
 		if (isset($config['resource'])) {
 			$this->connection = $config['resource'];
 
-		} elseif (isset($config['options'])) {
-			$this->connection = sqlsrv_connect($config['host'], (array) $config['options']);
-
 		} else {
-			$this->connection = sqlsrv_connect($config['host']);
+			$this->connection = sqlsrv_connect($config['host'], (array) $config['options']);
 		}
 
 		if (!is_resource($this->connection)) {
@@ -85,19 +94,22 @@ class DibiMsSql2005Driver extends DibiObject implements IDibiDriver
 	/**
 	 * Executes the SQL query.
 	 * @param  string      SQL statement.
-	 * @return IDibiDriver|NULL
+	 * @return IDibiResultDriver|NULL
 	 * @throws DibiDriverException
 	 */
 	public function query($sql)
 	{
-		$this->resultSet = sqlsrv_query($this->connection, $sql);
+		$this->affectedRows = FALSE;
+		$res = sqlsrv_query($this->connection, $sql);
 
-		if ($this->resultSet === FALSE) {
+		if ($res === FALSE) {
 			$info = sqlsrv_errors();
 			throw new DibiDriverException($info[0]['message'], $info[0]['code'], $sql);
-		}
 
-		return is_resource($this->resultSet) ? clone $this : NULL;
+		} elseif (is_resource($res)) {
+			$this->affectedRows = sqlsrv_rows_affected($res);
+			return $this->createResultDriver($res);
+		}
 	}
 
 
@@ -108,7 +120,7 @@ class DibiMsSql2005Driver extends DibiObject implements IDibiDriver
 	 */
 	public function getAffectedRows()
 	{
-		return sqlsrv_rows_affected($this->resultSet);
+		return $this->affectedRows;
 	}
 
 
@@ -169,23 +181,37 @@ class DibiMsSql2005Driver extends DibiObject implements IDibiDriver
 
 
 	/**
-	 * Is in transaction?
-	 * @return bool
-	 */
-	public function inTransaction()
-	{
-		throw new NotSupportedException('MSSQL 2005 driver does not support transaction testing.');
-	}
-
-
-
-	/**
 	 * Returns the connection resource.
 	 * @return mixed
 	 */
 	public function getResource()
 	{
 		return $this->connection;
+	}
+
+
+
+	/**
+	 * Returns the connection reflector.
+	 * @return IDibiReflector
+	 */
+	public function getReflector()
+	{
+		throw new NotSupportedException;
+	}
+
+
+
+	/**
+	 * Result set driver factory.
+	 * @param  resource
+	 * @return IDibiResultDriver
+	 */
+	public function createResultDriver($resource)
+	{
+		$res = clone $this;
+		$res->resultSet = $resource;
+		return $res;
 	}
 
 
@@ -210,8 +236,7 @@ class DibiMsSql2005Driver extends DibiObject implements IDibiDriver
 
 		case dibi::IDENTIFIER:
 			// @see http://msdn.microsoft.com/en-us/library/ms176027.aspx
-			$value = str_replace(array('[', ']'), array('[[', ']]'), $value);
-			return '[' . str_replace('.', '].[', $value) . ']';
+			return '[' . str_replace(array('[', ']'), array('[[', ']]'), $value) . ']';
 
 		case dibi::BOOL:
 			return $value ? 1 : 0;
@@ -225,6 +250,20 @@ class DibiMsSql2005Driver extends DibiObject implements IDibiDriver
 		default:
 			throw new InvalidArgumentException('Unsupported type.');
 		}
+	}
+
+
+
+	/**
+	 * Encodes string for use in a LIKE statement.
+	 * @param  string
+	 * @param  int
+	 * @return string
+	 */
+	public function escapeLike($value, $pos)
+	{
+		$value = strtr($value, array("'" => "''", '%' => '[%]', '_' => '[_]', '[' => '[[]'));
+		return ($pos <= 0 ? "'%" : "'") . $value . ($pos >= 0 ? "%'" : "'");
 	}
 
 
@@ -272,6 +311,17 @@ class DibiMsSql2005Driver extends DibiObject implements IDibiDriver
 
 
 	/**
+	 * Automatically frees the resources allocated for this result set.
+	 * @return void
+	 */
+	public function __destruct()
+	{
+		$this->resultSet && @$this->free();
+	}
+
+
+
+	/**
 	 * Returns the number of rows in a result set.
 	 * @return int
 	 */
@@ -286,7 +336,6 @@ class DibiMsSql2005Driver extends DibiObject implements IDibiDriver
 	 * Fetches the row at current position and moves the internal cursor to the next position.
 	 * @param  bool     TRUE for associative array, FALSE for numeric
 	 * @return array    array on success, nonarray if no next record
-	 * @ignore internal
 	 */
 	public function fetch($assoc)
 	{
@@ -323,19 +372,19 @@ class DibiMsSql2005Driver extends DibiObject implements IDibiDriver
 	 * Returns metadata for all columns in a result set.
 	 * @return array
 	 */
-	public function getColumnsMeta()
+	public function getResultColumns()
 	{
 		$count = sqlsrv_num_fields($this->resultSet);
-		$res = array();
+		$columns = array();
 		for ($i = 0; $i < $count; $i++) {
 			$row = (array) sqlsrv_field_metadata($this->resultSet, $i);
-			$res[] = array(
+			$columns[] = array(
 				'name' => $row['Name'],
 				'fullname' => $row['Name'],
 				'nativetype' => $row['Type'],
 			);
 		}
-		return $res;
+		return $columns;
 	}
 
 
@@ -347,57 +396,6 @@ class DibiMsSql2005Driver extends DibiObject implements IDibiDriver
 	public function getResultResource()
 	{
 		return $this->resultSet;
-	}
-
-
-
-	/********************* reflection ****************d*g**/
-
-
-
-	/**
-	 * Returns list of tables.
-	 * @return array
-	 */
-	public function getTables()
-	{
-		throw new NotImplementedException;
-	}
-
-
-
-	/**
-	 * Returns metadata for all columns in a table.
-	 * @param  string
-	 * @return array
-	 */
-	public function getColumns($table)
-	{
-		throw new NotImplementedException;
-	}
-
-
-
-	/**
-	 * Returns metadata for all indexes in a table.
-	 * @param  string
-	 * @return array
-	 */
-	public function getIndexes($table)
-	{
-		throw new NotImplementedException;
-	}
-
-
-
-	/**
-	 * Returns metadata for all foreign keys in a table.
-	 * @param  string
-	 * @return array
-	 */
-	public function getForeignKeys($table)
-	{
-		throw new NotImplementedException;
 	}
 
 }

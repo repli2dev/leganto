@@ -1,34 +1,24 @@
 <?php
 
 /**
- * Test: Nette\Security\Permission Ensures that basic addition and retrieval of a single Role works.
+ * Test: Permission Ensures that basic addition and retrieval of a single Role works.
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette\Security
  * @subpackage UnitTests
  */
 
 
 
-require dirname(__FILE__) . '/../NetteTest/initialize.php';
+require dirname(__FILE__) . '/../bootstrap.php';
 
 
 
 $acl = new Permission;
-dump( $acl->hasRole('guest') );
+Assert::false( $acl->hasRole('guest') );
+
 $acl->addRole('guest');
-dump( $acl->hasRole('guest') );
+Assert::true( $acl->hasRole('guest') );
+
 $acl->removeRole('guest');
-dump( $acl->hasRole('guest') );
-
-
-
-__halt_compiler();
-
-------EXPECT------
-bool(FALSE)
-
-bool(TRUE)
-
-bool(FALSE)
+Assert::false( $acl->hasRole('guest') );

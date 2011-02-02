@@ -1,40 +1,50 @@
 <?php
 
 /**
- * Test: Nette\Web\Html basic usage.
+ * Test: Html basic usage.
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette\Web
  * @subpackage UnitTests
  */
 
 
 
-require dirname(__FILE__) . '/../NetteTest/initialize.php';
+require dirname(__FILE__) . '/../bootstrap.php';
 
 
 
 $el = Html::el('img')->src('image.gif')->alt('');
-dump( (string) $el );
-dump( $el->startTag() );
-dump( $el->endTag() );
+Assert::same( '<img src="image.gif" alt="" />', (string) $el );
+Assert::same( '<img src="image.gif" alt="" />', $el->startTag() );
+Assert::same( '', $el->endTag() );
+
+
+$el = Html::el('img')->accesskey(0, TRUE)->alt('alt', FALSE);
+Assert::same( '<img accesskey="0" />', (string) $el );
+Assert::same( '<img accesskey="0 1" />', (string) $el->accesskey(1, TRUE) );
+Assert::same( '<img accesskey="0" />', (string) $el->accesskey(0) );
+
 
 $el = Html::el('img')->src('image.gif')->alt('')->setText(NULL)->setText('any content');
-dump( (string) $el );
-dump( $el->startTag() );
-dump( $el->endTag() );
+Assert::same( '<img src="image.gif" alt="" />', (string) $el );
+Assert::same( '<img src="image.gif" alt="" />', $el->startTag() );
+Assert::same( '', $el->endTag() );
+
 
 Html::$xhtml = FALSE;
-dump( (string) $el );
+Assert::same( '<img src="image.gif" alt="">', (string) $el );
+
 
 $el = Html::el('img')->setSrc('image.gif')->setAlt('alt1')->setAlt('alt2');
-dump( (string) $el );
-dump( $el->getSrc() );
-dump( $el->getTitle() );
-dump( $el->getAlt() );
+Assert::same( '<img src="image.gif" alt="alt2">', (string) $el );
+Assert::same( 'image.gif', $el->getSrc() );
+Assert::null( $el->getTitle() );
+Assert::same( 'alt2', $el->getAlt() );
+
 $el->addAlt('alt3');
-dump( (string) $el );
+Assert::same( '<img src="image.gif" alt="alt2 alt3">', (string) $el );
+
 
 $el->style = 'float:left';
 $el->class = 'three';
@@ -44,63 +54,20 @@ $el->checked = TRUE;
 $el->selected = FALSE;
 $el->name = 'testname';
 $el->setName('span');
-dump( (string) $el );
+Assert::same( '<span src="image.gif" alt="alt2 alt3" style="float:left" class="three" lang="" title="0" checked name="testname"></span>', (string) $el );
 
 // setText vs. setHtml
-dump( (string) Html::el('p')->setText('Hello &ndash; World'), 'setText' );
-dump( (string) Html::el('p')->setHtml('Hello &ndash; World'), 'setHtml' );
+Assert::same( '<p>Hello &amp;ndash; World</p>', (string) Html::el('p')->setText('Hello &ndash; World'), 'setText' );
+Assert::same( '<p>Hello &ndash; World</p>', (string) Html::el('p')->setHtml('Hello &ndash; World'), 'setHtml' );
 
 // getText vs. getHtml
 $el = Html::el('p')->setHtml('Hello &ndash; World');
 $el->create('a')->setText('link');
-dump( (string) $el, 'getHtml' );
-dump( $el->getText(), 'getText' );
+Assert::same( '<p>Hello &ndash; World<a>link</a></p>', (string) $el, 'getHtml' );
+Assert::same( 'Hello – Worldlink', $el->getText(), 'getText' );
 
 // email obfuscate
-dump( (string) Html::el('a')->href('mailto:dave@example.com'), 'mailto' );
+Assert::same( '<a href="mailto:dave&#64;example.com"></a>', (string) Html::el('a')->href('mailto:dave@example.com'), 'mailto' );
 
 // href with query
-dump( (string) Html::el('a')->href('file.php', array('a' => 10)), 'href' );
-
-
-
-__halt_compiler();
-
-------EXPECT------
-string(30) "<img src="image.gif" alt="" />"
-
-string(30) "<img src="image.gif" alt="" />"
-
-string(0) ""
-
-string(30) "<img src="image.gif" alt="" />"
-
-string(30) "<img src="image.gif" alt="" />"
-
-string(0) ""
-
-string(28) "<img src="image.gif" alt="">"
-
-string(32) "<img src="image.gif" alt="alt2">"
-
-string(9) "image.gif"
-
-NULL
-
-string(4) "alt2"
-
-string(37) "<img src="image.gif" alt="alt2 alt3">"
-
-string(120) "<span src="image.gif" alt="alt2 alt3" style="float:left" class="three" lang="" title="0" checked name="testname"></span>"
-
-setText: string(30) "<p>Hello &amp;ndash; World</p>"
-
-setHtml: string(26) "<p>Hello &ndash; World</p>"
-
-getHtml: string(37) "<p>Hello &ndash; World<a>link</a></p>"
-
-getText: string(19) "Hello – Worldlink"
-
-mailto: string(42) "<a href="mailto:dave&#64;example.com"></a>"
-
-href: string(28) "<a href="file.php?a=10"></a>"
+Assert::same( '<a href="file.php?a=10"></a>', (string) Html::el('a')->href('file.php', array('a' => 10)), 'href' );

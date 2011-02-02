@@ -1,13 +1,13 @@
 <?php
 
 /**
- * Nette Framework
+ * This file is part of the Nette Framework (http://nette.org)
  *
- * @copyright  Copyright (c) 2004, 2010 David Grudl
- * @license    http://nettephp.com/license  Nette license
- * @link       http://nettephp.com
- * @category   Nette
- * @package    Nette\Application
+ * Copyright (c) 2004, 2010 David Grudl (http://davidgrudl.com)
+ *
+ * For the full copyright and license information, please view
+ * the file license.txt that was distributed with this source code.
+ * @package Nette\Application
  */
 
 
@@ -15,8 +15,7 @@
 /**
  * Web form as presenter component.
  *
- * @copyright  Copyright (c) 2004, 2010 David Grudl
- * @package    Nette\Application
+ * @author     David Grudl
  *
  * @property-read Presenter $presenter
  */
@@ -29,7 +28,7 @@ class AppForm extends Form implements ISignalReceiver
 	public function __construct(IComponentContainer $parent = NULL, $name = NULL)
 	{
 		parent::__construct();
-		$this->monitor('Nette\Application\Presenter');
+		$this->monitor('Presenter');
 		if ($parent !== NULL) {
 			$parent->addComponent($this, $name);
 		}
@@ -44,7 +43,7 @@ class AppForm extends Form implements ISignalReceiver
 	 */
 	public function getPresenter($need = TRUE)
 	{
-		return $this->lookup('Nette\Application\Presenter', $need);
+		return $this->lookup('Presenter', $need);
 	}
 
 
@@ -58,7 +57,7 @@ class AppForm extends Form implements ISignalReceiver
 	protected function attached($presenter)
 	{
 		if ($presenter instanceof Presenter) {
-			$name = $this->lookupPath('Nette\Application\Presenter');
+			$name = $this->lookupPath('Presenter');
 
 			if (!isset($this->getElementPrototype()->id)) {
 				$this->getElementPrototype()->id = 'frm-' . $name;

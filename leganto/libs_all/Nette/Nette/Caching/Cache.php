@@ -1,13 +1,13 @@
 <?php
 
 /**
- * Nette Framework
+ * This file is part of the Nette Framework (http://nette.org)
  *
- * @copyright  Copyright (c) 2004, 2010 David Grudl
- * @license    http://nettephp.com/license  Nette license
- * @link       http://nettephp.com
- * @category   Nette
- * @package    Nette\Caching
+ * Copyright (c) 2004, 2010 David Grudl (http://davidgrudl.com)
+ *
+ * For the full copyright and license information, please view
+ * the file license.txt that was distributed with this source code.
+ * @package Nette\Caching
  */
 
 
@@ -15,13 +15,13 @@
 /**
  * Implements the cache for a application.
  *
- * @copyright  Copyright (c) 2004, 2010 David Grudl
- * @package    Nette\Caching
+ * @author     David Grudl
  */
 class Cache extends Object implements ArrayAccess
 {
 	/**#@+ dependency */
 	const PRIORITY = 'priority';
+	const EXPIRATION = 'expire';
 	const EXPIRE = 'expire';
 	const SLIDING = 'sliding';
 	const TAGS = 'tags';
@@ -35,7 +35,7 @@ class Cache extends Object implements ArrayAccess
 	/** @deprecated */
 	const REFRESH = 'sliding';
 
-	/** @ignore internal */
+	/** @internal */
 	const NAMESPACE_SEPARATOR = "\x00";
 
 	/** @var ICacheStorage */
@@ -101,7 +101,7 @@ class Cache extends Object implements ArrayAccess
 	 * Writes item into the cache.
 	 * Dependencies are:
 	 * - Cache::PRIORITY => (int) priority
-	 * - Cache::EXPIRE => (timestamp) expiration
+	 * - Cache::EXPIRATION => (timestamp) expiration
 	 * - Cache::SLIDING => (bool) use sliding expiration?
 	 * - Cache::TAGS => (array) tags
 	 * - Cache::FILES => (array|string) file names
@@ -119,17 +119,19 @@ class Cache extends Object implements ArrayAccess
 		if (!is_string($key) && !is_int($key)) {
 			throw new InvalidArgumentException("Cache key name must be string or integer, " . gettype($key) ." given.");
 		}
+		$this->key = (string) $key;
+		$key = $this->namespace . self::NAMESPACE_SEPARATOR . $key;
 
 		// convert expire into relative amount of seconds
-		if (!empty($dp[Cache::EXPIRE])) {
-			$dp[Cache::EXPIRE] = Tools::createDateTime($dp[Cache::EXPIRE])->format('U') - time();
+		if (isset($dp[Cache::EXPIRATION])) {
+			$dp[Cache::EXPIRATION] = Tools::createDateTime($dp[Cache::EXPIRATION])->format('U') - time();
 		}
 
 		// convert FILES into CALLBACKS
 		if (isset($dp[self::FILES])) {
 			//clearstatcache();
 			foreach ((array) $dp[self::FILES] as $item) {
-				$dp[self::CALLBACKS][] = array(array(__CLASS__, 'checkFile'), $item, @filemtime($item)); // intentionally @
+				$dp[self::CALLBACKS][] = array(array(__CLASS__, 'checkFile'), $item, @filemtime($item)); // @ - stat may fail
 			}
 			unset($dp[self::FILES]);
 		}
@@ -150,17 +152,23 @@ class Cache extends Object implements ArrayAccess
 			unset($dp[self::CONSTS]);
 		}
 
+		if ($data instanceof Callback || $data instanceof Closure) {
+			Environment::enterCriticalSection('Nette\Caching/' . $key);
+			$data = $data->__invoke();
+			Environment::leaveCriticalSection('Nette\Caching/' . $key);
+		}
+
 		if (is_object($data)) {
 			$dp[self::CALLBACKS][] = array(array(__CLASS__, 'checkSerializationVersion'), get_class($data),
 				ClassReflection::from($data)->getAnnotation('serializationVersion'));
 		}
 
-		$this->key = NULL;
-		$this->storage->write(
-			$this->namespace . self::NAMESPACE_SEPARATOR . $key,
-			$data,
-			(array) $dp
-		);
+		$this->data = $data;
+		if ($data === NULL) {
+			$this->storage->remove($key);
+		} else {
+			$this->storage->write($key, $data, (array) $dp);
+		}
 		return $data;
 	}
 
@@ -178,17 +186,18 @@ class Cache extends Object implements ArrayAccess
 	 */
 	public function clean(array $conds = NULL)
 	{
+		$this->release();
 		$this->storage->clean((array) $conds);
 	}
 
 
 
-	/********************* interface \ArrayAccess ****************d*g**/
+	/********************* interface ArrayAccess ****************d*g**/
 
 
 
 	/**
-	 * Inserts (replaces) item into the cache (\ArrayAccess implementation).
+	 * Inserts (replaces) item into the cache (ArrayAccess implementation).
 	 * @param  string key
 	 * @param  mixed
 	 * @return void
@@ -196,22 +205,13 @@ class Cache extends Object implements ArrayAccess
 	 */
 	public function offsetSet($key, $data)
 	{
-		if (!is_string($key) && !is_int($key)) { // prevents NULL
-			throw new InvalidArgumentException("Cache key name must be string or integer, " . gettype($key) ." given.");
-		}
-
-		$this->key = $this->data = NULL;
-		if ($data === NULL) {
-			$this->storage->remove($this->namespace . self::NAMESPACE_SEPARATOR . $key);
-		} else {
-			$this->storage->write($this->namespace . self::NAMESPACE_SEPARATOR . $key, $data, array());
-		}
+		$this->save($key, $data);
 	}
 
 
 
 	/**
-	 * Retrieves the specified item from the cache or NULL if the key is not found (\ArrayAccess implementation).
+	 * Retrieves the specified item from the cache or NULL if the key is not found (ArrayAccess implementation).
 	 * @param  string key
 	 * @return mixed|NULL
 	 * @throws InvalidArgumentException
@@ -234,20 +234,14 @@ class Cache extends Object implements ArrayAccess
 
 
 	/**
-	 * Exists item in cache? (\ArrayAccess implementation).
+	 * Exists item in cache? (ArrayAccess implementation).
 	 * @param  string key
 	 * @return bool
 	 * @throws InvalidArgumentException
 	 */
 	public function offsetExists($key)
 	{
-		if (!is_string($key) && !is_int($key)) {
-			throw new InvalidArgumentException("Cache key name must be string or integer, " . gettype($key) ." given.");
-		}
-
-		$this->key = (string) $key;
-		$this->data = $this->storage->read($this->namespace . self::NAMESPACE_SEPARATOR . $key);
-		return $this->data !== NULL;
+		return $this->offsetGet($key) !== NULL;
 	}
 
 
@@ -260,12 +254,7 @@ class Cache extends Object implements ArrayAccess
 	 */
 	public function offsetUnset($key)
 	{
-		if (!is_string($key) && !is_int($key)) {
-			throw new InvalidArgumentException("Cache key name must be string or integer, " . gettype($key) ." given.");
-		}
-
-		$this->key = $this->data = NULL;
-		$this->storage->remove($this->namespace . self::NAMESPACE_SEPARATOR . $key);
+		$this->save($key, NULL);
 	}
 
 
@@ -313,7 +302,7 @@ class Cache extends Object implements ArrayAccess
 	 */
 	private static function checkFile($file, $time)
 	{
-		return @filemtime($file) == $time; // intentionally @
+		return @filemtime($file) == $time; // @ - stat may fail
 	}
 
 

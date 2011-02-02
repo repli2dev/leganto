@@ -1,17 +1,16 @@
 <?php
 
 /**
- * Test: Nette\Collections\Hashtable readonly collection.
+ * Test: Hashtable readonly collection.
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette\Collections
  * @subpackage UnitTests
  */
 
 
 
-require dirname(__FILE__) . '/../NetteTest/initialize.php';
+require dirname(__FILE__) . '/../bootstrap.php';
 
 require dirname(__FILE__) . '/Collections.inc';
 
@@ -21,59 +20,38 @@ $hashtable = new Hashtable(NULL, 'Person');
 $hashtable['jack'] = $jack = new Person('Jack');
 $hashtable['mary'] = new Person('Mary');
 
-dump( $hashtable->isFrozen() );
+Assert::false( $hashtable->isFrozen() );
 $hashtable->freeze();
-dump( $hashtable->isFrozen() );
+Assert::true( $hashtable->isFrozen() );
 
 try {
-	output("Adding Jack using []");
+	// Adding Jack using []
 	$hashtable['new'] = $jack;
+	Assert::fail('Expected exception');
 } catch (Exception $e) {
-	dump( $e );
+	Assert::exception('InvalidStateException', "Cannot modify a frozen object '%ns%Hashtable'.", $e );
 }
 
 try {
-	output("Adding Jack using add");
+	// Adding Jack using add
 	$hashtable->add('new', $jack);
+	Assert::fail('Expected exception');
 } catch (Exception $e) {
-	dump( $e );
+	Assert::exception('InvalidStateException', "Cannot modify a frozen object '%ns%Hashtable'.", $e );
 }
 
 try {
-	output("Removing using unset");
+	// Removing using unset
 	unset($hashtable['jack']);
+	Assert::fail('Expected exception');
 } catch (Exception $e) {
-	dump( $e );
+	Assert::exception('InvalidStateException', "Cannot modify a frozen object '%ns%Hashtable'.", $e );
 }
 
 try {
-	output("Changing using []");
+	// Changing using []
 	$hashtable['jack'] = $jack;
+	Assert::fail('Expected exception');
 } catch (Exception $e) {
-	dump( $e );
+	Assert::exception('InvalidStateException', "Cannot modify a frozen object '%ns%Hashtable'.", $e );
 }
-
-
-
-__halt_compiler();
-
-------EXPECT------
-bool(FALSE)
-
-bool(TRUE)
-
-Adding Jack using []
-
-Exception InvalidStateException: Cannot modify a frozen object '%ns%Hashtable'.
-
-Adding Jack using add
-
-Exception InvalidStateException: Cannot modify a frozen object '%ns%Hashtable'.
-
-Removing using unset
-
-Exception InvalidStateException: Cannot modify a frozen object '%ns%Hashtable'.
-
-Changing using []
-
-Exception InvalidStateException: Cannot modify a frozen object '%ns%Hashtable'.

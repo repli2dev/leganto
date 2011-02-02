@@ -1,13 +1,13 @@
 <?php
 
 /**
- * Nette Framework
+ * This file is part of the Nette Framework (http://nette.org)
  *
- * @copyright  Copyright (c) 2004, 2010 David Grudl
- * @license    http://nettephp.com/license  Nette license
- * @link       http://nettephp.com
- * @category   Nette
- * @package    Nette\Security
+ * Copyright (c) 2004, 2010 David Grudl (http://davidgrudl.com)
+ *
+ * For the full copyright and license information, please view
+ * the file license.txt that was distributed with this source code.
+ * @package Nette\Security
  */
 
 
@@ -18,8 +18,7 @@
  * This solution is mostly based on Zend_Acl (c) Zend Technologies USA Inc. (http://www.zend.com), new BSD license
  *
  * @copyright  Copyright (c) 2005, 2007 Zend Technologies USA Inc.
- * @copyright  Copyright (c) 2004, 2010 David Grudl
- * @package    Nette\Security
+ * @author     David Grudl
  */
 class Permission extends Object implements IAuthorizator
 {

@@ -1,17 +1,16 @@
 <?php
 
 /**
- * Test: Nette\Application\CliRouter invalid argument
+ * Test: CliRouter invalid argument
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette\Application
  * @subpackage UnitTests
  */
 
 
 
-require dirname(__FILE__) . '/../NetteTest/initialize.php';
+require dirname(__FILE__) . '/../bootstrap.php';
 
 
 

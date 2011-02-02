@@ -1,17 +1,16 @@
 <?php
 
 /**
- * Test: Nette\Caching\FileStorage int keys.
+ * Test: FileStorage int keys.
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette\Caching
  * @subpackage UnitTests
  */
 
 
 
-require dirname(__FILE__) . '/../NetteTest/initialize.php';
+require dirname(__FILE__) . '/../bootstrap.php';
 
 
 
@@ -21,54 +20,36 @@ $value = range("\x00", "\xFF");
 
 // temporary directory
 define('TEMP_DIR', dirname(__FILE__) . '/tmp');
-NetteTestHelpers::purge(TEMP_DIR);
+TestHelpers::purge(TEMP_DIR);
 
 
 
 $cache = new Cache(new FileStorage(TEMP_DIR));
 
-dump( isset($cache[$key]), 'Is cached?' );
-dump( $cache[$key], 'Cache content' );
+Assert::false( isset($cache[$key]), 'Is cached?' );
 
-output('Writing cache...');
+Assert::null( $cache[$key], 'Cache content' );
+
+
+// Writing cache...
 $cache[$key] = $value;
 $cache->release();
 
-dump( isset($cache[$key]), 'Is cached?' );
-dump( $cache[$key] === $value, 'Is cache ok?' );
+Assert::true( isset($cache[$key]), 'Is cached?' );
 
-output('Removing from cache using unset()...');
+Assert::true( $cache[$key] === $value, 'Is cache ok?' );
+
+
+// Removing from cache using unset()...
 unset($cache[$key]);
 $cache->release();
 
-dump( isset($cache[$key]), 'Is cached?' );
+Assert::false( isset($cache[$key]), 'Is cached?' );
 
-output('Removing from cache using set NULL...');
+
+// Removing from cache using set NULL...
 $cache[$key] = $value;
 $cache[$key] = NULL;
 $cache->release();
 
-dump( isset($cache[$key]), 'Is cached?' );
-
-
-
-__halt_compiler();
-
-------EXPECT------
-Is cached? bool(FALSE)
-
-Cache content: NULL
-
-Writing cache...
-
-Is cached? bool(TRUE)
-
-Is cache ok? bool(TRUE)
-
-Removing from cache using unset()...
-
-Is cached? bool(FALSE)
-
-Removing from cache using set NULL...
-
-Is cached? bool(FALSE)
+Assert::false( isset($cache[$key]), 'Is cached?' );

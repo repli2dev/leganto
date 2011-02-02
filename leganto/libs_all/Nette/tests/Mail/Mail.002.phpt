@@ -1,17 +1,16 @@
 <?php
 
 /**
- * Test: Nette\Mail\Mail - textual body with attachment.
+ * Test: Mail - textual body with attachment.
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette\Application
  * @subpackage UnitTests
  */
 
 
 
-require dirname(__FILE__) . '/../NetteTest/initialize.php';
+require dirname(__FILE__) . '/../bootstrap.php';
 
 require dirname(__FILE__) . '/Mail.inc';
 
@@ -29,6 +28,31 @@ $mail->addAttachment('files/example.zip');
 
 $mail->send();
 
+Assert::match( <<<EOD
+MIME-Version: 1.0
+X-Mailer: Nette Framework
+Date: %a%
+From: John Doe <doe@example.com>
+To: Lady Jane <jane@example.com>
+Subject: Hello Jane!
+Message-ID: <%h%@localhost>
+Content-Type: multipart/mixed;
+	boundary="--------%h%"
 
+----------%h%
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-__halt_compiler();
+Sample text
+----------%h%
+Content-Type: application/octet-stream
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="example.zip"
+
+UEsDBBQAAAAIACeIMjsmkSpnQAAAAEEAAAALAAAAdmVyc2lvbi50eHTzSy0pSVVwK0rMTS3PL8pW
+MNCz1DNU0ChKLcsszszPU0hJNjMwTzNQKErNSU0sTk1RAIoZGRhY6gKRoYUmLxcAUEsBAhQAFAAA
+AAgAJ4gyOyaRKmdAAAAAQQAAAAsAAAAAAAAAAAAgAAAAAAAAAHZlcnNpb24udHh0UEsFBgAAAAAB
+AAEAOQAAAGkAAAAAAA==
+----------%h%--
+EOD
+, TestMailer::$output );

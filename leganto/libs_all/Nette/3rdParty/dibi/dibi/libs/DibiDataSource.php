@@ -1,12 +1,13 @@
 <?php
 
 /**
- * dibi - tiny'n'smart database abstraction layer
- * ----------------------------------------------
+ * This file is part of the "dibi" - smart database abstraction layer.
  *
- * @copyright  Copyright (c) 2005, 2010 David Grudl
- * @license    http://dibiphp.com/license  dibi license
- * @link       http://dibiphp.com
+ * Copyright (c) 2005, 2010 David Grudl (http://davidgrudl.com)
+ *
+ * For the full copyright and license information, please view
+ * the file license.txt that was distributed with this source code.
+ *
  * @package    dibi
  */
 
@@ -15,8 +16,12 @@
 /**
  * Default implementation of IDataSource for dibi.
  *
- * @copyright  Copyright (c) 2005, 2010 David Grudl
- * @package    dibi
+ * @author     David Grudl
+ *
+ * @property-read DibiConnection $connection
+ * @property-read DibiResult $result
+ * @property-read DibiResultIterator $iterator
+ * @property-read int $totalCount
  */
 class DibiDataSource extends DibiObject implements IDataSource
 {
@@ -281,7 +286,7 @@ class DibiDataSource extends DibiObject implements IDataSource
 	 */
 	public function __toString()
 	{
-		return $this->connection->sql('
+		return $this->connection->translate('
 			SELECT %n', (empty($this->cols) ? '*' : $this->cols), '
 			FROM %SQL', $this->sql, '
 			%ex', $this->conds ? array('WHERE %and', $this->conds) : NULL, '

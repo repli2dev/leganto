@@ -4,14 +4,13 @@
  * Test: Annotations file parser.
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette\Reflection
  * @subpackage UnitTests
  */
 
 
 
-require dirname(__FILE__) . '/../NetteTest/initialize.php';
+require dirname(__FILE__) . '/../bootstrap.php';
 
 require dirname(__FILE__) . '/files/annotations.php';
 
@@ -19,133 +18,79 @@ require dirname(__FILE__) . '/files/annotations.php';
 
 // temporary directory
 define('TEMP_DIR', dirname(__FILE__) . '/tmp');
-NetteTestHelpers::purge(TEMP_DIR);
+TestHelpers::purge(TEMP_DIR);
 Environment::setVariable('tempDir', TEMP_DIR);
 
 
 AnnotationsParser::$useReflection = FALSE;
 
 
-output('AnnotatedClass1');
+// AnnotatedClass1
 
 $rc = new ReflectionClass('AnnotatedClass1');
-dump( AnnotationsParser::getAll($rc) );
-dump( AnnotationsParser::getAll($rc->getProperty('a')), '$a' );
-dump( AnnotationsParser::getAll($rc->getProperty('b')), '$b' );
-dump( AnnotationsParser::getAll($rc->getProperty('c')), '$c' );
-dump( AnnotationsParser::getAll($rc->getProperty('d')), '$d' );
-dump( AnnotationsParser::getAll($rc->getProperty('e')), '$e' );
-dump( AnnotationsParser::getAll($rc->getProperty('f')), '$f' );
-//dump( AnnotationsParser::getAll($rc->getProperty('g')), '$g' ); // ignore due PHP bug #50174
-dump( AnnotationsParser::getAll($rc->getMethod('a')), 'a()' );
-dump( AnnotationsParser::getAll($rc->getMethod('b')), 'b()' );
-dump( AnnotationsParser::getAll($rc->getMethod('c')), 'c()' );
-dump( AnnotationsParser::getAll($rc->getMethod('d')), 'd()' );
-dump( AnnotationsParser::getAll($rc->getMethod('e')), 'e()' );
-dump( AnnotationsParser::getAll($rc->getMethod('f')), 'f()' );
-dump( AnnotationsParser::getAll($rc->getMethod('g')), 'g()' );
+Assert::same( array(
+	'author' => array('john'),
+), AnnotationsParser::getAll($rc) );
 
-output('AnnotatedClass2');
+Assert::same( array(
+	'var' => array('a'),
+), AnnotationsParser::getAll($rc->getProperty('a')), '$a' );
+
+Assert::same( array(
+	'var' => array('b'),
+), AnnotationsParser::getAll($rc->getProperty('b')), '$b' );
+
+Assert::same( array(
+	'var' => array('c'),
+), AnnotationsParser::getAll($rc->getProperty('c')), '$c' );
+
+Assert::same( array(
+	'var' => array('d'),
+), AnnotationsParser::getAll($rc->getProperty('d')), '$d' );
+
+Assert::same( array(
+	'var' => array('e'),
+), AnnotationsParser::getAll($rc->getProperty('e')), '$e' );
+
+Assert::same( array(), AnnotationsParser::getAll($rc->getProperty('f')), '$f' );
+
+// AnnotationsParser::getAll($rc->getProperty('g')), '$g' ); // ignore due PHP bug #50174
+Assert::same( array(
+	'return' => array('a'),
+), AnnotationsParser::getAll($rc->getMethod('a')), 'a()' );
+
+Assert::same( array(
+	'return' => array('b'),
+), AnnotationsParser::getAll($rc->getMethod('b')), 'b()' );
+
+Assert::same( array(
+	'return' => array('c'),
+), AnnotationsParser::getAll($rc->getMethod('c')), 'c()' );
+
+Assert::same( array(
+	'return' => array('d'),
+), AnnotationsParser::getAll($rc->getMethod('d')), 'd()' );
+
+Assert::same( array(
+	'return' => array('e'),
+), AnnotationsParser::getAll($rc->getMethod('e')), 'e()' );
+
+Assert::same( array(), AnnotationsParser::getAll($rc->getMethod('f')), 'f()' );
+
+Assert::same( array(
+	'return' => array('g'),
+), AnnotationsParser::getAll($rc->getMethod('g')), 'g()' );
+
+
+// AnnotatedClass2
 
 $rc = new ReflectionClass('AnnotatedClass2');
-dump( AnnotationsParser::getAll($rc) );
+Assert::same( array(
+	'author' => array('jack'),
+), AnnotationsParser::getAll($rc) );
 
-output('AnnotatedClass3');
+
+// AnnotatedClass3
 
 $rc = new ReflectionClass('AnnotatedClass3');
-dump( AnnotationsParser::getAll($rc) );
-
-
-
-__halt_compiler();
-
-------EXPECT------
-AnnotatedClass1
-
-array(1) {
-	"author" => array(1) {
-		0 => string(4) "john"
-	}
-}
-
-$a: array(1) {
-	"var" => array(1) {
-		0 => string(1) "a"
-	}
-}
-
-$b: array(1) {
-	"var" => array(1) {
-		0 => string(1) "b"
-	}
-}
-
-$c: array(1) {
-	"var" => array(1) {
-		0 => string(1) "c"
-	}
-}
-
-$d: array(1) {
-	"var" => array(1) {
-		0 => string(1) "d"
-	}
-}
-
-$e: array(1) {
-	"var" => array(1) {
-		0 => string(1) "e"
-	}
-}
-
-$f: array(0)
-
-a(): array(1) {
-	"return" => array(1) {
-		0 => string(1) "a"
-	}
-}
-
-b(): array(1) {
-	"return" => array(1) {
-		0 => string(1) "b"
-	}
-}
-
-c(): array(1) {
-	"return" => array(1) {
-		0 => string(1) "c"
-	}
-}
-
-d(): array(1) {
-	"return" => array(1) {
-		0 => string(1) "d"
-	}
-}
-
-e(): array(1) {
-	"return" => array(1) {
-		0 => string(1) "e"
-	}
-}
-
-f(): array(0)
-
-g(): array(1) {
-	"return" => array(1) {
-		0 => string(1) "g"
-	}
-}
-
-AnnotatedClass2
-
-array(1) {
-	"author" => array(1) {
-		0 => string(4) "jack"
-	}
-}
-
-AnnotatedClass3
-
-array(0)
+Assert::same( array(), AnnotationsParser::getAll($rc) );

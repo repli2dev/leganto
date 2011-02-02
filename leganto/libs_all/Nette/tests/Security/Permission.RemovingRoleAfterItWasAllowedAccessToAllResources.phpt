@@ -1,18 +1,17 @@
 <?php
 
 /**
- * Test: Nette\Security\Permission Confirm that deleting a role after allowing access to all roles
+ * Test: Permission Confirm that deleting a role after allowing access to all roles
  * raise undefined index error.
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette\Security
  * @subpackage UnitTests
  */
 
 
 
-require dirname(__FILE__) . '/../NetteTest/initialize.php';
+require dirname(__FILE__) . '/../bootstrap.php';
 
 
 

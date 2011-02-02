@@ -1,13 +1,13 @@
 <?php
 
 /**
- * Nette Framework
+ * This file is part of the Nette Framework (http://nette.org)
  *
- * @copyright  Copyright (c) 2004, 2010 David Grudl
- * @license    http://nettephp.com/license  Nette license
- * @link       http://nettephp.com
- * @category   Nette
- * @package    Nette\Reflection
+ * Copyright (c) 2004, 2010 David Grudl (http://davidgrudl.com)
+ *
+ * For the full copyright and license information, please view
+ * the file license.txt that was distributed with this source code.
+ * @package Nette\Reflection
  */
 
 
@@ -15,8 +15,7 @@
 /**
  * Reports information about a classes variable.
  *
- * @copyright  Copyright (c) 2004, 2010 David Grudl
- * @package    Nette\Reflection
+ * @author     David Grudl
  */
 class PropertyReflection extends ReflectionProperty
 {
@@ -33,27 +32,16 @@ class PropertyReflection extends ReflectionProperty
 
 
 	/**
-	 * @return PropertyReflection
-	 * @ignore internal
-	 */
-	public static function import(ReflectionProperty $ref)
-	{
-		return new self($ref->getDeclaringClass()->getName(), $ref->getName());
-	}
-
-
-
-	/**
 	 * @return ClassReflection
 	 */
 	public function getDeclaringClass()
 	{
-		return ClassReflection::import(parent::getDeclaringClass());
+		return new ClassReflection(parent::getDeclaringClass()->getName());
 	}
 
 
 
-	/********************* Nette\Annotations support ****************d*g**/
+	/********************* Annotations support ****************d*g**/
 
 
 
@@ -94,7 +82,7 @@ class PropertyReflection extends ReflectionProperty
 
 
 
-	/********************* Nette\Object behaviour ****************d*g**/
+	/********************* Object behaviour ****************d*g**/
 
 
 

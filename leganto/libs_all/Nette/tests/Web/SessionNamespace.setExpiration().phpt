@@ -1,17 +1,16 @@
 <?php
 
 /**
- * Test: Nette\Web\SessionNamespace::setExpiration()
+ * Test: SessionNamespace::setExpiration()
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette\Web
  * @subpackage UnitTests
  */
 
 
 
-require dirname(__FILE__) . '/../NetteTest/initialize.php';
+require dirname(__FILE__) . '/../bootstrap.php';
 
 
 
@@ -31,7 +30,8 @@ sleep(3);
 $session->start();
 
 $namespace = $session->getNamespace('expire');
-dump( http_build_query($namespace->getIterator()) );
+Assert::same( '', http_build_query($namespace->getIterator()) );
+
 
 // try to expire only 1 of the keys
 $namespace = $session->getNamespace('expireSingle');
@@ -44,13 +44,4 @@ sleep(3);
 $session->start();
 
 $namespace = $session->getNamespace('expireSingle');
-dump( http_build_query($namespace->getIterator()) );
-
-
-
-__halt_compiler();
-
-------EXPECT------
-string(0) ""
-
-string(6) "p=plum"
+Assert::same( 'p=plum', http_build_query($namespace->getIterator()) );

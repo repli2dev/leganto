@@ -1,36 +1,34 @@
 <?php
 
 /**
- * Test: Nette\Templates\TemplateFilters::removePhp()
+ * Test: TemplateFilters::removePhp()
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette\Templates
  * @subpackage UnitTests
  */
 
 
 
-require dirname(__FILE__) . '/../NetteTest/initialize.php';
+require dirname(__FILE__) . '/../bootstrap.php';
 
 require dirname(__FILE__) . '/Template.inc';
 
 
 
 $template = new MockTemplate;
-$template->registerFilter(array('Nette\Templates\TemplateFilters', 'removePhp'));
-$template->render(NetteTestHelpers::getSection(__FILE__, 'template'));
+$template->registerFilter(array('TemplateFilters', 'removePhp'));
 
+Assert::match(<<<EOD
+Hello World!
 
+<?php doEvil(); ?>
+EOD
 
-__halt_compiler();
-
------template-----
+, $template->render(<<<EOD
 Hello<?php echo '?>hacked!'; ?> World!
 
 <<?php ?>?php doEvil(); ?>
 
-------EXPECT------
-Hello World!
-
-<?php doEvil(); ?>
+EOD
+));

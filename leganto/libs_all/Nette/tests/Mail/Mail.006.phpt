@@ -1,17 +1,16 @@
 <?php
 
 /**
- * Test: Nette\Mail\Mail - textual and HTML body with embedded image.
+ * Test: Mail - textual and HTML body with embedded image.
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette\Application
  * @subpackage UnitTests
  */
 
 
 
-require dirname(__FILE__) . '/../NetteTest/initialize.php';
+require dirname(__FILE__) . '/../bootstrap.php';
 
 require dirname(__FILE__) . '/Mail.inc';
 
@@ -30,6 +29,4 @@ $mail->setHTMLBody('<b>Sample text</b> <img src="background.png">', dirname(__FI
 
 $mail->send();
 
-
-
-__halt_compiler();
+Assert::match(file_get_contents(dirname(__FILE__) . '/Mail.006.expect'), TestMailer::$output);

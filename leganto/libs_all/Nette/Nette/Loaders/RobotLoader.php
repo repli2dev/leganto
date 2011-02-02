@@ -1,13 +1,13 @@
 <?php
 
 /**
- * Nette Framework
+ * This file is part of the Nette Framework (http://nette.org)
  *
- * @copyright  Copyright (c) 2004, 2010 David Grudl
- * @license    http://nettephp.com/license  Nette license
- * @link       http://nettephp.com
- * @category   Nette
- * @package    Nette\Loaders
+ * Copyright (c) 2004, 2010 David Grudl (http://davidgrudl.com)
+ *
+ * For the full copyright and license information, please view
+ * the file license.txt that was distributed with this source code.
+ * @package Nette\Loaders
  */
 
 
@@ -15,8 +15,7 @@
 /**
  * Nette auto loader is responsible for loading classes and interfaces.
  *
- * @copyright  Copyright (c) 2004, 2010 David Grudl
- * @package    Nette\Loaders
+ * @author     David Grudl
  */
 class RobotLoader extends AutoLoader
 {
@@ -39,7 +38,7 @@ class RobotLoader extends AutoLoader
 	private $files;
 
 	/** @var bool */
-	private $rebuilded = FALSE;
+	private $rebuilt = FALSE;
 
 	/** @var string */
 	private $acceptMask;
@@ -90,8 +89,7 @@ class RobotLoader extends AutoLoader
 	 */
 	public function tryLoad($type)
 	{
-		$type = strtolower($type);
-		
+		$type = ltrim(strtolower($type), '\\'); // PHP namespace bug #49143
 		if (isset($this->list[$type])) {
 			if ($this->list[$type] !== FALSE) {
 				LimitedScope::load($this->list[$type][0]);
@@ -106,7 +104,7 @@ class RobotLoader extends AutoLoader
 			}
 
 			if ($this->autoRebuild) {
-				if ($this->rebuilded) {
+				if ($this->rebuilt) {
 					$this->getCache()->save($this->getKey(), $this->list);
 				} else {
 					$this->rebuild();
@@ -129,13 +127,13 @@ class RobotLoader extends AutoLoader
 	public function rebuild()
 	{
 		$this->getCache()->save($this->getKey(), callback($this, '_rebuildCallback'));
-		$this->rebuilded = TRUE;
+		$this->rebuilt = TRUE;
 	}
 
 
 
 	/**
-	 * @ignore internal
+	 * @internal
 	 */
 	public function _rebuildCallback()
 	{
@@ -265,14 +263,12 @@ class RobotLoader extends AutoLoader
 	 */
 	private function scanScript($file)
 	{
-		if (!defined('T_NAMESPACE')) {
-			define('T_NAMESPACE', -1);
-			define('T_NS_SEPARATOR', -1);
-		}
+		$T_NAMESPACE = PHP_VERSION_ID < 50300 ? -1 : T_NAMESPACE;
+		$T_NS_SEPARATOR = PHP_VERSION_ID < 50300 ? -1 : T_NS_SEPARATOR;
 
 		$expected = FALSE;
 		$namespace = '';
-		$level = 0;
+		$level = $minLevel = 0;
 		$time = filemtime($file);
 		$s = file_get_contents($file);
 
@@ -292,14 +288,14 @@ class RobotLoader extends AutoLoader
 				case T_WHITESPACE:
 					continue 2;
 
-				case T_NS_SEPARATOR:
+				case $T_NS_SEPARATOR:
 				case T_STRING:
 					if ($expected) {
 						$name .= $token[1];
 					}
 					continue 2;
 
-				case T_NAMESPACE:
+				case $T_NAMESPACE:
 				case T_CLASS:
 				case T_INTERFACE:
 					$expected = $token[0];
@@ -315,13 +311,14 @@ class RobotLoader extends AutoLoader
 				switch ($expected) {
 				case T_CLASS:
 				case T_INTERFACE:
-					if ($level === 0) {
+					if ($level === $minLevel) {
 						$this->addClass($namespace . $name, $file, $time);
 					}
 					break;
 
-				case T_NAMESPACE:
-					$namespace = $name . '\\';
+				case $T_NAMESPACE:
+					$namespace = $name ? $name . '\\' : '';
+					$minLevel = $token === '{' ? 1 : 0;
 				}
 
 				$expected = NULL;

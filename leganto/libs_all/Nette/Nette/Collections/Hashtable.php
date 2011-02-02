@@ -1,13 +1,13 @@
 <?php
 
 /**
- * Nette Framework
+ * This file is part of the Nette Framework (http://nette.org)
  *
- * @copyright  Copyright (c) 2004, 2010 David Grudl
- * @license    http://nettephp.com/license  Nette license
- * @link       http://nettephp.com
- * @category   Nette
- * @package    Nette\Collections
+ * Copyright (c) 2004, 2010 David Grudl (http://davidgrudl.com)
+ *
+ * For the full copyright and license information, please view
+ * the file license.txt that was distributed with this source code.
+ * @package Nette\Collections
  */
 
 
@@ -15,7 +15,6 @@
 /**
  * The exception that is thrown when the key specified for accessing
  * an element in a collection does not match any key.
- * @package    Nette\Collections
  */
 class KeyNotFoundException extends RuntimeException
 {
@@ -26,8 +25,7 @@ class KeyNotFoundException extends RuntimeException
 /**
  * Provides the base class for a generic collection of keys and values.
  *
- * @copyright  Copyright (c) 2004, 2010 David Grudl
- * @package    Nette\Collections
+ * @author     David Grudl
  */
 class Hashtable extends Collection implements IMap
 {
@@ -41,7 +39,7 @@ class Hashtable extends Collection implements IMap
 	 * @param  mixed
 	 * @param  mixed
 	 * @return bool
-	 * @throws InvalidArgumentException, \InvalidStateException
+	 * @throws InvalidArgumentException, InvalidStateException
 	 */
 	public function add($key, $item)
 	{
@@ -97,7 +95,7 @@ class Hashtable extends Collection implements IMap
 
 	/**
 	 * Import from array or any traversable object.
-	 * @param  array|\Traversable
+	 * @param  array|Traversable
 	 * @return void
 	 * @throws InvalidArgumentException
 	 */
@@ -156,16 +154,16 @@ class Hashtable extends Collection implements IMap
 
 
 
-	/********************* interface \ArrayAccess ****************d*g**/
+	/********************* interface ArrayAccess ****************d*g**/
 
 
 
 	/**
-	 * Inserts (replaces) item (\ArrayAccess implementation).
+	 * Inserts (replaces) item (ArrayAccess implementation).
 	 * @param  string key
 	 * @param  object
 	 * @return void
-	 * @throws NotSupportedException, \InvalidArgumentException
+	 * @throws NotSupportedException, InvalidArgumentException
 	 */
 	public function offsetSet($key, $item)
 	{
@@ -180,10 +178,10 @@ class Hashtable extends Collection implements IMap
 
 
 	/**
-	 * Returns item (\ArrayAccess implementation).
+	 * Returns item (ArrayAccess implementation).
 	 * @param  string key
 	 * @return mixed
-	 * @throws KeyNotFoundException, \InvalidArgumentException
+	 * @throws KeyNotFoundException, InvalidArgumentException
 	 */
 	public function offsetGet($key)
 	{
@@ -205,7 +203,7 @@ class Hashtable extends Collection implements IMap
 
 
 	/**
-	 * Exists item? (\ArrayAccess implementation).
+	 * Exists item? (ArrayAccess implementation).
 	 * @param  string key
 	 * @return bool
 	 * @throws InvalidArgumentException
@@ -225,7 +223,7 @@ class Hashtable extends Collection implements IMap
 	 * Removes the element at the specified position in this list.
 	 * @param  string key
 	 * @return void
-	 * @throws NotSupportedException, \InvalidArgumentException
+	 * @throws NotSupportedException, InvalidArgumentException
 	 */
 	public function offsetUnset($key)
 	{

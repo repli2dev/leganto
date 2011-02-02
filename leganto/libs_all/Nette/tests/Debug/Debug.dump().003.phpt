@@ -1,17 +1,16 @@
 <?php
 
 /**
- * Test: Nette\Debug::dump() in production mode.
+ * Test: Debug::dump() in production mode.
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette
  * @subpackage UnitTests
  */
 
 
 
-require dirname(__FILE__) . '/../NetteTest/initialize.php';
+require dirname(__FILE__) . '/../bootstrap.php';
 
 
 
@@ -19,15 +18,9 @@ Debug::$consoleMode = FALSE;
 Debug::$productionMode = TRUE;
 
 
-
+ob_start();
 Debug::dump('sensitive data');
+Assert::same( '', ob_get_clean() );
 
-echo Debug::dump('forced', TRUE);
-
-
-
-__halt_compiler();
-
-------EXPECT------
-<pre class="dump"><span>string</span>(6) "forced"
-</pre>
+Assert::match( '<pre class="dump">"forced" (6)
+</pre>', Debug::dump('forced', TRUE) );

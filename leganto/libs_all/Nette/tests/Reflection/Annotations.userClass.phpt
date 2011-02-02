@@ -4,14 +4,13 @@
  * Test: Annotations using user classes.
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette\Reflection
  * @subpackage UnitTests
  */
 
 
 
-require dirname(__FILE__) . '/../NetteTest/initialize.php';
+require dirname(__FILE__) . '/../bootstrap.php';
 
 
 
@@ -38,31 +37,23 @@ class TestClass {
 // Class annotations
 
 $rc = new ClassReflection('TestClass');
-dump( $rc->getAnnotations() );
+Assert::equal( array(
+	'secured' => array(
+		new SecuredAnnotation(array(
+			'role' => NULL,
+			'level' => NULL,
+			'value' => 'disabled',
+		)),
+	),
+), $rc->getAnnotations() );
 
-dump( $rc->getProperty('foo')->getAnnotations() );
 
-
-
-__halt_compiler();
-
-------EXPECT------
-array(1) {
-	"secured" => array(1) {
-		0 => object(SecuredAnnotation) (3) {
-			"role" => NULL
-			"level" => NULL
-			"value" => string(8) "disabled"
-		}
-	}
-}
-
-array(1) {
-	"secured" => array(1) {
-		0 => object(SecuredAnnotation) (3) {
-			"role" => string(5) "admin"
-			"level" => int(2)
-			"value" => NULL
-		}
-	}
-}
+Assert::equal( array(
+	'secured' => array(
+		new SecuredAnnotation(array(
+			'role' => 'admin',
+			'level' => 2,
+			'value' => NULL,
+		)),
+	),
+), $rc->getProperty('foo')->getAnnotations() );

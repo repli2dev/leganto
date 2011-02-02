@@ -1,46 +1,33 @@
 <?php
 
 /**
- * Test: Nette\Config\Config readonly.
+ * Test: Config readonly.
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette\Config
  * @subpackage UnitTests
  */
 
 
 
-require dirname(__FILE__) . '/../NetteTest/initialize.php';
+require dirname(__FILE__) . '/../bootstrap.php';
 
 
 
 $config = Config::fromFile('config1.ini', 'development', NULL);
 
 try {
-	output("check read-only config:");
 	$config->freeze();
 	$config->database->adapter = 'new value';
+	Assert::fail('Expected exception');
 } catch (Exception $e) {
-	dump( $e );
+	Assert::exception('InvalidStateException', "Cannot modify a frozen object '%ns%Config'.", $e );
 }
 
 try {
-	output("check read-only clone:");
 	$dolly = clone $config;
 	$dolly->database->adapter = 'works good';
 	unset($dolly);
 } catch (Exception $e) {
-	dump( $e );
+	Assert::fail('Expected exception');
 }
-
-
-
-__halt_compiler();
-
-------EXPECT------
-check read-only config:
-
-Exception InvalidStateException: Cannot modify a frozen object '%ns%Config'.
-
-check read-only clone:

@@ -1,17 +1,16 @@
 <?php
 
 /**
- * Test: Nette\Security\Permission Ensures that an exception is thrown when a non-existent Role is specified to each parameter of inherits().
+ * Test: Permission Ensures that an exception is thrown when a non-existent Role is specified to each parameter of inherits().
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette\Security
  * @subpackage UnitTests
  */
 
 
 
-require dirname(__FILE__) . '/../NetteTest/initialize.php';
+require dirname(__FILE__) . '/../bootstrap.php';
 
 
 
@@ -19,21 +18,14 @@ $acl = new Permission;
 $acl->addRole('guest');
 try {
 	$acl->roleInheritsFrom('nonexistent', 'guest');
-} catch (InvalidStateException $e) {
-	dump( $e );
+	Assert::fail('Expected exception');
+} catch (Exception $e) {
+	Assert::exception('InvalidStateException', "Role 'nonexistent' does not exist.", $e );
 }
 
 try {
 	$acl->roleInheritsFrom('guest', 'nonexistent');
-} catch (InvalidStateException $e) {
-	dump( $e );
+	Assert::fail('Expected exception');
+} catch (Exception $e) {
+	Assert::exception('InvalidStateException', "Role 'nonexistent' does not exist.", $e );
 }
-
-
-
-__halt_compiler();
-
-------EXPECT------
-Exception InvalidStateException: Role 'nonexistent' does not exist.
-
-Exception InvalidStateException: Role 'nonexistent' does not exist.

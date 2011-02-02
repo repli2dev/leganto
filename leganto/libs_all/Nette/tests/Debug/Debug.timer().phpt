@@ -1,17 +1,16 @@
 <?php
 
 /**
- * Test: Nette\Debug::timer()
+ * Test: Debug::timer()
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette
  * @subpackage UnitTests
  */
 
 
 
-require dirname(__FILE__) . '/../NetteTest/initialize.php';
+require dirname(__FILE__) . '/../bootstrap.php';
 
 
 
@@ -23,15 +22,6 @@ Debug::timer('foo');
 
 sleep(1);
 
-dump( round(Debug::timer(), 1) );
+Assert::same( 2.0, round(Debug::timer(), 1) );
 
-dump( round(Debug::timer('foo'), 1) );
-
-
-
-__halt_compiler();
-
-------EXPECT------
-float(2)
-
-float(1)
+Assert::same( 1.0, round(Debug::timer('foo'), 1) );

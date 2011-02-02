@@ -1,17 +1,16 @@
 <?php
 
 /**
- * Test: Nette\Forms example.
+ * Test: Forms example.
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette\Forms
  * @subpackage UnitTests
  */
 
 
 
-require dirname(__FILE__) . '/../NetteTest/initialize.php';
+require dirname(__FILE__) . '/../bootstrap.php';
 
 
 
@@ -21,8 +20,6 @@ $_POST = array('first'=>array('name'=>'James Bond','email'=>'bond@007.com','stre
 Debug::$productionMode = FALSE;
 Debug::$consoleMode = TRUE;
 
+ob_start();
 require '../../examples/forms/naming-containers.php';
-
-
-
-__halt_compiler();
+Assert::match( file_get_contents(dirname(__FILE__) . '/Forms.example.submit.006.expect'), ob_get_clean() );

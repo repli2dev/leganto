@@ -1,30 +1,23 @@
 <?php
 
 /**
- * Test: Nette\Security\Permission Ensures that an exception is thrown when a non-existent Role is specified as a parent upon Role addition.
+ * Test: Permission Ensures that an exception is thrown when a non-existent Role is specified as a parent upon Role addition.
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette\Security
  * @subpackage UnitTests
  */
 
 
 
-require dirname(__FILE__) . '/../NetteTest/initialize.php';
+require dirname(__FILE__) . '/../bootstrap.php';
 
 
 
 $acl = new Permission;
 try {
 	$acl->addRole('guest', 'nonexistent');
-} catch (InvalidStateException $e) {
-	dump( $e );
+	Assert::fail('Expected exception');
+} catch (Exception $e) {
+	Assert::exception('InvalidStateException', "Role 'nonexistent' does not exist.", $e );
 }
-
-
-
-__halt_compiler();
-
-------EXPECT------
-Exception InvalidStateException: Role 'nonexistent' does not exist.

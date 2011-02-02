@@ -1,17 +1,16 @@
 <?php
 
 /**
- * Test: Nette\Debug and Environment.
+ * Test: Debug and Environment.
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette
  * @subpackage UnitTests
  */
 
 
 
-require dirname(__FILE__) . '/../NetteTest/initialize.php';
+require dirname(__FILE__) . '/../bootstrap.php';
 
 
 
@@ -19,22 +18,11 @@ Debug::$consoleMode = FALSE;
 
 
 
-dump( Debug::$productionMode, 'Debug::$productionMode' );
+Assert::null( Debug::$productionMode );
 
-output("setting production environment...");
+// setting production environment...
 
 Environment::setMode('production', TRUE);
 Debug::enable();
 
-dump( Debug::$productionMode, 'Debug::$productionMode' );
-
-
-
-__halt_compiler();
-
-------EXPECT------
-Debug::$productionMode: NULL
-
-setting production environment...
-
-Debug::$productionMode: bool(TRUE)
+Assert::true( Debug::$productionMode );

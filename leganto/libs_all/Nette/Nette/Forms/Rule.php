@@ -1,13 +1,13 @@
 <?php
 
 /**
- * Nette Framework
+ * This file is part of the Nette Framework (http://nette.org)
  *
- * @copyright  Copyright (c) 2004, 2010 David Grudl
- * @license    http://nettephp.com/license  Nette license
- * @link       http://nettephp.com
- * @category   Nette
- * @package    Nette\Forms
+ * Copyright (c) 2004, 2010 David Grudl (http://davidgrudl.com)
+ *
+ * For the full copyright and license information, please view
+ * the file license.txt that was distributed with this source code.
+ * @package Nette\Forms
  */
 
 
@@ -15,8 +15,7 @@
 /**
  * Single validation rule or condition represented as value object.
  *
- * @copyright  Copyright (c) 2004, 2010 David Grudl
- * @package    Nette\Forms
+ * @author     David Grudl
  */
 final class Rule extends Object
 {
@@ -28,9 +27,6 @@ final class Rule extends Object
 
 	/** type */
 	const FILTER = 3;
-
-	/** type */
-	const TERMINATOR = 4;
 
 	/** @var IFormControl */
 	public $control;
@@ -49,9 +45,6 @@ final class Rule extends Object
 
 	/** @var string (only for VALIDATOR type) */
 	public $message;
-
-	/** @var bool (only for VALIDATOR type) */
-	public $breakOnFailure = TRUE;
 
 	/** @var Rules (only for CONDITION type)  */
 	public $subRules;

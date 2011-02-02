@@ -1,29 +1,26 @@
 <?php
 
 /**
- * Test: Nette\Debug::consoleDump() in non-HTML mode.
+ * Test: Debug::consoleDump() in non-HTML mode.
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette
  * @subpackage UnitTests
  */
 
 
 
-require dirname(__FILE__) . '/../NetteTest/initialize.php';
+require dirname(__FILE__) . '/../bootstrap.php';
 
 
 
 Debug::$consoleMode = FALSE;
 Debug::$productionMode = FALSE;
-
 header('Content-Type: text/plain');
 
-Debug::consoleDump('value');
+Debug::enable();
 
-
-
-__halt_compiler();
-
-------EXPECT------
+function shutdown() {
+	Assert::same('', ob_get_clean());
+}
+Assert::handler('shutdown');

@@ -1,17 +1,16 @@
 <?php
 
 /**
- * Test: Nette\Web\Ftp basic usage.
+ * Test: Ftp basic usage.
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette\Web
  * @subpackage UnitTests
  */
 
 
 
-require dirname(__FILE__) . '/../NetteTest/initialize.php';
+require dirname(__FILE__) . '/../bootstrap.php';
 
 
 
@@ -28,11 +27,4 @@ $ftp->fget($temp, 'README', Ftp::ASCII);
 
 // echo file
 fseek($temp, 0);
-dump( stream_get_contents($temp) );
-
-
-
-__halt_compiler();
-
-------EXPECT------
-string(22) "Nette Framework rocks!"
+Assert::same( "Nette Framework rocks!", stream_get_contents($temp) );

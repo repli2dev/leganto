@@ -1,30 +1,23 @@
 <?php
 
 /**
- * Test: Nette\Web\Uri malformed URI.
+ * Test: Uri malformed URI.
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette\Web
  * @subpackage UnitTests
  */
 
 
 
-require dirname(__FILE__) . '/../NetteTest/initialize.php';
+require dirname(__FILE__) . '/../bootstrap.php';
 
 
 
 try {
 	$uri = new Uri(':');
 
+	Assert::fail('Expected exception');
 } catch (Exception $e) {
-	dump( $e );
+	Assert::exception('InvalidArgumentException', "Malformed or unsupported URI ':'.", $e );
 }
-
-
-
-__halt_compiler();
-
-------EXPECT------
-Exception InvalidArgumentException: Malformed or unsupported URI ':'.

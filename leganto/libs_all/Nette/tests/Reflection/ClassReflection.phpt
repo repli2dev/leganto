@@ -4,14 +4,13 @@
  * Test: ClassReflection tests.
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette\Reflection
  * @subpackage UnitTests
  */
 
 
 
-require dirname(__FILE__) . '/../NetteTest/initialize.php';
+require dirname(__FILE__) . '/../bootstrap.php';
 
 
 
@@ -28,101 +27,54 @@ class Bar extends Foo implements Countable
 }
 
 
-dump( new ClassReflection("Bar") );
-dump( ClassReflection::from("Bar") );
-dump( ClassReflection::from(new Bar) );
+Assert::equal( new ClassReflection('Bar'), ClassReflection::from('Bar') );
+Assert::equal( new ClassReflection('Bar'), ClassReflection::from(new Bar) );
 
 
-$rc = ClassReflection::from("Bar");
 
-dump( $rc->getExtension() );
+$rc = ClassReflection::from('Bar');
 
-dump( $rc->getInterfaces() );
+Assert::null( $rc->getExtension() );
 
-dump( $rc->getParentClass() );
 
-dump( $rc->getConstructor() );
+Assert::equal( array(
+	'Countable' => new ClassReflection('Countable'),
+), $rc->getInterfaces() );
 
-dump($rc->getMethod("f"));
+
+Assert::equal( new ClassReflection('Foo'), $rc->getParentClass() );
+
+
+Assert::null( $rc->getConstructor() );
+
+
+Assert::equal( new MethodReflection('Foo', 'f'), $rc->getMethod('f') );
+
 
 try {
-	dump($rc->getMethod("doesntExist"));
+	$rc->getMethod('doesntExist');
 } catch (Exception $e) {
-	dump($e);
+	Assert::same( 'Method Bar::doesntExist() does not exist', $e->getMessage() );
+
 }
 
-dump( $rc->getMethods() );
+Assert::equal( array(
+	new MethodReflection('Bar', 'count'),
+	new MethodReflection('Foo', 'f'),
+), $rc->getMethods() );
 
 
-dump($rc->getProperty("var"));
+
+Assert::equal( new PropertyReflection('Bar', 'var'), $rc->getProperty('var') );
+
 
 try {
-	dump($rc->getProperty("doesntExist"));
+	$rc->getProperty('doesntExist');
 } catch (exception $e) {
-	dump($e);
+	Assert::same( 'Property Bar::$doesntExist does not exist', $e->getMessage() );
+
 }
 
-dump( $rc->getProperties() );
-
-
-
-__halt_compiler();
-
-------EXPECT------
-object(%ns%ClassReflection) (1) {
-	"name" => string(3) "Bar"
-}
-
-object(%ns%ClassReflection) (1) {
-	"name" => string(3) "Bar"
-}
-
-object(%ns%ClassReflection) (1) {
-	"name" => string(3) "Bar"
-}
-
-NULL
-
-array(1) {
-	"Countable" => object(%ns%ClassReflection) (1) {
-		"name" => string(9) "Countable"
-	}
-}
-
-object(%ns%ClassReflection) (1) {
-	"name" => string(3) "Foo"
-}
-
-NULL
-
-object(%ns%MethodReflection) (2) {
-	"name" => string(1) "f"
-	"class" => string(3) "Foo"
-}
-
-Exception %ns%ReflectionException: Method doesntExist does not exist
-
-array(2) {
-	0 => object(%ns%MethodReflection) (2) {
-		"name" => string(5) "count"
-		"class" => string(3) "Bar"
-	}
-	1 => object(%ns%MethodReflection) (2) {
-		"name" => string(1) "f"
-		"class" => string(3) "Foo"
-	}
-}
-
-object(%ns%PropertyReflection) (2) {
-	"name" => string(3) "var"
-	"class" => string(3) "Bar"
-}
-
-Exception %ns%ReflectionException: Property doesntExist does not exist
-
-array(1) {
-	0 => object(%ns%PropertyReflection) (2) {
-		"name" => string(3) "var"
-		"class" => string(3) "Bar"
-	}
-}
+Assert::equal( array(
+	new PropertyReflection('Bar', 'var'),
+), $rc->getProperties() );

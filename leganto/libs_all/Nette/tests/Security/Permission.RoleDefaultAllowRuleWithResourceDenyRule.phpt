@@ -1,18 +1,17 @@
 <?php
 
 /**
- * Test: Nette\Security\Permission Ensures that for a particular Role, a deny rule on a specific Resource is honored before an allow rule
+ * Test: Permission Ensures that for a particular Role, a deny rule on a specific Resource is honored before an allow rule
 * on the entire ACL.
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette\Security
  * @subpackage UnitTests
  */
 
 
 
-require dirname(__FILE__) . '/../NetteTest/initialize.php';
+require dirname(__FILE__) . '/../bootstrap.php';
 
 
 

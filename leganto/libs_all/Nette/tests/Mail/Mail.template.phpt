@@ -1,17 +1,16 @@
 <?php
 
 /**
- * Test: Nette\Mail\Mail with template.
+ * Test: Mail with template.
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette\Application
  * @subpackage UnitTests
  */
 
 
 
-require dirname(__FILE__) . '/../NetteTest/initialize.php';
+require dirname(__FILE__) . '/../bootstrap.php';
 
 require dirname(__FILE__) . '/Mail.inc';
 
@@ -19,7 +18,7 @@ require dirname(__FILE__) . '/Mail.inc';
 
 // temporary directory
 define('TEMP_DIR', dirname(__FILE__) . '/tmp');
-NetteTestHelpers::purge(TEMP_DIR);
+TestHelpers::purge(TEMP_DIR);
 Environment::setVariable('tempDir', TEMP_DIR);
 
 
@@ -33,6 +32,4 @@ $mail->htmlBody->registerFilter(new LatteFilter);
 
 $mail->send();
 
-
-
-__halt_compiler();
+Assert::match(file_get_contents(dirname(__FILE__) . '/Mail.template.expect'), TestMailer::$output);

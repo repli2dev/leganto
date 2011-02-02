@@ -1,47 +1,35 @@
 <?php
 
 /**
- * Test: Nette\Forms\TextBase validators.
+ * Test: TextBase validators.
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette\Forms
  * @subpackage UnitTests
  */
 
 
 
-require dirname(__FILE__) . '/../NetteTest/initialize.php';
+require dirname(__FILE__) . '/../bootstrap.php';
 
 
 
 $control = new TextInput();
 $control->value = '';
-dump( TextBase::validateEmail($control) );
+Assert::false( TextBase::validateEmail($control) );
+
 
 $control->value = '@.';
-dump( TextBase::validateEmail($control) );
+Assert::false( TextBase::validateEmail($control) );
+
 
 $control->value = 'name@a-b-c.cz';
-dump( TextBase::validateEmail($control) );
+Assert::true( TextBase::validateEmail($control) );
+
 
 $control->value = "name@\xc5\xbelu\xc5\xa5ou\xc4\x8dk\xc3\xbd.cz"; // name@ûluùouËk˝.cz
-dump( TextBase::validateEmail($control) );
+Assert::true( TextBase::validateEmail($control) );
+
 
 $control->value = "\xc5\xbename@\xc5\xbelu\xc5\xa5ou\xc4\x8dk\xc3\xbd.cz"; // ûname@ûluùouËk˝.cz
-dump( TextBase::validateEmail($control) );
-
-
-
-__halt_compiler();
-
-------EXPECT------
-bool(FALSE)
-
-bool(FALSE)
-
-bool(TRUE)
-
-bool(TRUE)
-
-bool(FALSE)
+Assert::false( TextBase::validateEmail($control) );

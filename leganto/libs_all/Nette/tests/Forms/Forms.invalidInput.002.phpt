@@ -1,17 +1,16 @@
 <?php
 
 /**
- * Test: Nette\Forms invalid input.
+ * Test: Forms invalid input.
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette\Forms
  * @subpackage UnitTests
  */
 
 
 
-require dirname(__FILE__) . '/../NetteTest/initialize.php';
+require dirname(__FILE__) . '/../bootstrap.php';
 
 
 
@@ -83,43 +82,22 @@ $sub->addFile('avatar', 'Picture:');
 
 $form->addSubmit('submit1', 'Send');
 
-dump( (bool) $form->isSubmitted() );
-dump( $form->getValues() );
-
-
-
-__halt_compiler();
-
-------EXPECT------
-bool(TRUE)
-
-array(11) {
-	"name" => string(10) "invalidutf"
-	"note" => string(10) "invalidutf"
-	"gender" => NULL
-	"send" => bool(FALSE)
-	"country" => NULL
-	"countrym" => array(0)
-	"password" => string(0) ""
-	"avatar" => object(%ns%HttpUploadedFile) (5) {
-		"name" private => NULL
-		"type" private => NULL
-		"size" private => NULL
-		"tmpName" private => NULL
-		"error" private => int(4)
-	}
-	"userid" => string(10) "invalidutf"
-	"firstperson" => array(1) {
-		"age" => string(0) ""
-	}
-	"secondperson" => array(2) {
-		"age" => string(0) ""
-		"avatar" => object(%ns%HttpUploadedFile) (5) {
-			"name" private => NULL
-			"type" private => NULL
-			"size" private => NULL
-			"tmpName" private => NULL
-			"error" private => int(4)
-		}
-	}
-}
+Assert::true( (bool) $form->isSubmitted() );
+Assert::equal( array(
+	'name' => 'invalidutf',
+	'note' => 'invalidutf',
+	'gender' => NULL,
+	'send' => FALSE,
+	'country' => NULL,
+	'countrym' => array(),
+	'password' => '',
+	'avatar' => new HttpUploadedFile(array()),
+	'userid' => 'invalidutf',
+	'firstperson' => array(
+		'age' => '',
+	),
+	'secondperson' => array(
+		'age' => '',
+		'avatar' => new HttpUploadedFile(array()),
+	),
+), $form->getValues() );

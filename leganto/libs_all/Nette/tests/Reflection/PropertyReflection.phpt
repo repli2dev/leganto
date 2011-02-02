@@ -4,20 +4,19 @@
  * Test: PropertyReflection tests.
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette\Reflection
  * @subpackage UnitTests
  */
 
 
 
-require dirname(__FILE__) . '/../NetteTest/initialize.php';
+require dirname(__FILE__) . '/../bootstrap.php';
 
 
 
 class A
 {
-    public $prop;
+	public $prop;
 }
 
 class B extends A
@@ -25,13 +24,4 @@ class B extends A
 }
 
 $propInfo = new PropertyReflection('B', 'prop');
-dump( $propInfo->getDeclaringClass() );
-
-
-
-__halt_compiler();
-
-------EXPECT------
-object(%ns%ClassReflection) (1) {
-	"name" => string(1) "A"
-}
+Assert::equal( new ClassReflection('A'), $propInfo->getDeclaringClass() );

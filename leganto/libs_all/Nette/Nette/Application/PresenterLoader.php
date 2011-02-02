@@ -1,13 +1,13 @@
 <?php
 
 /**
- * Nette Framework
+ * This file is part of the Nette Framework (http://nette.org)
  *
- * @copyright  Copyright (c) 2004, 2010 David Grudl
- * @license    http://nettephp.com/license  Nette license
- * @link       http://nettephp.com
- * @category   Nette
- * @package    Nette\Application
+ * Copyright (c) 2004, 2010 David Grudl (http://davidgrudl.com)
+ *
+ * For the full copyright and license information, please view
+ * the file license.txt that was distributed with this source code.
+ * @package Nette\Application
  */
 
 
@@ -15,8 +15,7 @@
 /**
  * Default presenter loader.
  *
- * @copyright  Copyright (c) 2004, 2010 David Grudl
- * @package    Nette\Application
+ * @author     David Grudl
  */
 class PresenterLoader implements IPresenterLoader
 {
@@ -75,7 +74,7 @@ class PresenterLoader implements IPresenterLoader
 		$class = $reflection->getName();
 
 		if (!$reflection->implementsInterface('IPresenter')) {
-			throw new InvalidPresenterException("Cannot load presenter '$name', class '$class' is not Nette\\Application\\IPresenter implementor.");
+			throw new InvalidPresenterException("Cannot load presenter '$name', class '$class' is not IPresenter implementor.");
 		}
 
 		if ($reflection->isAbstract()) {
@@ -107,9 +106,8 @@ class PresenterLoader implements IPresenterLoader
 	 */
 	public function formatPresenterClass($presenter)
 	{
-		// PHP 5.3
-		
 		return strtr($presenter, ':', '_') . 'Presenter';
+		return str_replace(':', 'Module\\', $presenter) . 'Presenter';
 	}
 
 
@@ -121,9 +119,8 @@ class PresenterLoader implements IPresenterLoader
 	 */
 	public function unformatPresenterClass($class)
 	{
-		// PHP 5.3
-		
 		return strtr(substr($class, 0, -9), '_', ':');
+		return str_replace('Module\\', ':', substr($class, 0, -9));
 	}
 
 

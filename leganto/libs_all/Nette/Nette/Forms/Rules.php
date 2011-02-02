@@ -1,13 +1,13 @@
 <?php
 
 /**
- * Nette Framework
+ * This file is part of the Nette Framework (http://nette.org)
  *
- * @copyright  Copyright (c) 2004, 2010 David Grudl
- * @license    http://nettephp.com/license  Nette license
- * @link       http://nettephp.com
- * @category   Nette
- * @package    Nette\Forms
+ * Copyright (c) 2004, 2010 David Grudl (http://davidgrudl.com)
+ *
+ * For the full copyright and license information, please view
+ * the file license.txt that was distributed with this source code.
+ * @package Nette\Forms
  */
 
 
@@ -15,12 +15,11 @@
 /**
  * List of validation & condition rules.
  *
- * @copyright  Copyright (c) 2004, 2010 David Grudl
- * @package    Nette\Forms
+ * @author     David Grudl
  */
 final class Rules extends Object implements IteratorAggregate
 {
-	/** @ignore internal */
+	/** @internal */
 	const VALIDATE_PREFIX = 'validate';
 
 	/** @var array */
@@ -63,7 +62,7 @@ final class Rules extends Object implements IteratorAggregate
 		$this->adjustOperation($rule);
 		$rule->arg = $arg;
 		$rule->type = Rule::VALIDATOR;
-		if ($message === NULL && isset(self::$defaultMessages[$rule->operation])) {
+		if ($message === NULL && is_string($rule->operation) && isset(self::$defaultMessages[$rule->operation])) {
 			$rule->message = self::$defaultMessages[$rule->operation];
 		} else {
 			$rule->message = $message;
@@ -164,7 +163,6 @@ final class Rules extends Object implements IteratorAggregate
 	 */
 	public function validate($onlyCheck = FALSE)
 	{
-		$valid = TRUE;
 		foreach ($this->rules as $rule)
 		{
 			if ($rule->control->isDisabled()) continue;
@@ -172,21 +170,18 @@ final class Rules extends Object implements IteratorAggregate
 			$success = ($rule->isNegative xor $this->getCallback($rule)->invoke($rule->control, $rule->arg));
 
 			if ($rule->type === Rule::CONDITION && $success) {
-				$success = $rule->subRules->validate($onlyCheck);
-				$valid = $valid && $success;
-
-			} elseif ($rule->type === Rule::VALIDATOR && !$success) {
-				if ($onlyCheck) {
+				if (!$rule->subRules->validate($onlyCheck)) {
 					return FALSE;
 				}
-				$rule->control->addError(self::formatMessage($rule, TRUE));
-				$valid = FALSE;
-				if ($rule->breakOnFailure) {
-					break;
+
+			} elseif ($rule->type === Rule::VALIDATOR && !$success) {
+				if (!$onlyCheck) {
+					$rule->control->addError(self::formatMessage($rule, TRUE));
 				}
+				return FALSE;
 			}
 		}
-		return $valid;
+		return TRUE;
 	}
 
 
@@ -250,12 +245,12 @@ final class Rules extends Object implements IteratorAggregate
 		if ($translator = $rule->control->getForm()->getTranslator()) {
 			$message = $translator->translate($message, is_int($rule->arg) ? $rule->arg : NULL);
 		}
+		$message = vsprintf(preg_replace('#%(name|label|value)#', '%$0', $message), (array) $rule->arg);
 		$message = str_replace('%name', $rule->control->getName(), $message);
 		$message = str_replace('%label', $rule->control->translate($rule->control->caption), $message);
-		if (strpos($message, '%value') !== FALSE) {
-			$message = str_replace('%value', $withValue ? (string) $rule->control->getValue() : '%%value', $message);
+		if ($withValue && strpos($message, '%value') !== FALSE) {
+			$message = str_replace('%value', $rule->control->getValue(), $message);
 		}
-		$message = vsprintf($message, (array) $rule->arg);
 		return $message;
 	}
 

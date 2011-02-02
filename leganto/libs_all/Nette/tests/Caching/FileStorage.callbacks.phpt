@@ -1,17 +1,16 @@
 <?php
 
 /**
- * Test: Nette\Caching\FileStorage callbacks dependency.
+ * Test: FileStorage callbacks dependency.
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette\Caching
  * @subpackage UnitTests
  */
 
 
 
-require dirname(__FILE__) . '/../NetteTest/initialize.php';
+require dirname(__FILE__) . '/../bootstrap.php';
 
 
 
@@ -20,7 +19,7 @@ $value = 'rulez';
 
 // temporary directory
 define('TEMP_DIR', dirname(__FILE__) . '/tmp');
-NetteTestHelpers::purge(TEMP_DIR);
+TestHelpers::purge(TEMP_DIR);
 
 
 
@@ -33,30 +32,20 @@ function dependency($val)
 }
 
 
-output('Writing cache...');
+// Writing cache...
 $cache->save($key, $value, array(
 	Cache::CALLBACKS => array(array('dependency', 1)),
 ));
+$cache->release();
 
-dump( isset($cache[$key]), 'Is cached?' );
+Assert::true( isset($cache[$key]), 'Is cached?' );
 
 
-output('Writing cache...');
+
+// Writing cache...
 $cache->save($key, $value, array(
 	Cache::CALLBACKS => array(array('dependency', 0)),
 ));
+$cache->release();
 
-dump( isset($cache[$key]), 'Is cached?' );
-
-
-
-__halt_compiler();
-
-------EXPECT------
-Writing cache...
-
-Is cached? bool(TRUE)
-
-Writing cache...
-
-Is cached? bool(FALSE)
+Assert::false( isset($cache[$key]), 'Is cached?' );

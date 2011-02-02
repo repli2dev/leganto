@@ -1,13 +1,13 @@
 <?php
 
 /**
- * Nette Framework
+ * This file is part of the Nette Framework (http://nette.org)
  *
- * @copyright  Copyright (c) 2004, 2010 David Grudl
- * @license    http://nettephp.com/license  Nette license
- * @link       http://nettephp.com
- * @category   Nette
- * @package    Nette\Forms
+ * Copyright (c) 2004, 2010 David Grudl (http://davidgrudl.com)
+ *
+ * For the full copyright and license information, please view
+ * the file license.txt that was distributed with this source code.
+ * @package Nette\Forms
  */
 
 
@@ -15,8 +15,7 @@
 /**
  * Container for form controls.
  *
- * @copyright  Copyright (c) 2004, 2010 David Grudl
- * @package    Nette\Forms
+ * @author     David Grudl
  *
  * @property-read ArrayIterator $controls
  * @property-read Form $form
@@ -203,7 +202,7 @@ class FormContainer extends ComponentContainer implements ArrayAccess, INamingCo
 	 */
 	public function getControls()
 	{
-		return $this->getComponents(TRUE, 'Nette\Forms\IFormControl');
+		return $this->getComponents(TRUE, 'IFormControl');
 	}
 
 
@@ -215,7 +214,7 @@ class FormContainer extends ComponentContainer implements ArrayAccess, INamingCo
 	 */
 	public function getForm($need = TRUE)
 	{
-		return $this->lookup('Nette\Forms\Form', $need);
+		return $this->lookup('Form', $need);
 	}
 
 
@@ -305,7 +304,7 @@ class FormContainer extends ComponentContainer implements ArrayAccess, INamingCo
 	 * @param  string  caption
 	 * @return Checkbox
 	 */
-	public function addCheckbox($name, $caption)
+	public function addCheckbox($name, $caption = NULL)
 	{
 		return $this[$name] = new Checkbox($caption);
 	}
@@ -362,7 +361,7 @@ class FormContainer extends ComponentContainer implements ArrayAccess, INamingCo
 	 * @param  string  caption
 	 * @return SubmitButton
 	 */
-	public function addSubmit($name, $caption)
+	public function addSubmit($name, $caption = NULL)
 	{
 		return $this[$name] = new SubmitButton($caption);
 	}
@@ -410,7 +409,7 @@ class FormContainer extends ComponentContainer implements ArrayAccess, INamingCo
 
 
 
-	/********************* interface \ArrayAccess ****************d*g**/
+	/********************* interface ArrayAccess ****************d*g**/
 
 
 
@@ -418,7 +417,7 @@ class FormContainer extends ComponentContainer implements ArrayAccess, INamingCo
 	 * Adds the component to the container.
 	 * @param  string  component name
 	 * @param  IComponent
-	 * @return void.
+	 * @return void
 	 */
 	final public function offsetSet($name, $component)
 	{
@@ -453,7 +452,7 @@ class FormContainer extends ComponentContainer implements ArrayAccess, INamingCo
 
 
 	/**
-	 * Removes component from the container. Throws exception if component doesn't exist.
+	 * Removes component from the container.
 	 * @param  string  component name
 	 * @return void
 	 */

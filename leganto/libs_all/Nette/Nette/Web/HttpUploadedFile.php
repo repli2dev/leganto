@@ -1,13 +1,13 @@
 <?php
 
 /**
- * Nette Framework
+ * This file is part of the Nette Framework (http://nette.org)
  *
- * @copyright  Copyright (c) 2004, 2010 David Grudl
- * @license    http://nettephp.com/license  Nette license
- * @link       http://nettephp.com
- * @category   Nette
- * @package    Nette\Web
+ * Copyright (c) 2004, 2010 David Grudl (http://davidgrudl.com)
+ *
+ * For the full copyright and license information, please view
+ * the file license.txt that was distributed with this source code.
+ * @package Nette\Web
  */
 
 
@@ -15,8 +15,7 @@
 /**
  * Provides access to individual files that have been uploaded by a client.
  *
- * @copyright  Copyright (c) 2004, 2010 David Grudl
- * @package    Nette\Web
+ * @author     David Grudl
  *
  * @property-read string $name
  * @property-read string $contentType
@@ -80,20 +79,7 @@ class HttpUploadedFile extends Object
 	public function getContentType()
 	{
 		if ($this->isOk() && $this->type === NULL) {
-			$info = getimagesize($this->tmpName);
-			if (isset($info['mime'])) {
-				$this->type = $info['mime'];
-
-			} elseif (extension_loaded('fileinfo')) {
-				$this->type = finfo_file(finfo_open(FILEINFO_MIME), $this->tmpName);
-
-			} elseif (function_exists('mime_content_type')) {
-				$this->type = mime_content_type($this->tmpName);
-			}
-
-			if (!$this->type) {
-				$this->type = 'application/octet-stream';
-			}
+			$this->type = Tools::detectMimeType($this->tmpName);
 		}
 		return $this->type;
 	}
@@ -163,7 +149,7 @@ class HttpUploadedFile extends Object
 	public function move($dest)
 	{
 		$dir = dirname($dest);
-		if (@mkdir($dir, 0755, TRUE)) { // intentionally @
+		if (@mkdir($dir, 0755, TRUE)) { // @ - $dir may already exist
 			chmod($dir, 0755);
 		}
 		$func = is_uploaded_file($this->tmpName) ? 'move_uploaded_file' : 'rename';
@@ -205,7 +191,7 @@ class HttpUploadedFile extends Object
 	 */
 	public function getImageSize()
 	{
-		return $this->isOk() ? getimagesize($this->tmpName) : NULL;
+		return $this->isOk() ? @getimagesize($this->tmpName) : NULL; // @ - files smaller than 12 bytes causes read error
 	}
 
 }

@@ -1,17 +1,16 @@
 <?php
 
 /**
- * Test: Nette\Mail\Mail - textual body.
+ * Test: Mail - textual body.
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette\Application
  * @subpackage UnitTests
  */
 
 
 
-require dirname(__FILE__) . '/../NetteTest/initialize.php';
+require dirname(__FILE__) . '/../bootstrap.php';
 
 require dirname(__FILE__) . '/Mail.inc';
 
@@ -27,6 +26,17 @@ $mail->setBody('Žluťoučký kůň');
 
 $mail->send();
 
+Assert::match( <<<EOD
+MIME-Version: 1.0
+X-Mailer: Nette Framework
+Date: %a%
+From: John Doe <doe@example.com>
+To: Lady Jane <jane@example.com>
+Subject: Hello Jane!
+Message-ID: <%h%@localhost>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-
-__halt_compiler();
+Žluťoučký kůň
+EOD
+, TestMailer::$output );
