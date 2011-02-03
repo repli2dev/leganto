@@ -266,3 +266,42 @@ CREATE VIEW `view_message` AS
     FROM `message`
     INNER JOIN `user` AS `u1` ON `u1`.`id_user` = `message`.`id_user_from`
     INNER JOIN `user` AS `u2` ON `u2`.`id_user` = `message`.`id_user_to`;
+
+DROP VIEW IF EXISTS `view_achievement`;
+CREATE VIEW `view_achievement` AS
+	SELECT
+		`id_user`,
+		CASE
+			WHEN (SELECT COUNT(`id_opinion`) FROM `opinion` WHERE `opinion`.`id_user` = `user`.`id_user`) < 10  THEN 0
+			WHEN (SELECT COUNT(`id_opinion`) FROM `opinion` WHERE `opinion`.`id_user` = `user`.`id_user`) < 20  THEN 1
+			WHEN (SELECT COUNT(`id_opinion`) FROM `opinion` WHERE `opinion`.`id_user` = `user`.`id_user`) < 50  THEN 2
+			WHEN (SELECT COUNT(`id_opinion`) FROM `opinion` WHERE `opinion`.`id_user` = `user`.`id_user`) < 100 THEN 3
+			WHEN (SELECT COUNT(`id_opinion`) FROM `opinion` WHERE `opinion`.`id_user` = `user`.`id_user`) < 500 THEN 4
+			ELSE 5
+		END AS `books`,
+		CASE
+			WHEN (SELECT COUNT(`id_opinion`) FROM `opinion` WHERE `content` IS NOT NULL AND LENGTH(TRIM(`content`)) > 0 AND `opinion`.`id_user` = `user`.`id_user`) < 10  THEN 0
+			WHEN (SELECT COUNT(`id_opinion`) FROM `opinion` WHERE `content` IS NOT NULL AND LENGTH(TRIM(`content`)) > 0 AND `opinion`.`id_user` = `user`.`id_user`) < 20  THEN 1
+			WHEN (SELECT COUNT(`id_opinion`) FROM `opinion` WHERE `content` IS NOT NULL AND LENGTH(TRIM(`content`)) > 0 AND `opinion`.`id_user` = `user`.`id_user`) < 50  THEN 2
+			WHEN (SELECT COUNT(`id_opinion`) FROM `opinion` WHERE `content` IS NOT NULL AND LENGTH(TRIM(`content`)) > 0 AND `opinion`.`id_user` = `user`.`id_user`) < 100 THEN 3
+			WHEN (SELECT COUNT(`id_opinion`) FROM `opinion` WHERE `content` IS NOT NULL AND LENGTH(TRIM(`content`)) > 0 AND `opinion`.`id_user` = `user`.`id_user`) < 500 THEN 4
+			ELSE 5
+		END AS `opinions`,
+		CASE
+			WHEN (SELECT COUNT(`id_post`) FROM `post` WHERE `post`.`id_user` = `user`.`id_user`) < 10  THEN 0
+			WHEN (SELECT COUNT(`id_post`) FROM `post` WHERE `post`.`id_user` = `user`.`id_user`) < 20  THEN 1
+			WHEN (SELECT COUNT(`id_post`) FROM `post` WHERE `post`.`id_user` = `user`.`id_user`) < 50  THEN 2
+			WHEN (SELECT COUNT(`id_post`) FROM `post` WHERE `post`.`id_user` = `user`.`id_user`) < 100 THEN 3
+			WHEN (SELECT COUNT(`id_post`) FROM `post` WHERE `post`.`id_user` = `user`.`id_user`) < 500 THEN 4
+			ELSE 5
+		END AS `posts`,
+		CASE
+			WHEN (SELECT COUNT(`id_following`) FROM `following` WHERE `following`.`id_user_followed` = `user`.`id_user`) < 5   THEN 0
+			WHEN (SELECT COUNT(`id_following`) FROM `following` WHERE `following`.`id_user_followed` = `user`.`id_user`) < 10  THEN 1
+			WHEN (SELECT COUNT(`id_following`) FROM `following` WHERE `following`.`id_user_followed` = `user`.`id_user`) < 20  THEN 2
+			WHEN (SELECT COUNT(`id_following`) FROM `following` WHERE `following`.`id_user_followed` = `user`.`id_user`) < 50  THEN 3
+			WHEN (SELECT COUNT(`id_following`) FROM `following` WHERE `following`.`id_user_followed` = `user`.`id_user`) < 100 THEN 4
+			ELSE 5
+		END AS `followers`
+	FROM `user`
+	GROUP BY `id_user`;

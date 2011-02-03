@@ -76,8 +76,10 @@ class OpinionListComponent extends BaseListComponent {
 		// Opinions
 		$this->getTemplate()->opinions = Leganto::opinions()->fetchAndCreateAll($source);
 		$opinionIds = array();
+		$userIds = array();
 		foreach ($this->getTemplate()->opinions AS $opinion) {
 			$opinionIds[] = $opinion->getId();
+			$userIds[] = $opinion->userId;
 		}
 		if (!empty($opinionIds)) {
 			$this->getTemplate()->discussions = Leganto::discussions()
@@ -95,6 +97,10 @@ class OpinionListComponent extends BaseListComponent {
 					->findAllByIdAndType($this->getTemplate()->showedOpinion, PostSelector::OPINION)
 			);
 			$this->getComponent("postList")->setDiscussed($this->showedOpinion, PostSelector::OPINION);
+		}
+		// Book achivements
+		if ($this->getTemplate()->showedInfo == "user") {
+			$this->getTemplate()->achievements = Leganto::achievement()->getSelector()->findByUsers($userIds, $entities = FALSE);
 		}
 	}
 

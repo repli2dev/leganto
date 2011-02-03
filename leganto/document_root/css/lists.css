@@ -43,12 +43,11 @@
 }
 .list .info-side {
 	float: left;
-	margin-right: 20px;
+	margin-right: 10px;
 	height: 100%;
 }
 .list .date {
 	display: block;
-	clear: both;
 }
 .list .info-top {
 	padding-left: 10px;
@@ -92,6 +91,16 @@
 }
 .opinions .item .content {
 	min-height: 60px;
+}
+.opinions .item .date {
+	width: 80px;
+	border: 1px solid #f6f6f6;
+	text-align: center;
+}
+.opinions .item .achievement {
+	height: 100px;
+	float: left;
+	margin-right: 5px;
 }
 /************************** TOPICS ********************************************/
 .topics .item {

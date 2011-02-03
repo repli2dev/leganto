@@ -16,13 +16,14 @@
 			<div class="info-side">
 				{if $opinion->content != ""}
 					{if $showedInfo == 'user'}
+						<img class="achievement" src="{$baseUri}img/achievement_books_vertical_small_{$achievements[$opinion->userId]->books}.png" />
 						<img class="icon" src="{$opinion->userId, 50|userico}" />
 					{else}
 						<img class="icon" src="{$opinion->bookTitleId, 50|bookcover}" />
 					{/if}
 				{/if}
 				<span class="date">{$opinion->inserted|date}</span>
-
+				<div class="clear"></div>
 			</div>
 			
 			<div class="info-top">

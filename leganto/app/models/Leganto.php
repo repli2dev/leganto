@@ -16,6 +16,13 @@ class Leganto {
 	/**
 	 * @return IEntityFactory
 	 */
+	public static function achievement () {
+		return SimpleEntityFactory::createEntityFactory("achievement");
+	}
+
+	/**
+	 * @return IEntityFactory
+	 */
 	public static function authors() {
 		return SimpleEntityFactory::createEntityFactory("author");
 	}

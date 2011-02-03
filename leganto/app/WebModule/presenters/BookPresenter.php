@@ -110,7 +110,8 @@ class Web_BookPresenter extends Web_BasePresenter {
 	public function renderOpinions($book) {
 		$this->getTemplate()->book = $this->getBook();
 		$opinions = Leganto::opinions()->getSelector()
-				->findAllByBook($this->getTemplate()->book, System::user());
+				->findAllByBook($this->getTemplate()->book, System::user())
+				->where("[content] IS NOT NULL AND LENGTH(TRIM([content])) > 0");
 		$this->getComponent("opinionList")->setSource($opinions);
 		$this->getTemplate()->opinionCount = $opinions->count();
 		$this->setPageTitle(System::translate("Opinions") . ": " . $this->getTemplate()->book->title);
