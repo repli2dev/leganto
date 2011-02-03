@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
 "PO-Revision-Date: \n"
-"Last-Translator: Jan Drabek <repli2dev@gmail.com>\n"
+"Last-Translator: Jan Papoušek <jan.papousek@gmail.com>\n"
 "Language-Team: Leganto team <info@leganto.cz>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1831,7 +1831,7 @@ msgstr "Vítejte v nápovědě, kde můžete najít odpovědi na téměř všech
 
 # APP_DIR/WebModule/components/Introduction/introduction.phtml:90
 msgid "Welcome text. Put introduction text here!"
-msgstr "Právě se nacházíte na stránkách Internetového čtenářského deníku, který Vám umožní sdílet názory na knihy s ostatními a nacházet literaturu podle Vašeho vkusu. Podívejte se, co čte Váš soused, kamarád a další lidé z Vašeho okolí i neokolí."
+msgstr "Právě se nacházíte na stránkách, které Vám umožní sdílet názory na knihy s přáteli a nacházet literaturu podle Vašeho vkusu. Podívejte se, co čte Váš soused, kamarád a další lidé z Vašeho okolí."
 
 # APP_DIR/WebModule/components/Introduction/introduction.phtml:89
 msgid "Welcome!"
@@ -2235,3 +2235,4 @@ msgstr "vaše nové přihlašovací údaje jsou zobrazeny pod tímto textem. Pro
 #, fuzzy
 #~ msgid "Opinions on book"
 #~ msgstr "Názory na knihu"
+
