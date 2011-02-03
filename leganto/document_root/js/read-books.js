@@ -11,12 +11,13 @@
  */
 function legantoFillData(user,opinions,service) {
 	var HTML = [];
-	HTML.push('<div class="">Čtenář: ' + user.nick + ' (' + user.numberOfOpinions + ' názorů)</div>');
+	HTML.push('<div class="leganto-reader">Čtenář: ' + user.nick + ' (' + user.numberOfOpinions + ' názorů)</div>');
 	HTML.push('<ul>');
 	for (var i=0; i<opinions.length; i++){
-		HTML.push('<li><a href="' + service.domain + service.bookLink.replace('ID',opinions[i].bookTitleId) + '">' + opinions[i].bookTitle + '</a></li>');
+		HTML.push('<li><img src=' + service.domain + opinions[i].image + ' alt=' + opinions[i].bookTitle + ' /><a href="' + service.domain + service.bookLink.replace('ID',opinions[i].bookTitleId) + '">' + opinions[i].bookTitle + '</a><span class="rating"><img src="' + service.domain + '/img/rating_' + opinions[i].rating + '.png" alt="Hodnocení"/></span><div class="leganto-cleaner">&nbsp;</div></li>');
 	}
 	HTML.push('</ul>');
+	HTML.push('<div class="leganto-more">Objevte více o tomto <a href="' + service.domain +service.userLink.replace('ID',user.id) + '">uživateli</a>.</div>');
 	document.getElementById('leganto-content').innerHTML = HTML.join('');
 
 }

@@ -234,6 +234,7 @@ class Web_UserPresenter extends Web_BasePresenter {
 			// Prepare for creating callback
 			$this->getTemplate()->callback = $callback;
 			// Prepare object to be jsoned
+			$jUser["id"] = $userEntity->getId();
 			$jUser["nick"] = $userEntity->nickname;
 			$jUser["birthyear"] = $userEntity->birthyear;
 			$jUser["numberOfOpinions"] = $userEntity->numberOfOpinions;
@@ -243,12 +244,16 @@ class Web_UserPresenter extends Web_BasePresenter {
 			// Book
 			$rows = Leganto::opinions()->getSelector()->findAllByUser($userEntity,$empty)->applyLimit($limit);
 			$opinions = array();
+			$storage = new EditionImageStorage();
 			while ($opinion = Leganto::opinions()->fetchAndCreate($rows)) {
 				$temp["bookTitleId"] = $opinion->bookTitleId;
 				$temp["bookTitle"] = $opinion->bookTitle;
 				$temp["content"] = $opinion->content;
 				$temp["rating"] = $opinion->rating;
 				$temp["inserted"] = $opinion->inserted;
+				// Get random image
+				$image = $storage->getRandomFileByBookTitleId($opinion->bookTitleId);
+				$temp["image"] = empty($image) ? Helpers::thumbnailHelper(NULL,NULL,50) : Helpers::thumbnailHelper($image->getAbsolutePath(),NULL,50);
 				$opinions[] = $temp;
 				unset($temp);
 			}
@@ -259,6 +264,7 @@ class Web_UserPresenter extends Web_BasePresenter {
 			// service variables
 			$service["domain"] = Environment::getHttpRequest()->uri->hostUri;
 			$service["bookLink"] = $this->link("Book:default",'ID');
+			$service["userLink"] = $this->link("User:default",'ID');
 			$this->getTemplate()->service = json_encode($service);
 		}
 		catch(DibiDriverException $e) {
