@@ -38,7 +38,7 @@
 	padding: 0 10px;
 }
 .list .item .content{
-	margin-left: 92px;
+	margin-left: 77px;
 	min-height: 60px;
 }
 .list .info-side {
@@ -50,7 +50,7 @@
 	display: block;
 }
 .list .info-top {
-	padding-left: 10px;
+	margin-left: 77px;
 	vertical-align: middle;
 	margin-bottom: 5px;
 }
@@ -77,13 +77,6 @@
 .books .item .content {
 	min-height: 0;
 }
-.books .item .info-side {
-	margin-right: 5px;
-}
-.books .item .content {
-	margin-left: 70px;
-}
-
 /************************** OPINIONS ******************************************/
 .opinions .rating {
 	margin-right: 10px;
