@@ -14,7 +14,7 @@ function legantoFillData(user,opinions,service) {
 	HTML.push('<div class="leganto-reader">Čtenář: ' + user.nick + ' (' + user.numberOfOpinions + ' názorů)</div>');
 	HTML.push('<ul>');
 	for (var i=0; i<opinions.length; i++){
-		HTML.push('<li><img src=' + service.domain + opinions[i].image + ' alt=' + opinions[i].bookTitle + ' /><a href="' + service.domain + service.bookLink.replace('ID',opinions[i].bookTitleId) + '">' + opinions[i].bookTitle + '</a><span class="rating"><img src="' + service.domain + '/img/rating_' + opinions[i].rating + '.png" alt="Hodnocení"/></span><div class="leganto-cleaner">&nbsp;</div></li>');
+		HTML.push('<li><span class="cover"><img src=' + service.domain + opinions[i].image + ' alt=' + opinions[i].bookTitle + ' /></span><span class="title"><a href="' + service.domain + service.bookLink.replace('ID',opinions[i].bookTitleId) + '">' + opinions[i].bookTitle + '</a><br /><span class="author">' + opinions[i].author + '</span><img src="' + service.domain + '/img/rating_' + opinions[i].rating + '.png" alt="Hodnocení"/></span><div class="leganto-cleaner">&nbsp;</div></li>');
 	}
 	HTML.push('</ul>');
 	HTML.push('<div class="leganto-more">Objevte více o tomto <a href="' + service.domain +service.userLink.replace('ID',user.id) + '">uživateli</a>.</div>');

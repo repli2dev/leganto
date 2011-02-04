@@ -254,8 +254,15 @@ class Web_UserPresenter extends Web_BasePresenter {
 				// Get random image
 				$image = $storage->getRandomFileByBookTitleId($opinion->bookTitleId);
 				$temp["image"] = empty($image) ? Helpers::thumbnailHelper(NULL,NULL,50) : Helpers::thumbnailHelper($image->getAbsolutePath(),NULL,50);
+				// Get authors
+				$authors = Leganto::authors()->getSelector()->findAllByBookTitleId(array($opinion->bookTitleId))->select("full_name")->fetchAll();
+				$temp["author"] = $authors[0]->full_name;
+				if(count($authors) > 1) {
+					$temp["author"] .= "\xE2\x80\xA6";
+				}
 				$opinions[] = $temp;
 				unset($temp);
+				unset($authors);
 			}
 			if ($opinions === NULL)  {
 				throw new BadRequestException("No results");
