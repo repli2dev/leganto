@@ -1661,6 +1661,10 @@ resources/graphics/user-icon.png  mode=0644  uid=500  gid=100
 resources/howto  mode=0755  uid=500  gid=100
 resources/howto/LIBRARIES  mode=0644  uid=500  gid=100
 resources/howto/README_TWITTER  mode=0644  uid=500  gid=100
+resources/mails  mode=0755  uid=500  gid=100
+resources/mails/blogy.dat  mode=0644  uid=500  gid=100
+resources/mails/knihovny.dat  mode=0644  uid=500  gid=100
+resources/mails/ostatni.dat  mode=0644  uid=500  gid=100
 resources/playground  mode=0755  uid=500  gid=100
 resources/playground/read-books.html  mode=0644  uid=500  gid=100
 resources/poster  mode=0755  uid=500  gid=100
