@@ -112,7 +112,7 @@ class Web_HelpPresenter extends Web_BasePresenter {
 		$entity = Leganto::supportText()->getSelector()->find($id);
 		$entity->text = $values["text"];
 		$entity->weight = $values["weight"];
-		Leganto::supportText()->getUpdater()->update($entity);
+		$entity->persist();
 		$this->flashMessage(System::translate("Help text has been successfully updated."));
 		$this->redirect("text",$id);
 	}
