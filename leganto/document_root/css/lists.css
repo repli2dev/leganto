@@ -148,3 +148,19 @@
 .book-list-item h2 a {
 	color: #F1C11B;
 }
+/************************* POSTS **********************************************/
+.posts .item .content {
+	min-height: 60px;
+	margin-left: 92px;
+}
+.posts .item .info-top {
+	margin-left: 92px;
+}
+.posts .item .date {
+	width: 81px;
+}
+.posts .item .achievement {
+	height: 100px;
+	float: left;
+	margin-right: 5px;
+}

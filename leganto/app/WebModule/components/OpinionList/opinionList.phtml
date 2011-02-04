@@ -16,7 +16,7 @@
 			<div class="info-side">
 				{if $opinion->content != ""}
 					{if $showedInfo == 'user'}
-						<img class="achievement" title="{_'Level based on number of books read by the user.'}" alt="{_'Level based on the number of books read by the user.'}" src="{$baseUri}img/achievement_books_vertical_small_{$achievements[$opinion->userId]->books}.png" />
+						<img class="achievement" title="{_'level based on number of books read by the user'}" alt="{_'level based on the number of books read by the user'}" src="{$baseUri}img/achievement_books_vertical_small_{$achievements[$opinion->userId]->books}.png" />
 						<img class="icon" src="{$opinion->userId, 50|userico}" />
 					{else}
 						<img class="icon" src="{$opinion->bookTitleId, 50|bookcover}" />
