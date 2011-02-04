@@ -48,6 +48,7 @@ leganto/app/CronModule/presenters/BasePresenter.php  mode=0644  uid=1000  gid=10
 leganto/app/CronModule/presenters/CleanupPresenter.php  mode=0644  uid=1000  gid=1000
 leganto/app/CronModule/presenters/FeedPresenter.php  mode=0644  uid=1000  gid=1000
 leganto/app/CronModule/presenters/SimilarityPresenter.php  mode=0644  uid=1000  gid=1000
+leganto/app/CronModule/presenters/UserPresenter.php  mode=0644  uid=1000  gid=1000
 leganto/app/CronModule/templates  mode=0755  uid=1000  gid=1000
 leganto/app/CronModule/templates/default.phtml  mode=0644  uid=1000  gid=1000
 leganto/app/WebModule  mode=0755  uid=1000  gid=1000

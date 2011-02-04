@@ -37,9 +37,10 @@
 .list .navigation th {
 	padding: 0 10px;
 }
-.list .item .content{
+.list .item .content {
 	margin-left: 77px;
 	min-height: 60px;
+	padding: 0;
 }
 .list .info-side {
 	float: left;
@@ -48,6 +49,7 @@
 }
 .list .date {
 	display: block;
+	text-align: center;
 }
 .list .info-top {
 	margin-left: 77px;
@@ -84,11 +86,13 @@
 }
 .opinions .item .content {
 	min-height: 60px;
+	margin-left: 92px;
+}
+.opinions .item .info-top {
+	margin-left: 92px;
 }
 .opinions .item .date {
-	width: 80px;
-	border: 1px solid #f6f6f6;
-	text-align: center;
+	width: 81px;
 }
 .opinions .item .achievement {
 	height: 100px;
