@@ -136,7 +136,7 @@ class PostListComponent extends BaseListComponent {
 			$this->getTemplate()->posts[] = $post;
 			$userIds[] = $post->user;
 		}
-		$this->getTemplate()->achievements = Leganto::achievement()->getSelector()->findByUsers($userIds, $entities = FALSE);
+		$this->getTemplate()->achievements = Leganto::achievements()->getSelector()->findByUsers($userIds, $entities = FALSE);
 	}
 
 }

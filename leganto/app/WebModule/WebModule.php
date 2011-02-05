@@ -51,6 +51,11 @@ class WebModule {
 			'presenter' => 'User',
 			'action' => 'default',
 		), Route::ONE_WAY);
+		$router[] = new Route($prefix.'helper.php?what=userIcon&id=<id>', array(
+			"module" => "web",
+			'presenter' => 'User',
+			'action' => 'icon',
+		), Route::ONE_WAY);
 // Cause problem
 //		$router[] = new Route($prefix.'user.php?action=search', array(
 //			"module" => "web",

@@ -2,33 +2,53 @@
 
 @{block #subcontent}
     <div id="user-info">
-        <img class="icon" src="{$user->getId(),150|userico}" alt="{$user->nickname}" />
-        <h1>{$user->nickname}</h1>
-		<p>
-			{if $user->sex != NULL}
-				<strong>{_"Sex"}:</strong>
-				{if $user->sex == "female"}
-					{_"Female"}
-				{else}
-					{_"Male"}
-				{/if}
-				<br />
-			{/if}
-			{if $user->birthyear != NULL}
-				<strong>{_"Birth year"}:</strong> {$user->birthyear}<br />
-			{/if}
-			<strong>{_"Read books"}:</strong> {$numOfBooks}<br />
-			<strong>{_"Discussion posts"}:</strong> {$numOfPosts}<br />
-			<strong>{_"Shelves"}:</strong> {$numOfShelves}<br />
-			{if $user->lastLogged !== NULL}
-				<strong>{_"Last logged"}:</strong> {$user->lastLogged|time}<br />
-			{/if}
-		</p>
-		<div class="clear">&nbsp;</div>
+		<h1>{$user->nickname}</h1>
 		{if $user->about != NULL}
-			<h2>{_"About"}</h2>
-			{!$user->about|texySafe}
+			<div class="about">
+				{!$user->about|texySafe}
+			</div>
 		{/if}
+		<table class="stats" cellspacing="0">
+			{if $user->birthyear != NULL}
+				<tr>
+					<th>{_"Birth year"}</th>
+					<td>{$user->birthyear}</td>
+				</tr>
+			{/if}
+			{if $user->sex != NULL}
+				<tr>
+					<th>{_"Sex"}</th>
+					<td>{if $user->sex == "female"}{_"Female"}{else}{_"Male"}{/if}</td>
+				</tr>
+			{/if}
+			{if $user->lastLogged !== NULL}
+				<tr>
+					<th>{_"Last logged"}</th>
+					<td>{$user->lastLogged|date}</td>
+				</tr>
+			{/if}
+			<tr>
+				<th>{_"Read books"}</th>
+				<td>{$achievement->booksTotal}</td>
+			</tr>
+			<tr>
+				<th>{_"Opinions"}</th>
+				<td>{$achievement->opinionsTotal}</td>
+			</tr>
+			<tr>
+				<th>{_"Discussion posts"}</th>
+				<td>{$achievement->postsTotal}</td>
+			</tr>
+		</table>
+        <img class="icon" src="{$user->getId(),150|userico}" alt="{$user->nickname}" />
+		<div class="achievements">
+			<img class="achievement" title="{_'level based on number of books read by the user'}" alt="{_'level based on the number of books read by the user'}" src="{$baseUri}img/achievement_books_{$achievement->books}.png" />
+			<img class="achievement" title="{_'level based on number of user\'s opinions'}" alt="{_'level based on number of user\'s opinions'}" src="{$baseUri}img/achievement_opinions_{$achievement->opinions}.png" />
+			<img class="achievement" title="{_'level based on number of user\'s discussion posts'}" alt="{_'level based on number of user\'s discussion posts'}" src="{$baseUri}img/achievement_posts_{$achievement->posts}.png" />
+			<img class="achievement" title="{_'level based on number of user\'s followers'}" alt="{_'level based on number of user\'s followers'}" src="{$baseUri}img/achievement_followers_{$achievement->followers}.png" />
+		</div>
+		
+		<div class="clear">&nbsp;</div>
 	</div>
 	<div class="clear">&nbsp;</div>
 	<h2>{_"Opinions"}</h2>
