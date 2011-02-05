@@ -1,5 +1,5 @@
 {snippet opinion-list}
-<div class="opinions list">
+<div class="opinions list{if $showedInfo == 'user'} opinions-user{/if}">
 
     {if !empty($sorting)}
     <table class="navigation">
