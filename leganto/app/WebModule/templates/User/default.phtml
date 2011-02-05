@@ -8,7 +8,13 @@
 				{!$user->about|texySafe}
 			</div>
 		{/if}
-		<table class="stats" cellspacing="0">
+		<table class="stats {$user->role}" cellspacing="0">
+			{if $user->role != 'common'}
+				<tr>
+					<th>{_"System role"}</th>
+					<td>{=System::translate(ucfirst($user->role))}</td>
+				</tr>
+			{/if}
 			{if $user->birthyear != NULL}
 				<tr>
 					<th>{_"Birth year"}</th>
@@ -39,6 +45,17 @@
 				<th>{_"Discussion posts"}</th>
 				<td>{$achievement->postsTotal}</td>
 			</tr>
+			<tr>
+				<th>{_"Followers"}</th>
+				<td>{$achievement->followersTotal}</td>
+			</tr>
+			{if System::isCurrentlyLogged($user->getId()) && $achievement->opinions == 2 && $user->role == 'common'}
+			<tr class="to-be-moderator">
+				<td colspan="2">
+					{_'If you add %s opinions you will be a moderator.', (50-$achievement->opinionsTotal > 0 ? 50-$achievement->opinionsTotal : 0)}
+				</td>
+			</tr>
+			{/if}
 		</table>
         <img class="icon" src="{$user->getId(),150|userico}" alt="{$user->nickname}" />
 		<div class="achievements">

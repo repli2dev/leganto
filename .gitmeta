@@ -729,6 +729,9 @@ leganto/document_root/img/rating_4.gif  mode=0644  uid=1000  gid=1000
 leganto/document_root/img/rating_4.png  mode=0644  uid=1000  gid=1000
 leganto/document_root/img/rating_5.gif  mode=0644  uid=1000  gid=1000
 leganto/document_root/img/rating_5.png  mode=0644  uid=1000  gid=1000
+leganto/document_root/img/role_admin.png  mode=0644  uid=1000  gid=1000
+leganto/document_root/img/role_common.png  mode=0644  uid=1000  gid=1000
+leganto/document_root/img/role_moderator.png  mode=0644  uid=1000  gid=1000
 leganto/document_root/img/slider_arrows.png  mode=0644  uid=1000  gid=1000
 leganto/document_root/img/slider_bullets.png  mode=0644  uid=1000  gid=1000
 leganto/document_root/img/smiles  mode=0755  uid=1000  gid=1000
