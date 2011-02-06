@@ -752,6 +752,11 @@ table.connections-list a.delete {
 #user-info h1 {
 	margin-bottom: 10px;
 }
+#user-info .achievements {
+	width: 200px;
+	padding: 0;
+	margin-left: 110px;
+}
 #user-info .achievements .achievement {
 	width: 200px;
 	display: block;
@@ -766,13 +771,14 @@ table.connections-list a.delete {
 	margin: 10px 0;
 }
 #user-info .icon {
-	width: 150px;
+	width: 100px;
+	margin-right: 0;
 }
 #user-info .stats {
-	width: 300px;
+	width: 370px;
 	float: right;
 	background-color: #f6f6f6;
-	background-position: 5% 50%;
+	background-position: 10% 50%;
 	background-repeat: no-repeat;
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
