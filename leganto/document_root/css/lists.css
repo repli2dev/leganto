@@ -50,6 +50,7 @@
 .list .date {
 	display: block;
 	text-align: center;
+	width: 54px;
 }
 .list .info-top {
 	margin-left: 77px;
