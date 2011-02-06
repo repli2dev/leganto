@@ -168,7 +168,9 @@ class Web_SettingsPresenter extends Web_BasePresenter {
 			->addRule(Form::EMAIL, 'Please fill the e-mail in the right format (someone@somewhere.tld).');
 
 		$form->addGroup("Extra information");
-		$form->addSelect("sex", "Sex", array("" => System::translate("Unknown"), "male" => "Male", "female" => "Female"));
+		$form->addSelect("sex", "Sex", array("" => System::translate("Choose"), "male" => "Male", "female" => "Female"))
+			->skipFirst()
+			->addRule(Form::FILLED,'Please choose your sex.');
 		$form->addText("birthyear", "Birth year", 4)
 			->addCondition(Form::FILLED)
 			->addRule(Form::INTEGER, "Please correct the birth year. Only integer is allowed.");

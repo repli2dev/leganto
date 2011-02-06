@@ -97,8 +97,9 @@ class InsertingOpinionComponent extends BaseComponent {
 		    5 => System::translate("Excellent")
 		);
 		$form->addSelect("rating", "Rating", $ratings)
-			->setOption("description",System::translate("(not selected anything means you really hate this book!)"));
-		$form->addTextArea("content", "Your opinion", 50, 15);
+			->setOption("description",System::translate("(empty means you really hate this book)"));
+		$form->addTextArea("content", "Your opinion", 50, 15)
+			->getControlPrototype()->title(System::translate("Do not write spoilers!"));
 		$form->addText("tags", "Tags")->setOption("description", System::translate("(tags will be appended to current ones)"));
 		$languages = Leganto::languages()->getSelector()->findAll()->fetchPairs("id_language", "name");
 		$form->addSelect("language", "Language", $languages)
