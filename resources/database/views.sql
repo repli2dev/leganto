@@ -191,7 +191,8 @@ CREATE VIEW `view_book_search` AS
 		`author`.`type`,
 		`author`.`first_name`,
 		`author`.`last_name`,
-		`author`.`group_name`
+		`author`.`group_name`,
+		IF (`author`.`type` = 'person', CONCAT(`author`.`first_name`, CONCAT(' ', `author`.`last_name`)), `group_name`) AS `full_name`
 	FROM `view_book`
 	LEFT JOIN `tagged` USING (`id_book`)
 	LEFT JOIN `tag` USING (`id_tag`)

@@ -37,6 +37,21 @@ class AuthorSelector implements ISelector {
 	}
 
 	/**
+	 * Find all authors by given book title id
+	 * @param int $id
+	 * @return DibiDataSource
+	 */
+	public function findAllByBookTitleId($id) {
+		if (empty($id)) {
+			throw new NullPointerException("id");
+		}
+		return dibi::dataSource("
+			SELECT * FROM [view_book_search]
+			WHERE [id_book_title] = %i GROUP BY [id_author]", $id
+		);
+	}
+
+	/**
 	 * 
 	 * @param object $books books ids
 	 * @return DibiDataSource
