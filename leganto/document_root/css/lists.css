@@ -47,10 +47,13 @@
 	margin-right: 10px;
 	height: 100%;
 }
+.list .icon {
+	margin: 2px auto;
+}
 .list .date {
 	display: block;
+	vertical-align: middle;
 	text-align: center;
-	width: 54px;
 }
 .list .info-top {
 	margin-left: 77px;
