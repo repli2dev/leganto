@@ -56,6 +56,8 @@ final class Helpers {
 				break;
 			case "language": return array(get_class(), "languageHelper");
 				break;
+			case "rating": return array(get_class(), "ratingHelper");
+				break;
 			default:
 				throw new DataNotFoundException("helper: $helper");
 		}
@@ -264,6 +266,23 @@ final class Helpers {
 			$width,
 			$height
 		);
+	}
+
+	/**
+	 * It returns human readable rating
+	 *
+	 * @param int $rating grade
+	 * @return string
+	 */
+	public static function ratingHelper($rating) {
+		switch ($rating) {
+			case 0: return System::translate("Waste");
+			case 1: return System::translate("Poor");
+			case 2: return System::translate("Fair");
+			case 3: return System::translate("Good");
+			case 4: return System::translate("Very good");
+			case 5: return System::translate("Excellent");
+		}
 	}
 
 	// PRIVATE METHODS

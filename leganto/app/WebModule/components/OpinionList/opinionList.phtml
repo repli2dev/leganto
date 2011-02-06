@@ -26,7 +26,7 @@
 			</div>
 			
 			<div class="info-top">
-				<img class="rating" src="{$baseUri}img/rating_{$opinion->rating}.png" />
+				<img class="rating" src="{$baseUri}img/rating_{$opinion->rating}.png" alt="{$opinion->rating|rating}" title="{$opinion->rating|rating}" />
 				{if $showedInfo == 'user'}
 					<a href="{plink User:default, $opinion->userId}">{$opinion->userName|hardTruncate, 20}</a>
 				{else}

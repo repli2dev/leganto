@@ -33,6 +33,12 @@ a:hover {
 a img {
 	border: none;
 }
+pre {
+	overflow: auto;
+}
+pre.html {
+	padding: 5px;
+}
 
 /************************** LAYOUT ********************************************/
 .wrapper {

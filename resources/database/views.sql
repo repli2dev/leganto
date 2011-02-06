@@ -92,7 +92,7 @@ CREATE VIEW `view_opinion` AS
 	SELECT
 		`opinion`.`id_opinion`			AS `id_opinion`,
 		`opinion`.`content`			AS `content`,
-		`opinion`.`rating`			AS `rating`,
+		IF (`opinion`.`rating` = '', 0, `opinion`.`rating`)	AS `rating`,
 		`opinion`.`inserted`			AS `inserted`,
 		`opinion`.`updated`			AS `updated`,
 		`opinion`.`id_book_title`		AS `id_book_title`,

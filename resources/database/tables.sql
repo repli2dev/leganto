@@ -121,7 +121,7 @@ CREATE TABLE `opinion` (
 	`id_user` INT(25) UNSIGNED NOT NULL COMMENT 'uzivatel, ktery nazor napsal',
 	`id_language` INT(25) UNSIGNED NOT NULL COMMENT 'jazyk, kterym je nazor napsany',
 	`id_book_title` INT(25) UNSIGNED NOT NULL COMMENT 'kniha, ke ktere je nazor napsany',
-	`rating` ENUM('1','2','3','4','5') NOT NULL DEFAULT '1' COMMENT 'hodnoceni',
+	`rating` ENUM('0','1','2','3','4','5') NOT NULL DEFAULT '0' COMMENT 'hodnoceni',
 	`content` TEXT NULL COMMENT 'slovni vyjadreni nazoru na knihu',
 	`inserted` DATETIME NOT NULL COMMENT 'cas, kdy byla polozka vlozena do systemu',
 	`updated` TIMESTAMP COMMENT 'cas, kdy byla polozka naposledy zmenena',

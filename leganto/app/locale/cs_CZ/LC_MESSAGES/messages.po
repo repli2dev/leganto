@@ -1917,7 +1917,7 @@ msgstr "Uživatelé, které daný uživatel sleduje."
 
 # APP_DIR/WebModule/components/InsertingOpinion/InsertingOpinionComponent.php:90
 msgid "Very good"
-msgstr "Vynikající"
+msgstr "Velmi dobré"
 
 # APP_DIR/WebModule/components/Introduction/introduction.phtml:8
 msgid "Want quick overview of book's target group? Or distribution of ratings? See our graphs."

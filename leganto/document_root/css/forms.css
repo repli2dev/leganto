@@ -233,6 +233,6 @@ label[for=frmsignUpForm-captchacode] {
 	width: 100%;
 	text-align: center;
 }
-input.shaded-text {
-	color: #4D341A;
+#search input.shaded-text {
+	color: #828282;
 }
