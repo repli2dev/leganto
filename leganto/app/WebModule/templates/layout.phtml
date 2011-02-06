@@ -8,6 +8,12 @@
 		<meta name="author" content="Jan Papoušek, Jan Drábek {_'and our community, altogether.'}" />
 		<meta name="robots" content="index, follow" />
 		<meta property="fb:app_id" content="175434332634" />
+
+		{*RSS feeds*}
+		<link rel="alternate" type="application/rss+xml" title="Leganto: feed of all users" href="{plink Rss:}" />
+		{if Environment::getUser()->isAuthenticated()}
+			<link rel="alternate" type="application/rss+xml" title="Leganto: your feed" href="{plink Rss:,System::user()->getId()}" />
+		{/if}
 		
 		<link rel="stylesheet" type="text/css" href="/css/main.css" />
 		<link rel="stylesheet" type="text/css" href="/css/theme.css" />

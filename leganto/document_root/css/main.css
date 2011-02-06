@@ -327,7 +327,8 @@ a img {
 	background: #FDF7CD;
 	border: 1px solid #FDF7CD;
 }
-#main-info .hint {
+#main-info .hint,
+#main-info .rss {
 	background: #FDF7CD;
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
@@ -335,15 +336,18 @@ a img {
 	border: 1px solid #FDF7CD;
 	padding: 5px;
 }
-#main-info .hint img {
+#main-info .hint img,
+#main-info .rss img{
 	float: left;
 	width: auto;
+	margin-right: 10px;
 }
 #main-info .hint p {
 	padding-top: 0px;
 	padding-left: 50px;
 	background: url('/img/ico/light_bulb.png') no-repeat 0% 0% ;
 }
+
 #feed div.item-opinion {
 	background: #F6F6F6 url('/img/ico/feed-opinion.png') no-repeat 98% 50%;
 }
