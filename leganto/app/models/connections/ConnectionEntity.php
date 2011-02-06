@@ -29,4 +29,6 @@ class ConnectionEntity extends AEntity {
 	 * @Rule(type=filled)
 	 */
 	protected $token;
+
+	protected $inserted;
 }

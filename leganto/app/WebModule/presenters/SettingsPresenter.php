@@ -71,6 +71,7 @@ class Web_SettingsPresenter extends Web_BasePresenter {
 							$connection->user = $user;
 							$connection->type = 'twitter';
 							$connection->token = $twitter->getToken();
+							$connection->inserted = new DateTime();
 
 							try {
 								// Commit
@@ -118,6 +119,7 @@ class Web_SettingsPresenter extends Web_BasePresenter {
 						$connection->user = $user;
 						$connection->type = 'facebook';
 						$connection->token = $fb->getToken();
+						$connection->inserted = new DateTime();
 						try {
 							// Commit
 							Leganto::connections()->getInserter()->insert($connection);

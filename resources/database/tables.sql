@@ -45,6 +45,7 @@ CREATE TABLE `connection` (
 	`id_user` INT(25) UNSIGNED NOT NULL COMMENT 'uzivatel',
 	`type`	ENUM('facebook','twitter') NOT NULL COMMENT 'typ propojeni - sluzba na ktere se autorizuje',
 	`token` VARCHAR(255) NOT NULL COMMENT 'cizi klic, ktery je dostupny - hash, id uzivatele na cizim serveru...',
+	`inserted` DATETIME NOT NULL COMMENT 'cas, kdy byla polozka vlozena do systemu',
 	FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`) ON UPDATE CASCADE ON DELETE CASCADE,
 	UNIQUE(`id_user`,`type`),
 	UNIQUE  `one_account_in_system` (  `type` ,  `token` )
