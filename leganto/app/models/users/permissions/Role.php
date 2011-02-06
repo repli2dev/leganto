@@ -15,8 +15,6 @@ class Role implements IRole {
 
 	const GUEST = "guest";
 
-	const LIMIT_TO_BE_PRIVILEGED = 40;
-
 	const PRIVILEGED = "privileged";
 
 	const ADMIN = "admin";
@@ -52,12 +50,7 @@ class Role implements IRole {
 			$role = self::ADMIN;
 		} else
 		if ($user->role == UserEntity::COMMON) {
-			$opinions = Leganto::opinions()->getSelector()->findAll()->where("[id_user] = %i", $user->getId());
-			if ($opinions->count() >= self::LIMIT_TO_BE_PRIVILEGED) {
-				$role = self::PRIVILEGED;
-			} else {
-				$role = self::COMMON;
-			}
+			$role = self::COMMON;
 		} else {
 			$role = self::PRIVILEGED;
 		}

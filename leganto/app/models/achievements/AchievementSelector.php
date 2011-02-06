@@ -11,7 +11,7 @@ class AchievementSelector implements ISelector
 	}
 
 	public function findByUser(UserEntity $user) {
-		return Leganto::achievement()->fetchAndCreate(dibi::dataSource("SELECT * FROM [tmp_achievement] WHERE [id_user] = %i", $user->getId()));
+		return Leganto::achievements()->fetchAndCreate(dibi::dataSource("SELECT * FROM [tmp_achievement] WHERE [id_user] = %i", $user->getId()));
 	}
 
 	public function findByUsers(array $users, $entities = TRUE) {
@@ -30,7 +30,7 @@ class AchievementSelector implements ISelector
 			}
 			$source = dibi::dataSource("SELECT * FROM [tmp_achievement] WHERE [id_user] IN %l", $userIds);
 			$result = array();
-			while($entity = Leganto::achievement()->fetchAndCreate($source)) {
+			while($entity = Leganto::achievements()->fetchAndCreate($source)) {
 				$result[$entity->idUser] = $entity;
 			}
 			return $result;

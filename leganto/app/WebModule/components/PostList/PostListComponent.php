@@ -130,7 +130,13 @@ class PostListComponent extends BaseListComponent {
 			$this->getPaginator()->itemsPerPage = $paginator->itemCount;
 		}
 		$source->applyLimit($paginator->itemsPerPage, $paginator->offset);
-		$this->getTemplate()->posts = Leganto::posts()->fetchAndCreateAll($source);
+		$this->getTemplate()->posts = array();
+		$userIds = array();
+		while ($post = Leganto::posts()->fetchAndCreate($source)) {
+			$this->getTemplate()->posts[] = $post;
+			$userIds[] = $post->user;
+		}
+		$this->getTemplate()->achievements = Leganto::achievements()->getSelector()->findByUsers($userIds, $entities = FALSE);
 	}
 
 }

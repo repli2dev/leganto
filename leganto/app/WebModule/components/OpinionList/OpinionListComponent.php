@@ -100,7 +100,7 @@ class OpinionListComponent extends BaseListComponent {
 		}
 		// Book achivements
 		if ($this->getTemplate()->showedInfo == "user") {
-			$this->getTemplate()->achievements = Leganto::achievement()->getSelector()->findByUsers($userIds, $entities = FALSE);
+			$this->getTemplate()->achievements = Leganto::achievements()->getSelector()->findByUsers($userIds, $entities = FALSE);
 		}
 	}
 

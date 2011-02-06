@@ -16,7 +16,7 @@ class Leganto {
 	/**
 	 * @return IEntityFactory
 	 */
-	public static function achievement () {
+	public static function achievements () {
 		return SimpleEntityFactory::createEntityFactory("achievement");
 	}
 
