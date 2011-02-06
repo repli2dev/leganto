@@ -381,8 +381,8 @@ msgid "Did you know, that ...?"
 msgstr "Věděli jste, že...?"
 
 # APP_DIR/WebModule/components/Introduction/introduction.phtml:6
-msgid "Did you like the book and want to read something similar?"
-msgstr "Líbila se vám kniha a chcete si přečíst něco podobného?"
+msgid "Did you like the book and want to read something similar? See similar books."
+msgstr "Líbila se vám kniha a chcete si přečíst něco podobného? Podívejte se na podobné knihy."
 
 # APP_DIR/WebModule/components/Introduction/introduction.phtml:5
 msgid "Discover what is opinion of other people, keep track your and your friends books."
@@ -1920,8 +1920,8 @@ msgid "Very good"
 msgstr "Vynikající"
 
 # APP_DIR/WebModule/components/Introduction/introduction.phtml:8
-msgid "Want quick overview of book target group? Or ratings? See our graphs."
-msgstr "Chcete rychle zjistit rozložení čtenářů jisté knihy? Nebo hodnocení? Podívejte se na naše grafy."
+msgid "Want quick overview of book's target group? Or distribution of ratings? See our graphs."
+msgstr "Chcete rychle zjistit cílovou skupinu knihy? Nebo hodnocení? Podívejte se na naše grafy."
 
 # APP_DIR/WebModule/components/Introduction/introduction.phtml:10
 msgid "Want to keep in touch with other users? Just send them message."
@@ -1929,7 +1929,7 @@ msgstr "Chcete zůstat ve spojení s ostatními uživateli? Napište jim zprávu
 
 # APP_DIR/WebModule/components/Introduction/introduction.phtml:9
 msgid "Want track your library or just list books you want to read? Just put it into shelf."
-msgstr "Chcete mít přehled o své knihovně nebo jen nezapomenout co si chcete přečíst? Přidejte si je do poličky."
+msgstr "Chcete mít přehled o své knihovně nebo jen nezapomenout co si chcete přečíst? Zařazujte si jednotlivé knihy do poliček."
 
 # APP_DIR/WebModule/components/InsertingShelf/InsertingShelfComponent.php:76
 msgid "Wanted"

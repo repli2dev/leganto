@@ -1,7 +1,7 @@
 # Gettext keys exported by GettextExtractor
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2011-02-04T21:27:07+01:00\n"
+"POT-Creation-Date: 2011-02-06T10:08:03+01:00\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
@@ -385,7 +385,7 @@ msgid "Did you know, that ...?"
 msgstr ""
 
 # APP_DIR/WebModule/components/Introduction/introduction.phtml:6
-msgid "Did you like the book and want to read something similar?"
+msgid "Did you like the book and want to read something similar? See similar books."
 msgstr ""
 
 # APP_DIR/WebModule/components/Introduction/introduction.phtml:5
@@ -1939,7 +1939,7 @@ msgid "Very good"
 msgstr ""
 
 # APP_DIR/WebModule/components/Introduction/introduction.phtml:8
-msgid "Want quick overview of book target group? Or ratings? See our graphs."
+msgid "Want quick overview of book's target group? Or distribution of ratings? See our graphs."
 msgstr ""
 
 # APP_DIR/WebModule/components/Introduction/introduction.phtml:10
