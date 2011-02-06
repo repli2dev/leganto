@@ -105,6 +105,7 @@ class OpinionSelector implements ISelector {
 			 FROM [view_opinion]
 			 WHERE [content] IS NOT NULL
 			 AND LENGTH(TRIM([content])) > 0
+			 GROUP BY [id_book_title]
 			 ORDER BY [inserted] DESC
 		     LIMIT %i", $limit
 		);
