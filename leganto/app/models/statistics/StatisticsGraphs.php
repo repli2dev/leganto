@@ -19,7 +19,11 @@ class StatisticsGraphs {
 		$res = dibi::query("SELECT COUNT(*) AS number, rating FROM opinion GROUP BY rating");
 		$statistics = array();
 		while ($stat = $res->fetch()) {
-			$statistics[$stat->rating] = $stat->number;
+			if($stat->rating == '') {
+				$statistics[0] = $stat->number;
+			} else {
+				$statistics[$stat->rating] = $stat->number;
+			}
 		}
 		// Build chart
 		$chart = new GoogleChart(GoogleChart::TYPE_TWO_DIMENSIONAL_PIE);
@@ -28,7 +32,7 @@ class StatisticsGraphs {
 		$chart->setLegend(array_keys($statistics));
 		$chart->setLabels(GoogleChart::AXES_BOTTOM, $statistics);
 		// Tango pallete
-		$chart->setColors(array("8ae234","3465a4","fce94f","f57900","a40000"));
+		$chart->setColors(array("8ae234","3465a4","fce94f","ad7fa8","f57900","a40000"));
 		$chart->addDataSet($statistics);
 		return $chart;
 	}

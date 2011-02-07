@@ -253,7 +253,7 @@ leganto/app/locale/en_US/LC_MESSAGES/messages.mo  mode=0644  uid=500  gid=100
 leganto/app/locale/en_US/LC_MESSAGES/messages.po  mode=0644  uid=500  gid=100
 leganto/app/locale/messages.pot  mode=0666  uid=500  gid=100
 leganto/app/logs  mode=0777  uid=500  gid=100
-leganto/app/logs/log.sql  mode=0666  uid=33  gid=33
+leganto/app/logs/log.sql  mode=0644  uid=33  gid=33
 leganto/app/models  mode=0755  uid=500  gid=100
 leganto/app/models/Leganto.php  mode=0644  uid=500  gid=100
 leganto/app/models/System.php  mode=0644  uid=500  gid=100
