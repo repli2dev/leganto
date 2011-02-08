@@ -758,6 +758,63 @@ table.connections-list a.delete {
 	height: 1px;
 	border: 0px none;
 }
+/******************************* USER INFO *******************************/
+#user-info h1 {
+	margin-bottom: 10px;
+}
+#user-info .achievements {
+	width: 200px;
+	padding: 0;
+	margin-left: 110px;
+}
+#user-info .achievements .achievement {
+	width: 200px;
+	display: block;
+}
+.about {
+	background: #FDF7CD;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	border: 1px solid #FDF7CD;
+	padding: 5px;
+	margin: 10px 0;
+}
+#user-info .icon {
+	width: 100px;
+	margin-right: 0;
+}
+#user-info .stats {
+	width: 370px;
+	float: right;
+	background-color: #f6f6f6;
+	background-position: 10% 50%;
+	background-repeat: no-repeat;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	border: 1px solid #f6f6f6;
+}
+#user-info .admin {
+	background-image: url('/img/role_admin.png');
+}
+#user-info .common {
+	background-image: url('/img/role_common.png');
+}
+#user-info .moderator {
+	background-image: url('/img/role_moderator.png');
+}
+#user-info .to-be-moderator {
+	color: red;
+	text-align: center;
+}
+#user-info .stats td {
+	padding: 2px 10px;
+}
+#user-info .stats th {
+	padding: 1px 10px;
+	text-align: right;
+}
 /******************************* TWITTER *******************************/
 #twitter_div {
 	margin-bottom: 30px;

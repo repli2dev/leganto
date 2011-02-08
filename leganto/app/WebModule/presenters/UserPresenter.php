@@ -23,12 +23,9 @@ class Web_UserPresenter extends Web_BasePresenter {
 		$source = Leganto::opinions()->getSelector()->findAllByUser($this->getUserEntity());
 		$this->getComponent("opinionList")->setSource($source);
 		// Set stats
-		$this->getTemplate()->numOfBooks = $source->count();
-		// TODO: zpusobovalo chybu
-		// $this->getTemplate()->numOfOpinions = $source->where("content != ''")->count();
-		$this->getTemplate()->numOfPosts = Leganto::posts()->getSelector()->findAll()->where("id_user = %i",$this->getUserEntity()->getId())->count();
 		$this->getTemplate()->numOfShelves = Leganto::shelves()->getSelector()->findAll()->where("id_user = %i",$this->getUserEntity()->getId())->count();
-		
+		$this->getTemplate()->achievement = Leganto::achievements()->getSelector()->findByUser($this->getUserEntity());
+
 		$this->setPageTitle(System::translate("Profile and opinions") . ": " . $this->getUserEntity()->nickname);
 		$this->setPageDescription(System::translate("This is the profile page of a user where you can track his or her opinions, look into shelves, find followers and followed users."));
 		$this->setPageKeywords(System::translate("followers, following, user profile, user detail, users opinion"));

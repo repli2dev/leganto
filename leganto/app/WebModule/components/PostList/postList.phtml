@@ -9,10 +9,11 @@
 		<div class="clear"></div>
 		<div class="item">
 			<div class="info-side">
+				<img class="achievement" title="{_'level based on number of user\'s discussion posts'}" alt="{_'level based on number of user\'s discussion posts'}" src="{$baseUri}img/achievement_posts_vertical_small_{$achievements[$post->user]->posts}.png" />
 				<img class="icon" src="{$post->user, 50|userico}" />
 				<span class="date">{$post->inserted|date}</span>
 			</div>
-			<div clas="info-top">
+			<div class="info-top">
 				<a href="{plink User:default, $post->user}" title="{$post->userName}">{$post->userName|hardTruncate, 20}</a>
 				{if Environment::getUser()->isAllowed(Resource::create($post), Action::EDIT)}
 					<div class="control">

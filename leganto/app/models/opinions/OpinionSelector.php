@@ -99,14 +99,16 @@ class OpinionSelector implements ISelector {
 	 * @param int $limit limit of opinions
 	 * @return DibiDataSource
 	 */
-	public function findAllNotEmptyLast($limit = 6) {
+	public function findAllNotEmptyLastUniqueBook($limit = 6) {
 		return dibi::dataSource(
 			"SELECT *
-		 FROM [view_opinion]
-		 WHERE [content] IS NOT NULL
-		 AND LENGTH(TRIM([content])) > 0
-		 ORDER BY [inserted] DESC
-		 LIMIT %i", $limit);
+			 FROM [view_opinion]
+			 WHERE [content] IS NOT NULL
+			 AND LENGTH(TRIM([content])) > 0
+			 GROUP BY [id_book_title]
+			 ORDER BY [inserted] DESC
+		     LIMIT %i", $limit
+		);
 	}
 
 }

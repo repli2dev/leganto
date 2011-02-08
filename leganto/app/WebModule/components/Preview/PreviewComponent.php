@@ -15,7 +15,7 @@ class PreviewComponent extends BaseComponent {
 	public function render() {
 		$opinions = Leganto::opinions()
 				->getSelector()
-				->findAllNotEmptyLast()
+				->findAllNotEmptyLastUniqueBook()
 				->fetchAll();
 		$this->getTemplate()->opinions = array();
 		foreach ($opinions AS $opinion) {
