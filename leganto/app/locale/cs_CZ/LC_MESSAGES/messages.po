@@ -32,6 +32,10 @@ msgstr "%s přispěl(a) do diskuze %s"
 msgid "(Nickname of the user)"
 msgstr "(Přezdívka uživatele)"
 
+# APP_DIR/WebModule/components/InsertingOpinion/InsertingOpinionComponent.php:100
+msgid "(empty means you really hate this book)"
+msgstr "(nesnášíte-li knihu ponechte prázdné)"
+
 # APP_DIR/WebModule/components/Edition/EditionComponent.php:77
 msgid "(only if change)"
 msgstr "(pouze pokud bylo změněno)"
@@ -126,6 +130,10 @@ msgstr "Všechny knihy"
 msgid "All books sorted from the newest to the oldest."
 msgstr "Všechny knihy seřazené od nejnovější po nejstarší."
 
+# APP_DIR/tools/Helpers.php:122
+msgid "Always having the last Word ;-)"
+msgstr "Musí mít vždy poslední slovo ;-)"
+
 # APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:171
 # APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:209
 msgid "An account with the same nickname is already registered."
@@ -145,6 +153,10 @@ msgstr "Vyskytla se chyba, heslo, které jste zadal(a), je chybné."
 # APP_DIR/WebModule/presenters/BasePresenter.php:61
 msgid "An unexpected error has occurred."
 msgstr "Vyskytla se neočekávaná chyba."
+
+# APP_DIR/tools/Helpers.php:105
+msgid "Arbiter elegantiarum"
+msgstr "Rozhodčí ve věcech vkusu"
 
 # APP_DIR/WebModule/presenters/HelpPresenter.php:17
 msgid "Are you lost in our page or do you just miss the last puzzle? This page can answer nearly all questions."
@@ -214,6 +226,25 @@ msgstr "Základní informace"
 msgid "Before mindlessly creating a new topic please calm down. To avoid creating duplicite topic, please use search in discussion with appropriate keyword. Choose name of the new topic apposite!"
 msgstr "Před bezhlavým vytvářením nového tématu se, prosím, uklidněte. Aby jste se vyhnuli vytvoření duplicitního tématu, použijte hledání v diskuzích s patřičnými klíčovými slovy. Važte jméno tématu rozumně!"
 
+# APP_DIR/tools/Helpers.php:78
+# APP_DIR/tools/Helpers.php:95
+# APP_DIR/tools/Helpers.php:112
+# APP_DIR/tools/Helpers.php:129
+msgid "Beginner"
+msgstr "Začátečník"
+
+# APP_DIR/WebModule/components/BookStatistics/BookStatisticsComponent.php:24
+msgid "Beginning reader"
+msgstr "Začínající čtenář"
+
+# APP_DIR/tools/Helpers.php:97
+msgid "Beginning reviewer"
+msgstr "Začínající recenzent"
+
+# APP_DIR/tools/Helpers.php:88
+msgid "Bibliophile"
+msgstr "Knihomol"
+
 # APP_DIR/WebModule/presenters/SettingsPresenter.php:160
 msgid "Birth year"
 msgstr "Rok narození"
@@ -226,6 +257,15 @@ msgstr "Kniha"
 # APP_DIR/WebModule/components/Edition/EditionComponent.php:61
 msgid "Book cover"
 msgstr "Obal knihy"
+
+# APP_DIR/WebModule/components/InsertingBook/InsertingBookComponent.php:133
+# APP_DIR/WebModule/components/InsertingBook/InsertingBookComponent.php:242
+msgid "Book enthusiast"
+msgstr "Knižní nadšenec"
+
+# APP_DIR/WebModule/components/Edition/EditionComponent.php:61
+msgid "Book lover"
+msgstr "Milovník knih"
 
 # APP_DIR/WebModule/presenters/SearchPresenter.php:16
 msgid "Book search"
@@ -261,6 +301,10 @@ msgstr "Knihy podobné"
 # APP_DIR/WebModule/components/Introduction/introduction.phtml:7
 msgid "Can't decide what to read, look what users with similar ranking read."
 msgstr "Nemůžete se rozhodnout, co číst? Podívejte se na četbu podobně hodnotících uživatelů."
+
+# APP_DIR/tools/Helpers.php:137
+msgid "Celebrity"
+msgstr "Osobnost"
 
 # APP_DIR/WebModule/components/InsertingOpinion/InsertingOpinionComponent.php:112
 msgid "Change"
@@ -415,6 +459,10 @@ msgstr "Diskuze"
 msgid "Discussions offer you space to place your questions, thoughts or opinions about this website or literature topics. For discussing book opinions please use in the Reply link below the text of the opinion."
 msgstr "Diskuze vám poskytuje místo k umístění vašich otázek, myšlenek a názorů o této webové stránce nebo obecných literárních diskuzích. Pro diskutování názorů na knihy, prosím, použijte odkaz Odpovědět pod textem příslušného názoru."
 
+# APP_DIR/WebModule/components/InsertingOpinion/InsertingOpinionComponent.php:102
+msgid "Do not write spoilers!"
+msgstr "Neprozrazujte děj!"
+
 # APP_DIR/WebModule/components/Introduction/introduction.phtml:24
 # APP_DIR/WebModule/components/Introduction/introduction.phtml:44
 msgid "Do you have an account?"
@@ -504,6 +552,10 @@ msgstr "Před tím, než začnete vyhledávat, zadejte text, který chcete vyhle
 msgid "Excellent"
 msgstr "Vynikající"
 
+# APP_DIR/tools/Helpers.php:101
+msgid "Experienced reviewer"
+msgstr "Zkušený recenzent"
+
 # APP_DIR/WebModule/presenters/SettingsPresenter.php:158
 msgid "Extra information"
 msgstr "Dodatečné informace"
@@ -520,6 +572,14 @@ msgstr "Funkce Facebooku nejsou právě teď dostupné. Zkuste to, prosím, pozd
 # APP_DIR/WebModule/components/InsertingOpinion/InsertingOpinionComponent.php:88
 msgid "Fair"
 msgstr "Průměrné"
+
+# APP_DIR/tools/Helpers.php:135
+msgid "Famous"
+msgstr "Slavný"
+
+# APP_DIR/tools/Helpers.php:131
+msgid "Favourite"
+msgstr "Oblíbenec"
 
 # APP_DIR/WebModule/templates/User/default.phtml:11
 msgid "Female"
@@ -591,6 +651,10 @@ msgstr "Zapomenuté heslo"
 # APP_DIR/WebModule/components/InsertingBook/insertingBookResult.phtml:12
 msgid "Found books"
 msgstr "Nalezené knihy"
+
+# APP_DIR/tools/Helpers.php:118
+msgid "Frequent discussant"
+msgstr "Častý účastník diskuzí"
 
 # APP_DIR/WebModule/components/InsertingShelf/InsertingShelfComponent.php:74
 msgid "General"
@@ -761,6 +825,10 @@ msgstr "Vložit štítek"
 msgid "Internet reading lists"
 msgstr "Internetové čtenářské deníky"
 
+# APP_DIR/tools/Helpers.php:139
+msgid "Irresistible"
+msgstr "Miláček davů"
+
 # APP_DIR/WebModule/components/InsertingBook/InsertingBookComponent.php:50
 msgid "It can take a long time to insert a new book because the system tries to find editions of the book."
 msgstr "Přidání nové knihy může trvat dlouho, protože se systém pokouší najít edice této knihy."
@@ -768,6 +836,10 @@ msgstr "Přidání nové knihy může trvat dlouho, protože se systém pokouš�
 # APP_DIR/WebModule/components/UserIcon/userIcon.phtml:12
 msgid "It offers more interactive block for embeddeding into webpage."
 msgstr "Nabízí interaktivnější blok, který je vhodný pro vložení na webovou stránku."
+
+# APP_DIR/WebModule/presenters/SettingsPresenter.php:169
+msgid "Known"
+msgstr "Známý"
 
 # APP_DIR/WebModule/components/InsertingBook/InsertingBookComponent.php:183
 # APP_DIR/WebModule/components/InsertingOpinion/InsertingOpinionComponent.php:99
@@ -1015,6 +1087,10 @@ msgstr "Počet příspěvků"
 msgid "Number of readers"
 msgstr "Počet čtenářů"
 
+# APP_DIR/tools/Helpers.php:114
+msgid "Occasional discussant"
+msgstr "Občasný účastník diskuzí"
+
 # APP_DIR/WebModule/templates/Settings/default.phtml:4
 msgid "On this page you can change your profile information and password. Fill password only when you intend to change it or you are changing your e-mail address. All other information is alterable without entering the password."
 msgstr "Na této stránce můžete změnit své profilové informace a heslo. Vyplňte heslo pouze v případě, že jej chcete změnit nebo pokud měníte svou e-mailovou adresu. Všechny ostatní informace jsou upravitelné bez zadávání hesla."
@@ -1057,6 +1133,10 @@ msgstr "Řadit podle"
 msgid "Other"
 msgstr "Ostatní"
 
+# APP_DIR/WebModule/components/InsertingBook/InsertingBookComponent.php:181
+msgid "Others"
+msgstr "Ostatní"
+
 # APP_DIR/WebModule/templates/layout.phtml:79
 msgid "Our sisifos effort ;-)"
 msgstr "Naše sisifofské úsilí ;-)"
@@ -1075,6 +1155,10 @@ msgstr "Text stránky"
 msgid "Pages"
 msgstr "Stránky"
 
+# APP_DIR/tools/Helpers.php:82
+msgid "Passionate reader"
+msgstr "Vášnivý čtenář"
+
 # APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:223
 # APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:263
 # APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:280
@@ -1092,6 +1176,10 @@ msgstr "Heslo znovu"
 msgid "Passwords have to match!"
 msgstr "Hesla se musí shodovat!"
 
+# APP_DIR/tools/Helpers.php:120
+msgid "Perpetual discussant"
+msgstr "Neustálý účastník diskuzí"
+
 # APP_DIR/WebModule/components/InsertingAuthor/InsertingAuthorComponent.php:88
 msgid "Person"
 msgstr "Osoba"
@@ -1103,6 +1191,10 @@ msgstr "Odpovězte, prosím, na tzv. captcha otázku, abychom si mohli být jist
 # APP_DIR/WebModule/components/InsertingAuthor/InsertingAuthorComponent.php:93
 msgid "Please choose the type of the author."
 msgstr "Vyberte, prosím, typ autora."
+
+# APP_DIR/WebModule/components/InsertingAuthor/InsertingAuthorComponent.php:93
+msgid "Please choose your sex."
+msgstr "Vyberte, prosím, své pohlaví."
 
 # APP_DIR/WebModule/components/InsertingBook/insertingBookResult.phtml:8
 msgid "Please continue to the next page where you will be asked for some other information."
@@ -1203,10 +1295,6 @@ msgstr "Vyplňte, prosím, váhu této stránky."
 msgid "Please fill your current password."
 msgstr "Vyplňte, prosím, své současné heslo."
 
-# APP_DIR/WebModule/presenters/SettingsPresenter.php:154
-msgid "Please select rating."
-msgstr "Vyplňte, prosím, vaše hodnocení."
-
 # APP_DIR/WebModule/components/TagList/TagListComponent.php:60
 msgid "Please seperate multiple tags with ', ' (by words - comma and space)."
 msgstr "Oddělujte, prosím, jednotlivé štítky čárkou a mezerou \", \"."
@@ -1254,6 +1342,11 @@ msgstr "Náhodná kniha"
 msgid "Rating"
 msgstr "Hodnocení"
 
+# APP_DIR/WebModule/components/BookList/bookList.phtml:28
+# APP_DIR/WebModule/components/BookList/bookList.phtml:28
+msgid "Rating not available"
+msgstr "Hodnocení není dostupné"
+
 # APP_DIR/WebModule/components/BookStatistics/BookStatisticsComponent.php:24
 msgid "Rating of readers"
 msgstr "Hodnocení čtenářů"
@@ -1280,6 +1373,10 @@ msgstr "Příjemce"
 # APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:287
 msgid "Register"
 msgstr "Registrovat"
+
+# APP_DIR/tools/Helpers.php:116
+msgid "Regular discussant"
+msgstr "Pravidelný účastník diskuzí"
 
 # APP_DIR/WebModule/templates/Book/default.phtml:9
 msgid "Related books"
@@ -1523,6 +1620,10 @@ msgstr "Statistiky"
 # APP_DIR/WebModule/components/HelpList/helpList.phtml:6
 msgid "Support"
 msgstr "Nápověda"
+
+# APP_DIR/WebModule/templates/User/default.phtml:13
+msgid "System role"
+msgstr "Systémová role"
 
 # APP_DIR/WebModule/components/InsertingOpinion/InsertingOpinionComponent.php:97
 # APP_DIR/WebModule/templates/Book/default.phtml:4
@@ -1789,6 +1890,10 @@ msgstr "Toto je profilová stránka uživatele, kde můžete sledovat jeho názo
 msgid "This link will only show the thread where the post was found."
 msgstr "Odkaz pouze zobrazí vlákno, kde byl příspěvek nalezen."
 
+# APP_DIR/WebModule/components/Feed/feed.phtml:63
+msgid "This page in form of RSS"
+msgstr "Tato stránka ve formě RSS"
+
 # APP_DIR/WebModule/presenters/DiscussionPresenter.php:29
 # APP_DIR/WebModule/presenters/DiscussionPresenter.php:48
 msgid "This page shows one topic thread, where all posts are ordered by date, feel free to join."
@@ -1863,10 +1968,6 @@ msgstr "Neautorizováno"
 msgid "Unfollow"
 msgstr "Přestat sledovat"
 
-# APP_DIR/WebModule/presenters/SettingsPresenter.php:169
-msgid "Unknown"
-msgstr "Neznámé"
-
 # APP_DIR/models/statistics/StatisticsGraphs.php:88
 msgid "Unspecified"
 msgstr "Neurčeno"
@@ -1919,6 +2020,10 @@ msgstr "Uživatelé, které daný uživatel sleduje."
 msgid "Very good"
 msgstr "Velmi dobré"
 
+# APP_DIR/tools/Helpers.php:103
+msgid "Veteran reviewer"
+msgstr "Ostřílený recenzent"
+
 # APP_DIR/WebModule/components/Introduction/introduction.phtml:8
 msgid "Want quick overview of book's target group? Or distribution of ratings? See our graphs."
 msgstr "Chcete rychle zjistit cílovou skupinu knihy? Nebo hodnocení? Podívejte se na naše grafy."
@@ -1934,6 +2039,15 @@ msgstr "Chcete mít přehled o své knihovně nebo jen nezapomenout co si chcete
 # APP_DIR/WebModule/components/InsertingShelf/InsertingShelfComponent.php:76
 msgid "Wanted"
 msgstr "Chci si přečíst"
+
+# APP_DIR/WebModule/components/InsertingOpinion/InsertingOpinionComponent.php:92
+# APP_DIR/tools/Helpers.php:361
+msgid "Waste"
+msgstr "Odpad"
+
+# APP_DIR/WebModule/components/Feed/feed.phtml:63
+msgid "Watch your feed via RSS reader."
+msgstr "Sledujte své aktuální dění přes RSS čtečku."
 
 # APP_DIR/WebModule/components/Introduction/introduction.phtml:89
 msgid "We recommend"
@@ -2088,6 +2202,10 @@ msgstr "K této síti jste se již připojil(a)."
 # APP_DIR/WebModule/components/Shelves/shelves.phtml:21
 msgid "You haven't created any shelf. For creating the first one, follow"
 msgstr "Zatím jste nevytvořili žádnou poličku. Pro vytvoření první poličky následujte"
+
+# APP_DIR/tools/Helpers.php:99
+msgid "Young reviewer"
+msgstr "Mladý recenzent"
 
 # APP_DIR/WebModule/templates/Settings/connections.phtml:28
 msgid "Your account is not connected with any account on social networks."
@@ -2283,6 +2401,33 @@ msgstr "vložit, přidat, nová kniha"
 # APP_DIR/WebModule/presenters/AuthorPresenter.php:56
 msgid "insert, author, new"
 msgstr "vložit, autor, nový"
+
+# APP_DIR/WebModule/components/OpinionList/opinionList.phtml:18
+# APP_DIR/WebModule/templates/User/default.phtml:61
+msgid "level based on number of books read by the user"
+msgstr "úroveň založená na uživatelově počtu přečtených knih"
+
+# APP_DIR/WebModule/components/PostList/postList.phtml:11
+# APP_DIR/WebModule/components/PostList/postList.phtml:11
+# APP_DIR/WebModule/templates/User/default.phtml:63
+# APP_DIR/WebModule/templates/User/default.phtml:63
+msgid "level based on number of user's discussion posts"
+msgstr "úroveň založená na uživatelově počtu diskuzních příspěvků"
+
+# APP_DIR/WebModule/templates/User/default.phtml:64
+# APP_DIR/WebModule/templates/User/default.phtml:64
+msgid "level based on number of user's followers"
+msgstr "úroveň založená na uživatelově počtu sledujících uživatelů"
+
+# APP_DIR/WebModule/templates/User/default.phtml:62
+# APP_DIR/WebModule/templates/User/default.phtml:62
+msgid "level based on number of user's opinions"
+msgstr "úroveň založená na uživatelově počtu názorů"
+
+# APP_DIR/WebModule/components/OpinionList/opinionList.phtml:18
+# APP_DIR/WebModule/templates/User/default.phtml:61
+msgid "level based on the number of books read by the user"
+msgstr "úroveň založená na uživatelově počtu přečtených knih"
 
 # APP_DIR/WebModule/presenters/BookPresenter.php:72
 msgid "opinion, insert, add, book, your opinion"
