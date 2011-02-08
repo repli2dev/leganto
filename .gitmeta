@@ -730,6 +730,7 @@ leganto/document_root/img/rating_4.gif  mode=0644  uid=500  gid=100
 leganto/document_root/img/rating_4.png  mode=0644  uid=500  gid=100
 leganto/document_root/img/rating_5.gif  mode=0644  uid=500  gid=100
 leganto/document_root/img/rating_5.png  mode=0644  uid=500  gid=100
+leganto/document_root/img/rating_na.png  mode=0644  uid=500  gid=100
 leganto/document_root/img/role_admin.png  mode=0644  uid=500  gid=100
 leganto/document_root/img/role_common.png  mode=0644  uid=500  gid=100
 leganto/document_root/img/role_moderator.png  mode=0644  uid=500  gid=100

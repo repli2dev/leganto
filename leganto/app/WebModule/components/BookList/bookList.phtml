@@ -26,7 +26,7 @@
 				{if $book->numberOfReaders > 0}
 					<img src="{$baseUri}img/rating_{=round($book->rating)}.png" alt="{=round($book->rating)|rating}" title="{=round($book->rating)|rating}" class="rating" />
 				{else}
-					<span class="rating">{_"Rating not available"}</span>
+					<img src="{$baseUri}img/rating_na.png" alt="{_'Rating not available'}" title="{_'Rating not available'}" class="rating" />
 				{/if}
 			</div>
 
