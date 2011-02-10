@@ -22,6 +22,9 @@
 						<img class="icon" src="{$opinion->bookTitleId, 50|bookcover}" />
 					{/if}
 				{/if}
+				{if $showedInfo != 'user'}
+					<div class="clear"></div>
+				{/if}
 				<span class="date">{$opinion->inserted|date}</span>
 				
 			</div>
