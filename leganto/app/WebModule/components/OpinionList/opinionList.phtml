@@ -10,13 +10,18 @@
         </tr>
     </table>
     {/if}
+    {var zero => 0}
     @{foreach $opinions AS $opinion}
 		<div class="item">
 			
 			<div class="info-side">
 				{if $opinion->content != ""}
 					{if $showedInfo == 'user'}
-						<img class="achievement" title="{$achievements[$opinion->userId]->books|achievementName:"books"} &ndash; {_'level based on number of books read by the user'}" alt="{_'level based on the number of books read by the user'}" src="{$baseUri}img/achievement_books_vertical_small_{$achievements[$opinion->userId]->books}.png" />
+						{if isSet($achievements[$opinion->userId])}
+							<img class="achievement" title="{$achievements[$opinion->userId]->books|achievementName:"books"} &ndash; {_'level based on number of books read by the user'}" alt="{_'level based on the number of books read by the user'}" src="{$baseUri}img/achievement_books_vertical_small_{$achievements[$opinion->userId]->books}.png" />
+						{else}
+							<img class="achievement" title="{$zero|achievementName:"books"} &ndash; {_'level based on number of books read by the user'}" alt="{_'level based on the number of books read by the user'}" src="{$baseUri}img/achievement_books_vertical_small_{$zero}.png" />
+						{/if}
 						<img class="icon" src="{$opinion->userId, 50|userico}" />
 					{else}
 						<img class="icon" src="{$opinion->bookTitleId, 50|bookcover}" />
