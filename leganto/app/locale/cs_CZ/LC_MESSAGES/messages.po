@@ -1051,6 +1051,10 @@ msgstr "Žádný uživatel s touto e-mailovou adresou neexistuje. Zkontrolujte, 
 msgid "No..."
 msgstr "Ne..."
 
+# APP_DIR/WebModule/presenters/UserPresenter.php:210
+msgid "Not enough data"
+msgstr "Nedostatek dat"
+
 # APP_DIR/WebModule/components/BookShelfControl/bookShelfControl.phtml:20
 msgid "Not in any shelf"
 msgstr "Není v žádné poličce"

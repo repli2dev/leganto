@@ -1,7 +1,7 @@
 # Gettext keys exported by GettextExtractor
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2011-02-08T18:11:10+01:00\n"
+"POT-Creation-Date: 2011-02-10T20:12:01+01:00\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
@@ -616,7 +616,7 @@ msgstr ""
 msgid "Firstly check whether the book has been already inserted by someone else. Type the book title into the field bellow."
 msgstr ""
 
-# APP_DIR/WebModule/presenters/UserPresenter.php:310
+# APP_DIR/WebModule/presenters/UserPresenter.php:315
 msgid "Follow"
 msgstr ""
 
@@ -628,13 +628,13 @@ msgstr ""
 # APP_DIR/WebModule/templates/User/followers.phtml:3
 # APP_DIR/WebModule/templates/User/default.phtml:48
 # APP_DIR/WebModule/presenters/UserPresenter.php:79
-# APP_DIR/WebModule/presenters/UserPresenter.php:304
+# APP_DIR/WebModule/presenters/UserPresenter.php:309
 msgid "Followers"
 msgstr ""
 
 # APP_DIR/WebModule/templates/User/following.phtml:3
 # APP_DIR/WebModule/presenters/UserPresenter.php:64
-# APP_DIR/WebModule/presenters/UserPresenter.php:303
+# APP_DIR/WebModule/presenters/UserPresenter.php:308
 msgid "Following"
 msgstr ""
 
@@ -789,7 +789,7 @@ msgstr ""
 msgid "In"
 msgstr ""
 
-# APP_DIR/WebModule/presenters/UserPresenter.php:301
+# APP_DIR/WebModule/presenters/UserPresenter.php:306
 msgid "Info and opinions"
 msgstr ""
 
@@ -799,7 +799,7 @@ msgstr ""
 
 # APP_DIR/WebModule/templates/User/insertShelf.phtml:3
 # APP_DIR/WebModule/presenters/UserPresenter.php:108
-# APP_DIR/WebModule/presenters/UserPresenter.php:316
+# APP_DIR/WebModule/presenters/UserPresenter.php:321
 msgid "Insert a new shelf"
 msgstr ""
 
@@ -993,7 +993,7 @@ msgid "Messages"
 msgstr ""
 
 # APP_DIR/WebModule/components/Feed/FeedComponent.php:63
-# APP_DIR/WebModule/presenters/UserPresenter.php:317
+# APP_DIR/WebModule/presenters/UserPresenter.php:322
 msgid "Messaging"
 msgstr ""
 
@@ -1062,6 +1062,10 @@ msgstr ""
 # APP_DIR/WebModule/components/Introduction/introduction.phtml:42
 # APP_DIR/WebModule/components/Introduction/introduction.phtml:62
 msgid "No..."
+msgstr ""
+
+# APP_DIR/WebModule/presenters/UserPresenter.php:210
+msgid "Not enough data"
 msgstr ""
 
 # APP_DIR/WebModule/components/BookShelfControl/bookShelfControl.phtml:20
@@ -1414,7 +1418,7 @@ msgstr ""
 
 # APP_DIR/WebModule/components/MessageList/messageList.phtml:44
 # APP_DIR/WebModule/components/MessageList/messageList.phtml:44
-# APP_DIR/WebModule/components/OpinionList/opinionList.phtml:51
+# APP_DIR/WebModule/components/OpinionList/opinionList.phtml:53
 msgid "Reply"
 msgstr ""
 
@@ -1534,7 +1538,7 @@ msgstr ""
 
 # APP_DIR/WebModule/components/BookShelfControl/bookShelfControl.phtml:1
 # APP_DIR/WebModule/presenters/UserPresenter.php:115
-# APP_DIR/WebModule/presenters/UserPresenter.php:302
+# APP_DIR/WebModule/presenters/UserPresenter.php:307
 msgid "Shelves"
 msgstr ""
 
@@ -1546,7 +1550,7 @@ msgstr ""
 msgid "Shelves of this user are shown below this text, click on them to expand/hide them. The color differs types of shelves."
 msgstr ""
 
-# APP_DIR/WebModule/components/OpinionList/opinionList.phtml:48
+# APP_DIR/WebModule/components/OpinionList/opinionList.phtml:50
 msgid "Show"
 msgstr ""
 
@@ -1589,7 +1593,7 @@ msgstr ""
 
 # APP_DIR/WebModule/components/Introduction/introduction.phtml:7
 # APP_DIR/WebModule/presenters/UserPresenter.php:122
-# APP_DIR/WebModule/presenters/UserPresenter.php:305
+# APP_DIR/WebModule/presenters/UserPresenter.php:310
 msgid "Similar users"
 msgstr ""
 
@@ -1843,7 +1847,7 @@ msgstr ""
 # APP_DIR/WebModule/presenters/UserPresenter.php:20
 # APP_DIR/WebModule/presenters/UserPresenter.php:57
 # APP_DIR/WebModule/presenters/UserPresenter.php:72
-# APP_DIR/WebModule/presenters/UserPresenter.php:346
+# APP_DIR/WebModule/presenters/UserPresenter.php:351
 msgid "The user does not exist."
 msgstr ""
 
@@ -1987,7 +1991,7 @@ msgstr ""
 msgid "Unauthorized"
 msgstr ""
 
-# APP_DIR/WebModule/presenters/UserPresenter.php:308
+# APP_DIR/WebModule/presenters/UserPresenter.php:313
 msgid "Unfollow"
 msgstr ""
 
@@ -2098,7 +2102,7 @@ msgstr ""
 msgid "What we aim on and how it works."
 msgstr ""
 
-# APP_DIR/WebModule/presenters/UserPresenter.php:313
+# APP_DIR/WebModule/presenters/UserPresenter.php:318
 msgid "Write message"
 msgstr ""
 
@@ -2327,7 +2331,7 @@ msgstr ""
 msgid "books, how to choose a book, what friends read, culture, about books, opinions on books, leganto, čtenáři, reader"
 msgstr ""
 
-# APP_DIR/WebModule/components/OpinionList/opinionList.phtml:48
+# APP_DIR/WebModule/components/OpinionList/opinionList.phtml:50
 msgid "comments"
 msgstr ""
 
