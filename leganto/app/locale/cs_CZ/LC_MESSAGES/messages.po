@@ -1529,8 +1529,8 @@ msgid "Shelves for books"
 msgstr "Poličky na knihy"
 
 # APP_DIR/WebModule/templates/User/shelves.phtml:6
-msgid "Shelves of this user are shown below this text, click on them to expand/hide them. The color differs types of shelves."
-msgstr "Poličky tohoto uživatele jsou zobrazen pod tímto textem, kliknutím je rozbalíte/sbalíte. Barva odlišuje typ poliček."
+msgid "Shelves of this user of hers/his virtual library are shown below this text, click on them to expand/hide them. The color differs types of shelves."
+msgstr "Poličky virtuální knihovny tohoto uživatele jsou zobrazen pod tímto textem, kliknutím je rozbalíte/sbalíte. Barva odlišuje typ poliček."
 
 # APP_DIR/WebModule/components/OpinionList/opinionList.phtml:47
 msgid "Show"
@@ -1871,8 +1871,8 @@ msgid "This Twitter account is already connected to an account."
 msgstr "Tento účet na Twitteru je již spojen s jiným účtem."
 
 # APP_DIR/WebModule/presenters/SearchPresenter.php:136
-msgid "This is page where you can find all books in the system."
-msgstr "Na této stránce můžete najít všechny přidané knihy."
+msgid "This is page where you can find all books in the system. So if you really don't know what to read, try this."
+msgstr "Na této stránce můžete najít všechny přidané knihy. Takže pokud vůbec netušíte co číst, zkuste tyto."
 
 # APP_DIR/WebModule/presenters/BookPresenter.php:40
 msgid "This is the detail of the book where you can find the most interesting data such as the book cover, tags, opinions, editions, related books etc."
@@ -2291,20 +2291,20 @@ msgid "book shelf, insert, new"
 msgstr "knižní polička, vložit, nový"
 
 # APP_DIR/WebModule/presenters/UserPresenter.php:115
-msgid "book shelves, update, reorder, manipulation, books"
-msgstr "knižní poličky, doplnit, reorganizovat, manipulace, knihy"
-
-# APP_DIR/WebModule/presenters/BookPresenter.php:41
-msgid "book, detail, graphs, opinions, tags, editions, isbn, pages"
-msgstr "kniha, detail, grafy, názory, štítky, edice, isbn, stránky"
+msgid "book shelves, update, reorder, manipulation, books, book database, virtual library, library"
+msgstr "knižní poličky, doplnit, reorganizování, manipulace, knihy, databáze knih, virtuální knihovna, knihovna"
 
 # APP_DIR/WebModule/presenters/BookPresenter.php:41
 msgid "book, detail, graphs, opinions, tags, editions, isbn, pages, shelves, share to social network"
 msgstr "kniha, detail, grafy, názory, štítky, edice, isbn, stránky, poličky, sdílet na sociální síti"
 
+# APP_DIR/WebModule/presenters/BookPresenter.php:41
+msgid "book, detail, graphs, opinions, tags, editions, isbn, pages, what to read"
+msgstr "kniha, detail, grafy, názory, štítky, edice, isbn, stránky, co číst"
+
 # APP_DIR/WebModule/presenters/DefaultPresenter.php:27
-msgid "books, how to choose a book, what friends read, culture, about books, opinions on books, leganto, čtenáři, reader"
-msgstr "knihy, jak si vybrat knihu, co čtou kamarádi, kultura, o knihách, názory na knihy, leganto, čtenáři, preader"
+msgid "books, how to choose a book, what friends read, culture, about books, book database, virtual library, opinions on books, leganto, čtenáři, reader"
+msgstr "knihy, jak si vybrat knihu, co čtou kamarádi, kultura, o knihách, názory na knihy, leganto, čtenáři, preader, databáze knih, virtuální knihovna"
 
 # APP_DIR/WebModule/components/OpinionList/opinionList.phtml:47
 msgid "comments"
@@ -2353,8 +2353,8 @@ msgid "error, unauthorized"
 msgstr "chyba, neautorizováno"
 
 # APP_DIR/WebModule/presenters/DefaultPresenter.php:37
-msgid "feed, wall, activity of users, followers."
-msgstr "aktuální dění, zeď, aktivita uživatelů, sledující."
+msgid "feed, wall, activity of users, followers, others, friends"
+msgstr "aktuální dění, zeď, aktivita uživatelů, sledující, ostatní, přátelé"
 
 # APP_DIR/WebModule/presenters/UserPresenter.php:64
 # APP_DIR/WebModule/presenters/UserPresenter.php:79
@@ -2457,6 +2457,13 @@ msgstr "problémy, nápověda, podpora, odpovědi, jak to funguje"
 msgid "read books"
 msgstr "přečtené knihy"
 
+# APP_DIR/WebModule/components/UserIcon/userIcon.phtml:3
+# APP_DIR/WebModule/components/UserIcon/userIcon.phtml:4
+# APP_DIR/WebModule/components/UserIcon/userIcon.phtml:8
+# APP_DIR/WebModule/components/UserIcon/userIcon.phtml:9
+msgid "readers"
+msgstr "čtenáři"
+
 # APP_DIR/WebModule/presenters/SearchPresenter.php:19
 msgid "search, find, books"
 msgstr "vyhledat, najít, knihy"
@@ -2485,13 +2492,13 @@ msgstr "statistiky, grafy, počet knih, počet názorů, počet uživatelů"
 msgid "this link"
 msgstr "tento odkaz"
 
-# APP_DIR/WebModule/presenters/UserPresenter.php:122
-msgid "user, books, similarity, similar users, similar"
-msgstr "uživatel, knihy, podobnost, podobní uživatelé, podobný"
-
 # APP_DIR/WebModule/presenters/UserPresenter.php:141
 msgid "user, private messaging, private message, write to other users, chat, similar users"
 msgstr "uživatel, soukromé zprávy, zprávy, napište ostatním uživatelům, chatujte, podobní uživatelé, známí"
+
+# APP_DIR/WebModule/presenters/UserPresenter.php:122
+msgid "users, books, similarity, similar users, similar, what to read"
+msgstr "uživatel, knihy, podobnost, podobní uživatelé, podobný, co číst"
 
 # APP_DIR/WebModule/templates/mails/renewPassword.phtml:1
 msgid "your new credentials are shown below this text. For more safety, change your password immediately."

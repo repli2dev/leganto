@@ -135,8 +135,8 @@ class Web_SearchPresenter extends Web_BasePresenter {
 
 		$this->getTemplate()->title = System::translate("All books");
 		$this->setPageTitle(System::translate("All books"));
-		$this->setPageDescription(System::translate("This is page where you can find all books in the system."));
-		$this->setPageKeywords(System::translate("book, detail, graphs, opinions, tags, editions, isbn, pages"));
+		$this->setPageDescription(System::translate("This is page where you can find all books in the system. So if you really don't know what to read, try this."));
+		$this->setPageKeywords(System::translate("book, detail, graphs, opinions, tags, editions, isbn, pages, what to read"));
 	}
 
 	protected function createComponentSubmenu($name) {

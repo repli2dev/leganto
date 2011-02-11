@@ -1,7 +1,7 @@
 # Gettext keys exported by GettextExtractor
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2011-02-10T20:12:01+01:00\n"
+"POT-Creation-Date: 2011-02-11T10:10:35+01:00\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
@@ -9,11 +9,11 @@ msgstr ""
 msgid ""
 msgstr ""
 
-# APP_DIR/WebModule/presenters/RssPresenter.php:27
+# APP_DIR/WebModule/presenters/RssPresenter.php:30
 msgid "%s has an opinion on the book %s"
 msgstr ""
 
-# APP_DIR/WebModule/presenters/RssPresenter.php:35
+# APP_DIR/WebModule/presenters/RssPresenter.php:38
 msgid "%s has contributed to the discussion %s"
 msgstr ""
 
@@ -155,7 +155,7 @@ msgstr ""
 msgid "Are you lost in our page or do you just miss the last puzzle? This page can answer nearly all questions."
 msgstr ""
 
-# APP_DIR/WebModule/components/PostList/postList.phtml:20
+# APP_DIR/WebModule/components/PostList/postList.phtml:25
 msgid "Are you sure you want to delete a discussion post?"
 msgstr ""
 
@@ -384,8 +384,8 @@ msgstr ""
 
 # APP_DIR/WebModule/components/MessageList/messageList.phtml:33
 # APP_DIR/WebModule/components/MessageList/messageList.phtml:34
-# APP_DIR/WebModule/components/PostList/postList.phtml:21
-# APP_DIR/WebModule/components/PostList/postList.phtml:22
+# APP_DIR/WebModule/components/PostList/postList.phtml:26
+# APP_DIR/WebModule/components/PostList/postList.phtml:27
 # APP_DIR/WebModule/components/Shelves/shelves.phtml:36
 # APP_DIR/WebModule/components/Shelves/shelves.phtml:37
 # APP_DIR/WebModule/templates/Settings/connections.phtml:22
@@ -442,7 +442,7 @@ msgstr ""
 msgid "Discussion"
 msgstr ""
 
-# APP_DIR/WebModule/templates/User/default.phtml:44
+# APP_DIR/WebModule/templates/User/default.phtml:49
 msgid "Discussion posts"
 msgstr ""
 
@@ -626,7 +626,7 @@ msgid "Followed"
 msgstr ""
 
 # APP_DIR/WebModule/templates/User/followers.phtml:3
-# APP_DIR/WebModule/templates/User/default.phtml:48
+# APP_DIR/WebModule/templates/User/default.phtml:55
 # APP_DIR/WebModule/presenters/UserPresenter.php:79
 # APP_DIR/WebModule/presenters/UserPresenter.php:309
 msgid "Followers"
@@ -917,7 +917,7 @@ msgstr ""
 msgid "Link"
 msgstr ""
 
-# APP_DIR/WebModule/components/PostList/postList.phtml:32
+# APP_DIR/WebModule/components/PostList/postList.phtml:37
 msgid "Link to discsussion"
 msgstr ""
 
@@ -1114,8 +1114,8 @@ msgid "On this page you can change your profile information and password. Fill p
 msgstr ""
 
 # APP_DIR/WebModule/templates/Book/default.phtml:6
-# APP_DIR/WebModule/templates/User/default.phtml:40
-# APP_DIR/WebModule/templates/User/default.phtml:70
+# APP_DIR/WebModule/templates/User/default.phtml:43
+# APP_DIR/WebModule/templates/User/default.phtml:80
 # APP_DIR/WebModule/presenters/BookPresenter.php:117
 # APP_DIR/WebModule/presenters/BookPresenter.php:190
 msgid "Opinions"
@@ -1370,7 +1370,7 @@ msgstr ""
 msgid "Rating of readers"
 msgstr ""
 
-# APP_DIR/WebModule/templates/User/default.phtml:36
+# APP_DIR/WebModule/templates/User/default.phtml:37
 msgid "Read books"
 msgstr ""
 
@@ -1418,7 +1418,7 @@ msgstr ""
 
 # APP_DIR/WebModule/components/MessageList/messageList.phtml:44
 # APP_DIR/WebModule/components/MessageList/messageList.phtml:44
-# APP_DIR/WebModule/components/OpinionList/opinionList.phtml:53
+# APP_DIR/WebModule/components/OpinionList/opinionList.phtml:58
 msgid "Reply"
 msgstr ""
 
@@ -1547,10 +1547,10 @@ msgid "Shelves for books"
 msgstr ""
 
 # APP_DIR/WebModule/templates/User/shelves.phtml:6
-msgid "Shelves of this user are shown below this text, click on them to expand/hide them. The color differs types of shelves."
+msgid "Shelves of this user of hers/his virtual library are shown below this text, click on them to expand/hide them. The color differs types of shelves."
 msgstr ""
 
-# APP_DIR/WebModule/components/OpinionList/opinionList.phtml:50
+# APP_DIR/WebModule/components/OpinionList/opinionList.phtml:55
 msgid "Show"
 msgstr ""
 
@@ -1893,7 +1893,7 @@ msgid "This Twitter account is already connected to an account."
 msgstr ""
 
 # APP_DIR/WebModule/presenters/SearchPresenter.php:138
-msgid "This is page where you can find all books in the system."
+msgid "This is page where you can find all books in the system. So if you really don't know what to read, try this."
 msgstr ""
 
 # APP_DIR/WebModule/presenters/BookPresenter.php:40
@@ -1912,7 +1912,7 @@ msgstr ""
 msgid "This is the profile page of a user where you can track his or her opinions, look into shelves, find followers and followed users."
 msgstr ""
 
-# APP_DIR/WebModule/components/PostList/postList.phtml:32
+# APP_DIR/WebModule/components/PostList/postList.phtml:37
 msgid "This link will only show the thread where the post was found."
 msgstr ""
 
@@ -2316,22 +2316,22 @@ msgid "book shelf, insert, new"
 msgstr ""
 
 # APP_DIR/WebModule/presenters/UserPresenter.php:117
-msgid "book shelves, update, reorder, manipulation, books"
-msgstr ""
-
-# APP_DIR/WebModule/presenters/SearchPresenter.php:139
-msgid "book, detail, graphs, opinions, tags, editions, isbn, pages"
+msgid "book shelves, update, reorder, manipulation, books, book database, virtual library, library"
 msgstr ""
 
 # APP_DIR/WebModule/presenters/BookPresenter.php:41
 msgid "book, detail, graphs, opinions, tags, editions, isbn, pages, shelves, share to social network"
 msgstr ""
 
-# APP_DIR/WebModule/presenters/DefaultPresenter.php:27
-msgid "books, how to choose a book, what friends read, culture, about books, opinions on books, leganto, čtenáři, reader"
+# APP_DIR/WebModule/presenters/SearchPresenter.php:139
+msgid "book, detail, graphs, opinions, tags, editions, isbn, pages, what to read"
 msgstr ""
 
-# APP_DIR/WebModule/components/OpinionList/opinionList.phtml:50
+# APP_DIR/WebModule/presenters/DefaultPresenter.php:27
+msgid "books, how to choose a book, what friends read, culture, about books, book database, virtual library, opinions on books, leganto, čtenáři, reader"
+msgstr ""
+
+# APP_DIR/WebModule/components/OpinionList/opinionList.phtml:55
 msgid "comments"
 msgstr ""
 
@@ -2378,7 +2378,7 @@ msgid "error, unauthorized"
 msgstr ""
 
 # APP_DIR/WebModule/presenters/DefaultPresenter.php:37
-msgid "feed, wall, activity of users, followers."
+msgid "feed, wall, activity of users, followers, others, friends"
 msgstr ""
 
 # APP_DIR/WebModule/presenters/UserPresenter.php:66
@@ -2430,30 +2430,34 @@ msgstr ""
 msgid "insert, author, new"
 msgstr ""
 
-# APP_DIR/WebModule/components/OpinionList/opinionList.phtml:18
-# APP_DIR/WebModule/templates/User/default.phtml:61
+# APP_DIR/WebModule/components/OpinionList/opinionList.phtml:20
+# APP_DIR/WebModule/components/OpinionList/opinionList.phtml:22
+# APP_DIR/WebModule/templates/User/default.phtml:70
 msgid "level based on number of books read by the user"
 msgstr ""
 
-# APP_DIR/WebModule/components/PostList/postList.phtml:11
-# APP_DIR/WebModule/components/PostList/postList.phtml:11
-# APP_DIR/WebModule/templates/User/default.phtml:63
-# APP_DIR/WebModule/templates/User/default.phtml:63
+# APP_DIR/WebModule/components/PostList/postList.phtml:13
+# APP_DIR/WebModule/components/PostList/postList.phtml:13
+# APP_DIR/WebModule/components/PostList/postList.phtml:15
+# APP_DIR/WebModule/components/PostList/postList.phtml:15
+# APP_DIR/WebModule/templates/User/default.phtml:72
+# APP_DIR/WebModule/templates/User/default.phtml:72
 msgid "level based on number of user's discussion posts"
 msgstr ""
 
-# APP_DIR/WebModule/templates/User/default.phtml:64
-# APP_DIR/WebModule/templates/User/default.phtml:64
+# APP_DIR/WebModule/templates/User/default.phtml:73
+# APP_DIR/WebModule/templates/User/default.phtml:73
 msgid "level based on number of user's followers"
 msgstr ""
 
-# APP_DIR/WebModule/templates/User/default.phtml:62
-# APP_DIR/WebModule/templates/User/default.phtml:62
+# APP_DIR/WebModule/templates/User/default.phtml:71
+# APP_DIR/WebModule/templates/User/default.phtml:71
 msgid "level based on number of user's opinions"
 msgstr ""
 
-# APP_DIR/WebModule/components/OpinionList/opinionList.phtml:18
-# APP_DIR/WebModule/templates/User/default.phtml:61
+# APP_DIR/WebModule/components/OpinionList/opinionList.phtml:20
+# APP_DIR/WebModule/components/OpinionList/opinionList.phtml:22
+# APP_DIR/WebModule/templates/User/default.phtml:70
 msgid "level based on the number of books read by the user"
 msgstr ""
 
@@ -2479,6 +2483,10 @@ msgstr ""
 
 # APP_DIR/WebModule/components/UserIcon/userIcon.phtml:12
 msgid "read books"
+msgstr ""
+
+# APP_DIR/WebModule/templates/layout.phtml:94
+msgid "readers"
 msgstr ""
 
 # APP_DIR/WebModule/presenters/SearchPresenter.php:19
@@ -2509,12 +2517,12 @@ msgstr ""
 msgid "this link"
 msgstr ""
 
-# APP_DIR/WebModule/presenters/UserPresenter.php:124
-msgid "user, books, similarity, similar users, similar"
-msgstr ""
-
 # APP_DIR/WebModule/presenters/UserPresenter.php:139
 msgid "user, private messaging, private message, write to other users, chat, similar users"
+msgstr ""
+
+# APP_DIR/WebModule/presenters/UserPresenter.php:124
+msgid "users, books, similarity, similar users, similar, what to read"
 msgstr ""
 
 # APP_DIR/WebModule/templates/mails/renewPassword.phtml:1

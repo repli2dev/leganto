@@ -92,7 +92,7 @@
 		<link rel="image_src" href="<? echo Environment::getHttpRequest()->uri->baseUri; ?>img/logoForFB.png" />
 		<link rel="shortcut icon" href="/favicon.ico" />
 
-		<title>{if $pageTitle}{$pageTitle} &ndash; {/if}Leganto</title>
+		<title>{if $pageTitle}{$pageTitle} &ndash; {/if}Leganto{ifCurrent Default:default} &ndash; {_"readers"}{/if}</title>
 	</head>
 	<body>
 		<div id="header">

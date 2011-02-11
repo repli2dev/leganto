@@ -99,7 +99,7 @@ class OpinionListComponent extends BaseListComponent {
 			$this->getComponent("postList")->setDiscussed($this->showedOpinion, PostSelector::OPINION);
 		}
 		// Book achivements
-		if ($this->getTemplate()->showedInfo == "user") {
+		if ($this->getTemplate()->showedInfo == "user" && count($userIds) > 0) {
 			$this->getTemplate()->achievements = Leganto::achievements()->getSelector()->findByUsers($userIds, $entities = FALSE);
 		}
 	}

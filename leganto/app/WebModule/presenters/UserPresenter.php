@@ -114,14 +114,14 @@ class Web_UserPresenter extends Web_BasePresenter {
 		$this->getTemplate()->user = $this->getUserEntity();
 		$this->setPageTitle(System::translate("Shelves") . ": " . $this->getUserEntity()->nickname);
 		$this->setPageDescription(System::translate("You can see shelves of the user and books in them on this page. Owners can re-order their books here."));
-		$this->setPageKeywords(System::translate("book shelves, update, reorder, manipulation, books"));
+		$this->setPageKeywords(System::translate("book shelves, update, reorder, manipulation, books, book database, virtual library, library"));
 	}
 
 	public function renderSimilar($user) {
 		$this->getTemplate()->user = $this->getUserEntity();
 		$this->setPageTitle(System::translate("Similar users") . ": " . $this->getUserEntity()->nickname);
 		$this->setPageDescription(System::translate("You can see similar users to a specific user on this page. The similarity is computed on the base of books users have read."));
-		$this->setPageKeywords(System::translate("user, books, similarity, similar users, similar"));
+		$this->setPageKeywords(System::translate("users, books, similarity, similar users, similar, what to read"));
 
 		$this->getComponent("userList")->setSource(
 				Leganto::users()->getSelector()
