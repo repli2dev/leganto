@@ -56,7 +56,6 @@ class InsertingOpinionComponent extends BaseComponent {
 		} else {
 			$opinion->rating = $values["rating"];
 		}
-		Debug::dump($opinion);
 		$opinion->content = $values["content"];
 		$opinion->languageId = $values["language"];
 		try {
