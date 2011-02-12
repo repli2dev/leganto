@@ -283,11 +283,11 @@ CREATE VIEW `view_achievement` AS
 		END AS `books`,
 		(SELECT COUNT(`id_opinion`) FROM `opinion` WHERE `content` IS NOT NULL AND LENGTH(TRIM(`content`)) > 0 AND `opinion`.`id_user` = `user`.`id_user`) AS `opinions_total`,
 		CASE
-			WHEN (SELECT COUNT(`id_opinion`) FROM `opinion` WHERE `content` IS NOT NULL AND LENGTH(TRIM(`content`)) > 100 AND `opinion`.`id_user` = `user`.`id_user`) < 10  THEN 0
-			WHEN (SELECT COUNT(`id_opinion`) FROM `opinion` WHERE `content` IS NOT NULL AND LENGTH(TRIM(`content`)) > 100 AND `opinion`.`id_user` = `user`.`id_user`) < 20  THEN 1
-			WHEN (SELECT COUNT(`id_opinion`) FROM `opinion` WHERE `content` IS NOT NULL AND LENGTH(TRIM(`content`)) > 100 AND `opinion`.`id_user` = `user`.`id_user`) < 50  THEN 2
-			WHEN (SELECT COUNT(`id_opinion`) FROM `opinion` WHERE `content` IS NOT NULL AND LENGTH(TRIM(`content`)) > 100 AND `opinion`.`id_user` = `user`.`id_user`) < 100 THEN 3
-			WHEN (SELECT COUNT(`id_opinion`) FROM `opinion` WHERE `content` IS NOT NULL AND LENGTH(TRIM(`content`)) > 100 AND `opinion`.`id_user` = `user`.`id_user`) < 500 THEN 4
+			WHEN (SELECT COUNT(`id_opinion`) FROM `opinion` WHERE `content` IS NOT NULL AND LENGTH(TRIM(`content`)) > 50 AND `opinion`.`id_user` = `user`.`id_user`) < 10  THEN 0
+			WHEN (SELECT COUNT(`id_opinion`) FROM `opinion` WHERE `content` IS NOT NULL AND LENGTH(TRIM(`content`)) > 50 AND `opinion`.`id_user` = `user`.`id_user`) < 20  THEN 1
+			WHEN (SELECT COUNT(`id_opinion`) FROM `opinion` WHERE `content` IS NOT NULL AND LENGTH(TRIM(`content`)) > 50 AND `opinion`.`id_user` = `user`.`id_user`) < 50  THEN 2
+			WHEN (SELECT COUNT(`id_opinion`) FROM `opinion` WHERE `content` IS NOT NULL AND LENGTH(TRIM(`content`)) > 50 AND `opinion`.`id_user` = `user`.`id_user`) < 100 THEN 3
+			WHEN (SELECT COUNT(`id_opinion`) FROM `opinion` WHERE `content` IS NOT NULL AND LENGTH(TRIM(`content`)) > 50 AND `opinion`.`id_user` = `user`.`id_user`) < 500 THEN 4
 			ELSE 5
 		END AS `opinions`,
 		(SELECT COUNT(`id_post`) FROM `post` WHERE `post`.`id_user` = `user`.`id_user`) AS `posts_total`,
