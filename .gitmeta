@@ -298,6 +298,13 @@ leganto/app/models/external/GoogleChart.php  mode=0644  uid=1000  gid=1000
 leganto/app/models/external/IFinder.php  mode=0644  uid=1000  gid=1000
 leganto/app/models/external/ISocialNetwork.php  mode=0644  uid=1000  gid=1000
 leganto/app/models/external/TwitterBridge.php  mode=0644  uid=1000  gid=1000
+leganto/app/models/external/yaz  mode=0755  uid=1000  gid=1000
+leganto/app/models/external/yaz/YazConnection.php  mode=0644  uid=1000  gid=1000
+leganto/app/models/external/yaz/YazConnectionPool.php  mode=0644  uid=1000  gid=1000
+leganto/app/models/external/yaz/YazDriver.php  mode=0644  uid=1000  gid=1000
+leganto/app/models/external/yaz/YazException.php  mode=0644  uid=1000  gid=1000
+leganto/app/models/external/yaz/YazRecord.php  mode=0644  uid=1000  gid=1000
+leganto/app/models/external/yaz/YazResult.php  mode=0644  uid=1000  gid=1000
 leganto/app/models/feed  mode=0755  uid=1000  gid=1000
 leganto/app/models/feed/FeedItemEntity.php  mode=0644  uid=1000  gid=1000
 leganto/app/models/feed/FeedItemSelector.php  mode=0644  uid=1000  gid=1000
@@ -1668,9 +1675,9 @@ leganto/tests/models/books/BookUpdaterTest.php  mode=0644  uid=1000  gid=1000
 leganto/tests/models/external  mode=0755  uid=1000  gid=1000
 leganto/tests/models/external/GoogleBooksBookFinderTest.php  mode=0644  uid=1000  gid=1000
 leganto/tests/phpunit.xml  mode=0644  uid=1000  gid=1000
-leganto/tests/temp/c-Nette.RobotLoader  mode=0755  uid=1000  gid=1000
+leganto/tests/temp/c-Nette.RobotLoader  mode=0777  uid=1000  gid=1000
 leganto/tests/temp  mode=0755  uid=1000  gid=1000
-leganto/tests/temp/c-Nette.RobotLoader/_6b2b32af749b08126aa5b927e2b17a51  mode=0644  uid=1000  gid=1000
+leganto/tests/temp/c-Nette.RobotLoader/_6b2b32af749b08126aa5b927e2b17a51  mode=0666  uid=1000  gid=1000
 leganto/tests/test-utils  mode=0755  uid=1000  gid=1000
 leganto/tests/test-utils/TestContext.php  mode=0644  uid=1000  gid=1000
 leganto/tests/test-utils/data.sql  mode=0644  uid=1000  gid=1000
