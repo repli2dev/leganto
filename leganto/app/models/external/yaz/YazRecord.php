@@ -19,7 +19,7 @@ class YazRecord {
 			switch($attributes['tag']) {
 				// ISBN
 				case '020':
-					$isbn = self::getSpecificSubfield($datafield, 'a');
+					$isbn = ExtraArray::firstValue(explode(' ', self::getSpecificSubfield($datafield, 'a')));
 					if (!empty($isbn)) {
 						$data['isbn'] =	$isbn;
 					}
