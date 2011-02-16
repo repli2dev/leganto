@@ -1676,6 +1676,7 @@ leganto/tests/test-utils  mode=0755  uid=500  gid=100
 leganto/tests/test-utils/TestContext.php  mode=0644  uid=500  gid=100
 leganto/tests/test-utils/data.sql  mode=0644  uid=500  gid=100
 leganto/tools  mode=0755  uid=500  gid=100
+leganto/tools/batch_mailer.php  mode=0644  uid=500  gid=100
 leganto/tools/header.php  mode=0644  uid=500  gid=100
 leganto/tools/similar_tags.php  mode=0644  uid=500  gid=100
 leganto/updates  mode=0755  uid=500  gid=100
