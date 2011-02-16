@@ -724,6 +724,7 @@ table.connections-list a.delete {
 #content ol, #content ul {
 	margin-left: 40px;
 	margin-top: 10px;
+	font-family: Verdana, Geneva, sans-serif;
 }
 
 #content ol li, #content ul li {
@@ -731,7 +732,6 @@ table.connections-list a.delete {
 }
 
 #content ol p, #content ul p {
-	font-family: "Trebuchet MS";
 	padding-top: 5px;
 	padding-bottom: 5px;
 }
