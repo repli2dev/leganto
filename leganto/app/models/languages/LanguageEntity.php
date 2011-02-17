@@ -19,5 +19,6 @@ class LanguageEntity extends AEntity {
 	protected $name;
 	protected $locale;
 	protected $google;
-
+	/** @Translate(z39_50) */
+	protected $z3950;
 }

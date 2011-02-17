@@ -55,4 +55,29 @@ class EditionInserter implements IInserter {
 		return $result;
 	}
 
+	public function insertByYazRecords(IEntity $book, array $records) {
+		$result = array();
+		foreach($records AS $record) {
+			$entity = Leganto::editions()->createEmpty();
+			$entity->idBookTitle = $book->getId();
+			$entity->pages = $record->getData()->pages;
+			if (isset($record->getData()->publushedYear)) {
+				$entity->published = $record->getData()->publushedYear;
+			}
+			$isbn = strtr($record->getData()->isbn, array("-" => ""));
+			if (strlen($isbn) === 10) {
+				$entity->isbn10 = $isbn;
+			}
+			else {
+				$entity->isbn13 = $isbn;
+			}
+			$entity->inserted = new DateTime();
+			$entity->persist();
+			if ($entity->getId() != -1) {
+				$result[] = $entity;
+			}
+		}
+		return $result;
+	}
+
 }

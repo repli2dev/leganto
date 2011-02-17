@@ -7,7 +7,7 @@ Environment::loadConfig(APP_DIR . '/config.ini');
 
 dibi::connect(Environment::getConfig("database"));
 
-dibi::query("TRUNCATE TABLE [edition]");
+//dibi::query("TRUNCATE TABLE [edition]");
 
 // Ziskam knihy
 $processed	= dibi::query("SELECT DISTINCT(`id_book_title`) AS `id` FROM `edition`")->fetchPairs("id","id");
@@ -16,17 +16,16 @@ $books          = Leganto::books()->fetchAndCreateAll(Leganto::books()->getSelec
 $imageFinder    = new EditionImageFinder();
 // Vytvorim uloziste obrazku
 $storage        = new EditionImageStorage();
-// Vytvorim Google Books finder urcite jazykove verze
-$googleFinder   = new GoogleBooksBookFinder("cs");
+// Vytvorim edition finder
+$editionFinder	= new YazEditionFinder();
 
 foreach ($books AS $book) {
 	echo "GET [".$book->getId()."] ".$book->title."\n";
 	// Ziskam data od Googlu
 	try {
-		$info = $googleFinder->get($book);
-
+		$records = $editionFinder->get($book);
 		// Na zaklade dat od Googlu vytvorim k dane knize edice
-		$editions       = Leganto::editions()->getInserter()->insertByGoogleBooksInfo($book, $info);
+		$editions       = Leganto::editions()->getInserter()->insertByYazRecords($book, $records);
 		// Pro kazdou edici
 		foreach($editions AS $edition) {
 			// Ziskam obrazky (teoreticky je jich vice, i kdyz me to ted nezajima)

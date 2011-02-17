@@ -29,6 +29,10 @@ class YazResult implements IteratorAggregate, Countable
 		return $this->connection->getNumberOfRecords();
 	}
 
+	public function getConnection() {
+		return $this->connection;
+	}
+
 	public function getIterator() {
 		return new YazResultIterator($this);
 	}

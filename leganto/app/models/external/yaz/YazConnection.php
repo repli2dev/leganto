@@ -8,31 +8,29 @@ class YazConnection
 
 	private $id;
 
+	private $options;
+
+	const OPT_CHARSET = 'charset';
+
 	const QUERY_RPN = 'rpn';
 
-	const RECORD_ARRAY = 'array';
-
-	const RECORD_DATABASE = 'database';
-
-	const RECORD_RAW = 'raw';
-
-	const RECORD_STRING = 'string';
-
-	const RECORD_SYNTAX = 'syntax';
-
-	const RECORD_XML = 'xml';
-
-	public function __construct($host, YazDriver $driver) {
-		$this->id = yaz_connect($host);
+	public function __construct($host, YazDriver $driver, $options = array()) {
+		if (empty($options)) {
+			$this->id = yaz_connect($host);
+		}
+		else {
+			$this->id = yaz_connect($host, $options);
+		}
 		$this->checkError();
 		$this->host		= $host;
 		$this->driver	= $driver;
+		$this->options	= $options;
 	}
 
 	public function checkError() {
 		$error = yaz_error($this->id);
 		if (!empty($error)) {
-			throw new YazException($error);
+			throw new YazException("[$this->host] " . $error);
 		}
 	}
 
@@ -55,7 +53,11 @@ class YazConnection
 		return $hits;
 	}
 
-	public function getResult($format = self::RECORD_ARRAY) {
+	public function getOptions() {
+		return $this->options;
+	}
+
+	public function getResult($format = YazResult::FORMAT_ARRAY) {
 		return new YazResult($this, $format);
 	}
 

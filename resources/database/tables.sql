@@ -4,6 +4,7 @@ CREATE TABLE `language` (
 	`name` VARCHAR (50) NOT NULL COMMENT 'nazev jazyka',
 	`locale` VARCHAR (10) NOT NULL COMMENT 'zkratka jazyka',
 	`google` VARCHAR (10) NOT NULL COMMENT 'zkratka jazyka pro google (cs,en...)',
+	`z39_50` VARCHAR (10) NOT NULL COMMENT 'zkratka jazyka pro Z39.50 (norma ISO 639-2/B)',
 	UNIQUE (`name`), UNIQUE (`locale`)
 ) ENGINE = InnoDB COMMENT = 'Obsahuje pouzivane jazyky' CHARACTER SET utf8 COLLATE utf8_czech_ci;
 

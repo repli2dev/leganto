@@ -7,9 +7,13 @@ class YazRecord {
 		$this->data = $data;
 	}
 
+	public function getData() {
+		return (object) $this->data;
+	}
+
 	/** @return YazRecord */
 	public static function fromXml($string) {
-		$xml = @simplexml_load_string(utf8_encode($string));
+		$xml = @simplexml_load_string($string);
 		if ($xml === FALSE) {
 			throw new IOException("Unexpected error has happened.");
 		}
@@ -19,9 +23,17 @@ class YazRecord {
 			switch($attributes['tag']) {
 				// ISBN
 				case '020':
-					$isbn = ExtraArray::firstValue(explode(' ', self::getSpecificSubfield($datafield, 'a')));
+					preg_match("/(\d|-)+/", self::getSpecificSubfield($datafield, 'a'), $matches);
+					$isbn = ExtraArray::firstValue($matches);
 					if (!empty($isbn)) {
 						$data['isbn'] =	$isbn;
+					}
+					break;
+				// Language
+				case '041':
+					$language = self::getSpecificSubfield($datafield, 'a');
+					if (!empty($language)) {
+						$data['language'] =	$language;
 					}
 					break;
 				// Author
@@ -31,7 +43,7 @@ class YazRecord {
 					break;
 				// Title statement
 				case '245':
-					$data['title'] = trim(self::getSpecificSubfield($datafield, 'a'), '/; ');
+					$data['title'] = trim(self::getSpecificSubfield($datafield, 'a'), '/.;: ');
 					break;
 				// Edition
 				case '260':
@@ -39,13 +51,13 @@ class YazRecord {
 					$publisher	= trim(self::getSpecificSubfield($datafield, 'b'), ', ');
 					$year		= self::getSpecificSubfield($datafield, 'c');
 					if (!empty($place)) {
-						$data['published-place'] = $place;
+						$data['publishedPlace'] = $place;
 					}
 					if (!empty($publisher)) {
 						$data['publisher'] = $publisher;
 					}
 					if (!empty($year)) {
-						$data['published-year']= $year;
+						$data['publishedYear']= $year;
 					}
 					break;
 				// Numbe of pages

@@ -11,7 +11,7 @@ class YazConnectionPool
 		$this->driver = $driver;
 	}
 
-	public function search($query, $timeout = NULL, $format = YazResult::RECORD_ARRAY) {
+	public function search($query, $timeout = NULL, $format = YazResult::FORMAT_RECORD) {
 		foreach($this->connections AS $connection) {
 			$connection->search($query);
 		}

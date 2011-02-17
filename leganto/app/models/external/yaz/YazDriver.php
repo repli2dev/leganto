@@ -1,17 +1,14 @@
 <?php
 class YazDriver
 {
+	const OPT_CHARSET = YazConnection::OPT_CHARSET;
 
 	/** @return YazConnection */
-	public function connect($host) {
-		return new YazConnection($host, $this);
+	public function connect($host, $options = array()) {
+		return new YazConnection($host, $this, $options);
 	}
 
-	public function pool(array $hosts) {
-		$connections = array();
-		foreach($hosts AS $host) {
-			$connections[] = $this->connect($host);
-		}
+	public function pool(array $connections) {
 		return new YazConnectionPool($connections, $this);
 	}
 

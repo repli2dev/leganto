@@ -298,6 +298,7 @@ leganto/app/models/external/GoogleChart.php  mode=0644  uid=1000  gid=1000
 leganto/app/models/external/IFinder.php  mode=0644  uid=1000  gid=1000
 leganto/app/models/external/ISocialNetwork.php  mode=0644  uid=1000  gid=1000
 leganto/app/models/external/TwitterBridge.php  mode=0644  uid=1000  gid=1000
+leganto/app/models/external/YazEditionFinder.php  mode=0644  uid=1000  gid=1000
 leganto/app/models/external/yaz  mode=0755  uid=1000  gid=1000
 leganto/app/models/external/yaz/YazConnection.php  mode=0644  uid=1000  gid=1000
 leganto/app/models/external/yaz/YazConnectionPool.php  mode=0644  uid=1000  gid=1000
