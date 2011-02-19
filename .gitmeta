@@ -45,6 +45,7 @@ leganto/app/CronModule  mode=0755  uid=1000  gid=1000
 leganto/app/CronModule/CronModule.php  mode=0644  uid=1000  gid=1000
 leganto/app/CronModule/presenters  mode=0755  uid=1000  gid=1000
 leganto/app/CronModule/presenters/BasePresenter.php  mode=0644  uid=1000  gid=1000
+leganto/app/CronModule/presenters/BookPresenter.php  mode=0644  uid=1000  gid=1000
 leganto/app/CronModule/presenters/CleanupPresenter.php  mode=0644  uid=1000  gid=1000
 leganto/app/CronModule/presenters/FeedPresenter.php  mode=0644  uid=1000  gid=1000
 leganto/app/CronModule/presenters/SimilarityPresenter.php  mode=0644  uid=1000  gid=1000
@@ -254,7 +255,7 @@ leganto/app/locale/en_US/LC_MESSAGES/messages.mo  mode=0644  uid=1000  gid=1000
 leganto/app/locale/en_US/LC_MESSAGES/messages.po  mode=0644  uid=1000  gid=1000
 leganto/app/locale/messages.pot  mode=0644  uid=1000  gid=1000
 leganto/app/logs  mode=0777  uid=1000  gid=1000
-leganto/app/logs/log.sql  mode=0777  uid=1000  gid=1000
+leganto/app/logs/log.sql  mode=0644  uid=1000  gid=1000
 leganto/app/models  mode=0755  uid=1000  gid=1000
 leganto/app/models/Leganto.php  mode=0644  uid=1000  gid=1000
 leganto/app/models/System.php  mode=0644  uid=1000  gid=1000
@@ -372,7 +373,7 @@ leganto/app/presenters  mode=0755  uid=1000  gid=1000
 leganto/app/presenters/BasePresenter.php  mode=0644  uid=1000  gid=1000
 leganto/app/temp/cache  mode=0777  uid=1000  gid=1000
 leganto/app/temp  mode=0777  uid=1000  gid=1000
-leganto/app/temp/cache/.placeholder  mode=0777  uid=1000  gid=1000
+leganto/app/temp/cache/.placeholder  mode=0644  uid=1000  gid=1000
 leganto/app/tools  mode=0755  uid=1000  gid=1000
 leganto/app/tools/Helpers.php  mode=0644  uid=1000  gid=1000
 leganto/app/tools/LegantoTemplate.php  mode=0644  uid=1000  gid=1000
@@ -1678,7 +1679,7 @@ leganto/tests/models/external/GoogleBooksBookFinderTest.php  mode=0644  uid=1000
 leganto/tests/phpunit.xml  mode=0644  uid=1000  gid=1000
 leganto/tests/temp/c-Nette.RobotLoader  mode=0777  uid=1000  gid=1000
 leganto/tests/temp  mode=0755  uid=1000  gid=1000
-leganto/tests/temp/c-Nette.RobotLoader/_6b2b32af749b08126aa5b927e2b17a51  mode=0666  uid=1000  gid=1000
+leganto/tests/temp/c-Nette.RobotLoader/_6b2b32af749b08126aa5b927e2b17a51  mode=0644  uid=1000  gid=1000
 leganto/tests/test-utils  mode=0755  uid=1000  gid=1000
 leganto/tests/test-utils/TestContext.php  mode=0644  uid=1000  gid=1000
 leganto/tests/test-utils/data.sql  mode=0644  uid=1000  gid=1000

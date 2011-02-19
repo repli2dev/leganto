@@ -40,7 +40,7 @@ class BookSelector implements ISelector {
 			throw new NullPointerException("author::id");
 		}
 		return dibi::dataSource("SELECT * FROM [view_author_book] WHERE [id_author] = %i", $author->getId())
-			->orderBy(array("id_book", "title"));
+				->orderBy(array("id_book", "title"));
 	}
 
 	/**
@@ -85,8 +85,8 @@ class BookSelector implements ISelector {
 		return dibi::dataSource("
 		    SELECT * FROM [view_book]
 		    WHERE [id_book] = %i ", $book->bookNode,
-			"AND [id_book_title] != %i ", $book->getId(),
-			"ORDER BY [title]"
+				"AND [id_book_title] != %i ", $book->getId(),
+				"ORDER BY [title]"
 		);
 	}
 
@@ -152,7 +152,7 @@ class BookSelector implements ISelector {
 		$word = mysql_escape_string($keyword) . "%";
 		$conditions = "
 			[title] LIKE '$word'
-		";
+				";
 		// Do not use view (because view takes over 100 ms)
 		return dibi::dataSource("SELECT * FROM [book_title] WHERE " . $conditions . "");
 	}
@@ -214,15 +214,15 @@ class BookSelector implements ISelector {
 			throw new NullPointerException("book");
 		}
 		return $this->findAll()
-			->where("[id_book] = %i", $book->bookNode)
-			->where("[id_book_title] != %i", $book->getId())
-			->orderBy("title");
+				->where("[id_book] = %i", $book->bookNode)
+				->where("[id_book_title] != %i", $book->getId())
+				->orderBy("title");
 	}
 
 	/** @return BookEntity */
 	public function find($id) {
 		return Leganto::books()
-			->fetchAndCreate(
+				->fetchAndCreate(
 				dibi::dataSource("SELECT * FROM [view_book] WHERE [id_book_title] = %i", $id)
 		);
 	}
@@ -234,25 +234,29 @@ class BookSelector implements ISelector {
 	 *    * Good books (rating 4-5)
 	 * TODO: User should have option to say Never show again
 	 */
-	 public function findRecommendedBook() {
-		 $user = System::user()->getId();
-		 // MySQL do not support EXCEPT and LIMIT in subquery
-		 $result = dibi::query("
-			SELECT id_book_title FROM opinion INNER JOIN (
-				SELECT id_user_to FROM user_similarity WHERE id_user_from = %i ",$user," ORDER BY value DESC LIMIT 3
-			) most ON id_user = id_user_to
-			WHERE id_book_title NOT IN (
-				SELECT id_book_title FROM opinion WHERE id_user = %i ",$user,"
-			) AND rating BETWEEN 4 AND 5
-			ORDER BY RAND() LIMIT 1");
-		 if($result->count() == 0) {
-			 return;
-		 }
-		 return $this->findAll()->where("[id_book_title] IN %l",$result->fetchAll());
-	 }
+	public function findRecommendedBook() {
+		$user = System::user()->getId();
+		$result =  dibi::dataSource("
+			SELECT * FROM [tmp_recommended_book] WHERE [id_user] = %i
+			ORDER BY RAND() LIMIT 1
+		", $user);
+//		// MySQL do not support EXCEPT and LIMIT in subquery
+//		$result = dibi::query("
+//			SELECT id_book_title FROM opinion INNER JOIN (
+//				SELECT id_user_to FROM user_similarity WHERE id_user_from = %i ",$user," ORDER BY value DESC LIMIT 3
+//			) most ON id_user = id_user_to
+//			WHERE id_book_title NOT IN (
+//				SELECT id_book_title FROM opinion WHERE id_user = %i ",$user,"
+//			) AND rating BETWEEN 4 AND 5
+//			ORDER BY RAND() LIMIT 2");
+		if($result->count() == 0) {
+			return;
+		}
+//		return $this->findAll()->where("[id_book_title] IN %l",$result->fetchAll());
+	}
 
-	 public function findRandom() {
+	public function findRandom() {
 		return dibi::query("SELECT id_book_title FROM view_book ORDER BY RAND() LIMIT 1")->fetch();
-	 }
+	}
 
 }
