@@ -252,6 +252,7 @@ class BookSelector implements ISelector {
 		if($result->count() == 0) {
 			return;
 		}
+		return $result;
 //		return $this->findAll()->where("[id_book_title] IN %l",$result->fetchAll());
 	}
 

@@ -789,10 +789,10 @@ leganto/document_root/phpinfo.php  mode=0644  uid=1000  gid=1000
 leganto/document_root/robots.txt  mode=0644  uid=1000  gid=1000
 leganto/document_root/storage/books  mode=0777  uid=1000  gid=1000
 leganto/document_root/storage  mode=0777  uid=1000  gid=1000
-leganto/document_root/storage/books/.placeholder  mode=0777  uid=1000  gid=1000
+leganto/document_root/storage/books/.placeholder  mode=0755  uid=1000  gid=1000
 leganto/document_root/storage/users  mode=0777  uid=1000  gid=1000
-leganto/document_root/storage/users/.placeholder  mode=0777  uid=1000  gid=1000
-leganto/document_root/storage/vlastni_tvorba.zip  mode=0777  uid=1000  gid=1000
+leganto/document_root/storage/users/.placeholder  mode=0755  uid=1000  gid=1000
+leganto/document_root/storage/vlastni_tvorba.zip  mode=0755  uid=1000  gid=1000
 leganto/import  mode=0755  uid=1000  gid=1000
 leganto/import/IImportable.php  mode=0644  uid=1000  gid=1000
 leganto/import/database.php  mode=0644  uid=1000  gid=1000
