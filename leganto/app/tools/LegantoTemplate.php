@@ -37,6 +37,8 @@ final class LegantoTemplate {
 		$template->registerHelper("bookcover", Helpers::getHelper('bookCover'));
 		$template->registerHelper("language", Helpers::getHelper('language'));
 		$template->registerHelper("hardTruncate", Helpers::getHelper('hardTruncate'));
+		$template->registerHelper("rating", Helpers::getHelper('rating'));
+		$template->registerHelper("achievementName", Helpers::getHelper('achievementName'));
 
 		// give translator to templates
 		$template->setTranslator(System::translator());

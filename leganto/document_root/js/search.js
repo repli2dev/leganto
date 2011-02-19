@@ -52,5 +52,13 @@ $(function(){
 		$(this).find('input[type=text][title!=""]').each(function() {
 			if ($(this).val() == $(this).attr('title')) $(this).val('');
 		});
+		$(this).find('textarea[title!=""]').each(function() {
+			if ($(this).val() == $(this).attr('title')) $(this).val('');
+		});
 	});
+
+	$('textarea[title!=""]').each(function() {
+		if ($.trim($(this).val()) == '') $(this).val($(this).attr('title'));
+		if ($(this).val() == $(this).attr('title')) $(this).addClass('shaded-text');
+	}).focus(switchText).blur(switchText);
 });

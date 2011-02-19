@@ -33,23 +33,31 @@
 					<td>{$user->lastLogged|date}</td>
 				</tr>
 			{/if}
-			<tr>
-				<th>{_"Read books"}</th>
-				<td>{$achievement->booksTotal}</td>
-			</tr>
-			<tr>
-				<th>{_"Opinions"}</th>
-				<td>{$achievement->opinionsTotal}</td>
-			</tr>
-			<tr>
-				<th>{_"Discussion posts"}</th>
-				<td>{$achievement->postsTotal}</td>
-			</tr>
-			<tr>
-				<th>{_"Followers"}</th>
-				<td>{$achievement->followersTotal}</td>
-			</tr>
-			{if System::isCurrentlyLogged($user->getId()) && $achievement->opinions == 2 && $user->role == 'common'}
+			{if $achievement !== NULL && $achievement->booksTotal !== NULL}
+				<tr>
+					<th>{_"Read books"}</th>
+					<td>{$achievement->booksTotal}</td>
+				</tr>
+			{/if}
+			{if $achievement !== NULL && $achievement->opinionsTotal !== NULL}
+				<tr>
+					<th>{_"Opinions"}</th>
+					<td>{$achievement->opinionsTotal}</td>
+				</tr>
+			{/if}
+			{if $achievement !== NULL && $achievement->postsTotal !== NULL}
+				<tr>
+					<th>{_"Discussion posts"}</th>
+					<td>{$achievement->postsTotal}</td>
+				</tr>
+			{/if}
+			{if $achievement !== NULL && $achievement->followersTotal !== NULL}
+				<tr>
+					<th>{_"Followers"}</th>
+					<td>{$achievement->followersTotal}</td>
+				</tr>
+			{/if}
+			{if System::isCurrentlyLogged($user->getId()) && $achievement !== NULL && $achievement->opinions == 2 && $user->role == 'common'}
 			<tr class="to-be-moderator">
 				<td colspan="2">
 					{_'If you add %s opinions you will be a moderator.', (50-$achievement->opinionsTotal > 0 ? 50-$achievement->opinionsTotal : 0)}
@@ -58,12 +66,14 @@
 			{/if}
 		</table>
         <img class="icon" src="{$user->getId(),150|userico}" alt="{$user->nickname}" />
-		<div class="achievements">
-			<img class="achievement" title="{_'level based on number of books read by the user'}" alt="{_'level based on the number of books read by the user'}" src="{$baseUri}img/achievement_books_{$achievement->books}.png" />
-			<img class="achievement" title="{_'level based on number of user\'s opinions'}" alt="{_'level based on number of user\'s opinions'}" src="{$baseUri}img/achievement_opinions_{$achievement->opinions}.png" />
-			<img class="achievement" title="{_'level based on number of user\'s discussion posts'}" alt="{_'level based on number of user\'s discussion posts'}" src="{$baseUri}img/achievement_posts_{$achievement->posts}.png" />
-			<img class="achievement" title="{_'level based on number of user\'s followers'}" alt="{_'level based on number of user\'s followers'}" src="{$baseUri}img/achievement_followers_{$achievement->followers}.png" />
-		</div>
+		{if $achievement !== NULL}
+			<div class="achievements">
+				<img class="achievement" title="{$achievement->books|achievementName:"books"} &ndash; {_"level based on number of books read by the user"}" alt="{_"level based on the number of books read by the user"}" src="{$baseUri}img/achievement_books_{$achievement->books}.png" />
+				<img class="achievement" title="{$achievement->opinions|achievementName:"opinions"} &ndash; {_"level based on number of user's opinions"}" alt="{_"level based on number of user's opinions"}" src="{$baseUri}img/achievement_opinions_{$achievement->opinions}.png" />
+				<img class="achievement" title="{$achievement->posts|achievementName:"posts"} &ndash; {_"level based on number of user's discussion posts"}" alt="{_"level based on number of user's discussion posts"}" src="{$baseUri}img/achievement_posts_{$achievement->posts}.png" />
+				<img class="achievement" title="{$achievement->followers|achievementName:"followers"} &ndash; {_"level based on number of user's followers"}" alt="{_"level based on number of user's followers"}" src="{$baseUri}img/achievement_followers_{$achievement->followers}.png" />
+			</div>
+		{/if}
 		
 		<div class="clear">&nbsp;</div>
 	</div>

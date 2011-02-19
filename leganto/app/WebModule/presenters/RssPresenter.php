@@ -18,7 +18,10 @@ class Web_RssPresenter extends Web_BasePresenter {
 		if (!empty($user)) {
 			$userEntity = Leganto::users()->getSelector()->find($user);
 			$users = Leganto::users()->getSelector()->findAllFollowed($userEntity)->fetchPairs("id_user", "id_user");
-			$source->where("id_user IN %l", $users);
+			// Only apply if there are any followed users
+			if(count($users) > 0) {
+				$source->where("id_user IN %l", $users);
+			}
 		}
 		$source->applyLimit(self::LIMIT);
 		foreach (Leganto::feed()->fetchAndCreateAll($source) AS $item) {

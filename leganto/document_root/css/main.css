@@ -33,6 +33,12 @@ a:hover {
 a img {
 	border: none;
 }
+pre {
+	overflow: auto;
+}
+pre.html {
+	padding: 5px;
+}
 
 /************************** LAYOUT ********************************************/
 .wrapper {
@@ -327,7 +333,8 @@ a img {
 	background: #FDF7CD;
 	border: 1px solid #FDF7CD;
 }
-#main-info .hint {
+#main-info .hint,
+#main-info .rss {
 	background: #FDF7CD;
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
@@ -335,15 +342,18 @@ a img {
 	border: 1px solid #FDF7CD;
 	padding: 5px;
 }
-#main-info .hint img {
+#main-info .hint img,
+#main-info .rss img{
 	float: left;
 	width: auto;
+	margin-right: 10px;
 }
 #main-info .hint p {
 	padding-top: 0px;
 	padding-left: 50px;
 	background: url('/img/ico/light_bulb.png') no-repeat 0% 0% ;
 }
+
 #feed div.item-opinion {
 	background: #F6F6F6 url('/img/ico/feed-opinion.png') no-repeat 98% 50%;
 }
@@ -714,6 +724,7 @@ table.connections-list a.delete {
 #content ol, #content ul {
 	margin-left: 40px;
 	margin-top: 10px;
+	font-family: Verdana, Geneva, sans-serif;
 }
 
 #content ol li, #content ul li {
@@ -721,7 +732,6 @@ table.connections-list a.delete {
 }
 
 #content ol p, #content ul p {
-	font-family: "Trebuchet MS";
 	padding-top: 5px;
 	padding-bottom: 5px;
 }

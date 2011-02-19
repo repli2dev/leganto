@@ -23,7 +23,6 @@ final class Helpers {
 	private static $texySafe;
 
 	final private function __construct() {
-
 	}
 
 	/**
@@ -56,8 +55,93 @@ final class Helpers {
 				break;
 			case "language": return array(get_class(), "languageHelper");
 				break;
+			case "rating": return array(get_class(), "ratingHelper");
+				break;
+			case "achievementName": return array(get_class(), "AchievementNameHelper");
+				break;
 			default:
 				throw new DataNotFoundException("helper: $helper");
+		}
+	}
+	/**
+	 * Returns name of given level of achievement
+	 * @param int level of achievement
+	 * @param string type of achievement
+	 * @return string name of level
+	 */
+	public static function AchievementNameHelper($level,$type) {
+		// Ugly but creating array would take long calling of System:translate more than once.
+		switch ($type) {
+			case 'books':
+				switch ($level) {
+					case 0:
+						return System::translate("Beginner");
+					case 1:
+						return System::translate("Beginning reader");
+					case 2:
+						return System::translate("Passionate reader");
+					case 3:
+						return System::translate("Book enthusiast");
+					case 4:
+						return System::translate("Book lover");
+					case 5:
+						return System::translate("Bibliophile");
+					default:
+						return;
+				}
+			case 'opinions':
+				switch ($level) {
+					case 0:
+						return System::translate("Beginner");
+					case 1:
+						return System::translate("Beginning reviewer");
+					case 2:
+						return System::translate("Young reviewer");
+					case 3:
+						return System::translate("Experienced reviewer");
+					case 4:
+						return System::translate("Veteran reviewer");
+					case 5:
+						return System::translate("Arbiter elegantiarum");
+					default:
+						return;
+				}
+			case 'posts':
+				switch ($level) {
+					case 0:
+						return System::translate("Beginner");
+					case 1:
+						return System::translate("Occasional discussant");
+					case 2:
+						return System::translate("Regular discussant");
+					case 3:
+						return System::translate("Frequent discussant");
+					case 4:
+						return System::translate("Perpetual discussant");
+					case 5:
+						return System::translate("Always having the last Word ;-)");
+					default:
+						return;
+				}
+			case 'followers':
+				switch ($level) {
+					case 0:
+						return System::translate("Beginner");
+					case 1:
+						return System::translate("Favourite");
+					case 2:
+						return System::translate("Known");
+					case 3:
+						return System::translate("Famous");
+					case 4:
+						return System::translate("Celebrity");
+					case 5:
+						return System::translate("Irresistible");
+					default:
+						return;
+				}
+			default:
+				return;
 		}
 	}
 
@@ -264,6 +348,23 @@ final class Helpers {
 			$width,
 			$height
 		);
+	}
+
+	/**
+	 * It returns human readable rating
+	 *
+	 * @param int $rating grade
+	 * @return string
+	 */
+	public static function ratingHelper($rating) {
+		switch ($rating) {
+			case 0: return System::translate("Waste");
+			case 1: return System::translate("Poor");
+			case 2: return System::translate("Fair");
+			case 3: return System::translate("Good");
+			case 4: return System::translate("Very good");
+			case 5: return System::translate("Excellent");
+		}
 	}
 
 	// PRIVATE METHODS

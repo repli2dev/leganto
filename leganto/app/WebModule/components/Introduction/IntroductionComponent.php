@@ -156,6 +156,7 @@ class IntroductionComponent extends BaseComponent {
 			$connection->user = $user;
 			$connection->type = 'twitter';
 			$connection->token = $this->twitter->getToken();
+			$connection->inserted = new DateTime();
 
 			// Commit
 			Leganto::connections()->getInserter()->insert($connection);
@@ -194,6 +195,7 @@ class IntroductionComponent extends BaseComponent {
 			$connection->user = $user;
 			$connection->type = 'facebook';
 			$connection->token = $this->facebook->getToken();
+			$connection->inserted = new DateTime();
 
 			// Commit
 			Leganto::connections()->getInserter()->insert($connection);
@@ -411,6 +413,7 @@ class IntroductionComponent extends BaseComponent {
 					$connection->user = $user->id;
 					$connection->type = 'facebook';
 					$connection->token = $facebookToken;
+					$connection->inserted = new DateTime();
 
 					// Commit
 					Leganto::connections()->getInserter()->insert($connection);
@@ -457,6 +460,7 @@ class IntroductionComponent extends BaseComponent {
 					$connection->user = $user->id;
 					$connection->type = 'twitter';
 					$connection->token = $twitterToken;
+					$connection->inserted = new DateTime();
 
 					// Commit
 					Leganto::connections()->getInserter()->insert($connection);

@@ -19,7 +19,11 @@ class StatisticsGraphs {
 		$res = dibi::query("SELECT COUNT(*) AS number, rating FROM opinion GROUP BY rating");
 		$statistics = array();
 		while ($stat = $res->fetch()) {
-			$statistics[$stat->rating] = $stat->number;
+			if($stat->rating == '') {
+				$statistics[0] = $stat->number;
+			} else {
+				$statistics[$stat->rating] = $stat->number;
+			}
 		}
 		// Build chart
 		$chart = new GoogleChart(GoogleChart::TYPE_TWO_DIMENSIONAL_PIE);
@@ -28,7 +32,7 @@ class StatisticsGraphs {
 		$chart->setLegend(array_keys($statistics));
 		$chart->setLabels(GoogleChart::AXES_BOTTOM, $statistics);
 		// Tango pallete
-		$chart->setColors(array("8ae234","3465a4","fce94f","f57900","a40000"));
+		$chart->setColors(array("8ae234","3465a4","fce94f","ad7fa8","f57900","a40000"));
 		$chart->addDataSet($statistics);
 		return $chart;
 	}
@@ -55,13 +59,19 @@ class StatisticsGraphs {
 				$statistics[$i] = $data[$i];
 			}
 		}
+		// Add data specially for 0* rank
+		if (!isset($data[''])) {
+			$statistics[0] = 0;
+		} else {
+			$statistics[0] = $data[''];
+		}
 		// Build chart
 		$chart = new GoogleChart(GoogleChart::TYPE_VERTICAL_BAR_STACKED);
 		$chart->setAxes(array(GoogleChart::AXES_LEFT, GoogleChart::AXES_BOTTOM));
 		$chart->setSize(120, 240);
 		//$chart->setLegend(array_keys($statistics));
 		// Tango pallete
-		$chart->setColors(array("8ae234","3465a4","fce94f","f57900","a40000"));
+		$chart->setColors(array("8ae234","3465a4","fce94f","ad7fa8","f57900","a40000"));
 		$chart->setLabels(GoogleChart::AXES_BOTTOM, array_keys($statistics));
 		$chart->addDataSet($statistics);
 		//$chart->setName(System::translate("Ratings"));

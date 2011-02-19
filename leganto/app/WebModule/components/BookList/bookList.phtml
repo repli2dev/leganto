@@ -23,7 +23,11 @@
 					</span>
 				</div>
 				{/if}
-				<img src="{$baseUri}img/rating_{=round($book->rating)}.png" class="rating" />
+				{if $book->numberOfReaders > 0}
+					<img src="{$baseUri}img/rating_{=round($book->rating)}.png" alt="{=round($book->rating)|rating}" title="{=round($book->rating)|rating}" class="rating" />
+				{else}
+					<img src="{$baseUri}img/rating_na.png" alt="{_'Rating not available'}" title="{_'Rating not available'}" class="rating" />
+				{/if}
 			</div>
 
 			<div class="tags">

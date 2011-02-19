@@ -92,7 +92,7 @@ CREATE VIEW `view_opinion` AS
 	SELECT
 		`opinion`.`id_opinion`			AS `id_opinion`,
 		`opinion`.`content`			AS `content`,
-		`opinion`.`rating`			AS `rating`,
+		IF (`opinion`.`rating` = '', 0, `opinion`.`rating`)	AS `rating`,
 		`opinion`.`inserted`			AS `inserted`,
 		`opinion`.`updated`			AS `updated`,
 		`opinion`.`id_book_title`		AS `id_book_title`,
@@ -283,11 +283,11 @@ CREATE VIEW `view_achievement` AS
 		END AS `books`,
 		(SELECT COUNT(`id_opinion`) FROM `opinion` WHERE `content` IS NOT NULL AND LENGTH(TRIM(`content`)) > 0 AND `opinion`.`id_user` = `user`.`id_user`) AS `opinions_total`,
 		CASE
-			WHEN (SELECT COUNT(`id_opinion`) FROM `opinion` WHERE `content` IS NOT NULL AND LENGTH(TRIM(`content`)) > 0 AND `opinion`.`id_user` = `user`.`id_user`) < 10  THEN 0
-			WHEN (SELECT COUNT(`id_opinion`) FROM `opinion` WHERE `content` IS NOT NULL AND LENGTH(TRIM(`content`)) > 0 AND `opinion`.`id_user` = `user`.`id_user`) < 20  THEN 1
-			WHEN (SELECT COUNT(`id_opinion`) FROM `opinion` WHERE `content` IS NOT NULL AND LENGTH(TRIM(`content`)) > 0 AND `opinion`.`id_user` = `user`.`id_user`) < 50  THEN 2
-			WHEN (SELECT COUNT(`id_opinion`) FROM `opinion` WHERE `content` IS NOT NULL AND LENGTH(TRIM(`content`)) > 0 AND `opinion`.`id_user` = `user`.`id_user`) < 100 THEN 3
-			WHEN (SELECT COUNT(`id_opinion`) FROM `opinion` WHERE `content` IS NOT NULL AND LENGTH(TRIM(`content`)) > 0 AND `opinion`.`id_user` = `user`.`id_user`) < 500 THEN 4
+			WHEN (SELECT COUNT(`id_opinion`) FROM `opinion` WHERE `content` IS NOT NULL AND LENGTH(TRIM(`content`)) > 50 AND `opinion`.`id_user` = `user`.`id_user`) < 10  THEN 0
+			WHEN (SELECT COUNT(`id_opinion`) FROM `opinion` WHERE `content` IS NOT NULL AND LENGTH(TRIM(`content`)) > 50 AND `opinion`.`id_user` = `user`.`id_user`) < 20  THEN 1
+			WHEN (SELECT COUNT(`id_opinion`) FROM `opinion` WHERE `content` IS NOT NULL AND LENGTH(TRIM(`content`)) > 50 AND `opinion`.`id_user` = `user`.`id_user`) < 50  THEN 2
+			WHEN (SELECT COUNT(`id_opinion`) FROM `opinion` WHERE `content` IS NOT NULL AND LENGTH(TRIM(`content`)) > 50 AND `opinion`.`id_user` = `user`.`id_user`) < 100 THEN 3
+			WHEN (SELECT COUNT(`id_opinion`) FROM `opinion` WHERE `content` IS NOT NULL AND LENGTH(TRIM(`content`)) > 50 AND `opinion`.`id_user` = `user`.`id_user`) < 500 THEN 4
 			ELSE 5
 		END AS `opinions`,
 		(SELECT COUNT(`id_post`) FROM `post` WHERE `post`.`id_user` = `user`.`id_user`) AS `posts_total`,
@@ -304,8 +304,8 @@ CREATE VIEW `view_achievement` AS
 			WHEN (SELECT COUNT(`id_following`) FROM `following` WHERE `following`.`id_user_followed` = `user`.`id_user`) < 5   THEN 0
 			WHEN (SELECT COUNT(`id_following`) FROM `following` WHERE `following`.`id_user_followed` = `user`.`id_user`) < 10  THEN 1
 			WHEN (SELECT COUNT(`id_following`) FROM `following` WHERE `following`.`id_user_followed` = `user`.`id_user`) < 20  THEN 2
-			WHEN (SELECT COUNT(`id_following`) FROM `following` WHERE `following`.`id_user_followed` = `user`.`id_user`) < 50  THEN 3
-			WHEN (SELECT COUNT(`id_following`) FROM `following` WHERE `following`.`id_user_followed` = `user`.`id_user`) < 100 THEN 4
+			WHEN (SELECT COUNT(`id_following`) FROM `following` WHERE `following`.`id_user_followed` = `user`.`id_user`) < 35  THEN 3
+			WHEN (SELECT COUNT(`id_following`) FROM `following` WHERE `following`.`id_user_followed` = `user`.`id_user`) < 50  THEN 4
 			ELSE 5
 		END AS `followers`
 	FROM `user`

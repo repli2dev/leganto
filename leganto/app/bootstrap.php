@@ -29,6 +29,8 @@ if ($debug->enable) {
 	}
 	// Libs contain bunch of function returning warnings
 	error_reporting(E_ALL^E_USER_WARNING);
+} else {
+	error_reporting(0);
 }
 
 // Step 3: Get the front controller

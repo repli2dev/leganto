@@ -50,7 +50,12 @@ class InsertingOpinionComponent extends BaseComponent {
 		}
 		$opinion->userId = System::user()->getId();
 		$opinion->inserted = new DateTime;
-		$opinion->rating = $values["rating"];
+		// Needed, Nette returns NULL and ENUM value has to be '' (otherwise, the rating would be shifted)
+		if($values["rating"] == NULL) {
+			$opinion->rating = 'x';	// value that cannot be inserted (hack)
+		} else {
+			$opinion->rating = $values["rating"];
+		}
 		$opinion->content = $values["content"];
 		$opinion->languageId = $values["language"];
 		try {
@@ -83,19 +88,17 @@ class InsertingOpinionComponent extends BaseComponent {
 	protected function createComponentAddOpinionForm($name) {
 		$form = new BaseForm($this, $name);
 		$ratings = array(
-		    0 => "---- " . System::translate("Choose") . " -----",
+		    0 => System::translate("Waste"),
 		    1 => System::translate("Poor"),
 		    2 => System::translate("Fair"),
 		    3 => System::translate("Good"),
 		    4 => System::translate("Very good"),
 		    5 => System::translate("Excellent")
 		);
-		// Next line is needed due the wrong parameter count in translator
-		$cb = array($this, "validateRating");
 		$form->addSelect("rating", "Rating", $ratings)
-			->skipFirst()
-			->addRule($cb, "Please select rating.");
-		$form->addTextArea("content", "Your opinion", 50, 15);
+			->setOption("description",System::translate("(empty means you really hate this book)"));
+		$form->addTextArea("content", "Your opinion", 50, 15)
+			->getControlPrototype()->title(System::translate("Do not write spoilers!"));
 		$form->addText("tags", "Tags")->setOption("description", System::translate("(tags will be appended to current ones)"));
 		$languages = Leganto::languages()->getSelector()->findAll()->fetchPairs("id_language", "name");
 		$form->addSelect("language", "Language", $languages)
@@ -118,19 +121,6 @@ class InsertingOpinionComponent extends BaseComponent {
 		}
 		$form->setDefaults($values);
 		return($form);
-	}
-
-	public function validateRating($control) {
-		$items = $control->getItems();
-		// Remove first item if we are asked to.
-		if ($control->isFirstSkipped()) {
-			unset($items[key($items)]);
-		}
-		if (isSet($items[$control->getValue()])) {
-			return TRUE;
-		} else {
-			return FALSE;
-		}
 	}
 
 }

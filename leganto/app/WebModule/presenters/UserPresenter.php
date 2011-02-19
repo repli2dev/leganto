@@ -114,14 +114,14 @@ class Web_UserPresenter extends Web_BasePresenter {
 		$this->getTemplate()->user = $this->getUserEntity();
 		$this->setPageTitle(System::translate("Shelves") . ": " . $this->getUserEntity()->nickname);
 		$this->setPageDescription(System::translate("You can see shelves of the user and books in them on this page. Owners can re-order their books here."));
-		$this->setPageKeywords(System::translate("book shelves, update, reorder, manipulation, books"));
+		$this->setPageKeywords(System::translate("book shelves, update, reorder, manipulation, books, book database, virtual library, library"));
 	}
 
 	public function renderSimilar($user) {
 		$this->getTemplate()->user = $this->getUserEntity();
 		$this->setPageTitle(System::translate("Similar users") . ": " . $this->getUserEntity()->nickname);
 		$this->setPageDescription(System::translate("You can see similar users to a specific user on this page. The similarity is computed on the base of books users have read."));
-		$this->setPageKeywords(System::translate("user, books, similarity, similar users, similar"));
+		$this->setPageKeywords(System::translate("users, books, similarity, similar users, similar, what to read"));
 
 		$this->getComponent("userList")->setSource(
 				Leganto::users()->getSelector()
@@ -169,41 +169,46 @@ class Web_UserPresenter extends Web_BasePresenter {
 		$brown = imagecolorallocate($image, 51, 102, 153);
 		$font = WWW_DIR . "/img/fonts/DejaVuSansMono.ttf";
 		imagettftext($image, 9, 0, 38, 31, $black, $font, $user->nickname);
-		// First book
-		imagettftext($image, 8, 0, 4, 50, $brown, $font, ExtraString::hardTruncate($books[0]->title, 20));
-		$author = Leganto::authors()->getSelector()->findAllByBook($books[0])->fetchAll();
-		$authorInsert = $author[0]->full_name;
-		if (count($author) != 1) {
-			$authorInsert = $authorInsert . "\xE2\x80\xA6";
-			$authorInsert = ExtraString::hardTruncate($authorInsert, 18, "");
-		} else {
-			$authorInsert = ExtraString::hardTruncate($authorInsert, 18);
-		}
-		imagettftext($image, 8, 0, 4, 62, $black, $font, $authorInsert);
+		// Only if enough data
+		if(count($books) > 2) {
+			// First book
+			imagettftext($image, 8, 0, 4, 50, $brown, $font, ExtraString::hardTruncate($books[0]->title, 20));
+			$author = Leganto::authors()->getSelector()->findAllByBook($books[0])->fetchAll();
+			$authorInsert = $author[0]->full_name;
+			if (count($author) != 1) {
+				$authorInsert = $authorInsert . "\xE2\x80\xA6";
+				$authorInsert = ExtraString::hardTruncate($authorInsert, 18, "");
+			} else {
+				$authorInsert = ExtraString::hardTruncate($authorInsert, 18);
+			}
+			imagettftext($image, 8, 0, 4, 62, $black, $font, $authorInsert);
 
-		// Second book
-		imagettftext($image, 8, 0, 4, 76, $brown, $font, ExtraString::hardTruncate($books[1]->title, 20));
-		$author = Leganto::authors()->getSelector()->findAllByBook($books[1])->fetchAll();
-		$authorInsert = $author[0]->full_name;
-		if (count($author) != 1) {
-			$authorInsert = $authorInsert . "\xE2\x80\xA6";
-			$authorInsert = ExtraString::hardTruncate($authorInsert, 18, "");
-		} else {
-			$authorInsert = ExtraString::hardTruncate($authorInsert, 18);
-		}
-		imagettftext($image, 8, 0, 4, 88, $black, $font, $authorInsert);
+			// Second book
+			imagettftext($image, 8, 0, 4, 76, $brown, $font, ExtraString::hardTruncate($books[1]->title, 20));
+			$author = Leganto::authors()->getSelector()->findAllByBook($books[1])->fetchAll();
+			$authorInsert = $author[0]->full_name;
+			if (count($author) != 1) {
+				$authorInsert = $authorInsert . "\xE2\x80\xA6";
+				$authorInsert = ExtraString::hardTruncate($authorInsert, 18, "");
+			} else {
+				$authorInsert = ExtraString::hardTruncate($authorInsert, 18);
+			}
+			imagettftext($image, 8, 0, 4, 88, $black, $font, $authorInsert);
 
-		// Third book
-		imagettftext($image, 8, 0, 4, 102, $brown, $font, ExtraString::hardTruncate($books[2]->title, 20));
-		$author = Leganto::authors()->getSelector()->findAllByBook($books[2])->fetchAll();
-		$authorInsert = $author[0]->full_name;
-		if (count($author) != 1) {
-			$authorInsert = $authorInsert . "\xE2\x80\xA6";
-			$authorInsert = ExtraString::hardTruncate($authorInsert, 12, "");
+			// Third book
+			imagettftext($image, 8, 0, 4, 102, $brown, $font, ExtraString::hardTruncate($books[2]->title, 20));
+			$author = Leganto::authors()->getSelector()->findAllByBook($books[2])->fetchAll();
+			$authorInsert = $author[0]->full_name;
+			if (count($author) != 1) {
+				$authorInsert = $authorInsert . "\xE2\x80\xA6";
+				$authorInsert = ExtraString::hardTruncate($authorInsert, 12, "");
+			} else {
+				$authorInsert = ExtraString::hardTruncate($authorInsert, 12);
+			}
+			imagettftext($image, 8, 0, 4, 114, $black, $font, $authorInsert);
 		} else {
-			$authorInsert = ExtraString::hardTruncate($authorInsert, 12);
+			imagettftext($image, 8, 0, 4, 82, $black, $font, System::translate("Not enough data"));
 		}
-		imagettftext($image, 8, 0, 4, 114, $black, $font, $authorInsert);
 
 		// Send to browser
 		header('Content-Type: image/png');
