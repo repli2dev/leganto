@@ -192,6 +192,7 @@ final class Helpers {
 		if (empty(self::$texy)) {
 			self::$texy = new Texy();
 		}
+		self::$texy = self::emoticons(self::$texy);
 		return self::$texy->process($input);
 	}
 
@@ -238,7 +239,6 @@ final class Helpers {
 		    "link/reference" => true,
 		    "link/url" => true,
 		    "link/email" => true,
-		    "emoticon" => true,
 		    "block/default" => true,
 		    "block/pre" => false,
 		    "block/code" => false,
@@ -260,6 +260,14 @@ final class Helpers {
 		    "longwords" => true
 		);
 		// Add smiles
+		self::$texySafe = self::emoticons(self::$texySafe);
+		return self::$texySafe->process(self::wikiLinks($input));
+	}
+
+	/**
+	 * Add emoticons to given texy
+	 */
+	public static function emoticons($texy) {
 		//:-)(šťastný) , :-D(vysmátý) , ;-)(šibalský) , :-((smutný) , :,-((plačící) , :-P(vyplazující jazyk) , >:((naštvaný) .
 		$icons = array(
 		    ':-)' => "01.png",
@@ -273,9 +281,10 @@ final class Helpers {
 		    ':-P' => "06.png",
 		    '>:(' => "07.png"
 		);
-		self::$texySafe->emoticonModule->root = "/img/smiles/";
-		self::$texySafe->emoticonModule->icons = $icons;
-		return self::$texySafe->process(self::wikiLinks($input));
+		self::$texy->allowed["emoticon"] = true;
+		$texy->emoticonModule->root = "/img/smiles/";
+		$texy->emoticonModule->icons = $icons;
+		return $texy;
 	}
 
 	/**
