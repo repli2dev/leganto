@@ -777,6 +777,7 @@ leganto/document_root/js/jquery-1.4.2.min.js  mode=0644  uid=500  gid=100
 leganto/document_root/js/jquery-ui-1.8.2.custom.min.js  mode=0644  uid=500  gid=100
 leganto/document_root/js/jquery.ajaxform.js  mode=0644  uid=500  gid=100
 leganto/document_root/js/jquery.autocomplete.js  mode=0644  uid=500  gid=100
+leganto/document_root/js/jquery.autoresize.js  mode=0644  uid=500  gid=100
 leganto/document_root/js/jquery.external.js  mode=0644  uid=500  gid=100
 leganto/document_root/js/jquery.nette.js  mode=0644  uid=500  gid=100
 leganto/document_root/js/jquery.nivo.slider.pack.js  mode=0644  uid=500  gid=100
