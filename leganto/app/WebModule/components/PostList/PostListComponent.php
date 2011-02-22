@@ -17,6 +17,10 @@ class PostListComponent extends BaseListComponent {
 	private $enablePosting = TRUE;
 	private $enableLinks = FALSE;
 
+	public function handleSortByTime() {
+		$this->sort("inserted");
+	}
+
 	public function handleDelete($post) {
 		$postEntity = Leganto::posts()->getSelector()->find($post);
 		if (!Environment::getUser()->isAllowed(Resource::create($postEntity), Action::EDIT)) {
@@ -89,6 +93,10 @@ class PostListComponent extends BaseListComponent {
 
 	public function enableLinks() {
 		$this->enableLinks = TRUE;
+	}
+
+	public function showSorting($show = TRUE) {
+		$this->getTemplate()->sorting = TRUE;
 	}
 
 	// ---- PROTECTED METHODS

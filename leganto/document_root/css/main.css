@@ -489,7 +489,7 @@ pre.html {
 	margin: 0;
 	text-align: center;
 }
-#share-box p {
+#share-box p, #book-merger-box p {
 	text-align: center;
 }
 #book-shelf-control form label {

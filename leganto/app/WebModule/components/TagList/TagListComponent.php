@@ -60,7 +60,7 @@ class TagListComponent extends BaseListComponent {
 			->setOption("description",System::translate("Please seperate multiple tags with ', ' (by words - comma and space)."));
 
 		$form->onSubmit[] = array($this, "formSubmitted");
-		$form->addSubmit("insert", "Insert tag");
+		$form->addSubmit("insert", "Insert");
 
 		return $form;
 	}

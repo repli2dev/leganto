@@ -13,8 +13,8 @@
 		</div>
 	</div>
 	<!-- BOOK TITLE -->
-	<h1>{$book->title}</h1>
-	{if $book->subtitle != NULL}<h2>{$book->subtitle}</h2>{/if}
+	<h1 title="{_"Title of book"}">{$book->title}</h1>
+	{if $book->subtitle != NULL}<h2 title="{_"Subtitle of book"}">{$book->subtitle}</h2>{/if}
 	<!-- STATISTICS -->
     {widget bookStatistics}
 
