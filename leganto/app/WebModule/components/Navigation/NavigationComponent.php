@@ -19,7 +19,7 @@ class NavigationComponent extends BaseComponent {
 	public function handleLogout() {
 		System::log("LOGOUT");
 		Environment::getUser()->signOut(TRUE);
-		$this->getPresenter()->redirect("Default:");
+		$this->getPresenter()->redirect("this");
 	}
 
 	protected function startUp() {
