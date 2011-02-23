@@ -220,6 +220,7 @@ leganto/app/WebModule/templates/Search/layout.phtml  mode=0644  uid=500  gid=100
 leganto/app/WebModule/templates/Search/user.phtml  mode=0644  uid=500  gid=100
 leganto/app/WebModule/templates/Settings  mode=0755  uid=500  gid=100
 leganto/app/WebModule/templates/Settings/connections.phtml  mode=0644  uid=500  gid=100
+leganto/app/WebModule/templates/Settings/customization.phtml  mode=0644  uid=500  gid=100
 leganto/app/WebModule/templates/Settings/default.phtml  mode=0644  uid=500  gid=100
 leganto/app/WebModule/templates/Settings/delete.phtml  mode=0644  uid=500  gid=100
 leganto/app/WebModule/templates/Settings/layout.phtml  mode=0644  uid=500  gid=100
