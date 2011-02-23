@@ -294,10 +294,10 @@ final class Helpers {
 	 */
 	public static function wikiLinks($string) {
 		$patterns[0] = '/\[([^)^\]\|]+)\]/';
-		$patterns[1] = '/\[([\S ^\]]+)\|([\S ^\]]+)\]/';
+		$patterns[1] = '/\[([\S ^\]]+)[ ]*\|[ ]*([\S ^\]]+)\]/';
 		// FIXME: jde to jinak než natvrdo?
 		$replacement[0] = '<a href="/search/?query=\\1">\\1</a>';
-		$replacement[1] = '<a href="/search/?query=\\2">\\2</a>';
+		$replacement[1] = '<a href="/search/?query=\\2">\\1</a>';
 		$string = preg_replace($patterns, $replacement, $string);
 		return $string;
 	}

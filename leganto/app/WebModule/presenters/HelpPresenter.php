@@ -84,7 +84,7 @@ class Web_HelpPresenter extends Web_BasePresenter {
 		$submenu = new SubmenuComponent($this, $name);
 		$data = Leganto::supportCategory()->getSelector()->findAllSortedByWeight(System::language()->getId());
 		foreach ($data as $item) {
-			$submenu->addLink("category", $item->name, array("id" => $item->id_support_category));
+			$submenu->addLink("category", $item->name, array("id" => $item->id_support_category),$item->description);
 		}
 		if(System::isCurrentUserAdmin() && $this->getAction() == "text") {
 			$submenu->addEvent("editText", System::translate("Edit"),array("id" => $this->getParam("id")));

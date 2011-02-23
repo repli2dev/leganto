@@ -1701,10 +1701,9 @@ nbproject/project.xml  mode=0644  uid=500  gid=100
 resources/database  mode=0755  uid=500  gid=100
 resources  mode=0755  uid=500  gid=100
 resources/database/captcha.sql  mode=0644  uid=500  gid=100
-resources/database/help.sql  mode=0644  uid=500  gid=100
 resources/database/old.sql  mode=0644  uid=500  gid=100
-resources/database/support_structure.sql  mode=0644  uid=500  gid=100
 resources/database/tables.sql  mode=0644  uid=500  gid=100
+resources/database/tips.sql  mode=0644  uid=500  gid=100
 resources/database/views.sql  mode=0644  uid=500  gid=100
 resources/graphics/achievements  mode=0755  uid=500  gid=100
 resources/graphics  mode=0755  uid=500  gid=100

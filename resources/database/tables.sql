@@ -322,3 +322,27 @@ CREATE TABLE `message` (
 	FOREIGN KEY (`id_user_from`) REFERENCES `user` (`id_user`) ON UPDATE CASCADE ON DELETE CASCADE,
 	FOREIGN KEY (`id_user_to`) REFERENCES `user` (`id_user`) ON UPDATE CASCADE ON DELETE CASCADE
 ) ENGINE = InnoDB COMMENT = 'Table with users private messages' CHARACTER SET utf8 COLLATE utf8_czech_ci;
+
+DROP TABLE IF EXISTS `support_category`;
+CREATE TABLE IF NOT EXISTS `support_category` (
+  `id_support_category` int(25) unsigned NOT NULL auto_increment COMMENT 'identifikator',
+  `id_language` int(25) unsigned NOT NULL COMMENT 'preferovany jazyk uzivatele',
+  `name` varchar(255) collate utf8_czech_ci NOT NULL COMMENT 'jmeno kategorie v danem jazyce',
+  `description` text collate utf8_czech_ci NOT NULL COMMENT 'kratky popis kategorie',
+  `weight` tinyint(4) NOT NULL COMMENT 'tiha dane kategorie (aby slo urcit poradi)',
+  `updated` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'cas, kdy byla polozka naposledy zmenena',
+  PRIMARY KEY  (`id_support_category`),
+  FOREIGN KEY (`id_language`) REFERENCES `language` (`id_language`) ON DELETE CASCADE ON UPDATE CASCADE,
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci COMMENT='kategorie napovedy' AUTO_INCREMENT=6 ;
+
+DROP TABLE IF EXISTS `support_text`;
+CREATE TABLE IF NOT EXISTS `support_text` (
+  `id_support_text` int(25) unsigned NOT NULL auto_increment COMMENT 'identifikator',
+  `id_support_category` int(25) unsigned NOT NULL COMMENT 'category',
+  `name` varchar(255) collate utf8_czech_ci NOT NULL COMMENT 'jmeno kategorie v danem jazyce',
+  `text` text collate utf8_czech_ci NOT NULL COMMENT 'text dane stranky napovedy',
+  `updated` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'cas, kdy byla polozka naposledy zmenena',
+  `weight` tinyint(4) NOT NULL,
+  PRIMARY KEY  (`id_support_text`),
+  FOREIGN KEY (`id_support_category`) REFERENCES `support_category` (`id_support_category`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci COMMENT='texty napovedy' AUTO_INCREMENT=34 ;
