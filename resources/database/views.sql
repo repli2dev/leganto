@@ -57,8 +57,10 @@ CREATE VIEW `view_shelf_book` AS
 	SELECT
 		`shelf`.`id_shelf`				AS `id_shelf`,
 		`shelf`.`id_user`				AS `id_user`,
+		`shelf`.`type`					AS `type`,
 		`shelf`.`name`					AS `name`,
-		`in_shelf`.`inserted`			AS `shelved`,
+		`in_shelf`.`inserted`				AS `shelved`,
+		`in_shelf`.`id_in_shelf`			AS `id_in_shelf`,
 		`view_book`.*
 	FROM `in_shelf`
 	INNER JOIN `shelf` USING (`id_shelf`)
@@ -207,40 +209,14 @@ CREATE VIEW `view_domain` AS
 	FROM `domain`
 	INNER JOIN `language` USING(`id_language`);
 
-DROP VIEW IF EXISTS `view_feed`;
-CREATE VIEW `view_feed` AS 
-    (
-	SELECT
-	    `view_opinion`.`id_user`,
-	    `view_opinion`.`user_nick`,
-	    'opinion'				AS `type`,
-	    `view_opinion`.`id_opinion`		AS `id_item`,
-	    ''					AS `item_name`,
-	    `view_opinion`.`id_book_title`	AS `id_category`,
-	    `book_title`.`title`		AS `category_name`,
-	    NULL				AS `category_subname`,
-	    `view_opinion`.`content`,
-	    `view_opinion`.`inserted`
-	FROM `view_opinion`
-	INNER JOIN `book_title` USING(`id_book_title`)
-	WHERE `content` IS NOT NULL AND `content` != ''
-    )
-    UNION
-    (
-	SELECT
-	    `view_post`.`id_user`,
-	    `view_post`.`user_nick`,
-	    'post'			AS `type`,
-	    `view_post`.`id_post`	AS `id_item`,
-	    `view_post`.`subject`	AS `item_name`,
-	    `view_post`.`id_discussion` AS `id_category`,
-	    `view_post`.`discussion_name` AS `category_name`,
-	    `view_post`.`discussion_name` AS `category_subname`,
-	    `view_post`.`content`,
-	    `view_post`.`inserted`
-	FROM `view_post`
-    )
-	ORDER BY `inserted` DESC;
+DROP VIEW IF EXISTS `view_feed_event`;
+CREATE VIEW `view_feed_event` AS 
+    SELECT
+	`feed_event`.*,
+	`user`.`nick` as `user_nick`
+    FROM `feed_event`
+    INNER JOIN `user` ON `user`.`id_user` = `feed_event`.`id_user`
+	ORDER BY `feed_event`.`inserted` DESC;
 
 DROP VIEW IF EXISTS `view_followed`;
 CREATE VIEW `view_followed` AS

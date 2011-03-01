@@ -351,8 +351,8 @@ CREATE TABLE `support_text` (
 DROP TABLE IF EXISTS `feed_event`;
 CREATE TABLE `feed_event` (
   `id_feed_event` int(10) unsigned NOT NULL auto_increment,
-  `type` enum('new_opinion','updated_opinion','new_discussion','new_post','new_follower','shelved','new_book') NOT NULL,
-  `id_user` int(10) unsigned NOT NULL,
+  `type` enum('new_opinion','updated_opinion','new_discussion','new_post','new_follower','shelved','deshelved','new_book') NOT NULL,
+  `id_user` int(10) unsigned NULL,
   `content` text NOT NULL,
   `inserted` datetime NOT NULL,
   PRIMARY KEY  (`id_feed_event`),
