@@ -33,4 +33,6 @@ INSERT INTO `help` (`id_help`, `id_language`, `category`, `text`, `image`) VALUE
 (28, 1, 'other', 'Máme nápovědu, ve které najdete většinu věcí, které vás zajímají? <a href="/help/">Více</a>', NULL),
 (29, 1, 'other', 'Můžete na svou stránku vložit interaktivní blok s posledními přečtenými knihami? <a href="/help/text?id=61">Více</a>', NULL),
 (30, 1, 'book', 'Pokud si nevíte rady s autorem při vkládání knihy, připravili jsme pro vás <a href="/help/text?id=63">popostrčení</a>?', NULL),
-(31, 1, 'other', 'Můžete sdílet svou oblíbenou knihu na sociálních sítích? <a href="/help/text?id=44">Více</a>?', NULL);
+(31, 1, 'other', 'Můžete sdílet svou oblíbenou knihu na sociálních sítích? <a href="/help/text?id=44">Více</a>?', NULL),
+(32, 1, 'user', 'Přibližně čtvrtina uživatelů používá slabá hesla (krátká, známá slova). A víte, že to to platí i o uživatelích Leganta? <a href="/help/text?id=65">Více</a>?', NULL),
+(33, 1, 'user', 'Heslo 123456 ani váš oblíbený hokejový tým nejsou bezpečná hesla? <a href="/help/text?id=65">Více</a>?', NULL),
