@@ -13,7 +13,10 @@
 class FeedItemSelector implements ISelector {
 
 	public function find($id) {
-		throw new NotSupportedException("The feed items do not have IDs.");
+		return Leganto::feed()
+			->fetchAndCreate(
+				dibi::dataSource("SELECT * FROM [view_feed_event] WHERE [id_feed_event] = %i",$id)
+			);
 	}
 
 	/**
@@ -21,7 +24,7 @@ class FeedItemSelector implements ISelector {
 	 * @return DibiDataSource
 	 */
 	public function findAll() {
-		return dibi::dataSource("SELECT * FROM [tmp_feed]");
+		return dibi::dataSource("SELECT * FROM [view_feed_event]");
 	}
 
 	/**
@@ -36,7 +39,7 @@ class FeedItemSelector implements ISelector {
 		if ($user->getId() == NULL) {
 			throw new NullPointerException("The user has no ID.");
 		}
-		return dibi::dataSource("SELECT * FROM [tmp_feed] WHERE [id_user] = %i", $user->getId());
+		return dibi::dataSource("SELECT * FROM [view_feed_event] WHERE [id_user] = %i", $user->getId());
 	}
 
 }

@@ -15,6 +15,7 @@ class FeedComponent extends BaseListComponent {
 	/** @persistent */
 	public $allSwitcher;
 	public $firstTime;
+	private $contentHandler;
 
 	public function handleAll() {
 		$this->allSwitcher = TRUE;
@@ -76,6 +77,16 @@ class FeedComponent extends BaseListComponent {
 
 	protected function startUp() {
 		$this->setSource(Leganto::feed()->getSelector()->findAll());
+	}
+
+	public function contentHandler($item) {
+		if(!($item instanceof FeedItemEntity)) {
+			return;
+		}
+		if ($this->contentHandler == null) {
+			$this->contentHandler = new FeedContentHandler();
+		}
+		return $this->contentHandler->handle($item);
 	}
 
 	protected function createComponentBookList($name) {

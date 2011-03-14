@@ -13,24 +13,20 @@
 
 /** @Id(translate=id_item) */
 class FeedItemEntity extends AEntity {
-	const TYPE_OPINION = "opinion";
-
-	const TYPE_POST = "post";
+	const TYPE_NEW_OPINION = "new_opinion";
+	const TYPE_UPDATED_OPINION = "updated_opinion";
+	const TYPE_NEW_DISCUSSION = "new_discussion";
+	const TYPE_NEW_POST = "new_post";
+	const TYPE_NEW_FOLLOWER = "new_follower";
+	const TYPE_SHELVED = "shelved";
+	const TYPE_DESHELVED = "deshelved";
+	const TYPE_NEW_BOOK = "new_book";
 
 	/** @Translate(id_user) */
 	protected $userId;
 	/** @Translate(user_nick) */
 	protected $userNick;
 	protected $type;
-	/** @Translate(item_name) */
-	protected $name;
-	/** @Translate(id_category) */
-	protected $categoryId;
-	/** @Translate(category_name) */
-	protected $categoryName;
-	/** @Translate(category_subname) */
-	protected $categorySubname;
 	protected $content;
 	protected $inserted;
 }
-

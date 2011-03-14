@@ -1,0 +1,20 @@
+<div class="item item-{$type}">
+
+	<div class="info-side">
+		<img class="icon" src="{$userId, 50|userico}" alt="{$userNick}" />
+		<div class="clear"></div>
+		<span class="date">{$inserted|date}</span>
+	</div>
+
+	<div class="info-top">
+		<strong class="title">
+			{_"User %s just have added new opinion to the book %s.",$userNick,$content[1]}
+			<img src="/img/rating_{=round($content[3])}.png" alt="{=round($content[3])|rating}" title="{=round($content[3])|rating}" class="rating" />
+		</strong>
+	</div>
+
+	<div class="content">
+			<p>{!=String::truncate($content[2], 300)|texySafe|stripTags}</p>
+	</div>
+	<div class="clear"></div>
+</div>

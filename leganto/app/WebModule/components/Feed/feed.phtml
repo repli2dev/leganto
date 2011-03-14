@@ -14,34 +14,8 @@
     </table>
 
 {foreach $feed AS $item}
-    <div class="item item-{$item->type}">
-
-		<div class="info-side">
-			<img class="icon" src="{$item->userId, 50|userico}" alt="{$item->userNick}" />
-			<div class="clear"></div>
-			<span class="date">{$item->inserted|date}</span>
-		</div>
-
-		<div class="info-top">
-			<strong class="title">
-			{if $item->type == FeedItemEntity::TYPE_OPINION}
-				<a href="{$presenter->link('User:default', $item->userId)}" title="{$item->userNick}">{=ExtraString::hardTruncate($item->userNick,20)}</a> {_'has an opinion on the book'} <a href="{$presenter->link('Book:default', $item->categoryId)}">{$item->categoryName}</a>
-			{else}
-				{if $item->type == FeedItemEntity::TYPE_POST}
-					<a href="{$presenter->link('User:default', $item->userId)}" title="{$item->userNick}">{=ExtraString::hardTruncate($item->userNick,20)}</a> {_'has contributed to the discussion'} <a href="{$presenter->link('Discussion:discussion', $item->categoryId)}">{$item->categorySubname == NULL ? $item->categoryName : $item->categoryName . " (" . $item->categorySubname . ")"}</a>
-				{/if}
-			{/if}
-			</strong>
-		</div>
-
-		<div class="content">
-				<p>{!=String::truncate($item->content, 300)|texySafe|stripTags}</p>
-		</div>
-		<div class="clear"></div>
-    </div>
-
+	{$control->contentHandler($item)}
 	<div class="clear"></div>
-    
 {/foreach}
 </div>
 <div id="main-info">
