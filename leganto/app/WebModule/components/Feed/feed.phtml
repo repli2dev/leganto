@@ -14,8 +14,13 @@
     </table>
 
 {foreach $feed AS $item}
-	{$control->contentHandler($item)}
-	<div class="clear"></div>
+		{var content => explode("#$#",$item->content)}
+		{if $item->type == FeedItemEntity::TYPE_NEW_OPINION}
+			{include newOpinion.phtml,'content' => $content, 'item' => $item}
+		{/if}
+		{if $item->type == FeedItemEntity::TYPE_UPDATED_OPINION}
+			{include updatedOpinion.phtml,'content' => $content, 'item' => $item}
+		{/if}
 {/foreach}
 </div>
 <div id="main-info">
