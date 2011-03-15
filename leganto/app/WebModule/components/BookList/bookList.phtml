@@ -2,7 +2,7 @@
     {foreach $books AS $book}
 		<div class="item">
 			<div class="info-side">
-				<img class="icon" src="{$covers[$book->getId()],50|thumbnail}" alt="{$book->title}" width="50" height="80" />
+				<img class="icon" src="{$covers[$book->getId()],50,NULL,'/img/book_placeholder.png'|thumbnail}" alt="{$book->title}" width="50" height="80" />
 			</div>
 			<div class="info-top">
 				<a href="{plink Book:default,$book->getId()}" title="{$book->title}{if $book->subtitle !== NULL}: {$book->subtitle}{/if}" class="book-title">{$book->title}</a>

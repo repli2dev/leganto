@@ -440,7 +440,8 @@ leganto/document_root/img/achievement_posts_vertical_small_3.png  mode=0644  uid
 leganto/document_root/img/achievement_posts_vertical_small_4.png  mode=0644  uid=1000  gid=1000
 leganto/document_root/img/achievement_posts_vertical_small_5.png  mode=0644  uid=1000  gid=1000
 leganto/document_root/img/ajax-loader.gif  mode=0644  uid=1000  gid=1000
-leganto/document_root/img/avatar_placeholder.gif  mode=0644  uid=1000  gid=1000
+leganto/document_root/img/avatar_placeholder.png  mode=0644  uid=1000  gid=1000
+leganto/document_root/img/book_placeholder.png  mode=0644  uid=1000  gid=1000
 leganto/document_root/img/external.png  mode=0644  uid=1000  gid=1000
 leganto/document_root/img/flags  mode=0755  uid=1000  gid=1000
 leganto/document_root/img/flags/ad.png  mode=0755  uid=1000  gid=1000
@@ -716,6 +717,7 @@ leganto/document_root/img/ico/reader_24.png  mode=0644  uid=1000  gid=1000
 leganto/document_root/img/ico/settings.png  mode=0644  uid=1000  gid=1000
 leganto/document_root/img/ico/support.png  mode=0644  uid=1000  gid=1000
 leganto/document_root/img/icon32_placeholder.gif  mode=0644  uid=1000  gid=1000
+leganto/document_root/img/image_placeholder.gif  mode=0644  uid=1000  gid=1000
 leganto/document_root/img/jquery.ui.stars.gif  mode=0644  uid=1000  gid=1000
 leganto/document_root/img/logo.png  mode=0644  uid=1000  gid=1000
 leganto/document_root/img/logoForFB.png  mode=0644  uid=1000  gid=1000

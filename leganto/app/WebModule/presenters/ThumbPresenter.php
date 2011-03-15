@@ -42,7 +42,7 @@ class Web_ThumbPresenter extends Presenter {
 		}
 
 		// Terminate, image is already sent
-		$this->terminate();
+//		$this->terminate();
 	}
 
 }

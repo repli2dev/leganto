@@ -156,7 +156,8 @@ final class Helpers {
 		return self::thumbnailHelper(
 			self::getEditionImageStorage()->getRandomFileByBookTitleId($bookTitleId),
 			$width,
-			$height
+			$height,
+			"/img/book_placeholder.png"
 		);
 	}
 
@@ -310,9 +311,13 @@ final class Helpers {
 	 * @param int $height Max height
 	 * @return string
 	 */
-	public static function thumbnailHelper($image, $width = NULL, $height = NULL) {
+	public static function thumbnailHelper($image, $width = NULL, $height = NULL, $placeholder = NULL) {
 		if (empty($image) || (!file_exists($image) && !file_exists(WWW_DIR . $image))) {
-			$image = WWW_DIR . "/img/avatar_placeholder.gif";
+			if (file_exists(WWW_DIR . $placeholder) && !is_dir(WWW_DIR . $placeholder)) {
+				$image = WWW_DIR . $placeholder;
+			} else {
+				$image = WWW_DIR . "/img/image_placeholder.gif";
+			}
 		}
 		$presenter = Environment::getApplication()->getPresenter();
 		if (!is_string($image)) {
@@ -355,7 +360,8 @@ final class Helpers {
 		return self::thumbnailHelper(
 			self::getUserIconStorage()->getFileById($userId),
 			$width,
-			$height
+			$height,
+			"/img/avatar_placeholder.png"
 		);
 	}
 
