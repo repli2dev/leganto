@@ -2,7 +2,7 @@
 	<!-- BOOK COVER -->
 	<div id="cover">
 		{if empty($edition)}
-			<img src="{$cover,150|thumbnail}" alt="{$book->title}" {if empty($cover)}width="150" height="240"{/if} />
+			<img src="{$book->getId(),150|bookCover}" alt="{$book->title}" />
 		{else}
 			<img src="{$edition->image,150|thumbnail}" alt="{$book->title}" {if empty($edition->image)}width="150" height="240"{/if} />
 		{/if}

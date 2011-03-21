@@ -318,6 +318,9 @@ final class Helpers {
 			} else {
 				$image = WWW_DIR . "/img/image_placeholder.gif";
 			}
+			$format = Image::PNG;
+		} else {
+			$format = Image::JPEG;
 		}
 		$presenter = Environment::getApplication()->getPresenter();
 		if (!is_string($image)) {
@@ -327,13 +330,13 @@ final class Helpers {
 			$path = $image;
 		}
 		if (!empty($width) && !empty($height)) {
-			$url = $presenter->link("Thumb:resize", $path, $width, $height);
+			$url = $presenter->link("Thumb:resize", $path, $width, $height,$format);
 		} else
 		if (!empty($width)) {
-			$url = $presenter->link("Thumb:resize", $path, $width, NULL);
+			$url = $presenter->link("Thumb:resize", $path, $width, NULL,$format);
 		} else
 		if (!empty($height)) {
-			$url = $presenter->link("Thumb:resize", $path, NULL, $height);
+			$url = $presenter->link("Thumb:resize", $path, NULL, $height,$format);
 		}
 		return $url;
 	}

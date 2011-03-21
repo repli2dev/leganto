@@ -1766,13 +1766,14 @@ resources/graphics/achievements/post_2.png  mode=0644  uid=1000  gid=1000
 resources/graphics/achievements/post_3.png  mode=0644  uid=1000  gid=1000
 resources/graphics/achievements/post_4.png  mode=0644  uid=1000  gid=1000
 resources/graphics/achievements/post_5.png  mode=0644  uid=1000  gid=1000
+resources/graphics/book-icon.svg  mode=0644  uid=1000  gid=1000
 resources/graphics/logo-cropped.svg  mode=0644  uid=1000  gid=1000
 resources/graphics/logo-shadow.png  mode=0644  uid=1000  gid=1000
 resources/graphics/logo.png  mode=0644  uid=1000  gid=1000
 resources/graphics/logo.svg  mode=0644  uid=1000  gid=1000
 resources/graphics/note.xcf  mode=0644  uid=1000  gid=1000
 resources/graphics/tooltip.png  mode=0644  uid=1000  gid=1000
-resources/graphics/user-icon.png  mode=0644  uid=1000  gid=1000
+resources/graphics/user-icon.svg  mode=0644  uid=1000  gid=1000
 resources/howto  mode=0755  uid=1000  gid=1000
 resources/howto/LIBRARIES  mode=0644  uid=1000  gid=1000
 resources/howto/README_TWITTER  mode=0644  uid=1000  gid=1000
