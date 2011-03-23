@@ -21,6 +21,12 @@
 		{if $item->type == FeedItemEntity::TYPE_UPDATED_OPINION}
 			{include updatedOpinion.phtml,'content' => $content, 'item' => $item}
 		{/if}
+		{if $item->type == FeedItemEntity::TYPE_SHELVED}
+			{include shelved.phtml,'content' => $content, 'item' => $item}
+		{/if}
+		{if $item->type == FeedItemEntity::TYPE_DESHELVED}
+			{include deshelved.phtml,'content' => $content, 'item' => $item}
+		{/if}
 {/foreach}
 </div>
 <div id="main-info">
