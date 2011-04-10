@@ -17,10 +17,11 @@ class FeedItemEntity extends AEntity {
 	const TYPE_UPDATED_OPINION = "updated_opinion";
 	const TYPE_NEW_DISCUSSION = "new_discussion";
 	const TYPE_NEW_POST = "new_post";
-	const TYPE_NEW_FOLLOWER = "new_follower";
+	const TYPE_NEW_FOLLOWER = "new_follower"; 
 	const TYPE_SHELVED = "shelved";
 	const TYPE_DESHELVED = "deshelved";
 	const TYPE_NEW_BOOK = "new_book";
+	const TYPE_NEW_USER = "new_user";
 
 	/** @Translate(id_user) */
 	protected $userId;

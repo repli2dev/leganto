@@ -85,4 +85,12 @@ FOR EACH ROW
 		NOW(),
 		(SELECT CONCAT_WS('#$#',`id_discussion`,`discussion_name`,`id_discussable`,`id_discussed`,`subject`,`content`) FROM `view_post` WHERE `id_post` = NEW.`id_post`)
 	);
-
+-- New user
+DROP TRIGGER IF EXISTS `feed_new_user`;
+CREATE TRIGGER `feed_new_user` AFTER INSERT ON `user`
+FOR EACH ROW
+	INSERT INTO `feed_event` (type, id_user, inserted) VALUES (
+		'new_user',
+		NEW.`id_user`,
+		NOW()
+	);

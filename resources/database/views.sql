@@ -215,7 +215,7 @@ CREATE VIEW `view_feed_event` AS
 	`feed_event`.*,
 	`user`.`nick` as `user_nick`
     FROM `feed_event`
-    INNER JOIN `user` ON `user`.`id_user` = `feed_event`.`id_user`
+    LEFT JOIN `user` ON `user`.`id_user` = `feed_event`.`id_user`
 	ORDER BY `feed_event`.`inserted` DESC;
 
 DROP VIEW IF EXISTS `view_followed`;

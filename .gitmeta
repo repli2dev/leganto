@@ -88,7 +88,12 @@ leganto/app/WebModule/components/Feed  mode=0755  uid=1000  gid=1000
 leganto/app/WebModule/components/Feed/FeedComponent.php  mode=0644  uid=1000  gid=1000
 leganto/app/WebModule/components/Feed/deshelved.phtml  mode=0644  uid=1000  gid=1000
 leganto/app/WebModule/components/Feed/feed.phtml  mode=0644  uid=1000  gid=1000
+leganto/app/WebModule/components/Feed/newBook.phtml  mode=0644  uid=1000  gid=1000
+leganto/app/WebModule/components/Feed/newDiscussion.phtml  mode=0644  uid=1000  gid=1000
+leganto/app/WebModule/components/Feed/newFollower.phtml  mode=0644  uid=1000  gid=1000
 leganto/app/WebModule/components/Feed/newOpinion.phtml  mode=0644  uid=1000  gid=1000
+leganto/app/WebModule/components/Feed/newPost.phtml  mode=0644  uid=1000  gid=1000
+leganto/app/WebModule/components/Feed/newUser.phtml  mode=0644  uid=1000  gid=1000
 leganto/app/WebModule/components/Feed/shelved.phtml  mode=0644  uid=1000  gid=1000
 leganto/app/WebModule/components/Feed/updatedOpinion.phtml  mode=0644  uid=1000  gid=1000
 leganto/app/WebModule/components/FlashMessages  mode=0755  uid=1000  gid=1000

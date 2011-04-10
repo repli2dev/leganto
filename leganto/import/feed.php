@@ -59,4 +59,8 @@ foreach($result as $row) {
 	dibi::insert("feed_event",$content)->execute();
 }
 echo "DONE";
-// TODO: dokoncit i pro ostatni triggery
+// TODO:
+// const TYPE_NEW_DISCUSSION = "new_discussion";
+// const TYPE_NEW_POST = "new_post";
+// NEW_USER
+// NEW_BOOK

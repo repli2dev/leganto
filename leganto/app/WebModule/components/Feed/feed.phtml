@@ -27,6 +27,21 @@
 		{if $item->type == FeedItemEntity::TYPE_DESHELVED}
 			{include deshelved.phtml,'content' => $content, 'item' => $item}
 		{/if}
+		{if $item->type == FeedItemEntity::TYPE_NEW_FOLLOWER}
+			{include newFollower.phtml,'content' => $content, 'item' => $item}
+		{/if}
+		{if $item->type == FeedItemEntity::TYPE_NEW_BOOK}
+			{include newBook.phtml,'content' => $content, 'item' => $item}
+		{/if}
+		{if $item->type == FeedItemEntity::TYPE_NEW_DISCUSSION}
+			{include newDiscussion.phtml,'content' => $content, 'item' => $item}
+		{/if}
+		{if $item->type == FeedItemEntity::TYPE_NEW_POST}
+			{include newPost.phtml,'content' => $content, 'item' => $item}
+		{/if}
+		{if $item->type == FeedItemEntity::TYPE_NEW_USER}
+			{include newUser.phtml,'content' => $content, 'item' => $item}
+		{/if}
 {/foreach}
 </div>
 <div id="main-info">

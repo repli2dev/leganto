@@ -12,7 +12,7 @@
 
 	<div class="content">
 		{if !empty($content[2])}
-			<p>{!=String::truncate($content[2], 300)|texySafe|stripTags}</p>
+			<p>{!$content[2]|texySafe|stripTags}</p>
 		{/if}
 		<p>{_"Choosen rating"}: <img src="/img/rating_{$content[3]}.png" alt="{$content[3]|rating}" title="{$content[3]|rating}" class="rating" /></p>
 	</div>
