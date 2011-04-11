@@ -1,7 +1,7 @@
 # Gettext keys exported by GettextExtractor
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2011-04-11T16:25:48+02:00\n"
+"POT-Creation-Date: 2011-04-11T21:49:36+02:00\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
@@ -9,12 +9,32 @@ msgstr ""
 msgid ""
 msgstr ""
 
-# APP_DIR/WebModule/presenters/RssPresenter.php:30
-msgid "%s has an opinion on the book %s"
+# APP_DIR/WebModule/presenters/RssPresenter.php:61
+msgid "%s have just added book %s to shelf %s."
 msgstr ""
 
-# APP_DIR/WebModule/presenters/RssPresenter.php:38
-msgid "%s has contributed to the discussion %s"
+# APP_DIR/WebModule/presenters/RssPresenter.php:58
+msgid "%s have just added book %s to their library."
+msgstr ""
+
+# APP_DIR/WebModule/presenters/RssPresenter.php:40
+msgid "%s have just changed opinion on book %s"
+msgstr ""
+
+# APP_DIR/WebModule/presenters/RssPresenter.php:31
+msgid "%s have just contributed new opinion on book %s"
+msgstr ""
+
+# APP_DIR/WebModule/presenters/RssPresenter.php:49
+msgid "%s have just contributed new post to discussion %s"
+msgstr ""
+
+# APP_DIR/WebModule/presenters/RssPresenter.php:67
+msgid "%s have just started reading book %s."
+msgstr ""
+
+# APP_DIR/WebModule/presenters/RssPresenter.php:64
+msgid "%s wants to read %s."
 msgstr ""
 
 # APP_DIR/WebModule/components/MessageList/MessageListComponent.php:87
@@ -2573,6 +2593,10 @@ msgstr ""
 msgid "have just added book"
 msgstr ""
 
+# APP_DIR/WebModule/components/Feed/updatedOpinion.phtml:8
+msgid "have just changed opinion on book"
+msgstr ""
+
 # APP_DIR/WebModule/components/Feed/newOpinion.phtml:8
 msgid "have just contributed new opinion on book"
 msgstr ""
@@ -2628,10 +2652,6 @@ msgstr ""
 
 # APP_DIR/WebModule/components/Feed/newFollower.phtml:6
 msgid "is now following user"
-msgstr ""
-
-# APP_DIR/WebModule/components/Feed/updatedOpinion.phtml:8
-msgid "just have changed opinion on book"
 msgstr ""
 
 # APP_DIR/WebModule/components/OpinionList/opinionList.phtml:20
@@ -2739,7 +2759,7 @@ msgid "to shelf"
 msgstr ""
 
 # APP_DIR/WebModule/components/Feed/shelved.phtml:7
-msgid "to the library"
+msgid "to their library"
 msgstr ""
 
 # APP_DIR/WebModule/presenters/UserPresenter.php:139

@@ -43,24 +43,73 @@ $delimiter = "#$#";
 //	dibi::insert("feed_event",$content)->execute();
 //}
 // Shelving
-$result = dibi::query("SELECT * FROM view_shelf_book WHERE 1")->fetchAll();
+//$result = dibi::query("SELECT * FROM view_shelf_book WHERE 1")->fetchAll();
+//foreach($result as $row) {
+//	$content = array();
+//	$temp = array();
+//	$temp[] = $row["type"];
+//	$temp[] = $row["name"];
+//	$temp[] = $row["id_book_title"];
+//	$temp[] = $row["title"];
+//	$temp[] = "";
+//	$content["type"] = FeedItemEntity::TYPE_SHELVED;
+//	$content["id_user"] = $row["id_user"];
+//	$content["content"] = implode($delimiter, $temp);
+//	$content["inserted"] = $row["inserted"];
+//	dibi::insert("feed_event",$content)->execute();
+//}
+// New users
+//$result = dibi::query("SELECT * FROM user WHERE inserted NOT LIKE '2010-11-20%'")->fetchAll();
+//foreach($result as $row) {
+//	$content = array();
+//	$temp = array();
+//	$content["type"] = FeedItemEntity::TYPE_NEW_USER;
+//	$content["id_user"] = $row["id_user"];
+//	$content["content"] = "";
+//	$content["inserted"] = $row["inserted"];
+//	dibi::insert("feed_event",$content)->execute();
+//}
+// New discussions
+//$result = dibi::query("SELECT * FROM topic WHERE 1")->fetchAll();
+//foreach($result as $row) {
+//	$content = array();
+//	$temp = array();
+//	$temp[] = $row["id_topic"];
+//	$temp[] = $row["name"];
+//	$content["type"] = FeedItemEntity::TYPE_NEW_DISCUSSION;
+//	$content["id_user"] = $row["id_user"];
+//	$content["content"] = implode($delimiter, $temp);
+//	$content["inserted"] = $row["inserted"];
+//	dibi::insert("feed_event",$content)->execute();
+//}
+// New posts
+//$result = dibi::query("SELECT * FROM view_post WHERE 1")->fetchAll();
+//foreach($result as $row) {
+//	$content = array();
+//	$temp = array();
+//	$temp[] = $row["id_discussion"];
+//	$temp[] = $row["discussion_name"];
+//	$temp[] = $row["id_discussable"];
+//	$temp[] = $row["id_discussed"]; // Problem with subject
+//	$temp[] = $row["content"];
+//	$content["type"] = FeedItemEntity::TYPE_NEW_POST;
+//	$content["id_user"] = $row["id_user"];
+//	$content["content"] = implode($delimiter, $temp);
+//	$content["inserted"] = $row["inserted"];
+//	dibi::insert("feed_event",$content)->execute();
+//}
+// New books
+$result = dibi::query("SELECT * FROM book_title WHERE 1")->fetchAll();
 foreach($result as $row) {
 	$content = array();
 	$temp = array();
-	$temp[] = $row["type"];
-	$temp[] = $row["name"];
 	$temp[] = $row["id_book_title"];
 	$temp[] = $row["title"];
-	$temp[] = "";
-	$content["type"] = FeedItemEntity::TYPE_SHELVED;
-	$content["id_user"] = $row["id_user"];
+	if(isSet($row["subtitle"])) $temp[] = $row["subtitle"];
+	$content["type"] = FeedItemEntity::TYPE_NEW_BOOK;
+	$content["id_user"] = NULL;
 	$content["content"] = implode($delimiter, $temp);
 	$content["inserted"] = $row["inserted"];
 	dibi::insert("feed_event",$content)->execute();
 }
 echo "DONE";
-// TODO:
-// const TYPE_NEW_DISCUSSION = "new_discussion";
-// const TYPE_NEW_POST = "new_post";
-// NEW_USER
-// NEW_BOOK

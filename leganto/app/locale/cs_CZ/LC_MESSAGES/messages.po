@@ -20,13 +20,35 @@ msgstr ""
 "X-Poedit-Country: CZECH REPUBLIC\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
+# APP_DIR/WebModule/components/Feed/shelved.phtml:7
+# APP_DIR/WebModule/components/Feed/shelved.phtml:10
+msgid "%s have just added book %s to shelf %s."
+msgstr "%s právě přidal knihu do poličky %s."
+
+# APP_DIR/WebModule/components/Feed/shelved.phtml:7
+# APP_DIR/WebModule/components/Feed/shelved.phtml:10
+msgid "%s have just added book %s to their library."
+msgstr "%s právě přidal knihu %s do své knihovny."
+
 # APP_DIR/WebModule/presenters/RssPresenter.php:27
-msgid "%s has an opinion on the book %s"
-msgstr "%s má názor na knihu %s"
+msgid "%s have just changed opinion on book %s"
+msgstr "%s právě změnil názor na knihu %s"
+
+# APP_DIR/WebModule/presenters/RssPresenter.php:27
+msgid "%s have just contributed new opinion on book %s"
+msgstr "%s právě přispěl novým názorem ke knize %s"
 
 # APP_DIR/WebModule/presenters/RssPresenter.php:35
-msgid "%s has contributed to the discussion %s"
-msgstr "%s přispěl(a) do diskuze %s"
+msgid "%s have just contributed new post to discussion %s"
+msgstr "%s právě přispěl novým příspěvkem do diskuze %s"
+
+# APP_DIR/WebModule/components/Feed/shelved.phtml:16
+msgid "%s have just started reading book %s."
+msgstr "%s právě začal číst knihu %s."
+
+# APP_DIR/WebModule/components/BookStatistics/BookStatisticsComponent.php:24
+msgid "%s wants to read %s."
+msgstr "%s si chce přečíst %s."
 
 # APP_DIR/WebModule/components/InsertingShelf/InsertingShelfComponent.php:71
 msgid "(Nickname of the user)"
@@ -2536,6 +2558,10 @@ msgid "have just added book"
 msgstr "právě přidal knihu"
 
 # APP_DIR/WebModule/presenters/RssPresenter.php:27
+msgid "have just changed opinion on book"
+msgstr "právě změnil názor na knihu"
+
+# APP_DIR/WebModule/presenters/RssPresenter.php:27
 msgid "have just contributed new opinion on book"
 msgstr "právě přispěl novým názorem ke knize"
 
@@ -2592,10 +2618,6 @@ msgstr "již nečte knihu"
 # APP_DIR/WebModule/presenters/UserPresenter.php:78
 msgid "is now following user"
 msgstr "nyní sleduje uživatele"
-
-# APP_DIR/WebModule/presenters/RssPresenter.php:27
-msgid "just have changed opinion on book"
-msgstr "právě změnil názor na knihu"
 
 # APP_DIR/WebModule/components/OpinionList/opinionList.phtml:18
 # APP_DIR/WebModule/templates/User/default.phtml:61
@@ -2701,8 +2723,8 @@ msgid "to shelf"
 msgstr "do poličky"
 
 # APP_DIR/WebModule/components/Feed/shelved.phtml:7
-msgid "to the library"
-msgstr "do knihovny"
+msgid "to their library"
+msgstr "do své knihovny"
 
 # APP_DIR/WebModule/presenters/UserPresenter.php:141
 msgid "user, private messaging, private message, write to other users, chat, similar users"

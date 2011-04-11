@@ -25,21 +25,53 @@ class Web_RssPresenter extends Web_BasePresenter {
 		}
 		$source->applyLimit(self::LIMIT);
 		foreach (Leganto::feed()->fetchAndCreateAll($source) AS $item) {
-			if ($item->type == FeedItemEntity::TYPE_OPINION) {
+			$content = explode("#$#",$item->content);
+			if ($item->type == FeedItemEntity::TYPE_NEW_OPINION) {
 				$this->addItem(
-					System::translate("%s has an opinion on the book %s", $item->userNick, $item->categoryName),
-					$this->link('//Book:default', $item->categoryId),
-					$item->content,
+					System::translate("%s have just contributed new opinion on book %s", $item->userNick, $content[1]),
+					$this->link('//Book:default', $content[0]),
+					$content[2],
 					$item->inserted,
-					$this->link('//Book:default', $item->categoryId)
+					$this->link('//Book:default', $content[1])
 				);
-			} else {
+			} else
+			if ($item->type == FeedItemEntity::TYPE_UPDATED_OPINION) {
 				$this->addItem(
-					System::translate("%s has contributed to the discussion %s", $item->userNick, $item->categoryName),
-					$this->link('//Discussion:discussion', $item->categoryId),
-					$item->content,
+					System::translate("%s have just changed opinion on book %s", $item->userNick, $content[1]),
+					$this->link('//Book:default', $content[0]),
+					$content[2],
 					$item->inserted,
-					$this->link('//Discussion:discussion', $item->categoryId)
+					$this->link('//Book:default', $content[1])
+				);
+			} else
+			if ($item->type == FeedItemEntity::TYPE_NEW_POST) {
+				$this->addItem(
+					System::translate("%s have just contributed new post to discussion %s", $item->userNick, $content[1]),
+					$this->link('//Discussion:posts', $content[3],$content[2]),
+					$content[4],
+					$item->inserted,
+					$this->link('//Discussion:posts', $content[3],$content[2])
+				);
+			}  else
+			if ($item->type == FeedItemEntity::TYPE_SHELVED) {
+				if ($content[0] == 'owned'){
+					$text = System::translate("%s have just added book %s to their library.",$item->userNick,$content[3]);
+				}
+				if ($content[0] == 'general'){
+					$text = System::translate("%s have just added book %s to shelf %s.",$item->userNick,$content[3],$content[1]);
+				}
+				if ($content[0] == 'wanted'){
+					$text = System::translate("%s wants to read %s.",$item->userNick,$content[3]);
+				}
+				if ($content[0] == 'reading'){
+					$text = System::translate("%s have just started reading book %s.",$item->userNick,$content[3]);
+				}
+				$this->addItem(
+					$text,
+					null,
+					null,
+					$item->inserted,
+					null
 				);
 			}
 		}
