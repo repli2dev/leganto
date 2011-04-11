@@ -1,16 +1,11 @@
 <div class="item">
 	<div class="info-side">
-		<img class="icon" src="{$content[0],50|bookCover}" alt="{$content[1]}" />
-		<div class="clear"></div>
 		<span class="date">{$item->inserted|date}</span>
 	</div>
 	<div class="info-top">
 		<strong class="title">
-			{_"Book"} <a href="{plink Book:default,$content[0]}">{$content[1]}{if isSet($content[2]) && !empty($content[2])}: {$content[2]}{/if}</a> {_"has been added."}
+			{_"The book"} <a href="{plink Book:default,$content[0]}">{$content[1]}{if isSet($content[2]) && !empty($content[2])}: {$content[2]}{/if}</a> {_"has been added."}
 		</strong>
-	</div>
-
-	<div class="content">
 	</div>
 	<div class="clear"></div>
 </div>

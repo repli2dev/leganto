@@ -1,16 +1,11 @@
 <div class="item">
 	<div class="info-side">
-		<img class="icon" src="{$item->userId, 50|userico}" alt="{$item->userNick}" />
-		<div class="clear"></div>
 		<span class="date">{$item->inserted|date}</span>
 	</div>
 	<div class="info-top">
 		<strong class="title">
 			{_"User"} <a href="{plink User:default,$item->userId}">{$item->userNick}</a> {_"is now following user"} <a href="{plink User:default,$content[0]}">{$content[1]}</a>.
 		</strong>
-	</div>
-
-	<div class="content">
 	</div>
 	<div class="clear"></div>
 </div>
