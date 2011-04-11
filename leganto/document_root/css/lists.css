@@ -20,6 +20,13 @@
 	margin-bottom: 10px;
 	word-wrap: break-word;
 }
+.list .item-compact {
+	background: none;
+	border: 0px none;
+	padding: 2px;
+	margin-bottom: 1px;
+	margin-left: 10px;
+}
 .list .item .control {
 	float: right;
 	text-align: right;
