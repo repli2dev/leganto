@@ -21,6 +21,7 @@
 	word-wrap: break-word;
 }
 .list .item-compact {
+	color: grey;
 	background: none;
 	border: 0px none;
 	padding: 2px;

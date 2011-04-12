@@ -354,11 +354,10 @@ pre.html {
 	background: url('/img/ico/light_bulb.png') no-repeat 0% 0% ;
 }
 
-#feed div.item-opinion {
-	background: #F6F6F6 url('/img/ico/feed-opinion.png') no-repeat 98% 50%;
-}
-#feed div.item-post {
-	background: #F6F6F6 url('/img/ico/feed-post.png') no-repeat 98% 50%;
+#feed div.item {
+	background: none;
+	border: 0px none;
+	border-bottom: 1px dashed #FDF7CD;
 }
 .list div.mail-out {
 	background: #F6F6F6 url('/img/ico/mail-out.png') no-repeat 98% 50%;
