@@ -4,6 +4,10 @@
     @{widget bookView}
 	<h2 title="{_"Short keywords describing the book."}">{_'Tags'}</h2>
 	@{widget tagList}
+	@{if System::isCurrentlyAuthenticated()}
+		<h2 title="{_"User you follow and has something in common with this book"}">{_"Followed users"}</h2>
+		@{widget followedUser}
+	@{/if}
 	<h2 title="{_"Opinions written by other users, we tried to serve newest opinions."}">{_'Opinions'}</h2>
 	{if $opinionCount == 0}
 		<p>{_"There are no text opinions."} <a href="{plink Book:addOpinion,$book->getId()}">{_"Be first!"}</a></p>

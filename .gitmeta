@@ -99,6 +99,9 @@ leganto/app/WebModule/components/Feed/updatedOpinion.phtml  mode=0644  uid=1000 
 leganto/app/WebModule/components/FlashMessages  mode=0755  uid=1000  gid=1000
 leganto/app/WebModule/components/FlashMessages/FlashMessagesComponent.php  mode=0644  uid=1000  gid=1000
 leganto/app/WebModule/components/FlashMessages/flashMessages.phtml  mode=0644  uid=1000  gid=1000
+leganto/app/WebModule/components/FollowedUser  mode=0755  uid=1000  gid=1000
+leganto/app/WebModule/components/FollowedUser/FollowedUserComponent.php  mode=0644  uid=1000  gid=1000
+leganto/app/WebModule/components/FollowedUser/followedUser.phtml  mode=0644  uid=1000  gid=1000
 leganto/app/WebModule/components/HelpList  mode=0755  uid=1000  gid=1000
 leganto/app/WebModule/components/HelpList/HelpListComponent.php  mode=0644  uid=1000  gid=1000
 leganto/app/WebModule/components/HelpList/helpList.phtml  mode=0644  uid=1000  gid=1000
@@ -320,6 +323,8 @@ leganto/app/models/external/yaz/YazResult.php  mode=0644  uid=1000  gid=1000
 leganto/app/models/feed  mode=0755  uid=1000  gid=1000
 leganto/app/models/feed/FeedItemEntity.php  mode=0644  uid=1000  gid=1000
 leganto/app/models/feed/FeedItemSelector.php  mode=0644  uid=1000  gid=1000
+leganto/app/models/followed  mode=0755  uid=1000  gid=1000
+leganto/app/models/followed/FollowedSelector.php  mode=0644  uid=1000  gid=1000
 leganto/app/models/help  mode=0755  uid=1000  gid=1000
 leganto/app/models/help/HelpEntity.php  mode=0644  uid=1000  gid=1000
 leganto/app/models/help/HelpSelector.php  mode=0644  uid=1000  gid=1000

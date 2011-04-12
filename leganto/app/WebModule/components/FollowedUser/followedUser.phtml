@@ -1,0 +1,7 @@
+<p>
+{if isSet($data["opinion"])} {_"Book read"}: {foreach $data["opinion"] as $row}<a href="{plink User:,$row[0]}">{$row[1]}</a>{if !$iterator->isLast()}, {/if}{/foreach}<br />{/if}
+{if isSet($data["wanted"])} {_"Want read"}: {foreach $data["wanted"] as $row}<a href="{plink User:,$row[0]}">{$row[1]}</a>{if !$iterator->isLast()}, {/if}{/foreach}<br />{/if}
+{if isSet($data["reading"])} {_"Are reading just now"}: {foreach $data["reading"] as $row}<a href="{plink User:,$row[0]}">{$row[1]}</a>{if !$iterator->isLast()}, {/if}{/foreach}<br />{/if}
+{if isSet($data["owned"])} {_"Owns"}: {foreach $data["owned"] as $row}<a href="{plink User:,$row[0]}">{$row[1]}</a>{if !$iterator->isLast()}, {/if}{/foreach}<br />{/if}
+{if empty($data)}{_"No follower has anything in common with this book."}{/if}
+</p>

@@ -1,7 +1,7 @@
 # Gettext keys exported by GettextExtractor
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2011-04-11T21:49:36+02:00\n"
+"POT-Creation-Date: 2011-04-12T21:26:22+02:00\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
@@ -105,7 +105,7 @@ msgstr ""
 msgid "Add help text into"
 msgstr ""
 
-# APP_DIR/WebModule/presenters/BookPresenter.php:209
+# APP_DIR/WebModule/presenters/BookPresenter.php:212
 # APP_DIR/WebModule/components/Edition/edition.phtml:0
 msgid "Add new edition"
 msgstr ""
@@ -114,7 +114,7 @@ msgstr ""
 msgid "Add new social network"
 msgstr ""
 
-# APP_DIR/WebModule/presenters/BookPresenter.php:198
+# APP_DIR/WebModule/presenters/BookPresenter.php:201
 msgid "Add opinion"
 msgstr ""
 
@@ -131,7 +131,7 @@ msgstr ""
 msgid "All"
 msgstr ""
 
-# APP_DIR/WebModule/presenters/BookPresenter.php:192
+# APP_DIR/WebModule/presenters/BookPresenter.php:195
 # APP_DIR/WebModule/presenters/SearchPresenter.php:136
 # APP_DIR/WebModule/presenters/SearchPresenter.php:137
 # APP_DIR/WebModule/components/InsertingBook/insertingBook.phtml:3
@@ -173,6 +173,10 @@ msgstr ""
 
 # APP_DIR/tools/Helpers.php:105
 msgid "Arbiter elegantiarum"
+msgstr ""
+
+# APP_DIR/WebModule/components/FollowedUser/followedUser.phtml:3
+msgid "Are reading just now"
 msgstr ""
 
 # APP_DIR/WebModule/presenters/HelpPresenter.php:17
@@ -241,7 +245,7 @@ msgstr ""
 msgid "Basic information"
 msgstr ""
 
-# APP_DIR/WebModule/templates/Book/default.phtml:8
+# APP_DIR/WebModule/templates/Book/default.phtml:12
 msgid "Be first!"
 msgstr ""
 
@@ -294,6 +298,10 @@ msgstr ""
 msgid "Book lover"
 msgstr ""
 
+# APP_DIR/WebModule/components/FollowedUser/followedUser.phtml:1
+msgid "Book read"
+msgstr ""
+
 # APP_DIR/WebModule/presenters/SearchPresenter.php:16
 msgid "Book search"
 msgstr ""
@@ -325,7 +333,7 @@ msgstr ""
 msgid "Books similar to"
 msgstr ""
 
-# APP_DIR/WebModule/presenters/BookPresenter.php:193
+# APP_DIR/WebModule/presenters/BookPresenter.php:196
 msgid "Bored? Click to get random book."
 msgstr ""
 
@@ -341,7 +349,7 @@ msgstr ""
 msgid "Change"
 msgstr ""
 
-# APP_DIR/WebModule/presenters/BookPresenter.php:200
+# APP_DIR/WebModule/presenters/BookPresenter.php:203
 msgid "Change opinion"
 msgstr ""
 
@@ -554,7 +562,7 @@ msgstr ""
 msgid "Edit author"
 msgstr ""
 
-# APP_DIR/WebModule/presenters/BookPresenter.php:203
+# APP_DIR/WebModule/presenters/BookPresenter.php:206
 msgid "Edit book"
 msgstr ""
 
@@ -581,7 +589,7 @@ msgstr ""
 msgid "Edit the book"
 msgstr ""
 
-# APP_DIR/WebModule/presenters/BookPresenter.php:213
+# APP_DIR/WebModule/presenters/BookPresenter.php:216
 msgid "Edit this edition"
 msgstr ""
 
@@ -589,11 +597,11 @@ msgstr ""
 msgid "Editing book"
 msgstr ""
 
-# APP_DIR/WebModule/templates/Book/default.phtml:16
+# APP_DIR/WebModule/templates/Book/default.phtml:20
 msgid "Editions"
 msgstr ""
 
-# APP_DIR/WebModule/templates/Book/default.phtml:16
+# APP_DIR/WebModule/templates/Book/default.phtml:20
 msgid "Editions of this book with ISBNs and book covers."
 msgstr ""
 
@@ -679,6 +687,10 @@ msgstr ""
 msgid "Followed"
 msgstr ""
 
+# APP_DIR/WebModule/templates/Book/default.phtml:7
+msgid "Followed users"
+msgstr ""
+
 # APP_DIR/WebModule/presenters/UserPresenter.php:79
 # APP_DIR/WebModule/presenters/UserPresenter.php:309
 # APP_DIR/WebModule/templates/User/followers.phtml:3
@@ -730,7 +742,7 @@ msgid "General"
 msgstr ""
 
 # APP_DIR/WebModule/presenters/BookPresenter.php:39
-# APP_DIR/WebModule/presenters/BookPresenter.php:189
+# APP_DIR/WebModule/presenters/BookPresenter.php:192
 msgid "General info"
 msgstr ""
 
@@ -892,7 +904,7 @@ msgstr ""
 msgid "Insert book: look if it is mentioned"
 msgstr ""
 
-# APP_DIR/WebModule/presenters/BookPresenter.php:206
+# APP_DIR/WebModule/presenters/BookPresenter.php:209
 msgid "Insert related book"
 msgstr ""
 
@@ -1124,6 +1136,10 @@ msgstr ""
 msgid "No content"
 msgstr ""
 
+# APP_DIR/WebModule/components/FollowedUser/followedUser.phtml:5
+msgid "No follower has anything in common with this book."
+msgstr ""
+
 # APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:338
 # APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:381
 msgid "No user with this e-mail address exists. Please check for mistakes."
@@ -1184,8 +1200,8 @@ msgid "On this page you can change your profile information and password. Fill p
 msgstr ""
 
 # APP_DIR/WebModule/presenters/BookPresenter.php:117
-# APP_DIR/WebModule/presenters/BookPresenter.php:190
-# APP_DIR/WebModule/templates/Book/default.phtml:6
+# APP_DIR/WebModule/presenters/BookPresenter.php:193
+# APP_DIR/WebModule/templates/Book/default.phtml:10
 # APP_DIR/WebModule/templates/User/default.phtml:43
 # APP_DIR/WebModule/templates/User/default.phtml:80
 msgid "Opinions"
@@ -1207,13 +1223,13 @@ msgstr ""
 msgid "Opinions on books"
 msgstr ""
 
-# APP_DIR/WebModule/templates/Book/default.phtml:11
-# APP_DIR/WebModule/templates/Book/default.phtml:11
+# APP_DIR/WebModule/templates/Book/default.phtml:15
+# APP_DIR/WebModule/templates/Book/default.phtml:15
 # APP_DIR/WebModule/templates/Book/opinions.phtml:3
 msgid "Opinions on the book"
 msgstr ""
 
-# APP_DIR/WebModule/templates/Book/default.phtml:6
+# APP_DIR/WebModule/templates/Book/default.phtml:10
 msgid "Opinions written by other users, we tried to serve newest opinions."
 msgstr ""
 
@@ -1236,6 +1252,10 @@ msgstr ""
 
 # APP_DIR/WebModule/components/InsertingShelf/InsertingShelfComponent.php:75
 msgid "Owned"
+msgstr ""
+
+# APP_DIR/WebModule/components/FollowedUser/followedUser.phtml:4
+msgid "Owns"
 msgstr ""
 
 # APP_DIR/WebModule/presenters/HelpPresenter.php:101
@@ -1432,7 +1452,7 @@ msgstr ""
 msgid "Published"
 msgstr ""
 
-# APP_DIR/WebModule/presenters/BookPresenter.php:193
+# APP_DIR/WebModule/presenters/BookPresenter.php:196
 msgid "Random book"
 msgstr ""
 
@@ -1476,7 +1496,7 @@ msgstr ""
 msgid "Regular discussant"
 msgstr ""
 
-# APP_DIR/WebModule/templates/Book/default.phtml:14
+# APP_DIR/WebModule/templates/Book/default.phtml:18
 msgid "Related books"
 msgstr ""
 
@@ -1665,7 +1685,7 @@ msgstr ""
 msgid "Show"
 msgstr ""
 
-# APP_DIR/WebModule/presenters/BookPresenter.php:189
+# APP_DIR/WebModule/presenters/BookPresenter.php:192
 msgid "Show authors, editions, graphs and few opinions."
 msgstr ""
 
@@ -1705,12 +1725,12 @@ msgid "Sign Up"
 msgstr ""
 
 # APP_DIR/WebModule/presenters/BookPresenter.php:128
-# APP_DIR/WebModule/presenters/BookPresenter.php:191
+# APP_DIR/WebModule/presenters/BookPresenter.php:194
 # APP_DIR/WebModule/components/Introduction/introduction.phtml:6
 msgid "Similar books"
 msgstr ""
 
-# APP_DIR/WebModule/presenters/BookPresenter.php:191
+# APP_DIR/WebModule/presenters/BookPresenter.php:194
 msgid "Similar books according tags"
 msgstr ""
 
@@ -1995,11 +2015,11 @@ msgstr ""
 msgid "There are no text opinions, be the one who write the first one!"
 msgstr ""
 
-# APP_DIR/WebModule/templates/Book/default.phtml:8
+# APP_DIR/WebModule/templates/Book/default.phtml:12
 msgid "There are no text opinions."
 msgstr ""
 
-# APP_DIR/WebModule/templates/Book/default.phtml:11
+# APP_DIR/WebModule/templates/Book/default.phtml:15
 msgid "There can be more opinions (even non text) than you see. Please visit"
 msgstr ""
 
@@ -2011,7 +2031,7 @@ msgstr ""
 msgid "These books showed below are similar to current one according the tags attached to this book."
 msgstr ""
 
-# APP_DIR/WebModule/templates/Book/default.phtml:10
+# APP_DIR/WebModule/templates/Book/default.phtml:14
 msgid "These opinions we choosed for faster overview."
 msgstr ""
 
@@ -2031,7 +2051,7 @@ msgstr ""
 msgid "This Twitter account is already connected to an account."
 msgstr ""
 
-# APP_DIR/WebModule/templates/Book/default.phtml:14
+# APP_DIR/WebModule/templates/Book/default.phtml:18
 msgid "This book in other languages."
 msgstr ""
 
@@ -2184,6 +2204,10 @@ msgstr ""
 msgid "User search"
 msgstr ""
 
+# APP_DIR/WebModule/templates/Book/default.phtml:7
+msgid "User you follow and has something in common with this book"
+msgstr ""
+
 # APP_DIR/WebModule/components/UserIcon/userIcon.phtml:1
 msgid "User's icon"
 msgstr ""
@@ -2220,6 +2244,10 @@ msgstr ""
 
 # APP_DIR/WebModule/components/Introduction/introduction.phtml:8
 msgid "Want quick overview of book's target group? Or distribution of ratings? See our graphs."
+msgstr ""
+
+# APP_DIR/WebModule/components/FollowedUser/followedUser.phtml:2
+msgid "Want read"
 msgstr ""
 
 # APP_DIR/WebModule/components/Introduction/introduction.phtml:10
@@ -2264,7 +2292,7 @@ msgstr ""
 msgid "Welcome!"
 msgstr ""
 
-# APP_DIR/WebModule/presenters/BookPresenter.php:190
+# APP_DIR/WebModule/presenters/BookPresenter.php:193
 msgid "What other users say about this book"
 msgstr ""
 

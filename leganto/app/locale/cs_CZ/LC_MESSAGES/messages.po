@@ -184,6 +184,10 @@ msgstr "Vyskytla se neočekávaná chyba."
 msgid "Arbiter elegantiarum"
 msgstr "Rozhodčí ve věcech vkusu"
 
+# APP_DIR/WebModule/components/InsertingShelf/InsertingShelfComponent.php:77
+msgid "Are reading just now"
+msgstr "Právě čtou"
+
 # APP_DIR/WebModule/presenters/HelpPresenter.php:17
 msgid "Are you lost in our page or do you just miss the last puzzle? This page can answer nearly all questions."
 msgstr "Jste na našich stránkách ztracený/á nebo jen nemůžete něco najít? Tato stránka vám může odpovědět na téměř všechny otázky."
@@ -300,6 +304,10 @@ msgstr "Knižní nadšenec"
 # APP_DIR/WebModule/components/Edition/EditionComponent.php:61
 msgid "Book lover"
 msgstr "Milovník knih"
+
+# APP_DIR/WebModule/presenters/SearchPresenter.php:16
+msgid "Book read"
+msgstr "Četli"
 
 # APP_DIR/WebModule/presenters/SearchPresenter.php:16
 msgid "Book search"
@@ -670,6 +678,12 @@ msgstr "Sledovat"
 # APP_DIR/WebModule/components/Feed/feed.phtml:10
 msgid "Followed"
 msgstr "Sledovaní"
+
+# APP_DIR/WebModule/templates/User/followers.phtml:3
+# APP_DIR/WebModule/presenters/UserPresenter.php:77
+# APP_DIR/WebModule/presenters/UserPresenter.php:209
+msgid "Followed users"
+msgstr "Sledovaní uživatelé"
 
 # APP_DIR/WebModule/templates/User/followers.phtml:3
 # APP_DIR/WebModule/presenters/UserPresenter.php:77
@@ -1113,6 +1127,10 @@ msgstr "Ne"
 msgid "No content"
 msgstr "Žádný obsah"
 
+# APP_DIR/WebModule/components/FollowedUser/followedUser.phtml:5
+msgid "No follower has anything in common with this book."
+msgstr "Žádný z uživatelů, které sledujete nemá s touto knihou nic společného."
+
 # APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:334
 # APP_DIR/WebModule/components/Introduction/IntroductionComponent.php:373
 msgid "No user with this e-mail address exists. Please check for mistakes."
@@ -1224,6 +1242,10 @@ msgstr "Naše sisifofské úsilí ;-)"
 # APP_DIR/WebModule/components/InsertingShelf/InsertingShelfComponent.php:75
 msgid "Owned"
 msgstr "Mám doma"
+
+# APP_DIR/WebModule/components/FollowedUser/followedUser.phtml:4
+msgid "Owns"
+msgstr "Má doma"
 
 # APP_DIR/WebModule/presenters/HelpPresenter.php:101
 # APP_DIR/WebModule/presenters/HelpPresenter.php:124
@@ -2149,6 +2171,10 @@ msgstr "Uživatel nenalezen"
 msgid "User search"
 msgstr "Vyhledávání v uživatelích"
 
+# APP_DIR/WebModule/templates/Book/default.phtml:7
+msgid "User you follow and has something in common with this book"
+msgstr "Uživatelé, které sledujete a zároveň mají něco společného s touto knihou"
+
 # APP_DIR/WebModule/components/Search/SearchComponent.php:70
 msgid "User's icon"
 msgstr "Ikonka uživatele"
@@ -2185,6 +2211,10 @@ msgstr "Vizualizované informace, najeďte nad nadpis k přepnutí"
 # APP_DIR/WebModule/components/Introduction/introduction.phtml:8
 msgid "Want quick overview of book's target group? Or distribution of ratings? See our graphs."
 msgstr "Chcete rychle zjistit cílovou skupinu knihy? Nebo hodnocení? Podívejte se na naše grafy."
+
+# APP_DIR/WebModule/components/InsertingShelf/InsertingShelfComponent.php:76
+msgid "Want read"
+msgstr "Chci si přečíst"
 
 # APP_DIR/WebModule/components/Introduction/introduction.phtml:10
 msgid "Want to keep in touch with other users? Just send them message."

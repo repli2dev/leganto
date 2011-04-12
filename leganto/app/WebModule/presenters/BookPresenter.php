@@ -183,6 +183,9 @@ class Web_BookPresenter extends Web_BasePresenter {
 	protected function createComponentShareBox($name) {
 		return new ShareBoxComponent($this, $name);
 	}
+	protected function createComponentFollowedUser($name) {
+		return new FollowedUserComponent($this,$name);
+	}
 
 	protected function createComponentSubmenu($name) {
 		$submenu = new SubmenuComponent($this, $name);
