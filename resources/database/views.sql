@@ -286,3 +286,24 @@ CREATE VIEW `view_achievement` AS
 		END AS `followers`
 	FROM `user`
 	GROUP BY `id_user`;
+
+-- My following
+DROP VIEW IF EXISTS `view_my_following`;
+CREATE VIEW `view_my_following` AS
+	(SELECT
+		`shelf`.`id_user`,
+		`in_shelf`.`id_book_title`,
+		`shelf`.`type`,
+		`shelf`.`name`,
+		`user`.`nick`
+	FROM `in_shelf`
+	INNER JOIN `shelf` USING (`id_shelf`)
+	INNER JOIN `user` USING (`id_user`))
+	UNION
+	(SELECT
+		`view_opinion`.`id_user`,
+		`view_opinion`.`id_book_title`,
+		'opinion',
+		NULL,
+		`view_opinion`.`user_nick`
+	FROM `view_opinion`);
