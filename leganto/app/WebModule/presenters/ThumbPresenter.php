@@ -29,8 +29,8 @@ class Web_ThumbPresenter extends Presenter {
 		$path = str_replace(WWW_DIR, '.', $path);
 
 		// Try to find file in cache
-		if (file_exists(APP_DIR . "/temp/cache/" . md5($w . "_" . $h . "_" . $path)) && filemtime($path) < filemtime(APP_DIR . "/temp/cache/" . md5($w . "_" . $h . "_" . $path))) { // Entry found in cache
-			$image = Image::fromFile(APP_DIR . "/temp/cache/" . md5($w . "_" . $h . "_" . $path));
+		if (file_exists(APP_DIR . "/temp/cache/" . md5($w . "_" . $h . "_" . $path . "_" . $format)) && filemtime($path) < filemtime(APP_DIR . "/temp/cache/" . md5($w . "_" . $h . "_" . $path . "_" . $format))) { // Entry found in cache
+			$image = Image::fromFile(APP_DIR . "/temp/cache/" . md5($w . "_" . $h . "_" . $path . "_" . $format));
 			$image->send();
 		} else { // Not found in cache
 			$image = Image::fromFile($path);
@@ -38,7 +38,7 @@ class Web_ThumbPresenter extends Presenter {
 				$image->resize($w, $h);
 			}
 			// Format cannot be forced
-			$image->save(APP_DIR . "/temp/cache/" . md5($w . "_" . $h . "_" . $path), 90,$format);
+			$image->save(APP_DIR . "/temp/cache/" . md5($w . "_" . $h . "_" . $path . "_" . $format), 90,$format);
 			if($format == Image::JPEG) {
 				$image->send($format,90);
 			} else {

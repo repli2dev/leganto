@@ -357,7 +357,8 @@ pre.html {
 #feed div.item {
 	background: none;
 	border: 0px none;
-	border-bottom: 1px dashed #FDF7CD;
+	border-bottom: 1px dashed #8DA4A7;
+	border-radius:0px;
 }
 .list div.mail-out {
 	background: #F6F6F6 url('/img/ico/mail-out.png') no-repeat 98% 50%;

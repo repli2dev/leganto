@@ -2214,7 +2214,7 @@ msgstr "Chcete rychle zjistit cílovou skupinu knihy? Nebo hodnocení? Podívejt
 
 # APP_DIR/WebModule/components/InsertingShelf/InsertingShelfComponent.php:76
 msgid "Want read"
-msgstr "Chci si přečíst"
+msgstr "Chtějí si přečíst"
 
 # APP_DIR/WebModule/components/Introduction/introduction.phtml:10
 msgid "Want to keep in touch with other users? Just send them message."
