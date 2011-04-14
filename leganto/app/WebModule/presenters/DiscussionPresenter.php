@@ -54,6 +54,7 @@ class Web_DiscussionPresenter extends Web_BasePresenter {
 				$type
 			)->orderBy("inserted", "desc")
 		);
+		$this->getComponent("postList")->showSorting(TRUE);
 		$this->getComponent("postList")->setDiscussed($discussed, $type);
 	}
 

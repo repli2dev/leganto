@@ -42,6 +42,16 @@ class Web_SettingsPresenter extends Web_BasePresenter {
 		}
 	}
 
+	public function renderCustomization() {
+		if (System::user() != NULL && Environment::getUser()->isAllowed(Resource::create(System::user()), Action::EDIT)) {
+			$this->setPageTitle(System::translate("Customization"));
+			$this->setPageDescription(System::translate("You can prepare interactive block with your latest read books for inserting into your webpage."));
+			$this->setPageKeywords(System::translate("settings, profile, update, edit, customization, read books, interactive, wizard."));
+		} else {
+			$this->unauthorized();
+		}
+	}
+
 	public function actionDelete($id) {
 		if (System::user() != NULL && Environment::getUser()->isAllowed(Resource::create(System::user()), Action::EDIT)) {
 			$this->setPageTitle(System::translate("Delete connection"));
@@ -220,8 +230,9 @@ class Web_SettingsPresenter extends Web_BasePresenter {
 
 	protected function createComponentSubmenu($name) {
 		$submenu = new SubmenuComponent($this, $name);
-		$submenu->addLink("default", System::translate("Settings"));
-		$submenu->addLink("connections", System::translate("Social networks"));
+		$submenu->addLink("default", System::translate("Settings"),NULL,System::translate("Set your profile, change password or avatar"));
+		$submenu->addLink("connections", System::translate("Social networks"),NULL,System::translate("Join your social networks accounts"));
+		$submenu->addLink("customization", System::translate("Customization"),NULL,System::translate("Prepare block with read books for your page"));
 		return $submenu;
 	}
 

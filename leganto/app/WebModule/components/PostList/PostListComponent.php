@@ -17,6 +17,10 @@ class PostListComponent extends BaseListComponent {
 	private $enablePosting = TRUE;
 	private $enableLinks = FALSE;
 
+	public function handleSortByTime() {
+		$this->sort("inserted");
+	}
+
 	public function handleDelete($post) {
 		$postEntity = Leganto::posts()->getSelector()->find($post);
 		if (!Environment::getUser()->isAllowed(Resource::create($postEntity), Action::EDIT)) {
@@ -91,6 +95,10 @@ class PostListComponent extends BaseListComponent {
 		$this->enableLinks = TRUE;
 	}
 
+	public function showSorting($show = TRUE) {
+		$this->getTemplate()->sorting = TRUE;
+	}
+
 	// ---- PROTECTED METHODS
 
 	protected function beforeRender() {
@@ -103,8 +111,15 @@ class PostListComponent extends BaseListComponent {
 	protected function createComponentForm($name) {
 		$form = new BaseForm($this, $name);
 
+		// Prepare text
+		$container = Html::el("span")->class("see-help");
+		$container->add(Html::el()->setText(System::Translate("You can use texy for formatting, emoticons or links to other books."))." ");
+		$container->add(Html::el("a")->href($this->presenter->link("Help:text",64))->setText(System::translate("See help")));
+		$container->add(Html::el()->setText("."));
+
 		$form->addTextArea("content")
-			->addRule(Form::FILLED, "Please fill the content.");
+			->addRule(Form::FILLED, "Please fill the content.")
+			->setOption("description",$container);
 
 		$form->addSubmit("insertPost", "Send post");
 

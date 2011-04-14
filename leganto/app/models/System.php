@@ -101,7 +101,16 @@ final class System {
 		$data = Leganto::captcha()->getSelector()->findFromLanguageRandom(self::language()->getId());
 		return $data;
 	}
-	
+
+	/** @return bool */
+	public static function isCurrentlyAuthenticated() {
+		if(System::user() !== null) {
+			return TRUE;
+		} else {
+			return FALSE;
+		}
+	}
+
 	/** @return bool */
 	public static function isCurrentlyLogged($user) {
 		if(System::user() !== null && $user === System::user()->getId()) {

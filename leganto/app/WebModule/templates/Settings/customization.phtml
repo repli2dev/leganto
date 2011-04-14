@@ -1,0 +1,21 @@
+@{extends layout.phtml}
+
+@{block #subcontent}
+	<h1>{_'Customization'}</h1>
+	<p>{_'Here you prepare block with read books for your personal page.'} <a href="{plink Help:text,61}">{_"More information"}</a></p>
+	<p>{_"Copy the text below into your webpage:"}
+	<pre>
+&lt;div id="leganto-read-list"&gt;
+   &lt;div class="leganto-logo"&gt;&lt;a href="http://www.leganto.cz"&gt;
+      &lt;img width="36px" height="37px" src="http://www.leganto.cz/img/logo.png" alt="Leganto &ndash Čtenáři" /&gt;
+      &lt;span class="leganto-name"&gt;Leganto&lt;/span&gt;&lt;/a&gt;&nbsp;
+   &lt;/div&gt;
+   &lt;div id="leganto-content"&gt;
+      &lt;em&gt;Žádné přečtené knihy&lt;/em&gt;
+   &lt;/div&gt;
+&lt;/div&gt;
+&lt;link rel="stylesheet" type="text/css" href="http://www.leganto.cz/css/read-books.css" /&gt;
+&lt;script type="text/javascript" src="http://www.leganto.cz/js/read-books.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src="http://www.leganto.cz/user/last-opinions?user={!=System::user()->getId()}&empty=0&limit=3&callback=legantoFillData"&gt;&lt;/script&gt;
+	</pre>
+{/block}

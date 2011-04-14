@@ -65,6 +65,13 @@ class Leganto {
 	/**
 	 * @return IEntityFactory
 	 */
+	public static function followed() {
+		return SimpleEntityFactory::createEntityFactory("followed");
+	}
+
+	/**
+	 * @return IEntityFactory
+	 */
 	public static function help() {
 		return SimpleEntityFactory::createEntityFactory("help");
 	}

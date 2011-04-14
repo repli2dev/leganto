@@ -354,11 +354,11 @@ pre.html {
 	background: url('/img/ico/light_bulb.png') no-repeat 0% 0% ;
 }
 
-#feed div.item-opinion {
-	background: #F6F6F6 url('/img/ico/feed-opinion.png') no-repeat 98% 50%;
-}
-#feed div.item-post {
-	background: #F6F6F6 url('/img/ico/feed-post.png') no-repeat 98% 50%;
+#feed div.item {
+	background: none;
+	border: 0px none;
+	border-bottom: 1px dashed #8DA4A7;
+	border-radius:0px;
 }
 .list div.mail-out {
 	background: #F6F6F6 url('/img/ico/mail-out.png') no-repeat 98% 50%;
@@ -489,7 +489,7 @@ pre.html {
 	margin: 0;
 	text-align: center;
 }
-#share-box p {
+#share-box p, #book-merger-box p {
 	text-align: center;
 }
 #book-shelf-control form label {

@@ -9,7 +9,7 @@ $(document).ready(
 );
 </script>
 <div>
-<div id="book-stats">
+<div id="book-stats" title="{_"Visualized information, move on title to switch view."}">
     {foreach $graphs AS $graph}
 	{if !empty($graph['graph'])}
 	    <h3>{$graph['label']}</h3>

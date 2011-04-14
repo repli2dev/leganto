@@ -322,3 +322,40 @@ CREATE TABLE `message` (
 	FOREIGN KEY (`id_user_from`) REFERENCES `user` (`id_user`) ON UPDATE CASCADE ON DELETE CASCADE,
 	FOREIGN KEY (`id_user_to`) REFERENCES `user` (`id_user`) ON UPDATE CASCADE ON DELETE CASCADE
 ) ENGINE = InnoDB COMMENT = 'Table with users private messages' CHARACTER SET utf8 COLLATE utf8_czech_ci;
+
+DROP TABLE IF EXISTS `support_category`;
+CREATE TABLE `support_category` (
+  `id_support_category` int(25) unsigned NOT NULL auto_increment COMMENT 'identifikator',
+  `id_language` int(25) unsigned NOT NULL COMMENT 'preferovany jazyk uzivatele',
+  `name` varchar(255) collate utf8_czech_ci NOT NULL COMMENT 'jmeno kategorie v danem jazyce',
+  `description` text collate utf8_czech_ci NOT NULL COMMENT 'kratky popis kategorie',
+  `weight` tinyint(4) NOT NULL COMMENT 'tiha dane kategorie (aby slo urcit poradi)',
+  `updated` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'cas, kdy byla polozka naposledy zmenena',
+  PRIMARY KEY  (`id_support_category`),
+  FOREIGN KEY (`id_language`) REFERENCES `language` (`id_language`) ON DELETE CASCADE ON UPDATE CASCADE,
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci COMMENT='kategorie napovedy';
+
+DROP TABLE IF EXISTS `support_text`;
+CREATE TABLE `support_text` (
+  `id_support_text` int(25) unsigned NOT NULL auto_increment COMMENT 'identifikator',
+  `id_support_category` int(25) unsigned NOT NULL COMMENT 'category',
+  `name` varchar(255) collate utf8_czech_ci NOT NULL COMMENT 'jmeno kategorie v danem jazyce',
+  `text` text collate utf8_czech_ci NOT NULL COMMENT 'text dane stranky napovedy',
+  `updated` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'cas, kdy byla polozka naposledy zmenena',
+  `weight` tinyint(4) NOT NULL,
+  PRIMARY KEY  (`id_support_text`),
+  FOREIGN KEY (`id_support_category`) REFERENCES `support_category` (`id_support_category`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci COMMENT='texty napovedy';
+
+
+DROP TABLE IF EXISTS `feed_event`;
+CREATE TABLE `feed_event` (
+  `id_feed_event` int(10) unsigned NOT NULL auto_increment,
+  `type` enum('new_opinion','updated_opinion','new_discussion','new_post','new_follower','shelved','deshelved','new_book','new_user') NOT NULL,
+  `id_user` int(10) unsigned NULL,
+  `content` text NOT NULL,
+  `inserted` datetime NOT NULL,
+  PRIMARY KEY  (`id_feed_event`),
+  FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`) ON UPDATE CASCADE ON DELETE CASCADE,
+  KEY `inserted` (`inserted`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci COMMENT='Udalosti uzivatelu pro aktualni deni';

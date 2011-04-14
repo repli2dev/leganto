@@ -1,0 +1,23 @@
+<div class="item item-compact">
+	<div class="info-side">
+		<span class="date">{$item->inserted|date}</span>
+	</div>
+	<div class="info-top">
+		<strong class="title">
+			{if $content[0] == 'owned'}
+				{_"User"} <a href="{plink User:default,$item->userId}">{$item->userNick}</a> {_"have just removed book"} <a href="{plink Book:default,$content[2]}">{$content[3]}</a> {_"from their library"}.
+			{/if}
+			{if $content[0] == 'general'}
+				{_"User"} <a href="{plink User:default,$item->userId}">{$item->userNick}</a> {_"have just removed book"} <a href="{plink Book:default,$content[2]}">{$content[3]}</a> {_"from shelf"} <a href="{plink User:shelves}">{$content[1]}</a>.
+			{/if}
+			{if $content[0] == 'wanted'}
+				{_"User"} <a href="{plink User:default,$item->userId}">{$item->userNick}</a> {_"no longer wants to read"} <a href="{plink Book:default,$content[2]}">{$content[3]}</a>.
+			{/if}
+			{if $content[0] == 'reading'}
+				{_"User"} <a href="{plink User:default,$item->userId}">{$item->userNick}</a> {_"is no longer reading book"} <a href="{plink Book:default,$content[2]}">{$content[3]}</a>.
+			{/if}
+		</strong>
+	</div>
+	<div class="clear"></div>
+</div>
+<div class="clear"></div>

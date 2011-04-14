@@ -28,11 +28,11 @@ class PreviewComponent extends BaseComponent {
 					->where("id_book_title IN %l", array_keys($this->getTemplate()->opinions))
 		);
 		$storage = new EditionImageStorage();
-		$this->getTemplate()->covers = array();
-		foreach ($this->getTemplate()->books AS $book) {
-			$image = $storage->getRandomFileByBook($book);
-			$this->getTemplate()->covers[$book->getId()] = empty($image) ? NULL : $image->getAbsolutePath();
-		}
+//		$this->getTemplate()->covers = array();
+//		foreach ($this->getTemplate()->books AS $book) {
+//			$image = $storage->getRandomFileByBook($book);
+//			$this->getTemplate()->covers[$book->getId()] = empty($image) ? NULL : $image->getAbsolutePath();
+//		}
 		parent::render();
 	}
 

@@ -303,8 +303,8 @@ class Web_UserPresenter extends Web_BasePresenter {
 
 	protected function createComponentSubmenu($name) {
 		$submenu = new SubmenuComponent($this, $name);
-		$submenu->addLink("default", System::translate("Info and opinions"), $this->getUserEntity()->getId());
-		$submenu->addLink("shelves", System::translate("Shelves"), $this->getUserEntity()->getId());
+		$submenu->addLink("default", System::translate("Info and opinions"), $this->getUserEntity()->getId(),System::translate("Show info and activity of user"));
+		$submenu->addLink("shelves", System::translate("Shelves"), $this->getUserEntity()->getId(),System::translate("Show user's virtual library"));
 		$submenu->addLink("following", System::translate("Following"), $this->getUserEntity()->getId());
 		$submenu->addLink("followers", System::translate("Followers"), $this->getUserEntity()->getId());
 		$submenu->addLink("similar", System::translate("Similar users"), $this->getUserEntity()->getId());

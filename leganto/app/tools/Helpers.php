@@ -156,7 +156,8 @@ final class Helpers {
 		return self::thumbnailHelper(
 			self::getEditionImageStorage()->getRandomFileByBookTitleId($bookTitleId),
 			$width,
-			$height
+			$height,
+			"/img/book_placeholder.png"
 		);
 	}
 
@@ -192,6 +193,7 @@ final class Helpers {
 		if (empty(self::$texy)) {
 			self::$texy = new Texy();
 		}
+		self::$texy = self::emoticons(self::$texy);
 		return self::$texy->process($input);
 	}
 
@@ -238,7 +240,6 @@ final class Helpers {
 		    "link/reference" => true,
 		    "link/url" => true,
 		    "link/email" => true,
-		    "emoticon" => true,
 		    "block/default" => true,
 		    "block/pre" => false,
 		    "block/code" => false,
@@ -260,6 +261,14 @@ final class Helpers {
 		    "longwords" => true
 		);
 		// Add smiles
+		self::$texySafe = self::emoticons(self::$texySafe);
+		return self::$texySafe->process(self::wikiLinks($input));
+	}
+
+	/**
+	 * Add emoticons to given texy
+	 */
+	public static function emoticons($texy) {
 		//:-)(šťastný) , :-D(vysmátý) , ;-)(šibalský) , :-((smutný) , :,-((plačící) , :-P(vyplazující jazyk) , >:((naštvaný) .
 		$icons = array(
 		    ':-)' => "01.png",
@@ -273,9 +282,10 @@ final class Helpers {
 		    ':-P' => "06.png",
 		    '>:(' => "07.png"
 		);
-		self::$texySafe->emoticonModule->root = "/img/smiles/";
-		self::$texySafe->emoticonModule->icons = $icons;
-		return self::$texySafe->process(self::wikiLinks($input));
+		self::$texy->allowed["emoticon"] = true;
+		$texy->emoticonModule->root = "/img/smiles/";
+		$texy->emoticonModule->icons = $icons;
+		return $texy;
 	}
 
 	/**
@@ -285,10 +295,10 @@ final class Helpers {
 	 */
 	public static function wikiLinks($string) {
 		$patterns[0] = '/\[([^)^\]\|]+)\]/';
-		$patterns[1] = '/\[([\S ^\]]+)\|([\S ^\]]+)\]/';
+		$patterns[1] = '/\[([\S ^\]]+)[ ]*\|[ ]*([\S ^\]]+)\]/';
 		// FIXME: jde to jinak než natvrdo?
 		$replacement[0] = '<a href="/search/?query=\\1">\\1</a>';
-		$replacement[1] = '<a href="/search/?query=\\2">\\2</a>';
+		$replacement[1] = '<a href="/search/?query=\\2">\\1</a>';
 		$string = preg_replace($patterns, $replacement, $string);
 		return $string;
 	}
@@ -301,9 +311,16 @@ final class Helpers {
 	 * @param int $height Max height
 	 * @return string
 	 */
-	public static function thumbnailHelper($image, $width = NULL, $height = NULL) {
+	public static function thumbnailHelper($image, $width = NULL, $height = NULL, $placeholder = NULL) {
 		if (empty($image) || (!file_exists($image) && !file_exists(WWW_DIR . $image))) {
-			$image = WWW_DIR . "/img/avatar_placeholder.gif";
+			if (file_exists(WWW_DIR . $placeholder) && !is_dir(WWW_DIR . $placeholder)) {
+				$image = WWW_DIR . $placeholder;
+			} else {
+				$image = WWW_DIR . "/img/image_placeholder.gif";
+			}
+			$format = Image::PNG;
+		} else {
+			$format = Image::JPEG;
 		}
 		$presenter = Environment::getApplication()->getPresenter();
 		if (!is_string($image)) {
@@ -313,13 +330,13 @@ final class Helpers {
 			$path = $image;
 		}
 		if (!empty($width) && !empty($height)) {
-			$url = $presenter->link("Thumb:resize", $path, $width, $height);
+			$url = $presenter->link("Thumb:resize", $path, $width, $height,$format);
 		} else
 		if (!empty($width)) {
-			$url = $presenter->link("Thumb:resize", $path, $width, NULL);
+			$url = $presenter->link("Thumb:resize", $path, $width, NULL,$format);
 		} else
 		if (!empty($height)) {
-			$url = $presenter->link("Thumb:resize", $path, NULL, $height);
+			$url = $presenter->link("Thumb:resize", $path, NULL, $height,$format);
 		}
 		return $url;
 	}
@@ -346,7 +363,8 @@ final class Helpers {
 		return self::thumbnailHelper(
 			self::getUserIconStorage()->getFileById($userId),
 			$width,
-			$height
+			$height,
+			"/img/avatar_placeholder.png"
 		);
 	}
 

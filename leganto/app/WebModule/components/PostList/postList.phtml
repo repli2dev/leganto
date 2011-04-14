@@ -4,6 +4,15 @@
 	    @{widget form}
 	</div>
     @{/if}
+
+    {if !empty($sorting)}
+    <table class="navigation">
+        <tr>
+            <th>{_"Order by"}:</th>
+            <th><a href="{link sortByTime!}" title="{_'Sort by time'}">{_"Time"}</a></th>
+        </tr>
+    </table>
+    {/if}
     
     {var zero => 0}
     @{foreach $posts AS $post}

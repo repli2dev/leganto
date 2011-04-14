@@ -1,6 +1,5 @@
 #leganto-read-list {
-	border: 1px solid #403A33;
-	width: 250px;
+	width: 240px;
 	background: white;
 	font-family: "Trebuchet MS", "Arial", "Helvetica", sans-serif;
 	font-size: 12px;
@@ -24,7 +23,7 @@
 .leganto-logo a {
 	display: block;
 	color: #f5d25a !important;
-	font-size: 2.5em;
+	font-size: 1.5em;
 	text-decoration: none;
 	background: none;
 }
@@ -40,7 +39,6 @@
 	float: left;
 }
 #leganto-content {
-	padding: 5px;
 	font-size: 90%;
 }
 #leganto-content ul {
@@ -81,6 +79,12 @@
 }
 #leganto-content ul li span.cover img {
 	margin-top: 0px;
+}
+#leganto-content div.leganto-reader {
+	color: white;
+	margin-top: -25px;
+	float: right;
+	width: 185px;
 }
 div.leganto-cleaner {
 	height: 1px;

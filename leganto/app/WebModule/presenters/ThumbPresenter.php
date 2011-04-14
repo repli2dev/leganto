@@ -19,7 +19,7 @@ class Web_ThumbPresenter extends Presenter {
 	 * @param int $width Width of image
 	 * @param int $height Height of image
 	 */
-	public function renderResize($path, $w = NULL, $h = NULL) {
+	public function renderResize($path, $w = NULL, $h = NULL,$format = Image::JPEG) {
 		error_reporting(0);
 		if (empty($path)) {
 			throw new NullPointerException("Specify path.");
@@ -29,16 +29,21 @@ class Web_ThumbPresenter extends Presenter {
 		$path = str_replace(WWW_DIR, '.', $path);
 
 		// Try to find file in cache
-		if (file_exists(APP_DIR . "/temp/cache/" . md5($w . "_" . $h . "_" . $path)) && filemtime($path) < filemtime(APP_DIR . "/temp/cache/" . md5($w . "_" . $h . "_" . $path))) { // Entry found in cache
-			$image = Image::fromFile(APP_DIR . "/temp/cache/" . md5($w . "_" . $h . "_" . $path));
+		if (file_exists(APP_DIR . "/temp/cache/" . md5($w . "_" . $h . "_" . $path . "_" . $format)) && filemtime($path) < filemtime(APP_DIR . "/temp/cache/" . md5($w . "_" . $h . "_" . $path . "_" . $format))) { // Entry found in cache
+			$image = Image::fromFile(APP_DIR . "/temp/cache/" . md5($w . "_" . $h . "_" . $path . "_" . $format));
 			$image->send();
 		} else { // Not found in cache
 			$image = Image::fromFile($path);
 			if (!empty($w) || !empty($h)) {
 				$image->resize($w, $h);
 			}
-			$image->save(APP_DIR . "/temp/cache/" . md5($w . "_" . $h . "_" . $path), 90, Image::JPEG);
-			$image->send(Image::JPEG, 90);
+			// Format cannot be forced
+			$image->save(APP_DIR . "/temp/cache/" . md5($w . "_" . $h . "_" . $path . "_" . $format), 90,$format);
+			if($format == Image::JPEG) {
+				$image->send($format,90);
+			} else {
+				$image->send($format);
+			}
 		}
 
 		// Terminate, image is already sent

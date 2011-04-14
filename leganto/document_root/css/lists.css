@@ -20,6 +20,14 @@
 	margin-bottom: 10px;
 	word-wrap: break-word;
 }
+.list .item-compact {
+	color: grey;
+	background: none;
+	border: 0px none;
+	padding: 2px;
+	margin-bottom: 1px;
+	margin-left: 10px;
+}
 .list .item .control {
 	float: right;
 	text-align: right;
@@ -40,6 +48,10 @@
 .list .item .content {
 	margin-left: 77px;
 	min-height: 60px;
+	padding: 0;
+}
+.list .item .content-compact {
+	margin-left: 77px;
 	padding: 0;
 }
 .list .info-side {

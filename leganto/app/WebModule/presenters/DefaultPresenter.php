@@ -20,6 +20,9 @@ class Web_DefaultPresenter extends Web_BasePresenter {
 		}
 		$component = $this->getComponent("introduction");
 		if($login && $component->state == "default") {
+			$session = Environment::getSession("postLogin");
+			$session->setExpiration("+30 minutes");
+			$session["returnUrl"] = Environment::getHttpRequest()->getReferer();
 			$component->handleChangeState("login");
 		}
 		$this->setPageTitle(System::translate("Main page"));
@@ -30,6 +33,12 @@ class Web_DefaultPresenter extends Web_BasePresenter {
 	public function renderFeed($firstTime = FALSE) {
 		if (!Environment::getUser()->isAuthenticated()) {
 			$this->forward("default");
+		}
+		$session = Environment::getSession("postLogin");
+		if(isSet($session["returnUrl"])) {
+			$url = $session["returnUrl"];
+			$session->remove();
+			$this->redirectUri($url);
 		}
 		$this->setPageTitle(System::translate("News"));
 		$this->firstTime = $firstTime;

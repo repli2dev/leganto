@@ -1,9 +1,9 @@
 <div class="books list">
-	<div>{_'These are latest opinions, join our community and show your opinion.'}</div>
+	<div>{_'These are opinions on latest books, join our community and show your opinion.'}</div>
 	{foreach $books AS $book}
 	<div class="item">
 		<div class="info-side">
-			<img class="icon" src="{$covers[$book->getId()],50|thumbnail}" alt="{$book->title}" width="50" height="80" />
+			<img class="icon" src="{$book->getId(),50|bookCover}" alt="{$book->title}" width="50" height="80" />
 		</div>
 		<div class="info-top">
 			<a href="{plink Book:default,$book->getId()}" title="{$book->title}{if !empty($book->subtitle)}: {$book->subtitle}{/if}" class="book-title">{$book->title}{if !empty($book->subtitle)}: {$book->subtitle}{/if}</a>

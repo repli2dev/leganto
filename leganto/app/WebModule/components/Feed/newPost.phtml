@@ -1,0 +1,18 @@
+<div class="item">
+	<div class="info-side">
+		<img class="icon" src="{$item->userId, 50|userico}" alt="{$item->userNick}" />
+		<div class="clear"></div>
+		<span class="date">{$item->inserted|date}</span>
+	</div>
+	<div class="info-top">
+		<strong class="title">
+			{_"User"} <a href="{plink User:default,$item->userId}">{$item->userNick}</a> {_"have just contributed new post to discussion"} <a href="{plink Discussion:posts,$content[3],$content[2]}">{$content[1]}</a>:
+		</strong>
+	</div>
+
+	<div class="content">
+		{!$content[4]|texySafe|stripTags}
+	</div>
+	<div class="clear"></div>
+</div>
+<div class="clear"></div>

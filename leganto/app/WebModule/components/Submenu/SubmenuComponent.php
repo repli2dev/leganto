@@ -12,12 +12,12 @@
  */
 class SubmenuComponent extends BaseComponent {
 
-	public function addLink($action, $name, $args = NULL) {
-		$this->getTemplate()->links[] = new SubmenuLink($action, $name, $args);
+	public function addLink($action, $name, $args = NULL, $title = NULL) {
+		$this->getTemplate()->links[] = new SubmenuLink($action, $name, $args,NULL,$title);
 	}
 
-	public function addEvent($action, $name, $args = NULL, $confirm = NULL) {
-		$this->getTemplate()->events[] = new SubmenuLink($action, $name, $args, $confirm);
+	public function addEvent($action, $name, $args = NULL, $confirm = NULL, $title = NULL) {
+		$this->getTemplate()->events[] = new SubmenuLink($action, $name, $args, $confirm,$title);
 	}
 
 	protected function startUp() {
@@ -50,12 +50,14 @@ class SubmenuLink {
 	private $args;
 	private $confirm;
 	private $name;
+	private $title;
 
-	public function __construct($action, $name, $args = array(), $confirm = NULL) {
+	public function __construct($action, $name, $args = array(), $confirm = NULL,$title = NULL) {
 		$this->action = $action;
 		$this->name = $name;
 		$this->args = $args;
 		$this->confirm = $confirm;
+		$this->title = $title;
 	}
 
 	public function getAction() {
@@ -72,6 +74,10 @@ class SubmenuLink {
 
 	public function getName() {
 		return $this->name;
+	}
+
+	public function getTitle() {
+		return $this->title;
 	}
 
 }

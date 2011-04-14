@@ -183,14 +183,17 @@ class Web_BookPresenter extends Web_BasePresenter {
 	protected function createComponentShareBox($name) {
 		return new ShareBoxComponent($this, $name);
 	}
+	protected function createComponentFollowedUser($name) {
+		return new FollowedUserComponent($this,$name);
+	}
 
 	protected function createComponentSubmenu($name) {
 		$submenu = new SubmenuComponent($this, $name);
-		$submenu->addLink("default", System::translate("General info"), $this->getBook()->getId());
-		$submenu->addLink("opinions", System::translate("Opinions"), $this->getBook()->getId());
-		$submenu->addLink("similar", System::translate("Similar books"), $this->getBook()->getId());
+		$submenu->addLink("default", System::translate("General info"), $this->getBook()->getId(),System::translate("Show authors, editions, graphs and few opinions."));
+		$submenu->addLink("opinions", System::translate("Opinions"), $this->getBook()->getId(),System::translate("What other users say about this book"));
+		$submenu->addLink("similar", System::translate("Similar books"), $this->getBook()->getId(),System::translate("Similar books according tags"));
 		$submenu->addLink("Search:allBooks", System::translate("All books"));
-		$submenu->addLink("random", System::translate("Random book"));
+		$submenu->addLink("random", System::translate("Random book"),NULL,System::translate("Bored? Click to get random book."));
 		if (System::user() != NULL) {
 			$opinion = Leganto::opinions()->getSelector()->findByBookAndUser($this->getBook(), System::user());
 		}
