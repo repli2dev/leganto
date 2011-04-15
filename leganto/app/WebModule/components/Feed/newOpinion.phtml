@@ -12,7 +12,7 @@
 
 	<div class="content">
 		{if !empty($content[2])}
-			<p>{!$content[2]|texySafe|stripTags}</p>
+			{!$content[2]|texySafe}
 		{/if}
 		<p>{_"Choosen rating"}: <img src="/img/rating_{$content[3]}.png" alt="{$content[3]|rating}" title="{$content[3]|rating}" class="rating" /></p>
 	</div>

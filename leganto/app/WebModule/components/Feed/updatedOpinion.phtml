@@ -12,10 +12,10 @@
 
 	<div class="content">
 		{if !empty($content[3])}
-			<p><em>{!=$content[3]|texySafe|stripTags}</em></p>
+			<em>{!=$content[3]|texySafe}</em>
 		{/if}
 		{if !empty($content[2])}
-			<p>{!$content[2]|texySafe|stripTags}</p>
+			{!$content[2]|texySafe}
 		{/if}
 		<p>{_"From rating"}: <img src="/img/rating_{$content[4]}.png" alt="{$content[4]|rating}" title="{$content[4]|rating}" class="rating" /> {_"to"} <img src="/img/rating_{=(int)$content[5]}.png" alt="{$content[5]|rating}" title="{$content[5]|rating}" class="rating" /></p>
 	</div>
