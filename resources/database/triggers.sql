@@ -6,7 +6,7 @@ FOR EACH ROW
 		'new_opinion',
 		NEW.`id_user`,
 		NOW(),
-		(SELECT CONCAT_WS('#$#',`id_book_title`,`book_title`,REPLACE(`content`,'#$#',''),`rating`) FROM `view_opinion` WHERE `id_opinion` = NEW.`id_opinion`)
+		(SELECT CONCAT_WS('#$#',`id_book_title`,`book_title`,IFNULL(REPLACE(`content`,'#$#',''), ''),`rating`) FROM `view_opinion` WHERE `id_opinion` = NEW.`id_opinion`)
 	);
 
 -- Updating of old opinion
@@ -17,7 +17,7 @@ FOR EACH ROW
 		'updated_opinion',
 		NEW.`id_user`,
 		NOW(),
-		(SELECT CONCAT_WS('#$#',`id_book_title`,`book_title`,REPLACE(`content`,'#$#',''),REPLACE(OLD.`content`,'#$#',''),`rating`,OLD.`rating`) FROM `view_opinion` WHERE `id_opinion` = NEW.`id_opinion`)
+		(SELECT CONCAT_WS('#$#',`id_book_title`,`book_title`,IFNULL(REPLACE(`content`,'#$#',''), ''),IFNULL(REPLACE(OLD.`content`,'#$#',''), ''),`rating`,OLD.`rating`) FROM `view_opinion` WHERE `id_opinion` = NEW.`id_opinion`)
 	);
 
 -- Insert book into shelf
@@ -28,7 +28,7 @@ FOR EACH ROW
 		'shelved',
 		(SELECT `id_user` FROM `view_shelf_book` WHERE `id_in_shelf` = NEW.`id_in_shelf`),
 		NOW(),
-		(SELECT CONCAT_WS('#$#',`type`,`name`,`id_book_title`,REPLACE(`title`,'#$#',''),REPLACE(`subtitle`,'#$#','')) FROM `view_shelf_book` WHERE `id_in_shelf` = NEW.`id_in_shelf`) 
+		(SELECT CONCAT_WS('#$#',`type`,`name`,`id_book_title`,IFNULL(REPLACE(`title`,'#$#',''),''),IFNULL(REPLACE(`subtitle`,'#$#',''),'')) FROM `view_shelf_book` WHERE `id_in_shelf` = NEW.`id_in_shelf`)
 	);
 
 -- Delete book from shelf
@@ -39,7 +39,7 @@ FOR EACH ROW
 		'deshelved',
 		(SELECT `id_user` FROM `view_shelf_book` WHERE `id_in_shelf` = OLD.`id_in_shelf`),
 		NOW(),
-		(SELECT CONCAT_WS('#$#',`type`,`name`,`id_book_title`,REPLACE(`title`,'#$#',''),REPLACE(`subtitle`,'#$#','')) FROM `view_shelf_book` WHERE `id_in_shelf` = OLD.`id_in_shelf`) 
+		(SELECT CONCAT_WS('#$#',`type`,`name`,`id_book_title`,IFNULL(REPLACE(`title`,'#$#',''),''),IFNULL(REPLACE(`subtitle`,'#$#',''),'')) FROM `view_shelf_book` WHERE `id_in_shelf` = OLD.`id_in_shelf`)
 	);
 
 -- New follower (for others followers)
@@ -50,7 +50,7 @@ FOR EACH ROW
 		'new_follower',
 		NEW.`id_user`,
 		NOW(),
-		(SELECT CONCAT_WS('#$#',`id_user`,REPLACE(`nick`,'#$#','')) FROM `user` WHERE `id_user` = NEW.`id_user_followed`) 
+		(SELECT CONCAT_WS('#$#',`id_user`,IFNULL(REPLACE(`nick`,'#$#',''),'')) FROM `user` WHERE `id_user` = NEW.`id_user_followed`)
 	);
 
 -- New book
@@ -83,7 +83,7 @@ FOR EACH ROW
 		'new_post',
 		NEW.`id_user`,
 		NOW(),
-		(SELECT CONCAT_WS('#$#',`id_discussion`,`discussion_name`,`id_discussable`,`id_discussed`,REPLACE(`subject`,'#$#',''),REPLACE(`content`,'#$#','')) FROM `view_post` WHERE `id_post` = NEW.`id_post`)
+		(SELECT CONCAT_WS('#$#',`id_discussion`,`discussion_name`,`id_discussable`,`id_discussed`,IFNULL(REPLACE(`subject`,'#$#',''),''),IFNULL(REPLACE(`content`,'#$#',''), '')) FROM `view_post` WHERE `id_post` = NEW.`id_post`)
 	);
 -- New user
 DROP TRIGGER IF EXISTS `feed_new_user`;
