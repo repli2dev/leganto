@@ -1703,6 +1703,8 @@ leganto/tests/test-utils/data.sql  mode=0644  uid=1000  gid=1000
 leganto/tools  mode=0755  uid=1000  gid=1000
 leganto/tools/batch_mailer.php  mode=0644  uid=1000  gid=1000
 leganto/tools/header.php  mode=0644  uid=1000  gid=1000
+leganto/tools/mails  mode=0755  uid=1000  gid=1000
+leganto/tools/mails/reminder.phtml  mode=0644  uid=1000  gid=1000
 leganto/tools/sampleMail.phtml  mode=0644  uid=1000  gid=1000
 leganto/tools/similar_tags.php  mode=0644  uid=1000  gid=1000
 leganto/updates  mode=0755  uid=1000  gid=1000

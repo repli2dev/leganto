@@ -61,7 +61,8 @@ if(!isSet($batchMailer->offset) || !isSet($batchMailer->mail)) {
 
 // Select users
 echo "Selecting users from <".($batchMailer->offset).",".($batchMailer->offset+BATCH_LIMIT).")...\n";
-$users = dibi::query("SELECT * FROM [user] WHERE 1 LIMIT %i,%i",$batchMailer->offset,BATCH_LIMIT);
+//$users = dibi::query("SELECT * FROM [user] WHERE 1 LIMIT %i,%i",$batchMailer->offset,BATCH_LIMIT);
+$users = dibi::query("SELECT * FROM [user] WHERE id_user = 1 LIMIT %i,%i",$batchMailer->offset,BATCH_LIMIT); 
 if(count($users) == 0) {
 	$batchMailer->remove();
 	echo "Sending done!\n";
