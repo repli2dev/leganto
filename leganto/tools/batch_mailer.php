@@ -7,13 +7,14 @@
 //	        php batch_mailer.php TEMPLATE OFFSET	Set TEMPLATE and OFFSET
         
 // Load Nette and set up environment
-echo "Mailer running...\n";
 require_once(dirname(__FILE__) . "/header.php");
 define("BATCH_LIMIT",50);
 date_default_timezone_set("Europe/Prague");
 Environment::getSession()->setExpiration("+7 days");
 session_id("batchmailer"); // HACK
 Environment::getSession()->start();
+
+echo "Mailer running...\n";
 
 // Database
 echo "Database connection...\n";
@@ -62,7 +63,7 @@ if(!isSet($batchMailer->offset) || !isSet($batchMailer->mail)) {
 // Select users
 echo "Selecting users from <".($batchMailer->offset).",".($batchMailer->offset+BATCH_LIMIT).")...\n";
 //$users = dibi::query("SELECT * FROM [user] WHERE 1 LIMIT %i,%i",$batchMailer->offset,BATCH_LIMIT);
-$users = dibi::query("SELECT * FROM [user] WHERE id_user = 1 LIMIT %i,%i",$batchMailer->offset,BATCH_LIMIT); 
+$users = dibi::query("SELECT * FROM user WHERE id_user NOT IN (SELECT id_user FROM user_log) LIMIT %i,%i",$batchMailer->offset,BATCH_LIMIT); 
 if(count($users) == 0) {
 	$batchMailer->remove();
 	echo "Sending done!\n";
