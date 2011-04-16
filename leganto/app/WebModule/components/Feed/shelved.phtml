@@ -8,7 +8,7 @@
 				{_"User"} <a href="{plink User:default,$item->userId}">{$item->userNick}</a> {_"have just added book"} <a href="{plink Book:default,$content[2]}">{$content[3]}</a> {_"to their library"}.
 			{/if}
 			{if $content[0] == 'general'}
-				{_"User"} <a href="{plink User:default,$item->userId}">{$item->userNick}</a> {_"have just added book"} <a href="{plink Book:default,$content[2]}">{$content[3]}</a> {_"to shelf"} <a href="{plink User:shelves}">{$content[1]}</a>.
+				{_"User"} <a href="{plink User:default,$item->userId}">{$item->userNick}</a> {_"have just added book"} <a href="{plink Book:default,$content[2]}">{$content[3]}</a> {_"to shelf"} <a href="{plink User:shelves, $item->userId}">{$content[1]}</a>.
 			{/if}
 			{if $content[0] == 'wanted'}
 				{_"User"} <a href="{plink User:default,$item->userId}">{$item->userNick}</a> {_"wants to read"} <a href="{plink Book:default,$content[2]}">{$content[3]}</a>.
