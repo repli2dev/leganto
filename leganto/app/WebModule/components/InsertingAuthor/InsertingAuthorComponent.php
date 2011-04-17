@@ -31,8 +31,9 @@ class InsertingAuthorComponent extends BaseComponent {
 		$values = $form->getValues();
 		if (empty($values["id_author"]) && !Environment::getUser()->isAllowed(Resource::AUTHOR, Action::INSERT)) {
 			$this->unathorized();
-		} else if (!Environment::getUser()->isAllowed(Resource::AUTHOR, Action::EDIT)) {
-			$this->unathorized();
+		}
+		if (!empty($values["id_author"]) && !Environment::getUser()->isAllowed(Resource::AUTHOR, Action::EDIT)) {
+			$this->unauthorized();
 		}
 		// Prepare entity and persist it
 		if (empty($values["id_author"])) {
