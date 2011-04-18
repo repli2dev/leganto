@@ -26,6 +26,7 @@ $delimiter = "#$#";
 //	dibi::insert("feed_event",$content)->execute();
 //}
 // Change of opinion
+// DO NOT USE! BREAKS FEED DUE MISSING OLD RATING AND OLD CONTENT
 //$result = dibi::query("SELECT * FROM view_opinion WHERE inserted != updated AND updated NOT LIKE '2010-11-20 17%'")->fetchAll();
 //foreach($result as $row) {
 //	$content = array();
@@ -83,33 +84,34 @@ $delimiter = "#$#";
 //	dibi::insert("feed_event",$content)->execute();
 //}
 // New posts
-//$result = dibi::query("SELECT * FROM view_post WHERE 1")->fetchAll();
-//foreach($result as $row) {
-//	$content = array();
-//	$temp = array();
-//	$temp[] = $row["id_discussion"];
-//	$temp[] = $row["discussion_name"];
-//	$temp[] = $row["id_discussable"];
-//	$temp[] = $row["id_discussed"]; // Problem with subject
-//	$temp[] = $row["content"];
-//	$content["type"] = FeedItemEntity::TYPE_NEW_POST;
-//	$content["id_user"] = $row["id_user"];
-//	$content["content"] = implode($delimiter, $temp);
-//	$content["inserted"] = $row["inserted"];
-//	dibi::insert("feed_event",$content)->execute();
-//}
-// New books
-$result = dibi::query("SELECT * FROM book_title WHERE 1")->fetchAll();
+$result = dibi::query("SELECT * FROM view_post WHERE 1")->fetchAll();
 foreach($result as $row) {
 	$content = array();
 	$temp = array();
-	$temp[] = $row["id_book_title"];
-	$temp[] = $row["title"];
-	if(isSet($row["subtitle"])) $temp[] = $row["subtitle"];
-	$content["type"] = FeedItemEntity::TYPE_NEW_BOOK;
-	$content["id_user"] = NULL;
+	$temp[] = $row["id_discussion"];
+	$temp[] = $row["discussion_name"];
+	$temp[] = $row["id_discussable"];
+	$temp[] = $row["id_discussed"];
+	$temp[] = "";
+	$temp[] = $row["content"];
+	$content["type"] = FeedItemEntity::TYPE_NEW_POST;
+	$content["id_user"] = $row["id_user"];
 	$content["content"] = implode($delimiter, $temp);
 	$content["inserted"] = $row["inserted"];
 	dibi::insert("feed_event",$content)->execute();
 }
+// New books
+//$result = dibi::query("SELECT * FROM book_title WHERE 1")->fetchAll();
+//foreach($result as $row) {
+//	$content = array();
+//	$temp = array();
+//	$temp[] = $row["id_book_title"];
+//	$temp[] = $row["title"];
+//	if(isSet($row["subtitle"])) $temp[] = $row["subtitle"];
+//	$content["type"] = FeedItemEntity::TYPE_NEW_BOOK;
+//	$content["id_user"] = NULL;
+//	$content["content"] = implode($delimiter, $temp);
+//	$content["inserted"] = $row["inserted"];
+//	dibi::insert("feed_event",$content)->execute();
+//}
 echo "DONE";
