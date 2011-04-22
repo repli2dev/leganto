@@ -11,14 +11,20 @@ FOR EACH ROW
 
 -- Updating of old opinion
 DROP TRIGGER IF EXISTS `feed_updated_opinion`;
+DELIMITER $$
 CREATE TRIGGER `feed_updated_opinion` AFTER UPDATE ON `opinion`
 FOR EACH ROW
-	INSERT INTO `feed_event` (type, id_user, inserted, content) VALUES (
-		'updated_opinion',
-		NEW.`id_user`,
-		NOW(),
-		(SELECT CONCAT_WS('#$#',`id_book_title`,`book_title`,IFNULL(REPLACE(`content`,'#$#',''), ''),IFNULL(REPLACE(OLD.`content`,'#$#',''), ''),`rating`,OLD.`rating`) FROM `view_opinion` WHERE `id_opinion` = NEW.`id_opinion`)
-	);
+BEGIN
+	IF OLD.`content` != NEW.`content` OR OLD.`rating` != NEW.`rating`  THEN
+		INSERT INTO `feed_event` (type, id_user, inserted, content) VALUES (
+			'updated_opinion',
+			NEW.`id_user`,
+			NOW(),
+			(SELECT CONCAT_WS('#$#',`id_book_title`,`book_title`,IFNULL(REPLACE(`content`,'#$#',''), ''),IFNULL(REPLACE(OLD.`content`,'#$#',''), ''),`rating`,OLD.`rating`) FROM `view_opinion` WHERE `id_opinion` = NEW.`id_opinion`)
+		);
+	END IF;
+END $$
+DELIMITER ;
 
 -- Insert book into shelf
 DROP TRIGGER IF EXISTS `feed_shelved`;
