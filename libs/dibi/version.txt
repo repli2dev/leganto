@@ -1,0 +1,1 @@
+Dibi 1.5-rc1 (revision 183a215 released on 2011-07-01)

@@ -1,0 +1,20 @@
+
+<div class="users list">
+{foreach $users AS $user}
+    <div class="item">
+		<div class="info-side">
+			<img class="icon" src="{$user->getId(), 50|userico}" />
+		</div>
+		<div class="info-top">
+			<a href="{plink User:default, $user->getId()}" class="user-name" title="{$user->nickname}">{$user->nickname|hardTruncate:20}</a>
+		</div>
+		<div class="content">
+			{!=Nette\Utils\Strings::truncate($user->about, 100)|texySafe|stripTags}
+		</div>
+		<div class="clear"></div>
+    </div>
+    {if $iterator->getCounter() % 3 == 0}<div class="clear"></div>{/if}
+    {/foreach}
+</div>
+<div class="clear"></div>
+{widget paginator}

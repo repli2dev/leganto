@@ -10,15 +10,20 @@
  * @author		Jan Drabek
  * @version		$id$
  */
+namespace Leganto\Storage;
+use Leganto\IO\FileNameFilter,
+	Leganto\Tools\ExtraArray,
+	
+	Leganto\IO\File;
 
 class UserIconStorage implements IStorage {
 
-	public function getFile(IEntity $entity) {
+	public function getFile(\Leganto\ORM\IEntity $entity) {
 		if ($entity->getState() != IEntity::STATE_PERSISTED) {
-			throw new InvalidArgumentException("The entity has to be in state [persisted].");
+			throw new \InvalidArgumentException("The entity has to be in state [persisted].");
 		}
 		if (get_class($entity) != "UserEntity") {
-			throw new InvalidArgumentException("The entity has to be user.");
+			throw new \InvalidArgumentException("The entity has to be user.");
 		}
 
 		return $this->getFileById($entity->getId());
@@ -26,16 +31,16 @@ class UserIconStorage implements IStorage {
 
 	public function getFileById($userId) {
 		if (empty($userId)) {
-			throw new NullPointerException("userId");
+			throw new \InvalidArgumentException("userId");
 		}
 		$storage = new File($this->getDirectoryPath());
 		$icons = $storage->listFiles(new FileNameFilter($userId . ".*"));
 		return ExtraArray::firstValue($icons);
 	}
 
-	public function store(IEntity $user, File $image) {
+	public function store(\Leganto\ORM\IEntity $user, File $image) {
 		if ($user->getState() != IEntity::STATE_PERSISTED) {
-			throw new InvalidArgumentException("The entity has to be persisted.");
+			throw new \InvalidArgumentException("The entity has to be persisted.");
 		}
 		// Delete old file
 		$old = $this->getFile($user);

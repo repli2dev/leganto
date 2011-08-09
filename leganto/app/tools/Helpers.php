@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Helper class to easy things up. Defines specific tasks on texts (texy), images (storage) etc.
  *
@@ -11,6 +10,14 @@
  * @author		Jan Drabek
  * @version		$id$
  */
+namespace Leganto\Templating;
+use Leganto\Storage\EditionImageStorage,
+ Leganto\Storage\UserIconStorage,
+	Nette\Image,
+	Nette\Environment,
+	Texy,
+	Leganto\System;
+
 final class Helpers {
 
 	/** @var EditionImageStorage */
@@ -29,12 +36,12 @@ final class Helpers {
 	 * It returns the callback for helper with given name
 	 * @param string $helper The name of helper.
 	 * @return callback The callback to the helper.
-	 * @throws NullPointerException if the $helper is empty.
+	 * @throws \InvalidArgumentException if the $helper is empty.
 	 * @throws DataNotFoundException if the helper does not exist.
 	 */
 	public static function getHelper($helper) {
 		if (empty($helper)) {
-			throw NullPointerException("helper");
+			throw \InvalidArgumentException("helper");
 		}
 		switch ($helper) {
 			case "date": return array(get_class(), 'dateFormatHelper');
@@ -49,7 +56,7 @@ final class Helpers {
 				break;
 			case "userIcon": return array(get_class(), "userIconHelper");
 				break;
-			case "hardTruncate": return array("ExtraString", "hardTruncate");
+			case "hardTruncate": return array("Leganto\Tools\ExtraString", "hardTruncate");
 				break;
 			case "bookCover": return array(get_class(), "bookCoverHelper");
 				break;
@@ -60,7 +67,7 @@ final class Helpers {
 			case "achievementName": return array(get_class(), "AchievementNameHelper");
 				break;
 			default:
-				throw new DataNotFoundException("helper: $helper");
+				throw new \InvalidArgumentException("helper: $helper");
 		}
 	}
 	/**
@@ -401,6 +408,11 @@ final class Helpers {
 			self::$editionImageStorage = new EditionImageStorage();
 		}
 		return self::$editionImageStorage;
+	}
+	
+	public static function parseClassName($name) {
+		$temp = explode("\\",$name);
+		return $temp[count($temp)-1];
 	}
 
 }

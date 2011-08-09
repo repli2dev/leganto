@@ -1,61 +1,56 @@
 <?php
+
+use Nette\Diagnostics\Debugger,
+	Nette\Application\Routers\Route,
+	Nette\Application\Routers\RouteList,
+	Nette\Application\Routers\SimpleRouter;
+
+
 // Step 1: Load Nette Framework
-// this allows Nette to load classes automatically so that
-// you don't have to litter your code with 'require' statements
-require_once LIBS_DIR . '/Nette/loader.php';
+require __DIR__ . '/../libs/Nette/loader.php';
 
-// Loader
-$loader = new RobotLoader();
-$loader->addDirectory(APP_DIR);
-$loader->addDirectory(LIBS_DIR);
-$loader->register();
+// Step 2: Load configuration
+$configurator = new Nette\Configurator;
+$configurator->container->params += $params;
+$configurator->container->params['tempDir'] = __DIR__ . '/../temp';
+$container = $configurator->loadConfig(__DIR__ . '/config.neon');
 
-if (@$_SERVER['HTTP_HOST'] == "devel.ctenari.cz") {
-	Environment::setName("devel-ctenari");
-}
-
-//Environment::setName("Kronos");
-
-Environment::getApplication()->catchExceptions = false;
-Environment::loadConfig(APP_DIR . '/config.ini');
-
-// Step 2: Enable Nette\Debug
-$debug = Environment::getConfig('debug');
-
-if ($debug->enable) {
-	Debug::enable(null, $debug->log, $debug->email);
-	if ($debug->profiler) {
-		Debug::enableProfiler();
-	}
-	// Libs contain bunch of function returning warnings
+// Step 3: Set debugging
+$debug = $container->params["debug"];
+if ($debug["enable"]) {
+	// Set debugger and enable it
+	Debugger::$strictMode = TRUE;
+	Debugger::$logDirectory = __DIR__ . '/../log';
+	Debugger::enable();
+	
+	// Not catching exception to show error
+	$container->application->catchExceptions = false;
+	// Libs can contain bunch of function showing warnings
 	error_reporting(E_ALL^E_USER_WARNING);
 } else {
+	// Complete suppresion of errors on production mode
 	error_reporting(0);
+	// Show 404 and 500 error instead of exceptions
+	$container->application->catchExceptions = true;
+	$container->errorPresenter = 'Error';
 }
 
-// Step 3: Get the front controller
-$application = Environment::getApplication();
+// Step 4: Setup routing
+$router = $container->application->getRouter();
+FrontModule\Routes::add($router);
+ApiModule\Routes::add($router);
+CronModule\Routes::add($router);
 
-// Step 4: Setup application router
-$router = $application->getRouter();
-
-$router[] = ApiModule::createRouter();
-$router[] = WebModule::createRouter();
-$router[] = CronModule::createRouter();
-
-// Step 5: Database connection
+// Step 6: Database connection
 // lazy connect should be enabled in config.ini
-dibi::connect(Environment::getConfig('database'));
+dibi::connect($container->params["database"]);
 
-// Profiling SQL queries
-//dibi::getProfiler()->setFile(APP_DIR.'/temp/log.sql');
+// Step 7: Start session
+$container->getService("session")->setExpiration("+7 days");
+$container->getService("session")->start();
 
-// Step 6: Start session
-Environment::getSession()->setExpiration("+7 days");
-Environment::getSession()->start();
+// FIXME: user expiration
+//Environment::getUser()->setExpiration("+ 7 days", FALSE);
 
-Environment::getUser()->setExpiration("+ 7 days", FALSE);
-
-// Step 7: Run the application!
-$application->run();
-
+// Run the application!
+$container->application->run();

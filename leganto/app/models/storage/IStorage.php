@@ -9,12 +9,14 @@
  * @author		Jan Drabek
  * @version		$id$
  */
+namespace Leganto\Storage;
+use Leganto\IO\File;
 
 interface IStorage {
 
 	/** @return File */
-	function getFile(IEntity $entity);
+	function getFile(\Leganto\ORM\IEntity $entity);
 
 	/** @return File */
-	function store(IEntity $entity, File $file);
+	function store(\Leganto\ORM\IEntity $entity, File $file);
 }

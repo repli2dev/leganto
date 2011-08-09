@@ -1,0 +1,13 @@
+
+<div id="tags">
+	{foreach $tags AS $tag}
+		{if $tag->name != NULL}
+			<a href="{plink Search:default, $tag->name}" class="tag">{$tag->name}</a>
+		{/if}
+	{/foreach}
+
+	{if $presenter->getUser()->isAllowed(Leganto\ACL\Resource::TAG, Leganto\ACL\Action::INSERT)}
+		{widget form}
+		<div class="clear"></div>
+	{/if}
+</div>

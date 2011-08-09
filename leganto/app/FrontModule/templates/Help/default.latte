@@ -1,0 +1,31 @@
+{extends "../@layout.latte"}
+
+{block #content}
+<div id="content">
+	<h1>{_'Help'}</h1>
+	<p>{_"Welcome in your support section, where you can find answers for nearly all your questions. The whole support page is divided into several categories. To continue select and click on one of categories shown below this text."}</p>
+
+	{if count($data) > 0}
+		<div id="help-container">
+			{foreach $data as $row}
+			<div class="help-category" id="br5"><div class="help-category-inner">
+					<h2><a href="{plink Help:category, $row->id_support_category}">{$row->name}</a></h2>
+					<span class="description">{$row->description}</span>
+					{if count($data) > 0}
+						<div class="cleaner">&nbsp;</div>
+						<h3>{_"Pages"}</h3>
+						<p>
+						{foreach $content[$row->id_support_category] as $item2}
+							<a href="{plink Help:text, $item2->id_support_text}">{$item2->name}</a><br />
+						{/foreach}
+						</p>
+					{/if}
+					&nbsp;
+			</div></div>
+			{/foreach}
+		</div>
+	{else}
+		<p><strong>Sorry, but there are no support pages translated into your language. We are working on it!</strong></p>
+	{/if}
+</div>
+{/block}

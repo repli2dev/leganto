@@ -1,0 +1,51 @@
+#
+# SECURITY WARNING: it is CRITICAL that this file & directory are NOT accessible directly via a web browser!
+# http://nette.org/security-warning
+#
+common:
+	php:
+		date.timezone: Europe/Prague
+
+	services:
+		robotLoader:
+			run: true
+		authenticator: Leganto\DB\User\Authenticator
+		authorizator: Leganto\ACL\Authorizator
+			
+	const:
+		APP_DIR: %appDir%
+		WWW_DIR: %wwwDir%
+
+	debug:
+		enable: true
+
+	mail:
+		info: info@ctenari.cz
+		name: Leganto team
+
+	facebook:
+		enable: false
+		apiKey: false
+		secret: false
+		
+	twitter:
+		enable: false
+		apiKey: false
+		secret: false
+
+production < common:
+	debug:
+		enable: false
+
+development < common:
+	debug:
+		enable: true
+
+	database:
+		driver: mysql
+		charset: utf8
+		lazy: true
+		username: leganto_devel
+		password: Hublu.mer
+		host: zimodej.cz
+		database: leganto_devel

@@ -1,0 +1,142 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+		<meta name="description" content="{$pageDescription}" n:ifset="$pageDescription" />
+		<meta name="keywords" content="{$pageKeywords}" n:ifset="$pageKeywords" />
+		<meta name="author" content="Jan Papoušek, Jan Drábek {_'and our community, altogether.'}" />
+		<meta name="robots" content="index, follow" />
+		<meta property="fb:app_id" content="175434332634" />
+
+		{*RSS feeds*}
+		<link rel="alternate" type="application/rss+xml" title="Leganto: feed of all users" href="{plink Rss:}" />
+		{if $presenter->getUser()->isLoggedIn()}
+			<link rel="alternate" type="application/rss+xml" title="Leganto: your feed" href="{plink Rss:,System::user()->getId()}" />
+		{/if}
+		
+		<link rel="stylesheet" type="text/css" href="/css/main.css" />
+		<link rel="stylesheet" type="text/css" href="/css/theme.css" />
+		<link rel="stylesheet" type="text/css" href="/css/forms.css" />
+		<link rel="stylesheet" type="text/css" href="/css/flashes.css" />
+		<link rel="stylesheet" type="text/css" href="/css/lists.css" />
+
+		<script type="text/javascript" src="/js/jquery-1.4.2.min.js"></script>
+		<script type="text/javascript" src="/js/search.js"></script>
+		{* Trigger correct option in menu where in search section *}
+		{ifCurrent Search:*}
+			<script type="text/javascript">
+			$(function(){
+				// Unset all others
+				$('#search label').each(function() {
+					$(this).attr("id", "");
+				});
+				// Triger the correct one
+				labelId = $("#search input[value=<?php echo $presenter->getAction(); ?>]").attr("id");
+				$("#search label[for="+labelId+"]").attr("id","selected-search-option");
+			});
+			</script>
+		{/ifCurrent}
+		<link rel="stylesheet" type="text/css" href="/css/jquery.ui.autocomplete.css" />
+		<script type="text/javascript" src="/js/jquery.external.js"></script>
+		<script type="text/javascript" src="/js/jquery-ui-1.8.2.custom.min.js"></script>
+		{ifCurrent Book:*}
+			<script type="text/javascript" src="/js/jquery.ui.stars.min.js"></script>
+			<link rel="stylesheet" type="text/css" href="/css/jquery.ui.stars.min.css" />
+			<script type="text/javascript" src="/js/ratings.js"></script>
+		{/ifCurrent}
+		<script type="text/javascript" src="/js/jquery.nette.js"></script>
+		<script type="text/javascript" src="/js/jquery.ajaxform.js"></script>
+		<script type="text/javascript" src="/js/jquery.autocomplete.js"></script>
+		<script type="text/javascript" src="/js/jquery.autoresize.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				$('textarea').autoResize({});
+			});
+		</script>
+		<script type="text/javascript" src="/js/jquery.unhide.js"></script>
+
+		{ifCurrent Default:default}
+			<script type="text/javascript" src="/js/jquery.nivo.slider.pack.js"></script>
+			<link rel="stylesheet" type="text/css" href="/css/nivo-slider.css" />
+			<script type="text/javascript">
+				$(window).load(function() {
+					$('.slider').nivoSlider({
+						 effect:'fade',
+						 pauseTime:6000,
+						 captionOpacity:1,
+						 directionNav:false
+					});
+				});
+			</script>
+		{/ifCurrent}
+
+		<!--[if IE]>
+		<script type="text/javascript" src="/js/corner.js"></script>
+		<script type="text/javascript">
+			DD_roundies.addRule('#content', '10px');
+			DD_roundies.addRule('#book-stats h3, #mentioned-yes, #mentioned-no, .help-category, .list .item,.error,.flash', '5px');
+			DD_roundies.addRule('#cover .rating', '0px 0px 5px 0px');
+			DD_roundies.addRule('#cover .stats', '5px 0px 0px 0px');
+		</script>
+		<![endif]-->
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-2881824-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+		<link rel="image_src" href="{$baseUrl}img/logoForFB.png" />
+		<link rel="shortcut icon" href="/favicon.ico" />
+
+		<title>{if $pageTitle}{$pageTitle} &ndash; {/if}Leganto{ifCurrent Default:default} &ndash; {_"readers"}{/ifCurrent}</title>
+	</head>
+	<body>
+		<div id="header">
+			<div class="wrapper">
+				<a href="/" title="Leganto &ndash; {_"readers"}" id="logo">
+					<span id="page-name">Leganto</span>
+					<span id="motto" title="{_'Our sisifos effort ;-)'}">{_'Man shall not live by bread alone'}</span>
+				</a>
+				{widget search}
+				<div class="clear"></div>
+			</div>
+		</div>
+
+		{widget navigation}
+
+		<div id="main">
+			<div class="wrapper">
+                {block #content}
+			{_'No content'}
+		{/block}
+				<div class="clear"></div>
+			</div>
+		</div>
+
+		<div id="footer">
+			<div class="wrapper">
+				&copy; <a href="{$baseUri}" title="Leganto - {_'Internet reading lists'}">{=\Leganto\System::domain()->uri}</a> - {_'Internet reading lists'} - <a href="{link Help:text, 56}" title="{_'Terms of use'}">{_'Terms of use'}</a>
+				|
+				{assign email => \Leganto\System::domain()->email}
+				<a href="mailto:{$email}">{_'Contact us'}</a>
+				|
+				<a href="{plink Statistics:}">{_'Statistics'}</a>
+				{_'created by'}
+				<a href="http://jandrabek.cz" title="Jan Drábek">Jan Drábek</a>
+				&amp;
+				<a href="mailto:jan.papousek@gmail.com" title="Jan Papoušek">Jan Papoušek</a>
+				<span title="Richard Šefr, Tereza Doležalová">{_'and others'}</span>.
+			</div>
+		</div>
+	</body>
+</html>

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Storage for images of editions
  *
@@ -11,20 +10,24 @@
  * @author		Jan Drabek
  * @version		$id$
  */
-class EditionImageStorage extends EskymoObject implements IStorage {
+namespace Leganto\Storage;
+use	Leganto\ORM\Object,
+	Leganto\IO\File;
 
-	public function getFile(IEntity $entity) {
-		if ($entity->getState() != IEntity::STATE_PERSISTED) {
-			throw new InvalidArgumentException("The entity has to be in state [persisted].");
+class EditionImageStorage extends Object implements IStorage {
+
+	public function getFile(\Leganto\ORM\IEntity $entity) {
+		if ($entity->getState() != \Leganto\ORM\IEntity::STATE_PERSISTED) {
+			throw new \InvalidArgumentException("The entity has to be in state [persisted].");
 		}
 		switch (get_class($entity)) {
-			case "BookEntity":
+			case "Leganto\DB\Book\Entity":
 				$file = new File($this->getDirectoryPath() . "/" . $entity->getId());
 				if (!$file->exists()) {
 					return NULL;
 				}
 				break;
-			case "EditionEntity":
+			case "Leganto\DB\Edition\Entity":
 				$dir = new File($this->getDirectoryPath() . "/" . $entity->idBook);
 				$files = $dir->listFiles(new FileNameFilter($entity->getId() . ".*"));
 				if (empty($files)) {
@@ -33,13 +36,13 @@ class EditionImageStorage extends EskymoObject implements IStorage {
 				$file = ExtraArray::firstValue($files);
 				break;
 			default:
-				throw new InvalidArgumentException("The entity has to be book or edition.");
+				throw new \InvalidArgumentException("The entity has to be book or edition.");
 		}
 		return $file;
 	}
 
 	/** @return File */
-	public function getRandomFileByBook(BookEntity $book) {
+	public function getRandomFileByBook(\Leganto\DB\Book\Entity $book) {
 		$directory = $this->getFile($book);
 		if (empty($directory)) {
 			return NULL;
@@ -57,9 +60,9 @@ class EditionImageStorage extends EskymoObject implements IStorage {
 		return $files[rand(0, sizeof($files) - 1)];
 	}
 
-	public function store(IEntity $edition, File $image) {
-		if ($edition->getState() != IEntity::STATE_PERSISTED) {
-			throw new InvalidArgumentException("The entity has to be persisted.");
+	public function store(\Leganto\ORM\IEntity $edition, File $image) {
+		if ($edition->getState() != \Leganto\ORM\IEntity::STATE_PERSISTED) {
+			throw new \InvalidArgumentException("The entity has to be persisted.");
 		}
 		$bookDirectory = new File($this->getDirectoryPath() . "/" . $edition->idBookTitle);
 		if (!$bookDirectory->exists()) {

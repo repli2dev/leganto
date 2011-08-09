@@ -1,0 +1,22 @@
+<div class="support list">
+
+    {foreach $helps AS $help}
+	<div class="clear"></div>
+	<div class="item">
+		<div class="info-side">
+			<img src="/img/ico/support.png" width="50" alt="{_'Support'}" />
+			<span class="date">{$help->updated|date}</span>
+		</div>
+	    <div class="info-top">
+			<a href="{plink Help:text, $help->getId()}">{$help->name}</a>
+	    </div>
+	    <div class="content">
+			<p>{!=Nette\Utils\Strings::truncate($help->text,300)|texy|stripTags}</p>
+	    </div>
+		<div class="clear"></div>
+	</div>
+    {/foreach}
+    
+</div>
+
+{widget paginator}

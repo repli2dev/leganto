@@ -1,0 +1,11 @@
+{extends "layout.latte"}
+
+{block #subcontent}
+	{if isset($author)}
+		<h1>{_"Edit author"}</h1>
+		{widget insertingAuthor}
+	{else}
+		<h1>{_"Insert a new author"}</h1>
+		{widget insertingAuthor}
+	{/if}
+{/block}

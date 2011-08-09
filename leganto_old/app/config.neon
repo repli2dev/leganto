@@ -1,0 +1,56 @@
+common:
+	debug:
+		enable: true
+		log: %app_dir%/logs/php_error.log
+		testDir: %app_dir%/TestModule/tests
+		
+	mail:
+		info: info@ctenari.cz
+		name: Leganto team
+		
+	facebook:
+		enable: false
+		apiKey: false
+		secret: false
+		
+	twitter:
+		enable: false
+		apiKey: false
+		secret: false
+	services:
+		robotLoader:	
+			run: true
+		authenticator: UserAuthenticator
+		authorizator: UserAuthorizator
+	const:
+		APP_DIR: %appDir%
+		
+	
+common.set:
+	date.timezone: Europe/Prague
+	
+production < common:
+	debug:
+		enable: false
+		profiler: false
+		
+	database:
+		driver: mysql
+		charset: utf8
+		lazy: true
+		username: leganto_devel
+		password: Hublu.mer
+		host: zimodej.cz
+		database: leganto_devel
+		
+	
+development < production:
+	debug:
+		enable: true
+		profiler: false
+		
+	database:
+		profiler: true
+		
+	
+console < development: null

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * System class maintain domains <-> languages, translating, user identity and logging
  *
@@ -11,6 +10,10 @@
  * @author		Jan Drabek
  * @version		$id$
  */
+namespace Leganto;
+use	Nette\Environment,
+	Leganto\ORM\SimpleEntityFactory;
+
 final class System {
 
 	/** @var DomainEntity	 */
@@ -67,7 +70,7 @@ final class System {
 				} else {
 					$lang = $domain->locale;
 				}
-				self::$translator = new GettextTranslator(APP_DIR . '/locale/' . $lang . '/LC_MESSAGES/messages.mo');
+				self::$translator = new \GettextTranslator(APP_DIR . '/locale/' . $lang . '/messages.mo');
 				$cache->save("translator", self::$translator, array(
 				    'expire' => time() + 60 * 60 * 6, // expire in 6 hours
 				));
@@ -79,7 +82,7 @@ final class System {
 	/** @return UserEntity */
 	public static function user() {
 		if (!isset(self::$user)) {
-			if (!Environment::getUser()->isAuthenticated()) {
+			if (!Environment::getUser()->isLoggedIn()) {
 				self::$user = NULL;
 			} else {
 				self::$user = Leganto::users()

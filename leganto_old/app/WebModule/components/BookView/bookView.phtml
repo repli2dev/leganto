@@ -1,0 +1,54 @@
+<div id="book-info">
+	<!-- BOOK COVER -->
+	<div id="cover">
+		{if empty($edition)}
+			<img src="{$book->getId(),150|bookCover}" alt="{$book->title}" />
+		{else}
+			<img src="{$edition->image,150|thumbnail}" alt="{$book->title}" {if empty($edition->image)}width="150" height="240"{/if} />
+		{/if}
+		<strong title="{_"The percentual rating of the book (based on users rating)"}" class="rating">{if $book->numberOfReaders > 0}{=round($book->rating/5*100)}%{/if}</strong>
+		<div class="stats">
+			<span title="{_"Number of readers"}" class="readers">{$book->numberOfReaders}</span>
+			<span title="{_"Number of opinions (users are allowed to let opinion empty)"}" class="opinions">{$book->numberOfOpinions}</span>
+		</div>
+	</div>
+	<!-- BOOK TITLE -->
+	<h1 title="{_"Title of book"}">{$book->title}</h1>
+	{if $book->subtitle != NULL}<h2 title="{_"Subtitle of book"}">{$book->subtitle}</h2>{/if}
+	<!-- STATISTICS -->
+    {widget bookStatistics}
+
+	<!-- AUTHORS -->
+    {foreach $authors AS $author}
+		<h2>
+			<a href="{plink Author:default, $author->getId()}" title="{$author->fullname}">
+				{$author->fullname}
+			</a>
+		</h2>
+    {/foreach}
+
+	<!-- EDITION INFO -->
+    {if !empty($edition)}
+		<p>
+			{if $edition->isbn10 != NULL}
+				<strong>{_'ISBN'}:</strong>&nbsp;
+				{$edition->isbn10}
+				<br />
+			{/if}
+			{if $edition->isbn13 != NULL}
+				<strong>{_'ISBN'}:</strong>&nbsp;
+				{$edition->isbn13}
+				<br />
+			{/if}
+			{if $edition->pages != NULL}
+				<strong>{_'Pages'}:</strong>&nbsp;{$edition->pages}
+				<br />
+			{/if}
+			{if $edition->published}
+				<strong>{_'Published'}:</strong>&nbsp;{$edition->published}
+			{/if}
+		</p>
+    {/if}
+</div>
+<div class="clear"></div>
+    

@@ -1,0 +1,17 @@
+{extends "../@layout.latte"}
+
+{block #content}
+
+<div id="right">
+    {widget submenu}
+</div>
+<div id="left">
+	<div id="content">
+		{widget flashMessages}
+		<h2>{$title}</h2>
+		{widget searchForm}
+		{block #subcontent}
+		{/block}
+	</div>
+</div>
+{/block}

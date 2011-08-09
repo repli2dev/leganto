@@ -1,0 +1,15 @@
+{extends "layout.latte"}
+
+{block #subcontent}
+<h1>{$category->name}</h1>
+
+<p>
+	{if count($data) > 0}
+		{foreach $data as $item}
+			<a href="{plink Help:text, $item->id_support_text}">{$item->name}</a><br />
+		{/foreach}
+	{else}
+		{_"There are no entries in this category."}
+	{/if}
+</p>
+{/block}

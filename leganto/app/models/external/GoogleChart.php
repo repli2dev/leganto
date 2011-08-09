@@ -10,7 +10,9 @@
  * @author		Jan Drabek
  * @version		$id$
  */
-
+namespace Leganto\Templating;
+use Nette\InvalidStateException,
+	Nette\Utils\Strings;
 
 class GoogleChart {
 	const AXES_BOTTOM = 'x';
@@ -84,7 +86,7 @@ class GoogleChart {
 		if (!empty($this->labels)) {
 			$link .= "&chxl=";
 			foreach ($this->getSortedLabels() AS $key => $labels) {
-				if (!String::endsWith($link, "|") && !String::endsWith($link, "=")) {
+				if (!Strings::endsWith($link, "|") && !Strings::endsWith($link, "=")) {
 					$link .= "|";
 				}
 				$link .= $key . ":|" . implode("|", $labels);

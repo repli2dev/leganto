@@ -1,0 +1,47 @@
+<div class="books list">
+    {foreach $books AS $book}
+		<div class="item">
+			<div class="info-side">
+				<img class="icon" src="{$book->getId(),50|bookCover}" alt="{$book->title}" width="50" height="80" />
+			</div>
+			<div class="info-top">
+				<a href="{plink Book:default,$book->getId()}" title="{$book->title}{if $book->subtitle !== NULL}: {$book->subtitle}{/if}" class="book-title">{$book->title}</a>
+				<br /><em>{if $book->subtitle !== NULL}{$book->subtitle}{/if}</em>
+			</div>
+			<div class="content">
+				{if count($authors[$book->bookNode]) > 2}
+				<div class="authors-hide">
+					<span>
+				{/if}
+					{foreach $authors[$book->bookNode] AS $author}
+						<a href="{plink Author:default, $author->getId()}" title="{$author->fullname}" class="author">
+						{$author->fullname}
+						</a>
+						<br />
+					{/foreach}
+				{if count($authors[$book->bookNode]) > 2}
+					</span>
+				</div>
+				{/if}
+				{if $book->numberOfReaders > 0}
+					<img src="{$baseUri}img/rating_{=round($book->rating)}.png" alt="{=round($book->rating)|rating}" title="{=round($book->rating)|rating}" class="rating" />
+				{else}
+					<img src="{$baseUri}img/rating_na.png" alt="{_'Rating not available'}" title="{_'Rating not available'}" class="rating" />
+				{/if}
+			</div>
+
+			<div class="tags">
+				{if isset($tags[$book->bookNode])}
+				{foreach $tags[$book->bookNode] AS $tag}
+				<a href="" class="tag">
+				{$tag->name}
+				</a>
+				{/foreach}
+				{/if}
+			</div>
+		</div>
+		{if $iterator->getCounter() % 3 == 0}<div class="clear"></div>{/if}
+    {/foreach}
+</div>
+<hr style="clear:both; visibility:hidden" />
+{widget paginator}

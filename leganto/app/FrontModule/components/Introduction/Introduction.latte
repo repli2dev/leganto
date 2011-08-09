@@ -1,0 +1,115 @@
+{snippet introduction}
+	<div id="introduction">
+		{if isset($hint)}
+		<div id="virtual-tour">
+			<div class="slider">
+				<img src="/img/tour/<?php echo \Leganto\System::language()->locale; ?>/opinions.png" alt="{_"Opinions on books"}" title="{_"Discover what is opinion of other people, keep track your and your friends books."}" />
+				<img src="/img/tour/<?php echo \Leganto\System::language()->locale; ?>/similar-books.png" alt="{_"Similar books"}" title="{_"Did you like the book and want to read something similar? See similar books."}" />
+				<img src="/img/tour/<?php echo \Leganto\System::language()->locale; ?>/similar-users.png" alt="{_"Similar users"}" title="{_"Can't decide what to read, look what users with similar ranking read."}" />
+				<img src="/img/tour/<?php echo \Leganto\System::language()->locale; ?>/graphs.png" alt="{_"Graphs"}" title="{_"Want quick overview of book's target group? Or distribution of ratings? See our graphs."}" />
+				<img src="/img/tour/<?php echo \Leganto\System::language()->locale; ?>/shelves.png" alt="{_"Shelves for books"}" title="{_"Want track your library or just list books you want to read? Just put it into shelf."}" />
+				<img src="/img/tour/<?php echo \Leganto\System::language()->locale; ?>/messaging.png" alt="{_"Private messages"}" title="{_"Want to keep in touch with other users? Just send them message."}" />
+			</div>
+		</div>
+{*		<div id="note">
+			<h2>{_'Did you know, that ...?'}</h2>
+			<img alt="{_'Tip'}" src="img/ico/light_bulb.png" />
+			<p>{$hint->text}<br /><a href="{link nextHint!}">{_'Next tip'} &raquo;</a></p>
+
+		</div>*}
+		{else}
+				
+			{if $state == "login"}
+				<div id="introduction-form-wrapper">
+				{if $flashes}
+				<ul>
+					{foreach $flashes as $flash}
+						<li>{$flash->message}</li>
+					{/foreach}
+				</ul>
+				{/if}
+				{widget "loginForm"}
+				</div>
+			{/if}
+			{if $state == "facebook"}
+				{if $enabled}
+					<h1>{_'Do you have an account?'}</h1>
+					<div id="mentioned-yes">
+						<h2>{_'Yes...'}</h2>
+						<p>{_'If you want to connect this Facebook account please log in.'}</p>
+						{widget "facebookForm"}
+					</div>
+					<div id="mentioned-no">
+						<h2>{_'No...'}</h2>
+						<p>{_"If you want to create a new account please click on the button 'Create' which logs you in automatically in just a second."}</p>
+						<ul>
+							{foreach $flashes as $flash}
+								<li>{$flash->message}</li>
+							{/foreach}
+						</ul>
+						<a href="{link signUpViaFacebook}" id="signup_button">{_'Create'}</a>
+					</div>
+				{/if}
+			{/if}
+			{if $state == "twitter"}
+				{if $enabled}
+					<h1>{_'Do you have an account?'}</h1>
+					<div id="mentioned-yes">
+						<h2>{_'Yes...'}</h2>
+						<p>{_'If you want to connect this Twitter account please log in.'}</p>
+						{widget "twitterForm"}
+					</div>
+					<div id="mentioned-no">
+						<h2>{_'No...'}</h2>
+						<p>{_"If you want to create a new account please click on the button 'Create' which logs you in automatically in just a second."}</p>
+						<ul>
+							{foreach $flashes as $flash}
+								<li>{$flash->message}</li>
+							{/foreach}
+						</ul>
+						<a href="{link signUpViaTwitter}" id="signup_button">{_'Create'}</a>
+					</div>
+					<div class="clear"></div>
+				{/if}
+			{/if}
+			{if $state == "signup"}
+				<div id="introduction-form-wrapper">
+				{widget "signUpForm"}
+				</div>
+			{/if}
+			{if $state == "forgotten"}
+				<div id="introduction-form-wrapper">
+				{widget "forgottenForm"}
+				</div>
+			{/if}
+			{if $state == "renew"}
+				<div id="introduction-form-wrapper">
+				{if $flashes}
+				<ul>
+					{foreach $flashes as $flash}
+						<li>{$flash->message}</li>
+					{/foreach}
+				</ul>
+				{/if}
+				{widget "renewForm"}
+				</div>
+			{/if}
+		{/if}
+
+		{if $state != "facebook" && $state != "twitter"}
+			<div id="info">
+				<h1>{_'Welcome!'}</h1>
+				<p>{_'Welcome text. Put introduction text here!'}<br /><a href="{plink Help:text,31}" title="{_'What we aim on and how it works.'}">{_'Learn how it works'}</a></p>
+				<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.facebook.com%2F%23%21%2Fpages%2FCtenari%2F137156876307890%3Fref%3Dts&amp;layout=standard&amp;show_faces=true&amp;width=450&amp;action=like&amp;colorscheme=light&amp;height=80" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:450px; margin-top: 20px; height:80px;" allowTransparency="true"></iframe>
+			</div>
+			<div id="getin">
+				<a href="{link changeState,'signup'}" title="{_'Shows form for creating new account.'}" class="ajax" id="signup_button">{_'Sign Up'}</a>
+				<a href="{link changeState,'login'}" title="{_'Shows form for login.'}" class="ajax" id="login_button">{_'Log in'}</a>
+			</div>
+			<div class="clear"></div>
+			<a href="{link changeState, 'facebook'}" title="{_'Use your facebook account to login or sign up.'}">{_'Login with Facebook'}</a> |
+			<a href="{link changeState, 'twitter'}" title="{_'Use your twitter account to login or sign up.'}">{_'Login with Twitter'}</a> |
+			<a href="{link changeState, 'forgotten'}" title="{_'Change your forgotten password.'}" class="">{_'Forgotten password'}</a>
+		{/if}
+	</div>
+{/snippet}

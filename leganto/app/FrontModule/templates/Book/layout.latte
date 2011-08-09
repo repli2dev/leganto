@@ -1,0 +1,22 @@
+{extends "../@layout.latte"}
+
+{block #content}
+<div id="book-view">
+
+	<div id="right">
+		{widget submenu}	
+		{widget bookShelfControl}
+		{widget shareBox}
+		{widget bookMerger}
+	</div>
+
+	<div id="left">
+		<div id="content">
+			{widget flashMessages}
+			{block #subcontent}
+			{/block}
+		</div>
+	</div>
+
+</div>
+{/block}
