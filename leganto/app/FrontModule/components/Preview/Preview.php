@@ -16,17 +16,17 @@ use \Leganto\DB\Factory,
 class Preview extends BaseComponent {
 
 	public function render() {
-		$opinions = Factory::opinions()
+		$opinions = Factory::opinion()
 				->getSelector()
 				->findAllNotEmptyLastUniqueBook()
 				->fetchAll();
 		$this->getTemplate()->opinions = array();
 		foreach ($opinions AS $opinion) {
-			$entity = Factory::opinions()->createEmpty()->loadDataFromArray($opinion->toArray(), "Load");
+			$entity = Factory::opinion()->createEmpty()->loadDataFromArray($opinion->toArray(), "Load");
 			$this->getTemplate()->opinions[$entity->bookTitleId] = $entity;
 		}
-		$this->getTemplate()->books = Factory::books()->fetchAndCreateAll(
-					Factory::books()->getSelector()
+		$this->getTemplate()->books = Factory::book()->fetchAndCreateAll(
+					Factory::book()->getSelector()
 					->findAll()
 					->where("id_book_title IN %l", array_keys($this->getTemplate()->opinions))
 		);

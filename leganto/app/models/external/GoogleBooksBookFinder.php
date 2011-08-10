@@ -4,23 +4,31 @@
  * Find book informations on google books
  *
  * @copyright	Copyright (c) 2009 Jan Papoušek (jan.papousek@gmail.com),
- * 				Jan Drábek (me@jandrabek.cz)
- * @link		http://code.google.com/p/preader/
+ * 				Jan Drábek (me@jandrabek.cz
  * @license		http://code.google.com/p/preader/
  * @author		Jan Papousek
  * @author		Jan Drabek
- * @version		$id$
  */
+
+namespace Leganto\External;
+
+use InvalidArgumentException,
+    Nette\IOException,
+    Nette\InvalidStateException,
+    Leganto\ORM\IEntity,
+    Leganto\DB\Factory;
+
 class GoogleBooksBookFinder extends AFinder {
 	const XML_URL = "http://books.google.com/books/feeds/volumes?q=<--QUERY-->&lr=<--LANG-->";
 
 	/**
 	 * Set query language
 	 * @param string $lang google code of language
+	 * @throws InvalidArgumentException if language is empty
 	 */
 	public function __construct($language) {
 		if (empty($language)) {
-			throw new NullPointerException("language");
+			throw new InvalidArgumentException("Empty language.");
 		}
 		$this->setUrlParam("LANG", $language);
 	}
@@ -28,7 +36,7 @@ class GoogleBooksBookFinder extends AFinder {
 	/**
 	 * It tries to find the book on google books
 	 *
-	 * @param BookEntity $book The specified book
+	 * @param \Leganto\DB\Book\Entity $book The specified book
 	 * @return array or NULL
 	 */
 	public function get($entity) {
@@ -79,11 +87,11 @@ class GoogleBooksBookFinder extends AFinder {
 		$query = "";
 
 		// Add title (and subtitle) to query
-		$query .= 'intitle:' . $entity->title . ($entity->subtitle != null ? ' ' . $entity->subtitle : '') ;
+		$query .= 'intitle:' . $entity->title . ($entity->subtitle != null ? ' ' . $entity->subtitle : '');
 
 		// Add author to query
-		$authors = Leganto::authors()->fetchAndCreateAll(
-				Leganto::authors()->getSelector()->findAllByBook($entity)
+		$authors = Factory::author()->fetchAndCreateAll(
+			Factory::author()->getSelector()->findAllByBook($entity)
 		);
 		foreach ($authors AS $author) {
 			if ($author->type == AuthorEntity::GROUP) {

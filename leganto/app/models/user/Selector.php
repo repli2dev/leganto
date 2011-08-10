@@ -1,20 +1,22 @@
 <?php
+
 /**
- *
+ * User selector
  * @copyright	Copyright (c) 2009 Jan Papoušek (jan.papousek@gmail.com),
- *				Jan Drábek (me@jandrabek.cz)
+ * 				Jan Drábek (me@jandrabek.cz)
  * @link		http://code.google.com/p/preader/
- * @license		http://code.google.com/p/preader/
  * @author		Jan Papousek
  * @author		Jan Drabek
- * @version		$id$
  */
-namespace Leganto\DB\User;
-use Leganto\ORM\Workers\ISelector,
-	Leganto\DB\Factory,
-	\dibi as dibi;
 
-class Selector implements ISelector {
+namespace Leganto\DB\User;
+
+use Leganto\ORM\Workers\ISelector,
+    Leganto\DB\Factory,
+    Leganto\ORM\Workers\AWorker,
+    InvalidArgumentException;
+
+class Selector extends AWorker implements ISelector {
 	/* PUBLIC METHODS */
 
 	/**
@@ -22,45 +24,48 @@ class Selector implements ISelector {
 	 * @return DibiDataSource
 	 */
 	public function findAll() {
-		return dibi::dataSource("SELECT * FROM [view_user]");
+		return $this->connection->dataSource("SELECT * FROM [view_user]");
 	}
 
 	/**
 	 * Return all users followed by given user
-	 * @param UserEntity $user
+	 * @param Entity $user
 	 * @return DibiDataSource
+	 * @throws InvalidArgumentException if user id is not set
 	 */
 	public function findAllFollowed(Entity $user) {
 		if ($user->getId() == NULL) {
-			throw new \InvalidArgumentException("user:id");
+			throw new InvalidArgumentException("User id is not set.");
 		}
-		return dibi::dataSource("SELECT * FROM [view_followed] WHERE [id_user_following] = %i", $user->getId());
+		return $this->connection->dataSource("SELECT * FROM [view_followed] WHERE [id_user_following] = %i", $user->getId());
 	}
 
 	/**
 	 * Return all users which follow given user
-	 * @param UserEntity $user
+	 * @param Entity $user
 	 * @return DibiDataSource
+	 * @throws InvalidArgumentException if user id is not set
 	 */
 	public function findAllFollowing(Entity $user) {
 		if ($user->getId() == NULL) {
-			throw new \InvalidArgumentException("user:id");
+			throw new InvalidArgumentException("User id is not set.");
 		}
-		return dibi::dataSource("SELECT * FROM [view_following] WHERE [id_user_followed] = %i", $user->getId());
+		return $this->connection->dataSource("SELECT * FROM [view_following] WHERE [id_user_followed] = %i", $user->getId());
 	}
 
 	/**
 	 * Check if user (who) is followed by another user (by)
 	 * @param int $who id of user
-	 * @param UserEntity $by user entity
-	 * @return Boolean
+	 * @param Entity $by user entity
+	 * @return boolean
+	 * @throws InvalidArgumentException if user id is not set
 	 */
 	public function isFollowedBy($who, Entity $by) {
 		if ($by->getId() == NULL) {
-			throw new \InvalidArgumentException("user:id");
+			throw new InvalidArgumentException("User id is not set.");
 		}
-		$rows = dibi::dataSource("SELECT * FROM [view_following] WHERE [id_user_followed] = %i AND [id_user] = %i", $who, $by->getId());
-		if($rows->count() > 0) {
+		$rows = $this->connection->dataSource("SELECT * FROM [view_following] WHERE [id_user_followed] = %i AND [id_user] = %i", $who, $by->getId());
+		if ($rows->count() > 0) {
 			return TRUE;
 		} else {
 			return FALSE;
@@ -69,62 +74,70 @@ class Selector implements ISelector {
 
 	/**
 	 * Find all similar users
-	 * @param UserEntity $user
+	 * @param Entity $user
 	 * @return DibiDataSource
+	 * @throws InvalidArgumentException if user id is not set
 	 */
 	public function findAllSimilar(Entity $user) {
 		if ($user->getId() == NULL) {
-			throw new \InvalidArgumentException("user:id");
+			throw new InvalidArgumentException("User id is not set.");
 		}
-		return dibi::dataSource("SELECT * FROM [view_similar_user] WHERE [id_user_from] = %i", $user->getId());
+		return $this->connection->dataSource("SELECT * FROM [view_similar_user] WHERE [id_user_from] = %i", $user->getId());
 	}
 
 	/**
 	 * Find user by email and return whole user
 	 * @param string $email
-	 * @return UserEntity
+	 * @return Entity
+	 * @throws InvalidArgumentException if email is empty
 	 */
 	public function findByEmail($email) {
 		if (empty($email)) {
-			throw new \InvalidArgumentException("email");
+			throw new InvalidArgumentException("Empty email.");
 		}
-		return Factory::users()
-			->fetchAndCreate(
-				dibi::dataSource("SELECT * FROM [view_user] WHERE [email] = %s", $email)
+		return Factory::user()
+				->fetchAndCreate(
+					$this->connection->dataSource("SELECT * FROM [view_user] WHERE [email] = %s", $email)
 		);
 	}
 
 	/**
 	 * Find user by nickname and return whole user
 	 * @param string $nick
-	 * @return UserEntity
+	 * @return Entity
+	 * @throws InvalidArgumentException if nick is empty
 	 */
 	public function findByNick($nick) {
 		if (empty($nick)) {
-			throw new \InvalidArgumentException("nick");
+			throw new InvalidArgumentException("Empty nick.");
 		}
-		return Factory::users()
-			->fetchAndCreate(
-				dibi::dataSource("SELECT * FROM [view_user] WHERE [nick] = %s", $nick)
+		return Factory::user()
+				->fetchAndCreate(
+					$this->connection->dataSource("SELECT * FROM [view_user] WHERE [nick] = %s", $nick)
 		);
 	}
 
 	/** @return UserEntity */
 	public function find($id) {
-		return Factory::users()
-			->fetchAndCreate(
-				dibi::dataSource("SELECT * FROM [view_user] WHERE [id_user] = %i", $id)
+		return Factory::user()
+				->fetchAndCreate(
+					$this->connection->dataSource("SELECT * FROM [view_user] WHERE [id_user] = %i", $id)
 		);
 	}
 
-	/** @return DibiDataSource */
+	/**
+	 * Search given keywoard 
+	 * @param string $keyword
+	 * @return DibiDataSource
+	 * @throws InvalidArgumentException if keyword is empty
+	 */
 	public function search($keyword) {
 		if (empty($keyword)) {
-			throw new \InvalidArgumentException("keyword");
+			throw new InvalidArgumentException("keyword");
 		}
 		$keyword = "%" . $keyword . "%";
 
-		return dibi::dataSource("SELECT * FROM [view_user] WHERE
+		return $this->connection->dataSource("SELECT * FROM [view_user] WHERE
 				[about] LIKE %s", $keyword, " OR
 				[nick] LIKE %s", $keyword, "
 		");

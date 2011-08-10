@@ -23,18 +23,18 @@ class BookShelfControl extends BaseComponent {
 
 	public function handleRemoveFromShelf($book, $shelf) {
 		$user = System::user();
-		$shelfEntity = Factory::shelves()->getSelector()->find($shelf);
+		$shelfEntity = Factory::shelf()->getSelector()->find($shelf);
 		// Check permission
 		if (!Environment::getUser()->isAllowed(Resource::create($shelfEntity), Action::EDIT)) {
 			$this->unathorized();
 		}
-		$bookEntity = Factory::books()->getSelector()->find($book);
+		$bookEntity = Factory::book()->getSelector()->find($book);
 		if (empty($bookEntity)) {
 			$this->getPresenter()->flashMessage(System::translate("The given book doesn't exist.", "error"));
 			return;
 		}
 		try {
-			Factory::shelves()->getUpdater()->removeBookFromShelf($shelfEntity, $bookEntity);
+			Factory::shelf()->getUpdater()->removeBookFromShelf($shelfEntity, $bookEntity);
 			System::log("REMOVED BOOK '" . $bookEntity->getId() . "' FROM SHELF '" . $shelfEntity->getId() . "'");
 			$this->getPresenter()->flashMessage(System::translate("The book has been removed from the shelf."), "success");
 		} catch (Exception $e) {
@@ -64,12 +64,12 @@ class BookShelfControl extends BaseComponent {
 		} else {
 			try {
 				if (empty($shelf)) {
-					Factory::shelves()->getUpdater()->removeFromShelves(System::user(), $this->book);
+					Factory::shelf()->getUpdater()->removeFromShelves(System::user(), $this->book);
 					System::log("REMOVE BOOK '" . $this->book->getId() . "' FROM SHELVES");
 					$this->getPresenter()->flashMessage(System::translate('Tho book has been removed from the shelf.'), "success");
 				} else {
-					$shelfEntity = Factory::shelves()->getSelector()->find($shelf);
-					Factory::shelves()->getUpdater()->insertToShelf($shelfEntity, $this->book);
+					$shelfEntity = Factory::shelf()->getSelector()->find($shelf);
+					Factory::shelf()->getUpdater()->insertToShelf($shelfEntity, $this->book);
 					System::log("INSERT BOOK '" . $this->book->getId() . "' INTO SHELF '" . $shelfEntity->getId() . "'");
 					$this->getPresenter()->flashMessage(System::translate('The book has been inserted to the shelf.'), "success");
 				}
@@ -89,7 +89,7 @@ class BookShelfControl extends BaseComponent {
 		$form = new BaseForm($this, $name);
 
 		// Get user's shelves
-		$shelves = Factory::shelves()->getSelector()->findByUser($user)->fetchPairs("id_shelf", "name")
+		$shelves = Factory::shelf()->getSelector()->findByUser($user)->fetchPairs("id_shelf", "name")
 			+ array(self::OPTION_CREATE_NEW_SHELF => "--- " . System::translate("Create a new shelf") . " ---");
 		$form->addSelect("shelf", NULL, $shelves)
 			->skipFirst("--- " . System::translate("Select shelf") . " ---");
@@ -112,7 +112,7 @@ class BookShelfControl extends BaseComponent {
 			throw new InvalidStateException("The component [$name] in [" . $this->getName() . "] can not be rendered because no user is authenticated.");
 		}
 		// Get shelves by book
-		$this->getTemplate()->shelves = Factory::shelves()->fetchAndCreateAll(Factory::shelves()->getSelector()->findByUserAndBook($user, $this->book));
+		$this->getTemplate()->shelves = Factory::shelf()->fetchAndCreateAll(Factory::shelves()->getSelector()->findByUserAndBook($user, $this->book));
 		// Get the book
 		$this->getTemplate()->book = $this->book;
 	}

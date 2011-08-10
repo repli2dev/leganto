@@ -1,12 +1,12 @@
-<?php //netteCache[01]000419a:2:{s:4:"time";s:21:"0.01731600 1312883388";s:9:"callbacks";a:2:{i:0;a:3:{i:0;a:2:{i:0;s:19:"Nette\Caching\Cache";i:1;s:9:"checkFile";}i:1;s:97:"/home/Weby/Ostatni/preader/www/leganto/app/FrontModule/components/Introduction/Introduction.latte";i:2;i:1312883386;}i:1;a:3:{i:0;a:2:{i:0;s:19:"Nette\Caching\Cache";i:1;s:10:"checkConst";}i:1;s:25:"Nette\Framework::REVISION";i:2;s:30:"6889b94 released on 2011-08-04";}}}?><?php
+<?php //netteCache[01]000419a:2:{s:4:"time";s:21:"0.59467900 1312991536";s:9:"callbacks";a:2:{i:0;a:3:{i:0;a:2:{i:0;s:19:"Nette\Caching\Cache";i:1;s:9:"checkFile";}i:1;s:97:"/home/Weby/Ostatni/preader/www/leganto/app/FrontModule/components/Introduction/Introduction.latte";i:2;i:1312991471;}i:1;a:3:{i:0;a:2:{i:0;s:19:"Nette\Caching\Cache";i:1;s:10:"checkConst";}i:1;s:25:"Nette\Framework::REVISION";i:2;s:30:"6889b94 released on 2011-08-04";}}}?><?php
 
 // source file: /home/Weby/Ostatni/preader/www/leganto/app/FrontModule/components/Introduction/Introduction.latte
 
-?><?php list($_l, $_g) = Nette\Latte\Macros\CoreMacros::initRuntime($template, 'ukadqhyt64')
+?><?php list($_l, $_g) = Nette\Latte\Macros\CoreMacros::initRuntime($template, 'ja5zy75qie')
 ;//
-// block _introduction
+// block _introductionBlock
 //
-if (!function_exists($_l->blocks['_introduction'][] = '_lb128a0958ce__introduction')) { function _lb128a0958ce__introduction($_l, $_args) { extract($_args); $control->validateControl('introduction')
+if (!function_exists($_l->blocks['_introductionBlock'][] = '_lbcb036eef98__introductionBlock')) { function _lbcb036eef98__introductionBlock($_l, $_args) { extract($_args); $control->validateControl('introductionBlock')
 ?>
 	<div id="introduction">
 <?php if (isset($hint)): ?>
@@ -146,7 +146,7 @@ if ($_l->extends) {
 // main template
 //
 ?>
-<div id="<?php echo $control->getSnippetId('introduction') ?>"><?php call_user_func(reset($_l->blocks['_introduction']), $_l, $template->getParams()) ?>
+<div id="<?php echo $control->getSnippetId('introductionBlock') ?>"><?php call_user_func(reset($_l->blocks['_introductionBlock']), $_l, $template->getParams()) ?>
 </div><?php 
 // template extending support
 if ($_l->extends) {

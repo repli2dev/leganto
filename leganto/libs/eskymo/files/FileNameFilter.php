@@ -1,27 +1,19 @@
 <?php
-/**
- * This source file is subject to the "New BSD License".
- *
- * For more information please see http://code.google.com/p/eskymofw/
- *
- * @copyright	Copyright (c) 2009 Jan Papoušek (jan.papousek@gmail.com),
- *				Jan Drábek (repli2dev@gmail.com)
- * @license		http://www.opensource.org/licenses/bsd-license.php
- * @link		http://code.google.com/p/eskymofw/
- */
 
 /**
  * The file name filter.
- *
- * @author      Jan Papousek
- * @version		$Id$
+ * @copyright	Copyright (c) 2009 Jan Papoušek (jan.papousek@gmail.com),
+ * 				Jan Drábek (repli2dev@gmail.com)
+ * @license		http://www.opensource.org/licenses/bsd-license.php
  * @see         IFileFilter
  */
-namespace Leganto\IO;
-use Nette\Object;
 
-class FileNameFilter extends Object implements IFileFilter
-{
+namespace Leganto\IO;
+
+use Nette\Object,
+    InvalidArgumentException;
+
+class FileNameFilter extends Object implements IFileFilter {
 
 	/**
 	 * The rule describing the file name.
@@ -34,11 +26,11 @@ class FileNameFilter extends Object implements IFileFilter
 	 * It creates a new file name filter.
 	 *
 	 * @param string $rule The regular expression describing the file name.
-	 * @throws \InvalidArgumentException if the $rule is empty.
+	 * @throws InvalidArgumentException if the $rule is empty.
 	 */
-	public function  __construct($rule) {
+	public function __construct($rule) {
 		if (empty($rule)) {
-			throw new \InvalidArgumentException("rule");
+			throw new InvalidArgumentException("rule");
 		}
 		$this->rule = $rule;
 	}
@@ -57,11 +49,11 @@ class FileNameFilter extends Object implements IFileFilter
 	 *
 	 * @param File $file
 	 * @return boolean
-	 * @throws \InvalidArgumentException if the $file is empty.
+	 * @throws InvalidArgumentException if the $file is empty.
 	 */
 	public function accepts(File $file) {
 		if (empty($file)) {
-			throw new \InvalidArgumentException("file");
+			throw new InvalidArgumentException("file");
 		}
 		return (eregi($this->getRule(), $file->getName()));
 	}

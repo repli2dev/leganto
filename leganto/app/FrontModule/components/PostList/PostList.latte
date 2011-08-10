@@ -1,5 +1,5 @@
 <div class="posts list">
-    {if $control->getParent()->getUser()->isLoggedIn() && $enablePosting}
+    {if $presenter->getUser()->isLoggedIn() && $enablePosting}
 	<div id="post-form-wrapper">
 		{widget form}
 	</div>
@@ -29,7 +29,7 @@
 			</div>
 			<div class="info-top">
 				<a href="{plink User:default, $post->user}" title="{$post->userName}">{$post->userName|hardTruncate, 20}</a>
-				{if $control->getParent()->getUser()->isAllowed(Leganto\ACL\Resource::create($post), Leganto\ACL\Action::EDIT)}
+				{if $presenter->getUser()->isAllowed(Leganto\ACL\Resource::create($post), Leganto\ACL\Action::EDIT)}
 					<div class="control">
 						<?php $confirm = Leganto\System::translate("Are you sure you want to delete a discussion post?"); ?>
 						{assign link    => $component->link('delete', $post->getId())}

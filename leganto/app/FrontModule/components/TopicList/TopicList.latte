@@ -1,0 +1,32 @@
+<div class="topics list">
+    {foreach $topics AS $topic}
+		<div class="item">
+			<div class="info-side">
+				<img class="icon" src="{$topic->userId, 50|userico}" />
+			</div>
+			<div class="content">
+				<a href="{plink Discussion:posts, $topic->getId(), Leganto\DB\Post\Selector::TOPIC}" class="topic-name">{$topic->name}</a>
+				<br />
+				<a href="{plink User:default, $topic->userId}" title="{$topic->userName}" class="user-name">{$topic->userName|hardTruncate:20}</a>
+				<br />
+				{_'Created'}: {$topic->inserted|time}
+				<br />
+				{_'Last post inserted'}: {$topic->lastPostInserted|time}
+				<br />
+				{_'Number of posts'}: {$topic->numberOfPosts}
+			</div>
+			<div class="clear"></div>
+		</div>
+		{if $iterator->getCounter() % 2 == 0}<div class="clear"></div>{/if}
+    {/foreach}
+</div>
+<hr class="cleaner" />
+{widget paginator}
+{if $presenter->getUser()->isAllowed(Leganto\ACL\Resource::TOPIC, Leganto\ACL\Action::INSERT)}
+	<div id="topic-insert">
+		<h2>{_'Create a new topic'}</h2>
+		<p>{_'Before mindlessly creating a new topic please calm down. To avoid creating duplicite topic, please use search in discussion with appropriate keyword. Choose name of the new topic apposite!'}</p>
+		<p>{_'For writting a good post please read also a little about'} <a href="{plink Help:text,58}">{_'good manners'}</a>.</p>
+		{widget form}
+	</div>
+{/if}

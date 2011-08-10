@@ -1,9 +1,21 @@
 <?php
+
+/**
+ * YAZ Record
+ * @author Jan Papousek
+ * @author Jan Drabek
+ */
+
+namespace Leganto\External\Yaz;
+
+use Nette\IOException,
+    Leganto\Tools\ExtraArray;
+
 class YazRecord {
 
 	private $data;
 
-	private function  __construct(array $data) {
+	private function __construct(array $data) {
 		$this->data = $data;
 	}
 
@@ -18,27 +30,28 @@ class YazRecord {
 			throw new IOException("Unexpected error has happened.");
 		}
 		$data = array();
-		foreach($xml->datafield AS $datafield) {
+		foreach ($xml->datafield AS $datafield) {
 			$attributes = $datafield->attributes();
-			switch($attributes['tag']) {
+			switch ($attributes['tag']) {
 				// ISBN
 				case '020':
 					preg_match("/(\d|-)+/", self::getSpecificSubfield($datafield, 'a'), $matches);
 					$isbn = ExtraArray::firstValue($matches);
 					if (!empty($isbn)) {
-						$data['isbn'] =	$isbn;
+						$data['isbn'] = $isbn;
 					}
 					break;
 				// Language
 				case '041':
 					$language = self::getSpecificSubfield($datafield, 'a');
 					if (!empty($language)) {
-						$data['language'] =	$language;
+						$data['language'] = $language;
 					}
 					break;
 				// Author
 				case '100':
-					if (!isset($data['authors'])) $data['authors'] = array();
+					if (!isset($data['authors']))
+						$data['authors'] = array();
 					$data['authors'][] = trim(self::getSpecificSubfield($datafield, 'a'), ', ');
 					break;
 				// Title statement
@@ -47,9 +60,9 @@ class YazRecord {
 					break;
 				// Edition
 				case '260':
-					$place		= trim(self::getSpecificSubfield($datafield, 'a'), ': ');
-					$publisher	= trim(self::getSpecificSubfield($datafield, 'b'), ', ');
-					$year		= self::getSpecificSubfield($datafield, 'c');
+					$place = trim(self::getSpecificSubfield($datafield, 'a'), ': ');
+					$publisher = trim(self::getSpecificSubfield($datafield, 'b'), ', ');
+					$year = self::getSpecificSubfield($datafield, 'c');
 					if (!empty($place)) {
 						$data['publishedPlace'] = $place;
 					}
@@ -57,7 +70,7 @@ class YazRecord {
 						$data['publisher'] = $publisher;
 					}
 					if (!empty($year)) {
-						$data['publishedYear']= $year;
+						$data['publishedYear'] = $year;
 					}
 					break;
 				// Numbe of pages
@@ -65,14 +78,13 @@ class YazRecord {
 					preg_match("/\d+/", self::getSpecificSubfield($datafield, 'a'), $matches);
 					$data['pages'] = ExtraArray::firstValue($matches);
 					break;
-
 			}
 		}
 		return new YazRecord($data);
 	}
 
 	private static function getSpecificSubfield($datafield, $code) {
-		foreach($datafield->subfield AS $subfield) {
+		foreach ($datafield->subfield AS $subfield) {
 			$attributes = $subfield->attributes();
 			if ((string) $attributes['code'] == $code) {
 				return (string) $subfield;

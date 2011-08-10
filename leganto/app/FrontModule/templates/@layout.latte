@@ -12,7 +12,7 @@
 		{*RSS feeds*}
 		<link rel="alternate" type="application/rss+xml" title="Leganto: feed of all users" href="{plink Rss:}" />
 		{if $presenter->getUser()->isLoggedIn()}
-			<link rel="alternate" type="application/rss+xml" title="Leganto: your feed" href="{plink Rss:,System::user()->getId()}" />
+			<link rel="alternate" type="application/rss+xml" title="Leganto: your feed" href="{plink Rss:,$presenter->getUser()->getId()}" />
 		{/if}
 		
 		<link rel="stylesheet" type="text/css" href="/css/main.css" />

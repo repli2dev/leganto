@@ -32,7 +32,7 @@ class UserList extends BaseListComponent {
 			$this->getPaginator()->itemsPerPage = $paginator->itemCount;
 		}
 		$source->applyLimit($paginator->itemsPerPage, $paginator->offset);
-		$this->getTemplate()->users = Factory::users()->fetchAndCreateAll($source);
+		$this->getTemplate()->users = Factory::user()->fetchAndCreateAll($source);
 	}
 
 }

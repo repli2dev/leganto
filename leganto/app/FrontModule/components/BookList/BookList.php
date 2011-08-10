@@ -44,7 +44,7 @@ class BookList extends BaseListComponent {
 		$storage = new EditionImageStorage();
 		foreach ($books as $book) {
 			// Book
-			$entity = Factory::books()->createEmpty()->loadDataFromArray($book->toArray(), "Load");
+			$entity = Factory::book()->createEmpty()->loadDataFromArray($book->toArray(), "Load");
 			$this->getTemplate()->books[] = $entity;
 			// Cover
 			$image = $storage->getRandomFileByBook($entity);
@@ -58,13 +58,13 @@ class BookList extends BaseListComponent {
 		if (empty($nodes)) {
 			$authors = array();
 		} else {
-			$authors = Factory::authors()->getSelector()->findAllByBooks(array_keys($nodes))
+			$authors = Factory::author()->getSelector()->findAllByBooks(array_keys($nodes))
 					->fetchAssoc("id_book,id_author");
 		}
 		foreach ($authors as $bookId => $authorGroup) {
 			$this->getTemplate()->authors[$bookId] = array();
 			foreach ($authorGroup AS $author) {
-				$entity = Factory::authors()->createEmpty()->loadDataFromArray($author->toArray(), "Load");
+				$entity = Factory::author()->createEmpty()->loadDataFromArray($author->toArray(), "Load");
 				$this->getTemplate()->authors[$bookId][] = $entity;
 			}
 		}

@@ -1,0 +1,9 @@
+@{extends layout.phtml}
+
+@{block #subcontent}
+    <div id="user-info">
+        <h1>{$user->nickname}</h1>
+    </div>
+    <p>{_'Shelves of this user of hers/his virtual library are shown below this text, click on them to expand/hide them. The color differs types of shelves.'}</p>
+    @{widget shelves}
+{/block}

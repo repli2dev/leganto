@@ -1,18 +1,21 @@
 <?php
+
 /**
- *
+ * Role of user
  * @copyright	Copyright (c) 2009 Jan Papoušek (jan.papousek@gmail.com),
- *				Jan Drábek (me@jandrabek.cz)
+ * 				Jan Drábek (me@jandrabek.cz)
  * @link		http://code.google.com/p/preader/
- * @license		http://code.google.com/p/preader/
  * @author		Jan Papousek
  * @author		Jan Drabek
- * @version		$id$
  */
+
 namespace Leganto\ACL;
-use	\Nette\Security\IRole,
-	\Nette\Environment,
-	\Leganto\DB\User\Entity;
+
+use Nette\Security\IRole,
+    Nette\Environment,
+    Leganto\DB\User\Entity,
+    Leganto\Tools\ExtraArray,
+    Leganto\System;
 
 class Role implements IRole {
 	const COMMON = "common";
@@ -49,7 +52,7 @@ class Role implements IRole {
 	}
 
 	/** @return string */
-	public static function getRoleDescriptor(UserEntity $user) {
+	public static function getRoleDescriptor(Entity $user) {
 		if ($user->role == Entity::ADMIN) {
 			$role = self::ADMIN;
 		} else

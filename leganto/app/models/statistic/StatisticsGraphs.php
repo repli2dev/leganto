@@ -1,28 +1,43 @@
 <?php
+
 /**
  * Tool for generating nice graphs (using google charts)
  *
  * @copyright	Copyright (c) 2009 Jan Papoušek (jan.papousek@gmail.com),
  * 				Jan Drábek (me@jandrabek.cz)
  * @link		http://code.google.com/p/preader/
- * @license		http://code.google.com/p/preader/
  * @author		Jan Papousek
  * @author		Jan Drabek
- * @version		$id$
  */
+
 namespace Leganto\DB\Statistic;
+
 use dibi,
- Leganto\Templating\GoogleChart,
-	Leganto\System;
+    Leganto\Templating\GoogleChart,
+    Leganto\System,
+    DibiConnection;
+
 class StatisticsGraphs {
+
+	/** @var DibiConnection */
+	private static $connection;
+
+	/**
+	 * Inject DIBI database connection
+	 * 
+	 * @param DibiConnection $connection Inject DIBI database connection
+	 */
+	public static function setConnection(DibiConnection $connection) {
+		self::$connection = $connection;
+	}
 
 	/** @return GoogleChart */
 	public static function getNumberOfOpinionsByRating() {
 		// Load data
-		$res = dibi::query("SELECT COUNT(*) AS number, rating FROM opinion GROUP BY rating");
+		$res = self::$connection->query("SELECT COUNT(*) AS number, rating FROM opinion GROUP BY rating");
 		$statistics = array();
 		while ($stat = $res->fetch()) {
-			if($stat->rating == '') {
+			if ($stat->rating == '') {
 				$statistics[0] = $stat->number;
 			} else {
 				$statistics[$stat->rating] = $stat->number;
@@ -35,7 +50,7 @@ class StatisticsGraphs {
 		$chart->setLegend(array_keys($statistics));
 		$chart->setLabels(GoogleChart::AXES_BOTTOM, $statistics);
 		// Tango pallete
-		$chart->setColors(array("8ae234","3465a4","fce94f","ad7fa8","f57900","a40000"));
+		$chart->setColors(array("8ae234", "3465a4", "fce94f", "ad7fa8", "f57900", "a40000"));
 		$chart->addDataSet($statistics);
 		return $chart;
 	}
@@ -46,7 +61,7 @@ class StatisticsGraphs {
 	}
 
 	public static function getRatingsByBook(\Leganto\DB\Book\Entity $book) {
-		$res = dibi::query("SELECT COUNT([id_opinion]) AS [number], [rating] FROM [opinion] WHERE [id_book_title] = %i", $book->getId(), " GROUP BY [rating] ORDER BY [rating] DESC");
+		$res = self::$connection->query("SELECT COUNT([id_opinion]) AS [number], [rating] FROM [opinion] WHERE [id_book_title] = %i", $book->getId(), " GROUP BY [rating] ORDER BY [rating] DESC");
 		$data = array();
 		while ($stat = $res->fetch()) {
 			$data[$stat->rating] = $stat->number;
@@ -74,7 +89,7 @@ class StatisticsGraphs {
 		$chart->setSize(120, 240);
 		//$chart->setLegend(array_keys($statistics));
 		// Tango pallete
-		$chart->setColors(array("8ae234","3465a4","fce94f","ad7fa8","f57900","a40000"));
+		$chart->setColors(array("8ae234", "3465a4", "fce94f", "ad7fa8", "f57900", "a40000"));
 		$chart->setLabels(GoogleChart::AXES_BOTTOM, array_keys($statistics));
 		$chart->addDataSet($statistics);
 		//$chart->setName(System::translate("Ratings"));
@@ -82,14 +97,13 @@ class StatisticsGraphs {
 	}
 
 	public static function getSexByBook(\Leganto\DB\Book\Entity $book) {
-		$res = dibi::query("
+		$res = self::$connection->query("
 	    SELECT
 		COUNT([id_user])	    AS [number],
 		IFNULL([sex], 'unspecified')    AS [sex]
 	    FROM [opinion]
 	    INNER JOIN [user] USING([id_user])
-	    WHERE [id_book_title] = %i", $book->getId(),
-				"GROUP BY [sex]"
+	    WHERE [id_book_title] = %i", $book->getId(), "GROUP BY [sex]"
 		);
 		$data = array();
 		while ($stat = $res->fetch()) {
@@ -115,7 +129,7 @@ class StatisticsGraphs {
 		$chart->setSize(120, 240);
 		$chart->setLegend(array_keys($statistics));
 		// Tango pallete
-		$chart->setColors(array("729fcf","cc0000","d3d7cf"));
+		$chart->setColors(array("729fcf", "cc0000", "d3d7cf"));
 		//$chart->setLabels(GoogleChart::AXES_BOTTOM, $statistics);
 		$chart->addDataSet($statistics);
 		return $chart;
@@ -131,7 +145,7 @@ class StatisticsGraphs {
 			$sqls[] = "(SELECT '$i' AS [id], COUNT(*) AS [number] FROM [$tablename] WHERE [inserted] <= DATE_SUB($moveddate, INTERVAL " . ($i - 1) . " MONTH) AND [inserted] >= DATE_SUB($moveddate, INTERVAL $i MONTH))";
 		}
 		$sql = implode(" UNION ALL ", $sqls);
-		$data = dibi::query($sql)->fetchPairs("id", "number");
+		$data = self::$connection->query($sql)->fetchPairs("id", "number");
 		// Get list of months
 		$months = array();
 		for ($i = 0; $i < 12; $i++) {

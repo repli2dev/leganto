@@ -23,6 +23,7 @@ class BookStatistics extends BaseComponent {
 	}
 
 	protected function beforeRender() {
+		StatisticsGraphs::setConnection($this->getContext()->getService("database"));
 		$this->getTemplate()->graphs = array();
 		$this->getTemplate()->graphs[] = array(
 		    "label" => System::translate("Rating of readers"),

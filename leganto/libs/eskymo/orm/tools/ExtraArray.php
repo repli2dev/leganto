@@ -1,19 +1,38 @@
 <?php
+
 /**
  * This class provides some extra functions to manipulate with array.
  *
  * @author Jan Papousek
+ * @author Jan Drabek
  */
+
 namespace Leganto\Tools;
 
-class ExtraArray {
+use Leganto\ORM\Exceptions\DataNotFoundException,
+    InvalidArgumentException;
 
+class ExtraArray {
+	
+	final private function __construct() {
+		// Only static class
+	}
+
+	/**
+	 * Return array's element with given key.
+	 * 
+	 * @param array $array The array where the value is located
+	 * @param mixed $key The key
+	 * @throws InvalidArgumentException when key is empty
+	 * @return mixed
+	 */
 	public static function get(array $array, $key) {
 		if (empty($key)) {
-			throw new NullPointerException("key");
+			throw new InvalidArgumentException("Empty key.");
 		}
 		return isset($array[$key]) ? $array[$key] : NULL;
 	}
+
 	/**
 	 * It returns the first key name, or NULL if the array is empty.
 	 *
@@ -84,8 +103,7 @@ class ExtraArray {
 	public function lastValue(array $array) {
 		if (empty($array)) {
 			return NULL;
-		}
-		else {
+		} else {
 			return end($array);
 		}
 	}

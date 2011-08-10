@@ -1,13 +1,23 @@
 <?php
-class YazConnection
-{
+
+/**
+ * YAZ Connection
+ * @author Jan Papousek
+ * @author Jan Drabek
+ */
+
+namespace Leganto\External\Yaz;
+
+use InvalidArgumentException,
+    Leganto\External\Yaz\YazDriver,
+    Leganto\External\Yaz\YazException,
+    Leganto\External\Yaz\YazResult;
+
+class YazConnection {
 
 	private $driver;
-
 	private $host;
-
 	private $id;
-
 	private $options;
 
 	const OPT_CHARSET = 'charset';
@@ -17,14 +27,13 @@ class YazConnection
 	public function __construct($host, YazDriver $driver, $options = array()) {
 		if (empty($options)) {
 			$this->id = yaz_connect($host);
-		}
-		else {
+		} else {
 			$this->id = yaz_connect($host, $options);
 		}
 		$this->checkError();
-		$this->host		= $host;
-		$this->driver	= $driver;
-		$this->options	= $options;
+		$this->host = $host;
+		$this->driver = $driver;
+		$this->options = $options;
 	}
 
 	public function checkError() {

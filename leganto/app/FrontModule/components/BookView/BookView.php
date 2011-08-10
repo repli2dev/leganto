@@ -36,15 +36,15 @@ class BookView extends BaseComponent {
 		}
 		$this->getTemplate()->book = $this->book;
 		// Authors
-		$this->getTemplate()->authors = Factory::authors()->fetchAndCreateAll(
-				Factory::authors()->getSelector()->findAllByBook($this->book)
+		$this->getTemplate()->authors = Factory::author()->fetchAndCreateAll(
+				Factory::author()->getSelector()->findAllByBook($this->book)
 		);
 		// Cover
 		$storage = new EditionImageStorage();
 		$this->getTemplate()->cover = $storage->getRandomFileByBook($this->book);
 		// Edition?
 		if (!empty($this->edition)) {
-			$edition = Factory::editions()->getSelector()->find($this->edition);
+			$edition = Factory::edition()->getSelector()->find($this->edition);
 			$this->getTemplate()->edition = $edition;
 		}
 	}

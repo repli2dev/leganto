@@ -33,7 +33,7 @@ class BookPresenter extends BasePresenter {
 
 	public function renderDefault($book, $edition = NULL) {
 		// Opinions
-		$opinions = Factory::opinions()->getSelector()
+		$opinions = Factory::opinion()->getSelector()
 			->findAllByBook($this->getBook())
 			->where("[content] != ''")
 			->applyLimit(5);
@@ -44,11 +44,11 @@ class BookPresenter extends BasePresenter {
 		$this->getTemplate()->bookId = $this->getBook()->getId();
 		// Editions
 		$this->getComponent("editionList")->setSource(
-			Factory::editions()->getSelector()->findAllByBook($this->getBook())
+			Factory::edition()->getSelector()->findAllByBook($this->getBook())
 		);
 		// Related books
 		$this->getComponent("relatedBookList")->setSource(
-			Factory::books()->getSelector()->findAllRelated($this->getBook())
+			Factory::book()->getSelector()->findAllRelated($this->getBook())
 		);
 		// Edition?
 		$this->getComponent("bookView")->setEditionId($edition);
@@ -91,7 +91,7 @@ class BookPresenter extends BasePresenter {
 	}
 
 	public function actionRandom() {
-		$this->redirect("default",Factory::books()->getSelector()->findRandom()->id_book_title);
+		$this->redirect("default",Factory::book()->getSelector()->findRandom()->id_book_title);
 	}
 
 	public function renderEdit($book) {
@@ -126,7 +126,7 @@ class BookPresenter extends BasePresenter {
 
 	public function renderOpinions($book) {
 		$this->getTemplate()->book = $this->getBook();
-		$opinions = Factory::opinions()->getSelector()
+		$opinions = Factory::opinion()->getSelector()
 				->findAllByBook($this->getTemplate()->book, System::user())
 				->where("[content] IS NOT NULL AND LENGTH(TRIM([content])) > 0");
 		$this->getComponent("opinionList")->setSource($opinions);
@@ -140,7 +140,7 @@ class BookPresenter extends BasePresenter {
 		$this->getTemplate()->book = $this->getBook();
 		$this->getComponent("similarBooks")->setLimit(0);
 		$this->getComponent("similarBooks")->setSource(
-			Factory::books()->getSelector()->findAllSimilar($this->getTemplate()->book)->applyLimit(12)
+			Factory::book()->getSelector()->findAllSimilar($this->getTemplate()->book)->applyLimit(12)
 		);
 		$this->setPageTitle(System::translate("Similar books") . ": " . $this->getTemplate()->book->title);
 		$this->setPageDescription(System::translate("Similar books to a certain book, generated according to book tags. Choose what to read according to what you have read!"));
@@ -212,7 +212,7 @@ class BookPresenter extends BasePresenter {
 		$submenu->addLink("Search:allBooks", System::translate("All books"));
 		$submenu->addLink("random", System::translate("Random book"),NULL,System::translate("Bored? Click to get random book."));
 		if (System::user() != NULL) {
-			$opinion = Factory::opinions()->getSelector()->findByBookAndUser($this->getBook(), System::user());
+			$opinion = Factory::opinion()->getSelector()->findByBookAndUser($this->getBook(), System::user());
 		}
 		if (empty($opinion) && Environment::getUser()->isAllowed(Resource::OPINION, Action::INSERT)) {
 			$submenu->addEvent("addOpinion", System::translate("Add opinion"), $this->getBook()->getId());
@@ -239,7 +239,7 @@ class BookPresenter extends BasePresenter {
 	protected function createComponentTagList($name) {
 		$tags = new TagList($this, $name);
 		$tags->setBook($this->getBook());
-		$tags->setSource(Factory::tags()->getSelector()->findAllByBook($this->getBook()));
+		$tags->setSource(Factory::tag()->getSelector()->findAllByBook($this->getBook()));
 		return $tags;
 	}
 
@@ -249,7 +249,7 @@ class BookPresenter extends BasePresenter {
 			echo json_encode($cache[md5($term)]);
 		} else {
 			$results = array();
-			$items = Factory::books()->getSelector()->suggest($term)->select("title")->applyLimit(10)->fetchAssoc("title");
+			$items = Factory::book()->getSelector()->suggest($term)->select("title")->applyLimit(10)->fetchAssoc("title");
 			foreach ($items as $item) {
 				$results[] = $item->title;
 			}
@@ -266,7 +266,7 @@ class BookPresenter extends BasePresenter {
 		if (isSet($cache[md5($term)])) {
 			echo json_encode($cache[md5($term)]);
 		} else {
-			$items = Factory::tags()->getSelector()->suggest($term)->select("name")->applyLimit(10)->fetchAssoc("name");
+			$items = Factory::tag()->getSelector()->suggest($term)->select("name")->applyLimit(10)->fetchAssoc("name");
 			foreach ($items as $item) {
 				$results[] = $item->name;
 			}
@@ -283,7 +283,7 @@ class BookPresenter extends BasePresenter {
 	/** @return BookEntity */
 	private function getBook() {
 		if (empty($this->book)) {
-			$this->book = $this->getTemplate()->book = Factory::books()->getSelector()->find($this->getParam("book"));
+			$this->book = $this->getTemplate()->book = Factory::book()->getSelector()->find($this->getParam("book"));
 		}
 		return $this->book;
 	}

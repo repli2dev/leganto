@@ -1,34 +1,33 @@
 <?php
 
 /**
- *
+ * Help selector
  * @copyright	Copyright (c) 2009 Jan Papoušek (jan.papousek@gmail.com),
  * 				Jan Drábek (me@jandrabek.cz)
  * @link		http://code.google.com/p/preader/
- * @license		http://code.google.com/p/preader/
  * @author		Jan Papousek
  * @author		Jan Drabek
- * @version		$id$
  */
-namespace Leganto\DB\Help;
-use Leganto\ORM\Workers\ISelector,
-	Leganto\DB\Factory,
-	\dibi as dibi;
 
-class Selector implements ISelector {
-	/* PUBLIC METHODS */
+namespace Leganto\DB\Help;
+
+use Leganto\ORM\Workers\ISelector,
+    Leganto\DB\Factory,
+    Leganto\ORM\Workers\AWorker;
+
+class Selector extends AWorker implements ISelector {
 
 	/**
 	 * Find all help (have you known...)
 	 * @return DibiDataSource
 	 */
 	public function findAll() {
-		return dibi::dataSource("SELECT * FROM [help]");
+		return $this->connection->dataSource("SELECT * FROM [help]");
 	}
 
-	/** @return HelpEntity */
+	/** @return Entity */
 	public function findRandom(\Leganto\DB\Language\Entity $language, $category = NULL) {
-		$source = dibi::dataSource("SELECT * FROM [help] WHERE [id_language] = %i ", $language->getId(), "ORDER BY %sql ", "RAND()");
+		$source = $this->connection->dataSource("SELECT * FROM [help] WHERE [id_language] = %i ", $language->getId(), "ORDER BY %sql ", "RAND()");
 		if (!empty($category)) {
 			$source->where("[category] = %s", $category);
 		}
@@ -36,11 +35,11 @@ class Selector implements ISelector {
 		return Factory::help()->fetchAndCreate($source);
 	}
 
-	/** @return HelpEntity */
+	/** @return Entity */
 	public function find($id) {
 		return Factory::help()
-			->fetchAndCreate(
-				dibi::dataSource("SELECT * FROM [help] WHERE [id_help] = %i", $id)
+				->fetchAndCreate(
+					$this->connection->dataSource("SELECT * FROM [help] WHERE [id_help] = %i", $id)
 		);
 	}
 

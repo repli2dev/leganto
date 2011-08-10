@@ -30,7 +30,7 @@ class SettingsPresenter extends BasePresenter {
 			$this->setPageTitle(System::translate("Social networks"));
 			$this->setPageDescription(System::translate("You can manage your social networks connected to this page here."));
 			$this->setPageKeywords(System::translate("social networks, facebook, twitter, manage, edit, update, remove, add, connect"));
-			$data = Factory::connections()->getSelector()->findAllFromUser(System::user()->id);
+			$data = Factory::connection()->getSelector()->findAllFromUser(System::user()->id);
 
 			$used = array();
 			foreach ($data as $row) {
@@ -69,7 +69,7 @@ class SettingsPresenter extends BasePresenter {
 		if (System::user() != NULL && Environment::getUser()->isAllowed(Resource::create(System::user()), Action::EDIT)) {
 			// Check if user have one account already
 			$user = System::user()->id;
-			$haveOne = Factory::connections()->getSelector()->exists($user, 'twitter');
+			$haveOne = Factory::connection()->getSelector()->exists($user, 'twitter');
 			if (!$haveOne) {
 				$twitter = new TwitterBridge;
 				if($twitter->isEnabled()) {
@@ -77,10 +77,10 @@ class SettingsPresenter extends BasePresenter {
 					$token = $twitter->getToken();
 					if (!empty($token)) {
 						// Check if this type and token is NOT in DB. (This statement is only for printing error, because insert do not throw exception.
-						$tokenExists = Factory::connections()->getSelector()->tokenExists('twitter',$token);
+						$tokenExists = Factory::connection()->getSelector()->tokenExists('twitter',$token);
 						if(!$tokenExists) {
 							// Prepare user connection entity
-							$connection = Factory::connections()->createEmpty();
+							$connection = Factory::connection()->createEmpty();
 							$connection->user = $user;
 							$connection->type = 'twitter';
 							$connection->token = $twitter->getToken();
@@ -88,7 +88,7 @@ class SettingsPresenter extends BasePresenter {
 
 							try {
 								// Commit
-								Factory::connections()->getInserter()->insert($connection);
+								Factory::connection()->getInserter()->insert($connection);
 								System::log("INSERT CONNECTION TO TWITTER '" . $connection->getId() . "'");
 							} catch (Exception $e) {
 								$this->unexpectedError($e);
@@ -119,23 +119,23 @@ class SettingsPresenter extends BasePresenter {
 		if (System::user() != NULL && Environment::getUser()->isAllowed(Resource::create(System::user()), Action::EDIT)) {
 			// Check if user have one account already
 			$user = System::user()->id;
-			$haveOne = Factory::connections()->getSelector()->exists($user, 'facebook');
+			$haveOne = Factory::connection()->getSelector()->exists($user, 'facebook');
 			if (!$haveOne) {
 				$fb = new FacebookBridge;
 				if($fb->isEnabled()) {
 					$fb->doLogin();
 					// Check if this type and token is NOT in DB. (This statement is only for printing error, because insert do not throw exception.
-					$tokenExists = Factory::connections()->getSelector()->tokenExists('facebook',$fb->getToken());
+					$tokenExists = Factory::connection()->getSelector()->tokenExists('facebook',$fb->getToken());
 					if(!$tokenExists) {
 						// Prepare user connection entity
-						$connection = Factory::connections()->createEmpty();
+						$connection = Factory::connection()->createEmpty();
 						$connection->user = $user;
 						$connection->type = 'facebook';
 						$connection->token = $fb->getToken();
 						$connection->inserted = new DateTime();
 						try {
 							// Commit
-							Factory::connections()->getInserter()->insert($connection);
+							Factory::connection()->getInserter()->insert($connection);
 							System::log("INSERT CONNECTION TO FACEBOOK '" . $connection->getId() . "'");
 						} catch (Exception $e) {
 							$this->unexpectedError($e);
@@ -265,7 +265,7 @@ class SettingsPresenter extends BasePresenter {
 			}
 			try {
 				if ($user->getState() == IEntity::STATE_MODIFIED) {
-					Factory::users()->getUpdater()->update($user);
+					Factory::user()->getUpdater()->update($user);
 					System::log("CHANGE OF SETTINGS");
 					$this->flashMessage(System::translate("Your settings was saved."), "success");
 				} else {
@@ -294,7 +294,7 @@ class SettingsPresenter extends BasePresenter {
 		if (System::user() != NULL && Environment::getUser()->isAllowed(Resource::create(System::user()), Action::EDIT)) {
 			if ($form["yes"]->isSubmittedBy()) {
 				$id = $this->getParam("id");
-				$data = Factory::connections()->getSelector()->find($id);
+				$data = Factory::connection()->getSelector()->find($id);
 				$user = System::user();
 				$password = $user->password;
 				$email = $user->email;
@@ -303,7 +303,7 @@ class SettingsPresenter extends BasePresenter {
 					$form->addError("Your connection cannot be deleted as you have created an account through a social network. In order to do so please set your account password and e-mail in the Settings tab first.");
 				} else
 				if ($data->user == $user->id) {
-					Factory::connections()->getDeleter()->delete($id);
+					Factory::connection()->getDeleter()->delete($id);
 					$this->flashMessage(System::translate("The connection has been successfully deleted."), 'success');
 					$this->redirect("connections");
 				} else {

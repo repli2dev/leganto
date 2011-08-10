@@ -1,0 +1,13 @@
+<div class="item item-compact">
+	<div class="info-side">
+		<span class="date">{$item->inserted|date}</span>
+	</div>
+	<div class="info-top">
+		<strong class="title">
+			{* Second parameter of link to discussion must be 1 (hardcoded) *}
+			{_"User"} <a href="{plink User:default,$item->userId}">{$item->userNick}</a> {_"have just created a new discussion"} <a href="{plink Discussion:posts,$content[0],1}">{$content[1]}</a>.
+		</strong>
+	</div>
+	<div class="clear"></div>
+</div>
+<div class="clear"></div>

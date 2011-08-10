@@ -1,18 +1,19 @@
 <?php
+
 /**
  * Caller for google chart api
  *
  * @copyright	Copyright (c) 2009 Jan Papoušek (jan.papousek@gmail.com),
  * 				Jan Drábek (me@jandrabek.cz)
  * @link		http://code.google.com/p/preader/
- * @license		http://code.google.com/p/preader/
  * @author		Jan Papousek
  * @author		Jan Drabek
- * @version		$id$
  */
+
 namespace Leganto\Templating;
+
 use Nette\InvalidStateException,
-	Nette\Utils\Strings;
+    Nette\Utils\Strings;
 
 class GoogleChart {
 	const AXES_BOTTOM = 'x';
@@ -40,14 +41,28 @@ class GoogleChart {
 	private $type;
 	private $width;
 
+	/**
+	 * Create instance of GoogleChart
+	 * @param string $type Type of Chart (@see self::TYPE*)
+	 * @param mixed $data Data to visualize
+	 */
 	public function __construct($type, $data = array()) {
 		$this->type = $type;
 	}
 
+	/**
+	 * Add data set into chart
+	 * @param array $data DataSet
+	 */
 	public function addDataSet(array $data) {
 		$this->data[] = $data;
 	}
 
+	/**
+	 * Return prepared URL for Google Chart (Google API)
+	 * @return string URL of chart
+	 * @throws InvalidStateException if there are no data, no selected type or no specified size
+	 */
 	public function getLink() {
 		$link = "http://chart.apis.google.com/chart?";
 		if (empty($this->data)) {
@@ -111,26 +126,52 @@ class GoogleChart {
 		return $link;
 	}
 
+	/**
+	 * Set axes
+	 * @param array $axes 
+	 */
 	public function setAxes(array $axes) {
 		$this->axes = $axes;
 	}
 
+	/**
+	 * Set labels of axes
+	 * @param string $axes
+	 * @param array $labels
+	 */
 	public function setLabels($axes, array $labels) {
 		$this->labels[$axes] = $labels;
 	}
 
+	/**
+	 * Set colors
+	 * @param array $colors List of colors
+	 */
 	public function setColors(array $colors) {
 		$this->colors = $colors;
 	}
 
+	/**
+	 * Set legend of chart
+	 * @param array $legend
+	 */
 	public function setLegend(array $legend) {
 		$this->legend = $legend;
 	}
 
+	/**
+	 * Set name
+	 * @param string $name 
+	 */
 	public function setName($name) {
 		$this->name = $name;
 	}
 
+	/**
+	 * Set size (dimension)
+	 * @param int $height
+	 * @param int $width 
+	 */
 	public function setSize($height, $width) {
 		$this->height = $height;
 		$this->width = $width;
@@ -143,7 +184,7 @@ class GoogleChart {
 			$step = $this->maxvalue / 5;
 			// Check if step would be float (does not make sense)
 			if (is_float($step)) {
-				$this->setLabels(self::AXES_LEFT,array(0,$this->maxvalue));
+				$this->setLabels(self::AXES_LEFT, array(0, $this->maxvalue));
 			} else {
 				$this->setLabels(self::AXES_LEFT, array(0 * $step, 1 * $step, 2 * $step, 3 * $step, 4 * $step, 5 * $step));
 			}

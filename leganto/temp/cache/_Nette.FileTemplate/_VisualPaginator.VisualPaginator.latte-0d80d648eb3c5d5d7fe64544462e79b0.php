@@ -1,8 +1,8 @@
-<?php //netteCache[01]000426a:2:{s:4:"time";s:21:"0.84051700 1312888747";s:9:"callbacks";a:2:{i:0;a:3:{i:0;a:2:{i:0;s:19:"Nette\Caching\Cache";i:1;s:9:"checkFile";}i:1;s:103:"/home/Weby/Ostatni/preader/www/leganto/app/FrontModule/components/VisualPaginator/VisualPaginator.latte";i:2;i:1312887705;}i:1;a:3:{i:0;a:2:{i:0;s:19:"Nette\Caching\Cache";i:1;s:10:"checkConst";}i:1;s:25:"Nette\Framework::REVISION";i:2;s:30:"6889b94 released on 2011-08-04";}}}?><?php
+<?php //netteCache[01]000426a:2:{s:4:"time";s:21:"0.85109600 1312986685";s:9:"callbacks";a:2:{i:0;a:3:{i:0;a:2:{i:0;s:19:"Nette\Caching\Cache";i:1;s:9:"checkFile";}i:1;s:103:"/home/Weby/Ostatni/preader/www/leganto/app/FrontModule/components/VisualPaginator/VisualPaginator.latte";i:2;i:1312986653;}i:1;a:3:{i:0;a:2:{i:0;s:19:"Nette\Caching\Cache";i:1;s:10:"checkConst";}i:1;s:25:"Nette\Framework::REVISION";i:2;s:30:"6889b94 released on 2011-08-04";}}}?><?php
 
 // source file: /home/Weby/Ostatni/preader/www/leganto/app/FrontModule/components/VisualPaginator/VisualPaginator.latte
 
-?><?php list($_l, $_g) = Nette\Latte\Macros\CoreMacros::initRuntime($template, 'yv0l3oj2wa')
+?><?php list($_l, $_g) = Nette\Latte\Macros\CoreMacros::initRuntime($template, 'x691fr6qmg')
 ;
 // snippets support
 if (!empty($control->snippetMode)) {

@@ -33,7 +33,7 @@ class AuthorList extends BaseListComponent {
 			$this->getPaginator()->itemsPerPage = $paginator->itemCount;
 		}
 		$source->applyLimit($paginator->itemsPerPage, $paginator->offset);
-		$this->getTemplate()->authors = Factory::authors()->fetchAndCreateAll($source);
+		$this->getTemplate()->authors = Factory::author()->fetchAndCreateAll($source);
 	}
 
 }

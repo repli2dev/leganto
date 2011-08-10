@@ -1,27 +1,19 @@
 <?php
-/**
- * This source file is subject to the "New BSD License".
- *
- * For more information please see http://code.google.com/p/eskymofw/
- *
- * @copyright	Copyright (c) 2009 Jan Papoušek (jan.papousek@gmail.com),
- *				Jan Drábek (repli2dev@gmail.com)
- * @license		http://www.opensource.org/licenses/bsd-license.php
- * @link		http://code.google.com/p/eskymofw/
- */
 
 /**
  * The file type filter.
  *
- * @author      Jan Papousek
- * @version		$Id$
+ * @copyright	Copyright (c) 2009 Jan Papoušek (jan.papousek@gmail.com),
+ * 				Jan Drábek (repli2dev@gmail.com)
+ * @license		http://www.opensource.org/licenses/bsd-license.php
  * @see         FileType
  */
+
 namespace Leganto\IO;
+
 use Nette\Object;
 
-class FileTypeFilter extends Object
-{
+class FileTypeFilter extends Object {
 
 	/**
 	 * The filter types.
@@ -35,7 +27,7 @@ class FileTypeFilter extends Object
 	 *
 	 * @param array|int $types The supported types.
 	 */
-	public function  __construct(array $types) {
+	public function __construct(array $types) {
 		$this->types = $types;
 	}
 
@@ -47,11 +39,11 @@ class FileTypeFilter extends Object
 	 */
 	public static function crateWebImagesFilter() {
 		return new FileTypeFilter(array(
-			FileType::BMP,
-			FileType::GIF,
-			FileType::JPEG,
-			FileType::PNG
-		));
+			    FileType::BMP,
+			    FileType::GIF,
+			    FileType::JPEG,
+			    FileType::PNG
+			));
 	}
 
 	/**
@@ -59,7 +51,7 @@ class FileTypeFilter extends Object
 	 *
 	 * @param File $file
 	 * @return boolean
-	 * @throws NullPointerException if the $file is empty.
+	 * @throws InvalidArgumentException if the $file is empty.
 	 */
 	public function accepts(File $file) {
 		$type = $file->getType();

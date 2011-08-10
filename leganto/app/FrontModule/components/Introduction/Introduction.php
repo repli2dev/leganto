@@ -1,19 +1,20 @@
 <?php
 /**
- *
+ * Welcome & Login & Register component
  * @copyright	Copyright (c) 2009 Jan Papoušek (jan.papousek@gmail.com),
  * 				Jan Drábek (me@jandrabek.cz)
  * @link		http://code.google.com/p/preader/
- * @license		http://code.google.com/p/preader/
  * @author		Jan Papousek
  * @author		Jan Drabek
- * @version		$id$
  */
 namespace FrontModule\Components;
-use	\Leganto\System,
+use	Leganto\System,
 	Nette\ComponentModel\IContainer,
-	\Nette\Environment,
-	\Leganto\DB\Factory;
+	Nette\Environment,
+	Leganto\DB\Factory,
+	InvalidArgumentException,
+	FrontModule\Forms\BaseForm,
+	Nette\Forms\Form;
 
 class Introduction extends BaseComponent {
 
@@ -136,7 +137,7 @@ class Introduction extends BaseComponent {
 			default:
 				throw new InvalidArgumentException("The state can be only default, login, facebook, twitter, signup, forgotten or renew");
 		}
-		$this->invalidateControl("introduction-block");
+		$this->invalidateControl("introductionBlock");
 	}
 
 	/**
@@ -484,7 +485,7 @@ class Introduction extends BaseComponent {
 	public function loginFormSubmitted(Form $form) {
 		$values = $form->getValues();
 		try {
-			Environment::getUser()->authenticate($values['nickname'], $values['password']);
+			Environment::getUser()->login($values['nickname'], $values['password']);
 			System::log("LOGIN");
 		} catch (AuthenticationException $e) {
 			switch ($e->getCode()) {

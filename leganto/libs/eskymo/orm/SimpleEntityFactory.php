@@ -1,21 +1,22 @@
 <?php
-/**
- * This source file is subject to the "New BSD License".
- *
- * For more information please see http://code.google.com/p/eskymofw/
- *
- * @copyright	Copyright (c) 2009 Jan Papoušek (jan.papousek@gmail.com),
- *				Jan Drábek (repli2dev@gmail.com)
- * @license		http://www.opensource.org/licenses/bsd-license.php
- * @link		http://code.google.com/p/eskymofw/
- */
 
 /**
- * @author		Jan Papousek
- * @author		Jan Drabek
- * @version		$Id$
+ * Implementation of entity factory
+ *
+ * @copyright	Copyright (c) 2009 Jan Papoušek (jan.papousek@gmail.com),
+ * 				Jan Drábek (repli2dev@gmail.com)
+ * @license		http://www.opensource.org/licenses/bsd-license.php
  */
+
 namespace Leganto\ORM;
+
+use Leganto\ORM\AEntityFactory,
+    Leganto\ORM\SimpleEntityFactory,
+    InvalidArgumentException,
+    Leganto\ORM\Workers\SimpleDeleter,
+    Leganto\ORM\Workers\SimpleUpdater,
+    Leganto\ORM\Workers\SimpleInserter,
+    DibiConnection;
 
 class SimpleEntityFactory extends AEntityFactory {
 
@@ -25,6 +26,11 @@ class SimpleEntityFactory extends AEntityFactory {
 	 * @var string
 	 */
 	private $entityName;
+	
+	/**
+	 * @var DibiConnection
+	 */
+	private $connection;
 
 	/**
 	 * Instances
@@ -38,13 +44,14 @@ class SimpleEntityFactory extends AEntityFactory {
 	 *
 	 * @param string $name Entity name
 	 */
-	private function  __construct($name) {
+	private function __construct($name,$connection) {
 		$this->entityName = $name;
+		$this->connection = $connection;
 	}
 
 	/** @return IEntity */
 	public function createEmpty() {
-		$entity = 'Leganto\DB\\'.$this->getThisEntityName() . "\Entity";
+		$entity = 'Leganto\DB\\' . $this->getThisEntityName() . "\Entity";
 		return new $entity($this);
 	}
 
@@ -52,16 +59,21 @@ class SimpleEntityFactory extends AEntityFactory {
 	 * It creates a new instance of IEntityFactory
 	 *
 	 * @param string $name Entity name
+	 * @param DibiConnection $connection DIBI connection
 	 * @return IEntityFactory
-	 * @throws \InvalidArgumentException if the $name is empty
+	 * @throws InvalidArgumentException if the $name is empty
+	 * @throws InvalidArgumentException if the $connection is empty
 	 */
-	public static function createEntityFactory($name) {
+	public static function createEntityFactory($name, $connection) {
+		if (empty($connection) || ! $connection instanceof DibiConnection) {
+			throw new InvalidArgumentException("Empty connection.");
+		}
 		if (empty($name)) {
-			throw new \InvalidArgumentException("Empty [name].");
+			throw new InvalidArgumentException("Empty name.");
 		}
 		$name = ucfirst($name);
 		if (empty(self::$instances[$name])) {
-			self::$instances[$name] = new SimpleEntityFactory($name);
+			self::$instances[$name] = new SimpleEntityFactory($name,$connection);
 		}
 		return self::$instances[$name];
 	}
@@ -70,49 +82,46 @@ class SimpleEntityFactory extends AEntityFactory {
 
 	/** @return IInserter */
 	protected function createInserter() {
-		$inserter = $this->getThisEntityName().'\Inserter';
+		$inserter = 'Leganto\DB\\' . $this->getThisEntityName() . '\Inserter';
 		if (class_exists($inserter)) {
 			return $this->getInstanceOfClassByName($inserter);
-		}
-		else {
-			return SimpleInserter::createInserter(String::lower($this->getThisEntityName()));
+		} else {
+			return SimpleInserter::createInserter(String::lower($this->getThisEntityName()),$this->connection);
 		}
 	}
 
 	/** @return IUpdater */
-	protected function createUpdater(){
-		$updater = $this->getThisEntityName().'\Updater';
+	protected function createUpdater() {
+		$updater = 'Leganto\DB\\' . $this->getThisEntityName() . '\Updater';
 		if (class_exists($updater)) {
 			return $this->getInstanceOfClassByName($updater);
-		}
-		else {
-			return SimpleUpdater::createUpdater(String::lower($this->getThisEntityName()));
+		} else {
+			return SimpleUpdater::createUpdater(String::lower($this->getThisEntityName()),$this->connection);
 		}
 	}
 
 	/** @return ISelector */
-	protected function createSelector(){
-		return $this->getInstanceOfClassByName('Leganto\DB\\'.$this->getThisEntityName().'\Selector');
+	protected function createSelector() {
+		return $this->getInstanceOfClassByName('Leganto\DB\\' . $this->getThisEntityName() . '\Selector');
 	}
 
 	/** @return IDeleter */
 	protected function createDeleter() {
-		$deleter = $this->getThisEntityName().'\Deleter';
+		$deleter = 'Leganto\DB\\' . $this->getThisEntityName() . '\Deleter';
 		if (class_exists($deleter)) {
 			return $this->getInstanceOfClassByName($deleter);
-		}
-		else {
-			return SimpleDeleter::createDeleter(String::lower($this->getThisEntityName()));
+		} else {
+			return SimpleDeleter::createDeleter(String::lower($this->getThisEntityName()),$this->connection);
 		}
 	}
 
 	/** @return string */
-
-	private function getInstanceOfClassByName($name){
-		return new $name;
+	private function getInstanceOfClassByName($name) {
+		return new $name($this->connection);
 	}
 
-	protected function getThisEntityName(){
+	/** @return string */
+	protected function getThisEntityName() {
 		return $this->entityName;
 	}
 

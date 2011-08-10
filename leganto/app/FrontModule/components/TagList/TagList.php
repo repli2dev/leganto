@@ -31,14 +31,14 @@ class TagList extends BaseListComponent {
 		$tagsEntities = array();
 		try {
 			foreach($tags as $tag) {
-				$tagEntity = Factory::tags()->createEmpty();
+				$tagEntity = Factory::tag()->createEmpty();
 				$tagEntity->name = $tag;
 				$tagEntity->languageId = System::user()->idLanguage;
 				$tagsEntities[] = $tagEntity;
 				$tagEntity->persist();
 				unset($tagEntity);
 			}
-			Factory::books()->getUpdater()->setTagged($this->book, $tagsEntities);
+			Factory::book()->getUpdater()->setTagged($this->book, $tagsEntities);
 			$this->getPresenter()->flashMessage(System::translate("The tag has been successfuly inserted."), "success");
 		} catch (Exception $e) {
 			$this->unexpectedError($e);
@@ -54,7 +54,7 @@ class TagList extends BaseListComponent {
 	// ---- PROTECTED METHODS
 
 	protected function beforeRender() {
-		$this->getTemplate()->tags = Factory::tags()->fetchAndCreateAll($this->getSource());
+		$this->getTemplate()->tags = Factory::tag()->fetchAndCreateAll($this->getSource());
 	}
 
 	protected function createComponentForm($name) {

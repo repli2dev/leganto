@@ -6,11 +6,16 @@
  * @copyright	Copyright (c) 2009 Jan Papoušek (jan.papousek@gmail.com),
  * 				Jan Drábek (me@jandrabek.cz)
  * @link		http://code.google.com/p/preader/
- * @license		http://code.google.com/p/preader/
  * @author		Jan Papousek
  * @author		Jan Drabek
- * @version		$id$
  */
+
+namespace Leganto\External;
+
+use Nette\IOException,
+    InvalidArgumentException,
+    Nette\Utils\Strings;
+
 abstract class AFinder implements IFinder {
 	const REDIRECTION_LIMIT = 5;
 
@@ -32,6 +37,7 @@ abstract class AFinder implements IFinder {
 	 *
 	 * @param string $url
 	 * @return string
+	 * @throws IOException if redirection limit is exhausted
 	 */
 	protected function getUrlContent($url, $counter = 0) {
 		if ($counter >= self::REDIRECTION_LIMIT) {
@@ -73,16 +79,16 @@ abstract class AFinder implements IFinder {
 	 *
 	 * @param string $key
 	 * @param string $value
-	 * @throws NullPointerException if the $key or $value is empty
+	 * @throws InvalidArgumentException if the $key or $value is empty
 	 */
 	protected final function setUrlParam($key, $value) {
 		if (empty($key)) {
-			throw new NullPointerException("key");
+			throw new InvalidArgumentException("Empty key.");
 		}
 		if (empty($value)) {
-			throw new NullPointerException("value");
+			throw new InvalidArgumentException("Empty value.");
 		}
-		$this->params["<--" . String::upper($key) . "-->"] = $value;
+		$this->params["<--" . Strings::upper($key) . "-->"] = $value;
 	}
 
 }

@@ -1,24 +1,28 @@
 <?php
+
 /**
  * Storage for images of editions
  *
  * @copyright	Copyright (c) 2009 Jan Papoušek (jan.papousek@gmail.com),
  * 				Jan Drábek (me@jandrabek.cz)
  * @link		http://code.google.com/p/preader/
- * @license		http://code.google.com/p/preader/
  * @author		Jan Papousek
  * @author		Jan Drabek
- * @version		$id$
  */
+
 namespace Leganto\Storage;
-use	Leganto\ORM\Object,
-	Leganto\IO\File;
+
+use Leganto\ORM\Object,
+    Leganto\IO\File,
+    Leganto\ORM\IEntity,
+    InvalidArgumentException,
+    Leganto\Tools\ExtraArray;
 
 class EditionImageStorage extends Object implements IStorage {
 
-	public function getFile(\Leganto\ORM\IEntity $entity) {
-		if ($entity->getState() != \Leganto\ORM\IEntity::STATE_PERSISTED) {
-			throw new \InvalidArgumentException("The entity has to be in state [persisted].");
+	public function getFile(IEntity $entity) {
+		if ($entity->getState() != IEntity::STATE_PERSISTED) {
+			throw new InvalidArgumentException("The entity has to be in state [persisted].");
 		}
 		switch (get_class($entity)) {
 			case "Leganto\DB\Book\Entity":
@@ -36,12 +40,16 @@ class EditionImageStorage extends Object implements IStorage {
 				$file = ExtraArray::firstValue($files);
 				break;
 			default:
-				throw new \InvalidArgumentException("The entity has to be book or edition.");
+				throw new InvalidArgumentException("The entity has to be book or edition.");
 		}
 		return $file;
 	}
 
-	/** @return File */
+	/**
+	 * Return random image of edition of given book
+	 * @param \Leganto\DB\Book\Entity $book 
+	 * @return File
+	 */
 	public function getRandomFileByBook(\Leganto\DB\Book\Entity $book) {
 		$directory = $this->getFile($book);
 		if (empty($directory)) {
@@ -51,6 +59,11 @@ class EditionImageStorage extends Object implements IStorage {
 		return $files[rand(0, sizeof($files) - 1)];
 	}
 
+	/**
+	 * Return random image of edition of given book (by bookTitleId)
+	 * @param int $bookTitleId
+	 * @return File
+	 */
 	public function getRandomFileByBookTitleId($bookTitleId) {
 		$directory = new File($this->getDirectoryPath() . "/" . $bookTitleId);
 		if (!$directory->exists()) {
@@ -60,9 +73,9 @@ class EditionImageStorage extends Object implements IStorage {
 		return $files[rand(0, sizeof($files) - 1)];
 	}
 
-	public function store(\Leganto\ORM\IEntity $edition, File $image) {
-		if ($edition->getState() != \Leganto\ORM\IEntity::STATE_PERSISTED) {
-			throw new \InvalidArgumentException("The entity has to be persisted.");
+	public function store(IEntity $edition, File $image) {
+		if ($edition->getState() != IEntity::STATE_PERSISTED) {
+			throw new InvalidArgumentException("The entity has to be persisted.");
 		}
 		$bookDirectory = new File($this->getDirectoryPath() . "/" . $edition->idBookTitle);
 		if (!$bookDirectory->exists()) {

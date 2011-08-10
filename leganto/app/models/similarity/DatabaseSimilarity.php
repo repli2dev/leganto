@@ -6,11 +6,15 @@
  * @copyright	Copyright (c) 2009 Jan Papoušek (jan.papousek@gmail.com),
  * 				Jan Drábek (me@jandrabek.cz)
  * @link		http://code.google.com/p/preader/
- * @license		http://code.google.com/p/preader/
  * @author		Jan Papousek
  * @author		Jan Drabek
- * @version		$id$
  */
+
+namespace Leganto\DB\Similarity;
+
+use InvalidArgumentException,
+    DibiConnection;
+
 class DatabaseSimilarity implements ISimilarity {
 
 	private $entity;
@@ -19,21 +23,33 @@ class DatabaseSimilarity implements ISimilarity {
 	private $rating;
 	private $maximum;
 
+	/** @var DibiConnection */
+	private $connection;
+
+	/**
+	 * Inject DIBI database connection
+	 * 
+	 * @param DibiConnection $connection Inject DIBI database connection
+	 */
+	public function setConnection(DibiConnection $connection) {
+		$this->connection = $connection;
+	}
+
 	public function __construct($source, $entity, $item, $rating = NULL, $maximum = 1) {
 		if (empty($source)) {
-			throw new NullPointerException("source");
+			throw new InvalidArgumentException("Empty source.");
 		}
 		if (empty($entity)) {
-			throw new NullPointerException("entity");
+			throw new InvalidArgumentException("Empty entity.");
 		}
 		if (empty($item)) {
-			throw new NullPointerException("item");
+			throw new InvalidArgumentException("Empty item.");
 		}
 		if (empty($maximum)) {
-			throw new NullPointerException("item");
+			throw new InvalidArgumentException("Empty item.");
 		}
 		if ($maximum < 1) {
-			throw new InvalidArgumentException("maximum");
+			throw new InvalidArgumentException("Empty maximum.");
 		}
 		$this->source = $source;
 		$this->entity = $entity;
@@ -46,17 +62,17 @@ class DatabaseSimilarity implements ISimilarity {
 		$source = $this->source;
 		$entity = $this->entity;
 		$item = $this->item;
-		dibi::begin();
+		$this->connection->begin();
 		// Drop old tables if exist.
-		dibi::query("DROP TABLE IF EXISTS [" . $entity . "_similarity]");
-		dibi::query("DROP TABLE IF EXISTS [" . $entity . "_similarity_computed]");
+		$this->connection->query("DROP TABLE IF EXISTS [" . $entity . "_similarity]");
+		$this->connection->query("DROP TABLE IF EXISTS [" . $entity . "_similarity_computed]");
 		// Save result of query which selects similarity
-		dibi::query("
+		$this->connection->query("
 			CREATE TABLE [" . $entity . "_similarity]
 			(INDEX([id_" . $entity . "_to]), INDEX([id_" . $entity . "_from]))
 			" . $this->getComputingQuery()
 		);
-		dibi::query("
+		$this->connection->query("
 			CREATE TABLE [" . $entity . "_similarity_computed]
 			(INDEX([id_" . $entity . "]))
 			SELECT
@@ -65,7 +81,7 @@ class DatabaseSimilarity implements ISimilarity {
 			FROM [" . $source . "]
 			GROUP BY [id_" . $entity . "]
 		");
-		dibi::commit();
+		$this->connection->commit();
 	}
 
 	public function update() {
@@ -73,24 +89,24 @@ class DatabaseSimilarity implements ISimilarity {
 		$source = $this->source;
 		$toUpdate = $this->getIdsToUpdate()->fetchPairs("id", "id");
 		$entity = $this->entity;
-		dibi::begin();
-		dibi::query("
+		$this->connection->begin();
+		$this->connection->query("
 			DELETE FROM [" . $entity . "_similarity]
 			WHERE [id_" . $entity . "_from] IN %l", $toUpdate, "
 			OR [id_" . $entity . "_to] IN %l", $toUpdate
 		);
-		dibi::query("
+		$this->connection->query("
 			DELETE FROM [" . $entity . "_similarity_computed]
 			WHERE [id_" . $entity . "] IN %l", $toUpdate
 		);
 		$query = $this->getComputingQuery($source, $entity, $this->item)
-				->where("[id_" . $entity . "_to] IN %l", $toUpdate, " OR [id_" . $entity . "_from] IN %l", $toUpdate);
-		dibi::query("
+			->where("[id_" . $entity . "_to] IN %l", $toUpdate, " OR [id_" . $entity . "_from] IN %l", $toUpdate);
+		$this->connection->query("
 			INSERT INTO [" . $entity . "_similarity]
 			
 			" . $query . "
 		");
-		dibi::query("
+		$this->connection->query("
 			INSERT INTO [" . $entity . "_similarity_computed]
 			SELECT
 				[id_" . $entity . "],
@@ -99,7 +115,7 @@ class DatabaseSimilarity implements ISimilarity {
 			WHERE [id_" . $entity . "] IN %l", $toUpdate, "
 			GROUP BY [id_" . $entity . "]
 		");
-		dibi::commit();
+		$this->connection->commit();
 	}
 
 	public function updateOne() {
@@ -113,7 +129,7 @@ class DatabaseSimilarity implements ISimilarity {
 		} else {
 			$numerator = "SUM(" . (($this->maximum - 1) ^ 2) . "- ([to].[$this->rating] - [from].[$this->rating])*([to].[$this->rating] - [from].[$this->rating]))";
 		}
-		return dibi::dataSource("
+		return $this->connection->dataSource("
 			SELECT
 				[from].[id_" . $this->entity . "]		AS [id_" . $this->entity . "_from],
 				[to].[id_" . $this->entity . "]		AS [id_" . $this->entity . "_to],
@@ -129,7 +145,7 @@ class DatabaseSimilarity implements ISimilarity {
 	}
 
 	private function getIdsToUpdate() {
-		return dibi::dataSource("
+		return $this->connection->dataSource("
 			SELECT
 				[source].[id_" . $this->entity . "]	AS [id]
 			FROM [" . $this->source . "] AS [source]

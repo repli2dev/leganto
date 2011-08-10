@@ -1,0 +1,56 @@
+<div class="posts list">
+    @{if Environment::getUser()->isAuthenticated()}
+    <h2>{_'New message'}</h2>
+	<div id="message-form-wrapper">
+	    @{widget form}
+	</div>
+    @{/if}
+
+    <h2>{_'Messages'}</h2>
+    @{if !isSet($messages) || count($messages) == 0}
+	<p>{_'You do not have any messages.'}</p>
+    @{else}
+	    @{foreach $messages AS $message}
+			<div class="clear"></div>
+			<div class="item {if System::user()->getId() == $message->idUserFrom}mail-out{else}mail-in{if $message->read == 0} mail-unread{/if}{/if}">
+				<div class="info-side">
+					{if System::user()->getId() == $message->idUserFrom}
+						<img class="icon" src="{$message->idUserTo, 50|userico}" />
+					{else}
+						<img class="icon" src="{$message->idUserFrom, 50|userico}" />
+					{/if}
+					<span class="date">{$message->inserted|date}</span>
+				</div>
+				<div clas="info-top">
+					{if System::user()->getId() == $message->idUserFrom}
+						{_'Message to'}: <a href="{plink User:default, $message->idUserTo}" title="{$message->nicknameUserTo}">{$message->nicknameUserTo|hardTruncate, 20}</a>
+					{else}
+						{_'Message from'}: <a href="{plink User:default, $message->idUserFrom}" title="{$message->nicknameUserFrom}">{$message->nicknameUserFrom|hardTruncate, 20}</a>
+					{/if}
+					{if Environment::getUser()->isAllowed(Resource::create($message), Action::EDIT)}
+						<div class="control">
+							<?php $confirm = System::translate("Are you sure you want to delete this message?"); ?>
+							{assign link    => $component->link('delete', $message->getId())}
+							<a onclick="return confirm('{!$confirm}')" href="{!$link}" title="{_'Delete'}">
+								<img src="{$baseUri . 'img/ico/delete.png'}" alt="{_'Delete'}" />
+							</a>
+						</div>
+					{/if}
+				</div>
+				<div class="content">
+					{!=$message->content|texySafe}
+				</div>
+				{if System::user()->getId() != $message->idUserFrom}
+					<div class="info-bottom">
+						<a class="control" href="{plink User:messages, $message->idUserFrom}" title="{_"Reply"}">{_"Reply"}</a>
+					</div>
+				{/if}
+				<div class="clear"></div>
+				
+			</div>
+	    @{/foreach}
+	@{/if}
+
+</div>
+
+@{widget paginator}

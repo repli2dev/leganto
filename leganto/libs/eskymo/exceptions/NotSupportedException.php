@@ -1,9 +1,15 @@
 <?php
+
 /**
- *
+ * Exception to be thrown when functionality not supported
  * @author Jan Papousek
+ * @author Jan Drabek
  */
+
 namespace Leganto\ORM\Exceptions;
 
-class NotSupportedException extends \Exception {
+use Exception;
+
+class NotSupportedException extends Exception {
+	
 }

@@ -1,9 +1,14 @@
 <?php
-/**
- *
- * @author Jan Papousek
- */
-namespace Leganto\ORM\Exceptions;
 
-class InvalidStateException extends \Exception {
+/**
+ * Exception to be thrown when inner state of object block some operation
+ * @author Jan Papousek
+ * @author Jan Drabek
+ */
+
+namespace Leganto\ORM\Exceptions;
+use Exception;
+
+class InvalidStateException extends Exception {
+	
 }

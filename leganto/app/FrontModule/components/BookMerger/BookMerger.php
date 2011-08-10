@@ -30,10 +30,10 @@ class BookMerger extends BaseComponent {
 			return;
 		}
 		// get books
-		$master		= Factory::books()->getSelector()->find($this->state["master"]);
+		$master		= Factory::book()->getSelector()->find($this->state["master"]);
 		$bookIds	= array_keys($this->state["slave"]);
-		$slaves = Factory::books()->fetchAndCreateAll(
-			Factory::books()->getSelector()
+		$slaves = Factory::book()->fetchAndCreateAll(
+			Factory::book()->getSelector()
 				->findAll()
 				->where("[id_book_title] IN %l", $bookIds)
 		);
@@ -44,7 +44,7 @@ class BookMerger extends BaseComponent {
 		$this->persistState();
 		// merge books
 		foreach($slaves AS $slave) {
-			Factory::books()->getUpdater()->merge($master, $slave);
+			Factory::book()->getUpdater()->merge($master, $slave);
 		}
 
 		// success
@@ -97,8 +97,8 @@ class BookMerger extends BaseComponent {
 		}
 		$this->getTemplate()->slave = array();
 		if (!empty($books)) {
-			$source = Factory::books()->getSelector()->findAll()->where("[id_book_title] IN %l", $books);
-			while($book = Factory::books()->fetchAndCreate($source)) {
+			$source = Factory::book()->getSelector()->findAll()->where("[id_book_title] IN %l", $books);
+			while($book = Factory::book()->fetchAndCreate($source)) {
 				if (!empty($this->state["master"]) && $book->getId() == $this->state["master"]) {
 					$this->getTemplate()->master	= $book;
 				}

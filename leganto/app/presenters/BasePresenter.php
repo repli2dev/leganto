@@ -1,12 +1,14 @@
 <?php
-use	Nette\Application\UI\Presenter as Presenter;
+
+use Nette\Application\UI\Presenter as Presenter,
+    Leganto\Templating\Template as Template;
 
 abstract class BasePresenter extends Presenter {
 
 	protected function createTemplate() {
 		$template = parent::createTemplate();
 
-		return \Leganto\Templating\Template::loadTemplate($template);
-	}	
+		return Template::loadTemplate($template);
+	}
 
 }

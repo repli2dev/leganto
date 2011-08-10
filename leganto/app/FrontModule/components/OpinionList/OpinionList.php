@@ -12,7 +12,8 @@
 namespace FrontModule\Components;
 use Leganto\DB\Factory,
 	Leganto\DB\Post\Selector,
-	DibiDataSource;
+	DibiDataSource,
+	FrontModule\Components\PostList;
 
 class OpinionList extends BaseListComponent {
 
@@ -57,7 +58,7 @@ class OpinionList extends BaseListComponent {
 	// ---- PROTECTED METHODS
 
 	protected function createComponentPostList($name) {
-		return new PostListComponent($this, $name);
+		return new PostList($this, $name);
 	}
 
 	// ---- PRIVATE METHODS
@@ -78,7 +79,7 @@ class OpinionList extends BaseListComponent {
 			$source->applyLimit($this->getLimit());
 		}
 		// Opinions
-		$this->getTemplate()->opinions = Factory::opinions()->fetchAndCreateAll($source);
+		$this->getTemplate()->opinions = Factory::opinion()->fetchAndCreateAll($source);
 		$opinionIds = array();
 		$userIds = array();
 		foreach ($this->getTemplate()->opinions AS $opinion) {
@@ -86,7 +87,7 @@ class OpinionList extends BaseListComponent {
 			$userIds[] = $opinion->userId;
 		}
 		if (!empty($opinionIds)) {
-			$this->getTemplate()->discussions = Factory::discussions()
+			$this->getTemplate()->discussions = Factory::discussion()
 					->getSelector()
 					->findAll()
 					->where("[id_discussable] = 2 AND [id_discussed] IN %l", $opinionIds)
@@ -97,14 +98,14 @@ class OpinionList extends BaseListComponent {
 		if (!empty($this->showedOpinion)) {
 			$this->getTemplate()->showedOpinion = $this->showedOpinion;
 			$this->getComponent("postList")->setSource(
-					Factory::posts()->getSelector()
+					Factory::post()->getSelector()
 					->findAllByIdAndType($this->getTemplate()->showedOpinion, Selector::OPINION)
 			);
 			$this->getComponent("postList")->setDiscussed($this->showedOpinion, Selector::OPINION);
 		}
 		// Book achivements
 		if ($this->getTemplate()->showedInfo == "user" && count($userIds) > 0) {
-			$this->getTemplate()->achievements = Factory::achievements()->getSelector()->findByUsers($userIds, $entities = FALSE);
+			$this->getTemplate()->achievements = Factory::achievement()->getSelector()->findByUsers($userIds, $entities = FALSE);
 		}
 	}
 

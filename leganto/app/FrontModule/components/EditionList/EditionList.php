@@ -42,11 +42,11 @@ class EditionList extends BaseListComponent {
 
 	private function loadTemplate(DibiDataSource $source) {
 		if (!empty($this->showWithoutCover)) {
-			$this->getTemplate()->editions = Factory::editions()->fetchAndCreateAll($source);
+			$this->getTemplate()->editions = Factory::edition()->fetchAndCreateAll($source);
 		} else {
 			$this->getTemplate()->editions = array();
 			$this->getTemplate()->hidden = FALSE;
-			while ($edition = Factory::editions()->fetchAndCreate($source)) {
+			while ($edition = Factory::edition()->fetchAndCreate($source)) {
 				if ($edition->image != NULL && file_exists(WWW_DIR . "/" . $edition->image)) {
 					$this->getTemplate()->editions[] = $edition;
 				} else {

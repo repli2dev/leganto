@@ -1,0 +1,18 @@
+<?php echo '<?xml version="1.0" encoding="UTF-8"?>' ?>
+
+<posts xmlns="http://leganto.com/api">
+	{foreach $posts AS $post}
+	<post>
+		<id>{$post->getId()}</id>
+		<language>{$post->locale}</language>
+		<user>
+			<id>{$post->user}</id>
+			<name>{$post->userName}</name>
+		</user>
+		<inserted>{$post->inserted}</inserted>
+		{if $post->subject}<subject>{$post->subject}</subject>{/if}
+		{if $post->reply}<reply-to>{$post->reply}</reply-to>{/if}
+		<content>{$post->content}</content>
+	</post>
+	{/foreach}
+</posts>

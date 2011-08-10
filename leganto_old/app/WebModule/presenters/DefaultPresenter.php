@@ -15,7 +15,7 @@ class Web_DefaultPresenter extends Web_BasePresenter {
 	private $firstTime;
 
 	public function renderDefault($login = FALSE) {
-		if (Environment::getUser()->isAuthenticated()) {
+		if ($this->getUser()->isLoggedIn()) {
 			$this->forward("feed");
 		}
 		$component = $this->getComponent("introduction");
@@ -31,7 +31,7 @@ class Web_DefaultPresenter extends Web_BasePresenter {
 	}
 
 	public function renderFeed($firstTime = FALSE) {
-		if (!Environment::getUser()->isAuthenticated()) {
+		if (!$this->getUser()->isLoggedIn()) {
 			$this->forward("default");
 		}
 		$session = Environment::getSession("postLogin");

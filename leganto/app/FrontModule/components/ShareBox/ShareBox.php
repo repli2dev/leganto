@@ -19,7 +19,7 @@ class ShareBox extends BaseComponent {
 		$url = Environment::getHttpRequest()->uri->absoluteUri;
 		$this->getTemplate()->url = urlencode($url);
 		$bookId = $this->getPresenter()->getParam("book");
-		$book = Factory::books()->getSelector()->find($bookId);
+		$book = Factory::book()->getSelector()->find($bookId);
 		$title = System::translate("Book") . ": " . $book->title;
 		$this->getTemplate()->title = urlencode($title);
 	}

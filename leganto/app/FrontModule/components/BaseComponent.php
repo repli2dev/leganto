@@ -15,7 +15,8 @@ use	Nette\Diagnostics\Debugger,
 	Nette\ComponentModel\IContainer,
 	Leganto\Templating\Template,
 	Nette\Utils\Strings,
-	Leganto\Templating\Helpers;
+	Leganto\Templating\Helpers,
+	Nette\InvalidStateException;
 
 abstract class BaseComponent extends Control {
 
@@ -63,6 +64,13 @@ abstract class BaseComponent extends Control {
 	protected final function unexpectedError(Exception $e, $display = TRUE) {
 		$this->getPresenter()->flashMessage(System::translate('An unexpected error has occurred.'), "error");
 		Debugger::processException($e, $display);
+	}
+	
+	protected function getContext() {
+		if($this->presenter === NULL) {
+			throw new InvalidStateException("Not attached to any presenter");
+		}
+		return $this->presenter->getContext();
 	}
 	
 

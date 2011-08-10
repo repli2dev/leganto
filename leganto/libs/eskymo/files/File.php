@@ -1,28 +1,23 @@
 <?php
-/**
- * This source file is subject to the "New BSD License".
- *
- * For more information please see http://code.google.com/p/eskymofw/
- *
- * @copyright	Copyright (c) 2009 Jan Papoušek (jan.papousek@gmail.com),
- *				Jan Drábek (repli2dev@gmail.com)
- * @license		http://www.opensource.org/licenses/bsd-license.php
- * @link		http://code.google.com/p/eskymofw/
- */
 
 /**
  * The file descriptor, which provides all manipulation with files.
  *
- * @author Jan Papousek
- * @version		$Id$
+ * @copyright	Copyright (c) 2009 Jan Papoušek (jan.papousek@gmail.com),
+ * 				Jan Drábek (repli2dev@gmail.com)
+ * @license		http://www.opensource.org/licenses/bsd-license.php
  */
+
 namespace Leganto\IO;
+
 use Nette\Object,
-    Nette\Diagnostics\Debugger;
+    Nette\Diagnostics\Debugger,
+    InvalidArgumentException,
+    Nette\FileNotFoundException,
+    Nette\IOException,
+    Nette\NotSupportedException;
 
-class File extends Object
-{
-
+class File extends Object {
 	/**
 	 * The error code for IOException if there is a problem to close the file.
 	 *
@@ -84,24 +79,24 @@ class File extends Object
 	 *
 	 * @var File
 	 */
-	 private $parent;
+	private $parent;
 
-	 /**
-	  * The file type.
-	  *
-	  * @var FileType
-	  */
+	/**
+	 * The file type.
+	 *
+	 * @var FileType
+	 */
 	private $type;
 
 	/**
 	 * It creates new file descriptor.
 	 *
 	 * @param string $path The asbtract path to the file.
-	 * @throws \InvalidArgumentException if the $path is empty.
+	 * @throws InvalidArgumentException if the $path is empty.
 	 */
-	public function  __construct($path) {
+	public function __construct($path) {
 		if (empty($path)) {
-			throw new \InvalidArgumentException("Argument 'path' is NULL.");
+			throw new InvalidArgumentException("Argument 'path' is NULL.");
 		}
 		$this->path = rtrim($path, DIRECTORY_SEPARATOR);
 	}
@@ -119,7 +114,7 @@ class File extends Object
 		}
 		Debugger::tryError();
 		$check = is_executable($this->getPath());
-		if  (Debugger::catchError($msg)) {
+		if (Debugger::catchError($msg)) {
 			throw new IOException($msg, self::ERROR_GENERAL);
 		}
 		return $check;
@@ -137,7 +132,7 @@ class File extends Object
 		}
 		Debugger::tryError();
 		$check = is_readable($this->getPath());
-		if  (Debugger::catchError($msg)) {
+		if (Debugger::catchError($msg)) {
 			throw new IOException($msg, self::ERROR_GENERAL);
 		}
 		return $check;
@@ -155,7 +150,7 @@ class File extends Object
 		}
 		Debugger::tryError();
 		$check = is_writable($this->getPath());
-		if  (Debugger::catchError($msg)) {
+		if (Debugger::catchError($msg)) {
 			throw new IOException($msg, self::ERROR_GENERAL);
 		}
 		return $check;
@@ -170,7 +165,7 @@ class File extends Object
 	 */
 	public function copy($destination) {
 		if (empty($destination)) {
-			throw new \InvalidArgumentException("destination");
+			throw new InvalidArgumentException("Empty destination.");
 		}
 		if (!$this->exists()) {
 			throw new FileNotFoundException($this->path);
@@ -181,7 +176,7 @@ class File extends Object
 		}
 		Debugger::tryError();
 		$check = copy($this->getAbsolutePath(), $destination);
-		if  (Debugger::catchError($msg)) {
+		if (Debugger::catchError($msg)) {
 			throw new IOException($msg, self::ERROR_GENERAL);
 		}
 		return $destFile;
@@ -192,7 +187,7 @@ class File extends Object
 	 * if and only if a file with this name does not yet exist.
 	 *
 	 * @return boolean It returns TRUE, if the file does not exist
-	 *		and was successfully created, otherwise FALSE.
+	 * 		and was successfully created, otherwise FALSE.
 	 * @throws IOException if there is an I/O problem.
 	 */
 	public function createNewFile() {
@@ -205,13 +200,13 @@ class File extends Object
 		// Create a new file
 		Debugger::tryError();
 		$file = fopen($this->getPath(), "w+");
-		if  (Debugger::catchError($msg)) {
+		if (Debugger::catchError($msg)) {
 			throw new IOException($msg, self::ERROR_OPEN);
 		}
 		// Close the file
 		Debugger::tryError();
 		fclose($file);
-		if  (Debugger::catchError($msg)) {
+		if (Debugger::catchError($msg)) {
 			throw new IOException($msg, self::ERROR_OPEN);
 		}
 	}
@@ -228,16 +223,15 @@ class File extends Object
 		}
 		$parent = $this->getParentFile();
 		if (!empty($parent) && !$parent->canWrite()) {
-			throw new IOException("The file '".$this->getPath()."' cannot be deleted.", self::ERROR_SECURITY);
+			throw new IOException("The file '" . $this->getPath() . "' cannot be deleted.", self::ERROR_SECURITY);
 		}
 		Debugger::tryError();
 		if ($this->isDirectory()) {
 			rmdir($this->getPath());
-		}
-		else {
+		} else {
 			unlink($this->getPath());
 		}
-		if  (Debugger::catchError($msg)) {
+		if (Debugger::catchError($msg)) {
 			throw new IOException($msg, self::ERROR_GENERAL);
 		}
 	}
@@ -292,7 +286,7 @@ class File extends Object
 		if (empty($time)) {
 			throw new IOException("There is a problem to get time when the file was last modified.", self::ERROR_GENERAL);
 		}
-		if  (Debugger::catchError($msg)) {
+		if (Debugger::catchError($msg)) {
 			throw new IOException($msg, self::ERROR_GENERAL);
 		}
 		return $time;
@@ -323,9 +317,8 @@ class File extends Object
 			// FIXME: UNIX dependent
 			if ($dirname != $this->path && $dirname != DIRECTORY_SEPARATOR) {
 				$this->parent = new File($dirname);
-			}
-			else {
-				throw new IOException("The file '".$this->getPath()."' has no parent file.", self::ERROR_GENERAL);
+			} else {
+				throw new IOException("The file '" . $this->getPath() . "' has no parent file.", self::ERROR_GENERAL);
 			}
 		}
 		return $this->parent;
@@ -358,6 +351,7 @@ class File extends Object
 		}
 		return $size;
 	}
+
 	/**
 	 * It returns file type.
 	 *
@@ -371,17 +365,15 @@ class File extends Object
 				throw new FileNotFoundException($this->path);
 			}
 			if (class_exists("finfo")) {
-				$finfo = new finfo(FILEINFO_MIME,$this->getPath());
+				$finfo = new finfo(FILEINFO_MIME, $this->getPath());
 				if (!$fi) {
-					throw new IOException("There is a problem to detect type of file '".$this->getPath()."'.", self::ERROR_FILE_INFO);
+					throw new IOException("There is a problem to detect type of file '" . $this->getPath() . "'.", self::ERROR_FILE_INFO);
 				}
 				$mimeType = $info->file($this->getPath());
 				$finfo->close();
-			}
-			elseif (function_exists("mime_content_type")) {
+			} elseif (function_exists("mime_content_type")) {
 				$mimeType = mime_content_type($this->getPath());
-			}
-			else {
+			} else {
 				throw new IOException("There is a problem to get content type of the file. Class 'finfo' and function 'mime_content_type' are not avaiable.");
 			}
 			$this->type = new FileType($mimeType);
@@ -433,8 +425,7 @@ class File extends Object
 		}
 		if (!empty($filter) && ($filter instanceof FileNameFilter)) {
 			$fileNameFilter = $filter;
-		}
-		else {
+		} else {
 			$fileNameFilter = NULL;
 		}
 		$result = array();
@@ -463,10 +454,9 @@ class File extends Object
 		if (!$this->isDirectory()) {
 			throw new NotSupportedException();
 		}
-		if (!empty ($filter)) {
+		if (!empty($filter)) {
 			$rule = $filter->getRule();
-		}
-		else {
+		} else {
 			$rule = "*";
 		}
 		Debugger::tryError();
@@ -474,12 +464,11 @@ class File extends Object
 		if (Debugger::catchError($msg)) {
 			throw new IOException($msg, self::ERROR_GENERAL);
 		}
-                if (empty($list)) {
-                    return array();
-                }
-                else {
-                    return $list;
-                }
+		if (empty($list)) {
+			return array();
+		} else {
+			return $list;
+		}
 	}
 
 	/**
@@ -487,12 +476,12 @@ class File extends Object
 	 *
 	 * @param string $access Access rights
 	 * @return boolean It returns TRUE, if the directory was created, otherwise FALSE.
-	 * @throws \InvalidArgumentException if the $access is empty
+	 * @throws InvalidArgumentException if the $access is empty
 	 * @throws IOException if there is a problem to create directory.
 	 */
 	public function mkdir($access = "0777") {
 		if (empty($access)) {
-			throw new \InvalidArgumentException("access");
+			throw new InvalidArgumentException("Empty access.");
 		}
 		if ($this->exists()) {
 			return FALSE;
@@ -502,7 +491,7 @@ class File extends Object
 		}
 		Debugger::tryError();
 		// FIXME: The access is problem
-		$check = mkdir($this->getPath()/*, $access*/);
+		$check = mkdir($this->getPath()/* , $access */);
 		if (Debugger::catchError($msg)) {
 			throw new IOException($msg, self::ERROR_GENERAL);
 		}
@@ -514,12 +503,12 @@ class File extends Object
 	 *
 	 * @param string $access Access rights
 	 * @return boolean It returns TRUE, if the directory was created, otherwise FALSE.
-	 * @throws \InvalidArgumentException if the $access is empty
+	 * @throws InvalidArgumentException if the $access is empty
 	 * @throws IOException if there is a problem to create directory.
 	 */
 	public function mkdirs($access = "0777") {
 		if (empty($access)) {
-			throw new \InvalidArgumentException("access");
+			throw new InvalidArgumentException("Empty access.");
 		}
 		if ($this->exists()) {
 			return FALSE;
@@ -534,4 +523,5 @@ class File extends Object
 		}
 		return $check;
 	}
+
 }

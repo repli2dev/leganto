@@ -1,18 +1,19 @@
 <?php
+
 /**
- *
+ * (Protected) resource
  * @copyright	Copyright (c) 2009 Jan Papoušek (jan.papousek@gmail.com),
- *				Jan Drábek (me@jandrabek.cz)
+ * 				Jan Drábek (me@jandrabek.cz)
  * @link		http://code.google.com/p/preader/
- * @license		http://code.google.com/p/preader/
  * @author		Jan Papousek
  * @author		Jan Drabek
- * @version		$id$
  */
+
 namespace Leganto\ACL;
-use	Nette\Security\IResource,
-	Leganto\ORM\IEntity,
-	Leganto\Templating\Helpers;
+
+use Nette\Security\IResource,
+    Leganto\ORM\IEntity,
+    Leganto\Templating\Helpers;
 
 class Resource implements IResource {
 	const AUTHOR = "author";
@@ -66,7 +67,7 @@ class Resource implements IResource {
 				break;
 			case "Leganto\DB\Message\Entity":
 				$resource = self::MESSAGE;
-				if(System::user()->getId() == $entity->idUserFrom) {
+				if (System::user()->getId() == $entity->idUserFrom) {
 					$id = $entity->idUserFrom;
 				} else {
 					$id = $entity->idUserTo;

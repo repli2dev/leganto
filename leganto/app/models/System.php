@@ -1,56 +1,65 @@
 <?php
+
 /**
  * System class maintain domains <-> languages, translating, user identity and logging
  *
  * @copyright	Copyright (c) 2009 Jan Papoušek (jan.papousek@gmail.com),
  * 				Jan Drábek (me@jandrabek.cz)
  * @link		http://code.google.com/p/preader/
- * @license		http://code.google.com/p/preader/
  * @author		Jan Papousek
  * @author		Jan Drabek
  * @version		$id$
  */
+
 namespace Leganto;
-use	Nette\Environment,
-	Leganto\ORM\SimpleEntityFactory;
+
+use Nette\Environment,
+    Leganto\ORM\SimpleEntityFactory,
+    Exception,
+    Nette\Diagnostics\Debugger,
+    Nette\DateTime,
+    Leganto\DB\Factory;
 
 final class System {
 
-	/** @var DomainEntity	 */
+	/** @var DomainEntity */
 	private static $domain;
+
 	/** @var LanguageEntity */
 	private static $language;
-	/** @var ITranslator	 */
+
+	/** @var ITranslator */
 	private static $translator;
-	/** @var UserEntity		 */
+
+	/** @var UserEntity */
 	private static $user;
 
 	public final function __construct() {
-
+		
 	}
 
-	/** @return IEntity		 */
+	/** @return IEntity */
 	public static function domain() {
 		if (!isset(self::$domain)) {
-			$source = SimpleEntityFactory::createEntityFactory("domain")
-					->getSelector()
-					->findAll()
-					->where("[uri] = %s", self::getHTTPHost());
-			self::$domain = SimpleEntityFactory::createEntityFactory("domain")->fetchAndCreate($source);
+			$source = SimpleEntityFactory::createEntityFactory("domain", Environment::getContext()->getService("database"))
+				->getSelector()
+				->findAll()
+				->where("[uri] = %s", self::getHTTPHost());
+			self::$domain = SimpleEntityFactory::createEntityFactory("domain", Environment::getContext()->getService("database"))->fetchAndCreate($source);
 		}
 		return self::$domain;
 	}
 
 	private static function getHTTPHost() {
-		return ltrim(@$_SERVER['HTTP_HOST'],"www.");
+		return ltrim(@$_SERVER['HTTP_HOST'], "www.");
 	}
 
 	/** @return IEntity */
 	public static function language() {
 		if (!isset(self::$language)) {
-			self::$language = SimpleEntityFactory::createEntityFactory("language")
-					->getSelector()
-					->find(self::domain()->idLanguage);
+			self::$language = SimpleEntityFactory::createEntityFactory("language", Environment::getContext()->getService("database"))
+				->getSelector()
+				->find(self::domain()->idLanguage);
 		}
 		return self::$language;
 	}
@@ -85,9 +94,9 @@ final class System {
 			if (!Environment::getUser()->isLoggedIn()) {
 				self::$user = NULL;
 			} else {
-				self::$user = Leganto::users()
-						->getSelector()
-						->find(Environment::getUser()->getIdentity()->id);
+				self::$user = Factory::user()
+					->getSelector()
+					->find(Environment::getUser()->getIdentity()->id);
 			}
 		}
 		return self::$user;
@@ -101,13 +110,13 @@ final class System {
 
 	/** @return mixed */
 	public static function captchaQuestion() {
-		$data = Leganto::captcha()->getSelector()->findFromLanguageRandom(self::language()->getId());
+		$data = Factory::captcha()->getSelector()->findFromLanguageRandom(self::language()->getId());
 		return $data;
 	}
 
 	/** @return bool */
 	public static function isCurrentlyAuthenticated() {
-		if(System::user() !== null) {
+		if (System::user() !== null) {
 			return TRUE;
 		} else {
 			return FALSE;
@@ -116,16 +125,17 @@ final class System {
 
 	/** @return bool */
 	public static function isCurrentlyLogged($user) {
-		if(System::user() !== null && $user === System::user()->getId()) {
+		if (System::user() !== null && $user === System::user()->getId()) {
 			return TRUE;
 		} else {
 			return FALSE;
 		}
 	}
+
 	/** @return bool */
 	public static function isCurrentUserAdmin() {
 		$user = System::user();
-		if($user !== null && $user->role == UserEntity::ADMIN) {
+		if ($user !== null && $user->role == \Leganto\DB\User\Entity::ADMIN) {
 			return TRUE;
 		} else {
 			return FALSE;
@@ -138,9 +148,9 @@ final class System {
 	 * @param int $suser Only when need different one than currently logged user!
 	 * @return NULL
 	 */
-	public static function log($text = NULL,$user = NULL) {
+	public static function log($text = NULL, $user = NULL) {
 		// Prepare for insertion and do it without System::user and entities to save time
-		if(!empty($user)) {
+		if (!empty($user)) {
 			$values["id_user"] = $user;
 		} else {
 			$values["id_user"] = Environment::getUser()->getIdentity()->id;
@@ -159,9 +169,9 @@ final class System {
 		$values["ip"] = $_SERVER["REMOTE_ADDR"];
 		$values["browser"] = $_SERVER['HTTP_USER_AGENT'];
 		try {
-			return dibi::insert("user_log", $values)->execute();
+			return Environment::getService("database")->insert("user_log", $values)->execute();
 		} catch (Exception $e) {
-			Debug::processException($e, TRUE);
+			Debugger::processException($e, TRUE);
 		}
 	}
 

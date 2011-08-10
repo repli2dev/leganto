@@ -1,8 +1,8 @@
-<?php //netteCache[01]000411a:2:{s:4:"time";s:21:"0.87982700 1312892383";s:9:"callbacks";a:2:{i:0;a:3:{i:0;a:2:{i:0;s:19:"Nette\Caching\Cache";i:1;s:9:"checkFile";}i:1;s:89:"/home/Weby/Ostatni/preader/www/leganto/app/FrontModule/components/PostList/PostList.latte";i:2;i:1312892381;}i:1;a:3:{i:0;a:2:{i:0;s:19:"Nette\Caching\Cache";i:1;s:10:"checkConst";}i:1;s:25:"Nette\Framework::REVISION";i:2;s:30:"6889b94 released on 2011-08-04";}}}?><?php
+<?php //netteCache[01]000411a:2:{s:4:"time";s:21:"0.01443600 1312966576";s:9:"callbacks";a:2:{i:0;a:3:{i:0;a:2:{i:0;s:19:"Nette\Caching\Cache";i:1;s:9:"checkFile";}i:1;s:89:"/home/Weby/Ostatni/preader/www/leganto/app/FrontModule/components/PostList/PostList.latte";i:2;i:1312966571;}i:1;a:3:{i:0;a:2:{i:0;s:19:"Nette\Caching\Cache";i:1;s:10:"checkConst";}i:1;s:25:"Nette\Framework::REVISION";i:2;s:30:"6889b94 released on 2011-08-04";}}}?><?php
 
 // source file: /home/Weby/Ostatni/preader/www/leganto/app/FrontModule/components/PostList/PostList.latte
 
-?><?php list($_l, $_g) = Nette\Latte\Macros\CoreMacros::initRuntime($template, 'hdt0kbi42h')
+?><?php list($_l, $_g) = Nette\Latte\Macros\CoreMacros::initRuntime($template, 'r6kkav9ha0')
 ;
 // snippets support
 if (!empty($control->snippetMode)) {
@@ -14,7 +14,7 @@ if (!empty($control->snippetMode)) {
 //
 ?>
 <div class="posts list">
-<?php if ($control->getParent()->getUser()->isLoggedIn() && $enablePosting): ?>
+<?php if ($presenter->getUser()->isLoggedIn() && $enablePosting): ?>
 	<div id="post-form-wrapper">
 <?php $_ctrl = $control->getWidget("form"); if ($_ctrl instanceof Nette\Application\UI\IPartiallyRenderable) $_ctrl->validateControl(); $_ctrl->render() ?>
 	</div>
@@ -38,12 +38,12 @@ if (!empty($control->snippetMode)) {
 					<img class="achievement" title="<?php echo htmlSpecialChars($template->achievementName($achievements[$post->user]->posts, "posts")) ?>
  &ndash; <?php echo htmlSpecialChars($template->translate("level based on number of user's discussion posts")) ?>
 " alt="<?php echo htmlSpecialChars($template->translate("level based on number of user's discussion posts")) ?>
-" src="<?php echo htmlSpecialChars($baseUri) ?>img/achievement_posts_vertical_small_<?php echo htmlSpecialChars($achievements[$post->user]->posts) ?>.png" />
+" src="<?php echo htmlSpecialChars($baseUri) ?>/img/achievement_posts_vertical_small_<?php echo htmlSpecialChars($achievements[$post->user]->posts) ?>.png" />
 <?php else: ?>
 					<img class="achievement" title="<?php echo htmlSpecialChars($template->achievementName($zero, "posts")) ?>
  &ndash; <?php echo htmlSpecialChars($template->translate("level based on number of user's discussion posts")) ?>
 " alt="<?php echo htmlSpecialChars($template->translate("level based on number of user's discussion posts")) ?>
-" src="<?php echo htmlSpecialChars($baseUri) ?>img/achievement_posts_vertical_small_<?php echo htmlSpecialChars($zero) ?>.png" />
+" src="<?php echo htmlSpecialChars($baseUri) ?>/img/achievement_posts_vertical_small_<?php echo htmlSpecialChars($zero) ?>.png" />
 <?php endif ?>
 				<img class="icon" src="<?php echo htmlSpecialChars($template->userico($post->user, 50)) ?>" />
 				<span class="date"><?php echo Nette\Templating\DefaultHelpers::escapeHtml($template->date($post->inserted), ENT_NOQUOTES) ?></span>
@@ -51,7 +51,7 @@ if (!empty($control->snippetMode)) {
 			<div class="info-top">
 				<a href="<?php echo htmlSpecialChars($presenter->link("User:default", array($post->user))) ?>
 " title="<?php echo htmlSpecialChars($post->userName) ?>"><?php echo Nette\Templating\DefaultHelpers::escapeHtml($template->hardTruncate($post->userName, 20), ENT_NOQUOTES) ?></a>
-<?php if ($control->getParent()->getUser()->isAllowed(Leganto\ACL\Resource::create($post), Leganto\ACL\Action::EDIT)): ?>
+<?php if ($presenter->getUser()->isAllowed(Leganto\ACL\Resource::create($post), Leganto\ACL\Action::EDIT)): ?>
 					<div class="control">
 						<?php $confirm = Leganto\System::translate("Are you sure you want to delete a discussion post?"); $link    = $component->link('delete', $post->getId()) ?>
 						<a onclick="return confirm('<?php echo $confirm ?>')" href="<?php echo $link ?>

@@ -32,6 +32,8 @@ common:
 		enable: false
 		apiKey: false
 		secret: false
+	cron:
+		key: gRpE6hrKEltAo63sOnQA
 
 production < common:
 	debug:

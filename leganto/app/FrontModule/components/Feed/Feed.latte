@@ -1,0 +1,70 @@
+{widget flashMessages}
+
+<div id="feed" class="list">
+    <table class="navigation">
+        <tr>
+			{if !empty($allSwitcher)}
+				<th>{_"All"}</th>
+				<th><a href="{link followed}">{_"Followed"}</a></th>
+			{else}
+				<th><a href="{link all}">{_"All"}</a></th>
+				<th>{_'Followed'}</th>
+			{/if}
+        </tr>
+    </table>
+
+{foreach $feed AS $item}
+		{var content => explode("#$#",$item->content)}
+		{if $item->type == FeedItemEntity::TYPE_NEW_OPINION}
+			{include newOpinion.latte,'content' => $content, 'item' => $item}
+		{/if}
+		{if $item->type == FeedItemEntity::TYPE_UPDATED_OPINION}
+			{include updatedOpinion.latte,'content' => $content, 'item' => $item}
+		{/if}
+		{if $item->type == FeedItemEntity::TYPE_SHELVED}
+			{include shelved.latte,'content' => $content, 'item' => $item}
+		{/if}
+		{if $item->type == FeedItemEntity::TYPE_DESHELVED}
+			{include deshelved.latte,'content' => $content, 'item' => $item}
+		{/if}
+		{if $item->type == FeedItemEntity::TYPE_NEW_FOLLOWER}
+			{include newFollower.latte,'content' => $content, 'item' => $item}
+		{/if}
+		{if $item->type == FeedItemEntity::TYPE_NEW_BOOK}
+			{include newBook.latte,'content' => $content, 'item' => $item}
+		{/if}
+		{if $item->type == FeedItemEntity::TYPE_NEW_DISCUSSION}
+			{include newDiscussion.latte,'content' => $content, 'item' => $item}
+		{/if}
+		{if $item->type == FeedItemEntity::TYPE_NEW_POST}
+			{include newPost.latte,'content' => $content, 'item' => $item}
+		{/if}
+		{if $item->type == FeedItemEntity::TYPE_NEW_USER}
+			{include newUser.latte,'content' => $content, 'item' => $item}
+		{/if}
+{/foreach}
+</div>
+<div id="main-info">
+	
+	<h3>{_'Did you know, that ...?'}</h3>
+	<div class="hint">
+		<p>{!$hint->text}</p>
+		<div class="clear"></div>
+	</div>
+
+	{if isSet($recommend) && $recommend != false}
+		<h3 style="text-align: center">{_'We recommend'}</h3>
+		{widget bookList}
+	{/if}
+
+	{widget twitter}
+
+	<h3>{_"Others"}</h3>
+	<div class="rss">
+		<p><a href="{plink Rss:,Leganto\System::user()->getId()}"><img src="/img/socialnetworks/rss.png" alt="{_"This page in form of RSS"}" /></a>{_'Watch your feed via RSS reader.'}</p>
+		<div class="clear"></div>
+	</div>
+</div>
+
+<hr class="cleaner" />
+{widget paginator}

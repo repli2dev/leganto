@@ -6,11 +6,15 @@
  * @copyright	Copyright (c) 2009 Jan Papoušek (jan.papousek@gmail.com),
  * 				Jan Drábek (me@jandrabek.cz)
  * @link		http://code.google.com/p/preader/
- * @license		http://code.google.com/p/preader/
  * @author		Jan Papousek
  * @author		Jan Drabek
- * @version		$id$
  */
+
+namespace Leganto\External;
+
+use InvalidArgumentException,
+    Nette\IOException;
+
 class GoogleBooksEditionFinder extends AFinder {
 	const AUTHOR = "author";
 
@@ -29,10 +33,11 @@ class GoogleBooksEditionFinder extends AFinder {
 	/**
 	 * Set query language
 	 * @param string $lang google code of language
+	 * @throws InvalidArgumentException if language is empty
 	 */
 	public function __construct($language) {
 		if (empty($language)) {
-			throw new NullPointerException("language");
+			throw new InvalidArgumentException("Empty language.");
 		}
 		$this->setUrlParam("LANG", $language);
 	}
@@ -40,7 +45,7 @@ class GoogleBooksEditionFinder extends AFinder {
 	/**
 	 * It tries to find the book on google books
 	 *
-	 * @param BookEntity $book The specified book
+	 * @param int $book The specified book
 	 * @return array or NULL
 	 */
 	public function get($gid) {

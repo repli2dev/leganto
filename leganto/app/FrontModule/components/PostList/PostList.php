@@ -15,7 +15,8 @@ use Leganto\DB\Factory,
  Leganto\DB\Post\Selector,
 	Leganto\System,
 	Nette\Environment,
-	DibiDataSource;
+	DibiDataSource,
+	InvalidArgumentException;
 class PostList extends BaseListComponent {
 
 	private $discussed;
@@ -28,7 +29,7 @@ class PostList extends BaseListComponent {
 	}
 
 	public function handleDelete($post) {
-		$postEntity = Factory::posts()->getSelector()->find($post);
+		$postEntity = Factory::post()->getSelector()->find($post);
 		if (!Environment::getUser()->isAllowed(Resource::create($postEntity), Action::EDIT)) {
 			$this->unathorized();
 		}
@@ -37,7 +38,7 @@ class PostList extends BaseListComponent {
 			return;
 		}
 		try {
-			$discussion = Factory::discussions()->getSelector()->find($postEntity->discussion);
+			$discussion = Factory::discussion()->getSelector()->find($postEntity->discussion);
 			$postEntity->delete();
 			System::log("DELETE POST '" . $postEntity->getId() . "'");
 			$this->getPresenter()->flashMessage(System::translate("The post has been deleted."), "success");
@@ -63,7 +64,7 @@ class PostList extends BaseListComponent {
 		}
 
 		// Insert the post
-		$post = Factory::posts()->createEmpty();
+		$post = Factory::post()->createEmpty();
 		$post->user = System::user()->getId();
 		$post->discussed = $values["discussed"];
 		$post->discussionType = $values["type"];
@@ -84,10 +85,10 @@ class PostList extends BaseListComponent {
 
 	public function setDiscussed($discussed, $type) {
 		if (empty($discussed)) {
-			throw new NullPointerException("Parameter [discussed] is empty.");
+			throw new InvalidArgumentException("Parameter [discussed] is empty.");
 		}
 		if (empty($type)) {
-			throw new NullPointerException("Parameter [type] is empty.");
+			throw new InvalidArgumentException("Parameter [type] is empty.");
 		}
 		$this->discussed = $discussed;
 		$this->type = $type;
@@ -153,12 +154,12 @@ class PostList extends BaseListComponent {
 		$source->applyLimit($paginator->itemsPerPage, $paginator->offset);
 		$this->getTemplate()->posts = array();
 		$userIds = array();
-		while ($post = Factory::posts()->fetchAndCreate($source)) {
+		while ($post = Factory::post()->fetchAndCreate($source)) {
 			$this->getTemplate()->posts[] = $post;
 			$userIds[] = $post->user;
 		}
 		if(count($userIds) != 0) {
-			$this->getTemplate()->achievements = Factory::achievements()->getSelector()->findByUsers($userIds, $entities = FALSE);
+			$this->getTemplate()->achievements = Factory::achievement()->getSelector()->findByUsers($userIds, $entities = FALSE);
 		}
 	}
 

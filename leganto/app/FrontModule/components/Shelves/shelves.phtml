@@ -1,0 +1,86 @@
+<script type="text/javascript">
+$(document).ready(function(){
+
+    $(".toggle_container").hide();
+
+    //Switch the "Open" and "Close" state per click then slide up/down (depending on open/close state)
+    $(".shelf h2").click(function(){
+	$(this).next().slideToggle("slow");
+	
+    });
+
+    // Find if there is an anchor, if so then try to toogle the shelf
+    var url = document.location.toString();
+    if (url.match('#')) { // the URL contains an anchor
+      var anchor = '#' + url.split('#')[1];
+      $(anchor).parent().slideToggle("slow");
+    }
+});
+</script>
+
+{if System::isCurrentlyLogged($user->getId()) && count($shelves) == 0}
+	<p>{_"You haven't created any shelf. For creating the first one, follow"} <a href="{plink User:insertShelf,$user->getId()}">{_"this link"}</a>. {_"For creating more, follow the link from right submenu."}</p>
+{/if}
+
+{foreach $shelves AS $shelf}
+<?php System::translate("Are you sure you want to delete a shelf"); ?>
+<div class="shelf">
+	<h2 title="{$shelf->name}" class="shelf-type-{$shelf->type}">
+	{$shelf->name|hardTruncate:40}
+	{if Environment::getUser()->isAllowed(Resource::create($shelf), Action::EDIT)}
+	    <span class="control">
+		<?php $confirm = System::translate("Are you sure you want to delete a shelf %s?",$shelf->name); ?>
+		{assign link    => $component->link('remove', $shelf->getId())}
+		<a href="{plink User:editShelf, System::user()->getId(), $shelf->getId()}" title="{_'Edit'}">
+		    <img src="{$baseUri . 'img/ico/edit.png'}" alt="{_'Edit'}" />
+		</a>
+		<a onclick="if(confirm('{!$confirm}')) window.location = '{!$link}'" title="{_'Delete'}">
+		    <img src="{$baseUri . 'img/ico/delete.png'}" alt="{_'Delete'}" />
+		</a>
+	    </span>
+	{/if}
+	<span class="number">(<?php
+		if(isSet($books[$shelf->getId()])) {
+			echo count($books[$shelf->getId()]);
+		} else {
+			echo "0";
+		}
+		?>)</span>
+    </h2>
+		    
+    <div class="toggle_container">
+	{if !empty($books[$shelf->getId()])}
+	    {if Environment::getUser()->isAllowed(Resource::create($shelf), Action::EDIT)}
+		{assign link => $component->link('persist', $shelf->getId())}
+		<script>
+		    $(function() {
+			    $("#books-in-shelf-{!$shelf->getId()}").sortable({ placeholder: 'new-pos-highlight',opacity: 0.6, cursor: 'move', update: function() {
+				    var order = $(this).sortable("serialize");
+				    $.post("{!link}", order);
+			    }
+			    });
+		    });
+		</script>
+	    {/if}
+	    <ul class="books-in-shelf" id="books-in-shelf-{$shelf->getId()}">
+		{foreach $books[$shelf->getId()] AS $bookRow}
+		    {assign book => Leganto::books()->createEmpty()->loadDataFromArray($bookRow->toArray(), "Load")}
+		    <li class="book-in-shelf" id="books_{$book->getId()}">
+		    <img src="{$book->getId(), 25|bookcover}" width="25" height="40" />
+		    <h3><a href="{plink Book:default, $book->getId()}">{$book->title}</a></h3>
+			<br />{_'Shelved'}:&nbsp;{$bookRow->shelved|time}
+			{if $own}
+				<?php $confirm = System::translate("Are you sure you want to remove a book from shelf %s?", $shelf->name); ?>
+				{assign link    => $component->link('removeFromShelf', $book->getId(), $shelf->getId())}
+				<a class="book-remove-from-shelf" onclick="return confirm('{!$confirm}')" href="{!$link}" title="{_'Delete from shelf'}">
+				    <img src="{$baseUri . 'img/ico/delete.png'}" alt="{_'Delete from shelf'}" />
+				</a>
+			{/if}
+		    <hr style="clear:both; visibility:hidden;" />
+		</li>
+		{/foreach}
+	    </ul>
+	{/if}
+    </div>
+</div>
+{/foreach}

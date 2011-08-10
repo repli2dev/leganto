@@ -1,70 +1,65 @@
 <?php
+
 /**
- * This source file is subject to the "New BSD License".
- *
- * For more information please see http://code.google.com/p/eskymofw/
+ * Interface of entity
  *
  * @copyright	Copyright (c) 2009 Jan Papoušek (jan.papousek@gmail.com),
- *				Jan Drábek (repli2dev@gmail.com)
+ * 				Jan Drábek (repli2dev@gmail.com)
  * @license		http://www.opensource.org/licenses/bsd-license.php
- * @link		http://code.google.com/p/eskymofw/
  */
 
-/**
- * @author		Jan Papousek
- * @author		Jan Drabek
- * @version		$Id$
- */
 namespace Leganto\ORM;
-use Leganto\ORM\Events\IListenable,
-	\Leganto\ORM\Events\IListener,
-	Leganto\ORM\Exceptions;
-interface IEntity extends IObject, IListenable {
 
+use Leganto\ORM\Events\IListenable,
+    Leganto\ORM\Events\IListener,
+    Leganto\ORM\IObject,
+    Leganto\ORM\Exceptions;
+
+interface IEntity extends IObject, IListenable {
 	/**
 	 * All modifed data
 	 */
-	const DATA_MODIFIED		= "modified";
+	const DATA_MODIFIED = "modified";
 
 	/**
 	 * Data whis is not modified
 	 */
-	const DATA_NOT_MODIFIED	= "not_modified";
+	const DATA_NOT_MODIFIED = "not_modified";
 
 	/**
 	 * All data
 	 */
-	const DATA_ALL			= "all";
+	const DATA_ALL = "all";
 
 	/**
 	 * Event which describes the entity has been deleted
 	 */
-	const EVENT_DELETED	= "onDeleted";
+	const EVENT_DELETED = "onDeleted";
 
 	/**
 	 * Event which describes the entity has been perisisted
 	 */
-	const EVENT_PERSISTED	= "onPersisted";
+	const EVENT_PERSISTED = "onPersisted";
 
 	/**
 	 * The entity is new and not persisted by the inseter.
 	 */
-	const STATE_NEW			= "new";
+	const STATE_NEW = "new";
 
 	/**
 	 * The entity has been already persisted, but a column has been changed.
 	 */
-	const STATE_MODIFIED	= "modified";
+	const STATE_MODIFIED = "modified";
 
 	/**
 	 * The entity is persisted and the attributes and columns in database  are the same.
 	 */
-	const STATE_PERSISTED	= "persisted";
+	const STATE_PERSISTED = "persisted";
 
 	/**
 	 * The entity is deleted
 	 */
-	const STATE_DELETED		= "deleted";
+	const STATE_DELETED = "deleted";
 
 	/**
 	 * It adds a listener which is called after the entity is persisted
@@ -73,7 +68,7 @@ interface IEntity extends IObject, IListenable {
 	 * @see EntityPersistedEvent
 	 */
 	function addOnPersistListener(IListener $listener);
-	
+
 	/**
 	 * It deletes the entity
 	 */

@@ -1,16 +1,25 @@
 <?php
-class YazResult implements IteratorAggregate, Countable
-{
+
+/**
+ * YAZ Result
+ * @author Jan Papousek
+ * @author Jan Drabek
+ */
+
+namespace Leganto\External\Yaz;
+
+use Leganto\External\Yaz\YazConnection;
+
+class YazResult implements IteratorAggregate, Countable {
 
 	private $connection;
-
 	private $format;
 
 	const FORMAT_ARRAY = 'array';
 
 	const FORMAT_DATABASE = 'database';
 
-	const FORMAT_RECORD	= 'record';
+	const FORMAT_RECORD = 'record';
 
 	const FORMAT_RAW = 'raw';
 
@@ -20,9 +29,9 @@ class YazResult implements IteratorAggregate, Countable
 
 	const FORMAT_XML = 'xml';
 
-	public function  __construct(YazConnection $connection, $format = self::FORMAT_ARRAY) {
-		$this->connection	= $connection;
-		$this->format		= $format;
+	public function __construct(YazConnection $connection, $format = self::FORMAT_ARRAY) {
+		$this->connection = $connection;
+		$this->format = $format;
 	}
 
 	public function count() {
@@ -38,42 +47,39 @@ class YazResult implements IteratorAggregate, Countable
 	}
 
 	public function entry($position, $format = NULL) {
-		if ($format === NULL) $format = $this->format;
+		if ($format === NULL)
+			$format = $this->format;
 		if ($format !== self::FORMAT_RECORD) {
 			$record = yaz_record($this->connection->getId(), $position, $format);
 			$this->connection->checkError();
 			return $record;
-		}
-		else {
+		} else {
 			$record = yaz_record($this->connection->getId(), $position, self::FORMAT_XML);
 			$this->connection->checkError();
 			return YazRecord::fromXml($record);
 		}
-		
 	}
-}
 
+}
 
 class YazResultIterator implements Iterator {
 
 	private $position;
-	
+
 	/** @var YazResult */
 	private $result;
-
 	private $size;
 
-	public function  __construct(YazResult $result) {
-		$this->result	= $result;
+	public function __construct(YazResult $result) {
+		$this->result = $result;
 		$this->position = 1;
-		$this->size		= $result->count();
+		$this->size = $result->count();
 	}
 
 	public function current() {
 		if ($this->position <= $this->size) {
 			return $this->result->entry($this->position);
-		}
-		else {
+		} else {
 			return NULL;
 		}
 	}
@@ -93,4 +99,5 @@ class YazResultIterator implements Iterator {
 	public function valid() {
 		return $this->position <= $this->size;
 	}
+
 }

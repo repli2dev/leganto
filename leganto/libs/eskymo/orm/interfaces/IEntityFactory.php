@@ -1,22 +1,22 @@
 <?php
-/**
- * This source file is subject to the "New BSD License".
- *
- * For more information please see http://code.google.com/p/eskymofw/
- *
- * @copyright	Copyright (c) 2009 Jan Papoušek (jan.papousek@gmail.com),
- *				Jan Drábek (repli2dev@gmail.com)
- * @license		http://www.opensource.org/licenses/bsd-license.php
- * @link		http://code.google.com/p/eskymofw/
- */
 
 /**
- * @author		Jan Papousek
- * @author		Jan Drabek
- * @version		$Id$
+ * Interface of factory for entites
+ *
+ * @copyright	Copyright (c) 2009 Jan Papoušek (jan.papousek@gmail.com),
+ * 				Jan Drábek (repli2dev@gmail.com)
+ * @license		http://www.opensource.org/licenses/bsd-license.php
  */
+
 namespace Leganto\ORM;
-use \IDataSource;
+
+use IDataSource,
+    Leganto\ORM\IInsertable,
+    Leganto\ORM\IUpdateable,
+    Leganto\ORM\ISelectable,
+    Leganto\ORM\IDeletable,
+    Leganto\ORM\IEntity,
+    DibiConnection;
 
 interface IEntityFactory extends IInsertable, IUpdateable, ISelectable, IDeletable {
 
@@ -29,11 +29,10 @@ interface IEntityFactory extends IInsertable, IUpdateable, ISelectable, IDeletab
 	 * @return IEntity
 	 */
 	function fetchAndCreate(IDataSource $source);
-	
+
 	/**
 	 * 
 	 * @return array 
 	 */
 	function fetchAndCreateAll(IDataSource $source);
-
 }

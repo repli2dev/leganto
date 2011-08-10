@@ -6,24 +6,25 @@
  * @copyright	Copyright (c) 2009 Jan Papoušek (jan.papousek@gmail.com),
  * 				Jan Drábek (me@jandrabek.cz)
  * @link		http://code.google.com/p/preader/
- * @license		http://code.google.com/p/preader/
  * @author		Jan Papousek
  * @author		Jan Drabek
- * @version		$id$
  */
+
 namespace Leganto\Templating;
-use	Nette\Templating\ITemplate,
-	Nette\Latte\Engine,
-	Leganto\System;
+
+use Nette\Templating\ITemplate,
+    Nette\Latte\Engine,
+    Leganto\System;
 
 final class Template {
 
 	final private function __construct() {
-
+		// Static class only
 	}
 
 	/**
 	 * Adding basic helpers and system translator
+	 * 
 	 * @param ITemplate $template
 	 * @return ITemplate
 	 */

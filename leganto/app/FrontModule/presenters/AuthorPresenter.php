@@ -26,7 +26,7 @@ class AuthorPresenter extends BasePresenter {
 		if (!Environment::getUser()->isAllowed(Resource::AUTHOR, Action::EDIT)) {
 			$this->unauthorized();
 		}
-		if (Factory::books()->getSelector()->findAllByAuthor($this->getAuthor())->count() != 0) {
+		if (Factory::book()->getSelector()->findAllByAuthor($this->getAuthor())->count() != 0) {
 			$this->flashMessage(System::translate("The author can't be deleted, because there are some books which are written by this author."), "error");
 			$this->redirect("default", $author);
 		}
@@ -68,7 +68,7 @@ class AuthorPresenter extends BasePresenter {
 	public function renderDefault($author) {
 		$this->getTemplate()->author = $this->getAuthor();
 		$this->getComponent("bookList")->setSource(
-			Factory::books()->getSelector()->findAllByAuthor($this->getAuthor())
+			Factory::book()->getSelector()->findAllByAuthor($this->getAuthor())
 		);
 		$this->setPageTitle($this->getTemplate()->author->fullname);
 		$this->setPageDescription(System::translate("This is the detail page about the author, it shows all books by this author, which have been already inserted in our website."));
@@ -80,7 +80,7 @@ class AuthorPresenter extends BasePresenter {
 		if (isSet($cache[md5($term)])) {
 			echo json_encode($cache[md5($term)]);
 		} else {
-			$items = Factory::authors()->getSelector()->suggest($term)->select("full_name")->applyLimit(10)->fetchAssoc("full_name");
+			$items = Factory::author()->getSelector()->suggest($term)->select("full_name")->applyLimit(10)->fetchAssoc("full_name");
 			foreach ($items as $item) {
 				$results[] = $item->full_name;
 			}
@@ -116,7 +116,7 @@ class AuthorPresenter extends BasePresenter {
 	private function getAuthor() {
 		if (!isset($this->author)) {
 			if ($this->getParam("author") != NULL) {
-				$this->author = Factory::authors()->getSelector()->find($this->getParam("author"));
+				$this->author = Factory::author()->getSelector()->find($this->getParam("author"));
 			} else {
 				$this->author = NULL;
 			}

@@ -20,7 +20,7 @@ class RelatedBookList extends BaseListComponent {
 		$this->getTemplate()->books = array();
 		$this->getTemplate()->covers = array();
 		$storage = new EditionImageStorage();
-		while ($book = Factory::books()->fetchAndCreate($this->getSource())) {
+		while ($book = Factory::book()->fetchAndCreate($this->getSource())) {
 			$this->getTemplate()->books[] = $book;
 			$this->getTemplate()->covers[$book->getId()] = $storage->getRandomFileByBook($book);
 		}

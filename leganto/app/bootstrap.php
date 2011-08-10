@@ -37,13 +37,15 @@ if ($debug["enable"]) {
 
 // Step 4: Setup routing
 $router = $container->application->getRouter();
-FrontModule\Routes::add($router);
 ApiModule\Routes::add($router);
 CronModule\Routes::add($router);
+FrontModule\Routes::add($router);
 
 // Step 6: Database connection
-// lazy connect should be enabled in config.ini
-dibi::connect($container->params["database"]);
+// Lazy connect should be enabled in config.neon
+$connection = new DibiConnection($container->params["database"]);
+$container->addService("database", $connection);
+Leganto\DB\Factory::setConnection($connection);
 
 // Step 7: Start session
 $container->getService("session")->setExpiration("+7 days");

@@ -19,8 +19,8 @@ class RssPresenter extends BasePresenter {
 	public function renderDefault($user = NULL) {
 		$source = Factory::feed()->getSelector()->findAll();
 		if (!empty($user)) {
-			$userEntity = Factory::users()->getSelector()->find($user);
-			$users = Factory::users()->getSelector()->findAllFollowed($userEntity)->fetchPairs("id_user", "id_user");
+			$userEntity = Factory::user()->getSelector()->find($user);
+			$users = Factory::user()->getSelector()->findAllFollowed($userEntity)->fetchPairs("id_user", "id_user");
 			// Only apply if there are any followed users
 			if(count($users) > 0) {
 				$source->where("id_user IN %l", $users);

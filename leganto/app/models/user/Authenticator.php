@@ -1,17 +1,24 @@
 <?php
+
 /**
- *
+ * Authenticator
  * @copyright	Copyright (c) 2009 Jan Papoušek (jan.papousek@gmail.com),
- *				Jan Drábek (me@jandrabek.cz)
+ * 				Jan Drábek (me@jandrabek.cz)
  * @link		http://code.google.com/p/preader/
- * @license		http://code.google.com/p/preader/
  * @author		Jan Papousek
  * @author		Jan Drabek
- * @version		$id$
  */
+
 namespace Leganto\DB\User;
+
 use Leganto\ORM\Workers\ISelector,
-	Leganto\DB\Factory;
+    Leganto\DB\Factory,
+    Nette\Security\IAuthorizator,
+    Nette\Security\IAuthenticator,
+    Nette\Security\AuthenticationException,
+    Leganto\ACL\Role,
+    Nette\Security\Identity,
+    Nette\DateTime;
 
 class Authenticator {
 
@@ -22,25 +29,25 @@ class Authenticator {
 	 */
 	public function authenticate(array $credentials) {
 		// External login
-		if(!empty($credentials['extra'])) { // Extra data (possible token) was found in credentials data -> try to find connection and log user in.
+		if (!empty($credentials['extra'])) { // Extra data (possible token) was found in credentials data -> try to find connection and log user in.
 			$token = $credentials['extra'];
-			$row = Factory::connections()->getSelector()->findAll()->where("[token] = %s", $token)->fetch();
-			if(empty($row)){ // User for this token was not found
+			$row = Factory::connection()->getSelector()->findAll()->where("[token] = %s", $token)->fetch();
+			if (empty($row)) { // User for this token was not found
 				throw new AuthenticationException(
 					"The user does not exist.",
 					IAuthenticator::IDENTITY_NOT_FOUND
 				);
 			}
 			// Load data connected to that token.
-			$row = Factory::users()
+			$row = Factory::user()
 				->fetchAndCreate(
-					Factory::users()->getSelector()->findAll()->where("[id_user] = %i", $row["id_user"])->applyLimit(1)
-					);
+				Factory::user()->getSelector()->findAll()->where("[id_user] = %i", $row["id_user"])->applyLimit(1)
+			);
 			$name = $row->nickname;
 		} else { // Internal login
 			$name = $credentials[IAuthenticator::USERNAME];
 			$password = self::passwordHash($credentials[IAuthenticator::PASSWORD]);
-			$row = Factory::users()->getSelector()->findByNick($name);
+			$row = Factory::user()->getSelector()->findByNick($name);
 		}
 		// Atuehntication failed -> throw execption.
 		if (empty($row)) {

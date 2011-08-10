@@ -1,12 +1,12 @@
-<?php //netteCache[01]000400a:2:{s:4:"time";s:21:"0.57770400 1312882592";s:9:"callbacks";a:2:{i:0;a:3:{i:0;a:2:{i:0;s:19:"Nette\Caching\Cache";i:1;s:9:"checkFile";}i:1;s:78:"/home/Weby/Ostatni/preader/www/leganto/app/FrontModule/templates/@layout.latte";i:2;i:1312882589;}i:1;a:3:{i:0;a:2:{i:0;s:19:"Nette\Caching\Cache";i:1;s:10:"checkConst";}i:1;s:25:"Nette\Framework::REVISION";i:2;s:30:"6889b94 released on 2011-08-04";}}}?><?php
+<?php //netteCache[01]000400a:2:{s:4:"time";s:21:"0.30624200 1312992729";s:9:"callbacks";a:2:{i:0;a:3:{i:0;a:2:{i:0;s:19:"Nette\Caching\Cache";i:1;s:9:"checkFile";}i:1;s:78:"/home/Weby/Ostatni/preader/www/leganto/app/FrontModule/templates/@layout.latte";i:2;i:1312992727;}i:1;a:3:{i:0;a:2:{i:0;s:19:"Nette\Caching\Cache";i:1;s:10:"checkConst";}i:1;s:25:"Nette\Framework::REVISION";i:2;s:30:"6889b94 released on 2011-08-04";}}}?><?php
 
 // source file: /home/Weby/Ostatni/preader/www/leganto/app/FrontModule/templates/@layout.latte
 
-?><?php list($_l, $_g) = Nette\Latte\Macros\CoreMacros::initRuntime($template, 'bc3cgwj1xe')
+?><?php list($_l, $_g) = Nette\Latte\Macros\CoreMacros::initRuntime($template, '2a58rvzj0j')
 ;//
 // block content
 //
-if (!function_exists($_l->blocks['content'][] = '_lb1639848dd7_content')) { function _lb1639848dd7_content($_l, $_args) { extract($_args)
+if (!function_exists($_l->blocks['content'][] = '_lb978d181222_content')) { function _lb978d181222_content($_l, $_args) { extract($_args)
 ?>
 			<?php echo Nette\Templating\DefaultHelpers::escapeHtml($template->translate('No content'), ENT_NOQUOTES) ?>
 
@@ -48,7 +48,7 @@ if ($_l->extends) {
 
 				<link rel="alternate" type="application/rss+xml" title="Leganto: feed of all users" href="<?php echo htmlSpecialChars($presenter->link("Rss:")) ?>" />
 <?php if ($presenter->getUser()->isLoggedIn()): ?>
-			<link rel="alternate" type="application/rss+xml" title="Leganto: your feed" href="<?php echo htmlSpecialChars($presenter->link("Rss:", array(System::user()->getId()))) ?>" />
+			<link rel="alternate" type="application/rss+xml" title="Leganto: your feed" href="<?php echo htmlSpecialChars($presenter->link("Rss:", array($presenter->getUser()->getId()))) ?>" />
 <?php endif ?>
 		
 		<link rel="stylesheet" type="text/css" href="/css/main.css" />

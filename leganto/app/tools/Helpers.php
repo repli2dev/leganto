@@ -1,47 +1,53 @@
 <?php
+
 /**
  * Helper class to easy things up. Defines specific tasks on texts (texy), images (storage) etc.
  *
  * @copyright	Copyright (c) 2009 Jan Papoušek (jan.papousek@gmail.com),
  * 				Jan Drábek (me@jandrabek.cz)
  * @link		http://code.google.com/p/preader/
- * @license		http://code.google.com/p/preader/
  * @author		Jan Papousek
  * @author		Jan Drabek
- * @version		$id$
  */
+
 namespace Leganto\Templating;
+
 use Leganto\Storage\EditionImageStorage,
- Leganto\Storage\UserIconStorage,
-	Nette\Image,
-	Nette\Environment,
-	Texy,
-	Leganto\System;
+    Leganto\Storage\UserIconStorage,
+    Nette\Image,
+    Nette\Environment,
+    Texy,
+    Leganto\System,
+    InvalidArgumentException;
 
 final class Helpers {
 
 	/** @var EditionImageStorage */
 	private static $editionImageStorage;
+
 	/** @var UserIconStorage */
 	private static $userIconStorage;
+
 	/** @var Texy */
 	private static $texy;
+
 	/** @var Texy */
 	private static $texySafe;
 
 	final private function __construct() {
+		
 	}
 
 	/**
 	 * It returns the callback for helper with given name
 	 * @param string $helper The name of helper.
 	 * @return callback The callback to the helper.
-	 * @throws \InvalidArgumentException if the $helper is empty.
-	 * @throws DataNotFoundException if the helper does not exist.
+	 * @throws InvalidArgumentException if the $helper is empty.
+	 * @throws InvalidArgumentException if the helper does not exist.
 	 */
 	public static function getHelper($helper) {
 		if (empty($helper)) {
-			throw \InvalidArgumentException("helper");
+			throw InvalidArgumentException("Empty helper.");
 		}
 		switch ($helper) {
 			case "date": return array(get_class(), 'dateFormatHelper');
@@ -67,16 +73,17 @@ final class Helpers {
 			case "achievementName": return array(get_class(), "AchievementNameHelper");
 				break;
 			default:
-				throw new \InvalidArgumentException("helper: $helper");
+				throw new InvalidArgumentException("Helper $helper doesn't exists.");
 		}
 	}
+
 	/**
 	 * Returns name of given level of achievement
 	 * @param int level of achievement
 	 * @param string type of achievement
 	 * @return string name of level
 	 */
-	public static function AchievementNameHelper($level,$type) {
+	public static function AchievementNameHelper($level, $type) {
 		// Ugly but creating array would take long calling of System:translate more than once.
 		switch ($type) {
 			case 'books':
@@ -161,10 +168,7 @@ final class Helpers {
 	 */
 	public static function bookCoverHelper($bookTitleId, $width = NULL, $height = NULL) {
 		return self::thumbnailHelper(
-			self::getEditionImageStorage()->getRandomFileByBookTitleId($bookTitleId),
-			$width,
-			$height,
-			"/img/book_placeholder.png"
+				self::getEditionImageStorage()->getRandomFileByBookTitleId($bookTitleId), $width, $height, "/img/book_placeholder.png"
 		);
 	}
 
@@ -298,7 +302,7 @@ final class Helpers {
 	/**
 	 * Translate wiki-like links to real ones
 	 * @param string input
-	 * @return string ouptu
+	 * @return string output
 	 */
 	public static function wikiLinks($string) {
 		$patterns[0] = '/\[([^)^\]\|]+)\]/';
@@ -337,13 +341,13 @@ final class Helpers {
 			$path = $image;
 		}
 		if (!empty($width) && !empty($height)) {
-			$url = $presenter->link("Thumb:resize", $path, $width, $height,$format);
+			$url = $presenter->link("Thumb:resize", $path, $width, $height, $format);
 		} else
 		if (!empty($width)) {
-			$url = $presenter->link("Thumb:resize", $path, $width, NULL,$format);
+			$url = $presenter->link("Thumb:resize", $path, $width, NULL, $format);
 		} else
 		if (!empty($height)) {
-			$url = $presenter->link("Thumb:resize", $path, NULL, $height,$format);
+			$url = $presenter->link("Thumb:resize", $path, NULL, $height, $format);
 		}
 		return $url;
 	}
@@ -368,10 +372,7 @@ final class Helpers {
 	 */
 	public static function userIconHelper($userId, $width = NULL, $height = NULL) {
 		return self::thumbnailHelper(
-			self::getUserIconStorage()->getFileById($userId),
-			$width,
-			$height,
-			"/img/avatar_placeholder.png"
+				self::getUserIconStorage()->getFileById($userId), $width, $height, "/img/avatar_placeholder.png"
 		);
 	}
 
@@ -379,7 +380,7 @@ final class Helpers {
 	 * It returns human readable rating
 	 *
 	 * @param int $rating grade
-	 * @return string
+	 * @return string Textual rating
 	 */
 	public static function ratingHelper($rating) {
 		switch ($rating) {
@@ -409,10 +410,16 @@ final class Helpers {
 		}
 		return self::$editionImageStorage;
 	}
-	
+
+	/**
+	 * Strip namespace from class name
+	 * 
+	 * @param string $name Name with namespace
+	 * @return string Name of clasc without namespace
+	 */
 	public static function parseClassName($name) {
-		$temp = explode("\\",$name);
-		return $temp[count($temp)-1];
+		$temp = explode("\\", $name);
+		return $temp[count($temp) - 1];
 	}
 
 }

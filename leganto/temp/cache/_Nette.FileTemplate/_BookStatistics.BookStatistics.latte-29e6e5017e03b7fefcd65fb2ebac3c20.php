@@ -1,8 +1,8 @@
-<?php //netteCache[01]000424a:2:{s:4:"time";s:21:"0.62432400 1312902739";s:9:"callbacks";a:2:{i:0;a:3:{i:0;a:2:{i:0;s:19:"Nette\Caching\Cache";i:1;s:9:"checkFile";}i:1;s:101:"/home/Weby/Ostatni/preader/www/leganto/app/FrontModule/components/BookStatistics/BookStatistics.latte";i:2;i:1312901963;}i:1;a:3:{i:0;a:2:{i:0;s:19:"Nette\Caching\Cache";i:1;s:10:"checkConst";}i:1;s:25:"Nette\Framework::REVISION";i:2;s:30:"6889b94 released on 2011-08-04";}}}?><?php
+<?php //netteCache[01]000424a:2:{s:4:"time";s:21:"0.64310400 1312986743";s:9:"callbacks";a:2:{i:0;a:3:{i:0;a:2:{i:0;s:19:"Nette\Caching\Cache";i:1;s:9:"checkFile";}i:1;s:101:"/home/Weby/Ostatni/preader/www/leganto/app/FrontModule/components/BookStatistics/BookStatistics.latte";i:2;i:1312986653;}i:1;a:3:{i:0;a:2:{i:0;s:19:"Nette\Caching\Cache";i:1;s:10:"checkConst";}i:1;s:25:"Nette\Framework::REVISION";i:2;s:30:"6889b94 released on 2011-08-04";}}}?><?php
 
 // source file: /home/Weby/Ostatni/preader/www/leganto/app/FrontModule/components/BookStatistics/BookStatistics.latte
 
-?><?php list($_l, $_g) = Nette\Latte\Macros\CoreMacros::initRuntime($template, 'u1gwto60r8')
+?><?php list($_l, $_g) = Nette\Latte\Macros\CoreMacros::initRuntime($template, '1g2avab1w2')
 ;
 // snippets support
 if (!empty($control->snippetMode)) {

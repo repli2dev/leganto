@@ -1,4 +1,4 @@
-<?php //netteCache[01]000224a:2:{s:4:"time";s:21:"0.67300500 1312892772";s:9:"callbacks";a:1:{i:0;a:3:{i:0;a:2:{i:0;s:19:"Nette\Caching\Cache";i:1;s:9:"checkFile";}i:1;s:54:"/home/Weby/Ostatni/preader/www/leganto/app/config.neon";i:2;i:1312892764;}}}?><?php
+<?php //netteCache[01]000224a:2:{s:4:"time";s:21:"0.56565700 1312990174";s:9:"callbacks";a:1:{i:0;a:3:{i:0;a:2:{i:0;s:19:"Nette\Caching\Cache";i:1;s:9:"checkFile";}i:1;s:54:"/home/Weby/Ostatni/preader/www/leganto/app/config.neon";i:2;i:1312989987;}}}?><?php
 // source file /home/Weby/Ostatni/preader/www/leganto/app/config.neon
 
 $container->addService('robotLoader', function($container) {
@@ -28,6 +28,10 @@ $container->params['twitter'] = array (
   'enable' => false,
   'apiKey' => false,
   'secret' => false,
+);
+
+$container->params['cron'] = array (
+  'key' => 'gRpE6hrKEltAo63sOnQA',
 );
 
 $container->params['debug'] = array (

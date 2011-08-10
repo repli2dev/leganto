@@ -31,7 +31,7 @@ class SearchPresenter extends BasePresenter {
 			$this->getTemplate()->message = System::translate("Enter text to search before you start searching!");
 			return;
 		}
-		$source = Factory::books()->getSelector()->search($query);
+		$source = Factory::book()->getSelector()->search($query);
 		// If there is only one result then redirect to it
 		$count = $source->count();
 		if ($count == 0) {
@@ -55,7 +55,7 @@ class SearchPresenter extends BasePresenter {
 			$this->getTemplate()->message = System::translate("Enter text to search before you start searching!");
 			return;
 		}
-		$source = Factory::authors()->getSelector()->search($query);
+		$source = Factory::author()->getSelector()->search($query);
 		$count = $source->count();
 		if ($count == 0) {
 			$this->getTemplate()->message = System::translate("Nothing was found for your query, please be less specific.");
@@ -78,7 +78,7 @@ class SearchPresenter extends BasePresenter {
 			$this->getTemplate()->message = System::translate("Enter text to search before you start searching!");
 			return;
 		}
-		$source = Factory::posts()->getSelector()->search($query);
+		$source = Factory::post()->getSelector()->search($query);
 		$count = $source->count();
 		if ($count == 0) {
 			$this->getTemplate()->message = System::translate("Nothing was found for your query, please be less specific.");
@@ -99,7 +99,7 @@ class SearchPresenter extends BasePresenter {
 			$this->getTemplate()->message = System::translate("Enter text to search before you start searching!");
 			return;
 		}
-		$source = Factory::users()->getSelector()->search($query);
+		$source = Factory::user()->getSelector()->search($query);
 		$count = $source->count();
 		if ($count == 0) {
 			$this->getTemplate()->message = System::translate("Nothing was found for your query, please be less specific.");
@@ -138,10 +138,10 @@ class SearchPresenter extends BasePresenter {
 	}
 
 	public function renderAllBooks() {
-		$source = Factory::books()->getSelector()->findAll()->orderBy("inserted","DESC");
+		$source = Factory::book()->getSelector()->findAll()->orderBy("inserted","DESC");
 		$this->getComponent("searchList")->setSource($source);
 		$this->getTemplate()->numOfAllBooks = $source->count();
-		$this->getTemplate()->numOfAllAuthors = Factory::authors()->getSelector()->findAll()->count();
+		$this->getTemplate()->numOfAllAuthors = Factory::author()->getSelector()->findAll()->count();
 
 		$this->getTemplate()->title = System::translate("All books");
 		$this->setPageTitle(System::translate("All books"));

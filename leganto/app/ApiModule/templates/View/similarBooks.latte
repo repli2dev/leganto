@@ -1,0 +1,18 @@
+<?php echo '<?xml version="1.0" encoding="UTF-8"?>' ?>
+
+<similar-books xmlns="http://leganto.com/api">
+	
+	{foreach $similar AS $similarBook}
+	<book>
+		<id>{$similarBook->getId()}</id>
+		<language>{$similarBook->language}</language>
+		<title>{$similarBook->title}</title>
+		{if !empty($similarBook->subtitle)}
+		<subtitle>{$similarBook->subtitle}</subtitle>
+		{/if}
+		<rating>{$similarBook->rating}</rating>
+		<number-of-opinions>{$similarBook->numberOfOpinions}</number-of-opinions>
+	</book>
+	{/foreach}
+
+</similar-books>

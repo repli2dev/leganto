@@ -37,10 +37,10 @@ class DefaultPresenter extends BasePresenter {
 	}
 
 	public function renderFeed($firstTime = FALSE) {
-		if (!Environment::getUser()->isAuthenticated()) {
+		if (!$this->user->isLoggedIn()) {
 			$this->forward("default");
 		}
-		$session = Environment::getSession("postLogin");
+		$session = $this->getSession("postLogin");
 		if(isSet($session["returnUrl"])) {
 			$url = $session["returnUrl"];
 			$session->remove();
@@ -53,7 +53,7 @@ class DefaultPresenter extends BasePresenter {
 	}
 
 	public function renderTopBooks($limit = 200) {
-		$books = Factory::books()->getSelector()->findAllTop()->applyLimit($limit);
+		$books = Factory::book()->getSelector()->findAllTop()->applyLimit($limit);
 		$this->setPageTitle(System::translate("Top books"));
 		$this->getComponent("topBookList")->setLimit(18);
 		$this->getComponent("topBookList")->setSource($books);
