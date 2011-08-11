@@ -71,7 +71,7 @@ class Authenticator {
 		$role = Role::getRoleDescriptor($row);
 
 		// Or return new identity
-		return new Identity($name, $role, array("id" => $row->getId()));
+		return new Identity($row->getId(), $role, array("nickname" => $name));
 	}
 
 	/**

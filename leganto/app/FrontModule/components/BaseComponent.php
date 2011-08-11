@@ -16,9 +16,14 @@ use	Nette\Diagnostics\Debugger,
 	Leganto\Templating\Template,
 	Nette\Utils\Strings,
 	Leganto\Templating\Helpers,
-	Nette\InvalidStateException;
+	Nette\InvalidStateException,
+	Leganto\DB\Factory,
+	Nette\Application\BadRequestException,
+	Exception;
 
 abstract class BaseComponent extends Control {
+	
+	private static $userEntity;
 
 	public function __construct(IContainer $parent = NULL, $name = NULL) {
 		parent::__construct($parent, $name);
@@ -58,19 +63,67 @@ abstract class BaseComponent extends Control {
 	}
 
 	protected final function unauthorized() {
-		$this->getPresenter()->redirect("Default:unauthorized");
+		throw new BadRequestException("",403);
 	}
 
 	protected final function unexpectedError(Exception $e, $display = TRUE) {
-		$this->getPresenter()->flashMessage(System::translate('An unexpected error has occurred.'), "error");
-		Debugger::processException($e, $display);
+		$this->getPresenter()->flashMessage($this->translate('An unexpected error has occurred.'), "error");
+		Debugger::log($e);
 	}
 	
 	protected function getContext() {
 		if($this->presenter === NULL) {
 			throw new InvalidStateException("Not attached to any presenter");
 		}
-		return $this->presenter->getContext();
+		return $this->getPresenter()->getContext();
+	}
+	
+	protected function getUser() {
+		if($this->presenter === NULL) {
+			throw new InvalidStateException("Not attached to any presenter");
+		}
+		return $this->getPresenter()->user;
+	}
+	
+	protected function getUserEntity() {
+		if(empty(self::$userEntity)) {
+			self::$userEntity = Factory::user()->getSelector()->find($this->getUser()->getId());
+		}
+		return self::$userEntity;
+	}
+
+	/** @return bool */
+	final public function isCurrentlyAuthenticated() {
+		if ($this->getUser() !== null) {
+			return TRUE;
+		} else {
+			return FALSE;
+		}
+	}
+
+	/** @return bool */
+	final public function isCurrentlyLogged($user) {
+		if ($this->getUser() !== null && $user === $this->getUser()->getId()) {
+			return TRUE;
+		} else {
+			return FALSE;
+		}
+	}
+
+	/** @return bool */
+	final public function isCurrentUserAdmin() {
+		$user = $this->getUser();
+		if ($user !== null && $user->isInRole(\Leganto\DB\User\Entity::ADMIN)) {
+			return TRUE;
+		} else {
+			return FALSE;
+		}
+	}
+	
+	/** @return string */
+	protected final function translate($message, $count = 1) {
+		$args = func_get_args();
+		return call_user_func_array(array($this->getContext()->getService("translator")->get(), 'translate'), $args);
 	}
 	
 

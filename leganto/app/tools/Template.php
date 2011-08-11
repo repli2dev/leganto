@@ -14,12 +14,23 @@ namespace Leganto\Templating;
 
 use Nette\Templating\ITemplate,
     Nette\Latte\Engine,
-    Leganto\System;
+    Nette\DI\IContainer;
 
 final class Template {
 
+	/** @var IContainer */
+	private static $container;
+
 	final private function __construct() {
 		// Static class only
+	}
+
+	/**
+	 * Set container (context), needed for access to services
+	 * @param IContainer $container 
+	 */
+	public static function setContainer(IContainer $container) {
+		self::$container = $container;
 	}
 
 	/**
@@ -47,7 +58,7 @@ final class Template {
 		$template->registerHelper("achievementName", Helpers::getHelper('achievementName'));
 
 		// give translator to templates
-		$template->setTranslator(System::translator());
+		$template->setTranslator(self::$container->getService("translator")->get());
 
 		return $template;
 	}

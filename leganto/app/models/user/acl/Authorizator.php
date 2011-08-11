@@ -11,9 +11,12 @@
 
 namespace Leganto\ACL;
 
-use \Nette\Security\IAuthorizator,
-    \Nette\Security\IAuthenticator,
-    \Nette\Security\Permission;
+use Nette\Security\IAuthorizator,
+    Nette\Security\IAuthenticator,
+    Nette\Security\Permission,
+    Leganto\ACL\Role,
+    Leganto\ACL\Resource,
+    Leganto\ACL\OwnerAssertion;
 
 class Authorizator implements IAuthorizator {
 
@@ -33,7 +36,7 @@ class Authorizator implements IAuthorizator {
 		if (empty($role)) {
 			return false;
 		}
-		return $this->getPermission()->isAllowed(Role::getLoggedRole($role), $resource, $privilege);
+		return $this->getPermission()->isAllowed(Role::get($role), $resource, $privilege);
 	}
 
 	/**

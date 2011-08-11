@@ -248,10 +248,11 @@ class Selector extends AWorker implements ISelector {
 	 *    * Books from most similar users
 	 *    * Good books (rating 4-5)
 	 * TODO: User should have option to say Never show again
+	 * @param \Leganto\DB\User\Entity $user
 	 * @return DibiDataSource
 	 */
-	public function findRecommendedBook() {
-		$user = System::user()->getId();
+	public function findRecommendedBook(\Leganto\DB\User\Entity $user) {
+		$user = $user->getId();
 		$result = $this->connection->dataSource("
 			SELECT * FROM [tmp_recommended_book] WHERE [id_user] = %i
 			ORDER BY RAND() LIMIT 1

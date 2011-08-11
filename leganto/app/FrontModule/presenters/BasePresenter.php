@@ -1,25 +1,30 @@
 <?php
 
 /**
- *
+ * Base presenter
  * @copyright	Copyright (c) 2009 Jan Papoušek (jan.papousek@gmail.com),
  * 				Jan Drábek (me@jandrabek.cz)
  * @link		http://code.google.com/p/preader/
- * @license		http://code.google.com/p/preader/
  * @author		Jan Papousek
  * @author		Jan Drabek
- * @version		$id$
  */
+
 namespace FrontModule;
+
 use FrontModule\Components\Navigation,
     FrontModule\Components\Search,
-    FrontModule\Components\FlashMessages;
+    FrontModule\Components\FlashMessages,
+    Nette\Diagnostics\Debugger,
+    Nette\Application\BadRequestException;
 
 class BasePresenter extends \BasePresenter {
 
 	protected function beforeRender() {
 		// HACK
 		$this->getComponent("navigation");
+		
+		$this->getTemplate()->domain = $this->getService("environment")->domain();
+		$this->getTemplate()->robots = true;
 	}
 
 	/**
@@ -59,12 +64,18 @@ class BasePresenter extends \BasePresenter {
 	}
 
 	protected final function unauthorized() {
-		$this->redirect("Default:unauthorized");
+		throw new BadRequestException("", 403);
 	}
 
 	protected final function unexpectedError(Exception $e) {
-		$this->flashMessage(System::translate('An unexpected error has occurred.'), "error");
-		Debug::processException($e);
+		$this->flashMessage($this->translate('An unexpected error has occurred.'), "error");
+		Debugger::processException($e);
+	}
+
+	/** @return string */
+	protected final function translate($message, $count = 1) {
+		$args = func_get_args();
+		return call_user_func_array(array($this->getContext()->getService("translator")->get(), 'translate'), $args);
 	}
 
 }

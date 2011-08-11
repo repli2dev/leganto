@@ -1,17 +1,14 @@
 <?php
 /**
- *
+ * Sarch presenter
  * @copyright	Copyright (c) 2009 Jan Papoušek (jan.papousek@gmail.com),
  * 				Jan Drábek (me@jandrabek.cz)
  * @link		http://code.google.com/p/preader/
- * @license		http://code.google.com/p/preader/
  * @author		Jan Papousek
  * @author		Jan Drabek
- * @version		$id$
  */
 namespace FrontModule;
-use	Leganto\System,
-	Leganto\DB\Factory,
+use	Leganto\DB\Factory,
 	FrontModule\Components\Submenu,
 	FrontModule\Components\BookList,
 	FrontModule\Components\Search,
@@ -23,19 +20,19 @@ use	Leganto\System,
 class SearchPresenter extends BasePresenter {
 
 	public function renderDefault($query) {
-		$this->getTemplate()->title = System::translate("Book search");
+		$this->getTemplate()->title = $this->translate("Book search");
 		$this->setPageTitle($this->getTemplate()->title);
-		$this->setPageDescription(System::translate("Search the text phrase in all books."));
-		$this->setPageKeywords(System::translate("search, find, books"));
+		$this->setPageDescription($this->translate("Search the text phrase in all books."));
+		$this->setPageKeywords($this->translate("search, find, books"));
 		if (empty($query)) {
-			$this->getTemplate()->message = System::translate("Enter text to search before you start searching!");
+			$this->getTemplate()->message = $this->translate("Enter text to search before you start searching!");
 			return;
 		}
 		$source = Factory::book()->getSelector()->search($query);
 		// If there is only one result then redirect to it
 		$count = $source->count();
 		if ($count == 0) {
-			$this->getTemplate()->message = System::translate("Nothing was found for your query, please be less specific.");
+			$this->getTemplate()->message = $this->translate("Nothing was found for your query, please be less specific.");
 			return;
 		} else
 		if ($count == 1) {
@@ -47,18 +44,18 @@ class SearchPresenter extends BasePresenter {
 	}
 
 	public function renderAuthor($query) {
-		$this->getTemplate()->title = System::translate("Author search");
-		$this->setPageDescription(System::translate("Search the text phrase in all authors."));
-		$this->setPageKeywords(System::translate("author, search, find"));
+		$this->getTemplate()->title = $this->translate("Author search");
+		$this->setPageDescription($this->translate("Search the text phrase in all authors."));
+		$this->setPageKeywords($this->translate("author, search, find"));
 		$this->setPageTitle($this->getTemplate()->title);
 		if (empty($query)) {
-			$this->getTemplate()->message = System::translate("Enter text to search before you start searching!");
+			$this->getTemplate()->message = $this->translate("Enter text to search before you start searching!");
 			return;
 		}
 		$source = Factory::author()->getSelector()->search($query);
 		$count = $source->count();
 		if ($count == 0) {
-			$this->getTemplate()->message = System::translate("Nothing was found for your query, please be less specific.");
+			$this->getTemplate()->message = $this->translate("Nothing was found for your query, please be less specific.");
 			return;
 		} else
 		if ($count == 1) {
@@ -70,18 +67,18 @@ class SearchPresenter extends BasePresenter {
 	}
 
 	public function renderDiscussion($query) {
-		$this->getTemplate()->title = System::translate("Discussion search");
-		$this->setPageDescription(System::translate("Search the text phrase in all discussions."));
-		$this->setPageKeywords(System::translate("discussion, search, find"));
+		$this->getTemplate()->title = $this->translate("Discussion search");
+		$this->setPageDescription($this->translate("Search the text phrase in all discussions."));
+		$this->setPageKeywords($this->translate("discussion, search, find"));
 		$this->setPageTitle($this->getTemplate()->title);
 		if (empty($query)) {
-			$this->getTemplate()->message = System::translate("Enter text to search before you start searching!");
+			$this->getTemplate()->message = $this->translate("Enter text to search before you start searching!");
 			return;
 		}
 		$source = Factory::post()->getSelector()->search($query);
 		$count = $source->count();
 		if ($count == 0) {
-			$this->getTemplate()->message = System::translate("Nothing was found for your query, please be less specific.");
+			$this->getTemplate()->message = $this->translate("Nothing was found for your query, please be less specific.");
 			return;
 		}
 		// TODO: pridat presmerovani pokud je vysledek jeden
@@ -91,18 +88,18 @@ class SearchPresenter extends BasePresenter {
 	}
 
 	public function renderUser($query) {
-		$this->getTemplate()->title = System::translate("User search");
-		$this->setPageDescription(System::translate("Search the text phrase in all users."));
-		$this->setPageKeywords(System::translate("discussion, search, find"));
+		$this->getTemplate()->title = $this->translate("User search");
+		$this->setPageDescription($this->translate("Search the text phrase in all users."));
+		$this->setPageKeywords($this->translate("discussion, search, find"));
 		$this->setPageTitle($this->getTemplate()->title);
 		if (empty($query)) {
-			$this->getTemplate()->message = System::translate("Enter text to search before you start searching!");
+			$this->getTemplate()->message = $this->translate("Enter text to search before you start searching!");
 			return;
 		}
 		$source = Factory::user()->getSelector()->search($query);
 		$count = $source->count();
 		if ($count == 0) {
-			$this->getTemplate()->message = System::translate("Nothing was found for your query, please be less specific.");
+			$this->getTemplate()->message = $this->translate("Nothing was found for your query, please be less specific.");
 			return;
 		} else
 		if ($count == 1) {
@@ -114,19 +111,19 @@ class SearchPresenter extends BasePresenter {
 	}
 
 	public function renderHelp($query) {
-		$this->getTemplate()->title = System::translate("Help search");
-		$this->setPageDescription(System::translate("Search the text phrase in the whole help section."));
-		$this->setPageKeywords(System::translate("help section, search, find"));
+		$this->getTemplate()->title = $this->translate("Help search");
+		$this->setPageDescription($this->translate("Search the text phrase in the whole help section."));
+		$this->setPageKeywords($this->translate("help section, search, find"));
 		$this->setPageTitle($this->getTemplate()->title);
 		if (empty($query)) {
-			$this->getTemplate()->message = System::translate("Enter text to search before you start searching!");
+			$this->getTemplate()->message = $this->translate("Enter text to search before you start searching!");
 			return;
 		}
 		$source = Factory::supportText()->getSelector()->search($query);
 		// If there is only one result then redirect to it
 		$count = $source->count();
 		if ($count == 0) {
-			$this->getTemplate()->message = System::translate("Nothing was found for your query, please be less specific.");
+			$this->getTemplate()->message = $this->translate("Nothing was found for your query, please be less specific.");
 			return;
 		} else
 		if ($count == 1) {
@@ -143,20 +140,20 @@ class SearchPresenter extends BasePresenter {
 		$this->getTemplate()->numOfAllBooks = $source->count();
 		$this->getTemplate()->numOfAllAuthors = Factory::author()->getSelector()->findAll()->count();
 
-		$this->getTemplate()->title = System::translate("All books");
-		$this->setPageTitle(System::translate("All books"));
-		$this->setPageDescription(System::translate("This is page where you can find all books in the system. So if you really don't know what to read, try this."));
-		$this->setPageKeywords(System::translate("book, detail, graphs, opinions, tags, editions, isbn, pages, what to read"));
+		$this->getTemplate()->title = $this->translate("All books");
+		$this->setPageTitle($this->translate("All books"));
+		$this->setPageDescription($this->translate("This is page where you can find all books in the system. So if you really don't know what to read, try this."));
+		$this->setPageKeywords($this->translate("book, detail, graphs, opinions, tags, editions, isbn, pages, what to read"));
 	}
 
 	protected function createComponentSubmenu($name) {
 		$query = $this->getParam("query");
 		$submenu = new Submenu($this, $name);
-		$submenu->addLink("default", System::translate("Book"), $query,System::translate("Search in books, keywords and authors"));
-		$submenu->addLink("author", System::translate("Author"), $query,System::translate("Search only in authors"));
-		$submenu->addLink("discussion", System::translate("Discussion"), $query,System::translate("Search in discussion topics and posts"));
-		$submenu->addLink("user", System::translate("User"), $query,System::translate("Search in users"));
-		$submenu->addLink("help", System::translate("Help"), $query,System::translate("Search in content of help pages"));
+		$submenu->addLink("default", $this->translate("Book"), $query,$this->translate("Search in books, keywords and authors"));
+		$submenu->addLink("author", $this->translate("Author"), $query,$this->translate("Search only in authors"));
+		$submenu->addLink("discussion", $this->translate("Discussion"), $query,$this->translate("Search in discussion topics and posts"));
+		$submenu->addLink("user", $this->translate("User"), $query,$this->translate("Search in users"));
+		$submenu->addLink("help", $this->translate("Help"), $query,$this->translate("Search in content of help pages"));
 		return $submenu;
 	}
 

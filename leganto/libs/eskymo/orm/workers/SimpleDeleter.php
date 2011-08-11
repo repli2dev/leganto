@@ -50,11 +50,12 @@ class SimpleDeleter implements IDeleter {
 	 * from the specified table.
 	 *
 	 * @param string $table
+	 * @param mixed $connection
 	 * @return IDeleter
 	 * @throws InvalidArgumentException if the $table is empty
 	 * @throws InvalidArgumentException if the $connection is empty
 	 */
-	public static function createDeleter($table) {
+	public static function createDeleter($table,$connection) {
 		if (empty($connection) || !$connection instanceof DibiConnection) {
 			throw new InvalidArgumentException("Empty connection.");
 		}
@@ -68,7 +69,7 @@ class SimpleDeleter implements IDeleter {
 	}
 
 	public function delete($id) {
-		SimpleTableModel::createTableModel($this->table)->delete($id);
+		SimpleTableModel::createTableModel($this->table,$this->connection)->delete($id);
 	}
 
 }

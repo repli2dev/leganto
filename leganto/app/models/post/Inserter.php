@@ -23,7 +23,7 @@ class Inserter extends AWorker implements IInserter {
 		if ($entity->getState() != IEntity::STATE_NEW) {
 			throw new InvalidArgumentException("The entity can not be inserted because it is not in state [NEW].");
 		}
-		if (!($entity instanceof PostEntity)) {
+		if (!($entity instanceof Entity)) {
 			throw new InvalidArgumentException("The entity is not the discussion post.");
 		}
 		// Check if the discussion exists.

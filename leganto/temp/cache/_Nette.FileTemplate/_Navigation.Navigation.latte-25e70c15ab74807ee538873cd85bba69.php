@@ -1,8 +1,8 @@
-<?php //netteCache[01]000415a:2:{s:4:"time";s:21:"0.23517800 1312986682";s:9:"callbacks";a:2:{i:0;a:3:{i:0;a:2:{i:0;s:19:"Nette\Caching\Cache";i:1;s:9:"checkFile";}i:1;s:93:"/home/Weby/Ostatni/preader/www/leganto/app/FrontModule/components/Navigation/Navigation.latte";i:2;i:1312986653;}i:1;a:3:{i:0;a:2:{i:0;s:19:"Nette\Caching\Cache";i:1;s:10:"checkConst";}i:1;s:25:"Nette\Framework::REVISION";i:2;s:30:"6889b94 released on 2011-08-04";}}}?><?php
+<?php //netteCache[01]000415a:2:{s:4:"time";s:21:"0.97855600 1313051946";s:9:"callbacks";a:2:{i:0;a:3:{i:0;a:2:{i:0;s:19:"Nette\Caching\Cache";i:1;s:9:"checkFile";}i:1;s:93:"/home/Weby/Ostatni/preader/www/leganto/app/FrontModule/components/Navigation/Navigation.latte";i:2;i:1313051946;}i:1;a:3:{i:0;a:2:{i:0;s:19:"Nette\Caching\Cache";i:1;s:10:"checkConst";}i:1;s:25:"Nette\Framework::REVISION";i:2;s:30:"6889b94 released on 2011-08-04";}}}?><?php
 
 // source file: /home/Weby/Ostatni/preader/www/leganto/app/FrontModule/components/Navigation/Navigation.latte
 
-?><?php list($_l, $_g) = Nette\Latte\Macros\CoreMacros::initRuntime($template, 'hpjh9m6qfd')
+?><?php list($_l, $_g) = Nette\Latte\Macros\CoreMacros::initRuntime($template, 'sal5v98f8k')
 ;
 // snippets support
 if (!empty($control->snippetMode)) {
@@ -20,7 +20,7 @@ if (!empty($control->snippetMode)) {
 " title="<?php echo htmlSpecialChars($template->translate('Main page')) ?>"><?php echo Nette\Templating\DefaultHelpers::escapeHtml($template->translate('Main page'), ENT_NOQUOTES) ?></a></li>
 			<li><a href="<?php echo htmlSpecialChars($presenter->link("Discussion:default")) ?>
 " title="<?php echo htmlSpecialChars($template->translate('Discussion')) ?>"><?php echo Nette\Templating\DefaultHelpers::escapeHtml($template->translate('Discussion'), ENT_NOQUOTES) ?></a></li>
-<?php if ($presenter->getUser()->isAllowed(\Leganto\ACL\Resource::SHELF, \Leganto\ACL\Action::INSERT)): ?>
+<?php if ($presenter->getUser()->isAllowed(\Leganto\ACL\Resource::BOOK, \Leganto\ACL\Action::INSERT)): ?>
 			    <li><a href="<?php echo htmlSpecialChars($presenter->link("Book:insert")) ?>
 " title="<?php echo htmlSpecialChars($template->translate('Insert book')) ?>"><?php echo Nette\Templating\DefaultHelpers::escapeHtml($template->translate('Insert book'), ENT_NOQUOTES) ?></a></li>
 <?php endif ?>
@@ -32,11 +32,11 @@ if (!empty($control->snippetMode)) {
 "><?php echo Nette\Templating\DefaultHelpers::escapeHtmlComment($template->translate('Statistics')) ?></a></li> -->
 		</ul>
 		<div id="user">
-<?php if ($user != NULL): ?>
+<?php if ($user->isLoggedIn()): ?>
 				<a href="<?php echo htmlSpecialChars($presenter->link("User:default", array($user->getId()))) ?>
 " title="<?php echo htmlSpecialChars($template->translate('Show my profile')) ?>">
 					<img src="/img/ico/reader.png" alt="<?php echo htmlSpecialChars($template->translate('Your profile')) ?>" />
-					<span><?php echo Nette\Templating\DefaultHelpers::escapeHtml($template->hardTruncate($user->nickname, 20), ENT_NOQUOTES) ?></span>
+					<span><?php echo Nette\Templating\DefaultHelpers::escapeHtml($template->hardTruncate($nickname, 20), ENT_NOQUOTES) ?></span>
 				</a>
 				<a href="<?php echo htmlSpecialChars($presenter->link("Settings:")) ?>" title="<?php echo htmlSpecialChars($template->translate('Edit settings')) ?>
 "><img src="/img/ico/settings.png" /><span><?php echo Nette\Templating\DefaultHelpers::escapeHtml($template->translate('Settings'), ENT_NOQUOTES) ?></span></a>

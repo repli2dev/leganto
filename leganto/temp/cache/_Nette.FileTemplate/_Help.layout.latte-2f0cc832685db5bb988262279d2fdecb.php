@@ -1,12 +1,12 @@
-<?php //netteCache[01]000404a:2:{s:4:"time";s:21:"0.35755600 1312887289";s:9:"callbacks";a:2:{i:0;a:3:{i:0;a:2:{i:0;s:19:"Nette\Caching\Cache";i:1;s:9:"checkFile";}i:1;s:82:"/home/Weby/Ostatni/preader/www/leganto/app/FrontModule/templates/Help/layout.latte";i:2;i:1312886671;}i:1;a:3:{i:0;a:2:{i:0;s:19:"Nette\Caching\Cache";i:1;s:10:"checkConst";}i:1;s:25:"Nette\Framework::REVISION";i:2;s:30:"6889b94 released on 2011-08-04";}}}?><?php
+<?php //netteCache[01]000404a:2:{s:4:"time";s:21:"0.53833700 1313054199";s:9:"callbacks";a:2:{i:0;a:3:{i:0;a:2:{i:0;s:19:"Nette\Caching\Cache";i:1;s:9:"checkFile";}i:1;s:82:"/home/Weby/Ostatni/preader/www/leganto/app/FrontModule/templates/Help/layout.latte";i:2;i:1312986653;}i:1;a:3:{i:0;a:2:{i:0;s:19:"Nette\Caching\Cache";i:1;s:10:"checkConst";}i:1;s:25:"Nette\Framework::REVISION";i:2;s:30:"6889b94 released on 2011-08-04";}}}?><?php
 
 // source file: /home/Weby/Ostatni/preader/www/leganto/app/FrontModule/templates/Help/layout.latte
 
-?><?php list($_l, $_g) = Nette\Latte\Macros\CoreMacros::initRuntime($template, 'x41911lylr')
+?><?php list($_l, $_g) = Nette\Latte\Macros\CoreMacros::initRuntime($template, 'kfzjy20b70')
 ;//
 // block content
 //
-if (!function_exists($_l->blocks['content'][] = '_lbd2219ffb74_content')) { function _lbd2219ffb74_content($_l, $_args) { extract($_args)
+if (!function_exists($_l->blocks['content'][] = '_lb447a89e717_content')) { function _lb447a89e717_content($_l, $_args) { extract($_args)
 ?>
 	<div id="right">
 <?php $_ctrl = $control->getWidget("submenu"); if ($_ctrl instanceof Nette\Application\UI\IPartiallyRenderable) $_ctrl->validateControl(); $_ctrl->render() ?>
@@ -22,7 +22,7 @@ if (!function_exists($_l->blocks['content'][] = '_lbd2219ffb74_content')) { func
 //
 // block subcontent
 //
-if (!function_exists($_l->blocks['subcontent'][] = '_lbdf557942dc_subcontent')) { function _lbdf557942dc_subcontent($_l, $_args) { extract($_args)
+if (!function_exists($_l->blocks['subcontent'][] = '_lb74e512eac2_subcontent')) { function _lb74e512eac2_subcontent($_l, $_args) { extract($_args)
 ;
 }}
 

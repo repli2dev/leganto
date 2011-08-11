@@ -3,7 +3,7 @@
 		<ul id="menu">
 			<li><a href="{plink default:default}" title="{_'Main page'}">{_'Main page'}</a></li>
 			<li><a href="{plink Discussion:default}" title="{_'Discussion'}">{_'Discussion'}</a></li>
-			{if $presenter->getUser()->isAllowed(\Leganto\ACL\Resource::SHELF, \Leganto\ACL\Action::INSERT)}
+			{if $presenter->getUser()->isAllowed(\Leganto\ACL\Resource::BOOK, \Leganto\ACL\Action::INSERT)}
 			    <li><a href="{plink Book:insert}" title="{_'Insert book'}">{_'Insert book'}</a></li>
 			{/if}
 			<li><a href="{plink Default:topBooks}" title="{_'Top books'}">{_'Top books'}</a></li>
@@ -11,10 +11,10 @@
 			<!-- <li><a href="{plink Statistics:default}">{_'Statistics'}</a></li> -->
 		</ul>
 		<div id="user">
-		{if $user != NULL}
+		{if $user->isLoggedIn()}
 				<a href="{plink User:default, $user->getId()}" title="{_'Show my profile'}">
 					<img src="/img/ico/reader.png" alt="{_'Your profile'}" />
-					<span>{$user->nickname|hardTruncate:20}</span>
+					<span>{$nickname|hardTruncate:20}</span>
 				</a>
 				<a href="{plink Settings:}" title="{_'Edit settings'}"><img src="/img/ico/settings.png" /><span>{_'Settings'}</span></a>
 				<a class="logout" href="{link logout}" title="{_'Log out'}"><img src="/img/ico/logout.png" /></a>

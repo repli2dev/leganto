@@ -18,7 +18,9 @@ use Leganto\Storage\EditionImageStorage,
     Nette\Environment,
     Texy,
     Leganto\System,
-    InvalidArgumentException;
+    InvalidArgumentException,
+    Nette\DI\IContainer,
+    Nette\Localization\ITranslator;
 
 final class Helpers {
 
@@ -34,8 +36,22 @@ final class Helpers {
 	/** @var Texy */
 	private static $texySafe;
 
+	/** @var IContainer */
+	private static $container;
+	
+	/** @var ITranslator */
+	private static $translator;
+
 	final private function __construct() {
-		
+		// Static class only
+	}
+
+	/**
+	 * Set container (context), needed for access to services
+	 * @param IContainer $container 
+	 */
+	public static function setContainer(IContainer $container) {
+		self::$container = $container;
 	}
 
 	/**
@@ -84,73 +100,73 @@ final class Helpers {
 	 * @return string name of level
 	 */
 	public static function AchievementNameHelper($level, $type) {
-		// Ugly but creating array would take long calling of System:translate more than once.
+		$translator = self::getTranslator();
 		switch ($type) {
 			case 'books':
 				switch ($level) {
 					case 0:
-						return System::translate("Beginner");
+						return $translator->translate("Beginner");
 					case 1:
-						return System::translate("Beginning reader");
+						return $translator->translate("Beginning reader");
 					case 2:
-						return System::translate("Passionate reader");
+						return $translator->translate("Passionate reader");
 					case 3:
-						return System::translate("Book enthusiast");
+						return $translator->translate("Book enthusiast");
 					case 4:
-						return System::translate("Book lover");
+						return $translator->translate("Book lover");
 					case 5:
-						return System::translate("Bibliophile");
+						return $translator->translate("Bibliophile");
 					default:
 						return;
 				}
 			case 'opinions':
 				switch ($level) {
 					case 0:
-						return System::translate("Beginner");
+						return $translator->translate("Beginner");
 					case 1:
-						return System::translate("Beginning reviewer");
+						return $translator->translate("Beginning reviewer");
 					case 2:
-						return System::translate("Young reviewer");
+						return $translator->translate("Young reviewer");
 					case 3:
-						return System::translate("Experienced reviewer");
+						return $translator->translate("Experienced reviewer");
 					case 4:
-						return System::translate("Veteran reviewer");
+						return $translator->translate("Veteran reviewer");
 					case 5:
-						return System::translate("Arbiter elegantiarum");
+						return $translator->translate("Arbiter elegantiarum");
 					default:
 						return;
 				}
 			case 'posts':
 				switch ($level) {
 					case 0:
-						return System::translate("Beginner");
+						return $translator->translate("Beginner");
 					case 1:
-						return System::translate("Occasional discussant");
+						return $translator->translate("Occasional discussant");
 					case 2:
-						return System::translate("Regular discussant");
+						return $translator->translate("Regular discussant");
 					case 3:
-						return System::translate("Frequent discussant");
+						return $translator->translate("Frequent discussant");
 					case 4:
-						return System::translate("Perpetual discussant");
+						return $translator->translate("Perpetual discussant");
 					case 5:
-						return System::translate("Always having the last Word ;-)");
+						return $translator->translate("Always having the last Word ;-)");
 					default:
 						return;
 				}
 			case 'followers':
 				switch ($level) {
 					case 0:
-						return System::translate("Beginner");
+						return $translator->translate("Beginner");
 					case 1:
-						return System::translate("Favourite");
+						return $translator->translate("Favourite");
 					case 2:
-						return System::translate("Known");
+						return $translator->translate("Known");
 					case 3:
-						return System::translate("Famous");
+						return $translator->translate("Famous");
 					case 4:
-						return System::translate("Celebrity");
+						return $translator->translate("Celebrity");
 					case 5:
-						return System::translate("Irresistible");
+						return $translator->translate("Irresistible");
 					default:
 						return;
 				}
@@ -383,17 +399,25 @@ final class Helpers {
 	 * @return string Textual rating
 	 */
 	public static function ratingHelper($rating) {
+		$translator = self::getTranslator();;
 		switch ($rating) {
-			case 0: return System::translate("Waste");
-			case 1: return System::translate("Poor");
-			case 2: return System::translate("Fair");
-			case 3: return System::translate("Good");
-			case 4: return System::translate("Very good");
-			case 5: return System::translate("Excellent");
+			case 0: return $translator->translate("Waste");
+			case 1: return $translator->translate("Poor");
+			case 2: return $translator->translate("Fair");
+			case 3: return $translator->translate("Good");
+			case 4: return $translator->translate("Very good");
+			case 5: return $translator->translate("Excellent");
 		}
 	}
 
 	// PRIVATE METHODS
+	
+	private static function getTranslator() {
+		if(empty(self::$translator)) {
+			self::$translator = self::$container->getService("translator")->get();
+		}
+		return self::$translator;
+	}
 
 	/** @return UserIconStorage */
 	private static function getUserIconStorage() {

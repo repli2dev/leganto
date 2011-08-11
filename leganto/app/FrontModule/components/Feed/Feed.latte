@@ -15,31 +15,31 @@
 
 {foreach $feed AS $item}
 		{var content => explode("#$#",$item->content)}
-		{if $item->type == FeedItemEntity::TYPE_NEW_OPINION}
+		{if $item->type == \Leganto\DB\Feed\Entity::TYPE_NEW_OPINION}
 			{include newOpinion.latte,'content' => $content, 'item' => $item}
 		{/if}
-		{if $item->type == FeedItemEntity::TYPE_UPDATED_OPINION}
+		{if $item->type == \Leganto\DB\Feed\Entity::TYPE_UPDATED_OPINION}
 			{include updatedOpinion.latte,'content' => $content, 'item' => $item}
 		{/if}
-		{if $item->type == FeedItemEntity::TYPE_SHELVED}
+		{if $item->type == \Leganto\DB\Feed\Entity::TYPE_SHELVED}
 			{include shelved.latte,'content' => $content, 'item' => $item}
 		{/if}
-		{if $item->type == FeedItemEntity::TYPE_DESHELVED}
+		{if $item->type == \Leganto\DB\Feed\Entity::TYPE_DESHELVED}
 			{include deshelved.latte,'content' => $content, 'item' => $item}
 		{/if}
-		{if $item->type == FeedItemEntity::TYPE_NEW_FOLLOWER}
+		{if $item->type == \Leganto\DB\Feed\Entity::TYPE_NEW_FOLLOWER}
 			{include newFollower.latte,'content' => $content, 'item' => $item}
 		{/if}
-		{if $item->type == FeedItemEntity::TYPE_NEW_BOOK}
+		{if $item->type == \Leganto\DB\Feed\Entity::TYPE_NEW_BOOK}
 			{include newBook.latte,'content' => $content, 'item' => $item}
 		{/if}
-		{if $item->type == FeedItemEntity::TYPE_NEW_DISCUSSION}
+		{if $item->type == \Leganto\DB\Feed\Entity::TYPE_NEW_DISCUSSION}
 			{include newDiscussion.latte,'content' => $content, 'item' => $item}
 		{/if}
-		{if $item->type == FeedItemEntity::TYPE_NEW_POST}
+		{if $item->type == \Leganto\DB\Feed\Entity::TYPE_NEW_POST}
 			{include newPost.latte,'content' => $content, 'item' => $item}
 		{/if}
-		{if $item->type == FeedItemEntity::TYPE_NEW_USER}
+		{if $item->type == \Leganto\DB\Feed\Entity::TYPE_NEW_USER}
 			{include newUser.latte,'content' => $content, 'item' => $item}
 		{/if}
 {/foreach}
@@ -61,7 +61,7 @@
 
 	<h3>{_"Others"}</h3>
 	<div class="rss">
-		<p><a href="{plink Rss:,Leganto\System::user()->getId()}"><img src="/img/socialnetworks/rss.png" alt="{_"This page in form of RSS"}" /></a>{_'Watch your feed via RSS reader.'}</p>
+		<p><a href="{plink Rss:,$user->getId()}"><img src="/img/socialnetworks/rss.png" alt="{_"This page in form of RSS"}" /></a>{_'Watch your feed via RSS reader.'}</p>
 		<div class="clear"></div>
 	</div>
 </div>

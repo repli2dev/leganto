@@ -1,9 +1,15 @@
 <?php
 
 use Nette\Diagnostics\Debugger,
-	Nette\Application\Routers\Route,
-	Nette\Application\Routers\RouteList,
-	Nette\Application\Routers\SimpleRouter;
+    Nette\Application\Routers\Route,
+    Nette\Application\Routers\RouteList,
+    Nette\Application\Routers\SimpleRouter,
+    Leganto\DB\Factory,
+    Leganto\Logger,
+    Leganto\Localization\Translator,
+    Leganto\Localization\Environment,
+    Leganto\Templating\Template,
+    Leganto\Templating\Helpers;
 
 
 // Step 1: Load Nette Framework
@@ -22,17 +28,17 @@ if ($debug["enable"]) {
 	Debugger::$strictMode = TRUE;
 	Debugger::$logDirectory = __DIR__ . '/../log';
 	Debugger::enable();
-	
+
 	// Not catching exception to show error
 	$container->application->catchExceptions = false;
 	// Libs can contain bunch of function showing warnings
-	error_reporting(E_ALL^E_USER_WARNING);
+	error_reporting(E_ALL ^ E_USER_WARNING);
 } else {
 	// Complete suppresion of errors on production mode
 	error_reporting(0);
 	// Show 404 and 500 error instead of exceptions
 	$container->application->catchExceptions = true;
-	$container->errorPresenter = 'Error';
+	$container->application->errorPresenter = 'Front:Error';
 }
 
 // Step 4: Setup routing
@@ -45,14 +51,26 @@ FrontModule\Routes::add($router);
 // Lazy connect should be enabled in config.neon
 $connection = new DibiConnection($container->params["database"]);
 $container->addService("database", $connection);
-Leganto\DB\Factory::setConnection($connection);
+Factory::setConnection($connection);
 
 // Step 7: Start session
 $container->getService("session")->setExpiration("+7 days");
 $container->getService("session")->start();
 
+// Step 8: Register logger
+$container->addService("logger", new Logger($container));
+
+// Step 9: Register language environment (according to domain)
+$container->addService("environment", new Environment($container));
+
+// Step 10: Register translator
+$container->addService("translator", new Translator($container));
+
+// Step 11: Some classes need Container
+Template::setContainer($container);
+Helpers::setContainer($container);
+
 // FIXME: user expiration
 //Environment::getUser()->setExpiration("+ 7 days", FALSE);
-
 // Run the application!
 $container->application->run();

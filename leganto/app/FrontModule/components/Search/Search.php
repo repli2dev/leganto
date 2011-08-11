@@ -68,15 +68,15 @@ class Search extends BaseComponent {
 		}
 		if ($this->compact) {
 			$form->addText("query")
-				->addRule(Form::FILLED, "The search field has to be filled.");
-			$form["query"]->getControlPrototype()->title(System::translate("Enter query >> Select content >> Submit"));
+				->setRequired("The search field has to be filled.");
+			$form["query"]->getControlPrototype()->title($this->translate("Enter query >> Select content >> Submit"));
 			// Key has to be same as name of action in search presenter
 			$in = array(
-			    "default" => System::translate("Books"),
-			    "author" => System::translate("Authors"),
-			    "discussion" => System::translate("Discussions"),
-			    "user" => System::translate("Users"),
-			    "help" => System::translate("Help")
+			    "default" => $this->translate("Books"),
+			    "author" => $this->translate("Authors"),
+			    "discussion" => $this->translate("Discussions"),
+			    "user" => $this->translate("Users"),
+			    "help" => $this->translate("Help")
 			);
 			$form->addRadioList("search", "In", $in)
 				->getControlPrototype()->setId("selectIn");
@@ -88,7 +88,7 @@ class Search extends BaseComponent {
 				->addRule(Form::FILLED, "The search field has to be filled.");
 			$form->addSubmit("search_submit", "Search");
 		}
-		$form->setTranslator(System::translator());
+		$form->setTranslator($this->getContext()->getService("translator")->get());
 		$form->onSubmit[] = array($this, "formSubmitted");
 		$form->addProtection("Form timeout, please send form again.");
 		return $form;

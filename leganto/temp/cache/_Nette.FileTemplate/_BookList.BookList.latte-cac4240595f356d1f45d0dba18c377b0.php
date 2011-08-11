@@ -1,8 +1,8 @@
-<?php //netteCache[01]000411a:2:{s:4:"time";s:21:"0.56231300 1312986685";s:9:"callbacks";a:2:{i:0;a:3:{i:0;a:2:{i:0;s:19:"Nette\Caching\Cache";i:1;s:9:"checkFile";}i:1;s:89:"/home/Weby/Ostatni/preader/www/leganto/app/FrontModule/components/BookList/BookList.latte";i:2;i:1312986653;}i:1;a:3:{i:0;a:2:{i:0;s:19:"Nette\Caching\Cache";i:1;s:10:"checkConst";}i:1;s:25:"Nette\Framework::REVISION";i:2;s:30:"6889b94 released on 2011-08-04";}}}?><?php
+<?php //netteCache[01]000411a:2:{s:4:"time";s:21:"0.60435100 1313056483";s:9:"callbacks";a:2:{i:0;a:3:{i:0;a:2:{i:0;s:19:"Nette\Caching\Cache";i:1;s:9:"checkFile";}i:1;s:89:"/home/Weby/Ostatni/preader/www/leganto/app/FrontModule/components/BookList/BookList.latte";i:2;i:1313056481;}i:1;a:3:{i:0;a:2:{i:0;s:19:"Nette\Caching\Cache";i:1;s:10:"checkConst";}i:1;s:25:"Nette\Framework::REVISION";i:2;s:30:"6889b94 released on 2011-08-04";}}}?><?php
 
 // source file: /home/Weby/Ostatni/preader/www/leganto/app/FrontModule/components/BookList/BookList.latte
 
-?><?php list($_l, $_g) = Nette\Latte\Macros\CoreMacros::initRuntime($template, 'ao8zy58m14')
+?><?php list($_l, $_g) = Nette\Latte\Macros\CoreMacros::initRuntime($template, '1yzg2ph0ka')
 ;
 // snippets support
 if (!empty($control->snippetMode)) {
@@ -41,11 +41,11 @@ if (!empty($control->snippetMode)) {
 					</span>
 				</div>
 <?php endif ;if ($book->numberOfReaders > 0): ?>
-					<img src="<?php echo htmlSpecialChars($baseUri) ?>img/rating_<?php echo htmlSpecialChars(round($book->rating)) ?>
+					<img src="<?php echo htmlSpecialChars($baseUri) ?>/img/rating_<?php echo htmlSpecialChars(round($book->rating)) ?>
 .png" alt="<?php echo htmlSpecialChars($template->rating(round($book->rating))) ?>
 " title="<?php echo htmlSpecialChars($template->rating(round($book->rating))) ?>" class="rating" />
 <?php else: ?>
-					<img src="<?php echo htmlSpecialChars($baseUri) ?>img/rating_na.png" alt="<?php echo htmlSpecialChars($template->translate('Rating not available')) ?>
+					<img src="<?php echo htmlSpecialChars($baseUri) ?>/img/rating_na.png" alt="<?php echo htmlSpecialChars($template->translate('Rating not available')) ?>
 " title="<?php echo htmlSpecialChars($template->translate('Rating not available')) ?>" class="rating" />
 <?php endif ?>
 			</div>

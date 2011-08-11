@@ -1,22 +1,29 @@
 <?php
+
 /**
- *
+ * Components with list of posts
  * @copyright	Copyright (c) 2009 Jan Papoušek (jan.papousek@gmail.com),
  * 				Jan Drábek (me@jandrabek.cz)
  * @link		http://code.google.com/p/preader/
- * @license		http://code.google.com/p/preader/
  * @author		Jan Papousek
  * @author		Jan Drabek
- * @version		$id$
  */
+
 namespace FrontModule\Components;
+
 use Leganto\DB\Factory,
- Leganto\ACL\Resource,
- Leganto\DB\Post\Selector,
-	Leganto\System,
-	Nette\Environment,
-	DibiDataSource,
-	InvalidArgumentException;
+    Leganto\ACL\Resource,
+    Leganto\ACL\Action,
+    Nette\DateTime,
+    Leganto\DB\Post\Selector,
+    Nette\Environment,
+    DibiDataSource,
+    InvalidArgumentException,
+    FrontModule\Forms\BaseForm,
+    Nette\Forms\Form,
+    Nette\Utils\Html,
+    Exception;
+
 class PostList extends BaseListComponent {
 
 	private $discussed;
@@ -30,20 +37,20 @@ class PostList extends BaseListComponent {
 
 	public function handleDelete($post) {
 		$postEntity = Factory::post()->getSelector()->find($post);
-		if (!Environment::getUser()->isAllowed(Resource::create($postEntity), Action::EDIT)) {
+		if (!$this->getUser()->isAllowed(Resource::create($postEntity), Action::EDIT)) {
 			$this->unathorized();
 		}
 		if ($postEntity == null) {
-			$this->getPresenter()->flashMessage(System::translate("The post can't be deleted."), "error");
+			$this->getPresenter()->flashMessage($this->translate("The post can't be deleted."), "error");
 			return;
 		}
 		try {
 			$discussion = Factory::discussion()->getSelector()->find($postEntity->discussion);
 			$postEntity->delete();
-			System::log("DELETE POST '" . $postEntity->getId() . "'");
-			$this->getPresenter()->flashMessage(System::translate("The post has been deleted."), "success");
+			$this->getContext()->getService("logger")->log("DELETE POST '" . $postEntity->getId() . "'");
+			$this->getPresenter()->flashMessage($this->translate("The post has been deleted."), "success");
 			if ($discussion->discussionType == Selector::TOPIC && $discussion->numberOfPosts == 1) {
-				$this->getPresenter()->flashMessage(System::translate("The post has been the last one in the topic, therefore the topic has been also deleted."), "success");
+				$this->getPresenter()->flashMessage($this->translate("The post has been the last one in the topic, therefore the topic has been also deleted."), "success");
 				$this->getPresenter()->redirect("Discussion:default");
 			}
 		} catch (Expcetion $e) {
@@ -52,7 +59,7 @@ class PostList extends BaseListComponent {
 	}
 
 	public function formSubmitted(Form $form) {
-		if (!Environment::getUser()->isAllowed(Resource::POST, Action::INSERT)) {
+		if (!$this->getUser()->isAllowed(Resource::POST, Action::INSERT)) {
 			$this->unathorized();
 		}
 		$values = $form->getValues();
@@ -65,16 +72,16 @@ class PostList extends BaseListComponent {
 
 		// Insert the post
 		$post = Factory::post()->createEmpty();
-		$post->user = System::user()->getId();
+		$post->user = $this->getUserEntity()->getId();
 		$post->discussed = $values["discussed"];
 		$post->discussionType = $values["type"];
 		$post->content = $values["content"];
 		$post->inserted = new DateTime();
-		$post->language = System::user()->idLanguage;
+		$post->language = $this->getUserEntity()->idLanguage;
 		try {
 			$post->persist();
-			System::log("INSERT POST '" . $post->getId() . "'");
-			$this->getPresenter()->flashMessage(System::translate("The post has been successfuly sent."), "success");
+			$this->getContext()->getService("logger")->log("INSERT POST '" . $post->getId() . "'");
+			$this->getPresenter()->flashMessage($this->translate("The post has been successfuly sent."), "success");
 		} catch (Exception $e) {
 			$this->unexpectedError($e);
 			return;
@@ -120,13 +127,13 @@ class PostList extends BaseListComponent {
 
 		// Prepare text
 		$container = Html::el("span")->class("see-help");
-		$container->add(Html::el()->setText(System::Translate("You can use texy for formatting, emoticons or links to other books."))." ");
-		$container->add(Html::el("a")->href($this->presenter->link("Help:text",64))->setText(System::translate("See help")));
+		$container->add(Html::el()->setText($this->translate("You can use texy for formatting, emoticons or links to other books.")) . " ");
+		$container->add(Html::el("a")->href($this->presenter->link("Help:text", 64))->setText($this->translate("See help")));
 		$container->add(Html::el()->setText("."));
 
 		$form->addTextArea("content")
-			->addRule(Form::FILLED, "Please fill the content.")
-			->setOption("description",$container);
+			->setRequired("Please fill the content.")
+			->setOption("description", $container);
 
 		$form->addSubmit("insertPost", "Send post");
 
@@ -140,7 +147,7 @@ class PostList extends BaseListComponent {
 			));
 		}
 
-		$form->onSubmit[] = array($this, "formSubmitted");
+		$form->onSuccess[] = array($this, "formSubmitted");
 		return $form;
 	}
 
@@ -158,7 +165,7 @@ class PostList extends BaseListComponent {
 			$this->getTemplate()->posts[] = $post;
 			$userIds[] = $post->user;
 		}
-		if(count($userIds) != 0) {
+		if (count($userIds) != 0) {
 			$this->getTemplate()->achievements = Factory::achievement()->getSelector()->findByUsers($userIds, $entities = FALSE);
 		}
 	}

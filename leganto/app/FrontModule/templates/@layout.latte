@@ -6,7 +6,11 @@
 		<meta name="description" content="{$pageDescription}" n:ifset="$pageDescription" />
 		<meta name="keywords" content="{$pageKeywords}" n:ifset="$pageKeywords" />
 		<meta name="author" content="Jan Papoušek, Jan Drábek {_'and our community, altogether.'}" />
-		<meta name="robots" content="index, follow" />
+		{if isSet($robots) && $robots}
+			<meta name="robots" content="index, follow" />
+		{else}
+			<meta name="robots" content="noindex, nofollow" />
+		{/if}
 		<meta property="fb:app_id" content="175434332634" />
 
 		{*RSS feeds*}
@@ -125,9 +129,9 @@
 
 		<div id="footer">
 			<div class="wrapper">
-				&copy; <a href="{$baseUri}" title="Leganto - {_'Internet reading lists'}">{=\Leganto\System::domain()->uri}</a> - {_'Internet reading lists'} - <a href="{link Help:text, 56}" title="{_'Terms of use'}">{_'Terms of use'}</a>
+				&copy; <a href="{$baseUri}" title="Leganto - {_'Internet reading lists'}">{=$domain->uri}</a> - {_'Internet reading lists'} - <a href="{link Help:text, 56}" title="{_'Terms of use'}">{_'Terms of use'}</a>
 				|
-				{assign email => \Leganto\System::domain()->email}
+				{assign email => $domain->email}
 				<a href="mailto:{$email}">{_'Contact us'}</a>
 				|
 				<a href="{plink Statistics:}">{_'Statistics'}</a>

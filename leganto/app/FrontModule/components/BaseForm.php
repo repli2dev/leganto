@@ -11,15 +11,16 @@
 
 namespace FrontModule\Forms;
 
-use Leganto\System;
-
 class BaseForm extends \Nette\Application\UI\Form {
 
 	public function __construct($parent = NULL, $name = NULL) {
 		parent::__construct($parent, $name);
 		// Do not use tables for forms any more
 		self::tuneRenderer($this);
-		$this->setTranslator(System::translator());
+		// Set translator (only when parent is set)
+		if(!empty($parent)) {
+			$this->setTranslator($parent->getPresenter()->getService("translator")->get());
+		}
 		// Add protection aganist cross site requests
 		$this->addProtection("Form timeout, please send form again.");
 	}

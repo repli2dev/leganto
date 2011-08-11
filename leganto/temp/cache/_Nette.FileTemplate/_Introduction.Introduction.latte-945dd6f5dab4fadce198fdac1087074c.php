@@ -1,28 +1,28 @@
-<?php //netteCache[01]000419a:2:{s:4:"time";s:21:"0.59467900 1312991536";s:9:"callbacks";a:2:{i:0;a:3:{i:0;a:2:{i:0;s:19:"Nette\Caching\Cache";i:1;s:9:"checkFile";}i:1;s:97:"/home/Weby/Ostatni/preader/www/leganto/app/FrontModule/components/Introduction/Introduction.latte";i:2;i:1312991471;}i:1;a:3:{i:0;a:2:{i:0;s:19:"Nette\Caching\Cache";i:1;s:10:"checkConst";}i:1;s:25:"Nette\Framework::REVISION";i:2;s:30:"6889b94 released on 2011-08-04";}}}?><?php
+<?php //netteCache[01]000419a:2:{s:4:"time";s:21:"0.64991700 1313051819";s:9:"callbacks";a:2:{i:0;a:3:{i:0;a:2:{i:0;s:19:"Nette\Caching\Cache";i:1;s:9:"checkFile";}i:1;s:97:"/home/Weby/Ostatni/preader/www/leganto/app/FrontModule/components/Introduction/Introduction.latte";i:2;i:1313051818;}i:1;a:3:{i:0;a:2:{i:0;s:19:"Nette\Caching\Cache";i:1;s:10:"checkConst";}i:1;s:25:"Nette\Framework::REVISION";i:2;s:30:"6889b94 released on 2011-08-04";}}}?><?php
 
 // source file: /home/Weby/Ostatni/preader/www/leganto/app/FrontModule/components/Introduction/Introduction.latte
 
-?><?php list($_l, $_g) = Nette\Latte\Macros\CoreMacros::initRuntime($template, 'ja5zy75qie')
+?><?php list($_l, $_g) = Nette\Latte\Macros\CoreMacros::initRuntime($template, '65v3wyrsry')
 ;//
 // block _introductionBlock
 //
-if (!function_exists($_l->blocks['_introductionBlock'][] = '_lbcb036eef98__introductionBlock')) { function _lbcb036eef98__introductionBlock($_l, $_args) { extract($_args); $control->validateControl('introductionBlock')
+if (!function_exists($_l->blocks['_introductionBlock'][] = '_lbced35ec7e0__introductionBlock')) { function _lbced35ec7e0__introductionBlock($_l, $_args) { extract($_args); $control->validateControl('introductionBlock')
 ?>
 	<div id="introduction">
 <?php if (isset($hint)): ?>
 		<div id="virtual-tour">
 			<div class="slider">
-				<img src="/img/tour/<?php echo \Leganto\System::language()->locale ?>/opinions.png" alt="<?php echo htmlSpecialChars($template->translate("Opinions on books")) ?>
+				<img src="/img/tour/<?php echo $language->locale ?>/opinions.png" alt="<?php echo htmlSpecialChars($template->translate("Opinions on books")) ?>
 " title="<?php echo htmlSpecialChars($template->translate("Discover what is opinion of other people, keep track your and your friends books.")) ?>" />
-				<img src="/img/tour/<?php echo \Leganto\System::language()->locale ?>/similar-books.png" alt="<?php echo htmlSpecialChars($template->translate("Similar books")) ?>
+				<img src="/img/tour/<?php echo $language->locale ?>/similar-books.png" alt="<?php echo htmlSpecialChars($template->translate("Similar books")) ?>
 " title="<?php echo htmlSpecialChars($template->translate("Did you like the book and want to read something similar? See similar books.")) ?>" />
-				<img src="/img/tour/<?php echo \Leganto\System::language()->locale ?>/similar-users.png" alt="<?php echo htmlSpecialChars($template->translate("Similar users")) ?>
+				<img src="/img/tour/<?php echo $language->locale ?>/similar-users.png" alt="<?php echo htmlSpecialChars($template->translate("Similar users")) ?>
 " title="<?php echo htmlSpecialChars($template->translate("Can't decide what to read, look what users with similar ranking read.")) ?>" />
-				<img src="/img/tour/<?php echo \Leganto\System::language()->locale ?>/graphs.png" alt="<?php echo htmlSpecialChars($template->translate("Graphs")) ?>
+				<img src="/img/tour/<?php echo $language->locale ?>/graphs.png" alt="<?php echo htmlSpecialChars($template->translate("Graphs")) ?>
 " title="<?php echo htmlSpecialChars($template->translate("Want quick overview of book's target group? Or distribution of ratings? See our graphs.")) ?>" />
-				<img src="/img/tour/<?php echo \Leganto\System::language()->locale ?>/shelves.png" alt="<?php echo htmlSpecialChars($template->translate("Shelves for books")) ?>
+				<img src="/img/tour/<?php echo $language->locale ?>/shelves.png" alt="<?php echo htmlSpecialChars($template->translate("Shelves for books")) ?>
 " title="<?php echo htmlSpecialChars($template->translate("Want track your library or just list books you want to read? Just put it into shelf.")) ?>" />
-				<img src="/img/tour/<?php echo \Leganto\System::language()->locale ?>/messaging.png" alt="<?php echo htmlSpecialChars($template->translate("Private messages")) ?>
+				<img src="/img/tour/<?php echo $language->locale ?>/messaging.png" alt="<?php echo htmlSpecialChars($template->translate("Private messages")) ?>
 " title="<?php echo htmlSpecialChars($template->translate("Want to keep in touch with other users? Just send them message.")) ?>" />
 			</div>
 		</div>

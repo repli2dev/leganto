@@ -29,7 +29,8 @@ use Leganto\ORM\Exceptions\DataNotFoundException,
     Leganto\ORM\Exceptions\NotImplementedException,
     Nette\Utils\Strings,
     Nette\Object as NetteObject,
-    DibiFluent;
+    DibiFluent,
+    Nette\Diagnostics\Debugger;
 
 abstract class ATableModel extends NetteObject implements ITableModel {
 
@@ -265,7 +266,7 @@ abstract class ATableModel extends NetteObject implements ITableModel {
 //			die();
 			return $query->execute();
 		} catch (DibiDriverException $e) {
-			Debug::processException($e);
+			Debugger::log($e);
 			switch ($e->getCode()) {
 				case 1062:
 					throw new DuplicityException();

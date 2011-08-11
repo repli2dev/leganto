@@ -30,18 +30,22 @@ class Role implements IRole {
 	}
 
 	/** @return Role */
-	public static function getLoggedRole() {
+	public static function getRole() {
+		if (!isset(self::$loggedRole)) {
+			
+		}
+		/*
 		if (!isset(self::$loggedRole)) {
 			if (Environment::getUser()->isLoggedIn()) {
 				$role = ExtraArray::firstValue(Environment::getUser()->getRoles());
-				$id = System::user()->getId();
+				$id = \Nette\Environment::getUser()->getId();
 			} else {
 				$role = self::GUEST;
 				$id = NULL;
 			}
 			self::$loggedRole = new Role($role, $id);
 		}
-		return self::$loggedRole;
+		return self::$loggedRole;*/
 	}
 
 	/** @return string */

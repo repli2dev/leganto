@@ -14,7 +14,10 @@ use	Leganto\System,
 	Leganto\DB\Factory,
 	InvalidArgumentException,
 	FrontModule\Forms\BaseForm,
-	Nette\Forms\Form;
+	Nette\Forms\Form,
+	Nette\Security\AuthenticationException,
+	Nette\Security\IAuthorizator,
+	Nette\Security\IAuthenticator;
 
 class Introduction extends BaseComponent {
 
@@ -30,7 +33,7 @@ class Introduction extends BaseComponent {
 		parent::__construct($parent, $name);
 
 		// FIXME: toto je opravdu osklivy hack! Jak obejit to ze state jeste nebyl nastaven, ale pri vytvareni komponenty uz je pozde - vystup odchazi?!
-		$newState = Environment::getHttpRequest()->getQuery("introduction-state");
+		$newState = $this->getContext()->httpRequest->getQuery("introduction-state");
 		if ($newState == "twitter") {
 			$this->twitter = new TwitterBridge;
 			$this->twitter->doLoginWithAuthentication();
@@ -39,6 +42,11 @@ class Introduction extends BaseComponent {
 			$this->facebook = new FacebookBridge;
 			$this->facebook->doLoginWithAuthentication();
 		}
+	}
+	
+	public function startUp() {
+		parent::startUp();
+		$this->getTemplate()->language = $this->getContext()->getService("environment")->language();
 	}
 
 	public function render() {
@@ -70,7 +78,7 @@ class Introduction extends BaseComponent {
 
 	public function loadDefaultTemplate() {
 		$template = $this->getTemplate();
-		$template->hint = Factory::help()->getSelector()->findRandom(System::language());
+		$template->hint = Factory::help()->getSelector()->findRandom($this->getContext()->getService("environment")->language());
 		$template->state = "default";
 		return $template;
 	}
@@ -263,15 +271,15 @@ class Introduction extends BaseComponent {
 	}
 
 	protected function createComponentLoginForm($name) {
-		$form = new BaseForm;
+		$form = new BaseForm($this,$name);
 		$form->getElementPrototype()->setId("sign");
 		$form->addGroup("Log in");
 		$form->addText("nickname", "Nickname")
-			->addRule(Form::FILLED, "Please fill the nickname.");
+			->setRequired("Please fill the nickname.");
 		$form->addPassword("password", "Password")
-			->addRule(Form::FILLED, "Please fill the password.");
+			->setRequired("Please fill the password.");
 		$form->addSubmit("submitted", "Log in");
-		$form->onSubmit[] = array($this, "loginFormSubmitted");
+		$form->onSuccess[] = array($this, "loginFormSubmitted");
 		return $form;
 	}
 
@@ -395,7 +403,7 @@ class Introduction extends BaseComponent {
 	public function loginFacebookFormSubmitted(Form $form) {
 		$values = $form->getValues();
 		try {
-			Environment::getUser()->authenticate($values['nickname'], $values['password']);
+			$this->getUser()->login($values['nickname'], $values['password']);
 		} catch (AuthenticationException $e) {
 			switch ($e->getCode()) {
 				case IAuthenticator::IDENTITY_NOT_FOUND:
@@ -407,7 +415,7 @@ class Introduction extends BaseComponent {
 			}
 		}
 		// If user was successfully logged and there were found data in session (namespace facebook) -> add connection
-		$user = Environment::getUser()->getIdentity();
+		$user = $this->getUser()->getIdentity();
 		if ($user != NULL) {
 			$this->twitter = new FacebookBridge;
 			$facebookToken = $this->twitter->getToken();
@@ -442,7 +450,7 @@ class Introduction extends BaseComponent {
 	public function loginTwitterFormSubmitted(Form $form) {
 		$values = $form->getValues();
 		try {
-			Environment::getUser()->authenticate($values['nickname'], $values['password']);
+			$this->getUser()->authenticate($values['nickname'], $values['password']);
 		} catch (AuthenticationException $e) {
 			switch ($e->getCode()) {
 				case IAuthenticator::IDENTITY_NOT_FOUND:
@@ -485,8 +493,8 @@ class Introduction extends BaseComponent {
 	public function loginFormSubmitted(Form $form) {
 		$values = $form->getValues();
 		try {
-			Environment::getUser()->login($values['nickname'], $values['password']);
-			System::log("LOGIN");
+			$this->getUser()->login($values['nickname'], $values['password']);
+			$this->getContext()->getService("logger")->log("LOGIN");
 		} catch (AuthenticationException $e) {
 			switch ($e->getCode()) {
 				case IAuthenticator::IDENTITY_NOT_FOUND:

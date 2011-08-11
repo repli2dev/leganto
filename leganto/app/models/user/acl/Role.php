@@ -14,8 +14,7 @@ namespace Leganto\ACL;
 use Nette\Security\IRole,
     Nette\Environment,
     Leganto\DB\User\Entity,
-    Leganto\Tools\ExtraArray,
-    Leganto\System;
+    Leganto\Tools\ExtraArray;
 
 class Role implements IRole {
 	const COMMON = "common";
@@ -37,18 +36,20 @@ class Role implements IRole {
 	}
 
 	/** @return Role */
-	public static function getLoggedRole() {
+	public static function get($role,$id = NULL) {
+		return new Role($role,$id);
+		/**
 		if (!isset(self::$loggedRole)) {
 			if (Environment::getUser()->isLoggedIn()) {
 				$role = ExtraArray::firstValue(Environment::getUser()->getRoles());
-				$id = System::user()->getId();
+				$id = Environment::getUser()->getId();
 			} else {
 				$role = self::GUEST;
 				$id = NULL;
 			}
 			self::$loggedRole = new Role($role, $id);
 		}
-		return self::$loggedRole;
+		return self::$loggedRole;*/
 	}
 
 	/** @return string */

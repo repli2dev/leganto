@@ -1,12 +1,12 @@
-<?php //netteCache[01]000400a:2:{s:4:"time";s:21:"0.30624200 1312992729";s:9:"callbacks";a:2:{i:0;a:3:{i:0;a:2:{i:0;s:19:"Nette\Caching\Cache";i:1;s:9:"checkFile";}i:1;s:78:"/home/Weby/Ostatni/preader/www/leganto/app/FrontModule/templates/@layout.latte";i:2;i:1312992727;}i:1;a:3:{i:0;a:2:{i:0;s:19:"Nette\Caching\Cache";i:1;s:10:"checkConst";}i:1;s:25:"Nette\Framework::REVISION";i:2;s:30:"6889b94 released on 2011-08-04";}}}?><?php
+<?php //netteCache[01]000400a:2:{s:4:"time";s:21:"0.26067200 1313056111";s:9:"callbacks";a:2:{i:0;a:3:{i:0;a:2:{i:0;s:19:"Nette\Caching\Cache";i:1;s:9:"checkFile";}i:1;s:78:"/home/Weby/Ostatni/preader/www/leganto/app/FrontModule/templates/@layout.latte";i:2;i:1313056086;}i:1;a:3:{i:0;a:2:{i:0;s:19:"Nette\Caching\Cache";i:1;s:10:"checkConst";}i:1;s:25:"Nette\Framework::REVISION";i:2;s:30:"6889b94 released on 2011-08-04";}}}?><?php
 
 // source file: /home/Weby/Ostatni/preader/www/leganto/app/FrontModule/templates/@layout.latte
 
-?><?php list($_l, $_g) = Nette\Latte\Macros\CoreMacros::initRuntime($template, '2a58rvzj0j')
+?><?php list($_l, $_g) = Nette\Latte\Macros\CoreMacros::initRuntime($template, 'rkyvw4vf6n')
 ;//
 // block content
 //
-if (!function_exists($_l->blocks['content'][] = '_lb978d181222_content')) { function _lb978d181222_content($_l, $_args) { extract($_args)
+if (!function_exists($_l->blocks['content'][] = '_lbfdc0783790_content')) { function _lbfdc0783790_content($_l, $_args) { extract($_args)
 ?>
 			<?php echo Nette\Templating\DefaultHelpers::escapeHtml($template->translate('No content'), ENT_NOQUOTES) ?>
 
@@ -43,7 +43,11 @@ if ($_l->extends) {
 		<meta name="keywords" content="<?php echo htmlSpecialChars($pageKeywords) ?>" />
 <?php endif ?>
 		<meta name="author" content="Jan Papoušek, Jan Drábek <?php echo htmlSpecialChars($template->translate('and our community, altogether.')) ?>" />
-		<meta name="robots" content="index, follow" />
+<?php if (isSet($robots) && $robots): ?>
+			<meta name="robots" content="index, follow" />
+<?php else: ?>
+			<meta name="robots" content="noindex, nofollow" />
+<?php endif ?>
 		<meta property="fb:app_id" content="175434332634" />
 
 				<link rel="alternate" type="application/rss+xml" title="Leganto: feed of all users" href="<?php echo htmlSpecialChars($presenter->link("Rss:")) ?>" />
@@ -162,12 +166,12 @@ if ($_l->extends) {
 		<div id="footer">
 			<div class="wrapper">
 				&copy; <a href="<?php echo htmlSpecialChars($baseUri) ?>" title="Leganto - <?php echo htmlSpecialChars($template->translate('Internet reading lists')) ?>
-"><?php echo Nette\Templating\DefaultHelpers::escapeHtml(\Leganto\System::domain()->uri, ENT_NOQUOTES) ?>
+"><?php echo Nette\Templating\DefaultHelpers::escapeHtml($domain->uri, ENT_NOQUOTES) ?>
 </a> - <?php echo Nette\Templating\DefaultHelpers::escapeHtml($template->translate('Internet reading lists'), ENT_NOQUOTES) ?>
  - <a href="<?php echo htmlSpecialChars($control->link("Help:text", array(56))) ?>
 " title="<?php echo htmlSpecialChars($template->translate('Terms of use')) ?>"><?php echo Nette\Templating\DefaultHelpers::escapeHtml($template->translate('Terms of use'), ENT_NOQUOTES) ?></a>
 				|
-<?php $email = \Leganto\System::domain()->email ?>
+<?php $email = $domain->email ?>
 				<a href="mailto:<?php echo htmlSpecialChars($email) ?>"><?php echo Nette\Templating\DefaultHelpers::escapeHtml($template->translate('Contact us'), ENT_NOQUOTES) ?></a>
 				|
 				<a href="<?php echo htmlSpecialChars($presenter->link("Statistics:")) ?>"><?php echo Nette\Templating\DefaultHelpers::escapeHtml($template->translate('Statistics'), ENT_NOQUOTES) ?></a>

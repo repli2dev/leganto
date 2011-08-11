@@ -51,11 +51,12 @@ class SimpleInserter implements IInserter {
 	 * into the specified table.
 	 *
 	 * @param string $table
+	 * @param mixed $connection
 	 * @return IInserter
 	 * @throws InvalidArgumentException if the $table is empty
 	 * @throws InvalidArgumentException if the $connection is empty
 	 */
-	public static function createInserter($table) {
+	public static function createInserter($table,$connection) {
 		if (empty($connection) || !$connection instanceof DibiConnection) {
 			throw new InvalidArgumentException("Empty connection.");
 		}
@@ -72,7 +73,7 @@ class SimpleInserter implements IInserter {
 		if ($entity->getState() != IEntity::STATE_NEW) {
 			throw new InvalidArgumentException("The entity can not be inserted because it is not in state [NEW].");
 		}
-		$id = SimpleTableModel::createTableModel($this->table)
+		$id = SimpleTableModel::createTableModel($this->table,$this->connection)
 			->insert($entity->getData("Save"));
 		return $id;
 	}
