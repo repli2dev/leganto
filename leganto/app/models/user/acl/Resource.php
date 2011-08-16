@@ -13,7 +13,8 @@ namespace Leganto\ACL;
 
 use Nette\Security\IResource,
     Leganto\ORM\IEntity,
-    Leganto\Templating\Helpers;
+    Leganto\Templating\Helpers,
+    Nette\Environment;
 
 class Resource implements IResource {
 	const AUTHOR = "author";
@@ -67,7 +68,7 @@ class Resource implements IResource {
 				break;
 			case "Leganto\DB\Message\Entity":
 				$resource = self::MESSAGE;
-				if (System::user()->getId() == $entity->idUserFrom) {
+				if (Environment::getUser()->getId() == $entity->idUserFrom) {
 					$id = $entity->idUserFrom;
 				} else {
 					$id = $entity->idUserTo;

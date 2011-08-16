@@ -13,7 +13,8 @@
 namespace Leganto\External;
 
 use InvalidArgumentException,
-    Nette\IOException;
+    Nette\IOException,
+    Leganto\Tools\ExtraArray;
 
 class GoogleBooksEditionFinder extends AFinder {
 	const AUTHOR = "author";

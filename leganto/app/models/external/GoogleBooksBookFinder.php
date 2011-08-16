@@ -94,7 +94,7 @@ class GoogleBooksBookFinder extends AFinder {
 			Factory::author()->getSelector()->findAllByBook($entity)
 		);
 		foreach ($authors AS $author) {
-			if ($author->type == AuthorEntity::GROUP) {
+			if ($author->type == \Leganto\DB\Author\Entity::GROUP) {
 				$query .= ' inauthor:' . $author->groupname . '';
 			} else {
 				$query .= ' inauthor:' . $author->lastname;

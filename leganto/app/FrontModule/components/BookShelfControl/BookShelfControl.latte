@@ -6,14 +6,14 @@
 	    {foreach $shelves AS $shelf}
 		<li>
 		    <span class="control">
-			<?php $confirm = System::translate("Are you sure you want to remove a book from shelf %s?", $shelf->name); ?>
-			{assign link    => $component->link('removeFromShelf', $book->getId(), $shelf->getId())}
+			<?php $confirm = $control->translate("Are you sure you want to remove a book from shelf %s?", $shelf->name); ?>
+			{assign link    => $control->link('removeFromShelf', $book->getId(), $shelf->getId())}
 			<a onclick="return confirm('{!$confirm}')" href="{!$link}" title="{_'Delete from shelf'}">
-			    <img src="{$baseUri . 'img/ico/delete.png'}" alt="{_'Delete from shelf'}" />
+			    <img src="{$baseUri . '/img/ico/delete.png'}" alt="{_'Delete from shelf'}" />
 			</a>
 		    </span>
 			{assign shelfId => $shelf->getId()}
-			<a href="{plink User:shelves#books-in-shelf-$shelfId, System::user()->id}" title="{$shelf->name}">{$shelf->name|hardTruncate:19}</a>
+			<a href="{plink User:shelves#books-in-shelf-$shelfId, $user->id}" title="{$shelf->name}">{$shelf->name|hardTruncate:19}</a>
 		</li>
 	    {/foreach}
 	</ul>

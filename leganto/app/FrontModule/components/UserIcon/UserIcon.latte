@@ -1,0 +1,15 @@
+<div class="box" id="user-icon">
+	<h3>{_"User's icon"}</h3>
+	<div id="user-icon-img">
+		<a href="{plink User:default, $user->getId()}" title="{_'Readers'} &ndash; Leganto">
+			<img src="{plink User:icon, $user->getId()}" alt="{_'Readers'} &ndash; Leganto" />
+		</a>
+	</div>
+	<div id="user-icon-src">
+		&lt;a&nbsp;href="http://www.leganto.cz/user/?user={=$user->getId()}" title="{_'Readers'} &ndash; Leganto"&gt;
+		&lt;img&nbsp;src="http://www.leganto.cz/user/icon/?id={=$user->getId()}" alt="{_'Readers'} &ndash; normal" /&gt;&lt;/a&gt;
+	</div>
+	<div id="user-icon-img">
+		<p>{_'If you demand more interactivity, try'} <a href="{plink Help:text,61}">{_'read books'}</a>. {_'It offers more interactive block for embeddeding into webpage.'}</p>
+	</div>
+</div>

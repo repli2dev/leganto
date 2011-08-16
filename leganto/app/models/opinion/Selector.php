@@ -52,18 +52,23 @@ class Selector extends AWorker implements ISelector {
 	/**
 	 * Find all opinions belonging to certain book
 	 * @param \Leganto\DB\Book\Entity $book
+	 * @param int $language ID of language
+	 * @param \Leganto\DB\User\Entity $user
 	 * @return DibiDataSource
 	 * @throws InvalidArgumentException if book is empty or do not have id.
+	 * @throws InvalidArgumentException if language is empty
 	 */
-	public function findAllByBook(\Leganto\DB\Book\Entity $book, \Leganto\DB\User\Entity $user = NULL) {
+	public function findAllByBook(\Leganto\DB\Book\Entity $book, $language, \Leganto\DB\User\Entity $user = NULL) {
 		if (empty($book)) {
 			throw new InvalidArgumentException("Empty book.");
 		}
 		if ($book->getId() == NULL) {
 			throw new InvalidArgumentException("Empty book id.");
 		}
-		// FIXME: odstranit zavislost na tride System
-		return $this->connection->dataSource("SELECT * FROM [view_opinion] WHERE [id_book_title] = %i", $book->getId(), " AND [id_language] = %i", System::domain()->idLanguage);
+		if (empty($language)) {
+			throw new InvalidArgumentException("Empty language.");
+		}
+		return $this->connection->dataSource("SELECT * FROM [view_opinion] WHERE [id_book_title] = %i", $book->getId(), " AND [id_language] = %i", $language);
 		/*
 		  It doesn't work
 		  if (!empty($user) && $user->getId() == NULL) {

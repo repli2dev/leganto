@@ -109,18 +109,19 @@ class Updater extends AWorker implements IUpdater {
 	/**
 	 * Toogle follow/unfollow of given user and current logged user
 	 * @param int $user id of user
+	 * @param \Leganto\DB\User\Entity $by
 	 * @return Boolean
 	 */
-	public function toogleFollow($user) {
-		if (Factory::user()->getSelector()->isFollowedBy($user, System::user())) {
+	public function toogleFollow($user,$by) {
+		if (Factory::user()->getSelector()->isFollowedBy($user, $by)) {
 			$this->connection->delete("following")
-				->where("id_user = %i", System::user()->getId())
+				->where("id_user = %i", $by->getId())
 				->where("id_user_followed = %i", $user)
 				->execute();
 			return FALSE;
 		} else {
 			$this->connection->insert("following", array(
-			    'id_user' => System::user()->getId(),
+			    'id_user' => $by->getId(),
 			    'id_user_followed' => $user
 				)
 			)->execute();

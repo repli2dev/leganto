@@ -1,9 +1,0 @@
-@{extends layout.phtml}
-
-@{block #subcontent}
-<h1>{$data->name}</h1>
-
-{!$data->text|texy}
-
-<span class="support-info">{_"Latest change"}: {$data->updated|date:"j. n. Y"}</span>
-{/block}

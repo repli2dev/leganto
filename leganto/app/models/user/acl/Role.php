@@ -25,10 +25,17 @@ class Role implements IRole {
 
 	const ADMIN = "admin";
 
-	/** @var UserRole */
-	private static $loggedRole;
+	private static $user;
 	private $id;
 	private $role;
+
+	/**
+	 * Set current user
+	 * @param Object $user 
+	 */
+	public static function setUser($user) {
+		self::$user = $user;
+	}
 
 	private final function __construct($role, $id) {
 		$this->role = $role;
@@ -36,20 +43,16 @@ class Role implements IRole {
 	}
 
 	/** @return Role */
-	public static function get($role,$id = NULL) {
-		return new Role($role,$id);
-		/**
-		if (!isset(self::$loggedRole)) {
-			if (Environment::getUser()->isLoggedIn()) {
-				$role = ExtraArray::firstValue(Environment::getUser()->getRoles());
-				$id = Environment::getUser()->getId();
-			} else {
-				$role = self::GUEST;
-				$id = NULL;
-			}
-			self::$loggedRole = new Role($role, $id);
+	public static function get($role, $id = NULL) {
+		$loggedRole = self::$user->getRoles();
+		if (!isSet($loggedRole) || count($loggedRole) == 0) {
+			$role = self::GUEST;
+			$id = NULl;
+		} else {
+			$role = ExtraArray::firstValue($loggedRole);
+			$id = self::$user->getId();
 		}
-		return self::$loggedRole;*/
+		return new Role($role, $id);
 	}
 
 	/** @return string */

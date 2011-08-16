@@ -1,56 +1,71 @@
 <?php
 
 /**
- *
+ * User presenter
  * @copyright	Copyright (c) 2009 Jan Papoušek (jan.papousek@gmail.com),
  * 				Jan Drábek (me@jandrabek.cz)
  * @link		http://code.google.com/p/preader/
- * @license		http://code.google.com/p/preader/
  * @author		Jan Papousek
  * @author		Jan Drabek
- * @version		$id$
  */
+
 namespace FrontModule;
+
 use Leganto\DB\Factory,
-	Leganto\System,
-	Nette\Environment,
-	FrontModule\Components\OpinionList;
+    Leganto\System,
+    Nette\Environment,
+    FrontModule\Components\OpinionList,
+    DibiDriverException,
+    FrontModule\Components\Submenu,
+    FrontModule\Components\UserIcon,
+    FrontModule\Components\Shelves,
+    FrontModule\Components\InsertingShelf,
+    FrontModule\Components\UserList,
+    FrontModule\Components\MessageList,
+    Leganto\Tools\ExtraString;
 
 class UserPresenter extends BasePresenter {
 
 	private $user;
 
 	public function renderDefault($user) {
+		// Find out if user is on his own profile
+		if ($this->getUser()->getId() == $user) {
+			$this->getTemplate()->isCurrentlyLogged = true;
+		} else {
+			$this->getTemplate()->isCurrentlyLogged = false;
+		}
 		$this->getTemplate()->user = $this->getUserEntity();
 		if ($this->getUserEntity() == null) {
-			$this->flashMessage(System::translate("The user does not exist."), "error");
+			$this->flashMessage($this->translate("The user does not exist."), "error");
 			$this->redirect("Default:default");
 		}
 		$source = Factory::opinion()->getSelector()->findAllByUser($this->getUserEntity());
 		$this->getComponent("opinionList")->setSource($source);
 		// Set stats
-		$this->getTemplate()->numOfShelves = Factory::shelf()->getSelector()->findAll()->where("id_user = %i",$this->getUserEntity()->getId())->count();
+		$this->getTemplate()->numOfShelves = Factory::shelf()->getSelector()->findAll()->where("id_user = %i", $this->getUserEntity()->getId())->count();
 		$this->getTemplate()->achievement = Factory::achievement()->getSelector()->findByUser($this->getUserEntity());
 
-		$this->setPageTitle(System::translate("Profile and opinions") . ": " . $this->getUserEntity()->nickname);
-		$this->setPageDescription(System::translate("This is the profile page of a user where you can track his or her opinions, look into shelves, find followers and followed users."));
-		$this->setPageKeywords(System::translate("followers, following, user profile, user detail, users opinion"));
+		$this->setPageTitle($this->translate("Profile and opinions") . ": " . $this->getUserEntity()->nickname);
+		$this->setPageDescription($this->translate("This is the profile page of a user where you can track his or her opinions, look into shelves, find followers and followed users."));
+		$this->setPageKeywords($this->translate("followers, following, user profile, user detail, users opinion"));
 	}
 
 	public function renderToogleFollow($user) {
-		if (!Environment::getUser()->isAuthenticated()) {
+		if (!$this->getUser()->isLoggedIn()) {
 			$this->redirect("Default:unauthorized");
 		} else {
-			if ($this->getUserEntity()->getId() == System::user()->getId()) {
-				$this->flashMessage(System::translate("You cannot follow yourself, you egoist!"), "error");
+			if ($this->getUserEntity()->getId() == $this->getUser()->getId()) {
+				$this->flashMessage($this->translate("You cannot follow yourself, you egoist!"), "error");
 			} else {
-				$result = Factory::user()->getUpdater()->toogleFollow($this->getUserEntity()->getId());
+				$logger = $this->getContext()->getService("logger");
+				$result = Factory::user()->getUpdater()->toogleFollow($this->getUserEntity()->getId(), $this->getUserEntity());
 				if ($result == TRUE) {
-					System::log("FOLLOW USER '" . $this->getUserEntity()->getId() . "'");
-					$this->flashMessage(System::translate("This user is now followed by you."), "success");
+					$logger->log("FOLLOW USER '" . $this->getUserEntity()->getId() . "'");
+					$this->flashMessage($this->translate("This user is now followed by you."), "success");
 				} else {
-					System::log("UNFOLLOW USER'" . $this->getUserEntity()->getId() . "'");
-					$this->flashMessage(System::translate("This user is no longer followed by you."), "success");
+					$logger->log("UNFOLLOW USER'" . $this->getUserEntity()->getId() . "'");
+					$this->flashMessage($this->translate("This user is no longer followed by you."), "success");
 				}
 			}
 			$this->redirect("default", $this->getUserEntity()->getId());
@@ -60,97 +75,97 @@ class UserPresenter extends BasePresenter {
 	public function renderFollowing($user) {
 		$this->getTemplate()->user = $this->getUserEntity();
 		if ($this->getUserEntity() == null) {
-			$this->flashMessage(System::translate("The user does not exist."), "error");
+			$this->flashMessage($this->translate("The user does not exist."), "error");
 			$this->redirect("Default:default");
 		}
 		$this->getComponent("userList")->setSource(
-				Factory::user()->getSelector()
+			Factory::user()->getSelector()
 				->findAllFollowed($this->getUserEntity())
 		);
-		$this->setPageTitle(System::translate("Following") . ": " . $this->getUserEntity()->nickname);
-		$this->setPageDescription(System::translate("Users who a certain user follows."));
-		$this->setPageKeywords(System::translate("followers, following, user profile, user detail"));
+		$this->setPageTitle($this->translate("Following") . ": " . $this->getUserEntity()->nickname);
+		$this->setPageDescription($this->translate("Users who a certain user follows."));
+		$this->setPageKeywords($this->translate("followers, following, user profile, user detail"));
 	}
 
 	public function renderFollowers($user) {
 		$this->getTemplate()->user = $this->getUserEntity();
 		if ($this->getUserEntity() == null) {
-			$this->flashMessage(System::translate("The user does not exist."), "error");
+			$this->flashMessage($this->translate("The user does not exist."), "error");
 			$this->redirect("Default:default");
 		}
 		$this->getComponent("userList")->setSource(
-				Factory::user()->getSelector()
+			Factory::user()->getSelector()
 				->findAllFollowing($this->getUserEntity())
 		);
-		$this->setPageTitle(System::translate("Followers") . ": " . $this->getUserEntity()->nickname);
-		$this->setPageDescription(System::translate("Users which follow this user."));
-		$this->setPageKeywords(System::translate("followers, following, user profile, user detail"));
+		$this->setPageTitle($this->translate("Followers") . ": " . $this->getUserEntity()->nickname);
+		$this->setPageDescription($this->translate("Users which follow this user."));
+		$this->setPageKeywords($this->translate("followers, following, user profile, user detail"));
 	}
 
 	public function renderEditShelf($user, $shelf) {
-		if ($this->getUserEntity()->getId() != System::user()->getId()) {
-			$this->flashMessage(System::translate("The authenticated user has to insert a shelf with his id."), "error");
-			$this->redirect("default", System::user()->getId());
+		if ($this->getUserEntity()->getId() != $this->getUser()->getId()) {
+			$this->flashMessage($this->translate("The authenticated user has to insert a shelf with his id."), "error");
+			$this->redirect("default", $this->getUser()->getId());
 		}
 		$shelfEntity = Factory::shelf()->getSelector()->find($shelf);
 		if (empty($shelfEntity)) {
-			$this->flashMessage(System::translate("The shelf does not exist."), "error");
+			$this->flashMessage($this->translate("The shelf does not exist."), "error");
 			$this->redirect("default");
 		}
 		$this->getComponent("insertingShelf")->setShelf($shelfEntity);
-		$this->setPageTitle(System::translate("Edit shelf") . ": " . $this->getUserEntity()->nickname);
-		$this->setPageDescription(System::translate("You can edit a shelf on this page."));
-		$this->setPageKeywords(System::translate("book shelf, edit, update, change"));
+		$this->setPageTitle($this->translate("Edit shelf") . ": " . $this->getUserEntity()->nickname);
+		$this->setPageDescription($this->translate("You can edit a shelf on this page."));
+		$this->setPageKeywords($this->translate("book shelf, edit, update, change"));
 	}
 
 	public function renderInsertShelf($user, $backlinkUri = NULL) {
-		if (!System::isCurrentlyLogged($this->getUserEntity()->getId())) {
-			$this->flashMessage(System::translate("The authenticated user can't insert shelf to other users."), "error");
-			$this->redirect("default", System::user()->getId());
+		if ($this->getUser()->getId() != $this->getUserEntity()->getId()) {
+			$this->flashMessage($this->translate("The authenticated user can't insert shelf to other users."), "error");
+			$this->redirect("default", $this->getUser()->getId());
 		}
 		if (!empty($backlinkUri)) {
 			$this->getComponent("insertingShelf")->setBacklink($backlinkUri);
 		}
-		$this->setPageTitle(System::translate("Insert a new shelf") . ": " . $this->getUserEntity()->nickname);
-		$this->setPageDescription(System::translate("You can insert a new shelf on this page"));
-		$this->setPageKeywords(System::translate("book shelf, insert, new"));
+		$this->setPageTitle($this->translate("Insert a new shelf") . ": " . $this->getUserEntity()->nickname);
+		$this->setPageDescription($this->translate("You can insert a new shelf on this page"));
+		$this->setPageKeywords($this->translate("book shelf, insert, new"));
 	}
 
 	public function renderShelves($user) {
 		$this->getTemplate()->user = $this->getUserEntity();
-		$this->setPageTitle(System::translate("Shelves") . ": " . $this->getUserEntity()->nickname);
-		$this->setPageDescription(System::translate("You can see shelves of the user and books in them on this page. Owners can re-order their books here."));
-		$this->setPageKeywords(System::translate("book shelves, update, reorder, manipulation, books, book database, virtual library, library"));
+		$this->setPageTitle($this->translate("Shelves") . ": " . $this->getUserEntity()->nickname);
+		$this->setPageDescription($this->translate("You can see shelves of the user and books in them on this page. Owners can re-order their books here."));
+		$this->setPageKeywords($this->translate("book shelves, update, reorder, manipulation, books, book database, virtual library, library"));
 	}
 
 	public function renderSimilar($user) {
 		$this->getTemplate()->user = $this->getUserEntity();
-		$this->setPageTitle(System::translate("Similar users") . ": " . $this->getUserEntity()->nickname);
-		$this->setPageDescription(System::translate("You can see similar users to a specific user on this page. The similarity is computed on the base of books users have read."));
-		$this->setPageKeywords(System::translate("users, books, similarity, similar users, similar, what to read"));
+		$this->setPageTitle($this->translate("Similar users") . ": " . $this->getUserEntity()->nickname);
+		$this->setPageDescription($this->translate("You can see similar users to a specific user on this page. The similarity is computed on the base of books users have read."));
+		$this->setPageKeywords($this->translate("users, books, similarity, similar users, similar, what to read"));
 
 		$this->getComponent("userList")->setSource(
-				Factory::user()->getSelector()
+			Factory::user()->getSelector()
 				->findAllSimilar($this->getUserEntity())
 				->applyLimit(12)
 		);
 	}
 
 	public function renderMessages($toUser = null) {
-		if (!Environment::getUser()->isAuthenticated()) {
+		if (!$this->getUser()->isLoggedIn()) {
 			$this->redirect("Default:unauthorized");
 		} else {
-			$this->setPageTitle(System::translate("Private messaging"));
-			$this->setPageDescription(System::translate("You can write to other users and change your thought privately. However you have to known the nickname of user you want to write to."));
-			$this->setPageKeywords(System::translate("user, private messaging, private message, write to other users, chat, similar users"));
+			$this->setPageTitle($this->translate("Private messaging"));
+			$this->setPageDescription($this->translate("You can write to other users and change your thought privately. However you have to known the nickname of user you want to write to."));
+			$this->setPageKeywords($this->translate("user, private messaging, private message, write to other users, chat, similar users"));
 			// For submenu of current logged user
-			$this->user = System::user();
+			$this->user = parent::getUserEntity();
 			// Fetch data
 			$this->getComponent("messageList")->setSource(
 				Factory::message()->getSelector()
-				->findAllWithUser($this->getUserEntity())
+					->findAllWithUser($this->getUserEntity())
 			);
-			if($toUser != NULL) {
+			if ($toUser != NULL) {
 				$this->getComponent("messageList")->setRecipient($toUser);
 			}
 		}
@@ -176,7 +191,7 @@ class UserPresenter extends BasePresenter {
 		$font = WWW_DIR . "/img/fonts/DejaVuSansMono.ttf";
 		imagettftext($image, 9, 0, 38, 31, $black, $font, $user->nickname);
 		// Only if enough data
-		if(count($books) > 2) {
+		if (count($books) > 2) {
 			// First book
 			imagettftext($image, 8, 0, 4, 50, $brown, $font, ExtraString::hardTruncate($books[0]->title, 20));
 			$author = Factory::author()->getSelector()->findAllByBook($books[0])->fetchAll();
@@ -213,7 +228,7 @@ class UserPresenter extends BasePresenter {
 			}
 			imagettftext($image, 8, 0, 4, 114, $black, $font, $authorInsert);
 		} else {
-			imagettftext($image, 8, 0, 4, 82, $black, $font, System::translate("Not enough data"));
+			imagettftext($image, 8, 0, 4, 82, $black, $font, $this->translate("Not enough data"));
 		}
 
 		// Send to browser
@@ -223,7 +238,7 @@ class UserPresenter extends BasePresenter {
 		die;
 	}
 
-	public function renderLastOpinions($user,$callback,$limit = 3, $empty = TRUE) {
+	public function renderLastOpinions($user, $callback, $limit = 3, $empty = TRUE) {
 		if (empty($user) || !is_numeric($user)) {
 			throw new BadRequestException("User id not set.");
 		}
@@ -250,7 +265,7 @@ class UserPresenter extends BasePresenter {
 			$jUser["sex"] = $userEntity->sex;
 			$this->getTemplate()->jUser = json_encode($jUser);
 			// Book
-			$rows = Factory::opinion()->getSelector()->findAllByUser($userEntity,$empty)->applyLimit($limit);
+			$rows = Factory::opinion()->getSelector()->findAllByUser($userEntity, $empty)->applyLimit($limit);
 			$opinions = array();
 			$storage = new EditionImageStorage();
 			while ($opinion = Factory::opinion()->fetchAndCreate($rows)) {
@@ -261,71 +276,69 @@ class UserPresenter extends BasePresenter {
 				$temp["inserted"] = $opinion->inserted;
 				// Get random image
 				$image = $storage->getRandomFileByBookTitleId($opinion->bookTitleId);
-				$temp["image"] = empty($image) ? Helpers::thumbnailHelper(NULL,NULL,50) : Helpers::thumbnailHelper($image->getAbsolutePath(),NULL,50);
+				$temp["image"] = empty($image) ? Helpers::thumbnailHelper(NULL, NULL, 50) : Helpers::thumbnailHelper($image->getAbsolutePath(), NULL, 50);
 				// Get authors
 				$authors = Factory::author()->getSelector()->findAllByBookTitleId(array($opinion->bookTitleId))->select("full_name")->fetchAll();
 				$temp["author"] = $authors[0]->full_name;
-				if(count($authors) > 1) {
+				if (count($authors) > 1) {
 					$temp["author"] .= "\xE2\x80\xA6";
 				}
 				$opinions[] = $temp;
 				unset($temp);
 				unset($authors);
 			}
-			if ($opinions === NULL)  {
+			if ($opinions === NULL) {
 				throw new BadRequestException("No results");
 			}
 			$this->getTemplate()->opinions = json_encode($opinions);
 			// service variables
 			$service["domain"] = Environment::getHttpRequest()->uri->hostUri;
-			$service["bookLink"] = $this->link("Book:default",'ID');
-			$service["userLink"] = $this->link("User:default",'ID');
+			$service["bookLink"] = $this->link("Book:default", 'ID');
+			$service["userLink"] = $this->link("User:default", 'ID');
 			$this->getTemplate()->service = json_encode($service);
-		}
-		catch(DibiDriverException $e) {
+		} catch (DibiDriverException $e) {
 			Debug::processException($e);
 			throw new BadRequestException("Database error");
 		}
-		
 	}
 
 	// COMPONENTS
 
 	protected function createComponentInsertingShelf($name) {
-		return new InsertingShelfComponent($this, $name);
+		return new InsertingShelf($this, $name);
 	}
 
 	protected function createComponentUserIcon($name) {
-		$icon = new UserIconComponent($this, $name);
+		$icon = new UserIcon($this, $name);
 		$icon->setUser($this->getUserEntity());
 		return $icon;
 	}
 
 	protected function createComponentShelves($name) {
-		$shelves = new ShelvesComponent($this, $name);
+		$shelves = new Shelves($this, $name);
 		$shelves->setUser($this->getUserEntity());
 		return $shelves;
 	}
 
 	protected function createComponentSubmenu($name) {
-		$submenu = new SubmenuComponent($this, $name);
-		$submenu->addLink("default", System::translate("Info and opinions"), $this->getUserEntity()->getId(),System::translate("Show info and activity of user"));
-		$submenu->addLink("shelves", System::translate("Shelves"), $this->getUserEntity()->getId(),System::translate("Show user's virtual library"));
-		$submenu->addLink("following", System::translate("Following"), $this->getUserEntity()->getId());
-		$submenu->addLink("followers", System::translate("Followers"), $this->getUserEntity()->getId());
-		$submenu->addLink("similar", System::translate("Similar users"), $this->getUserEntity()->getId());
-		if (Environment::getUser()->isAuthenticated() && System::user()->getId() != $this->getUserEntity()->getId()) {
-			if (Factory::user()->getSelector()->isFollowedBy($this->getTemplate()->user->getId(), System::user())) {
-				$submenu->addEvent("toogleFollow", System::translate("Unfollow"), $this->getUserEntity()->getId());
+		$submenu = new Submenu($this, $name);
+		$submenu->addLink("default", $this->translate("Info and opinions"), $this->getUserEntity()->getId(), $this->translate("Show info and activity of user"));
+		$submenu->addLink("shelves", $this->translate("Shelves"), $this->getUserEntity()->getId(), $this->translate("Show user's virtual library"));
+		$submenu->addLink("following", $this->translate("Following"), $this->getUserEntity()->getId());
+		$submenu->addLink("followers", $this->translate("Followers"), $this->getUserEntity()->getId());
+		$submenu->addLink("similar", $this->translate("Similar users"), $this->getUserEntity()->getId());
+		if ($this->getUser()->isLoggedIn() && $this->getUser()->getId() != $this->getUserEntity()->getId()) {
+			if (Factory::user()->getSelector()->isFollowedBy($this->getTemplate()->user->getId(), $this->getUserEntity())) {
+				$submenu->addEvent("toogleFollow", $this->translate("Unfollow"), $this->getUserEntity()->getId());
 			} else {
-				$submenu->addEvent("toogleFollow", System::translate("Follow"), $this->getUserEntity()->getId());
+				$submenu->addEvent("toogleFollow", $this->translate("Follow"), $this->getUserEntity()->getId());
 			}
-			
-			$submenu->addEvent("messages", System::translate("Write message"), $this->getUserEntity()->getId());
+
+			$submenu->addEvent("messages", $this->translate("Write message"), $this->getUserEntity()->getId());
 		}
-		if (Environment::getUser()->isAuthenticated() && System::user()->getId() == $this->getUserEntity()->getId()) {
-			$submenu->addEvent("insertShelf", System::translate("Insert a new shelf"), $this->getUserEntity()->getId());
-			$submenu->addEvent("messages", System::translate("Messaging"));
+		if ($this->getUser()->isLoggedIn() && $this->getUser()->getId() == $this->getUserEntity()->getId()) {
+			$submenu->addEvent("insertShelf", $this->translate("Insert a new shelf"), $this->getUserEntity()->getId());
+			$submenu->addEvent("messages", $this->translate("Messaging"));
 		}
 		return $submenu;
 	}
@@ -338,23 +351,24 @@ class UserPresenter extends BasePresenter {
 	}
 
 	protected function createComponentUserList($name) {
-		$list = new UserListComponent($this, $name);
+		$list = new UserList($this, $name);
 		return $list;
 	}
+
 	protected function createComponentMessageList($name) {
-		return new MessageListComponent($this, $name);
+		return new MessageList($this, $name);
 	}
 
 	// PRIVATE METHODS
 
-	private function getUserEntity() {
+	protected function getUserEntity() {
 		if (empty($this->user)) {
 			$id = $this->getParam("user");
 			if (!empty($id)) {
 				$this->user = Factory::user()->getSelector()->find($this->getParam("user"));
 			}
 			if (empty($this->user)) {
-				$this->flashMessage(System::translate("The user does not exist."), "error");
+				$this->flashMessage($this->translate("The user does not exist."), "error");
 				$this->redirect("Default:default");
 			}
 		}

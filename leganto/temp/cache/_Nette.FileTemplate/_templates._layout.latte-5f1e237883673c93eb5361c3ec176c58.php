@@ -1,12 +1,12 @@
-<?php //netteCache[01]000400a:2:{s:4:"time";s:21:"0.26067200 1313056111";s:9:"callbacks";a:2:{i:0;a:3:{i:0;a:2:{i:0;s:19:"Nette\Caching\Cache";i:1;s:9:"checkFile";}i:1;s:78:"/home/Weby/Ostatni/preader/www/leganto/app/FrontModule/templates/@layout.latte";i:2;i:1313056086;}i:1;a:3:{i:0;a:2:{i:0;s:19:"Nette\Caching\Cache";i:1;s:10:"checkConst";}i:1;s:25:"Nette\Framework::REVISION";i:2;s:30:"6889b94 released on 2011-08-04";}}}?><?php
+<?php //netteCache[01]000400a:2:{s:4:"time";s:21:"0.72491300 1313510745";s:9:"callbacks";a:2:{i:0;a:3:{i:0;a:2:{i:0;s:19:"Nette\Caching\Cache";i:1;s:9:"checkFile";}i:1;s:78:"/home/Weby/Ostatni/preader/www/leganto/app/FrontModule/templates/@layout.latte";i:2;i:1313510740;}i:1;a:3:{i:0;a:2:{i:0;s:19:"Nette\Caching\Cache";i:1;s:10:"checkConst";}i:1;s:25:"Nette\Framework::REVISION";i:2;s:30:"6889b94 released on 2011-08-04";}}}?><?php
 
 // source file: /home/Weby/Ostatni/preader/www/leganto/app/FrontModule/templates/@layout.latte
 
-?><?php list($_l, $_g) = Nette\Latte\Macros\CoreMacros::initRuntime($template, 'rkyvw4vf6n')
+?><?php list($_l, $_g) = Nette\Latte\Macros\CoreMacros::initRuntime($template, '9l50evx67w')
 ;//
 // block content
 //
-if (!function_exists($_l->blocks['content'][] = '_lbfdc0783790_content')) { function _lbfdc0783790_content($_l, $_args) { extract($_args)
+if (!function_exists($_l->blocks['content'][] = '_lb1cba67dafe_content')) { function _lb1cba67dafe_content($_l, $_args) { extract($_args)
 ?>
 			<?php echo Nette\Templating\DefaultHelpers::escapeHtml($template->translate('No content'), ENT_NOQUOTES) ?>
 
@@ -61,6 +61,7 @@ if ($_l->extends) {
 		<link rel="stylesheet" type="text/css" href="/css/flashes.css" />
 		<link rel="stylesheet" type="text/css" href="/css/lists.css" />
 
+		<script type="text/javascript" src="/js/netteForms.js"></script>
 		<script type="text/javascript" src="/js/jquery-1.4.2.min.js"></script>
 		<script type="text/javascript" src="/js/search.js"></script>
 <?php try { $presenter->link("Search:*"); } catch (Nette\Application\UI\InvalidLinkException $e) {}; if ($presenter->getLastCreatedRequestFlag("current")): ?>

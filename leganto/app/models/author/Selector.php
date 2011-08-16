@@ -117,7 +117,7 @@ class Selector extends AWorker implements ISelector {
 			throw new InvalidArgumentException("keyword");
 		}
 		$word = mysql_escape_string($keyword) . "%";
-		$conditions .= "
+		$conditions = "
 			([first_name] LIKE '$word' OR
 			[last_name] LIKE '$word' OR
 			[group_name] LIKE '$word')";

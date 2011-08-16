@@ -16,7 +16,8 @@ use Leganto\ORM\Workers\IInserter,
     Leganto\ORM\IEntity,
     Leganto\ORM\Workers\SimpleInserter,
     Leganto\ORM\Workers\AWorker,
-    Leganto\External\GoogleBooksEditionFinder;
+    Leganto\External\GoogleBooksEditionFinder,
+    Nette\DateTime;
 
 class Inserter extends AWorker implements IInserter {
 

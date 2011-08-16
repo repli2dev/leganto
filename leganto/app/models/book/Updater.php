@@ -16,7 +16,8 @@ use Leganto\ORM\Workers\IUpdater,
     Leganto\ORM\SimpleEntityFactory,
     Leganto\ORM\SimpleTableModel,
     Leganto\ORM\Workers\AWorker,
-    Leganto\ORM\IEntity;
+    Leganto\ORM\IEntity,
+    InvalidArgumentException;
 
 class Updater extends AWorker implements IUpdater {
 
@@ -66,14 +67,19 @@ class Updater extends AWorker implements IUpdater {
 	 *
 	 * @param \Leganto\DB\Book\Entity $book
 	 * @param array|\Leganto\DB\Tag\Entity $tag
+	 * @param int $language ID of language
 	 * @throws InvalidArgumentException is there are no tags, or they are not of right instances
+	 * @throws InvalidArgumentException if language is empty
 	 */
-	public function setTagged(\Leganto\DB\Book\Entity $book, $tagged) {
+	public function setTagged(\Leganto\DB\Book\Entity $book, $tagged, $language) {
+		if (empty($language)) {
+			throw new InvalidArgumentException("Empty langauge.");
+		}
 		if (!is_array($tagged) && !($tagged instanceof \Leganto\DB\Tag\Entity)) {
 			throw new InvalidArgumentException("The argument [tagged] has to be array or TagEntity.");
 		}
 		// Find all tags
-		$tags = Factory::tag()->getSelector()->findAllByBook($book)->fetchPairs("id_tag", "id_tag");
+		$tags = Factory::tag()->getSelector()->findAllByBook($book,$language)->fetchPairs("id_tag", "id_tag");
 		if ($tagged instanceof \Leganto\DB\Tag\Entity) {
 			$tagged = array($tagged);
 		}

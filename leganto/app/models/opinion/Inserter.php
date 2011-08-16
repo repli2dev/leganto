@@ -14,7 +14,8 @@ use Leganto\ORM\Workers\IInserter,
     Leganto\ORM\SimpleEntityFactory,
     InvalidArgumentException,
     Leganto\ORM\IEntity,
-    Leganto\ORM\Workers\AWorker;
+    Leganto\ORM\Workers\AWorker,
+    Leganto\ORM\SimpleTableModel;
 
 class Inserter extends AWorker implements IInserter {
 

@@ -31,7 +31,7 @@ class Inserter extends AWorker implements IInserter {
 			throw new InvalidArgumentException("The entity can not be inserted because it is not in state [NEW].");
 		}
 		// I try to find the tag
-		$tag = Factory::Tags()->getSelector()->findAll()
+		$tag = Factory::tag()->getSelector()->findAll()
 			->where("[name] = %s", trim($entity->name))
 			->where("[id_language] = %i", $entity->languageId)
 			->fetch();

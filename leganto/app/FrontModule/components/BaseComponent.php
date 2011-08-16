@@ -103,7 +103,7 @@ abstract class BaseComponent extends Control {
 
 	/** @return bool */
 	final public function isCurrentlyLogged($user) {
-		if ($this->getUser() !== null && $user === $this->getUser()->getId()) {
+		if ($this->getUser() !== null && $user == $this->getUser()->getId()) {
 			return TRUE;
 		} else {
 			return FALSE;
@@ -121,7 +121,7 @@ abstract class BaseComponent extends Control {
 	}
 	
 	/** @return string */
-	protected final function translate($message, $count = 1) {
+	public final function translate($message, $count = 1) {
 		$args = func_get_args();
 		return call_user_func_array(array($this->getContext()->getService("translator")->get(), 'translate'), $args);
 	}

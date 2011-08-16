@@ -31,10 +31,18 @@ class PostList extends BaseListComponent {
 	private $enablePosting = TRUE;
 	private $enableLinks = FALSE;
 
+	/**
+	 * Change sorting to sorting by time
+	 */
 	public function handleSortByTime() {
 		$this->sort("inserted");
 	}
 
+	/**
+	 * Delete post if user is allowed
+	 * @param \Leganto\DB\Post\Entity $post Post to be deleted
+	 * @return void
+	 */
 	public function handleDelete($post) {
 		$postEntity = Factory::post()->getSelector()->find($post);
 		if (!$this->getUser()->isAllowed(Resource::create($postEntity), Action::EDIT)) {
@@ -58,6 +66,11 @@ class PostList extends BaseListComponent {
 		}
 	}
 
+	/**
+	 * Add new post to discussion
+	 * @param Form $form
+	 * @return void
+	 */
 	public function formSubmitted(Form $form) {
 		if (!$this->getUser()->isAllowed(Resource::POST, Action::INSERT)) {
 			$this->unathorized();
@@ -101,14 +114,24 @@ class PostList extends BaseListComponent {
 		$this->type = $type;
 	}
 
+	/**
+	 * Disable posting of new posts
+	 */
 	public function disablePosting() {
 		$this->enablePosting = FALSE;
 	}
 
+	/**
+	 * Show link to discussion (used in search)
+	 */
 	public function enableLinks() {
 		$this->enableLinks = TRUE;
 	}
 
+	/**
+	 * Toogle showing of sorting options.
+	 * @param boolean $show
+	 */
 	public function showSorting($show = TRUE) {
 		$this->getTemplate()->sorting = TRUE;
 	}

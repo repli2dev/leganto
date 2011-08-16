@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Tag selector
  * @copyright	Copyright (c) 2009 Jan Papoušek (jan.papousek@gmail.com),
@@ -9,12 +10,14 @@
  * @author		Jan Drabek
  * @version		$id$
  */
+
 namespace Leganto\DB\Tag;
+
 use Leganto\ORM\Workers\ISelector,
-	Leganto\DB\Factory,
-	Leganto\System,
-	Leganto\ORM\Workers\AWorker,
-	InvalidArgumentException;
+    Leganto\DB\Factory,
+    Leganto\System,
+    Leganto\ORM\Workers\AWorker,
+    InvalidArgumentException;
 
 class Selector extends AWorker implements ISelector {
 	/* PUBLIC METHODS */
@@ -30,24 +33,29 @@ class Selector extends AWorker implements ISelector {
 	/**
 	 * Find all tags from given book 
 	 * @param \Leganto\DB\Book\Entity $book
+	 * @param int $language ID of language
 	 * @return DibiDataSource
 	 * @throws InvalidArgumentException if book is empty
+	 * @throws InvalidArgumentException if language is empty
 	 */
-	public function findAllByBook(\Leganto\DB\Book\Entity $book) {
+	public function findAllByBook(\Leganto\DB\Book\Entity $book, $language) {
 		if (empty($book)) {
 			throw new InvalidArgumentException("Empty book.");
 		}
+		if (empty($language)) {
+			throw new InvalidArgumentException("Empty language.");
+		}
 		return $this->connection->dataSource("SELECT * FROM [view_book_tag]")
-			->where("[id_book] = %i", $book->bookNode)
-			->where("[id_language] = %i", System::domain()->idLanguage) // FIXME: odstranit zavislost na tride System
-			->orderBy("name");
+				->where("[id_book] = %i", $book->bookNode)
+				->where("[id_language] = %i", $language)
+				->orderBy("name");
 	}
 
 	/** @return Entity */
 	public function find($id) {
 		return Factory::tag()
-			->fetchAndCreate(
-				$this->connection->dataSource("SELECT * FROM [tag] WHERE [id_tag] = %i", $id)
+				->fetchAndCreate(
+					$this->connection->dataSource("SELECT * FROM [tag] WHERE [id_tag] = %i", $id)
 		);
 	}
 

@@ -13,9 +13,10 @@ namespace Leganto\DB\Followed;
 
 use Leganto\ORM\Workers\ISelector,
     InvalidArgumentException,
-    Leganto\ORM\Exceptions\NotSupportedException;
+    Leganto\ORM\Exceptions\NotSupportedException,
+    Leganto\ORM\Workers\AWorker;
 
-class Selector implements ISelector {
+class Selector extends AWorker implements ISelector {
 
 	public function find($id) {
 		throw new NotSupportedException();
@@ -32,27 +33,37 @@ class Selector implements ISelector {
 	/**
 	 * Find all followed users by book
 	 * @param IEntity $user
+	 * @param int $user ID of user
 	 * @return DibiDataSource
 	 * @throws InvalidArgumentException if book is empty
+	 * @throws InvalidArgumentException if user is empty
 	 */
-	public function findAllByBook($book) {
+	public function findAllByBook($book,$user) {
 		if (empty($book)) {
 			throw new InvalidArgumentException("The parameter [book] is empty.");
 		}
-		return $this->connection->dataSource("SELECT [view_my_following].* FROM [view_my_following] INNER JOIN [following] ON [following].[id_user_followed] = [view_my_following].[id_user] WHERE [id_book_title] = %i AND [following].[id_user] = %i", $book, System::user()->getId());
+		if (empty($user)) {
+			throw new InvalidArgumentException("User is empty.");
+		}
+		return $this->connection->dataSource("SELECT [view_my_following].* FROM [view_my_following] INNER JOIN [following] ON [following].[id_user_followed] = [view_my_following].[id_user] WHERE [id_book_title] = %i AND [following].[id_user] = %i", $book, $user);
 	}
 
 	/**
 	 * Find all opinion of followed users by book
 	 * @param IEntity $user
+	 * @param int $user ID of user
 	 * @return DibiDataSource
 	 * @throws InvalidArgumentException if book is empty
+	 * @throws InvalidArgumentException if user is empty
 	 */
-	public function findAllOpinionByBook($book) {
+	public function findAllOpinionByBook($book,$user) {
 		if (empty($book)) {
 			throw new InvalidArgumentException("The parameter [book] is empty.");
 		}
-		return $this->connection->dataSource("SELECT [view_opinion].* FROM [view_opinion] INNER JOIN [following] ON [following].[id_user_followed] = [view_opinion].[id_user] WHERE [id_book_title] = %i AND [following].[id_user] = %i", $book, System::user()->getId());
+		if (empty($user)) {
+			throw new InvalidArgumentException("User is empty.");
+		}
+		return $this->connection->dataSource("SELECT [view_opinion].* FROM [view_opinion] INNER JOIN [following] ON [following].[id_user_followed] = [view_opinion].[id_user] WHERE [id_book_title] = %i AND [following].[id_user] = %i", $book, $user);
 	}
 
 }

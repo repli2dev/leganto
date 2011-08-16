@@ -221,6 +221,7 @@ abstract class ATableModel extends NetteObject implements ITableModel {
 	 * @throws InvalidArgumentException if the input is empty or does not contain
 	 * 		all necessary columns.
 	 * @throws DataNotFoundException if there is a foreign key on not existing entity.
+	 * @throws DuplicityException if there is attempt to insert once inserted data
 	 * @throws DibiDriverException if there is a problem to work with database.
 	 */
 	public function insert(array $input) {
@@ -237,16 +238,12 @@ abstract class ATableModel extends NetteObject implements ITableModel {
 				$toInsert[$key] = $input[$key];
 			}
 		}
+		$this->processQuery($this->connection->insert($this->tableName(), $toInsert));
+		// FIXME: Bleee
 		try {
-			$this->processQuery($this->connection->insert($this->tableName(), $toInsert));
-			// FIXME: Bleee
-			try {
-				return $this->connection->insertId();
-			} catch (DibiException $e) {
-				return NULL;
-			}
-		} catch (DuplicityException $e) {
-			return -1;
+			return $this->connection->insertId();
+		} catch (DibiException $e) {
+			return NULL;
 		}
 	}
 

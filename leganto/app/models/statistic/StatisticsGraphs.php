@@ -14,13 +14,16 @@ namespace Leganto\DB\Statistic;
 
 use dibi,
     Leganto\Templating\GoogleChart,
-    Leganto\System,
-    DibiConnection;
+    DibiConnection,
+    Nette\Localization\ITranslator;
 
 class StatisticsGraphs {
 
 	/** @var DibiConnection */
 	private static $connection;
+
+	/** @var ITranslator */
+	private static $translator;
 
 	/**
 	 * Inject DIBI database connection
@@ -29,6 +32,15 @@ class StatisticsGraphs {
 	 */
 	public static function setConnection(DibiConnection $connection) {
 		self::$connection = $connection;
+	}
+
+	/**
+	 * Inject translator
+	 * 
+	 * @param ITranslator translator
+	 */
+	public static function setTranslator(ITranslator $translator) {
+		self::$translator = $translator;
 	}
 
 	/** @return GoogleChart */
@@ -114,13 +126,13 @@ class StatisticsGraphs {
 		}
 		$sexes = array("Male", "Female", "Unspecified");
 		// Due gettext extractor
-		System::translate("Unspecified");
+		self::$translator->translate("Unspecified");
 		$statistics = array();
 		foreach ($sexes AS $sex) {
 			if (!isset($data[strtolower($sex)])) {
-				$statistics[System::translate($sex)] = 0;
+				$statistics[self::$translator->translate($sex)] = 0;
 			} else {
-				$statistics[System::translate($sex)] = $data[strtolower($sex)];
+				$statistics[self::$translator->translate($sex)] = $data[strtolower($sex)];
 			}
 		}
 		// Build chart
@@ -149,7 +161,7 @@ class StatisticsGraphs {
 		// Get list of months
 		$months = array();
 		for ($i = 0; $i < 12; $i++) {
-			$months[] = System::translate(date("M", strtotime("-$i month")));
+			$months[] = self::$translator->translate(date("M", strtotime("-$i month")));
 		}
 		// Build chart
 		$chart = new GoogleChart(GoogleChart::TYPE_VERTICAL_BAR_GROUPED);

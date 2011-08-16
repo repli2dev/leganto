@@ -15,7 +15,8 @@ use Leganto\ORM\Workers\IInserter,
     Leganto\ORM\Workers\AWorker,
     Leganto\ORM\IEntity,
     Leganto\ORM\SimpleTableModel,
-    InvalidArgumentException;
+    InvalidArgumentException,
+    Nette\DateTime;
 
 class Inserter extends AWorker implements IInserter {
 

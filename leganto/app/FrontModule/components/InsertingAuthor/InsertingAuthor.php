@@ -8,23 +8,34 @@
  * @author		Jan Papousek
  * @author		Jan Drabek
  */
+
 namespace FrontModule\Components;
+
 use Nette\Environment,
-	Leganto\DB\Factory,
-	Leganto\System,
-	Nette\DateTime,
-	FrontModule\Components\InsertingBook;
+    Leganto\DB\Factory,
+    Leganto\ACL\Resource,
+    Leganto\ACL\Action,
+    Nette\DateTime,
+    FrontModule\Components\InsertingBook,
+    Exception,
+    Leganto\DB\Author\Entity,
+    FrontModule\Forms\BaseForm,
+    Nette\Forms\Form,
+    Nette\Utils\Html;
+
 class InsertingAuthor extends BaseComponent {
 
 	/** @var AuthorEntity */
 	private $author;
+
 	/** @persistent */
 	public $backlink;
+
 	/** @persistent */
 	public $backlinkArgs;
 
 	public function render() {
-		if (!Environment::getUser()->isAllowed(Resource::AUTHOR, Action::INSERT)) {
+		if (!$this->getUser()->isAllowed(Resource::AUTHOR, Action::INSERT)) {
 			$this->unathorized();
 		}
 		parent::render();
@@ -33,23 +44,23 @@ class InsertingAuthor extends BaseComponent {
 	public function formSubmitted(Form $form) {
 		// Load data from form
 		$values = $form->getValues();
-		if (empty($values["id_author"]) && !Environment::getUser()->isAllowed(Resource::AUTHOR, Action::INSERT)) {
+		if (empty($values["id_author"]) && !$this->getUser()->isAllowed(Resource::AUTHOR, Action::INSERT)) {
 			$this->unathorized();
 		}
-		if (!empty($values["id_author"]) && !Environment::getUser()->isAllowed(Resource::AUTHOR, Action::EDIT)) {
+		if (!empty($values["id_author"]) && !$this->getUser()->isAllowed(Resource::AUTHOR, Action::EDIT)) {
 			$this->unauthorized();
 		}
 		// Prepare entity and persist it
 		if (empty($values["id_author"])) {
-			$author = Factory::authors()->createEmpty();
-			$flashMessage = System::translate("New author has been successfuly inserted.");
+			$author = Factory::author()->createEmpty();
+			$flashMessage = $this->translate("New author has been successfuly inserted.");
 		} else {
-			$author = Factory::authors()->getSelector()->find($values["id_author"]);
-			$flashMessage = System::translate("Author has been successfuly updated.");
+			$author = Factory::author()->getSelector()->find($values["id_author"]);
+			$flashMessage = $this->translate("Author has been successfuly updated.");
 		}
 
 		$author->type = $values["type"];
-		if ($values["type"] == AuthorEntity::PERSON) {
+		if ($values["type"] == Entity::PERSON) {
 			$author->firstname = $values["first_name"];
 			$author->lastname = $values["last_name"];
 		} else {
@@ -64,7 +75,7 @@ class InsertingAuthor extends BaseComponent {
 			} else {
 				$logMessage = "UPDATE AUTHOR '" . $author->getId() . "'";
 			}
-			System::log($logMessage);
+			$this->getContext()->getService("logger")->log($logMessage);
 			$this->getPresenter()->flashMessage($flashMessage, 'success');
 		} catch (Exception $e) {
 			$this->unexpectedError($e);
@@ -80,7 +91,7 @@ class InsertingAuthor extends BaseComponent {
 		}
 	}
 
-	public function setAuthor(AuthorEntity $author) {
+	public function setAuthor(Entity $author) {
 		$this->author = $author;
 	}
 
@@ -94,27 +105,27 @@ class InsertingAuthor extends BaseComponent {
 	protected function createComponentForm($name) {
 		$form = new BaseForm($this, $name);
 		$types = array(
-		    AuthorEntity::PERSON => System::translate("Person"),
-		    AuthorEntity::GROUP => System::translate("Group")
+		    Entity::PERSON => $this->translate("Person"),
+		    Entity::GROUP => $this->translate("Group")
 		);
 		$form->addGroup()->setOption('container', Html::el('div'));
 		$form->addSelect("type", "Type of author", $types)
 			->addRule(Form::FILLED, "Please choose the type of the author.")
-			->addCondition(Form::EQUAL, AuthorEntity::PERSON)
+			->addCondition(Form::EQUAL, Entity::PERSON)
 			->toggle("person")
 			->endCondition()
-			->addCondition(Form::EQUAL, AuthorEntity::GROUP)
+			->addCondition(Form::EQUAL, Entity::GROUP)
 			->toggle("group");
 
 		$form->addGroup()->setOption('container', Html::el('div')->id('person'));
 		$form->addText("first_name", "First name");
 		$form->addText("last_name", "Last name")
-			->addConditionOn($form["type"], Form::EQUAL, AuthorEntity::PERSON)
+			->addConditionOn($form["type"], Form::EQUAL, Entity::PERSON)
 			->addRule(Form::FILLED, "Please fill at least the last name.");
 
 		$form->addGroup()->setOption('container', Html::el('div')->id('group'));
 		$form->addText("group_name", "Group name")
-			->addConditionOn($form["type"], Form::EQUAL, AuthorEntity::GROUP)
+			->addConditionOn($form["type"], Form::EQUAL, Entity::GROUP)
 			->addRule(Form::FILLED, "Please fill the group name.");
 
 		$form->addGroup()->setOption('container', Html::el('div'));

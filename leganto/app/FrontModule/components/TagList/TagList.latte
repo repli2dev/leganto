@@ -1,4 +1,3 @@
-
 <div id="tags">
 	{foreach $tags AS $tag}
 		{if $tag->name != NULL}
@@ -6,7 +5,7 @@
 		{/if}
 	{/foreach}
 
-	{if $presenter->getUser()->isAllowed(Leganto\ACL\Resource::TAG, Leganto\ACL\Action::INSERT)}
+	{if $user->isAllowed(Leganto\ACL\Resource::TAG, Leganto\ACL\Action::INSERT)}
 		{widget form}
 		<div class="clear"></div>
 	{/if}

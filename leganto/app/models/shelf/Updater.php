@@ -15,7 +15,9 @@ use Leganto\ORM\Workers\IUpdater,
     Leganto\ORM\Workers\AWorker,
     Leganto\ORM\SimpleTableModel,
     InvalidArgumentException,
-    Leganto\ORM\IEntity;
+    Leganto\ORM\IEntity,
+    Nette\DateTime,
+    Leganto\ORM\Workers\SimpleUpdater;
 
 class Updater extends AWorker implements IUpdater {
 

@@ -1,36 +1,48 @@
 <?php
+
 /**
- *
+ * Settings presenter
  * @copyright	Copyright (c) 2009 Jan Papoušek (jan.papousek@gmail.com),
  * 				Jan Drábek (me@jandrabek.cz)
  * @link		http://code.google.com/p/preader/
- * @license		http://code.google.com/p/preader/
  * @author		Jan Papousek
  * @author		Jan Drabek
- * @version		$id$
  */
+
 namespace FrontModule;
+
 use Nette\Environment,
-	Leganto\System,
-	Leganto\DB\Factory;
+    Leganto\DB\Factory,
+    Exception,
+    Nette\DateTime,
+    FrontModule\Forms\BaseForm,
+    Nette\Forms\Form,
+    Leganto\ORM\Exceptions\DuplicityException,
+    Leganto\ORM\IEntity,
+    Leganto\Storage\UserIconStorage,
+	Leganto\ACL\Resource,
+	Leganto\ACL\Action,
+	FrontModule\Components\Submenu;
+	
+
 class SettingsPresenter extends BasePresenter {
 
 	public function renderDefault() {
-		if (System::user() != NULL && Environment::getUser()->isAllowed(Resource::create(System::user()), Action::EDIT)) {
-			$this->setPageTitle(System::translate("Settings"));
-			$this->setPageDescription(System::translate("You can set your profile, write something about you, fill your age and sex on this page."));
-			$this->setPageKeywords(System::translate("settings, profile, update, edit"));
+		if ($this->getUser() != NULL && $this->getUser()->isAllowed(Resource::create($this->getUserEntity()), Action::EDIT)) {
+			$this->setPageTitle($this->translate("Settings"));
+			$this->setPageDescription($this->translate("You can set your profile, write something about you, fill your age and sex on this page."));
+			$this->setPageKeywords($this->translate("settings, profile, update, edit"));
 		} else {
 			$this->unauthorized();
 		}
 	}
 
 	public function renderConnections() {
-		if (System::user() != NULL && Environment::getUser()->isAllowed(Resource::create(System::user()), Action::EDIT)) {
-			$this->setPageTitle(System::translate("Social networks"));
-			$this->setPageDescription(System::translate("You can manage your social networks connected to this page here."));
-			$this->setPageKeywords(System::translate("social networks, facebook, twitter, manage, edit, update, remove, add, connect"));
-			$data = Factory::connection()->getSelector()->findAllFromUser(System::user()->id);
+		if ($this->getUser() != NULL && $this->getUser()->isAllowed(Resource::create($this->getUserEntity()), Action::EDIT)) {
+			$this->setPageTitle($this->translate("Social networks"));
+			$this->setPageDescription($this->translate("You can manage your social networks connected to this page here."));
+			$this->setPageKeywords($this->translate("social networks, facebook, twitter, manage, edit, update, remove, add, connect"));
+			$data = Factory::connection()->getSelector()->findAllFromUser($this->getUser()->id);
 
 			$used = array();
 			foreach ($data as $row) {
@@ -41,44 +53,43 @@ class SettingsPresenter extends BasePresenter {
 			$this->template->used = $used;
 		} else {
 			$this->unauthorized();
-			
 		}
 	}
 
 	public function renderCustomization() {
-		if (System::user() != NULL && Environment::getUser()->isAllowed(Resource::create(System::user()), Action::EDIT)) {
-			$this->setPageTitle(System::translate("Customization"));
-			$this->setPageDescription(System::translate("You can prepare interactive block with your latest read books for inserting into your webpage."));
-			$this->setPageKeywords(System::translate("settings, profile, update, edit, customization, read books, interactive, wizard."));
+		if ($this->getUser() != NULL && $this->getUser()->isAllowed(Resource::create($this->getUserEntity()), Action::EDIT)) {
+			$this->setPageTitle($this->translate("Customization"));
+			$this->setPageDescription($this->translate("You can prepare interactive block with your latest read books for inserting into your webpage."));
+			$this->setPageKeywords($this->translate("settings, profile, update, edit, customization, read books, interactive, wizard."));
 		} else {
 			$this->unauthorized();
 		}
 	}
 
 	public function actionDelete($id) {
-		if (System::user() != NULL && Environment::getUser()->isAllowed(Resource::create(System::user()), Action::EDIT)) {
-			$this->setPageTitle(System::translate("Delete connection"));
-			$this->setPageDescription(System::translate("You can delete a connection to a social network on this page."));
-			$this->setPageKeywords(System::translate("delete, social network, facebook, twitter, remove"));
+		if ($this->getUser() != NULL && $this->getUser()->isAllowed(Resource::create($this->getUserEntity()), Action::EDIT)) {
+			$this->setPageTitle($this->translate("Delete connection"));
+			$this->setPageDescription($this->translate("You can delete a connection to a social network on this page."));
+			$this->setPageKeywords($this->translate("delete, social network, facebook, twitter, remove"));
 		} else {
 			$this->unauthorized();
 		}
 	}
 
 	public function actionTwitter() {
-		if (System::user() != NULL && Environment::getUser()->isAllowed(Resource::create(System::user()), Action::EDIT)) {
+		if ($this->getUser() != NULL && $this->getUser()->isAllowed(Resource::create(System::user()), Action::EDIT)) {
 			// Check if user have one account already
-			$user = System::user()->id;
+			$user = $this->getUser()->id;
 			$haveOne = Factory::connection()->getSelector()->exists($user, 'twitter');
 			if (!$haveOne) {
 				$twitter = new TwitterBridge;
-				if($twitter->isEnabled()) {
+				if ($twitter->isEnabled()) {
 					$twitter->doLogin();
 					$token = $twitter->getToken();
 					if (!empty($token)) {
 						// Check if this type and token is NOT in DB. (This statement is only for printing error, because insert do not throw exception.
-						$tokenExists = Factory::connection()->getSelector()->tokenExists('twitter',$token);
-						if(!$tokenExists) {
+						$tokenExists = Factory::connection()->getSelector()->tokenExists('twitter', $token);
+						if (!$tokenExists) {
 							// Prepare user connection entity
 							$connection = Factory::connection()->createEmpty();
 							$connection->user = $user;
@@ -86,27 +97,28 @@ class SettingsPresenter extends BasePresenter {
 							$connection->token = $twitter->getToken();
 							$connection->inserted = new DateTime();
 
+							$logger = $this->getService("logger");
 							try {
 								// Commit
 								Factory::connection()->getInserter()->insert($connection);
-								System::log("INSERT CONNECTION TO TWITTER '" . $connection->getId() . "'");
+								$logger->log("INSERT CONNECTION TO TWITTER '" . $connection->getId() . "'");
 							} catch (Exception $e) {
 								$this->unexpectedError($e);
 								return;
 							}
-							$this->flashMessage(System::translate('Your account was successfully added.'), 'success');
+							$this->flashMessage($this->translate('Your account was successfully added.'), 'success');
 							$this->redirect('connections');
 						} else {
-							$this->flashMessage(System::translate('Sorry, this account has been already connected to a different account.'), 'error');
+							$this->flashMessage($this->translate('Sorry, this account has been already connected to a different account.'), 'error');
 							$this->redirect('connections');
 						}
 					}
 				} else {
-					$this->getPresenter()->flashMessage(System::translate("Twitter functions are not accessible right now. Please try it later."), "error");
+					$this->getPresenter()->flashMessage($this->translate("Twitter functions are not accessible right now. Please try it later."), "error");
 					$this->getPresenter()->redirect("connections");
 				}
 			} else {
-				$this->flashMessage(System::translate('You already have this type of an account.'), 'error');
+				$this->flashMessage($this->translate('You already have this type of an account.'), 'error');
 				$this->redirect('connections');
 			}
 			exit;
@@ -116,44 +128,46 @@ class SettingsPresenter extends BasePresenter {
 	}
 
 	public function actionFacebook() {
-		if (System::user() != NULL && Environment::getUser()->isAllowed(Resource::create(System::user()), Action::EDIT)) {
+		if ($this->getUser() != NULL && $this->getUser()->isAllowed(Resource::create(System::user()), Action::EDIT)) {
 			// Check if user have one account already
-			$user = System::user()->id;
+			$user = $this->getUser()->id;
 			$haveOne = Factory::connection()->getSelector()->exists($user, 'facebook');
 			if (!$haveOne) {
 				$fb = new FacebookBridge;
-				if($fb->isEnabled()) {
+				if ($fb->isEnabled()) {
 					$fb->doLogin();
 					// Check if this type and token is NOT in DB. (This statement is only for printing error, because insert do not throw exception.
-					$tokenExists = Factory::connection()->getSelector()->tokenExists('facebook',$fb->getToken());
-					if(!$tokenExists) {
+					$tokenExists = Factory::connection()->getSelector()->tokenExists('facebook', $fb->getToken());
+					if (!$tokenExists) {
 						// Prepare user connection entity
 						$connection = Factory::connection()->createEmpty();
 						$connection->user = $user;
 						$connection->type = 'facebook';
 						$connection->token = $fb->getToken();
 						$connection->inserted = new DateTime();
+
+						$loger = $this->getService("logger");
 						try {
 							// Commit
 							Factory::connection()->getInserter()->insert($connection);
-							System::log("INSERT CONNECTION TO FACEBOOK '" . $connection->getId() . "'");
+							$logger->log("INSERT CONNECTION TO FACEBOOK '" . $connection->getId() . "'");
 						} catch (Exception $e) {
 							$this->unexpectedError($e);
 							return;
 						}
 
-						$this->flashMessage(System::translate('Your account was successfully added.'), 'success');
+						$this->flashMessage($this->translate('Your account was successfully added.'), 'success');
 						$this->redirect('connections');
 					} else {
-						$this->flashMessage(System::translate('Sorry, this account has been already connected to a different account.'), 'error');
+						$this->flashMessage($this->translate('Sorry, this account has been already connected to a different account.'), 'error');
 						$this->redirect('connections');
 					}
 				} else {
-					$this->getPresenter()->flashMessage(System::translate("Facebook functions are not accessible right now. Please try it later."), "error");
+					$this->getPresenter()->flashMessage($this->translate("Facebook functions are not accessible right now. Please try it later."), "error");
 					$this->getPresenter()->redirect("connections");
 				}
 			} else {
-				$this->flashMessage(System::translate('You already have this type of an account.'), 'error');
+				$this->flashMessage($this->translate('You already have this type of an account.'), 'error');
 				$this->redirect('connections');
 			}
 			exit;
@@ -164,7 +178,7 @@ class SettingsPresenter extends BasePresenter {
 
 	// Factories
 	protected function createComponentDeleteForm($name) {
-		$form = new BaseForm;
+		$form = new BaseForm($this,$name);
 		$form->addSubmit("yes", "Yes");
 		$form->addSubmit("no", "No");
 		$form->onSubmit[] = array($this, "deleteFormSubmitted");
@@ -173,7 +187,7 @@ class SettingsPresenter extends BasePresenter {
 
 	protected function createComponentSettingsForm($name) {
 		// Prepare form
-		$form = new BaseForm;
+		$form = new BaseForm($this,$name);
 		$form->addGroup("Basic information");
 		$form->addText('email', "E-mail")
 			->addRule(Form::FILLED, "Please fill the correct e-mail.")
@@ -181,9 +195,9 @@ class SettingsPresenter extends BasePresenter {
 			->addRule(Form::EMAIL, 'Please fill the e-mail in the right format (someone@somewhere.tld).');
 
 		$form->addGroup("Extra information");
-		$form->addSelect("sex", "Sex", array("" => System::translate("Choose"), "male" => "Male", "female" => "Female"))
+		$form->addSelect("sex", "Sex", array("" => $this->translate("Choose"), "male" => "Male", "female" => "Female"))
 			->skipFirst()
-			->addRule(Form::FILLED,'Please choose your sex.');
+			->addRule(Form::FILLED, 'Please choose your sex.');
 		$form->addText("birthyear", "Birth year", 4)
 			->addCondition(Form::FILLED)
 			->addRule(Form::INTEGER, "Please correct the birth year. Only integer is allowed.");
@@ -220,9 +234,9 @@ class SettingsPresenter extends BasePresenter {
 		$form->setCurrentGroup();
 
 		$form->addSubmit("submitted", "Save");
-		$form->onSubmit[] = array($this, "settingsFormSubmitted");
+		$form->onSuccess[] = array($this, "settingsFormSubmitted");
 		// Load data of current user for showing them
-		$user = System::user();
+		$user = $this->getUserEntity();
 		$values['email'] = $user->email;
 		$values['sex'] = $user->sex;
 		$values['birthyear'] = $user->birthyear;
@@ -232,22 +246,22 @@ class SettingsPresenter extends BasePresenter {
 	}
 
 	protected function createComponentSubmenu($name) {
-		$submenu = new SubmenuComponent($this, $name);
-		$submenu->addLink("default", System::translate("Settings"),NULL,System::translate("Set your profile, change password or avatar"));
-		$submenu->addLink("connections", System::translate("Social networks"),NULL,System::translate("Join your social networks accounts"));
-		$submenu->addLink("customization", System::translate("Customization"),NULL,System::translate("Prepare block with read books for your page"));
+		$submenu = new Submenu($this, $name);
+		$submenu->addLink("default", $this->translate("Settings"), NULL, $this->translate("Set your profile, change password or avatar"));
+		$submenu->addLink("connections", $this->translate("Social networks"), NULL, $this->translate("Join your social networks accounts"));
+		$submenu->addLink("customization", $this->translate("Customization"), NULL, $this->translate("Prepare block with read books for your page"));
 		return $submenu;
 	}
 
 	/* FORM SIGNALS */
 
 	public function settingsFormSubmitted(Form $form) {
-		if (System::user() != NULL && Environment::getUser()->isAllowed(Resource::create(System::user()), Action::EDIT)) {
-			$user = System::user();
+		$user = $this->getUserEntity();
+		if ($this->getUser() != NULL && $this->getUser()->isAllowed(Resource::create($user), Action::EDIT)) {
 			$values = $form->getValues();
 			// Firstly check if user is not trying to change e-mail
-			if($user->email != $values["email"] && $user->password != UserAuthenticator::passwordHash($values["old"])) {
-				$form->addError(System::translate("For changing your e-mail address you have to enter your current and new passwords."));
+			if ($user->email != $values["email"] && $user->password != UserAuthenticator::passwordHash($values["old"])) {
+				$form->addError($this->translate("For changing your e-mail address you have to enter your current and new passwords."));
 				return;
 			}
 			$user->email = $values["email"];
@@ -263,39 +277,40 @@ class SettingsPresenter extends BasePresenter {
 					$user->password = UserAuthenticator::passwordHash($values["new"]);
 				}
 			}
+			$logger = $this->getService("logger");
 			try {
 				if ($user->getState() == IEntity::STATE_MODIFIED) {
 					Factory::user()->getUpdater()->update($user);
-					System::log("CHANGE OF SETTINGS");
-					$this->flashMessage(System::translate("Your settings was saved."), "success");
+					$logger->log("CHANGE OF SETTINGS");
+					$this->flashMessage($this->translate("Your settings was saved."), "success");
 				} else {
-					$this->flashMessage(System::translate("Your settings was left unchanged."));
+					$this->flashMessage($this->translate("Your settings was left unchanged."));
 				}
 				$tmpFile = $values["avatar"]->getTemporaryFile();
 				if (!empty($tmpFile)) {
 					$storage = new UserIconStorage();
 					$storage->store($user, new File($tmpFile));
-					$this->flashMessage(System::translate("The avatar has been successfuly changed."), "success");
+					$this->flashMessage($this->translate("The avatar has been successfuly changed."), "success");
 				}
 				$this->redirect("this");
 			} catch (DuplicityException $e) {
-				$this->flashMessage(System::translate("The e-mail is already used by another user."), "error");
+				$this->flashMessage($this->translate("The e-mail is already used by another user."), "error");
 			}
-	//        catch(Exception $e) {
-	//            Debug::fireLog($e->getMessage());
-	//            $this->getPresenter()->flashMessage(System::translate('Unexpected error happened.'), "error");
-	//        }
+			//        catch(Exception $e) {
+			//            Debug::fireLog($e->getMessage());
+			//            $this->getPresenter()->flashMessage($this->translate('Unexpected error happened.'), "error");
+			//        }
 		} else {
 			$this->unauthorized();
 		}
 	}
 
 	public function deleteFormSubmitted(Form $form) {
-		if (System::user() != NULL && Environment::getUser()->isAllowed(Resource::create(System::user()), Action::EDIT)) {
+		if ($this->getUser() != NULL && $this->getUser()->isAllowed(Resource::create($this->getUserEntity()), Action::EDIT)) {
 			if ($form["yes"]->isSubmittedBy()) {
 				$id = $this->getParam("id");
 				$data = Factory::connection()->getSelector()->find($id);
-				$user = System::user();
+				$user = $this->getUserEntity();
 				$password = $user->password;
 				$email = $user->email;
 				// Check if user is allowed to delete connection (he/she isn't where his/her password is empty (-> means registration through SN))
@@ -304,7 +319,7 @@ class SettingsPresenter extends BasePresenter {
 				} else
 				if ($data->user == $user->id) {
 					Factory::connection()->getDeleter()->delete($id);
-					$this->flashMessage(System::translate("The connection has been successfully deleted."), 'success');
+					$this->flashMessage($this->translate("The connection has been successfully deleted."), 'success');
 					$this->redirect("connections");
 				} else {
 					$form->addError("You are not an owner. The operation could not be performed.");

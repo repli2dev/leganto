@@ -13,6 +13,7 @@ namespace Leganto\ORM;
 use Leganto\ORM\AEntityFactory,
     Leganto\ORM\SimpleEntityFactory,
     InvalidArgumentException,
+    Nette\Utils\Strings,
     Leganto\ORM\Workers\SimpleDeleter,
     Leganto\ORM\Workers\SimpleUpdater,
     Leganto\ORM\Workers\SimpleInserter,
@@ -86,7 +87,7 @@ class SimpleEntityFactory extends AEntityFactory {
 		if (class_exists($inserter)) {
 			return $this->getInstanceOfClassByName($inserter);
 		} else {
-			return SimpleInserter::createInserter(String::lower($this->getThisEntityName()),$this->connection);
+			return SimpleInserter::createInserter(Strings::lower($this->getThisEntityName()),$this->connection);
 		}
 	}
 
@@ -96,7 +97,7 @@ class SimpleEntityFactory extends AEntityFactory {
 		if (class_exists($updater)) {
 			return $this->getInstanceOfClassByName($updater);
 		} else {
-			return SimpleUpdater::createUpdater(String::lower($this->getThisEntityName()),$this->connection);
+			return SimpleUpdater::createUpdater(Strings::lower($this->getThisEntityName()),$this->connection);
 		}
 	}
 
@@ -111,7 +112,7 @@ class SimpleEntityFactory extends AEntityFactory {
 		if (class_exists($deleter)) {
 			return $this->getInstanceOfClassByName($deleter);
 		} else {
-			return SimpleDeleter::createDeleter(String::lower($this->getThisEntityName()),$this->connection);
+			return SimpleDeleter::createDeleter(Strings::lower($this->getThisEntityName()),$this->connection);
 		}
 	}
 

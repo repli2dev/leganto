@@ -1,8 +1,0 @@
-@{extends layout.phtml}
-
-@{block #subcontent}
-
-<h1>{_"Books similar to"}: {$book->title . (($book->subtitle == NULL) ? "" : ": " . $book->subtitle)}</h1>
-<p>{_'These books showed below are similar to current one according the tags attached to this book.'}</p>
-@{widget similarBooks}
-@{/block}

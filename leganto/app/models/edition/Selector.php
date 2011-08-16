@@ -29,7 +29,7 @@ class Selector extends AWorker implements ISelector {
 		if (empty($id)) {
 			throw new InvalidArgumentException("Empty id");
 		}
-		return Factory::edition()->fetchAndCreate(dibi::dataSource("SELECT * FROM [edition] WHERE [id_edition] = %i", $id));
+		return Factory::edition()->fetchAndCreate($this->connection->dataSource("SELECT * FROM [edition] WHERE [id_edition] = %i", $id));
 	}
 
 	/**

@@ -1,5 +1,5 @@
 <div class="posts list">
-    {if $presenter->getUser()->isLoggedIn() && $enablePosting}
+    {if $user->isLoggedIn() && $enablePosting}
 	<div id="post-form-wrapper">
 		{widget form}
 	</div>

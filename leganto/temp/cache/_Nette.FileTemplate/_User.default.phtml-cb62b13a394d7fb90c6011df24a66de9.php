@@ -1,12 +1,12 @@
-<?php //netteCache[01]000405a:2:{s:4:"time";s:21:"0.94506200 1312984867";s:9:"callbacks";a:2:{i:0;a:3:{i:0;a:2:{i:0;s:19:"Nette\Caching\Cache";i:1;s:9:"checkFile";}i:1;s:83:"/home/Weby/Ostatni/preader/www/leganto/app/FrontModule/templates/User/default.phtml";i:2;i:1312959570;}i:1;a:3:{i:0;a:2:{i:0;s:19:"Nette\Caching\Cache";i:1;s:10:"checkConst";}i:1;s:25:"Nette\Framework::REVISION";i:2;s:30:"6889b94 released on 2011-08-04";}}}?><?php
+<?php //netteCache[01]000405a:2:{s:4:"time";s:21:"0.36854000 1313511340";s:9:"callbacks";a:2:{i:0;a:3:{i:0;a:2:{i:0;s:19:"Nette\Caching\Cache";i:1;s:9:"checkFile";}i:1;s:83:"/home/Weby/Ostatni/preader/www/leganto/app/FrontModule/templates/User/default.phtml";i:2;i:1312986654;}i:1;a:3:{i:0;a:2:{i:0;s:19:"Nette\Caching\Cache";i:1;s:10:"checkConst";}i:1;s:25:"Nette\Framework::REVISION";i:2;s:30:"6889b94 released on 2011-08-04";}}}?><?php
 
 // source file: /home/Weby/Ostatni/preader/www/leganto/app/FrontModule/templates/User/default.phtml
 
-?><?php list($_l, $_g) = Nette\Latte\Macros\CoreMacros::initRuntime($template, 'l1o662ig0k')
+?><?php list($_l, $_g) = Nette\Latte\Macros\CoreMacros::initRuntime($template, 'm386v2m7d6')
 ;//
 // block subcontent
 //
-if (!function_exists($_l->blocks['subcontent'][] = '_lbe3dfde64d5_subcontent')) { function _lbe3dfde64d5_subcontent($_l, $_args) { extract($_args)
+if (!function_exists($_l->blocks['subcontent'][] = '_lb618d25456d_subcontent')) { function _lb618d25456d_subcontent($_l, $_args) { extract($_args)
 ?>
     <div id="user-info">
 		<h1><?php echo Nette\Templating\DefaultHelpers::escapeHtml($user->nickname, ENT_NOQUOTES) ?></h1>

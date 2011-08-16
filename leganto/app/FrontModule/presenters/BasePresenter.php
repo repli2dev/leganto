@@ -15,14 +15,26 @@ use FrontModule\Components\Navigation,
     FrontModule\Components\Search,
     FrontModule\Components\FlashMessages,
     Nette\Diagnostics\Debugger,
-    Nette\Application\BadRequestException;
+    Nette\Application\BadRequestException,
+    Leganto\ACL\Role,
+    Leganto\DB\Factory;
 
 class BasePresenter extends \BasePresenter {
+
+	private static $userEntity;
+
+	protected function startUp() {
+		parent::startUp();
+
+		// Inject currently logged user to Role because of owner assertions
+		Role::setUser($this->getUser());
+	}
 
 	protected function beforeRender() {
 		// HACK
 		$this->getComponent("navigation");
-		
+
+		// Sets some variables
 		$this->getTemplate()->domain = $this->getService("environment")->domain();
 		$this->getTemplate()->robots = true;
 	}
@@ -76,6 +88,13 @@ class BasePresenter extends \BasePresenter {
 	protected final function translate($message, $count = 1) {
 		$args = func_get_args();
 		return call_user_func_array(array($this->getContext()->getService("translator")->get(), 'translate'), $args);
+	}
+
+	protected function getUserEntity() {
+		if (empty(self::$userEntity)) {
+			self::$userEntity = Factory::user()->getSelector()->find($this->getUser()->getId());
+		}
+		return self::$userEntity;
 	}
 
 }

@@ -4,7 +4,7 @@
     {widget bookView}
 	<h2 title="{_"Short keywords describing the book."}">{_'Tags'}</h2>
 	{widget tagList}
-	{if Leganto\System::isCurrentlyAuthenticated()}
+	{if $user->isLoggedIn()}
 		<h2 title="{_"User you follow and has something in common with this book"}">{_"Followed users"}</h2>
 		{widget followedUser}
 	{/if}

@@ -158,13 +158,13 @@ class ViewPresenter extends BasePresenter {
 
 			// Opinions
 			if (empty($user)) {
-				$rows = Factory::opinion()->getSelector()->findAllByBook($this->getTemplate()->book)->applyLimit($limit, $offset);
+				$rows = Factory::opinion()->getSelector()->findAllByBook($this->getTemplate()->book,$this->getService("environment")->domain()->idLanguage)->applyLimit($limit, $offset);
 			} else {
 				$userEntity = Factory::user()->getSelector()->find($user);
 				if ($userEntity == NULL) {
 					$this->code(404);
 				}
-				$rows = Factory::opinion()->getSelector()->findAllByBook($this->getTemplate()->book, $userEntity)->applyLimit($limit, $offset);
+				$rows = Factory::opinion()->getSelector()->findAllByBook($this->getTemplate()->book,$this->getService("environment")->domain()->idLanguage, $userEntity)->applyLimit($limit, $offset);
 			}
 			$this->getTemplate()->opinions = array();
 			while ($opinion = Factory::opinion()->fetchAndCreate($rows)) {

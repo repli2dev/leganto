@@ -28,10 +28,10 @@ class Updater extends AWorker implements IUpdater {
 		SimpleTableModel::createTableModel("message",$this->connection)->update($entity->getId(), $input);
 	}
 
-	public function markRead($items,$offset) {
-		$messages = Factory::message()->getSelector()->findAllWithUser(System::user())->applyLimit($items,$offset);
+	public function markRead($items,$offset,$user) {
+		$messages = Factory::message()->getSelector()->findAllWithUser($user)->applyLimit($items,$offset);
 		foreach ($messages as $message) {
-			if($message->id_user_to == System::user()->getId()) {
+			if($message->id_user_to == $user->getId()) {
 				$this->connection->update("message",array("read" => 1))->where("id_message = %i",$message->id_message)->execute();
 			}
 		}
