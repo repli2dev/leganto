@@ -46,6 +46,7 @@ CREATE TABLE `connection` (
 	`id_user` INT(25) UNSIGNED NOT NULL COMMENT 'uzivatel',
 	`type`	ENUM('facebook','twitter') NOT NULL COMMENT 'typ propojeni - sluzba na ktere se autorizuje',
 	`token` VARCHAR(255) NOT NULL COMMENT 'cizi klic, ktery je dostupny - hash, id uzivatele na cizim serveru...',
+	`secret` VARCHAR(255) NOT NULL COMMENT 'cizi tajny klic, ktery je dostupny - hash, id uzivatele na cizim serveru...',
 	`inserted` DATETIME NOT NULL COMMENT 'cas, kdy byla polozka vlozena do systemu',
 	FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`) ON UPDATE CASCADE ON DELETE CASCADE,
 	UNIQUE(`id_user`,`type`),
@@ -284,7 +285,7 @@ CREATE TABLE `support_text` (
 	`name` VARCHAR(255) NOT NULL COMMENT 'jmeno kategorie v danem jazyce',
 	`text` TEXT NOT NULL COMMENT 'text dane stranky napovedy',
 	`updated` TIMESTAMP COMMENT 'cas, kdy byla polozka naposledy zmenena',
-	`weight` TINYINT NOT NULL COMMENT 'tiha dane kategorie (aby slo urcit poradi)',
+	`weight` TINYINT unsigned zerofill NOT NULL COMMENT 'tiha dane kategorie (aby slo urcit poradi)',
 	FOREIGN KEY (`id_support_category`) REFERENCES `support_category` (`id_support_category`) ON UPDATE CASCADE ON DELETE CASCADE
 ) ENGINE = InnoDB COMMENT = 'texty napovedy' CHARACTER SET utf8 COLLATE utf8_czech_ci;
 
