@@ -9,7 +9,8 @@ use Nette\Diagnostics\Debugger,
     Leganto\Localization\Translator,
     Leganto\Localization\Environment,
     Leganto\Templating\Template,
-    Leganto\Templating\Helpers;
+    Leganto\Templating\Helpers,
+    MailPanel\MailPanel;
 
 
 // Step 1: Load Nette Framework
@@ -21,13 +22,20 @@ $configurator->container->params += $params;
 $configurator->container->params['tempDir'] = __DIR__ . '/../temp';
 $container = $configurator->loadConfig(__DIR__ . '/config.neon');
 
-// Step 3: Set debugging
+// Step 3: Start session
+$container->getService("session")->setExpiration("+7 days");
+$container->getService("session")->start();
+
+// Step 4: Set debugging
 $debug = $container->params["debug"];
 if ($debug["enable"]) {
 	// Set debugger and enable it
 	Debugger::$strictMode = TRUE;
 	Debugger::$logDirectory = __DIR__ . '/../log';
 	Debugger::enable();
+	
+	// Enable session dummy mailer & panel extension
+	MailPanel::register($container);
 
 	// Not catching exception to show error
 	$container->application->catchExceptions = false;
@@ -41,7 +49,7 @@ if ($debug["enable"]) {
 	$container->application->errorPresenter = 'Front:Error';
 }
 
-// Step 4: Setup routing
+// Step 5: Setup routing
 $router = $container->application->getRouter();
 ApiModule\Routes::add($router);
 CronModule\Routes::add($router);
@@ -52,10 +60,6 @@ FrontModule\Routes::add($router);
 $connection = new DibiConnection($container->params["database"]);
 $container->addService("database", $connection);
 Factory::setConnection($connection);
-
-// Step 7: Start session
-$container->getService("session")->setExpiration("+7 days");
-$container->getService("session")->start();
 
 // Step 8: Register logger
 $container->addService("logger", new Logger($container));

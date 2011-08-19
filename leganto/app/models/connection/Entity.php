@@ -37,6 +37,7 @@ class Entity extends AEntity {
 	 * @Rule(type=filled)
 	 */
 	protected $token;
+	protected $secret;
 	protected $inserted;
 
 }

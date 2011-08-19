@@ -1,0 +1,28 @@
+Text Captcha for Nette
+-----------------------------
+1. Copy whole folder TextCapcha into your APP_DIR
+2. Extend Form:
+
+	\Nette\Forms\Container::extensionMethod('addTextCaptcha', array('\TextCaptcha\TextCaptcha', 'addTextCaptcha'));
+
+3. Provide session:
+
+	TextCaptcha::setSession(\Nette\Environment::getSession());
+
+4. Provide backend:
+
+	TextCaptcha::setBackend(new ArrayBackend());
+
+5. Set language: 
+
+	TextCaptcha::setLanguage("cs");
+
+6. Add your own questions into dataset - to be on the safe side.
+
+
+
+Own backend
+------------------------------
+
+1. Must implement interface IBackend.
+2. Use efective methods (ORDER BY RAND() is not!)

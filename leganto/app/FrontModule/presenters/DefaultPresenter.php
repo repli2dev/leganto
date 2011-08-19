@@ -15,7 +15,8 @@ use FrontModule\Components\Introduction,
 	Leganto\DB\Factory,
 	FrontModule\Components\Preview,
 	FrontModule\Components\BookList,
-	FrontModule\Components\Feed;
+	FrontModule\Components\Feed,
+	FrontModule\Components\Support;
 
 class DefaultPresenter extends BasePresenter {
 
@@ -47,6 +48,10 @@ class DefaultPresenter extends BasePresenter {
 			$session->remove();
 			$this->redirectUri($url);
 		}
+		// For paginator to work
+		if($this->isAjax()) {
+			$this->getComponent("feed")->invalidateControl("feed");
+		}
 		$this->setPageTitle($this->translate("News"));
 		$this->firstTime = $firstTime;
 		$this->setPageDescription($this->translate("The feed page offers you updates from our web, you can watch added opinions or the discussion in one page."));
@@ -60,10 +65,10 @@ class DefaultPresenter extends BasePresenter {
 		$this->getComponent("topBookList")->setSource($books);
 	}
 
-	public function renderUnauthorized() {
-		$this->setPageTitle($this->translate("Unauthorized"));
-		$this->setPageDescription($this->translate("Sorry, but you have tried to access a protected page, please log in."));
-		$this->setPageKeywords($this->translate("error, unauthorized"));
+	public function renderContact() {
+		$this->setPageTitle($this->translate("Contact us"));
+		$this->setPageDescription($this->translate("Let us know what you like, what is causing you problems... Everything about this webpage."));
+		$this->setPageKeywords($this->translate("contact, contact form, contact us, write to us, problem, idea"));
 	}
 
 	protected function createComponentIntroduction($name) {
@@ -82,6 +87,10 @@ class DefaultPresenter extends BasePresenter {
 
 	protected function createComponentTopBookList($name) {
 		return new BookList($this, $name);
+	}
+	
+	public function createComponentSupport($name) {
+		return new Support($this,$name);
 	}
 
 }

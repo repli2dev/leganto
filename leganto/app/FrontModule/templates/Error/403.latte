@@ -2,5 +2,7 @@
 
 {block #subcontent}
 <h1>{_'403 Unauthorized'}</h1>
-<p>{_'Sorry, you were trying to reach a page which can be accessed only by users who are logged in and authorized. Please log in or sign in on our'} <a href="{plink Default:}">{_'Main page'}</a>.</p>
+<p>{_'Sorry, you were trying to reach a page which can be accessed only by users who are logged in and authorized. Please log in or sign in on our'} <a href="{plink Default:,true}">{_'Main page'}</a>.</p>
+
+{widget support,true}
 {/block}

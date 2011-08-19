@@ -18,7 +18,8 @@ use Leganto\ORM\Workers\IUpdater,
     Leganto\ORM\Workers\SimpleUpdater,
     Leganto\ORM\Workers\AWorker,
     Leganto\ORM\IEntity,
-    Nette\InvalidStateException;
+    Nette\InvalidStateException,
+    Nette\DateTime;
 
 class Updater extends AWorker implements IUpdater {
 	const ERROR_OLD_HASH = 100;
@@ -63,7 +64,7 @@ class Updater extends AWorker implements IUpdater {
 				$this->connection->update("user", array(
 					    "new_pass_key" => "",
 					    "new_pass_time" => "NULL",
-					    "password" => UserAuthenticator::passwordHash($newPassword)
+					    "password" => Authenticator::passwordHash($newPassword)
 						)
 					)
 					->where("id_user = %i", $entity->id)

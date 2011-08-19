@@ -31,10 +31,10 @@
 				<a href="{plink User:default, $post->user}" title="{$post->userName}">{$post->userName|hardTruncate, 20}</a>
 				{if $presenter->getUser()->isAllowed(Leganto\ACL\Resource::create($post), Leganto\ACL\Action::EDIT)}
 					<div class="control">
-						<?php $confirm = Leganto\System::translate("Are you sure you want to delete a discussion post?"); ?>
-						{assign link    => $component->link('delete', $post->getId())}
+						<?php $confirm = $template->translate("Are you sure you want to delete a discussion post?"); ?>
+						{assign link    => $control->link('delete', $post->getId())}
 						<a onclick="return confirm('{!$confirm}')" href="{!$link}" title="{_'Delete'}">
-							<img src="{$baseUri . 'img/ico/delete.png'}" alt="{_'Delete'}" />
+							<img src="{$baseUri . '/img/ico/delete.png'}" alt="{_'Delete'}" />
 						</a>
 					</div>
 				{/if}

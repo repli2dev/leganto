@@ -6,6 +6,9 @@ form p {
 	margin: 0;
 	padding: 3px 0;
 }
+form p.required {
+	font-weight: bold;
+}
 label:after {
 	content: ":";
 }
@@ -48,6 +51,9 @@ textarea {
 textarea.help-text {
 	height: 600px;
 	width: 500px;
+}
+textarea.support-text {
+	height: 200px;
 }
 input.text {
 	height: 20px;
@@ -240,4 +246,17 @@ label[for=frmsignUpForm-captchacode] {
 #search input.shaded-text,
 textarea.shaded-text {
 	color: #828282 !important;
+}
+
+/** Text captcha **/
+.as-tc label {
+	font-weight: bold;
+}
+.as-tc-question {
+	font-family: "Trebuchet MS",Arial,Helvetica,sans-serif;
+	line-height: 20px;
+	font-size: 1.1em
+}
+.as-tc-answer {
+	margin-left: 140px;
 }

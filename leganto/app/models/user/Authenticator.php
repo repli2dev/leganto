@@ -21,6 +21,8 @@ use Leganto\ORM\Workers\ISelector,
     Nette\DateTime;
 
 class Authenticator {
+	
+	const EXTRA = 2;
 
 	/**
 	 * Authenticate user according to credentials (name-password or token)
@@ -29,8 +31,8 @@ class Authenticator {
 	 */
 	public function authenticate(array $credentials) {
 		// External login
-		if (!empty($credentials['extra'])) { // Extra data (possible token) was found in credentials data -> try to find connection and log user in.
-			$token = $credentials['extra'];
+		if (!empty($credentials[self::EXTRA])) { // Extra data (possible token) was found in credentials data -> try to find connection and log user in.
+			$token = $credentials[self::EXTRA];
 			$row = Factory::connection()->getSelector()->findAll()->where("[token] = %s", $token)->fetch();
 			if (empty($row)) { // User for this token was not found
 				throw new AuthenticationException(

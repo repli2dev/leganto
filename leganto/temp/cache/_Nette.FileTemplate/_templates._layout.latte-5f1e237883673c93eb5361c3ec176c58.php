@@ -1,12 +1,12 @@
-<?php //netteCache[01]000400a:2:{s:4:"time";s:21:"0.72491300 1313510745";s:9:"callbacks";a:2:{i:0;a:3:{i:0;a:2:{i:0;s:19:"Nette\Caching\Cache";i:1;s:9:"checkFile";}i:1;s:78:"/home/Weby/Ostatni/preader/www/leganto/app/FrontModule/templates/@layout.latte";i:2;i:1313510740;}i:1;a:3:{i:0;a:2:{i:0;s:19:"Nette\Caching\Cache";i:1;s:10:"checkConst";}i:1;s:25:"Nette\Framework::REVISION";i:2;s:30:"6889b94 released on 2011-08-04";}}}?><?php
+<?php //netteCache[01]000400a:2:{s:4:"time";s:21:"0.16224600 1313673854";s:9:"callbacks";a:2:{i:0;a:3:{i:0;a:2:{i:0;s:19:"Nette\Caching\Cache";i:1;s:9:"checkFile";}i:1;s:78:"/home/Weby/Ostatni/preader/www/leganto/app/FrontModule/templates/@layout.latte";i:2;i:1313673828;}i:1;a:3:{i:0;a:2:{i:0;s:19:"Nette\Caching\Cache";i:1;s:10:"checkConst";}i:1;s:25:"Nette\Framework::REVISION";i:2;s:30:"6889b94 released on 2011-08-04";}}}?><?php
 
 // source file: /home/Weby/Ostatni/preader/www/leganto/app/FrontModule/templates/@layout.latte
 
-?><?php list($_l, $_g) = Nette\Latte\Macros\CoreMacros::initRuntime($template, '9l50evx67w')
+?><?php list($_l, $_g) = Nette\Latte\Macros\CoreMacros::initRuntime($template, '4z1ksf3khe')
 ;//
 // block content
 //
-if (!function_exists($_l->blocks['content'][] = '_lb1cba67dafe_content')) { function _lb1cba67dafe_content($_l, $_args) { extract($_args)
+if (!function_exists($_l->blocks['content'][] = '_lb248597d1b6_content')) { function _lb248597d1b6_content($_l, $_args) { extract($_args)
 ?>
 			<?php echo Nette\Templating\DefaultHelpers::escapeHtml($template->translate('No content'), ENT_NOQUOTES) ?>
 
@@ -84,9 +84,29 @@ if ($_l->extends) {
 			<script type="text/javascript" src="/js/jquery.ui.stars.min.js"></script>
 			<link rel="stylesheet" type="text/css" href="/css/jquery.ui.stars.min.css" />
 			<script type="text/javascript" src="/js/ratings.js"></script>
+			<script type="text/javascript" src="https://apis.google.com/js/plusone.js">
+				{ lang: 'cs'}
+			</script>
 <?php endif ?>
 		<script type="text/javascript" src="/js/jquery.nette.js"></script>
 		<script type="text/javascript" src="/js/jquery.ajaxform.js"></script>
+<?php try { $presenter->link("Book:*"); } catch (Nette\Application\UI\InvalidLinkException $e) {}; if ($presenter->getLastCreatedRequestFlag("current")): ?>
+				<script type="text/javascript">
+					// po načtení stránky
+					$(window).load(function() {
+						/* AJAXové odeslání formulářů */
+						$("form.ajax").live("submit", function () {
+						    $(this).ajaxSubmit();
+						    return false;
+						});
+
+						$("form.ajax :submit").live("click", function () {
+						    $(this).ajaxSubmit();
+						    return false;
+						});			
+					});
+				</script>
+<?php endif ?>
 		<script type="text/javascript" src="/js/jquery.autocomplete.js"></script>
 		<script type="text/javascript" src="/js/jquery.autoresize.js"></script>
 		<script type="text/javascript">
@@ -172,16 +192,14 @@ if ($_l->extends) {
  - <a href="<?php echo htmlSpecialChars($control->link("Help:text", array(56))) ?>
 " title="<?php echo htmlSpecialChars($template->translate('Terms of use')) ?>"><?php echo Nette\Templating\DefaultHelpers::escapeHtml($template->translate('Terms of use'), ENT_NOQUOTES) ?></a>
 				|
-<?php $email = $domain->email ?>
-				<a href="mailto:<?php echo htmlSpecialChars($email) ?>"><?php echo Nette\Templating\DefaultHelpers::escapeHtml($template->translate('Contact us'), ENT_NOQUOTES) ?></a>
+				<a href="<?php echo htmlSpecialChars($presenter->link("Default:contact")) ?>
+"><?php echo Nette\Templating\DefaultHelpers::escapeHtml($template->translate('Contact us'), ENT_NOQUOTES) ?></a>
 				|
 				<a href="<?php echo htmlSpecialChars($presenter->link("Statistics:")) ?>"><?php echo Nette\Templating\DefaultHelpers::escapeHtml($template->translate('Statistics'), ENT_NOQUOTES) ?></a>
 				<?php echo Nette\Templating\DefaultHelpers::escapeHtml($template->translate('created by'), ENT_NOQUOTES) ?>
 
-				<a href="http://jandrabek.cz" title="Jan Drábek">Jan Drábek</a>
-				&amp;
-				<a href="mailto:jan.papousek@gmail.com" title="Jan Papoušek">Jan Papoušek</a>
-				<span title="Richard Šefr, Tereza Doležalová"><?php echo Nette\Templating\DefaultHelpers::escapeHtml($template->translate('and others'), ENT_NOQUOTES) ?></span>.
+				<a href="<?php echo htmlSpecialChars($presenter->link("Help:text", array(62))) ?>
+"><?php echo Nette\Templating\DefaultHelpers::escapeHtml($template->translate("Leganto team"), ENT_NOQUOTES) ?></a>
 			</div>
 		</div>
 	</body>

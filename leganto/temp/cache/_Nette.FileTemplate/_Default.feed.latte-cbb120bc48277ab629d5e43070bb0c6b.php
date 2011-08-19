@@ -1,12 +1,12 @@
-<?php //netteCache[01]000405a:2:{s:4:"time";s:21:"0.13120900 1312992674";s:9:"callbacks";a:2:{i:0;a:3:{i:0;a:2:{i:0;s:19:"Nette\Caching\Cache";i:1;s:9:"checkFile";}i:1;s:83:"/home/Weby/Ostatni/preader/www/leganto/app/FrontModule/templates/Default/feed.latte";i:2;i:1312986653;}i:1;a:3:{i:0;a:2:{i:0;s:19:"Nette\Caching\Cache";i:1;s:10:"checkConst";}i:1;s:25:"Nette\Framework::REVISION";i:2;s:30:"6889b94 released on 2011-08-04";}}}?><?php
+<?php //netteCache[01]000405a:2:{s:4:"time";s:21:"0.74081900 1313673201";s:9:"callbacks";a:2:{i:0;a:3:{i:0;a:2:{i:0;s:19:"Nette\Caching\Cache";i:1;s:9:"checkFile";}i:1;s:83:"/home/Weby/Ostatni/preader/www/leganto/app/FrontModule/templates/Default/feed.latte";i:2;i:1312986653;}i:1;a:3:{i:0;a:2:{i:0;s:19:"Nette\Caching\Cache";i:1;s:10:"checkConst";}i:1;s:25:"Nette\Framework::REVISION";i:2;s:30:"6889b94 released on 2011-08-04";}}}?><?php
 
 // source file: /home/Weby/Ostatni/preader/www/leganto/app/FrontModule/templates/Default/feed.latte
 
-?><?php list($_l, $_g) = Nette\Latte\Macros\CoreMacros::initRuntime($template, 'n0cji5v93d')
+?><?php list($_l, $_g) = Nette\Latte\Macros\CoreMacros::initRuntime($template, 'lwmnnoobun')
 ;//
 // block subcontent
 //
-if (!function_exists($_l->blocks['subcontent'][] = '_lbad5d0162bd_subcontent')) { function _lbad5d0162bd_subcontent($_l, $_args) { extract($_args)
+if (!function_exists($_l->blocks['subcontent'][] = '_lb26479900bd_subcontent')) { function _lb26479900bd_subcontent($_l, $_args) { extract($_args)
 ?>
 		<script type="text/javascript" src="/js/jquery.unhide.js"></script>
 <?php $_ctrl = $control->getWidget('feed'); if ($_ctrl instanceof Nette\Application\UI\IPartiallyRenderable) $_ctrl->validateControl(); $_ctrl->render() ;

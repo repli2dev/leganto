@@ -2,10 +2,10 @@
     <h3>{_'Share'}</h3>
 	<p><em>{_'Show your friend your liking.'}</em></p>
     <div class="share-box-inner">
+	    <g:plusone size="medium" count="false" href="{$url}"></g:plusone>
 	    <a href="http://www.facebook.com/sharer.php?u={$url}&t={$title}" title="{_"Share on Facebook"}"><img src="/img/socialnetworks/facebook.png" alt="{_"Share on Facebook"}" /></a>
 	    <a href="http://twitter.com/home?status={$title} {$url} {_"I like it!"}" title="{_"Share on Twitter"}" target="_blank"><img src="/img/socialnetworks/twitter.png" alt="{_"Share on Twitter"}" /></a>
 	    <a href="http://del.icio.us/post?url={$url}" title="{_"Save to Delicious"}"><img src="/img/socialnetworks/delicious.png" alt="{_"Save to Delicious"}" /></a>
 	    <a href="http://digg.com/submit?url={$url}&amp;title={$title}" title="{_"Share on Digg"}"><img src="/img/socialnetworks/digg.png" alt="{_"Share on Digg"}" /></a>
-	    <a href="https://www.google.com/bookmarks/mark?op=edit&bkmk={$url}&amp;title={$title}" title="{_"Bookmark on Google"}"><img src="/img/socialnetworks/google.png" alt="{_"Bookmark on Google"}" /></a>
     </div>
 </div>

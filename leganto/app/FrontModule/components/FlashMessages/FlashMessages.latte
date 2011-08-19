@@ -1,7 +1,10 @@
-<div id="flashes">
-    {foreach $control->getParent()->getTemplate()->flashes AS $flash}
-    <div class="flash {$flash->type}">
-	    {!$flash->message}
+{snippet flashes}
+	<div id="flashes">
+	    {foreach $control->getParent()->getTemplate()->flashes AS $flash}
+	    <div class="flash {$flash->type}">
+		    {!$flash->message}
+		    <a class="flash-hide ajax" href="{link hide!}">{_"Hide all"}</a>
+		</div>
+	    {/foreach}
 	</div>
-    {/foreach}
-</div>
+{/snippet}

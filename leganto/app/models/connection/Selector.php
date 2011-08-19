@@ -84,5 +84,16 @@ class Selector extends AWorker implements ISelector {
 		$data = $this->connection->query("SELECT * FROM [connection] WHERE [id_user] = %i", $user, "AND [type] = %s", $type)->fetch();
 		return $data['token'];
 	}
+	
+	/**
+	 * Return token of user of given connection type
+	 * @param int $user ID of user
+	 * @param string $type Type of connection (@see Entity)
+	 * @return int
+	 */
+	public function getTokenAndSecret($user, $type) {
+		$data = $this->connection->query("SELECT * FROM [connection] WHERE [id_user] = %i", $user, "AND [type] = %s", $type)->fetch();
+		return array("token" => $data['token'], "secret" => $data["secret"]);
+	}
 
 }

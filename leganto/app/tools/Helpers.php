@@ -20,7 +20,8 @@ use Leganto\Storage\EditionImageStorage,
     Leganto\System,
     InvalidArgumentException,
     Nette\DI\IContainer,
-    Nette\Localization\ITranslator;
+    Nette\Localization\ITranslator,
+    MailPanel\MailPanel;
 
 final class Helpers {
 
@@ -221,6 +222,7 @@ final class Helpers {
 			self::$texy = new Texy();
 		}
 		self::$texy = self::emoticons(self::$texy);
+		self::$texy->headingModule->top = 2;
 		return self::$texy->process($input);
 	}
 
@@ -296,18 +298,38 @@ final class Helpers {
 	 * Add emoticons to given texy
 	 */
 	public static function emoticons($texy) {
-		//:-)(šťastný) , :-D(vysmátý) , ;-)(šibalský) , :-((smutný) , :,-((plačící) , :-P(vyplazující jazyk) , >:((naštvaný) .
 		$icons = array(
-		    ':-)' => "01.png",
-		    ':)' => "01.png",
-		    ':-D' => "02.png",
-		    ':D' => "02.png",
-		    ';-)' => "03.png",
-		    ';)' => "03.png",
-		    ':-(' => "04.png",
-		    ':,-(' => "05.png",
-		    ':-P' => "06.png",
-		    '>:(' => "07.png"
+		    '>:(' => 'Angry_Face.png',
+		    ':-[' => 'Blush.png',
+		    ':[' => 'Blush.png',
+		    ':\'(' => 'Crying.png',
+		    ':,-(' => 'Crying.png',
+		    ':|' => 'Foot_In_Mouth.png',
+		    ':-|' => 'Foot_In_Mouth.png',
+		    ':-(' => 'Frown.png',
+		    ':(' => 'Frown.png',
+		    ':O' => 'Gasp.png',
+		    ':-O' => 'Gasp.png',
+		    ':-D' => 'Grin.png',
+		    ':D' => 'Grin.png',
+		    'O:-)' => 'Halo.png',
+		    'O:)' => 'Halo.png',
+		    ':-*' => 'Kiss.png',
+		    ':*' => 'Kiss.png',
+		    ':X' => 'Lips_are_Sealed.png',
+		    ':-X' => 'Lips_are_Sealed.png',
+		    ':$' => 'Money-mouth.png',
+		    ':-$' => 'Money-mouth.png',
+		    ':-)' => 'Smile.png',
+		    ':)' => 'Smile.png',
+		    ':P' => 'Sticking_Out_Tongue.png',
+		    ':-P' => 'Sticking_Out_Tongue.png',
+		    ':\\' => 'Undecided.png',
+		    ':-\\' => 'Undecided.png',
+		    '8-)' => 'Wearing_Sunglasses.png',
+		    '8)' => 'Wearing_Sunglasses.png',
+		    ';-)' => 'Wink.png',
+		    ';)' => 'Wink.png',
 		);
 		self::$texy->allowed["emoticon"] = true;
 		$texy->emoticonModule->root = "/img/smiles/";
@@ -321,8 +343,8 @@ final class Helpers {
 	 * @return string output
 	 */
 	public static function wikiLinks($string) {
-		$patterns[0] = '/\[([^)^\]\|]+)\]/';
-		$patterns[1] = '/\[([\S ^\]]+)[ ]*\|[ ]*([\S ^\]]+)\]/';
+		$patterns[0] = '/\[([^)^\]\|]+)\]/U';
+		$patterns[1] = '/\[([\S ^\]]+)[ ]*\|[ ]*([\S ^\]]+)\]/U';
 		// FIXME: jde to jinak než natvrdo?
 		$replacement[0] = '<a href="/search/?query=\\1">\\1</a>';
 		$replacement[1] = '<a href="/search/?query=\\2">\\1</a>';
@@ -444,6 +466,14 @@ final class Helpers {
 	public static function parseClassName($name) {
 		$temp = explode("\\", $name);
 		return $temp[count($temp) - 1];
+	}
+	
+	/**
+	 * Return mail with mailer set in context. (It should be SessionDummyMailer)
+	 * @return Message
+	 */
+	public static function getMailPrototype() {
+		return MailPanel::getMailPrototype();
 	}
 
 }

@@ -64,6 +64,7 @@ class Authorizator implements IAuthorizator {
 			$this->permission->addResource(Resource::USER);
 			$this->permission->addResource(Resource::MESSAGE);
 			$this->permission->addResource(Resource::HELP);
+			$this->permission->addResource(Resource::FEED);
 
 			$this->permission->allow(Role::GUEST, IAuthorizator::ALL, Action::READ);
 
@@ -76,6 +77,7 @@ class Authorizator implements IAuthorizator {
 			$this->permission->allow(Role::COMMON, Resource::SHELF, Action::EDIT, $ownership);
 			$this->permission->allow(Role::COMMON, Resource::USER, Action::EDIT, $ownership);
 			$this->permission->allow(Role::COMMON, Resource::MESSAGE, Action::EDIT, $ownership);
+			$this->permission->allow(Role::COMMON, Resource::FEED, Action::EDIT, $ownership);
 			// Deny inserting of help pages
 			$this->permission->deny(Role::COMMON, Resource::HELP, Action::INSERT);
 

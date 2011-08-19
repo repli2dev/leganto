@@ -17,7 +17,8 @@ use FrontModule\Components\Navigation,
     Nette\Diagnostics\Debugger,
     Nette\Application\BadRequestException,
     Leganto\ACL\Role,
-    Leganto\DB\Factory;
+    Leganto\DB\Factory,
+    Exception;
 
 class BasePresenter extends \BasePresenter {
 
@@ -81,7 +82,7 @@ class BasePresenter extends \BasePresenter {
 
 	protected final function unexpectedError(Exception $e) {
 		$this->flashMessage($this->translate('An unexpected error has occurred.'), "error");
-		Debugger::processException($e);
+		Debugger::log($e);
 	}
 
 	/** @return string */

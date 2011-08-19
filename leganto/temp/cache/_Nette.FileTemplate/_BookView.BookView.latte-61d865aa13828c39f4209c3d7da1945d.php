@@ -1,8 +1,8 @@
-<?php //netteCache[01]000411a:2:{s:4:"time";s:21:"0.37857800 1312986743";s:9:"callbacks";a:2:{i:0;a:3:{i:0;a:2:{i:0;s:19:"Nette\Caching\Cache";i:1;s:9:"checkFile";}i:1;s:89:"/home/Weby/Ostatni/preader/www/leganto/app/FrontModule/components/BookView/BookView.latte";i:2;i:1312986653;}i:1;a:3:{i:0;a:2:{i:0;s:19:"Nette\Caching\Cache";i:1;s:10:"checkConst";}i:1;s:25:"Nette\Framework::REVISION";i:2;s:30:"6889b94 released on 2011-08-04";}}}?><?php
+<?php //netteCache[01]000411a:2:{s:4:"time";s:21:"0.11153900 1313754035";s:9:"callbacks";a:2:{i:0;a:3:{i:0;a:2:{i:0;s:19:"Nette\Caching\Cache";i:1;s:9:"checkFile";}i:1;s:89:"/home/Weby/Ostatni/preader/www/leganto/app/FrontModule/components/BookView/BookView.latte";i:2;i:1313754033;}i:1;a:3:{i:0;a:2:{i:0;s:19:"Nette\Caching\Cache";i:1;s:10:"checkConst";}i:1;s:25:"Nette\Framework::REVISION";i:2;s:30:"6889b94 released on 2011-08-04";}}}?><?php
 
 // source file: /home/Weby/Ostatni/preader/www/leganto/app/FrontModule/components/BookView/BookView.latte
 
-?><?php list($_l, $_g) = Nette\Latte\Macros\CoreMacros::initRuntime($template, '8as1oyxg63')
+?><?php list($_l, $_g) = Nette\Latte\Macros\CoreMacros::initRuntime($template, 'pzuim9t83s')
 ;
 // snippets support
 if (!empty($control->snippetMode)) {
@@ -79,6 +79,10 @@ width="150" height="240"<?php endif ?> />
 
 <?php endif ?>
 		</p>
+<?php endif ;if (\Nette\DateTime::from($book->inserted)->getTimestamp() > time()-14*3600*24): ?>
+			<p><?php echo Nette\Templating\DefaultHelpers::escapeHtml($template->translate("This book is new, if there is something not okay, please fix it:"), ENT_NOQUOTES) ?>
+ <a href="<?php echo htmlSpecialChars($presenter->link("Book:edit", array($book->getId()))) ?>
+"><?php echo Nette\Templating\DefaultHelpers::escapeHtml($template->translate("Edit book"), ENT_NOQUOTES) ?></a>.</p>
 <?php endif ?>
 </div>
 <div class="clear"></div>

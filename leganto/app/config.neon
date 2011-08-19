@@ -24,20 +24,28 @@ common:
 		name: Leganto team
 
 	facebook:
-		enable: false
-		apiKey: false
-		secret: false
+		enable: truze
+		apiKey: 175434332634
+		secret: a482d8bd44441006ec1d5613d1b8195c
 		
 	twitter:
-		enable: false
-		apiKey: false
-		secret: false
+		enable: true
+		apiKey: jzH2ermcGbzQ4SaWCj230Q
+		secret: LxFR8fM47HDk0s60cnef4EiTMIk2bGY32v5swVwNx4
 	cron:
 		key: gRpE6hrKEltAo63sOnQA
 
 production < common:
 	debug:
-		enable: false
+		enable: true
+	database:
+		driver: mysql
+		charset: utf8
+		lazy: true
+		username: leganto_devel
+		password: Hublu.mer
+		host: zimodej.cz
+		database: leganto_devel
 
 development < common:
 	debug:

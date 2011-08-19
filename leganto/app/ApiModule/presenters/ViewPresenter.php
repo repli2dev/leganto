@@ -7,17 +7,16 @@
  * @link		http://git.yavanna.cz/?p=leganto.git
  * @author		Jan Papousek
  * @author		Jan Drabek
- * @version		$Id$
  */
 
 namespace ApiModule;
 
 use Leganto\DB\Factory,
-	Leganto\ORM\DataNotFoundException,
-	DibiDriverException,
-	Nette\Diagnostics\Debugger,
-	Exception;
-	
+    Leganto\ORM\DataNotFoundException,
+    DibiDriverException,
+    Nette\Diagnostics\Debugger,
+    Exception,
+    InvalidArgumentException;
 
 class ViewPresenter extends BasePresenter {
 
@@ -46,6 +45,7 @@ class ViewPresenter extends BasePresenter {
 			$this->code(500, "Database error.");
 		}
 	}
+
 	public function renderAvailable() {
 		
 	}
@@ -158,13 +158,13 @@ class ViewPresenter extends BasePresenter {
 
 			// Opinions
 			if (empty($user)) {
-				$rows = Factory::opinion()->getSelector()->findAllByBook($this->getTemplate()->book,$this->getService("environment")->domain()->idLanguage)->applyLimit($limit, $offset);
+				$rows = Factory::opinion()->getSelector()->findAllByBook($this->getTemplate()->book, $this->getService("environment")->domain()->idLanguage)->applyLimit($limit, $offset);
 			} else {
 				$userEntity = Factory::user()->getSelector()->find($user);
 				if ($userEntity == NULL) {
 					$this->code(404);
 				}
-				$rows = Factory::opinion()->getSelector()->findAllByBook($this->getTemplate()->book,$this->getService("environment")->domain()->idLanguage, $userEntity)->applyLimit($limit, $offset);
+				$rows = Factory::opinion()->getSelector()->findAllByBook($this->getTemplate()->book, $this->getService("environment")->domain()->idLanguage, $userEntity)->applyLimit($limit, $offset);
 			}
 			$this->getTemplate()->opinions = array();
 			while ($opinion = Factory::opinion()->fetchAndCreate($rows)) {
@@ -186,7 +186,7 @@ class ViewPresenter extends BasePresenter {
 			while ($post = Factory::post()->fetchAndCreate($rows)) {
 				$this->getTemplate()->posts[] = $post;
 			}
-		} catch (NullPointerException $e) {
+		} catch (InvalidArgumentException $e) {
 			Debugger::processException($e);
 			$this->code(404);
 		} catch (DibiDriverException $e) {

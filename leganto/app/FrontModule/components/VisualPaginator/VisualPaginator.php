@@ -53,7 +53,7 @@ class VisualPaginator extends BaseComponent {
 	 * Renders paginator.
 	 * @return void
 	 */
-	public function render()
+	public function render($ajax = FALSE)
 	{
 		$paginator = $this->getPaginator();
 		$page = $paginator->page;
@@ -73,6 +73,7 @@ class VisualPaginator extends BaseComponent {
 
 		$this->template->steps = $steps;
 		$this->template->paginator = $paginator;
+		$this->template->ajax = $ajax;
 		parent::render();
 	}
 

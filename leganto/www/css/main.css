@@ -900,3 +900,6 @@ a.nivo-prevNav {
 	background: transparent url(/img/slider_bullets.png) no-repeat;
 	background-position:0 -22px;
 }
+a.flash-hide {
+	float: right;
+}

@@ -39,6 +39,8 @@ $(function() {
         // nastaví událost onclick pro všechny elementy A s třídou 'ajax'
         $("a.ajax").live("click", function(event) {
                 $.get(this.href); // zahájí AJAXový požadavek
+		var link = this.href;
+		link = link.split("#");
 
                 // zobrazí spinner, signalizující uživateli, že se něco děje
                 $('<div id="ajax-spinner"></div>').css({
@@ -48,6 +50,10 @@ $(function() {
 
                 }).ajaxStop(function() {
                         $(this).remove(); // po skončení spinner smaž
+			// jump on anchor if exists
+			if(link.length > 1) {
+				window.location.hash = link[link.length-1];
+			}
 
                 }).appendTo("body");
 

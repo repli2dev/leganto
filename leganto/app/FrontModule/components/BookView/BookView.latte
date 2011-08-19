@@ -49,6 +49,9 @@
 			{/if}
 		</p>
     {/if}
+		{if \Nette\DateTime::from($book->inserted)->getTimestamp() > time()-14*3600*24}
+			<p>{_"This book is new, if there is something not okay, please fix it:"} <a href="{plink Book:edit,$book->getId()}">{_"Edit book"}</a>.</p>
+		{/if}
 </div>
 <div class="clear"></div>
     

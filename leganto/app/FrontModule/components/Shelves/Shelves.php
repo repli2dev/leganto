@@ -69,9 +69,8 @@ class Shelves extends BaseComponent {
 	}
 
 	public function handleRemoveFromShelf($book, $shelf) {
-		// FIXME: lepsi zpusob, nekam to osamostatnit
 		$component = new BookShelfControl($this, "bookShelfControl");
-		$component->handleRemoveFromShelf($book, $shelf);
+		$component->handleRemoveFromShelf($book, $shelf, TRUE);
 		unset($component);
 	}
 

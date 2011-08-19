@@ -24,6 +24,15 @@ use Leganto\DB\Factory,
 class MessageList extends BaseListComponent {
 
 	private $toUser;
+	
+	public function handleReplyTo($user) {
+		if ($this->getContext()->httpRequest->isAjax()) {
+			$this->setRecipient($user);
+			$this->invalidateControl("messageForm");
+		} else {
+			$this->getPresenter()->redirect("User:messages",$user);
+		}
+	}
 
 	public function handleDelete($message) {
 		if (empty($message)) {

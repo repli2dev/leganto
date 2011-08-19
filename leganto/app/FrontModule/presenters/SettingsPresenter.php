@@ -20,15 +20,16 @@ use Nette\Environment,
     Leganto\ORM\Exceptions\DuplicityException,
     Leganto\ORM\IEntity,
     Leganto\Storage\UserIconStorage,
-	Leganto\ACL\Resource,
-	Leganto\ACL\Action,
-	FrontModule\Components\Submenu;
-	
+    Leganto\ACL\Resource,
+    Leganto\ACL\Action,
+    FrontModule\Components\Submenu,
+    Leganto\DB\User\Authenticator,
+    Leganto\DB\Connection\TwitterBridge;
 
 class SettingsPresenter extends BasePresenter {
 
 	public function renderDefault() {
-		if ($this->getUser() != NULL && $this->getUser()->isAllowed(Resource::create($this->getUserEntity()), Action::EDIT)) {
+		if ($this->getUserEntity() != NULL && $this->getUser()->isAllowed(Resource::create($this->getUserEntity()), Action::EDIT)) {
 			$this->setPageTitle($this->translate("Settings"));
 			$this->setPageDescription($this->translate("You can set your profile, write something about you, fill your age and sex on this page."));
 			$this->setPageKeywords($this->translate("settings, profile, update, edit"));
@@ -38,7 +39,7 @@ class SettingsPresenter extends BasePresenter {
 	}
 
 	public function renderConnections() {
-		if ($this->getUser() != NULL && $this->getUser()->isAllowed(Resource::create($this->getUserEntity()), Action::EDIT)) {
+		if ($this->getUserEntity() != NULL && $this->getUser()->isAllowed(Resource::create($this->getUserEntity()), Action::EDIT)) {
 			$this->setPageTitle($this->translate("Social networks"));
 			$this->setPageDescription($this->translate("You can manage your social networks connected to this page here."));
 			$this->setPageKeywords($this->translate("social networks, facebook, twitter, manage, edit, update, remove, add, connect"));
@@ -57,7 +58,7 @@ class SettingsPresenter extends BasePresenter {
 	}
 
 	public function renderCustomization() {
-		if ($this->getUser() != NULL && $this->getUser()->isAllowed(Resource::create($this->getUserEntity()), Action::EDIT)) {
+		if ($this->getUserEntity() != NULL && $this->getUser()->isAllowed(Resource::create($this->getUserEntity()), Action::EDIT)) {
 			$this->setPageTitle($this->translate("Customization"));
 			$this->setPageDescription($this->translate("You can prepare interactive block with your latest read books for inserting into your webpage."));
 			$this->setPageKeywords($this->translate("settings, profile, update, edit, customization, read books, interactive, wizard."));
@@ -67,7 +68,7 @@ class SettingsPresenter extends BasePresenter {
 	}
 
 	public function actionDelete($id) {
-		if ($this->getUser() != NULL && $this->getUser()->isAllowed(Resource::create($this->getUserEntity()), Action::EDIT)) {
+		if ($this->getUserEntity() != NULL && $this->getUser()->isAllowed(Resource::create($this->getUserEntity()), Action::EDIT)) {
 			$this->setPageTitle($this->translate("Delete connection"));
 			$this->setPageDescription($this->translate("You can delete a connection to a social network on this page."));
 			$this->setPageKeywords($this->translate("delete, social network, facebook, twitter, remove"));
@@ -77,12 +78,12 @@ class SettingsPresenter extends BasePresenter {
 	}
 
 	public function actionTwitter() {
-		if ($this->getUser() != NULL && $this->getUser()->isAllowed(Resource::create(System::user()), Action::EDIT)) {
+		if ($this->getUserEntity() != NULL && $this->getUser()->isAllowed(Resource::create($this->getUserEntity()), Action::EDIT)) {
 			// Check if user have one account already
 			$user = $this->getUser()->id;
 			$haveOne = Factory::connection()->getSelector()->exists($user, 'twitter');
 			if (!$haveOne) {
-				$twitter = new TwitterBridge;
+				$twitter = new TwitterBridge($this->getContext());
 				if ($twitter->isEnabled()) {
 					$twitter->doLogin();
 					$token = $twitter->getToken();
@@ -95,6 +96,7 @@ class SettingsPresenter extends BasePresenter {
 							$connection->user = $user;
 							$connection->type = 'twitter';
 							$connection->token = $twitter->getToken();
+							$connection->secret = $twitter->getSecret();
 							$connection->inserted = new DateTime();
 
 							$logger = $this->getService("logger");
@@ -104,6 +106,7 @@ class SettingsPresenter extends BasePresenter {
 								$logger->log("INSERT CONNECTION TO TWITTER '" . $connection->getId() . "'");
 							} catch (Exception $e) {
 								$this->unexpectedError($e);
+								$this->terminate();
 								return;
 							}
 							$this->flashMessage($this->translate('Your account was successfully added.'), 'success');
@@ -128,7 +131,7 @@ class SettingsPresenter extends BasePresenter {
 	}
 
 	public function actionFacebook() {
-		if ($this->getUser() != NULL && $this->getUser()->isAllowed(Resource::create(System::user()), Action::EDIT)) {
+		if ($this->getUserEntity() != NULL && $this->getUser()->isAllowed(Resource::create(System::user()), Action::EDIT)) {
 			// Check if user have one account already
 			$user = $this->getUser()->id;
 			$haveOne = Factory::connection()->getSelector()->exists($user, 'facebook');
@@ -178,7 +181,7 @@ class SettingsPresenter extends BasePresenter {
 
 	// Factories
 	protected function createComponentDeleteForm($name) {
-		$form = new BaseForm($this,$name);
+		$form = new BaseForm($this, $name);
 		$form->addSubmit("yes", "Yes");
 		$form->addSubmit("no", "No");
 		$form->onSubmit[] = array($this, "deleteFormSubmitted");
@@ -187,7 +190,7 @@ class SettingsPresenter extends BasePresenter {
 
 	protected function createComponentSettingsForm($name) {
 		// Prepare form
-		$form = new BaseForm($this,$name);
+		$form = new BaseForm($this, $name);
 		$form->addGroup("Basic information");
 		$form->addText('email', "E-mail")
 			->addRule(Form::FILLED, "Please fill the correct e-mail.")
@@ -230,6 +233,8 @@ class SettingsPresenter extends BasePresenter {
 			->addCondition(Form::FILLED)
 			->addRule(Form::MIME_TYPE, "The file must be an image.", 'image/*')
 			->addRule(Form::MAX_FILE_SIZE, "The avatar has to be smaller than 100 KB.", 1024 * 100);
+		$form->addGroup("Language preference");
+		$form->addSelect("id_language","Your language",Factory::language()->getSelector()->findAll()->fetchPairs("id_language","name"));
 
 		$form->setCurrentGroup();
 
@@ -241,7 +246,8 @@ class SettingsPresenter extends BasePresenter {
 		$values['sex'] = $user->sex;
 		$values['birthyear'] = $user->birthyear;
 		$values['about'] = $user->about;
-		$form->setValues($values);
+		$values['id_language'] = $user->idLanguage;
+		$form->setDefaults($values);
 		return $form;
 	}
 
@@ -260,7 +266,7 @@ class SettingsPresenter extends BasePresenter {
 		if ($this->getUser() != NULL && $this->getUser()->isAllowed(Resource::create($user), Action::EDIT)) {
 			$values = $form->getValues();
 			// Firstly check if user is not trying to change e-mail
-			if ($user->email != $values["email"] && $user->password != UserAuthenticator::passwordHash($values["old"])) {
+			if ($user->email != $values["email"] && $user->password != Authenticator::passwordHash($values["old"])) {
 				$form->addError($this->translate("For changing your e-mail address you have to enter your current and new passwords."));
 				return;
 			}
@@ -268,13 +274,14 @@ class SettingsPresenter extends BasePresenter {
 			$user->sex = $values["sex"];
 			$user->birthyear = $values["birthyear"];
 			$user->about = $values["about"];
+			$user->idLanguage = $values["id_language"];
 
 			if (isSet($values["new"]) && !empty($values["new"])) {
-				if ($user->password != UserAuthenticator::passwordHash($values["old"])) {
+				if ($user->password != Authenticator::passwordHash($values["old"])) {
 					$form->addError("An error occured, the password you have entered is wrong.");
 					return;
 				} else {
-					$user->password = UserAuthenticator::passwordHash($values["new"]);
+					$user->password = Authenticator::passwordHash($values["new"]);
 				}
 			}
 			$logger = $this->getService("logger");

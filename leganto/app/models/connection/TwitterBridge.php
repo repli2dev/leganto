@@ -6,21 +6,29 @@
  * @copyright	Copyright (c) 2009 Jan Papoušek (jan.papousek@gmail.com),
  * 				Jan Drábek (me@jandrabek.cz)
  * @link		http://code.google.com/p/preader/
- * @license		http://code.google.com/p/preader/
  * @author		Jan Papousek
  * @author		Jan Drabek
- * @version		$id$
+
  */
+
+namespace Leganto\DB\Connection;
+
+use Nette\DI\IContainer,
+    TwitterOAuth,
+    Nette\Security\AuthenticationException;
+
 class TwitterBridge implements ISocialNetwork {
 
 	private $gate;
 	private $status = false;
 	private $session;
+	private $context;
 
-	function __construct() {
+	function __construct(IContainer $context) {
+		$this->context = $context;
 		// Open session namespace for twitter data
-		$this->session = Environment::getSession("twitter");
-		$this->session->setExpiration(60*5);
+		$this->session = $this->context->getService("session")->getSection("twitter");
+		$this->session->setExpiration(60 * 5);
 	}
 
 	/**
@@ -31,15 +39,15 @@ class TwitterBridge implements ISocialNetwork {
 		if (!$this->isEnabled())
 			return false;
 		// Get GET variable
-		$get = Environment::getHttpRequest();
+		$get = $this->context->httpRequest;
 		$oauth_verifier = $get->getQuery('oauth_verifier');
 
 		if (!isset($oauth_verifier)) { // user is not logged here -> prepare redirect to twitter login server
 			// Create instance of bridge to twitter OAuth
-			$this->gate = new TwitterOAuth(Environment::getConfig("twitter")->apiKey, Environment::getConfig("twitter")->secret);
+			$this->gate = new TwitterOAuth($this->context->params["twitter"]["apiKey"], $this->context->params["twitter"]["secret"]);
 
 			// Get REQUEST token (set callbeck to current URL)
-			$requestToken = $this->gate->getRequestToken(Environment::getHttpRequest()->uri->absoluteUri);
+			$requestToken = $this->gate->getRequestToken($this->context->httpRequest->uri->absoluteUri);
 
 			// Save it to session
 			$this->session->request_token_key = $token = $requestToken['oauth_token'];
@@ -50,7 +58,7 @@ class TwitterBridge implements ISocialNetwork {
 				case 200:
 					// ADD request token to URL where should user authorize
 					$url = $this->gate->getAuthorizeURL($token);
-					header('Location: ' . $url);
+					$this->context->httpResponse->redirect($url);
 					break;
 				default:
 					return false;
@@ -58,7 +66,7 @@ class TwitterBridge implements ISocialNetwork {
 			}
 		} else { // user has returned - proceed, verify and store user's data
 			// Create bridge to twitter to verify received informations.
-			$this->gate = new TwitterOAuth(Environment::getConfig("twitter")->apiKey, Environment::getConfig("twitter")->secret, $this->session->request_token_key, $this->session->request_token_secret);
+			$this->gate = new TwitterOAuth($this->context->params["twitter"]["apiKey"], $this->context->params["twitter"]["secret"], $this->session->request_token_key, $this->session->request_token_secret);
 			$this->gate->get('account/verify_credentials');
 
 			// Remove token key etc. - it's useless now.
@@ -73,15 +81,19 @@ class TwitterBridge implements ISocialNetwork {
 	}
 
 	function isEnabled() {
-		if (Environment::getConfig("twitter")->enable) { // check if twitter is enabled
+		if ($this->context->params["twitter"]["enable"]) { // check if twitter is enabled
 			return true;
 		} else {
 			return false;
 		}
 	}
 
-	function doNormalConnection() {
-		$this->gate = new TwitterOAuth(Environment::getConfig("twitter")->apiKey, Environment::getConfig("twitter")->secret, $this->session->auth['oauth_token'], $this->session->auth['oauth_token_secret']);
+	function doNormalConnection($user = NULL) {
+		if ($user == NULL) {
+			$this->gate = new TwitterOAuth($this->context->params["twitter"]["apiKey"], $this->context->params["twitter"]["secret"], $this->session->auth['oauth_token'], $this->session->auth['oauth_token_secret']);
+		} else {
+			$this->gate = new TwitterOAuth($this->context->params["twitter"]["apiKey"], $this->context->params["twitter"]["secret"], $user["token"],$user["secret"]);
+		}
 	}
 
 	/**
@@ -124,8 +136,9 @@ class TwitterBridge implements ISocialNetwork {
 		// If status is true then try to look up for existing connection -> if it is found then user is logged automatically
 		if ($this->status == true) {
 			try {
-				Environment::getUser()->authenticate(null, null, $this->session->auth['oauth_token']);
+				$this->context->user->login(null, null, $this->session->auth['oauth_token']);
 				$this->destroyLoginData();
+				$this->context->httpResponse->redirect("/");
 			} catch (AuthenticationException $e) {
 				// Silent error - output is not desired - connection was not found -> show message to let user choose what to do
 			}
@@ -155,17 +168,30 @@ class TwitterBridge implements ISocialNetwork {
 			return null;
 		}
 	}
+	
+	/**
+	 * Return unique user secret token, if token is empty then return null
+	 * @return string 
+	 */
+	function getSecret() {
+		if (!$this->isEnabled())
+			return null;
+		if (!empty($this->session->auth['oauth_token_secret'])) {
+			return $this->session->auth['oauth_token_secret'];
+		} else {
+			return null;
+		}
+	}
 
 	/**
 	 * Post message on twitter, return true if successful
 	 * @return boolean
 	 */
-	function postMessage($message) {
+	function postMessage($message,$user) {
 		if (!$this->isEnabled())
 			return false;
-
 		// Post data
-		$this->doNormalConnection();
+		$this->doNormalConnection($user);
 		$data = $this->gate->post('statuses/update', array("status" => $message));
 		if (!isset($data->error)) {
 			return true;

@@ -12,5 +12,11 @@
 namespace FrontModule\Components;
 
 class FlashMessages extends BaseComponent {
-
+	public function invalidate() {
+		$this->invalidateControl("flashes");
+	}
+	
+	public function handleHide() {
+		$this->invalidate();
+	}
 }

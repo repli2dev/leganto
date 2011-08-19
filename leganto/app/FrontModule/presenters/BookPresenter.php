@@ -110,7 +110,10 @@ class BookPresenter extends BasePresenter {
 		$this->setPageTitle($this->translate("Edit the book") . " '" . $this->getBook()->title . "'");
 	}
 
-	public function renderInsert($book, $related = FALSE) {
+	public function renderInsert($skip = FALSE, $book, $related = FALSE) {
+		if($skip) {
+			$this->getComponent("insertingBook")->handleContinueToInsert("");
+		}
 		if ($related) {
 			if (!$this->getUser()->isAllowed(Resource::BOOK, Action::INSERT)) {
 				$this->unauthorized();

@@ -185,7 +185,7 @@ class Selector extends AWorker implements ISelector {
 					if (!empty($conditions)) {
 						$conditions .= " AND ";
 					}
-					$word = "%" . mysql_escape_string($word) . "%";
+					$word = "%" . mysql_real_escape_string($word) . "%";
 					$conditions .= "
 					([title] LIKE '$word' OR
 					[subtitle] LIKE '$word')";

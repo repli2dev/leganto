@@ -13,7 +13,7 @@ namespace Leganto\DB\Feed;
 
 use Leganto\ORM\AEntity;
 
-/** @Id(translate=id_item) */
+/** @Id(translate=id_feed_event) */
 class Entity extends AEntity {
 	const TYPE_NEW_OPINION = "new_opinion";
 	const TYPE_UPDATED_OPINION = "updated_opinion";

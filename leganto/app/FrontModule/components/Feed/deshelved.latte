@@ -3,6 +3,7 @@
 		<span class="date">{$item->inserted|date}</span>
 	</div>
 	<div class="info-top">
+		{include delete.latte, item => $item}
 		<strong class="title">
 			{if $content[0] == 'owned'}
 				{_"User"} <a href="{plink User:default,$item->userId}">{$item->userNick}</a> {_"have just removed book"} <a href="{plink Book:default,$content[2]}">{$content[3]}</a> {_"from their library"}.

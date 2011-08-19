@@ -1,13 +1,13 @@
 {widget flashMessages}
-
+{snippet feed}
 <div id="feed" class="list">
     <table class="navigation">
         <tr>
 			{if !empty($allSwitcher)}
 				<th>{_"All"}</th>
-				<th><a href="{link followed}">{_"Followed"}</a></th>
+				<th><a class="ajax" href="{link followed}">{_"Followed"}</a></th>
 			{else}
-				<th><a href="{link all}">{_"All"}</a></th>
+				<th><a class="ajax" href="{link all}">{_"All"}</a></th>
 				<th>{_'Followed'}</th>
 			{/if}
         </tr>
@@ -43,7 +43,10 @@
 			{include newUser.latte,'content' => $content, 'item' => $item}
 		{/if}
 {/foreach}
+<hr class="cleaner" />
+{widget paginator,ajax => TRUE}
 </div>
+{/snippet}
 <div id="main-info">
 	
 	<h3>{_'Did you know, that ...?'}</h3>
@@ -65,6 +68,3 @@
 		<div class="clear"></div>
 	</div>
 </div>
-
-<hr class="cleaner" />
-{widget paginator}

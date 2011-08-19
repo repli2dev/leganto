@@ -260,7 +260,7 @@ class InsertingBook extends BaseComponent {
 			->addRule(Form::MIN_LENGTH, "The book title has to be at least 2 characters long.", 2);
 
 		$form->addSubmit("submit_search", "Search");
-		$form->onSubmit[] = array($this, "searchFormSubmitted");
+		$form->onSuccess[] = array($this, "searchFormSubmitted");
 
 		return $form;
 	}

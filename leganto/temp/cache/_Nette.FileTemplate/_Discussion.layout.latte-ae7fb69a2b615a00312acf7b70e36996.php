@@ -1,12 +1,12 @@
-<?php //netteCache[01]000410a:2:{s:4:"time";s:21:"0.21665900 1313057829";s:9:"callbacks";a:2:{i:0;a:3:{i:0;a:2:{i:0;s:19:"Nette\Caching\Cache";i:1;s:9:"checkFile";}i:1;s:88:"/home/Weby/Ostatni/preader/www/leganto/app/FrontModule/templates/Discussion/layout.latte";i:2;i:1312986653;}i:1;a:3:{i:0;a:2:{i:0;s:19:"Nette\Caching\Cache";i:1;s:10:"checkConst";}i:1;s:25:"Nette\Framework::REVISION";i:2;s:30:"6889b94 released on 2011-08-04";}}}?><?php
+<?php //netteCache[01]000410a:2:{s:4:"time";s:21:"0.80044300 1313674321";s:9:"callbacks";a:2:{i:0;a:3:{i:0;a:2:{i:0;s:19:"Nette\Caching\Cache";i:1;s:9:"checkFile";}i:1;s:88:"/home/Weby/Ostatni/preader/www/leganto/app/FrontModule/templates/Discussion/layout.latte";i:2;i:1312986653;}i:1;a:3:{i:0;a:2:{i:0;s:19:"Nette\Caching\Cache";i:1;s:10:"checkConst";}i:1;s:25:"Nette\Framework::REVISION";i:2;s:30:"6889b94 released on 2011-08-04";}}}?><?php
 
 // source file: /home/Weby/Ostatni/preader/www/leganto/app/FrontModule/templates/Discussion/layout.latte
 
-?><?php list($_l, $_g) = Nette\Latte\Macros\CoreMacros::initRuntime($template, '2k579sbd3g')
+?><?php list($_l, $_g) = Nette\Latte\Macros\CoreMacros::initRuntime($template, 'emvf0wtear')
 ;//
 // block content
 //
-if (!function_exists($_l->blocks['content'][] = '_lbf5b18a76d8_content')) { function _lbf5b18a76d8_content($_l, $_args) { extract($_args)
+if (!function_exists($_l->blocks['content'][] = '_lb663903debd_content')) { function _lb663903debd_content($_l, $_args) { extract($_args)
 ?>
 	<div id="content">
 <?php $_ctrl = $control->getWidget("flashMessages"); if ($_ctrl instanceof Nette\Application\UI\IPartiallyRenderable) $_ctrl->validateControl(); $_ctrl->render() ?>
@@ -19,7 +19,7 @@ if (!function_exists($_l->blocks['content'][] = '_lbf5b18a76d8_content')) { func
 //
 // block subcontent
 //
-if (!function_exists($_l->blocks['subcontent'][] = '_lbab01a2e08b_subcontent')) { function _lbab01a2e08b_subcontent($_l, $_args) { extract($_args)
+if (!function_exists($_l->blocks['subcontent'][] = '_lb6dfecef55f_subcontent')) { function _lb6dfecef55f_subcontent($_l, $_args) { extract($_args)
 ;
 }}
 

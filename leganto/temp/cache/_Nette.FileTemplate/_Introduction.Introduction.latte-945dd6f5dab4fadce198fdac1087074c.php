@@ -1,12 +1,12 @@
-<?php //netteCache[01]000419a:2:{s:4:"time";s:21:"0.64991700 1313051819";s:9:"callbacks";a:2:{i:0;a:3:{i:0;a:2:{i:0;s:19:"Nette\Caching\Cache";i:1;s:9:"checkFile";}i:1;s:97:"/home/Weby/Ostatni/preader/www/leganto/app/FrontModule/components/Introduction/Introduction.latte";i:2;i:1313051818;}i:1;a:3:{i:0;a:2:{i:0;s:19:"Nette\Caching\Cache";i:1;s:10:"checkConst";}i:1;s:25:"Nette\Framework::REVISION";i:2;s:30:"6889b94 released on 2011-08-04";}}}?><?php
+<?php //netteCache[01]000419a:2:{s:4:"time";s:21:"0.05220000 1313673193";s:9:"callbacks";a:2:{i:0;a:3:{i:0;a:2:{i:0;s:19:"Nette\Caching\Cache";i:1;s:9:"checkFile";}i:1;s:97:"/home/Weby/Ostatni/preader/www/leganto/app/FrontModule/components/Introduction/Introduction.latte";i:2;i:1313051818;}i:1;a:3:{i:0;a:2:{i:0;s:19:"Nette\Caching\Cache";i:1;s:10:"checkConst";}i:1;s:25:"Nette\Framework::REVISION";i:2;s:30:"6889b94 released on 2011-08-04";}}}?><?php
 
 // source file: /home/Weby/Ostatni/preader/www/leganto/app/FrontModule/components/Introduction/Introduction.latte
 
-?><?php list($_l, $_g) = Nette\Latte\Macros\CoreMacros::initRuntime($template, '65v3wyrsry')
+?><?php list($_l, $_g) = Nette\Latte\Macros\CoreMacros::initRuntime($template, 'd1ei8onlxa')
 ;//
 // block _introductionBlock
 //
-if (!function_exists($_l->blocks['_introductionBlock'][] = '_lbced35ec7e0__introductionBlock')) { function _lbced35ec7e0__introductionBlock($_l, $_args) { extract($_args); $control->validateControl('introductionBlock')
+if (!function_exists($_l->blocks['_introductionBlock'][] = '_lb5b177ffd93__introductionBlock')) { function _lb5b177ffd93__introductionBlock($_l, $_args) { extract($_args); $control->validateControl('introductionBlock')
 ?>
 	<div id="introduction">
 <?php if (isset($hint)): ?>

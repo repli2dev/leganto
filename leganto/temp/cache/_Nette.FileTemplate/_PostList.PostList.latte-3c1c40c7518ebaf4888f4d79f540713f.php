@@ -1,8 +1,8 @@
-<?php //netteCache[01]000411a:2:{s:4:"time";s:21:"0.07806200 1313483864";s:9:"callbacks";a:2:{i:0;a:3:{i:0;a:2:{i:0;s:19:"Nette\Caching\Cache";i:1;s:9:"checkFile";}i:1;s:89:"/home/Weby/Ostatni/preader/www/leganto/app/FrontModule/components/PostList/PostList.latte";i:2;i:1313483862;}i:1;a:3:{i:0;a:2:{i:0;s:19:"Nette\Caching\Cache";i:1;s:10:"checkConst";}i:1;s:25:"Nette\Framework::REVISION";i:2;s:30:"6889b94 released on 2011-08-04";}}}?><?php
+<?php //netteCache[01]000411a:2:{s:4:"time";s:21:"0.97315400 1313673685";s:9:"callbacks";a:2:{i:0;a:3:{i:0;a:2:{i:0;s:19:"Nette\Caching\Cache";i:1;s:9:"checkFile";}i:1;s:89:"/home/Weby/Ostatni/preader/www/leganto/app/FrontModule/components/PostList/PostList.latte";i:2;i:1313569328;}i:1;a:3:{i:0;a:2:{i:0;s:19:"Nette\Caching\Cache";i:1;s:10:"checkConst";}i:1;s:25:"Nette\Framework::REVISION";i:2;s:30:"6889b94 released on 2011-08-04";}}}?><?php
 
 // source file: /home/Weby/Ostatni/preader/www/leganto/app/FrontModule/components/PostList/PostList.latte
 
-?><?php list($_l, $_g) = Nette\Latte\Macros\CoreMacros::initRuntime($template, 'd18hi02g3e')
+?><?php list($_l, $_g) = Nette\Latte\Macros\CoreMacros::initRuntime($template, 'lt3mudy2n3')
 ;
 // snippets support
 if (!empty($control->snippetMode)) {
@@ -53,10 +53,10 @@ if (!empty($control->snippetMode)) {
 " title="<?php echo htmlSpecialChars($post->userName) ?>"><?php echo Nette\Templating\DefaultHelpers::escapeHtml($template->hardTruncate($post->userName, 20), ENT_NOQUOTES) ?></a>
 <?php if ($presenter->getUser()->isAllowed(Leganto\ACL\Resource::create($post), Leganto\ACL\Action::EDIT)): ?>
 					<div class="control">
-						<?php $confirm = Leganto\System::translate("Are you sure you want to delete a discussion post?"); $link    = $component->link('delete', $post->getId()) ?>
+						<?php $confirm = $template->translate("Are you sure you want to delete a discussion post?"); $link    = $control->link('delete', $post->getId()) ?>
 						<a onclick="return confirm('<?php echo $confirm ?>')" href="<?php echo $link ?>
 " title="<?php echo htmlSpecialChars($template->translate('Delete')) ?>">
-							<img src="<?php echo htmlSpecialChars($baseUri . 'img/ico/delete.png') ?>
+							<img src="<?php echo htmlSpecialChars($baseUri . '/img/ico/delete.png') ?>
 " alt="<?php echo htmlSpecialChars($template->translate('Delete')) ?>" />
 						</a>
 					</div>

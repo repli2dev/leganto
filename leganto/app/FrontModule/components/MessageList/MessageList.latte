@@ -2,7 +2,9 @@
     {if $user->isLoggedIn()}
     <h2>{_'New message'}</h2>
 	<div id="message-form-wrapper">
-	    {widget form}
+		{snippet messageForm}
+			{widget form}
+		{/snippet}
 	</div>
     {/if}
 
@@ -42,7 +44,7 @@
 				</div>
 				{if $user->getId() != $message->idUserFrom}
 					<div class="info-bottom">
-						<a class="control" href="{plink User:messages, $message->idUserFrom}" title="{_"Reply"}">{_"Reply"}</a>
+						<a class="control ajax" href="{link replyTo!, $message->idUserFrom}#flashes" title="{_"Reply"}">{_"Reply"}</a>
 					</div>
 				{/if}
 				<div class="clear"></div>

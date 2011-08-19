@@ -1,12 +1,12 @@
-<?php //netteCache[01]000417a:2:{s:4:"time";s:21:"0.10830400 1312986744";s:9:"callbacks";a:2:{i:0;a:3:{i:0;a:2:{i:0;s:19:"Nette\Caching\Cache";i:1;s:9:"checkFile";}i:1;s:95:"/home/Weby/Ostatni/preader/www/leganto/app/FrontModule/components/EditionList/EditionList.latte";i:2;i:1312986653;}i:1;a:3:{i:0;a:2:{i:0;s:19:"Nette\Caching\Cache";i:1;s:10:"checkConst";}i:1;s:25:"Nette\Framework::REVISION";i:2;s:30:"6889b94 released on 2011-08-04";}}}?><?php
+<?php //netteCache[01]000417a:2:{s:4:"time";s:21:"0.54748800 1313673250";s:9:"callbacks";a:2:{i:0;a:3:{i:0;a:2:{i:0;s:19:"Nette\Caching\Cache";i:1;s:9:"checkFile";}i:1;s:95:"/home/Weby/Ostatni/preader/www/leganto/app/FrontModule/components/EditionList/EditionList.latte";i:2;i:1312986653;}i:1;a:3:{i:0;a:2:{i:0;s:19:"Nette\Caching\Cache";i:1;s:10:"checkConst";}i:1;s:25:"Nette\Framework::REVISION";i:2;s:30:"6889b94 released on 2011-08-04";}}}?><?php
 
 // source file: /home/Weby/Ostatni/preader/www/leganto/app/FrontModule/components/EditionList/EditionList.latte
 
-?><?php list($_l, $_g) = Nette\Latte\Macros\CoreMacros::initRuntime($template, 'f44oitgc4u')
+?><?php list($_l, $_g) = Nette\Latte\Macros\CoreMacros::initRuntime($template, 'o2qdui9a2i')
 ;//
 // block _editions
 //
-if (!function_exists($_l->blocks['_editions'][] = '_lba8166695e8__editions')) { function _lba8166695e8__editions($_l, $_args) { extract($_args); $control->validateControl('editions')
+if (!function_exists($_l->blocks['_editions'][] = '_lb3ffd57ce17__editions')) { function _lb3ffd57ce17__editions($_l, $_args) { extract($_args); $control->validateControl('editions')
 ;if (!empty($editions)): ?>
 	<script>
 	$(function(){

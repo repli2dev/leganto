@@ -49,9 +49,29 @@
 			<script type="text/javascript" src="/js/jquery.ui.stars.min.js"></script>
 			<link rel="stylesheet" type="text/css" href="/css/jquery.ui.stars.min.css" />
 			<script type="text/javascript" src="/js/ratings.js"></script>
+			<script type="text/javascript" src="https://apis.google.com/js/plusone.js">
+				{ lang: 'cs'}
+			</script>
 		{/ifCurrent}
 		<script type="text/javascript" src="/js/jquery.nette.js"></script>
 		<script type="text/javascript" src="/js/jquery.ajaxform.js"></script>
+		{ifCurrent Book:*}
+				<script type="text/javascript">
+					// po načtení stránky
+					$(window).load(function() {
+						/* AJAXové odeslání formulářů */
+						$("form.ajax").live("submit", function () {
+						    $(this).ajaxSubmit();
+						    return false;
+						});
+
+						$("form.ajax :submit").live("click", function () {
+						    $(this).ajaxSubmit();
+						    return false;
+						});			
+					});
+				</script>
+		{/ifCurrent}
 		<script type="text/javascript" src="/js/jquery.autocomplete.js"></script>
 		<script type="text/javascript" src="/js/jquery.autoresize.js"></script>
 		<script type="text/javascript">
@@ -132,15 +152,11 @@
 			<div class="wrapper">
 				&copy; <a href="{$baseUri}" title="Leganto - {_'Internet reading lists'}">{=$domain->uri}</a> - {_'Internet reading lists'} - <a href="{link Help:text, 56}" title="{_'Terms of use'}">{_'Terms of use'}</a>
 				|
-				{assign email => $domain->email}
-				<a href="mailto:{$email}">{_'Contact us'}</a>
+				<a href="{plink Default:contact}">{_'Contact us'}</a>
 				|
 				<a href="{plink Statistics:}">{_'Statistics'}</a>
 				{_'created by'}
-				<a href="http://jandrabek.cz" title="Jan Drábek">Jan Drábek</a>
-				&amp;
-				<a href="mailto:jan.papousek@gmail.com" title="Jan Papoušek">Jan Papoušek</a>
-				<span title="Richard Šefr, Tereza Doležalová">{_'and others'}</span>.
+				<a href="{plink Help:text,62}">{_"Leganto team"}</a>
 			</div>
 		</div>
 	</body>

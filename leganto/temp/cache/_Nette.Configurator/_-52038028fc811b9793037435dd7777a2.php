@@ -1,4 +1,4 @@
-<?php //netteCache[01]000224a:2:{s:4:"time";s:21:"0.56565700 1312990174";s:9:"callbacks";a:1:{i:0;a:3:{i:0;a:2:{i:0;s:19:"Nette\Caching\Cache";i:1;s:9:"checkFile";}i:1;s:54:"/home/Weby/Ostatni/preader/www/leganto/app/config.neon";i:2;i:1312989987;}}}?><?php
+<?php //netteCache[01]000224a:2:{s:4:"time";s:21:"0.76319800 1313742302";s:9:"callbacks";a:1:{i:0;a:3:{i:0;a:2:{i:0;s:19:"Nette\Caching\Cache";i:1;s:9:"checkFile";}i:1;s:54:"/home/Weby/Ostatni/preader/www/leganto/app/config.neon";i:2;i:1313742299;}}}?><?php
 // source file /home/Weby/Ostatni/preader/www/leganto/app/config.neon
 
 $container->addService('robotLoader', function($container) {
@@ -19,15 +19,15 @@ $container->params['mail'] = array (
 );
 
 $container->params['facebook'] = array (
-  'enable' => false,
-  'apiKey' => false,
-  'secret' => false,
+  'enable' => 'truze',
+  'apiKey' => 175434332634,
+  'secret' => 'a482d8bd44441006ec1d5613d1b8195c',
 );
 
 $container->params['twitter'] = array (
-  'enable' => false,
-  'apiKey' => false,
-  'secret' => false,
+  'enable' => true,
+  'apiKey' => 'jzH2ermcGbzQ4SaWCj230Q',
+  'secret' => 'LxFR8fM47HDk0s60cnef4EiTMIk2bGY32v5swVwNx4',
 );
 
 $container->params['cron'] = array (

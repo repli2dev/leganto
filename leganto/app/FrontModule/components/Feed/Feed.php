@@ -15,20 +15,59 @@ use Leganto\DB\Factory,
     FrontModule\Components\BookList,
     FrontModule\Components\FlashMessages,
     FrontModule\Components\Twitter,
-    Leganto\System;
+    Nette\Utils\Html,
+    Nette\Application\BadRequestException;
 
 class Feed extends BaseListComponent {
 
 	/** @persistent */
 	public $allSwitcher;
 	public $firstTime;
+	
+	public function handleDelete($id) {
+		// Check it user is logged in
+		if (!$this->getUser()->isLoggedIn()) {
+			$this->unauthorized();
+			return;
+		}
+		// Check if currently logged user is owner
+		$item = Factory::feed()->getSelector()->find($id);
+		if ($item === NULL) {
+			throw new BadRequestException();
+		}
+		if ($item->userId != $this->getUser()->getId()) {
+			$this->unauthorized();
+			return;
+		}
+		Factory::feed()->getDeleter()->delete($id);
+		$this->flashMessage($this->translate("The feed item was successfully deleted."));
+		if ($this->isAjax()) {
+			$this->getComponent("flashMessages")->invalidate();
+			$this->invalidateControl("feed");
+		} else {
+			$this->redirect("this");
+		}
+			
+		
+	}
 
 	public function handleAll() {
 		$this->allSwitcher = TRUE;
+		if ($this->isAjax()) {
+			$this->invalidateControl("feed");
+		} else {
+			// FIXME: Vyhodí AbortException (uz odesel vystup)
+			//$this->redirect("this");
+		}
 	}
 
 	public function handleFollowed() {
 		$this->allSwitcher = FALSE;
+		if ($this->isAjax()) {
+			$this->invalidateControl("feed");
+		} else {
+			$this->redirect("this");
+		}
 	}
 
 	protected function beforeRender() {
@@ -71,9 +110,12 @@ class Feed extends BaseListComponent {
 		}
 		// Find random "did you know"
 		$this->getTemplate()->hint = Factory::help()->getSelector()->findRandom($this->getContext()->getService("environment")->language());
-		
+
 		// RSS
 		$this->getTemplate()->user = $this->getUser();
+		//if ($this->isAjax()) {
+			$this->invalidateControl("feed");
+		//}
 	}
 
 	protected function createComponentFlashMessages($name) {

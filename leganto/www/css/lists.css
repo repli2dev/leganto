@@ -19,6 +19,7 @@
 	padding: 10px;
 	margin-bottom: 10px;
 	word-wrap: break-word;
+	padding-right: 2px;
 }
 .list .item-compact {
 	color: grey;

@@ -20,7 +20,7 @@ class Navigation extends BaseComponent {
 	public function handleLogout() {
 		$this->getContext()->getService("logger")->log("LOGOUT");
 		$this->getUser()->logout(TRUE);
-		$this->getPresenter()->redirect("this");
+		$this->getPresenter()->redirect("Default:");
 	}
 
 	protected function startUp() {

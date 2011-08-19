@@ -13,6 +13,7 @@ namespace FrontModule;
 
 use Nette\Diagnostics\Debugger;
 use Nette\Application\BadRequestException;
+use FrontModule\Components\Support;
 
 class ErrorPresenter extends BasePresenter {
 
@@ -30,14 +31,19 @@ class ErrorPresenter extends BasePresenter {
 			$code = $exception->getCode();
 			if($code == 403) { // load template 404.latte or 403.latte
 				$this->setView("403");
+				$this->setPageTitle($this->translate("403 Unauthorized"));
 			} else {
 				$this->setView("404"); 
 			}
 		} else {
 			$this->setPageTitle($this->translate("500 Server error"));
 			$this->setView('500'); // load template 500.latte
-			Debugger::processException($exception); // and handle error by Nette\Debug
+			Debugger::log($exception); // and handle error by Nette\Debug
 		}
+	}
+	
+	public function createComponentSupport($name) {
+		return new Support($this,$name);
 	}
 
 }

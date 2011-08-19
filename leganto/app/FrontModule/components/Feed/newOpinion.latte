@@ -5,6 +5,7 @@
 		<span class="date">{$item->inserted|date}</span>
 	</div>
 	<div class="info-top">
+		{include delete.latte, item => $item}
 		<strong class="title">
 			{_"User"} <a href="{plink User:default,$item->userId}">{$item->userNick}</a> {_"have just contributed new opinion on book"} <a href="{plink Book:default,$content[0]}">{$content[1]}</a>.
 		</strong>

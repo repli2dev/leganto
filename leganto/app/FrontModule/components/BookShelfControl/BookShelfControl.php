@@ -16,7 +16,9 @@ use Leganto\System,
 	Nette\InvalidStateException,
 	FrontModule\Forms\BaseForm,
 	Nette\Forms\Form,
-	Exception;
+	Exception,
+	Leganto\ORM\Exceptions\DuplicityException;
+
 class BookShelfControl extends BaseComponent {
 	const OPTION_CREATE_NEW_SHELF = -1;
 
@@ -28,7 +30,7 @@ class BookShelfControl extends BaseComponent {
 	 * @param \Leganto\DB\Shelf\Entity $shelf
 	 * @return void
 	 */
-	public function handleRemoveFromShelf($book, $shelf) {
+	public function handleRemoveFromShelf($book, $shelf, $return = FALSE) {
 		$user = $this->getUser();
 		$shelfEntity = Factory::shelf()->getSelector()->find($shelf);
 		// Check permission
@@ -48,8 +50,17 @@ class BookShelfControl extends BaseComponent {
 			$this->unexpectedError($e);
 			return;
 		}
-                // FIXME: lepsi rozliseni navratove stranky (viz FIXME v shelvesComponent)
-		$this->getPresenter()->redirect("this#books-in-shelf-".$shelf);
+		// Return == TRUE means return to shelf (open the shelf)
+		if($return) {
+			$this->getPresenter()->redirect("this#books-in-shelf-".$shelf);	
+		} else {
+			if($this->getContext()->httpRequest->isAjax()) {
+				$this->getPresenter()->getComponent("flashMessages")->invalidateControl("flashes");
+				$this->invalidateControl("bookShelfControl");
+			} else {
+				$this->getPresenter()->redirect("this");
+			}
+		}
 	}
 
 	/**
@@ -90,11 +101,18 @@ class BookShelfControl extends BaseComponent {
 					$logger->log("INSERT BOOK '" . $this->book->getId() . "' INTO SHELF '" . $shelfEntity->getId() . "'");
 					$this->getPresenter()->flashMessage($this->translate('The book has been inserted to the shelf.'), "success");
 				}
+			} catch (DuplicityException $e) {
+				$this->getPresenter()->flashMessage($this->translate('The book is already present in selected shelf.'), "info");
 			} catch (Exception $e) {
 				$this->unexpectedError($e);
 				return;
 			}
-			$this->getPresenter()->redirect("this");
+			if($this->getContext()->httpRequest->isAjax() || true) {
+				$this->invalidateControl("bookShelfControl");	
+				$this->getPresenter()->getComponent("flashMessages")->invalidateControl("flashes");
+			} else {
+				$this->getPresenter()->redirect("this");
+			}
 		}
 	}
 
@@ -104,13 +122,16 @@ class BookShelfControl extends BaseComponent {
 			throw new InvalidStateException("The component [$name] in [" . $this->getName() . "] can not be created because no user is authenticated.");
 		}
 		$form = new BaseForm($this, $name);
+		$form->getElementPrototype()->class('ajax');
 
 		// Get user's shelves
 		$shelves = Factory::shelf()->getSelector()->findByUser($user)->fetchPairs("id_shelf", "name")
 			+ array(self::OPTION_CREATE_NEW_SHELF => "--- " . $this->translate("Create a new shelf") . " ---");
 		$form->addSelect("shelf", NULL, $shelves)
 			->skipFirst("--- " . $this->translate("Select shelf") . " ---");
-		$form["shelf"]->getControlPrototype()->onChange = "form.submit()";
+		// HACK: on change invoke click() event on hidden button
+		$form["shelf"]->getControlPrototype()->onChange = "$('#frmform-submitted').click();";
+		$form->addSubmit("submitted","Odeslat")->getControlPrototype()->style("visibility:hidden; height: 0px;");
 
 		// Submit settings
 		$form->onSuccess[] = array($this, "formSubmitted");

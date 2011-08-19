@@ -14,7 +14,8 @@ namespace Leganto\ACL;
 use Nette\Security\IResource,
     Leganto\ORM\IEntity,
     Leganto\Templating\Helpers,
-    Nette\Environment;
+    Nette\Environment,
+    Leganto\ORM\Exceptions\NotSupportedException;
 
 class Resource implements IResource {
 	const AUTHOR = "author";
@@ -38,6 +39,8 @@ class Resource implements IResource {
 	const MESSAGE = "message";
 
 	const HELP = "help";
+	
+	const FEED = "feed";
 
 	private $ownerId;
 	private $resource;
@@ -65,6 +68,10 @@ class Resource implements IResource {
 			case "Leganto\DB\User\Entity":
 				$resource = self::USER;
 				return new Resource($resource, $entity->getId());
+				break;
+			case "Leganto\DB\Feed\Entity":
+				$resource = self::FEED;
+				return new Resource($resource, $entity->userId);
 				break;
 			case "Leganto\DB\Message\Entity":
 				$resource = self::MESSAGE;

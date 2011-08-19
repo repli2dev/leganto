@@ -53,7 +53,7 @@ class UserPresenter extends BasePresenter {
 
 	public function renderToogleFollow($user) {
 		if (!$this->getUser()->isLoggedIn()) {
-			$this->redirect("Default:unauthorized");
+			$this->unauthorized();
 		} else {
 			if ($this->getUserEntity()->getId() == $this->getUser()->getId()) {
 				$this->flashMessage($this->translate("You cannot follow yourself, you egoist!"), "error");
@@ -153,7 +153,7 @@ class UserPresenter extends BasePresenter {
 
 	public function renderMessages($toUser = null) {
 		if (!$this->getUser()->isLoggedIn()) {
-			$this->redirect("Default:unauthorized");
+			$this->unauthorized();
 		} else {
 			$this->setPageTitle($this->translate("Private messaging"));
 			$this->setPageDescription($this->translate("You can write to other users and change your thought privately. However you have to known the nickname of user you want to write to."));

@@ -55,7 +55,14 @@ class TagList extends BaseListComponent {
 			$this->unexpectedError($e);
 			return;
 		}
-		$this->getPresenter()->redirect("this");
+		if($this->isAjax()) {
+			$form = $this->getComponent("form");
+			$form["tag"]->setValue("");
+			$this->getPresenter()->getComponent("flashMessages")->invalidate();
+			$this->invalidateControl("tagList");
+		} else {
+			$this->getPresenter()->redirect("this");
+		}
 	}
 
 	/**
@@ -74,6 +81,7 @@ class TagList extends BaseListComponent {
 
 	protected function createComponentForm($name) {
 		$form = new BaseForm($this, $name);
+		$form->getElementPrototype()->class('ajax');
 
 		$form->addText("tag")
 			->setRequired(Form::FILLED, "A tag has to be filled.")

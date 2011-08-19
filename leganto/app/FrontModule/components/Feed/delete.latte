@@ -1,0 +1,9 @@
+{if $presenter->getUser()->isAllowed(Leganto\ACL\Resource::create($item), Leganto\ACL\Action::EDIT)}
+	<div class="control">
+		<?php $confirm = $template->translate("Are you sure you want to delete this feed item?"); ?>
+		{assign link    => $control->link('delete', $item->getId())}
+		<a onclick="return confirm('{!$confirm}')" href="{!$link}" class="ajax" title="{_'Delete'}">
+			<img src="{$baseUri . '/img/ico/delete.png'}" alt="{_'Delete'}" />
+		</a>
+	</div>
+{/if}

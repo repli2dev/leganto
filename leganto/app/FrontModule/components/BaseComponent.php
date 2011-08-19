@@ -126,6 +126,11 @@ abstract class BaseComponent extends Control {
 		return call_user_func_array(array($this->getContext()->getService("translator")->get(), 'translate'), $args);
 	}
 	
+	/** @return boolean */
+	public function isAjax() {
+		return $this->getContext()->httpRequest->isAjax();
+	}
+	
 
 }
 

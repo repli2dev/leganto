@@ -1,12 +1,12 @@
-<?php //netteCache[01]000404a:2:{s:4:"time";s:21:"0.03992200 1312986743";s:9:"callbacks";a:2:{i:0;a:3:{i:0;a:2:{i:0;s:19:"Nette\Caching\Cache";i:1;s:9:"checkFile";}i:1;s:82:"/home/Weby/Ostatni/preader/www/leganto/app/FrontModule/templates/Book/layout.latte";i:2;i:1312986653;}i:1;a:3:{i:0;a:2:{i:0;s:19:"Nette\Caching\Cache";i:1;s:10:"checkConst";}i:1;s:25:"Nette\Framework::REVISION";i:2;s:30:"6889b94 released on 2011-08-04";}}}?><?php
+<?php //netteCache[01]000404a:2:{s:4:"time";s:21:"0.27742400 1313673249";s:9:"callbacks";a:2:{i:0;a:3:{i:0;a:2:{i:0;s:19:"Nette\Caching\Cache";i:1;s:9:"checkFile";}i:1;s:82:"/home/Weby/Ostatni/preader/www/leganto/app/FrontModule/templates/Book/layout.latte";i:2;i:1312986653;}i:1;a:3:{i:0;a:2:{i:0;s:19:"Nette\Caching\Cache";i:1;s:10:"checkConst";}i:1;s:25:"Nette\Framework::REVISION";i:2;s:30:"6889b94 released on 2011-08-04";}}}?><?php
 
 // source file: /home/Weby/Ostatni/preader/www/leganto/app/FrontModule/templates/Book/layout.latte
 
-?><?php list($_l, $_g) = Nette\Latte\Macros\CoreMacros::initRuntime($template, 'mugk9q89lh')
+?><?php list($_l, $_g) = Nette\Latte\Macros\CoreMacros::initRuntime($template, 'xozhqlju27')
 ;//
 // block content
 //
-if (!function_exists($_l->blocks['content'][] = '_lb27aafb5c6d_content')) { function _lb27aafb5c6d_content($_l, $_args) { extract($_args)
+if (!function_exists($_l->blocks['content'][] = '_lb197304fe28_content')) { function _lb197304fe28_content($_l, $_args) { extract($_args)
 ?>
 <div id="book-view">
 
@@ -27,7 +27,7 @@ if (!function_exists($_l->blocks['content'][] = '_lb27aafb5c6d_content')) { func
 //
 // block subcontent
 //
-if (!function_exists($_l->blocks['subcontent'][] = '_lb5b2b171b10_subcontent')) { function _lb5b2b171b10_subcontent($_l, $_args) { extract($_args)
+if (!function_exists($_l->blocks['subcontent'][] = '_lb790e713061_subcontent')) { function _lb790e713061_subcontent($_l, $_args) { extract($_args)
 ;
 }}
 
