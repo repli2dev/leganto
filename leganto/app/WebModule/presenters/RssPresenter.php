@@ -32,7 +32,7 @@ class Web_RssPresenter extends Web_BasePresenter {
 					$this->link('//Book:default', $content[0]),
 					$content[2],
 					$item->inserted,
-					$this->link('//Book:default', $content[1])
+					$this->link('//Book:default', $content[0])
 				);
 			} else
 			if ($item->type == FeedItemEntity::TYPE_UPDATED_OPINION) {
@@ -41,7 +41,7 @@ class Web_RssPresenter extends Web_BasePresenter {
 					$this->link('//Book:default', $content[0]),
 					$content[2],
 					$item->inserted,
-					$this->link('//Book:default', $content[1])
+					$this->link('//Book:default', $content[0])
 				);
 			} else
 			if ($item->type == FeedItemEntity::TYPE_NEW_POST) {
@@ -68,10 +68,10 @@ class Web_RssPresenter extends Web_BasePresenter {
 				}
 				$this->addItem(
 					$text,
-					null,
+					$this->link('//User:shelves', $item->userId),
 					null,
 					$item->inserted,
-					null
+					$this->link('//User:shelves', $item->userId)
 				);
 			}
 		}
