@@ -51,6 +51,17 @@ class AuthorSelector implements ISelector {
 		);
 	}
 
+	public function findAllByBookTitleIds($ids) {
+		$ids = (array)$ids;
+		if (count($ids) == 0) {
+			$ids[] = NULL;
+		}
+		return dibi::dataSource("
+				SELECT * FROM [view_book_search]
+				WHERE [id_book_title] IN %l GROUP BY [id_book_title], [id_author]", $ids
+		);
+	}
+
 	/**
 	 * 
 	 * @param object $books books ids

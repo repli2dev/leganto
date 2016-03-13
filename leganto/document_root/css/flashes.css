@@ -30,3 +30,8 @@
 	background-color: #eeeeff;
 	background-image: url(../img/ico/flash-info.png);
 }
+#flashes .warning {
+	color: #C1823E;
+	background-color: #F7F0CB;
+	background-image: url(../img/ico/flash-info.png);
+}
