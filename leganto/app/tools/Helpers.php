@@ -49,7 +49,7 @@ final class Helpers {
 				break;
 			case "userIcon": return array(get_class(), "userIconHelper");
 				break;
-			case "hardTruncate": return array("ExtraString", "hardTruncate");
+			case "hardTruncate": $a = new ExtraString(); return array($a, "hardTruncate");
 				break;
 			case "bookCover": return array(get_class(), "bookCoverHelper");
 				break;
@@ -219,7 +219,7 @@ final class Helpers {
 		    "phrase/strong+em" => true,
 		    "phrase/strong" => true,
 		    "phrase/em" => true,
-		    "phrase/em-alt" => false,
+		    "phrase/em-alt" => true,
 		    "phrase/em-alt2" => false,
 		    "phrase/ins" => false,
 		    "phrase/del" => false,
@@ -265,6 +265,68 @@ final class Helpers {
 		return self::$texySafe->process(self::wikiLinks($input));
 	}
 
+	public static function texySafeHelperExport($input) {
+		if (empty(self::$texy)) {
+			self::$texySafe = new Texy();
+		}
+		self::$texySafe->mergeLines = false;
+		// FIXME: reportovat toto jako chybu.
+		// TexyConfigurator::safeMode(self::$texySafe);
+		self::$texySafe->allowed = array(
+			"script" => false,
+			"html/tag" => true,
+			"html/comment" => false,
+			"image/definition" => false,
+			"image" => false,
+			"phrase/strong+em" => true,
+			"phrase/strong" => true,
+			"phrase/em" => true,
+			"phrase/em-alt" => true,
+			"phrase/em-alt2" => false,
+			"phrase/ins" => false,
+			"phrase/del" => false,
+			"phrase/sup" => false,
+			"phrase/sup-alt" => true,
+			"phrase/sub" => false,
+			"phrase/sub-alt" => true,
+			"phrase/span" => true,
+			"phrase/span-alt" => false,
+			"phrase/cite" => false,
+			"phrase/quote" => true,
+			"phrase/acronym" => true,
+			"phrase/acronym-alt" => false,
+			"phrase/notexy" => false,
+			"phrase/code" => true,
+			"phrase/quicklink" => true,
+			"link/definition" => true,
+			"link/reference" => true,
+			"link/url" => true,
+			"link/email" => true,
+			"block/default" => true,
+			"block/pre" => false,
+			"block/code" => false,
+			"block/html" => false,
+			"block/text" => true,
+			"block/texysource" => false,
+			"block/comment" => false,
+			"block/div" => false,
+			"blocks" => false,
+			"figure" => false,
+			"horizline" => false,
+			"blockquote" => false,
+			"table" => false,
+			"heading/underlined" => false,
+			"heading/surrounded" => false,
+			"list" => false,
+			"list/definition" => false,
+			"typography" => true,
+			"longwords" => true
+		);
+		// Add smiles
+		self::$texySafe = self::emoticons(self::$texySafe);
+		return self::$texySafe->process(self::wikiLinks($input));
+	}
+
 	/**
 	 * Add emoticons to given texy
 	 */
@@ -294,8 +356,8 @@ final class Helpers {
 	 * @return string ouptu
 	 */
 	public static function wikiLinks($string) {
-		$patterns[0] = '/\[([^)^\]\|]+)\]/';
-		$patterns[1] = '/\[([\S ^\]]+)[ ]*\|[ ]*([\S ^\]]+)\]/';
+		$patterns[0] = '/\[([^)^\]\|]+)\]/U';
+		$patterns[1] = '/\[([\S ^\]]+)[ ]*\|[ ]*([\S ^\]]+)\]/U';
 		// FIXME: jde to jinak než natvrdo?
 		$replacement[0] = '<a href="/search/?query=\\1">\\1</a>';
 		$replacement[1] = '<a href="/search/?query=\\2">\\1</a>';

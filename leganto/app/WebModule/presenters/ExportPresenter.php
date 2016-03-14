@@ -92,8 +92,10 @@ class Web_ExportPresenter extends Web_BasePresenter
 			$section->addText(htmlspecialchars('Ohodnoceno: ' . Helpers::ratingHelper($opinion->rating) . ' (' . $this->stars($opinion->rating) . ')'));
 			if ($opinion->content) {
 				$section->addTextBreak();
-				$html = str_replace("\n", ' ', strip_tags(Helpers::texySafeHelper($opinion->content), '<p><em><strong>'));
-				$html = str_replace('&', '&amp;', $html);
+				$temp2 = strip_tags(Helpers::texySafeHelperExport($opinion->content), '<p><em><strong><sup><sub><br>');
+				$temp2 = str_replace("\n", ' ', $temp2);
+				//$temp2 = str_replace("<br />", "<w:br />", $temp2);
+				$html = str_replace('&', '&amp;', $temp2);
 				\PhpOffice\PhpWord\Shared\Html::addHtml($section, $html);
 			}
 		}
