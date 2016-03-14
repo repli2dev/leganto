@@ -69,18 +69,20 @@ if(count($users) == 0) {
 	echo "Sending done!\n";
 	die;
 }
+echo "Sleep period";
+sleep(3);
 $failed = 0;
 foreach ($users as $user) {
 	$temp = clone $batchMailer->mail;
 	echo "Sending mail to ".$user->email."...";
 	try {
 		$temp->addTo($user->email,$user->nick);
+		$temp->send();
 		echo " DONE\n";
 	} catch (InvalidArgumentException $e) {
 		echo " FAILED\n";
 		$failed +=1;
 	}
-	$temp->send();
 	unset($temp); // paranoia
 }
 $batchMailer->offset += BATCH_LIMIT;
